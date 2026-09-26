@@ -227,7 +227,7 @@ test('retrieval rate retries cannot consume the final proposal-emission slot',as
    if(calls===3)return response([evidenceBatch()]);
    if(calls===4){assert.equal(request.tools?.length,0,'After two transport retries the next generation request must emit a proposal, not another tool call');assert.ok(request.instructions?.includes('final generation request'));return response([],JSON.stringify({changes}));}
    return response([],JSON.stringify({passed:true,codes:[],explanation:'Injected independent checker'}));
-  }},'draft',{transaction,waitForRateLimit:async()=>{}});
+  }},'draft',{transaction,max_attempts:9,waitForRateLimit:async()=>{}});
   const s=await readState();assert.equal(s.workflows[0].model_status,'complete',s.workflows[0].failure||'');assert.equal(calls,5);assert.equal(s.workflows[0].model_attempts,5);assert.equal(s.workflows[0].repair_count,0);
  }finally{await rm(dir,{recursive:true,force:true});}
 });
@@ -267,7 +267,7 @@ test('repair rate retries preserve all three independent checker slots',async()=
    calls++;if(calls<=3)return response([{...evidenceBatch(),call_id:`evidence-${calls}`}]);
    if(calls===4)return response([],'malformed output');
    assert.equal(request.tools?.length,0);throw Object.assign(new Error('Controlled repair rate rejection'),{status:429,code:'rate_limit_exceeded'});
-  }},'draft',{transaction,waitForRateLimit:async()=>{waits++;}});
+  }},'draft',{transaction,max_attempts:9,waitForRateLimit:async()=>{waits++;}});
   const s=await readState();assert.equal(calls,6);assert.equal(waits,1);assert.equal(s.workflows[0].failure,'MODEL_REQUEST_LIMIT');assert.equal(s.workflows[0].model_attempts,6);assert.equal(s.revisions.length,1);assert.equal(s.workflows[0].unknown_charge,false);assert.equal(changes.length>0,true);
  }finally{await rm(dir,{recursive:true,force:true});}
 });
@@ -280,5 +280,24 @@ test('checker capacity failure retains the unaccepted proposal and founder retry
   const {retryBlockedModel}=await import('../src/runtime/index');const retry=await retryBlockedModel(w.workflow_id,w.reset_epoch);assert.equal(retry.state,'validating');
   await executeModel(w.workflow_id,w.reset_epoch,{count:async()=>1000,create:async request=>{assert.equal((request.text?.format as any)?.name,'semantic_review');return response([],JSON.stringify({passed:true,codes:[],explanation:'Injected full semantic check'}));}},'validate');
   const after=await readState();assert.equal(after.workflows[0].model_status,'complete');assert.equal(after.workflows[0].model_attempts,3);assert.deepEqual(after.revisions.find(r=>r.revision_id===pending.revision_id),pending,'Unaccepted proposal remains immutable');assert.equal(after.revisions.find(r=>r.revision_id===after.workflows[0].candidate_revision_id)?.semantic_validation?.passed,true);
+ }finally{await rm(dir,{recursive:true,force:true});}
+});
+
+test('opaque citation IDs resolve only exact returned source chunks and reject guessed or changed evidence',async()=>{
+ const {evidencePacket,resolveCitationReference}=await import('../src/runtime/evidence');const p=provisions()[0],packet=evidencePacket([{provision:p,start_utf16:0,length:64}]),chunk=packet.spans[0].citation_chunks[0];
+ const admitted={citation_id:chunk.citation_id!,provision_key:p.provision_key,source_version_id:p.source_version_id,start_utf16:chunk.start_utf16,end_utf16:chunk.end_utf16};
+ const ref=resolveCitationReference({citation_id:admitted.citation_id},[admitted],[p]);assert.equal(ref.quote_text,p.text.slice(0,64));assert.equal(ref.end_utf16,64);
+ assert.throws(()=>resolveCitationReference({citation_id:'cite_invented'},[admitted],[p]),/not returned/);assert.throws(()=>resolveCitationReference({citation_id:admitted.citation_id},[],[p]),/not returned/);assert.throws(()=>resolveCitationReference({citation_id:admitted.citation_id},[admitted],[{...p,text:'altered'+p.text}]),/pinned source/);
+});
+
+test('provider-selected citation IDs become exact audited citations without model-copied offsets or quotes',async()=>{
+ const {dir,state,w}=await setup();
+ try{const changes=generatedChanges(state,w);let calls=0;
+  await executeModel(w.workflow_id,w.reset_epoch,{count:async()=>1000,create:async request=>{
+   calls++;if(calls===1)return response([evidenceBatch()]);
+   if(calls===2){const output=(request.input as any[]).find(item=>item.type==='function_call_output'),packet=JSON.parse(output.output),ids=new Map(packet.spans.map((span:any)=>[span.provision_key,span.citation_chunks[0].citation_id]));const selected=changes.map(c=>({...c,legal_refs:c.legal_refs.map(ref=>({citation_id:ids.get(ref.provision_key)}))}));assert.ok(JSON.stringify(request.text).includes('citation_id'));return response([],JSON.stringify({changes:selected}));}
+   return response([],JSON.stringify({passed:true,codes:[],explanation:'Injected full source semantic review'}));
+  }});
+  const s=await readState(),run=s.workflows[0],candidate=s.revisions.find(r=>r.revision_id===run.candidate_revision_id)!;assert.equal(run.model_status,'complete',run.failure||'');assert.equal(calls,3);assert.equal(getLedger(s,run)!.retrieved_citations?.length,16);for(const binding of candidate.evidence_bindings||[])for(const ref of binding.legal_refs as import('../src/validation/proposal').CitedRef[]){assert.ok(ref.quote_text);assert.equal(provisions().find(p=>p.provision_key===ref.provision_key)!.text.slice(ref.start_utf16,ref.end_utf16),ref.quote_text);}
  }finally{await rm(dir,{recursive:true,force:true});}
 });

@@ -1,11 +1,16 @@
+import type {RetrievedCitation} from './evidence';
 import type {Json, State, Workflow} from '../server/contracts';
 import {AppError} from '../server/contracts';
 import {hash, id, now} from '../server/hash';
 import {authorizedBudget,runtimeConfig,tokenCost,type RuntimeConfig,type ReasoningEffort} from './config';
-export const LIMITS=Object.freeze({attempts:12,requests:9,tools:16,repairs:2,input:120000,output:24000,request_input:32000,request_output:10000,cost:3,deadline_ms:240000,timeout_ms:90000});
+// Real acceptance measured ~58k review-input tokens across three complete-authority
+// checks. The finite run window must cover generation and two reviewed repairs.
+// Monetary ceilings remain $3/run and the separately authorized $50 global total.
+export const LIMITS=Object.freeze({attempts:24,requests:24,tools:16,repairs:2,input:384000,output:48000,request_input:32000,request_output:10000,cost:3,deadline_ms:240000,timeout_ms:90000});
 export interface Attempt {attempt_id:string;phase:string;status:'reserved'|'dispatched'|'complete'|'rejected'|'unknown';reserved_input:number;reserved_output:number;reserved_usd:number;input_tokens:number;output_tokens:number;cost_usd:number;created_at:string;response_id:string|null;error_code:string|null;model?:string;provider_model?:string;provider_status?:string;provider_error_code?:string|null;provider_error_type?:string|null;provider_rate_diagnostics?:Record<string,number>;rate_limit_retry?:number;retry_of_attempt_id?:string|null;retry_after_ms?:number;execution_mode?:'provider'|'injected_test';provider_request_id?:string|null;request_hash?:string;output_hash?:string;duration_ms?:number;cached_input_tokens?:number;reasoning_tokens?:number;completed_at?:string;config_version?:string}
 export interface UsageTotals {model_attempts:number;input_tokens:number;output_tokens:number;cost_usd:number}
-export interface Ledger {run_id:string;budget_scope_id:string;parent_run_id:string|null;parent_budget_scope_id:string|null;cumulative_before:UsageTotals;applied_resolution_ids:string[];human_resolution_id:string|null;workflow_id:string;tenant_id:string;reset_epoch:number;started_at:string;deadline_at:string;input_hash:string;attempts:Attempt[];tools:{key:string;name:string;result_hash:string;arguments_hash?:string;arguments?:Json;call_id?:string;response_id?:string;input_hash?:string;created_at?:string;result_bytes?:number;cached?:boolean}[];retrieved_spans:{provision_key:string;start_utf16:number;end_utf16:number}[];model:string;reasoning_effort:ReasoningEffort;config?:RuntimeConfig;max_cost_usd?:number;max_attempts?:number;validation_revision_id?:string;input_history?:{input_hash:string;changed_at:string}[]}
+export interface ReviewBudget {input_tokens:number;output_tokens:number;requests:number}
+export interface Ledger {run_id:string;budget_scope_id:string;parent_run_id:string|null;parent_budget_scope_id:string|null;cumulative_before:UsageTotals;applied_resolution_ids:string[];human_resolution_id:string|null;workflow_id:string;tenant_id:string;reset_epoch:number;started_at:string;deadline_at:string;input_hash:string;attempts:Attempt[];tools:{key:string;name:string;result_hash:string;arguments_hash?:string;arguments?:Json;call_id?:string;response_id?:string;input_hash?:string;created_at?:string;result_bytes?:number;cached?:boolean}[];retrieved_spans:{provision_key:string;start_utf16:number;end_utf16:number}[];retrieved_citations?:RetrievedCitation[];model:string;reasoning_effort:ReasoningEffort;config?:RuntimeConfig;max_cost_usd?:number;max_attempts?:number;protected_review_budget?:ReviewBudget;validation_revision_id?:string;input_history?:{input_hash:string;changed_at:string}[]}
 export function ledgerKey(w:Pick<Workflow,'reset_epoch'|'workflow_id'>){return `${w.reset_epoch}:runtime:${w.workflow_id}`;}
 export function getLedger(s:State,w:Workflow):Ledger|undefined{return s.receipts[ledgerKey(w)]?.result as unknown as Ledger|undefined;}
 export function saveLedger(s:State,w:Workflow,l:Ledger){s.receipts[ledgerKey(w)]={hash:hash({tenant_id:l.tenant_id,reset_epoch:l.reset_epoch,workflow_id:l.workflow_id,input_hash:l.input_hash}),result:l as unknown as Json};}
@@ -27,17 +32,30 @@ export function linkedHumanLedger(s:State,w:Workflow,parent:Ledger,resolutionId:
   s.receipts[key]={hash:hash(history),result:history as unknown as Json};
   const child=freshLedger(s,w);child.parent_run_id=parentId;child.parent_budget_scope_id=scopeId;child.cumulative_before=totalUsage(parent);child.applied_resolution_ids=[...(parent.applied_resolution_ids||[]),resolutionId];child.human_resolution_id=resolutionId;return child;
 }
+/** Trusted exact token planning only; proposal output cannot write this reservation. */
+export function pinReviewBudget(l:Ledger,plan:ReviewBudget){
+  if(![plan.input_tokens,plan.output_tokens,plan.requests].every(n=>Number.isSafeInteger(n)&&n>0)||plan.requests>3||plan.input_tokens>plan.requests*LIMITS.request_input||plan.output_tokens>plan.requests*4000)throw new AppError('REVIEW_BUDGET_INVALID','The complete review plan must fit three protected requests.');
+  l.protected_review_budget={...plan};
+}
+export function protectedReviewBudget(l:Ledger):ReviewBudget{
+  const p=l.protected_review_budget;
+  // Before the first exact plan, retain the full three-request checker capacity.
+  // Thereafter reserve 25% context growth for the repaired document, capped by
+  // the same per-request ceiling. The next complete plan is counted again.
+  return p?{input_tokens:Math.min(3*LIMITS.request_input,Math.ceil(p.input_tokens*1.25)),output_tokens:p.output_tokens,requests:p.requests}:{input_tokens:3*LIMITS.request_input,output_tokens:12000,requests:3};
+}
 export function reserveAttempt(l:Ledger,phase:string,input:number,output:number,at=Date.now(),model=l.model):Attempt {
   if(at>=Date.parse(l.deadline_at))throw new AppError('MODEL_DEADLINE','The persisted model run deadline expired.');
   if(!Number.isInteger(input)||input<0||input>LIMITS.request_input||!Number.isInteger(output)||output<1||output>LIMITS.request_output)throw new AppError('CONTEXT_CAPACITY_EXCEEDED','Mandatory model context exceeds the request capacity.');
   if(l.attempts.some(a=>['dispatched','unknown','reserved'].includes(a.status)))throw new AppError('CHARGE_RECONCILIATION_REQUIRED','An earlier request has an unresolved cost reservation.');
-  if(l.attempts.length>=Math.min(LIMITS.requests,l.max_attempts??LIMITS.requests))throw new AppError('MODEL_REQUEST_LIMIT','The model request budget is exhausted.');
+  const review=phase==='semantic_validation'?{input_tokens:0,output_tokens:0,requests:0}:protectedReviewBudget(l);
+  if(l.attempts.length+1+review.requests>Math.min(LIMITS.requests,l.max_attempts??LIMITS.requests))throw new AppError('MODEL_REQUEST_LIMIT','The request would consume protected independent-review slots.');
   const usedIn=l.attempts.reduce((n,a)=>n+(a.status==='complete'?a.input_tokens:a.status==='rejected'?0:a.reserved_input),0);
   const usedOut=l.attempts.reduce((n,a)=>n+(a.status==='complete'?a.output_tokens:a.status==='rejected'?0:a.reserved_output),0);
   const usedCost=l.attempts.reduce((n,a)=>n+(a.status==='complete'?a.cost_usd:a.status==='rejected'?0:a.reserved_usd),0);
   const cost=tokenCost(model,input,output);
-  // Preserve one semantic review and one targeted repair until the final check.
-  const headroom=phase==='draft'?{input:16000,output:6000,cost:tokenCost(l.config?.review_model||l.model,16000,6000)}:{input:0,output:0,cost:0};
+  // Every draft/tool/repair turn preserves an entire independently checked output.
+  const headroom={input:review.input_tokens,output:review.output_tokens,cost:tokenCost(l.config?.review_model||l.model,review.input_tokens,review.output_tokens)};
   if(usedIn+input+headroom.input>LIMITS.input||usedOut+output+headroom.output>LIMITS.output||usedCost+cost+headroom.cost>Math.min(LIMITS.cost,l.max_cost_usd??LIMITS.cost))throw new AppError('MODEL_BUDGET_EXHAUSTED','The protected request and repair reserve cannot be satisfied.');
   const a:Attempt={attempt_id:id(),phase,status:'reserved',reserved_input:input,reserved_output:output,reserved_usd:cost,input_tokens:0,output_tokens:0,cost_usd:0,created_at:now(),response_id:null,error_code:null,model,config_version:l.config?.config_version};l.attempts.push(a);return a;
 }

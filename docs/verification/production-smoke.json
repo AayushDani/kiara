@@ -125,5 +125,96 @@
     "secure": true,
     "same_site_strict": true,
     "root_path": true
+  },
+  "latest_deployment_verification": {
+    "checked_at": "2026-09-26T20:33:37.731Z",
+    "commit": "156a3a6a313394c21c872ed31217bf1039a43d46",
+    "deployment": "kiara-z9y9oveqd-aayushdani01-5976.vercel.app",
+    "deployment_state": "READY",
+    "deployment_state_evidence": "Vercel CLI deployment metadata",
+    "provider_calls_triggered": 0,
+    "events_submitted": 0,
+    "requests": [
+      {
+        "path": "workspace",
+        "method": "GET",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "path": "readiness",
+        "method": "GET",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "path": "operations",
+        "method": "GET",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "path": "session",
+        "method": "POST",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "path": "workspace",
+        "method": "GET",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "path": "session",
+        "method": "POST",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "path": "workspace",
+        "method": "GET",
+        "status": 200,
+        "error_code": null
+      }
+    ],
+    "passed": true,
+    "configuration": {
+      "auth_mode": "public_demo",
+      "model": "gpt-6-sol",
+      "reasoning_effort": "low",
+      "persistence": "mongodb",
+      "worker_mode": "vercel_workflow",
+      "email": "preview",
+      "config_version": "f4e70ce6b87f8f5e6f43616e0321603a8e66010a64d904018462aa475aa21bdd",
+      "shared_budget": {
+        "budget_usd": 50,
+        "spent_usd": 2.856418,
+        "reserved_usd": 0.133406,
+        "unknown_charges": 0,
+        "inflight": 1,
+        "request_count": 79,
+        "scope": "all_visitors_and_evaluations"
+      }
+    },
+    "role_switches": [
+      {
+        "requested": "lawyer",
+        "observed": "lawyer",
+        "same_visitor_workspace": true
+      },
+      {
+        "requested": "founder",
+        "observed": "founder",
+        "same_visitor_workspace": true
+      }
+    ],
+    "session_cookie_flags": {
+      "http_only": true,
+      "secure": true,
+      "same_site_strict": true
+    },
+    "provider_key_like_values_exposed": 0,
+    "fresh_workspace_provider_execution_verified": false
   }
 }

@@ -48,6 +48,9 @@ try{await withDemoScope(saved.scope,async()=>{
   else if(step==='founder-feedback'){
     const s=await readState(),w=s.workflows.find(w=>w.workflow_id===saved.workflow_id)!;
     const f=await feedback(w.workflow_id,'founder',{type:'fact_correction',text:'Synthetic founder correction: use the dedicated rights inbox from the acceptance company record.',fact_key:'consumer_request_email',proposed_value:'rights@harbor-meridian.example',expected_reset_epoch:s.reset_epoch},'acceptance-founder-correction');await verifyFact(f.feedback_id,'founder',s.reset_epoch);await foreground();
+  }else if(step==='lawyer-correction'){
+    const s=await readState(),w=s.workflows.find(w=>w.workflow_id===saved.workflow_id)!;
+    await feedback(w.workflow_id,'lawyer',{type:'legal_interpretation_note',text:'Synthetic acceptance reviewer correction: this is an internal unapproved document proposal, not publication. Keep unverified request channels and implementation processes explicitly conditional as proposed methods awaiting operational confirmation; do not invite consumers to use them as currently active. Retain unresolved Notice at Collection and other operational duties for human followup according to their actual flags. Keep the policy metadata date consistent with the visible Policy updates clause, using the existing date unless both are explicitly revised. Preserve verified rights inbox facts and unrelated clauses.',expected_reset_epoch:s.reset_epoch},'acceptance-lawyer-correction-v2');await foreground();
   }else if(step==='lawyer-feedback'){
     let s=await readState(),w=s.workflows.find(w=>w.workflow_id===saved.workflow_id)!;
     await review(w.workflow_id,'founder',{action:'approved',expected_state_version:w.state_version,expected_reset_epoch:s.reset_epoch,bundle_hash:w.bundle_hash!,note:'Synthetic acceptance: founder approves this packet for lawyer review.'},'acceptance-founder-first');

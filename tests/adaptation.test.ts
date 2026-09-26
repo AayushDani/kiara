@@ -64,7 +64,7 @@ test('in-process six-trial evaluator isolates state and never labels injected su
   const {dir}=await setup();try{
     await addFailure();const before=await readState();const expected=records(before)[0];let calls=0;
     for(let i=0;i<6;i++)await processAutomaticImprovementStep(async input=>{
-      calls++;assert.equal(input.state.workflows.length,1);assert.equal(input.state.notifications.length,0);assert.equal(input.state.evaluations.length,0);assert.equal(input.state.workflows[0].candidate_revision_id,null);assert.equal(input.state.revisions.length,1);assert.equal(input.max_cost_usd,3);assert.equal(input.max_attempts,9);
+      calls++;assert.equal(input.state.workflows.length,1);assert.equal(input.state.notifications.length,0);assert.equal(input.state.evaluations.length,0);assert.equal(input.state.workflows[0].candidate_revision_id,null);assert.equal(input.state.revisions.length,1);assert.equal(input.max_cost_usd,3);assert.equal(input.max_attempts,24);
       assert.ok(input.provisions.length>0);input.state.company_name='Cannot mutate real parent';
       return ok({repair_count:input.state.champion_version===expected.baseline_version?1:0});
     });

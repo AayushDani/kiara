@@ -3,7 +3,7 @@ import {hash} from '../server/hash';
 
 /** Protected operator configuration. Strategies and model output cannot change these values. */
 export const AUTHORIZED_SPEND_CEILING_USD = 50;
-export const RUNTIME_PROTOCOL_VERSION = 'full-law-text-projection-v2';
+export const RUNTIME_PROTOCOL_VERSION = 'retrieved-citation-ids-review-purpose-v4';
 export const PRICING_VERSION = 'openai-standard-short-context-2026-09-26';
 export const MODEL_PRICES = Object.freeze({
   'gpt-6-astra': {input: 10, cached_input: 1, output: 50},
