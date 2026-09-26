@@ -1,0 +1,124 @@
+{
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tenant_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "source_version_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "source_sha256": {
+          "bsonType": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "as_of": {
+          "bsonType": "string"
+        },
+        "scope": {
+          "enum": [
+            "freshness_check_age_recheck"
+          ]
+        },
+        "reviewer_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "reviewer_role": {
+          "enum": [
+            "lawyer"
+          ]
+        },
+        "attested_at": {
+          "bsonType": "date"
+        },
+        "expires_at": {
+          "bsonType": "date"
+        },
+        "method": {
+          "enum": [
+            "manual_authoritative_source_recheck"
+          ]
+        },
+        "supporting_official_url": {
+          "bsonType": "string"
+        },
+        "supporting_locator": {
+          "bsonType": "string"
+        },
+        "reason": {
+          "bsonType": "string",
+          "minLength": 20
+        },
+        "new_evidence_bundle_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "ordered_reapproval_required": {
+          "enum": [
+            true
+          ]
+        },
+        "_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "schema_version": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "enum": [
+            1
+          ]
+        },
+        "created_at": {
+          "bsonType": "date"
+        },
+        "auth_mode": {
+          "bsonType": "string",
+          "enum": [
+            "demo_simulated",
+            "human_session"
+          ]
+        },
+        "reset_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "_id",
+        "tenant_id",
+        "source_version_id",
+        "source_sha256",
+        "as_of",
+        "scope",
+        "reviewer_id",
+        "reviewer_role",
+        "attested_at",
+        "expires_at",
+        "method",
+        "supporting_official_url",
+        "supporting_locator",
+        "reason",
+        "new_evidence_bundle_id",
+        "ordered_reapproval_required",
+        "schema_version",
+        "created_at",
+        "auth_mode",
+        "reset_epoch"
+      ]
+    }
+  },
+  "validationLevel": "strict",
+  "validationAction": "error"
+}

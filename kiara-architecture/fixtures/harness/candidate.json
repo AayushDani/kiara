@@ -1,0 +1,39 @@
+{
+  "id": "d00c5665-89ba-5e76-b916-ec05672e55bd",
+  "tenant_id": "4c2d1e3c-2b27-5a6d-a21d-4123ac46acb1",
+  "reset_epoch": 1,
+  "base_harness_version_id": "f3e7266f-0111-5ece-b7e7-322863eae195",
+  "expected_champion_generation": 1,
+  "candidate_harness_version_id": "326834ba-bef7-5026-ae6a-3b3b3770ffc5",
+  "diagnosis_id": "0ee30ecc-07ca-54c9-9ffe-0ddcf40541aa",
+  "patch": [
+    {
+      "op": "test",
+      "path": "/retrieval/prefetch/declared_ca_resident_ccpa_bundle",
+      "value": false
+    },
+    {
+      "op": "test",
+      "path": "/retrieval/prefetch/declared_ca_resident_company_facts",
+      "value": false
+    },
+    {
+      "op": "replace",
+      "path": "/retrieval/prefetch/declared_ca_resident_ccpa_bundle",
+      "value": true
+    },
+    {
+      "op": "replace",
+      "path": "/retrieval/prefetch/declared_ca_resident_company_facts",
+      "value": true
+    }
+  ],
+  "base_config_sha256": "6c54874e3b5b5b7c586bd019e206b89372568a5fcd7e6b42eb33a64c02726db5",
+  "candidate_config_sha256": "3e5ac9cc65b817cdf27fad9c3db62a07f91eb300275cd8ee165b8cbbff9554e0",
+  "protected_kernel_sha256": "a5a18630143a51d1134a2f7687cddbea758d287cb36243b0c43c8f0684c50ba6",
+  "auto_eligible": true,
+  "state": "proposed",
+  "created_at": "2026-09-26T16:30:00Z",
+  "example_only": true,
+  "expected_policy_epoch": 1
+}

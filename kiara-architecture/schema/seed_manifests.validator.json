@@ -1,0 +1,152 @@
+{
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "required": [
+        "_id",
+        "tenant_id",
+        "schema_version",
+        "created_at",
+        "fixture_set",
+        "fixture_version",
+        "namespace_uuid",
+        "scenario_date",
+        "mode",
+        "content_manifest_hash",
+        "collection_counts",
+        "sandbox_eligibility",
+        "reset_epoch",
+        "state",
+        "source_files"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "tenant_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "schema_version": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "enum": [
+            1
+          ]
+        },
+        "created_at": {
+          "bsonType": "date"
+        },
+        "fixture_set": {
+          "bsonType": "string",
+          "minLength": 1,
+          "maxLength": 160,
+          "pattern": "^[a-z0-9][a-z0-9_.:-]*$"
+        },
+        "fixture_version": {
+          "bsonType": "string",
+          "maxLength": 40
+        },
+        "namespace_uuid": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "scenario_date": {
+          "bsonType": "date"
+        },
+        "mode": {
+          "bsonType": "string",
+          "enum": [
+            "baseline",
+            "trace"
+          ]
+        },
+        "content_manifest_hash": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "collection_counts": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "object",
+            "required": [
+              "collection",
+              "count"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "collection": {
+                "bsonType": "string",
+                "minLength": 1,
+                "maxLength": 160,
+                "pattern": "^[a-z0-9][a-z0-9_.:-]*$"
+              },
+              "count": {
+                "bsonType": [
+                  "int",
+                  "long"
+                ],
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            }
+          },
+          "maxItems": 50,
+          "minItems": 0
+        },
+        "sandbox_eligibility": {
+          "bsonType": "string",
+          "enum": [
+            "unverified",
+            "confirmed_by_operator"
+          ]
+        },
+        "reset_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "state": {
+          "bsonType": "string",
+          "enum": [
+            "loading",
+            "ready",
+            "failed"
+          ]
+        },
+        "source_files": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "object",
+            "required": [
+              "path",
+              "sha256"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "path": {
+                "bsonType": "string",
+                "maxLength": 512
+              },
+              "sha256": {
+                "bsonType": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          },
+          "maxItems": 30,
+          "minItems": 0
+        }
+      }
+    }
+  },
+  "validationLevel": "strict",
+  "validationAction": "error"
+}

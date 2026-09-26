@@ -1,0 +1,42 @@
+---
+title: Logical ER — tenant context and assessment (T04 mapping provisional)
+---
+erDiagram
+  direction LR
+  TENANT ||--o{ ACTOR : R01_authorizes
+  TENANT ||--o{ COMPANY_FACT_VERSION : R02_owns
+  TENANT ||--o{ RESIDENCY_EVIDENCE : R03_records
+  TENANT ||--o{ EVENT : R04_scopes
+  EVENT ||--o{ WORKFLOW : R05_starts
+  WORKFLOW ||--o{ CONTEXT_SNAPSHOT : R06_pins
+  CONTEXT_SNAPSHOT }o--o{ COMPANY_FACT_VERSION : R07_selects
+  CONTEXT_SNAPSHOT }o--o{ RESIDENCY_EVIDENCE : R08_cites
+  WORKFLOW ||--o{ ASSESSMENT : R09_versions
+  ASSESSMENT }o--|| CONTEXT_SNAPSHOT : R10_binds
+  TENANT { string id PK }
+  ACTOR { string id PK
+    string tenant_id FK
+    string role }
+  COMPANY_FACT_VERSION { string id PK
+    string tenant_id FK
+    string knowledge_status
+    string verification_status }
+  RESIDENCY_EVIDENCE { string id PK
+    string tenant_id FK
+    string evidence_type }
+  EVENT { string id PK
+    string tenant_id FK
+    string event_type
+    string idempotency_key }
+  WORKFLOW { string id PK
+    string tenant_id FK
+    string state
+    int state_version }
+  CONTEXT_SNAPSHOT { string id PK
+    string tenant_id FK
+    string content_hash }
+  ASSESSMENT { string id PK
+    string workflow_id FK
+    string outcome }
+
+

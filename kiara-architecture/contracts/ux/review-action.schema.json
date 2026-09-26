@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "T11 human review action request; authenticated actor/tenant are server-derived",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "command_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "workflow_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "expected_reset_epoch": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "expected_state_version": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "review_bundle_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "review_bundle_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "proposal_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "candidate_revision_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "expected_base_revision_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "idempotency_key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "action": {
+      "enum": [
+        "reviewed",
+        "requested_changes",
+        "rejected",
+        "approved"
+      ]
+    },
+    "feedback_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "uniqueItems": true,
+      "maxItems": 1
+    },
+    "reason": {
+      "type": "string",
+      "maxLength": 4000
+    }
+  },
+  "required": [
+    "schema_version",
+    "command_id",
+    "workflow_id",
+    "expected_reset_epoch",
+    "expected_state_version",
+    "review_bundle_id",
+    "review_bundle_hash",
+    "proposal_id",
+    "candidate_revision_id",
+    "expected_base_revision_id",
+    "idempotency_key",
+    "action",
+    "feedback_ids",
+    "reason"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "action": {
+            "const": "requested_changes"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "feedback_ids": {
+            "minItems": 1
+          },
+          "reason": {
+            "minLength": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "action": {
+            "const": "rejected"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "feedback_ids": {
+            "minItems": 1
+          },
+          "reason": {
+            "minLength": 1
+          }
+        }
+      }
+    }
+  ]
+}

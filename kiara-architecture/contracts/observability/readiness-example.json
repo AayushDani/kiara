@@ -1,0 +1,105 @@
+{
+  "as_of": "2026-09-26T16:00:15.000Z",
+  "app_ready": false,
+  "demo_ready": false,
+  "sandbox_eligibility": {
+    "status": "unknown",
+    "attestation": null
+  },
+  "components": [
+    {
+      "name": "runtime",
+      "status": "unknown",
+      "required_for": "app",
+      "check_id": "runtime_lockfile",
+      "checked_at": null,
+      "code": "RUNTIME_NOT_VERIFIED"
+    },
+    {
+      "name": "atlas",
+      "status": "unknown",
+      "required_for": "app",
+      "check_id": "atlas_auth_indexes_transaction",
+      "checked_at": null,
+      "code": "ATLAS_NOT_VERIFIED"
+    },
+    {
+      "name": "worker",
+      "status": "unknown",
+      "required_for": "app",
+      "check_id": "worker_lease_heartbeat",
+      "checked_at": null,
+      "code": "WORKER_NOT_READY"
+    },
+    {
+      "name": "auth",
+      "status": "unknown",
+      "required_for": "app",
+      "check_id": "auth_role_binding",
+      "checked_at": null,
+      "code": "AUTH_NOT_READY"
+    },
+    {
+      "name": "sandbox",
+      "status": "unknown",
+      "required_for": "eligibility",
+      "check_id": "sandbox_invite_match",
+      "checked_at": null,
+      "code": "SANDBOX_NOT_VERIFIED"
+    },
+    {
+      "name": "seed_sources",
+      "status": "unknown",
+      "required_for": "demo",
+      "check_id": "seed_source_manifest",
+      "checked_at": null,
+      "code": "SEED_NOT_VERIFIED"
+    },
+    {
+      "name": "model",
+      "status": "unknown",
+      "required_for": "demo",
+      "check_id": "model_entitlement_schema",
+      "checked_at": null,
+      "code": "MODEL_NOT_VERIFIED"
+    },
+    {
+      "name": "retrieval",
+      "status": "unknown",
+      "required_for": "demo",
+      "check_id": "retrieval_index_status",
+      "checked_at": null,
+      "code": "RETRIEVAL_NOT_VERIFIED"
+    },
+    {
+      "name": "email",
+      "status": "unknown",
+      "required_for": "delivery",
+      "check_id": "email_sender_webhook_delivery",
+      "checked_at": null,
+      "code": "EMAIL_NOT_VERIFIED"
+    },
+    {
+      "name": "langsmith",
+      "status": "disabled",
+      "required_for": "optional_diagnostics",
+      "check_id": "langsmith_safe_trace_readback",
+      "checked_at": null,
+      "code": "LANGSMITH_DISABLED"
+    }
+  ],
+  "blocking_codes": [
+    "RUNTIME_NOT_VERIFIED",
+    "ATLAS_NOT_VERIFIED",
+    "WORKER_NOT_READY",
+    "AUTH_NOT_READY",
+    "SANDBOX_NOT_VERIFIED",
+    "SEED_NOT_VERIFIED",
+    "MODEL_NOT_VERIFIED",
+    "RETRIEVAL_NOT_VERIFIED"
+  ],
+  "degraded_codes": [
+    "EMAIL_NOT_VERIFIED",
+    "LANGSMITH_DISABLED"
+  ]
+}

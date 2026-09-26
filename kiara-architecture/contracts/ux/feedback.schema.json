@@ -1,0 +1,576 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "T11 attributed feedback proposals; no direct context mutation or promotion",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "command_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "workflow_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expected_reset_epoch": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expected_state_version": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "review_bundle_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "review_bundle_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "proposal_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "candidate_revision_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expected_base_revision_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "idempotency_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "feedback_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "feedback_type": {
+          "const": "fact_correction"
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "fact_key": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            },
+            "expected_fact_version_id": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "proposed_knowledge_state": {
+              "enum": [
+                "known",
+                "unknown",
+                "conflicted"
+              ]
+            },
+            "proposed_value": {
+              "type": [
+                "string",
+                "number",
+                "boolean",
+                "object",
+                "array",
+                "null"
+              ],
+              "maxItems": 100,
+              "maxProperties": 40,
+              "maxLength": 5000
+            },
+            "evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "fact_key",
+            "expected_fact_version_id",
+            "proposed_knowledge_state",
+            "proposed_value",
+            "evidence_ids"
+          ],
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "proposed_knowledge_state": {
+                    "enum": [
+                      "unknown",
+                      "conflicted"
+                    ]
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "proposed_value": {
+                    "type": "null"
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "proposed_value": {
+                    "not": {
+                      "type": "null"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "command_id",
+        "workflow_id",
+        "expected_reset_epoch",
+        "expected_state_version",
+        "review_bundle_id",
+        "review_bundle_hash",
+        "proposal_id",
+        "candidate_revision_id",
+        "expected_base_revision_id",
+        "idempotency_key",
+        "feedback_id",
+        "reason",
+        "feedback_type",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "command_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "workflow_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expected_reset_epoch": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expected_state_version": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "review_bundle_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "review_bundle_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "proposal_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "candidate_revision_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expected_base_revision_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "idempotency_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "feedback_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "feedback_type": {
+          "const": "document_edit"
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "revision_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "clause_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "clause_content_hash": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "instruction": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            },
+            "replacement_text": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 20000
+            },
+            "selection_anchor": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "document_id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "revision_id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "clause_id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "clause_content_hash": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    },
+                    "field": {
+                      "enum": [
+                        "heading",
+                        "body"
+                      ]
+                    },
+                    "offset_units": {
+                      "const": "utf16_code_units"
+                    },
+                    "start": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "end": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "exact_text": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 4000
+                    },
+                    "url_path": {
+                      "type": "string",
+                      "pattern": "^/documents/"
+                    }
+                  },
+                  "required": [
+                    "document_id",
+                    "revision_id",
+                    "clause_id",
+                    "clause_content_hash",
+                    "field",
+                    "offset_units",
+                    "start",
+                    "end",
+                    "exact_text",
+                    "url_path"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "revision_id",
+            "clause_id",
+            "clause_content_hash",
+            "instruction",
+            "replacement_text",
+            "selection_anchor"
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "command_id",
+        "workflow_id",
+        "expected_reset_epoch",
+        "expected_state_version",
+        "review_bundle_id",
+        "review_bundle_hash",
+        "proposal_id",
+        "candidate_revision_id",
+        "expected_base_revision_id",
+        "idempotency_key",
+        "feedback_id",
+        "reason",
+        "feedback_type",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "command_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "workflow_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expected_reset_epoch": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expected_state_version": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "review_bundle_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "review_bundle_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "proposal_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "candidate_revision_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expected_base_revision_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "idempotency_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "feedback_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "feedback_type": {
+          "const": "legal_interpretation_note"
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "assessment_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "provision_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "uniqueItems": true
+            },
+            "note": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            }
+          },
+          "required": [
+            "assessment_id",
+            "provision_ids",
+            "note"
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "command_id",
+        "workflow_id",
+        "expected_reset_epoch",
+        "expected_state_version",
+        "review_bundle_id",
+        "review_bundle_hash",
+        "proposal_id",
+        "candidate_revision_id",
+        "expected_base_revision_id",
+        "idempotency_key",
+        "feedback_id",
+        "reason",
+        "feedback_type",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "command_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "workflow_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expected_reset_epoch": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expected_state_version": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "review_bundle_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "review_bundle_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "proposal_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "candidate_revision_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expected_base_revision_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "idempotency_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "feedback_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "feedback_type": {
+          "const": "harness_improvement"
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "pinned_harness_version_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "related_validation_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "uniqueItems": true
+            },
+            "observed_failure": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            },
+            "suggested_behavior": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            }
+          },
+          "required": [
+            "pinned_harness_version_id",
+            "related_validation_ids",
+            "observed_failure",
+            "suggested_behavior"
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "command_id",
+        "workflow_id",
+        "expected_reset_epoch",
+        "expected_state_version",
+        "review_bundle_id",
+        "review_bundle_hash",
+        "proposal_id",
+        "candidate_revision_id",
+        "expected_base_revision_id",
+        "idempotency_key",
+        "feedback_id",
+        "reason",
+        "feedback_type",
+        "payload"
+      ]
+    }
+  ]
+}

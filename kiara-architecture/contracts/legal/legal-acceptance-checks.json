@@ -1,0 +1,113 @@
+[
+  {
+    "check_id": "LEGAL-01",
+    "requirement": "Positive fixture produces covered assessment and source-backed versioned CCPA clause proposal.",
+    "fixture_id": "demo_ccpa_positive",
+    "expected": "Founder then lawyer gates remain mandatory.",
+    "execution_status": "fixture_reference_logic_only"
+  },
+  {
+    "check_id": "LEGAL-02",
+    "requirement": "Missing or conflicting material facts remain explicit; no default false.",
+    "fixture_ids": [
+      "demo_ccpa_needs_information",
+      "demo_ccpa_conflicting_revenue"
+    ],
+    "expected": "needs_information; ask precise missing fact; no asserted required-CCPA final draft.",
+    "execution_status": "fixture_reference_logic_only"
+  },
+  {
+    "check_id": "LEGAL-03",
+    "requirement": "Below revenue threshold alone is insufficient for not_covered; check alternatives.",
+    "fixture_ids": [
+      "demo_ccpa_not_covered",
+      "demo_ccpa_volume_threshold",
+      "demo_ccpa_percentage_threshold",
+      "demo_ccpa_related_route_unknown"
+    ],
+    "expected": "Results match fixture expected enums.",
+    "execution_status": "fixture_reference_logic_only"
+  },
+  {
+    "check_id": "LEGAL-04",
+    "requirement": "Adjusted revenue strict boundary; equal fails, one dollar over passes.",
+    "fixture_ids": [
+      "demo_ccpa_revenue_equal_threshold",
+      "demo_ccpa_revenue_above_threshold"
+    ],
+    "expected": "26625000 not_covered;26625001 covered when all other fixture elements unchanged.",
+    "execution_status": "fixture_reference_logic_only"
+  },
+  {
+    "check_id": "LEGAL-05",
+    "requirement": "Address/IP/billing/declared residency are distinct evidence types.",
+    "fixture_ids": [
+      "demo_ccpa_ip_only",
+      "demo_ccpa_ny_resident_ca_ip"
+    ],
+    "expected": "needs_information or not-covered event scope; never company-wide exemption from IP.",
+    "execution_status": "fixture_reference_logic_only"
+  },
+  {
+    "check_id": "LEGAL-06",
+    "requirement": "Policy containing CCPA acronym alone does not pass substantive clause validation.",
+    "input_text": "We comply with CCPA.",
+    "expected": "Potential gaps remain for rights, methods and practice inventory.",
+    "execution_status": "planned_model_and_validator_check"
+  },
+  {
+    "check_id": "LEGAL-07",
+    "requirement": "Policy with required substantive rights/practices but no acronym does not fail merely for missing acronym.",
+    "expected": "Compare obligation coverage against facts and clauses, not substring.",
+    "execution_status": "planned_model_and_validator_check"
+  },
+  {
+    "check_id": "LEGAL-08",
+    "requirement": "SPI credentials do not automatically force limit link; permitted-use facts and risk assessment evaluated separately.",
+    "expected": "Main limit obligation not triggered; risk operational inquiry remains.",
+    "execution_status": "planned_model_and_validator_check"
+  },
+  {
+    "check_id": "LEGAL-09",
+    "requirement": "Sale/share variant cannot reuse no-sale/no-share clauses.",
+    "fixture_id": "demo_ccpa_percentage_threshold",
+    "expected": "Retrieve conditional opt-out/GPC/minors provisions and require appropriate operational mechanisms.",
+    "execution_status": "planned_model_and_validator_check"
+  },
+  {
+    "check_id": "LEGAL-10",
+    "requirement": "Future 2027 browser/ADMT dates not represented as Sep2026 missed duties.",
+    "expected": "Preserve effective, operative and compliance dates independently.",
+    "execution_status": "planned_model_and_validator_check"
+  },
+  {
+    "check_id": "LEGAL-11",
+    "requirement": "Notice-at-collection followup survives policy finalization.",
+    "expected": "No retrospective cure, no automatic close-on-approval.",
+    "execution_status": "local_followup_invariant_checked"
+  },
+  {
+    "check_id": "LEGAL-12",
+    "requirement": "Missing/changed legal source hash, version or effective date blocks stale binding.",
+    "expected": "Refresh evidence; revalidate; invalidate material stale approvals.",
+    "execution_status": "planned_integration_check"
+  },
+  {
+    "check_id": "LEGAL-13",
+    "requirement": "No source-derived instructions can update harness/tools/permissions.",
+    "expected": "Legal text enters evidence channels only.",
+    "execution_status": "planned_security_check"
+  },
+  {
+    "check_id": "LEGAL-14",
+    "requirement": "No complete-compliance or real-Rippit inference.",
+    "expected": "Synthetic, potential-gap and proposed-awaiting-review labels remain visible.",
+    "execution_status": "planned_ui_copy_check"
+  },
+  {
+    "check_id": "LEGAL-15",
+    "requirement": "Legal source refresh and document repair are not counted alone as measured harness improvement.",
+    "expected": "A separate persisted retrieval/drafting-rule candidate must pass frozen regression tests and improve later-event result.",
+    "execution_status": "planned_T07_integration_check"
+  }
+]

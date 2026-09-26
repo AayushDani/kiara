@@ -1,0 +1,26 @@
+[
+  {
+    "_id": "4f6f009e-c7f3-5e86-b464-592339d20c19",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "actor_id": "6c6939bf-2453-539f-8f86-6b1e6e61edbe",
+    "role": "founder",
+    "action": "approved",
+    "review_bundle_id": "73669cc9-9746-5d1c-a40b-fa274647af0d",
+    "review_bundle_hash": "b1231d68312dba499e6ab6a37cfa91e1ed944cefbb39e40ccc00886cdb7fdaf8",
+    "decided_at": "2026-09-26T16:07:00Z",
+    "synthetic": true
+  },
+  {
+    "_id": "fd96e69d-be83-5851-9b4e-bc48f3aa8509",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "actor_id": "3a6ef3af-edf4-58c4-8123-03bbcbf09ad1",
+    "role": "lawyer",
+    "action": "approved",
+    "review_bundle_id": "73669cc9-9746-5d1c-a40b-fa274647af0d",
+    "review_bundle_hash": "b1231d68312dba499e6ab6a37cfa91e1ed944cefbb39e40ccc00886cdb7fdaf8",
+    "decided_at": "2026-09-26T16:08:00Z",
+    "synthetic": true
+  }
+]

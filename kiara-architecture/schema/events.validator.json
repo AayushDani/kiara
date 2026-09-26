@@ -1,0 +1,3342 @@
+{
+  "validator": {
+    "$jsonSchema": {
+      "title": "K-EVT-001",
+      "bsonType": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "_id",
+        "event_type",
+        "tenant_id",
+        "reset_epoch",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_seq",
+        "occurred_at",
+        "received_at",
+        "actor",
+        "source",
+        "correlation_id",
+        "causation_id",
+        "idempotency_key",
+        "payload_hash",
+        "workflow_id",
+        "run_id",
+        "trace_id",
+        "payload",
+        "created_at"
+      ],
+      "properties": {
+        "schema_version": {
+          "enum": [
+            "1.0"
+          ]
+        },
+        "event_type": {
+          "bsonType": "string",
+          "enum": [
+            "user.signed_up",
+            "company.context_updated",
+            "workflow.created",
+            "workflow.slot_waiting",
+            "workflow.slot_acquired",
+            "context.snapshot_pinned",
+            "assessment.completed",
+            "workflow.information_requested",
+            "workflow.information_supplied",
+            "proposal.created",
+            "validation.passed",
+            "validation.failed",
+            "workflow.repair_started",
+            "workflow.escalated",
+            "review.founder_requested",
+            "review.lawyer_requested",
+            "review.viewed",
+            "review.reviewed",
+            "feedback.recorded",
+            "review.changes_requested",
+            "review.rejected",
+            "review.founder_approved",
+            "review.lawyer_approved",
+            "approval.invalidated",
+            "proposal.superseded",
+            "document.finalized",
+            "workflow.closed_no_change",
+            "workflow.superseded",
+            "workflow.failed",
+            "workflow.resumed",
+            "job.retry_scheduled",
+            "job.exhausted",
+            "job.late_result_discarded",
+            "notification.enqueued",
+            "notification.previewed",
+            "notification.sent",
+            "notification.delivered",
+            "notification.bounced",
+            "notification.failed",
+            "notification.delivery_unknown",
+            "notification.canceled",
+            "harness.candidate_created",
+            "harness.evaluation_completed",
+            "harness.promoted",
+            "harness.rejected",
+            "harness.rolled_back",
+            "run.harness_switched",
+            "operational_followup.created"
+          ]
+        },
+        "tenant_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "reset_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0
+        },
+        "aggregate_type": {
+          "bsonType": "string",
+          "enum": [
+            "customer",
+            "company",
+            "workflow",
+            "notification",
+            "harness"
+          ]
+        },
+        "aggregate_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "aggregate_seq": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 1
+        },
+        "occurred_at": {
+          "bsonType": "date"
+        },
+        "received_at": {
+          "bsonType": "date"
+        },
+        "actor": {
+          "bsonType": "object",
+          "additionalProperties": false,
+          "required": [
+            "actor_type",
+            "actor_id",
+            "role"
+          ],
+          "properties": {
+            "actor_type": {
+              "bsonType": "string",
+              "enum": [
+                "human",
+                "service",
+                "external_system"
+              ]
+            },
+            "actor_id": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "role": {
+              "bsonType": "string",
+              "enum": [
+                "founder",
+                "lawyer",
+                "operator",
+                "workflow_service",
+                "notification_service",
+                "harness_service",
+                "signup_integration"
+              ]
+            }
+          }
+        },
+        "source": {
+          "bsonType": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "system",
+            "source_event_id"
+          ],
+          "properties": {
+            "kind": {
+              "bsonType": "string",
+              "enum": [
+                "api",
+                "worker",
+                "webhook",
+                "seed"
+              ]
+            },
+            "system": {
+              "bsonType": "string",
+              "minLength": 1
+            },
+            "source_event_id": {
+              "anyOf": [
+                {
+                  "bsonType": "string",
+                  "minLength": 1
+                },
+                {
+                  "bsonType": "null"
+                }
+              ]
+            }
+          }
+        },
+        "correlation_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "idempotency_key": {
+          "bsonType": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "payload_hash": {
+          "bsonType": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "workflow_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "run_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "trace_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "minLength": 1
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "payload": {
+          "bsonType": "object"
+        },
+        "_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "created_at": {
+          "bsonType": "date"
+        }
+      },
+      "allOf": [
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "user.signed_up"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "company_id",
+                        "customer_id",
+                        "customer_context_version",
+                        "residence_evidence",
+                        "is_synthetic"
+                      ],
+                      "properties": {
+                        "company_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "customer_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "customer_context_version": {
+                          "bsonType": [
+                            "int",
+                            "long"
+                          ],
+                          "minimum": 0
+                        },
+                        "residence_evidence": {
+                          "bsonType": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "kind",
+                            "country",
+                            "region",
+                            "asserted_at",
+                            "provenance_ref"
+                          ],
+                          "properties": {
+                            "kind": {
+                              "bsonType": "string",
+                              "enum": [
+                                "declared_legal_residence"
+                              ]
+                            },
+                            "country": {
+                              "bsonType": "string",
+                              "enum": [
+                                "US"
+                              ]
+                            },
+                            "region": {
+                              "bsonType": "string",
+                              "minLength": 1
+                            },
+                            "asserted_at": {
+                              "bsonType": "date"
+                            },
+                            "provenance_ref": {
+                              "bsonType": "string",
+                              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                            }
+                          }
+                        },
+                        "is_synthetic": {
+                          "bsonType": "bool"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "company.context_updated"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "company_id",
+                        "previous_context_version_id",
+                        "context_version_id",
+                        "material_context_epoch",
+                        "verified_by",
+                        "feedback_id"
+                      ],
+                      "properties": {
+                        "company_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "previous_context_version_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "context_version_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "material_context_epoch": {
+                          "bsonType": [
+                            "int",
+                            "long"
+                          ],
+                          "minimum": 0
+                        },
+                        "verified_by": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "feedback_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "workflow.created"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "company_id",
+                        "document_id",
+                        "trigger_event_id",
+                        "intake_seq"
+                      ],
+                      "properties": {
+                        "company_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "document_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "trigger_event_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "intake_seq": {
+                          "bsonType": [
+                            "int",
+                            "long"
+                          ],
+                          "minimum": 0
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "workflow.slot_waiting"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "document_id",
+                        "blocking_workflow_id",
+                        "intake_seq"
+                      ],
+                      "properties": {
+                        "document_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "blocking_workflow_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "intake_seq": {
+                          "bsonType": [
+                            "int",
+                            "long"
+                          ],
+                          "minimum": 0
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "workflow.slot_acquired"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "document_id",
+                        "slot_epoch",
+                        "base_revision_id",
+                        "base_content_hash"
+                      ],
+                      "properties": {
+                        "document_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "slot_epoch": {
+                          "bsonType": [
+                            "int",
+                            "long"
+                          ],
+                          "minimum": 0
+                        },
+                        "base_revision_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "base_content_hash": {
+                          "bsonType": "string",
+                          "pattern": "^[a-f0-9]{64}$"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "context.snapshot_pinned"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "context_snapshot_id",
+                        "evidence_bundle_id",
+                        "material_context_epoch",
+                        "material_evidence_epoch",
+                        "harness_version_id"
+                      ],
+                      "properties": {
+                        "context_snapshot_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "evidence_bundle_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "material_context_epoch": {
+                          "bsonType": [
+                            "int",
+                            "long"
+                          ],
+                          "minimum": 0
+                        },
+                        "material_evidence_epoch": {
+                          "bsonType": [
+                            "int",
+                            "long"
+                          ],
+                          "minimum": 0
+                        },
+                        "harness_version_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "assessment.completed"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "assessment_id",
+                        "outcome",
+                        "context_snapshot_id",
+                        "evidence_bundle_id",
+                        "missing_fact_keys",
+                        "operational_followup_ids"
+                      ],
+                      "properties": {
+                        "assessment_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "outcome": {
+                          "bsonType": "string",
+                          "enum": [
+                            "covered",
+                            "not_covered",
+                            "needs_information"
+                          ]
+                        },
+                        "context_snapshot_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "evidence_bundle_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "missing_fact_keys": {
+                          "bsonType": "array",
+                          "items": {
+                            "bsonType": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "operational_followup_ids": {
+                          "bsonType": "array",
+                          "items": {
+                            "bsonType": "string",
+                            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "workflow.information_requested"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "assessment_id",
+                        "missing_fact_keys",
+                        "required_role"
+                      ],
+                      "properties": {
+                        "assessment_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "missing_fact_keys": {
+                          "bsonType": "array",
+                          "items": {
+                            "bsonType": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "required_role": {
+                          "bsonType": "string",
+                          "enum": [
+                            "founder",
+                            "lawyer"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "workflow.information_supplied"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "context_version_id",
+                        "verified_feedback_ids"
+                      ],
+                      "properties": {
+                        "context_version_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "verified_feedback_ids": {
+                          "bsonType": "array",
+                          "items": {
+                            "bsonType": "string",
+                            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "proposal.created"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "proposal_id",
+                        "candidate_revision_id",
+                        "base_revision_id",
+                        "diff_id",
+                        "review_input_hash",
+                        "replaces_proposal_id"
+                      ],
+                      "properties": {
+                        "proposal_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "candidate_revision_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "base_revision_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "diff_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "review_input_hash": {
+                          "bsonType": "string",
+                          "pattern": "^[a-f0-9]{64}$"
+                        },
+                        "replaces_proposal_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "validation.passed"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "validation_run_id",
+                        "validator_version_id",
+                        "subject_kind",
+                        "context_selection_id",
+                        "review_input_hash",
+                        "review_bundle_id",
+                        "review_bundle_hash",
+                        "proposal_id"
+                      ],
+                      "properties": {
+                        "validation_run_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "validator_version_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "subject_kind": {
+                          "bsonType": "string",
+                          "enum": [
+                            "context_readiness",
+                            "proposal"
+                          ]
+                        },
+                        "context_selection_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        },
+                        "review_input_hash": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "pattern": "^[a-f0-9]{64}$"
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        },
+                        "review_bundle_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        },
+                        "review_bundle_hash": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "pattern": "^[a-f0-9]{64}$"
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        },
+                        "proposal_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "allOf": [
+                            {
+                              "anyOf": [
+                                {
+                                  "not": {
+                                    "properties": {
+                                      "subject_kind": {
+                                        "enum": [
+                                          "context_readiness"
+                                        ]
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "context_selection_id": {
+                                      "bsonType": "string",
+                                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                                    },
+                                    "proposal_id": {
+                                      "bsonType": "null"
+                                    },
+                                    "review_input_hash": {
+                                      "bsonType": "null"
+                                    },
+                                    "review_bundle_id": {
+                                      "bsonType": "null"
+                                    },
+                                    "review_bundle_hash": {
+                                      "bsonType": "null"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "allOf": [
+                            {
+                              "anyOf": [
+                                {
+                                  "not": {
+                                    "properties": {
+                                      "subject_kind": {
+                                        "enum": [
+                                          "proposal"
+                                        ]
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "proposal_id": {
+                                      "bsonType": "string",
+                                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                                    },
+                                    "context_selection_id": {
+                                      "bsonType": "null"
+                                    },
+                                    "review_input_hash": {
+                                      "bsonType": "string",
+                                      "pattern": "^[a-f0-9]{64}$"
+                                    },
+                                    "review_bundle_id": {
+                                      "bsonType": "string",
+                                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                                    },
+                                    "review_bundle_hash": {
+                                      "bsonType": "string",
+                                      "pattern": "^[a-f0-9]{64}$"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "validation.failed"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "validation_run_id",
+                        "subject_kind",
+                        "context_selection_id",
+                        "proposal_id",
+                        "failure_codes",
+                        "repair_count",
+                        "repair_limit",
+                        "repairable"
+                      ],
+                      "properties": {
+                        "validation_run_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "subject_kind": {
+                          "bsonType": "string",
+                          "enum": [
+                            "context_readiness",
+                            "proposal"
+                          ]
+                        },
+                        "context_selection_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        },
+                        "proposal_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        },
+                        "failure_codes": {
+                          "bsonType": "array",
+                          "items": {
+                            "bsonType": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "repair_count": {
+                          "bsonType": [
+                            "int",
+                            "long"
+                          ],
+                          "minimum": 0
+                        },
+                        "repair_limit": {
+                          "enum": [
+                            2
+                          ]
+                        },
+                        "repairable": {
+                          "bsonType": "bool"
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "allOf": [
+                            {
+                              "anyOf": [
+                                {
+                                  "not": {
+                                    "properties": {
+                                      "subject_kind": {
+                                        "enum": [
+                                          "context_readiness"
+                                        ]
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "context_selection_id": {
+                                      "bsonType": "string",
+                                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                                    },
+                                    "proposal_id": {
+                                      "bsonType": "null"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "allOf": [
+                            {
+                              "anyOf": [
+                                {
+                                  "not": {
+                                    "properties": {
+                                      "subject_kind": {
+                                        "enum": [
+                                          "proposal"
+                                        ]
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "proposal_id": {
+                                      "bsonType": "string",
+                                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                                    },
+                                    "context_selection_id": {
+                                      "bsonType": "null"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "workflow.repair_started"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "failed_validation_run_id",
+                        "repair_count",
+                        "strategy"
+                      ],
+                      "properties": {
+                        "failed_validation_run_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "repair_count": {
+                          "bsonType": [
+                            "int",
+                            "long"
+                          ],
+                          "minimum": 0
+                        },
+                        "strategy": {
+                          "bsonType": "string",
+                          "enum": [
+                            "retrieve_evidence",
+                            "correct_context",
+                            "revise_document"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "workflow.escalated"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "reason_code",
+                        "validation_run_id",
+                        "required_role"
+                      ],
+                      "properties": {
+                        "reason_code": {
+                          "bsonType": "string",
+                          "minLength": 1
+                        },
+                        "validation_run_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        },
+                        "required_role": {
+                          "bsonType": "string",
+                          "enum": [
+                            "founder",
+                            "lawyer",
+                            "operator"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "review.founder_requested"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "review_bundle_id",
+                        "review_bundle_hash",
+                        "proposal_id",
+                        "assigned_actor_id",
+                        "notification_id"
+                      ],
+                      "properties": {
+                        "review_bundle_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "review_bundle_hash": {
+                          "bsonType": "string",
+                          "pattern": "^[a-f0-9]{64}$"
+                        },
+                        "proposal_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "assigned_actor_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "notification_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "review.founder_approved"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "approval_id",
+                        "review_bundle_id",
+                        "review_bundle_hash",
+                        "candidate_revision_id",
+                        "predecessor_approval_id"
+                      ],
+                      "properties": {
+                        "approval_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "review_bundle_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "review_bundle_hash": {
+                          "bsonType": "string",
+                          "pattern": "^[a-f0-9]{64}$"
+                        },
+                        "candidate_revision_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "predecessor_approval_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "review.lawyer_requested"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "review_bundle_id",
+                        "review_bundle_hash",
+                        "proposal_id",
+                        "assigned_actor_id",
+                        "notification_id"
+                      ],
+                      "properties": {
+                        "review_bundle_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "review_bundle_hash": {
+                          "bsonType": "string",
+                          "pattern": "^[a-f0-9]{64}$"
+                        },
+                        "proposal_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "assigned_actor_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "notification_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "review.lawyer_approved"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "approval_id",
+                        "review_bundle_id",
+                        "review_bundle_hash",
+                        "candidate_revision_id",
+                        "predecessor_approval_id"
+                      ],
+                      "properties": {
+                        "approval_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "review_bundle_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "review_bundle_hash": {
+                          "bsonType": "string",
+                          "pattern": "^[a-f0-9]{64}$"
+                        },
+                        "candidate_revision_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "predecessor_approval_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "review.viewed"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "review_bundle_id",
+                        "proposal_id",
+                        "role",
+                        "activity_id"
+                      ],
+                      "properties": {
+                        "review_bundle_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "proposal_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "role": {
+                          "bsonType": "string",
+                          "enum": [
+                            "founder",
+                            "lawyer"
+                          ]
+                        },
+                        "activity_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "review.reviewed"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "review_bundle_id",
+                        "proposal_id",
+                        "role",
+                        "activity_id"
+                      ],
+                      "properties": {
+                        "review_bundle_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "proposal_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "role": {
+                          "bsonType": "string",
+                          "enum": [
+                            "founder",
+                            "lawyer"
+                          ]
+                        },
+                        "activity_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "feedback.recorded"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "feedback_id",
+                        "feedback_type",
+                        "review_bundle_id",
+                        "proposal_id",
+                        "requested_change"
+                      ],
+                      "properties": {
+                        "feedback_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "feedback_type": {
+                          "bsonType": "string",
+                          "enum": [
+                            "fact_correction",
+                            "document_edit",
+                            "legal_interpretation_note",
+                            "harness_improvement"
+                          ]
+                        },
+                        "review_bundle_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        },
+                        "proposal_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        },
+                        "requested_change": {
+                          "bsonType": "bool"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "review.changes_requested"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "feedback_id",
+                        "review_bundle_id",
+                        "role",
+                        "reason_code"
+                      ],
+                      "properties": {
+                        "feedback_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "review_bundle_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "role": {
+                          "bsonType": "string",
+                          "enum": [
+                            "founder",
+                            "lawyer"
+                          ]
+                        },
+                        "reason_code": {
+                          "bsonType": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "review.rejected"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "review_bundle_id",
+                        "decision_id",
+                        "role",
+                        "reason_code"
+                      ],
+                      "properties": {
+                        "review_bundle_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "decision_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "role": {
+                          "bsonType": "string",
+                          "enum": [
+                            "founder",
+                            "lawyer"
+                          ]
+                        },
+                        "reason_code": {
+                          "bsonType": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "approval.invalidated"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "review_bundle_id",
+                        "approval_ids",
+                        "reason_code",
+                        "replacement_bundle_id"
+                      ],
+                      "properties": {
+                        "review_bundle_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "approval_ids": {
+                          "bsonType": "array",
+                          "items": {
+                            "bsonType": "string",
+                            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                          }
+                        },
+                        "reason_code": {
+                          "bsonType": "string",
+                          "enum": [
+                            "text_changed",
+                            "context_changed",
+                            "evidence_changed",
+                            "assessment_changed",
+                            "base_conflict",
+                            "run_harness_switched",
+                            "review_bundle_changed"
+                          ]
+                        },
+                        "replacement_bundle_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "proposal.superseded"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "proposal_id",
+                        "replacement_proposal_id",
+                        "reason_code"
+                      ],
+                      "properties": {
+                        "proposal_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "replacement_proposal_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        },
+                        "reason_code": {
+                          "bsonType": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "document.finalized"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "document_id",
+                        "previous_revision_id",
+                        "revision_id",
+                        "review_bundle_id",
+                        "founder_approval_id",
+                        "lawyer_approval_id",
+                        "publication_status"
+                      ],
+                      "properties": {
+                        "document_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "previous_revision_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "revision_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "review_bundle_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "founder_approval_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "lawyer_approval_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "publication_status": {
+                          "enum": [
+                            "not_published"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "workflow.closed_no_change"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "assessment_id",
+                        "reason_code",
+                        "operational_followup_ids"
+                      ],
+                      "properties": {
+                        "assessment_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "reason_code": {
+                          "bsonType": "string",
+                          "enum": [
+                            "not_covered_for_assessed_rule",
+                            "no_supported_document_gap"
+                          ]
+                        },
+                        "operational_followup_ids": {
+                          "bsonType": "array",
+                          "items": {
+                            "bsonType": "string",
+                            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "workflow.superseded"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "replacement_workflow_id",
+                        "reason_code"
+                      ],
+                      "properties": {
+                        "replacement_workflow_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "reason_code": {
+                          "bsonType": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "workflow.failed"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "error_code",
+                        "operator_action"
+                      ],
+                      "properties": {
+                        "error_code": {
+                          "bsonType": "string",
+                          "minLength": 1
+                        },
+                        "operator_action": {
+                          "bsonType": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "workflow.resumed"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "resume_reason",
+                        "new_run_id",
+                        "authorized_by"
+                      ],
+                      "properties": {
+                        "resume_reason": {
+                          "bsonType": "string",
+                          "minLength": 1
+                        },
+                        "new_run_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "authorized_by": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "job.retry_scheduled"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "job_id",
+                        "attempt_id",
+                        "attempt_count",
+                        "available_at",
+                        "error_code"
+                      ],
+                      "properties": {
+                        "job_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "attempt_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "attempt_count": {
+                          "bsonType": [
+                            "int",
+                            "long"
+                          ],
+                          "minimum": 0
+                        },
+                        "available_at": {
+                          "bsonType": "date"
+                        },
+                        "error_code": {
+                          "bsonType": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "job.exhausted"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "job_id",
+                        "attempt_count",
+                        "error_code"
+                      ],
+                      "properties": {
+                        "job_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "attempt_count": {
+                          "bsonType": [
+                            "int",
+                            "long"
+                          ],
+                          "minimum": 0
+                        },
+                        "error_code": {
+                          "bsonType": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "job.late_result_discarded"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "job_id",
+                        "attempt_id",
+                        "stale_lease_epoch",
+                        "current_lease_epoch"
+                      ],
+                      "properties": {
+                        "job_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "attempt_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "stale_lease_epoch": {
+                          "bsonType": [
+                            "int",
+                            "long"
+                          ],
+                          "minimum": 0
+                        },
+                        "current_lease_epoch": {
+                          "bsonType": [
+                            "int",
+                            "long"
+                          ],
+                          "minimum": 0
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "notification.enqueued"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "notification_id",
+                        "kind",
+                        "recipient_actor_id",
+                        "review_bundle_id",
+                        "mode"
+                      ],
+                      "properties": {
+                        "notification_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "kind": {
+                          "bsonType": "string",
+                          "enum": [
+                            "founder_review_request",
+                            "lawyer_review_request",
+                            "information_request",
+                            "finalization_notice",
+                            "operational_followup"
+                          ]
+                        },
+                        "recipient_actor_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "review_bundle_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        },
+                        "mode": {
+                          "bsonType": "string",
+                          "enum": [
+                            "preview",
+                            "live"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "notification.previewed"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "notification_id",
+                        "provider_message_id",
+                        "provider_event_id",
+                        "reason_code"
+                      ],
+                      "properties": {
+                        "notification_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "provider_message_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "minLength": 1
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        },
+                        "provider_event_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "minLength": 1
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        },
+                        "reason_code": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "minLength": 1
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "notification.sent"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "notification_id",
+                        "provider_message_id",
+                        "provider_event_id",
+                        "reason_code"
+                      ],
+                      "properties": {
+                        "notification_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "provider_message_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "minLength": 1
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        },
+                        "provider_event_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "minLength": 1
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        },
+                        "reason_code": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "minLength": 1
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "notification.delivered"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "notification_id",
+                        "provider_message_id",
+                        "provider_event_id",
+                        "reason_code"
+                      ],
+                      "properties": {
+                        "notification_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "provider_message_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "minLength": 1
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        },
+                        "provider_event_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "minLength": 1
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        },
+                        "reason_code": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "minLength": 1
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "notification.bounced"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "notification_id",
+                        "provider_message_id",
+                        "provider_event_id",
+                        "reason_code"
+                      ],
+                      "properties": {
+                        "notification_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "provider_message_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "minLength": 1
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        },
+                        "provider_event_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "minLength": 1
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        },
+                        "reason_code": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "minLength": 1
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "notification.failed"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "notification_id",
+                        "provider_message_id",
+                        "provider_event_id",
+                        "reason_code"
+                      ],
+                      "properties": {
+                        "notification_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "provider_message_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "minLength": 1
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        },
+                        "provider_event_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "minLength": 1
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        },
+                        "reason_code": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "minLength": 1
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "notification.delivery_unknown"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "notification_id",
+                        "provider_message_id",
+                        "provider_event_id",
+                        "reason_code"
+                      ],
+                      "properties": {
+                        "notification_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "provider_message_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "minLength": 1
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        },
+                        "provider_event_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "minLength": 1
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        },
+                        "reason_code": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "minLength": 1
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "notification.canceled"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "notification_id",
+                        "provider_message_id",
+                        "provider_event_id",
+                        "reason_code"
+                      ],
+                      "properties": {
+                        "notification_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "provider_message_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "minLength": 1
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        },
+                        "provider_event_id": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "minLength": 1
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        },
+                        "reason_code": {
+                          "anyOf": [
+                            {
+                              "bsonType": "string",
+                              "minLength": 1
+                            },
+                            {
+                              "bsonType": "null"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "harness.candidate_created"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "candidate_id",
+                        "base_harness_version_id",
+                        "diagnosis_id"
+                      ],
+                      "properties": {
+                        "candidate_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "base_harness_version_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "diagnosis_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "harness.evaluation_completed"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "candidate_id",
+                        "evaluation_run_id",
+                        "outcome"
+                      ],
+                      "properties": {
+                        "candidate_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "evaluation_run_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "outcome": {
+                          "bsonType": "string",
+                          "enum": [
+                            "passed",
+                            "failed",
+                            "inconclusive"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "harness.promoted"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "candidate_id",
+                        "harness_version_id",
+                        "previous_harness_version_id",
+                        "evaluation_run_id",
+                        "promotion_mode"
+                      ],
+                      "properties": {
+                        "candidate_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "harness_version_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "previous_harness_version_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "evaluation_run_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "promotion_mode": {
+                          "bsonType": "string",
+                          "enum": [
+                            "automatic_allowlisted",
+                            "human_approved"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "harness.rejected"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "candidate_id",
+                        "reason_codes"
+                      ],
+                      "properties": {
+                        "candidate_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "reason_codes": {
+                          "bsonType": "array",
+                          "items": {
+                            "bsonType": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "harness.rolled_back"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "previous_harness_version_id",
+                        "harness_version_id",
+                        "reason_code"
+                      ],
+                      "properties": {
+                        "previous_harness_version_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "harness_version_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "reason_code": {
+                          "bsonType": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "run.harness_switched"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "previous_run_id",
+                        "run_id",
+                        "previous_harness_version_id",
+                        "harness_version_id",
+                        "reason_code"
+                      ],
+                      "properties": {
+                        "previous_run_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "run_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "previous_harness_version_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "harness_version_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "reason_code": {
+                          "bsonType": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "event_type": {
+                        "enum": [
+                          "operational_followup.created"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "payload": {
+                      "bsonType": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "operational_followup_id",
+                        "assessment_id",
+                        "kind",
+                        "owner_role",
+                        "status"
+                      ],
+                      "properties": {
+                        "operational_followup_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "assessment_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "kind": {
+                          "bsonType": "string",
+                          "minLength": 1
+                        },
+                        "owner_role": {
+                          "bsonType": "string",
+                          "enum": [
+                            "founder",
+                            "lawyer"
+                          ]
+                        },
+                        "status": {
+                          "enum": [
+                            "open"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "validationLevel": "strict",
+  "validationAction": "error"
+}

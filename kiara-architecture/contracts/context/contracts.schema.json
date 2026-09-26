@@ -1,0 +1,1305 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kiara.invalid/design/RET-03-v1.schema.json",
+  "title": "T05 proposed retrieval wire examples",
+  "$defs": {
+    "Bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "company_context_version_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "base_document_version_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "harness_version_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "corpus_version_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "criterion_registry_version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "event_id",
+        "company_context_version_id",
+        "base_document_version_id",
+        "harness_version_id",
+        "corpus_version_id",
+        "criterion_registry_version"
+      ]
+    },
+    "Anchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "page_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "raw_page_text_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "start_utf16": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "end_utf16": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "quote_text": {
+          "type": "string"
+        },
+        "quote_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "page_number",
+        "raw_page_text_sha256",
+        "start_utf16",
+        "end_utf16",
+        "quote_text",
+        "quote_sha256"
+      ]
+    },
+    "Evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "evidence_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "source_version_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "source_key": {
+          "type": "string"
+        },
+        "provision_key": {
+          "type": "string"
+        },
+        "display_citation": {
+          "type": "string"
+        },
+        "authority_type": {
+          "type": "string",
+          "enum": [
+            "statute",
+            "regulation",
+            "official_adjustment",
+            "court_opinion",
+            "official_guidance"
+          ]
+        },
+        "jurisdiction": {
+          "type": "string"
+        },
+        "source_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "raw_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "parser": {
+          "type": "string"
+        },
+        "parser_version": {
+          "type": "string"
+        },
+        "retrieved_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "verified_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "effective_from": {
+          "type": "string",
+          "format": "date"
+        },
+        "operative_from": {
+          "type": "string",
+          "format": "date"
+        },
+        "freshness_status": {
+          "type": "string",
+          "enum": [
+            "fresh",
+            "stale",
+            "unknown"
+          ]
+        },
+        "content_kind": {
+          "const": "authoritative_text"
+        },
+        "segments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Anchor"
+          },
+          "maxItems": 8
+        }
+      },
+      "required": [
+        "evidence_id",
+        "source_version_id",
+        "source_key",
+        "provision_key",
+        "display_citation",
+        "authority_type",
+        "jurisdiction",
+        "source_url",
+        "raw_sha256",
+        "parser",
+        "parser_version",
+        "retrieved_at",
+        "verified_at",
+        "effective_from",
+        "operative_from",
+        "freshness_status",
+        "content_kind",
+        "segments"
+      ]
+    },
+    "RetrievalRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": "RET-03/v1"
+        },
+        "bindings": {
+          "$ref": "#/$defs/Bindings"
+        },
+        "as_of": {
+          "type": "string",
+          "format": "date"
+        },
+        "criterion_keys": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 40
+        },
+        "additional_provision_keys": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20
+        },
+        "discovery_query": {
+          "type": "string",
+          "maxLength": 1200
+        },
+        "batch_index": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
+        }
+      },
+      "required": [
+        "contract_version",
+        "bindings",
+        "as_of",
+        "criterion_keys",
+        "additional_provision_keys",
+        "discovery_query",
+        "batch_index"
+      ]
+    },
+    "RetrievalResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": "RET-03/v1"
+        },
+        "evidence_bundle_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "bindings": {
+          "$ref": "#/$defs/Bindings"
+        },
+        "as_of": {
+          "type": "string",
+          "format": "date"
+        },
+        "coverage_status": {
+          "type": "string",
+          "enum": [
+            "complete",
+            "incomplete",
+            "conflict",
+            "budget_exceeded"
+          ]
+        },
+        "required_provision_keys": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "returned_provision_keys": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "missing_provision_keys": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 48
+        },
+        "retrieval_method": {
+          "type": "string",
+          "enum": [
+            "exact_atlas_lexical",
+            "exact_local_lexical",
+            "exact_only",
+            "exact_hybrid"
+          ]
+        },
+        "fallback_reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "freshness_status": {
+          "type": "string",
+          "enum": [
+            "fresh",
+            "stale",
+            "unknown"
+          ]
+        },
+        "retrieved_context_units": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "count_method": {
+          "type": "string"
+        },
+        "batch_index": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
+        },
+        "batch_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
+        },
+        "coverage_accumulator_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "diagnostics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "contract_version",
+        "evidence_bundle_id",
+        "bindings",
+        "as_of",
+        "coverage_status",
+        "required_provision_keys",
+        "returned_provision_keys",
+        "missing_provision_keys",
+        "evidence",
+        "retrieval_method",
+        "fallback_reason",
+        "freshness_status",
+        "retrieved_context_units",
+        "count_method",
+        "batch_index",
+        "batch_count",
+        "coverage_accumulator_id",
+        "diagnostics"
+      ]
+    },
+    "ContextRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "company_context_version_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "purpose": {
+          "type": "string",
+          "enum": [
+            "applicability",
+            "draft",
+            "validation"
+          ]
+        },
+        "requested_fact_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 60
+        }
+      },
+      "required": [
+        "event_id",
+        "company_context_version_id",
+        "purpose",
+        "requested_fact_paths"
+      ]
+    },
+    "Fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "assertion_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "path": {
+          "type": "string"
+        },
+        "value": {},
+        "knowledge_state": {
+          "type": "string",
+          "enum": [
+            "known",
+            "unknown",
+            "conflicted"
+          ]
+        },
+        "evidence_kind": {
+          "type": "string",
+          "enum": [
+            "synthetic_fixture",
+            "declared_residence",
+            "accepted_business_fact",
+            "unverified_inference"
+          ]
+        },
+        "source_ref": {
+          "type": "string"
+        },
+        "effective_from": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "assertion_id",
+        "path",
+        "value",
+        "knowledge_state",
+        "evidence_kind",
+        "source_ref",
+        "effective_from"
+      ]
+    },
+    "ContextResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "company_context_version_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "context_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "facts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Fact"
+          },
+          "maxItems": 60
+        },
+        "missing_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "conflict_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "synthetic": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "company_context_version_id",
+        "context_sha256",
+        "facts",
+        "missing_paths",
+        "conflict_ids",
+        "synthetic"
+      ]
+    },
+    "SourceRecheckAttestation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "attestation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "tenant_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "source_version_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "source_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "as_of": {
+          "type": "string",
+          "format": "date"
+        },
+        "scope": {
+          "const": "freshness_check_age_recheck"
+        },
+        "reviewer_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "reviewer_role": {
+          "const": "lawyer"
+        },
+        "attested_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "method": {
+          "const": "manual_authoritative_source_recheck"
+        },
+        "supporting_official_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "supporting_locator": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 20
+        },
+        "new_evidence_bundle_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "ordered_reapproval_required": {
+          "const": true
+        }
+      },
+      "required": [
+        "attestation_id",
+        "tenant_id",
+        "source_version_id",
+        "source_sha256",
+        "as_of",
+        "scope",
+        "reviewer_id",
+        "reviewer_role",
+        "attested_at",
+        "expires_at",
+        "method",
+        "supporting_official_url",
+        "supporting_locator",
+        "reason",
+        "new_evidence_bundle_id",
+        "ordered_reapproval_required"
+      ]
+    },
+    "Error": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "not_found_or_forbidden",
+            "invalid_arguments",
+            "retrieval_capacity_exceeded",
+            "source_unavailable",
+            "source_size_exceeded",
+            "parse_capacity_exceeded",
+            "version_conflict",
+            "deadline_exceeded",
+            "citation_span_mismatch",
+            "source_trust_invalid",
+            "hash_mismatch",
+            "unsupported_format",
+            "parse_failed",
+            "needs_transcription"
+          ]
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "code",
+        "retryable",
+        "message",
+        "correlation_id"
+      ]
+    },
+    "DocumentClausesRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "document_version_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "clause_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "maxItems": 40
+        },
+        "purpose": {
+          "type": "string",
+          "enum": [
+            "applicability",
+            "draft",
+            "validation"
+          ]
+        }
+      },
+      "required": [
+        "document_version_id",
+        "clause_ids",
+        "purpose"
+      ]
+    },
+    "DocumentClause": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "clause_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "position": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "heading": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "text_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "clause_id",
+        "position",
+        "heading",
+        "text",
+        "text_sha256"
+      ]
+    },
+    "DocumentClausesResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "document_version_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "document_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "document_kind": {
+          "type": "string",
+          "enum": [
+            "privacy_policy",
+            "terms",
+            "company_document"
+          ]
+        },
+        "document_status": {
+          "type": "string",
+          "enum": [
+            "baseline",
+            "draft",
+            "finalized"
+          ]
+        },
+        "clause_inventory_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "total_clause_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "selection_complete": {
+          "type": "boolean"
+        },
+        "full_inventory_loaded": {
+          "type": "boolean"
+        },
+        "selected_clause_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 40
+        },
+        "missing_clause_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 40
+        },
+        "clauses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DocumentClause"
+          },
+          "maxItems": 40
+        },
+        "source_kind": {
+          "type": "string",
+          "enum": [
+            "native_clause_json",
+            "imported_document"
+          ]
+        },
+        "provenance_source_version_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        },
+        "synthetic": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "document_version_id",
+        "document_sha256",
+        "document_kind",
+        "document_status",
+        "clause_inventory_sha256",
+        "total_clause_count",
+        "selection_complete",
+        "full_inventory_loaded",
+        "selected_clause_ids",
+        "missing_clause_ids",
+        "clauses",
+        "source_kind",
+        "provenance_source_version_id",
+        "synthetic"
+      ]
+    },
+    "SourceAnchorRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "evidence_bundle_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "evidence_id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "evidence_bundle_id",
+        "evidence_id"
+      ]
+    },
+    "SourceAnchorResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "evidence_bundle_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "integrity_status": {
+          "const": "verified"
+        },
+        "source_view_path": {
+          "type": "string",
+          "pattern": "^/sources/[0-9a-f-]+$"
+        },
+        "text_handling": {
+          "const": "plain_text_escape_at_render"
+        }
+      },
+      "required": [
+        "evidence_bundle_id",
+        "evidence",
+        "integrity_status",
+        "source_view_path",
+        "text_handling"
+      ]
+    },
+    "FactChangeRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "workflow_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expected_context_revision_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "fact_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.]*$"
+        },
+        "proposed_value_json": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "knowledge_state": {
+          "type": "string",
+          "enum": [
+            "known",
+            "unknown"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "provenance_record_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "maxItems": 8
+        }
+      },
+      "required": [
+        "event_id",
+        "workflow_id",
+        "expected_context_revision_id",
+        "fact_key",
+        "proposed_value_json",
+        "knowledge_state",
+        "reason",
+        "provenance_record_ids"
+      ]
+    },
+    "FactChangeResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "proposed_fact_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expected_context_revision_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "status": {
+          "const": "pending_fact_review"
+        },
+        "fact_key": {
+          "type": "string"
+        },
+        "conflicting_assertion_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "maxItems": 20
+        },
+        "accepted_context_changed": {
+          "const": false
+        },
+        "required_review_role": {
+          "const": "founder"
+        },
+        "idempotency_key": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "proposed_fact_id",
+        "expected_context_revision_id",
+        "status",
+        "fact_key",
+        "conflicting_assertion_ids",
+        "accepted_context_changed",
+        "required_review_role",
+        "idempotency_key"
+      ]
+    },
+    "IngestSourceRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "input_kind": {
+          "type": "string",
+          "enum": [
+            "registered_source",
+            "uploaded_artifact"
+          ]
+        },
+        "input_ref_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expected_raw_sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "ingestion_profile_id": {
+          "const": "kiara-ingestion-v1"
+        },
+        "idempotency_key": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "input_kind",
+        "input_ref_id",
+        "expected_raw_sha256",
+        "ingestion_profile_id",
+        "idempotency_key"
+      ]
+    },
+    "IngestionServerContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tenant_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "reset_epoch": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "principal_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "principal_kind": {
+          "type": "string",
+          "enum": [
+            "source_operator",
+            "seed_loader"
+          ]
+        },
+        "capability": {
+          "const": "source.ingest"
+        },
+        "request_id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "tenant_id",
+        "reset_epoch",
+        "principal_id",
+        "principal_kind",
+        "capability",
+        "request_id"
+      ]
+    },
+    "IngestSourceResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source_version_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "parse_revision_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "status": {
+          "const": "parsed"
+        },
+        "detected_format": {
+          "type": "string",
+          "enum": [
+            "pdf",
+            "html",
+            "docx",
+            "text",
+            "markdown",
+            "clause_json"
+          ]
+        },
+        "original_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "original_byte_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4194304
+        },
+        "retained_text_byte_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2097152
+        },
+        "parsed_text_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "parser": {
+          "type": "string"
+        },
+        "parser_version": {
+          "type": "string"
+        },
+        "parse_options_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "page_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 200
+        },
+        "block_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30
+        },
+        "authority_review_required": {
+          "const": true
+        },
+        "corpus_published": {
+          "const": false
+        },
+        "ingestion_policy_id": {
+          "const": "ING-POLICY-001"
+        }
+      },
+      "required": [
+        "source_version_id",
+        "parse_revision_id",
+        "status",
+        "detected_format",
+        "original_sha256",
+        "original_byte_count",
+        "retained_text_byte_count",
+        "parsed_text_sha256",
+        "parser",
+        "parser_version",
+        "parse_options_sha256",
+        "page_count",
+        "block_count",
+        "warnings",
+        "authority_review_required",
+        "corpus_published",
+        "ingestion_policy_id"
+      ]
+    },
+    "RET01Error": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "not_found_or_forbidden",
+            "invalid_arguments",
+            "version_conflict",
+            "deadline_exceeded"
+          ]
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "code",
+        "retryable",
+        "message",
+        "correlation_id"
+      ]
+    },
+    "RET02Error": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "not_found_or_forbidden",
+            "invalid_arguments",
+            "version_conflict",
+            "retrieval_capacity_exceeded",
+            "deadline_exceeded"
+          ]
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "code",
+        "retryable",
+        "message",
+        "correlation_id"
+      ]
+    },
+    "RET03Error": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "not_found_or_forbidden",
+            "invalid_arguments",
+            "retrieval_capacity_exceeded",
+            "source_unavailable",
+            "version_conflict",
+            "deadline_exceeded"
+          ]
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "code",
+        "retryable",
+        "message",
+        "correlation_id"
+      ]
+    },
+    "RET04Error": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "not_found_or_forbidden",
+            "invalid_arguments",
+            "citation_span_mismatch",
+            "source_unavailable",
+            "source_trust_invalid",
+            "deadline_exceeded"
+          ]
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "code",
+        "retryable",
+        "message",
+        "correlation_id"
+      ]
+    },
+    "RET05Error": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "not_found_or_forbidden",
+            "invalid_arguments",
+            "version_conflict",
+            "deadline_exceeded"
+          ]
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "code",
+        "retryable",
+        "message",
+        "correlation_id"
+      ]
+    },
+    "ING01Error": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "not_found_or_forbidden",
+            "invalid_arguments",
+            "source_unavailable",
+            "source_size_exceeded",
+            "parse_capacity_exceeded",
+            "hash_mismatch",
+            "unsupported_format",
+            "parse_failed",
+            "needs_transcription",
+            "deadline_exceeded"
+          ]
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "code",
+        "retryable",
+        "message",
+        "correlation_id"
+      ]
+    }
+  }
+}

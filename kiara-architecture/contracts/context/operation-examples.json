@@ -1,0 +1,321 @@
+{
+  "classification": "synthetic_internal_service_examples_not_executed_application",
+  "notes": [
+    "RET-03 successful transport may return incomplete coverage; this cannot permit drafting.",
+    "RET-02 is a minimal one-clause schema fixture, not the full T08 demo policy.",
+    "ING-01 is a synthetic response with actual source bytes metadata; full source parse execution is separately recorded in pdf-check-results.json."
+  ],
+  "operations": {
+    "RET-01": {
+      "request": {
+        "event_id": "fdbed704-3679-5b86-9ef1-858da8e6748f",
+        "company_context_version_id": "8fc859e5-1cf7-5b9f-b22f-b49cb8c732be",
+        "purpose": "applicability",
+        "requested_fact_paths": [
+          "annual_gross_revenue_usd",
+          "declared_legal_residence",
+          "ordinary_signup_data_nonexempt"
+        ]
+      },
+      "success": {
+        "company_context_version_id": "8fc859e5-1cf7-5b9f-b22f-b49cb8c732be",
+        "context_sha256": "795d333670a4a5699ca458cdaaa2eb75fb33d9010f021debd3579446766feab0",
+        "facts": [
+          {
+            "assertion_id": "cdb187fe-9930-5642-9d3e-a0bd05da9bdd",
+            "path": "annual_gross_revenue_usd",
+            "value": 30000000,
+            "knowledge_state": "known",
+            "evidence_kind": "synthetic_fixture",
+            "source_ref": "fixture:demo_ccpa_positive:annualGrossRevenueUsd",
+            "effective_from": "2025-01-01"
+          },
+          {
+            "assertion_id": "ce993986-d69a-5f16-87e5-7fd7856e47f8",
+            "path": "declared_legal_residence",
+            "value": "US-CA",
+            "knowledge_state": "known",
+            "evidence_kind": "declared_residence",
+            "source_ref": "event:fdbed704-3679-5b86-9ef1-858da8e6748f",
+            "effective_from": "2026-09-26"
+          },
+          {
+            "assertion_id": "71d63544-e993-5fc9-8aa6-0230c8f9b719",
+            "path": "ordinary_signup_data_nonexempt",
+            "value": null,
+            "knowledge_state": "unknown",
+            "evidence_kind": "synthetic_fixture",
+            "source_ref": "fixture:needs_information_example",
+            "effective_from": "2026-09-26"
+          }
+        ],
+        "missing_paths": [
+          "for_profit",
+          "collects_personal_information",
+          "determines_purposes_and_means",
+          "does_business_in_california",
+          "ordinary_signup_data_nonexempt"
+        ],
+        "conflict_ids": [],
+        "synthetic": true
+      },
+      "error": {
+        "code": "not_found_or_forbidden",
+        "retryable": false,
+        "message": "Requested context is not available to this actor.",
+        "correlation_id": "8bd3b332-a36e-5878-8ce3-6314d93324af"
+      }
+    },
+    "RET-02": {
+      "request": {
+        "document_version_id": "31941eac-6ebd-5f8b-a564-6fbb10fc8d7f",
+        "clause_ids": [
+          "clause_intro"
+        ],
+        "purpose": "validation"
+      },
+      "success": {
+        "document_version_id": "31941eac-6ebd-5f8b-a564-6fbb10fc8d7f",
+        "document_sha256": "5ed3b234b041f0a1ca5d1c78abf20390f0ba18b352e2bd8a32e34950b7653264",
+        "document_kind": "privacy_policy",
+        "document_status": "baseline",
+        "clause_inventory_sha256": "5ed3b234b041f0a1ca5d1c78abf20390f0ba18b352e2bd8a32e34950b7653264",
+        "total_clause_count": 1,
+        "selection_complete": true,
+        "full_inventory_loaded": true,
+        "selected_clause_ids": [
+          "clause_intro"
+        ],
+        "missing_clause_ids": [],
+        "clauses": [
+          {
+            "clause_id": "clause_intro",
+            "position": 0,
+            "heading": "About this demonstration",
+            "text": "This fictional company helps adults discover music events.",
+            "text_sha256": "a181976e213a8dd8d60c71d10a3ad604516c06515444dbc7460b156347793c1a"
+          }
+        ],
+        "source_kind": "native_clause_json",
+        "provenance_source_version_id": null,
+        "synthetic": true
+      },
+      "error": {
+        "code": "version_conflict",
+        "retryable": false,
+        "message": "Requested version differs from the run base; create a new validated run.",
+        "correlation_id": "fb28b956-3574-5dcd-b8ec-a8b8857b1817"
+      }
+    },
+    "RET-03": {
+      "request": {
+        "contract_version": "RET-03/v1",
+        "bindings": {
+          "run_id": "b0dd643f-ea02-5256-9277-99b9dc89b0a7",
+          "event_id": "fdbed704-3679-5b86-9ef1-858da8e6748f",
+          "company_context_version_id": "8fc859e5-1cf7-5b9f-b22f-b49cb8c732be",
+          "base_document_version_id": "31941eac-6ebd-5f8b-a564-6fbb10fc8d7f",
+          "harness_version_id": "a2de3dcd-f5c6-5a5b-b5b7-32e25de9ee1e",
+          "corpus_version_id": "fff1385b-4b17-5f5b-8785-cdc47cddbf4f",
+          "criterion_registry_version": "legal_ca_20260926_v1"
+        },
+        "as_of": "2026-09-26",
+        "criterion_keys": [
+          "consumer_residence",
+          "business_definition"
+        ],
+        "additional_provision_keys": [],
+        "discovery_query": "California consumer and business definitions",
+        "batch_index": 1
+      },
+      "success": {
+        "contract_version": "RET-03/v1",
+        "evidence_bundle_id": "afcb6fd3-4d85-59b6-863b-dc6af5900ac4",
+        "bindings": {
+          "run_id": "b0dd643f-ea02-5256-9277-99b9dc89b0a7",
+          "event_id": "fdbed704-3679-5b86-9ef1-858da8e6748f",
+          "company_context_version_id": "8fc859e5-1cf7-5b9f-b22f-b49cb8c732be",
+          "base_document_version_id": "31941eac-6ebd-5f8b-a564-6fbb10fc8d7f",
+          "harness_version_id": "a2de3dcd-f5c6-5a5b-b5b7-32e25de9ee1e",
+          "corpus_version_id": "fff1385b-4b17-5f5b-8785-cdc47cddbf4f",
+          "criterion_registry_version": "legal_ca_20260926_v1"
+        },
+        "as_of": "2026-09-26",
+        "coverage_status": "incomplete",
+        "required_provision_keys": [
+          "prov_ccpa_consumer",
+          "prov_ccpa_business"
+        ],
+        "returned_provision_keys": [
+          "prov_ccpa_consumer"
+        ],
+        "missing_provision_keys": [
+          "prov_ccpa_business"
+        ],
+        "evidence": [
+          {
+            "evidence_id": "52e03cf2-c587-5771-9a3c-d1ce5ef6e00b",
+            "source_version_id": "375b21a0-ddac-5ea3-a1e7-1b1608020599",
+            "source_key": "src_ca_ccpa_statute_20260101",
+            "provision_key": "prov_ccpa_consumer",
+            "display_citation": "Cal. Civ. Code §1798.140(i), PDF page 22",
+            "authority_type": "statute",
+            "jurisdiction": "US-CA",
+            "source_url": "https://cppa.ca.gov/pdf/20260101_ccpa_statute.pdf",
+            "raw_sha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+            "parser": "pdfjs-dist",
+            "parser_version": "5.6.205",
+            "retrieved_at": "2026-09-26T16:00:00Z",
+            "verified_at": "2026-09-26T16:03:00Z",
+            "effective_from": "2026-01-01",
+            "operative_from": "2026-01-01",
+            "freshness_status": "fresh",
+            "content_kind": "authoritative_text",
+            "segments": [
+              {
+                "page_number": 22,
+                "raw_page_text_sha256": "ef0760746a9ca5f5f8f0d5a199e6dad9ffc3ce3903278a3cb05d843f861b0469",
+                "start_utf16": 2004,
+                "end_utf16": 2251,
+                "quote_text": "(i)   “Consumer” means a natural person who is a California resident, as defined in Section\n17014 of Title 18 of the California Code of Regulations, as that section read on September\n1, 2017, however identified, including by any unique identifier.",
+                "quote_sha256": "e970c6bcb4ef34d581ebada064a7672f7e460cb0d014eee41c00bc78f1fde3dc"
+              }
+            ]
+          }
+        ],
+        "retrieval_method": "exact_only",
+        "fallback_reason": null,
+        "freshness_status": "fresh",
+        "retrieved_context_units": 1254,
+        "count_method": "utf8_byte_upper_bound",
+        "batch_index": 1,
+        "batch_count": 1,
+        "coverage_accumulator_id": "e8fa89b7-de2b-5bc2-8ba1-3cf031f6439f",
+        "diagnostics": [
+          "Wire example deliberately returns missing business-definition evidence. It is not an executed retrieval or complete legal assessment. Retrieval/verification timestamps in this synthetic response are illustrative; actual parser check time is in pdf-check-results.json."
+        ]
+      },
+      "error": {
+        "code": "source_unavailable",
+        "retryable": true,
+        "message": "Pinned authoritative source could not be read; completeness remains unresolved.",
+        "correlation_id": "b06cab6e-a2cf-540b-86c1-0af0ee34f559"
+      }
+    },
+    "RET-04": {
+      "request": {
+        "evidence_bundle_id": "afcb6fd3-4d85-59b6-863b-dc6af5900ac4",
+        "evidence_id": "52e03cf2-c587-5771-9a3c-d1ce5ef6e00b"
+      },
+      "success": {
+        "evidence_bundle_id": "afcb6fd3-4d85-59b6-863b-dc6af5900ac4",
+        "evidence": {
+          "evidence_id": "52e03cf2-c587-5771-9a3c-d1ce5ef6e00b",
+          "source_version_id": "375b21a0-ddac-5ea3-a1e7-1b1608020599",
+          "source_key": "src_ca_ccpa_statute_20260101",
+          "provision_key": "prov_ccpa_consumer",
+          "display_citation": "Cal. Civ. Code §1798.140(i), PDF page 22",
+          "authority_type": "statute",
+          "jurisdiction": "US-CA",
+          "source_url": "https://cppa.ca.gov/pdf/20260101_ccpa_statute.pdf",
+          "raw_sha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+          "parser": "pdfjs-dist",
+          "parser_version": "5.6.205",
+          "retrieved_at": "2026-09-26T16:00:00Z",
+          "verified_at": "2026-09-26T16:03:00Z",
+          "effective_from": "2026-01-01",
+          "operative_from": "2026-01-01",
+          "freshness_status": "fresh",
+          "content_kind": "authoritative_text",
+          "segments": [
+            {
+              "page_number": 22,
+              "raw_page_text_sha256": "ef0760746a9ca5f5f8f0d5a199e6dad9ffc3ce3903278a3cb05d843f861b0469",
+              "start_utf16": 2004,
+              "end_utf16": 2251,
+              "quote_text": "(i)   “Consumer” means a natural person who is a California resident, as defined in Section\n17014 of Title 18 of the California Code of Regulations, as that section read on September\n1, 2017, however identified, including by any unique identifier.",
+              "quote_sha256": "e970c6bcb4ef34d581ebada064a7672f7e460cb0d014eee41c00bc78f1fde3dc"
+            }
+          ]
+        },
+        "integrity_status": "verified",
+        "source_view_path": "/sources/375b21a0-ddac-5ea3-a1e7-1b1608020599",
+        "text_handling": "plain_text_escape_at_render"
+      },
+      "error": {
+        "code": "citation_span_mismatch",
+        "retryable": false,
+        "message": "Quoted text does not match the hash-pinned source span. Rebuild provenance and revalidate.",
+        "correlation_id": "bb9bf061-f6db-595e-91d3-c5f8b5b85d18"
+      }
+    },
+    "RET-05": {
+      "request": {
+        "event_id": "fdbed704-3679-5b86-9ef1-858da8e6748f",
+        "workflow_id": "d4b8872d-b247-507b-803c-bd065bbbac4d",
+        "expected_context_revision_id": "8fc859e5-1cf7-5b9f-b22f-b49cb8c732be",
+        "fact_key": "annual_gross_revenue_usd",
+        "proposed_value_json": "31000000",
+        "knowledge_state": "known",
+        "reason": "Synthetic founder feedback proposes a corrected prior-year revenue; review required.",
+        "provenance_record_ids": [
+          "91726667-2805-567e-8b3b-d642b876fdf0"
+        ]
+      },
+      "success": {
+        "proposed_fact_id": "9e8f131f-6896-587d-a96f-56b6f7dce1d6",
+        "expected_context_revision_id": "8fc859e5-1cf7-5b9f-b22f-b49cb8c732be",
+        "status": "pending_fact_review",
+        "fact_key": "annual_gross_revenue_usd",
+        "conflicting_assertion_ids": [
+          "cdb187fe-9930-5642-9d3e-a0bd05da9bdd"
+        ],
+        "accepted_context_changed": false,
+        "required_review_role": "founder",
+        "idempotency_key": "a018ecb200d9e40c1b9c5c1681c4d4bc0d2d4eb704e81f2de502a93ef78f877e"
+      },
+      "error": {
+        "code": "version_conflict",
+        "retryable": false,
+        "message": "Accepted company context changed. Create a new assessment against the current version.",
+        "correlation_id": "0e0b1d7b-2f50-5708-b2df-7b51edcbcb9b"
+      }
+    },
+    "ING-01": {
+      "request": {
+        "input_kind": "registered_source",
+        "input_ref_id": "ade4fe90-6f94-5732-8be9-01a1c25e8ffb",
+        "expected_raw_sha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+        "ingestion_profile_id": "kiara-ingestion-v1",
+        "idempotency_key": "a3167a154339b780e7bc902b1b2d18cedb62764393a9d0a343b5f8eaf29bdf25"
+      },
+      "success": {
+        "source_version_id": "375b21a0-ddac-5ea3-a1e7-1b1608020599",
+        "parse_revision_id": "ef72abec-5b92-5aa8-bfc2-6b6ca727086c",
+        "status": "parsed",
+        "detected_format": "pdf",
+        "original_sha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+        "original_byte_count": 453310,
+        "retained_text_byte_count": 174824,
+        "parsed_text_sha256": "b6b24f401d82e5c9b81d5c9e9b51815b9e34a7404eaedad1f486fa3d0e585fb0",
+        "parser": "pdfjs-dist",
+        "parser_version": "5.6.205",
+        "parse_options_sha256": "75f9b0c66e6e213761f0761e98fb0fdd06c16cb1d0d59390e5f820e28bce404d",
+        "page_count": 66,
+        "block_count": 66,
+        "warnings": [
+          "Synthetic application response populated with complete actual PDF parser-check metadata; not an executed application ingestion or authority review."
+        ],
+        "authority_review_required": true,
+        "corpus_published": false,
+        "ingestion_policy_id": "ING-POLICY-001"
+      },
+      "error": {
+        "code": "source_size_exceeded",
+        "retryable": false,
+        "message": "Raw input exceeds4194304 bytes or complete BSON exceeds8388608 bytes; no partial source accepted.",
+        "correlation_id": "163c20d9-c572-5751-85fd-1e3f1efd6b59"
+      }
+    }
+  }
+}

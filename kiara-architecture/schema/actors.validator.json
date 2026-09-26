@@ -1,0 +1,113 @@
+{
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "required": [
+        "_id",
+        "tenant_id",
+        "schema_version",
+        "created_at",
+        "subject",
+        "display_name",
+        "email",
+        "roles",
+        "company_access",
+        "status",
+        "capabilities",
+        "reset_epoch"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "tenant_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "schema_version": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "enum": [
+            1
+          ]
+        },
+        "created_at": {
+          "bsonType": "date"
+        },
+        "subject": {
+          "bsonType": "string",
+          "maxLength": 256
+        },
+        "display_name": {
+          "bsonType": "string",
+          "maxLength": 120
+        },
+        "email": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "maxLength": 254
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "roles": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "string",
+            "enum": [
+              "founder",
+              "lawyer",
+              "operator",
+              "service"
+            ]
+          },
+          "maxItems": 4,
+          "minItems": 1
+        },
+        "company_access": {
+          "bsonType": "string",
+          "enum": [
+            "all_in_tenant"
+          ]
+        },
+        "status": {
+          "bsonType": "string",
+          "enum": [
+            "active",
+            "disabled"
+          ]
+        },
+        "capabilities": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "string",
+            "enum": [
+              "source_recheck",
+              "context_fact_verify",
+              "harness_policy_admin"
+            ]
+          },
+          "maxItems": 3,
+          "minItems": 0
+        },
+        "reset_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    }
+  },
+  "validationLevel": "strict",
+  "validationAction": "error"
+}

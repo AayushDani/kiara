@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "classification": "planned_build_interface_not_implemented_or_executed",
+  "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+  "namespace_uuid": "cd20cbe3-869b-40d6-b7c8-06ea20dbb48c",
+  "fixture_date": "2026-09-26",
+  "commands": {
+    "verify": "npm run db:verify -- --manifest fixtures/manifest.json --offline",
+    "migrate": "npm run db:migrate -- --database kiara_demo",
+    "seed": "npm run db:seed -- --tenant 23c3e609-b6fc-52b5-ad3b-5731feb09323 --scenario baseline --fixture-version 1 --as-of 2026-09-26",
+    "inject": "npm run demo:signup -- --tenant 23c3e609-b6fc-52b5-ad3b-5731feb09323 --fixture ca_positive --idempotency-key demo-ca-001",
+    "reset_dry_run": "npm run db:reset -- --tenant 23c3e609-b6fc-52b5-ad3b-5731feb09323 --expected-reset-epoch 1 --dry-run",
+    "reset": "npm run db:reset -- --tenant 23c3e609-b6fc-52b5-ad3b-5731feb09323 --expected-reset-epoch 1 --synthetic-only --seed baseline"
+  },
+  "environment_names": [
+    "MONGODB_URI",
+    "MONGODB_DB",
+    "KIARA_SEED_TENANT_ID",
+    "KIARA_ALLOW_SYNTHETIC_RESET",
+    "EMAIL_DELIVERY_MODE"
+  ],
+  "eligibility": "Invited organizer Atlas Sandbox must be confirmed by operator; localhost is development only. Do not inspect invite email automatically.",
+  "source_inputs": [
+    "research/T03/source-manifest.json",
+    "research/T03/legal-fixtures.json",
+    "research/T03/snapshots/",
+    "research/T08/fixtures/baseline.json",
+    "research/T08/fixtures/candidate.json",
+    "research/T07/fixtures/config-before.json",
+    "research/T07/fixtures/config-after.json",
+    "research/T08/fixtures/supplemental-facts.json"
+  ],
+  "baseline": {
+    "customers": [
+      "customer-ny"
+    ],
+    "document_revision": "revision-v1",
+    "harness_head": "harness-v1",
+    "legal_sources": "three pinned T03 source versions and verified provision/page excerpts",
+    "actors": [
+      "founder",
+      "lawyer",
+      "service"
+    ],
+    "workflow_records": "none active",
+    "outbox_mode": "preview",
+    "fact_split": "Persist T03 company facts at context v1. Do not preseed a CA customer/residence event into baseline. After CA injection, create immutable context v2 joining trusted company facts with the event-specific natural person/residency/signup data; do not mutate v1. Main trace fixtures represent the after-event graph and need deterministic projection for baseline."
+  },
+  "trace_mode": {
+    "purpose": "offline schema/reference/demo-layout inspection only",
+    "includes_synthetic_approvals": true,
+    "includes_planned_evaluation_results": true,
+    "allowed_live_promotion": false
+  },
+  "seed_steps": [
+    "Check connected database name and tenant fictional_demo=true; require explicit operator sandbox confirmation separately. Never print URI or secret values.",
+    "Offline validate files/hashes; EJSON deserialize; actual BSON-size checks <=8MiB and raw source <=4MiB; verify local original SHA256.",
+    "Apply createCollection/collMod validators then named indexes idempotently; server validationAction error, never bypass validation.",
+    "Acquire tenant maintenance guard; pause claims and outbound dispatch. Use separate seed credentials.",
+    "Insert foundation records with deterministic UUIDs and current reset_epoch; activate heads only after graph validation. For same fixture and epoch, identical content is no-op; different immutable bytes at same ID is seed_conflict.",
+    "Mark seed manifest ready only after referential/hash/count/index checks, then resume worker. Never insert completed-state approval/evaluation fixture as genuine human/model history into live baseline."
+  ],
+  "reset_steps": [
+    "Dry-run tenant counts and pending external effects. Check fictional_demo, expected reset_epoch, namespace/database allowlist and no live sending/unknown_delivery records. Block reset if provider outcome is unresolved; do not erase evidence of an already accepted mail.",
+    "Quiesce worker and outbound dispatch. Retain tenant record; CAS increments reset_epoch monotonically and sets maintenance state before any deletion. Every worker commit checks epoch, so old results cannot attach to reused IDs.",
+    "Delete ONLY this tenant rows from explicit collection catalog, excluding tenants retained guard. No dropDatabase, no shared/public deletion, no credentials or provider-resource deletion.",
+    "Reinsert baseline at new reset epoch; rebuild only missing indexes, not shared indexes; verify schema/reference/hash/count checks. Reset preview files may be removed only under tenant-generation-owned output directory.",
+    "Publish ready manifest and clear maintenance state; new runs claim new generation. Human approvals must be collected again. Provider keys include reset epoch."
+  ],
+  "negative_and_unknown_fixtures": "All 11 T03 fixtures plus T07 frozen suite must have isolated deterministic scenario namespaces/tenants; do not overwrite positive facts. Unknown remains null+knowledge unknown, not false/zero.",
+  "acceptance": [
+    "twice-identical seed is no-op",
+    "reset leaves other tenant unchanged",
+    "old-epoch worker rejected",
+    "baseline has NY-only customer rows and no CA event",
+    "CA injection idempotently creates event/workflow once",
+    "typed EJSON BSON roundtrip passes",
+    "source originals/hash/locators agree",
+    "founder and lawyer actor assignments correct",
+    "harness v1 restored after reset",
+    "provider delivery not invoked by offline seed"
+  ],
+  "known_limit": "This specification and staged examples are architecture artifacts; implementation scripts and Atlas execution remain the subsequent build task."
+}

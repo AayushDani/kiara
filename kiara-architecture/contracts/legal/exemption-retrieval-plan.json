@@ -1,0 +1,55 @@
+{
+  "version": "legal_ca_20260926_v1",
+  "status": "proposed_design",
+  "root_provision_key": "prov_ccpa_exemptions",
+  "root_policy": "Root is a navigation/index reference. Do not stuff all 13 pages into every prompt or omit exclusions to fit a budget.",
+  "required_compact_baseline": [
+    {
+      "provision_key": "prov_ccpa_exemption_outside",
+      "locator": "1798.145(a)(1)(G)",
+      "fact_keys": [
+        "physicalStateAtCollection",
+        "whollyOutsideCaliforniaException"
+      ]
+    },
+    {
+      "provision_key": "prov_ccpa_public_deidentified",
+      "locator": "1798.140(v)(2)-(3)",
+      "fact_keys": [
+        "exemptionScreen.publicOrDeidentifiedOnly"
+      ]
+    },
+    {
+      "provision_key": "prov_ccpa_exemption_health",
+      "locator": "1798.145(c)(1)(A)-(C);1798.146(a)(1)-(5)",
+      "fact_keys": [
+        "exemptionScreen.healthAndClinicalResearch"
+      ]
+    },
+    {
+      "provision_key": "prov_ccpa_exemption_financial",
+      "locator": "1798.145(d)(1)-(3),(e),(f)",
+      "fact_keys": [
+        "exemptionScreen.fcraRegulatedActivity",
+        "exemptionScreen.regulatedFinancialInformation",
+        "exemptionScreen.dppaData"
+      ]
+    },
+    {
+      "provision_key": "prov_ccpa_exemption_expired",
+      "locator": "1798.145(m)(4),(n)(3)",
+      "fact_keys": []
+    }
+  ],
+  "main_fixture_strategy": "Use exact prerequisite subsections with explicit false specialty-screen facts; retrieve complete applicable branch before invoking an exemption. Broad source remains available by ID.",
+  "unknown_or_specialty_strategy": "Retrieve full relevant branch and its conditions/limitations. If not enough evidence fits in T05 bounded batches, applicability becomes needs_information and required evidence is marked incomplete; do not silently decide false.",
+  "other_screen_locators": {
+    "vehicleOrVesselRecall": "1798.145(g)",
+    "educationalAssessment": "1798.145(q)",
+    "commercialCreditReporting": "1798.145(o)",
+    "privilegedCommunication": "1798.145(b)",
+    "lawEnforcementHold": "1798.145(a)(1)(A)-(E)",
+    "serviceProviderRole": "1798.140(ag),(ai);1798.145(i)(1)"
+  },
+  "chunking_contract": "T05 keeps parent/child locator, raw source SHA256 and contiguous normalized text offsets. Exact subsection selection comes from source text, not generated summary."
+}

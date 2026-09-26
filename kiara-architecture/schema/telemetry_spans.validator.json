@@ -1,0 +1,653 @@
+{
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "enum": [
+            "1.0.0"
+          ]
+        },
+        "tenant_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "company_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "correlation_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "workflow_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "run_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "attempt_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "attempt_no": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 1
+        },
+        "trace_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "parent_span_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "event_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "stage": {
+          "enum": [
+            "run",
+            "context_retrieval",
+            "legal_retrieval",
+            "assessment",
+            "model_request",
+            "drafting",
+            "validation",
+            "repair",
+            "tool_call",
+            "evaluation",
+            "promotion_check",
+            "notification_dispatch"
+          ]
+        },
+        "model_invocation_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "logical_request_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "physical_attempt": {
+          "anyOf": [
+            {
+              "bsonType": [
+                "int",
+                "long"
+              ],
+              "minimum": 0
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "tool_receipt_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "running",
+            "succeeded",
+            "failed",
+            "canceled",
+            "interrupted"
+          ]
+        },
+        "started_at": {
+          "bsonType": "date"
+        },
+        "ended_at": {
+          "anyOf": [
+            {
+              "bsonType": "date"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "duration_ms": {
+          "anyOf": [
+            {
+              "bsonType": [
+                "int",
+                "long"
+              ],
+              "minimum": 0
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "duration_source": {
+          "enum": [
+            "monotonic_clock",
+            "wall_clock_estimate",
+            "unknown"
+          ]
+        },
+        "error_code": {
+          "anyOf": [
+            {
+              "enum": [
+                "MODEL_TIMEOUT",
+                "MODEL_RATE_LIMIT",
+                "MODEL_AUTH",
+                "MODEL_SCHEMA_INVALID",
+                "BUDGET_EXHAUSTED",
+                "SOURCE_UNAVAILABLE",
+                "EVIDENCE_STALE",
+                "CONTEXT_CONFLICT",
+                "VALIDATION_FAILED",
+                "LEASE_LOST",
+                "WORKER_INTERRUPTED",
+                "ATLAS_UNAVAILABLE",
+                "EMAIL_DELIVERY_UNKNOWN",
+                "TELEMETRY_EXPORT_FAILED",
+                "UNKNOWN_SAFE_ERROR"
+              ]
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "harness_version_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "context_version_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "evidence_bundle_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "review_bundle_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "revision_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "validation_run_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "evaluation_run_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "model_provider": {
+          "enum": [
+            "openai",
+            null
+          ]
+        },
+        "model_id": {
+          "bsonType": [
+            "string",
+            "null"
+          ],
+          "maxLength": 100
+        },
+        "usage": {
+          "bsonType": "object",
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "reported",
+                "unknown",
+                "not_applicable"
+              ]
+            },
+            "input_tokens": {
+              "anyOf": [
+                {
+                  "bsonType": [
+                    "int",
+                    "long"
+                  ],
+                  "minimum": 0
+                },
+                {
+                  "bsonType": "null"
+                }
+              ]
+            },
+            "cached_input_tokens": {
+              "anyOf": [
+                {
+                  "bsonType": [
+                    "int",
+                    "long"
+                  ],
+                  "minimum": 0
+                },
+                {
+                  "bsonType": "null"
+                }
+              ]
+            },
+            "output_tokens": {
+              "anyOf": [
+                {
+                  "bsonType": [
+                    "int",
+                    "long"
+                  ],
+                  "minimum": 0
+                },
+                {
+                  "bsonType": "null"
+                }
+              ]
+            },
+            "reasoning_output_tokens": {
+              "anyOf": [
+                {
+                  "bsonType": [
+                    "int",
+                    "long"
+                  ],
+                  "minimum": 0
+                },
+                {
+                  "bsonType": "null"
+                }
+              ]
+            },
+            "estimated_cost_micro_usd": {
+              "anyOf": [
+                {
+                  "bsonType": [
+                    "int",
+                    "long"
+                  ],
+                  "minimum": 0
+                },
+                {
+                  "bsonType": "null"
+                }
+              ]
+            },
+            "reserved_cost_micro_usd": {
+              "bsonType": [
+                "int",
+                "long"
+              ],
+              "minimum": 0
+            },
+            "pricing_version": {
+              "bsonType": [
+                "string",
+                "null"
+              ],
+              "maxLength": 80
+            }
+          },
+          "required": [
+            "status",
+            "input_tokens",
+            "cached_input_tokens",
+            "output_tokens",
+            "reasoning_output_tokens",
+            "estimated_cost_micro_usd",
+            "reserved_cost_micro_usd",
+            "pricing_version"
+          ]
+        },
+        "export": {
+          "bsonType": "object",
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "disabled",
+                "pending",
+                "submitted",
+                "confirmed",
+                "retry_wait",
+                "failed",
+                "sampled_out",
+                "expired"
+              ]
+            },
+            "attempts": {
+              "bsonType": [
+                "int",
+                "long"
+              ],
+              "minimum": 0
+            },
+            "last_attempt_at": {
+              "anyOf": [
+                {
+                  "bsonType": "date"
+                },
+                {
+                  "bsonType": "null"
+                }
+              ]
+            },
+            "next_attempt_at": {
+              "anyOf": [
+                {
+                  "bsonType": "date"
+                },
+                {
+                  "bsonType": "null"
+                }
+              ]
+            },
+            "last_error_code": {
+              "enum": [
+                "TELEMETRY_EXPORT_FAILED",
+                null
+              ]
+            },
+            "privacy_policy_version": {
+              "enum": [
+                "safe-metrics-v1"
+              ]
+            },
+            "project_key": {
+              "enum": [
+                "kiara-demo-safe"
+              ]
+            },
+            "sample_rate": {
+              "bsonType": [
+                "double",
+                "int",
+                "long",
+                "decimal"
+              ],
+              "minimum": 0,
+              "maximum": 1
+            }
+          },
+          "required": [
+            "status",
+            "attempts",
+            "last_attempt_at",
+            "next_attempt_at",
+            "last_error_code",
+            "privacy_policy_version",
+            "project_key",
+            "sample_rate"
+          ]
+        },
+        "expires_at": {
+          "anyOf": [
+            {
+              "bsonType": "date"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "created_at": {
+          "bsonType": "date"
+        },
+        "reset_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "schema_version",
+        "_id",
+        "tenant_id",
+        "company_id",
+        "correlation_id",
+        "workflow_id",
+        "run_id",
+        "attempt_id",
+        "attempt_no",
+        "trace_id",
+        "parent_span_id",
+        "event_id",
+        "stage",
+        "model_invocation_id",
+        "logical_request_id",
+        "physical_attempt",
+        "tool_receipt_id",
+        "status",
+        "started_at",
+        "ended_at",
+        "duration_ms",
+        "duration_source",
+        "error_code",
+        "harness_version_id",
+        "context_version_id",
+        "evidence_bundle_id",
+        "review_bundle_id",
+        "revision_id",
+        "validation_run_id",
+        "evaluation_run_id",
+        "model_provider",
+        "model_id",
+        "usage",
+        "export",
+        "expires_at",
+        "created_at",
+        "reset_epoch"
+      ],
+      "allOf": [
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "status": {
+                        "enum": [
+                          "running"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "ended_at": {
+                      "bsonType": "null"
+                    },
+                    "expires_at": {
+                      "bsonType": "null"
+                    },
+                    "duration_ms": {
+                      "bsonType": "null"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "anyOf": [
+                {
+                  "properties": {
+                    "status": {
+                      "enum": [
+                        "running"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "ended_at": {
+                      "bsonType": "date"
+                    },
+                    "expires_at": {
+                      "bsonType": "date"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {
+                    "properties": {
+                      "usage": {
+                        "bsonType": "object",
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unknown"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "usage": {
+                      "bsonType": "object",
+                      "properties": {
+                        "input_tokens": {
+                          "bsonType": "null"
+                        },
+                        "cached_input_tokens": {
+                          "bsonType": "null"
+                        },
+                        "output_tokens": {
+                          "bsonType": "null"
+                        },
+                        "reasoning_output_tokens": {
+                          "bsonType": "null"
+                        },
+                        "estimated_cost_micro_usd": {
+                          "bsonType": "null"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "validationLevel": "strict",
+  "validationAction": "error"
+}

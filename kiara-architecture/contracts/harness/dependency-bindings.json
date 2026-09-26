@@ -1,0 +1,182 @@
+{
+  "captured_on": "2026-09-26",
+  "classification": "local_owner_artifacts_read_not_app_execution",
+  "inputs": [
+    {
+      "path": "research/T03/legal-interface.json",
+      "sha256": "1115423254ceae7847010a2d08dee1f56a65015cfcb65b2f02f8d9e5de3da0bb"
+    },
+    {
+      "path": "research/T03/legal-fixtures.json",
+      "sha256": "e80c2e367dd5447edbf7a98efa3fd5b606d6c3bc105338ca76085856802a2864"
+    },
+    {
+      "path": "research/T03/provision-fact-clause-map.json",
+      "sha256": "1e54aafeb18900040afea67abc52f865098c1e009786cea3d59709abd84aebb5"
+    },
+    {
+      "path": "research/T03/source-manifest.json",
+      "sha256": "64736042a489d32b7c04eafb1411c5d970b0b708a4e9f1486cf346a0d64d8711"
+    },
+    {
+      "path": "research/T03/canonical-contract-mapping.json",
+      "sha256": "12b6b09309ff57358b00cf8a48a40e3c28d17ebb1866db08f397441d478b4d3d"
+    },
+    {
+      "path": "research/T06/runtime-policy.json",
+      "sha256": "3a973cb796f959faa32a325debc877a6582fab785ef589d80270acb25bfb2883"
+    },
+    {
+      "path": "research/T06/runtime-contracts.schema.json",
+      "sha256": "44d619e45a2bd8f8e87546959514cb03bbfd111b6dde4e0fb9a593b6f11cea30"
+    },
+    {
+      "path": "research/T06/frozen-manifest.json",
+      "sha256": "579d443c7d9fb5197ba1b3cca23ab11b636dfe5b100ca46dffcbc914fe3df571"
+    },
+    {
+      "path": "research/T09/vocabulary.json",
+      "sha256": "b0da18188fddbf30cb901d3d389d328fe27daab9b229e163460804298b8687a2"
+    },
+    {
+      "path": "research/T09/event.schema.json",
+      "sha256": "991cf8aaf83bab49cd25e70fe120859feb28373e8dcb6f78e43252f5c9c4fc61"
+    },
+    {
+      "path": "research/T09/transitions.json",
+      "sha256": "716bea77f5fa9d530c066647175a718025948a8967fa8126bcbf5a34f7f42174"
+    },
+    {
+      "path": "research/T08/fixtures/citation-repair-trace.json",
+      "sha256": "03cba6802dd149cefe0fee2165f445e54a54d1be18c9d5852ed18928080fe183"
+    },
+    {
+      "path": "research/T17/canonical-vocabulary.json",
+      "sha256": "7e91819bf2eae85623f056ac82954ac101db192877fc1d50ecf815b30692536a"
+    }
+  ],
+  "required_coverage_semantic_keys": [
+    "forProfit",
+    "collectsPersonalInformation",
+    "determinesPurposesAndMeans",
+    "doesBusinessInCalifornia",
+    "priorCalendarYear",
+    "annualGrossRevenueUsd",
+    "annualBuySellShareCaConsumersOrHouseholds",
+    "saleShareRevenuePercent",
+    "relatedEntityBusinessRoute",
+    "jointVentureBusinessRoute",
+    "voluntaryCppaCertification",
+    "naturalPerson",
+    "declaredLegalResidence",
+    "residencyDeclarationAcceptedForDemo",
+    "ordinarySignupDataNonexempt",
+    "whollyOutsideCaliforniaException"
+  ],
+  "applicability_provision_keys": [
+    "prov_ccpa_business",
+    "prov_ccpa_consumer",
+    "prov_ccpa_pi",
+    "prov_ccpa_exemptions",
+    "prov_ccpa_cpi",
+    "prov_ccpa_cpi_authority"
+  ],
+  "drafting_mapping_keys": [
+    "map_inventory",
+    "map_disclosures",
+    "map_rights",
+    "map_requests",
+    "map_sensitive_limit",
+    "map_optout",
+    "map_retention_notice",
+    "map_dates_access"
+  ],
+  "legal_fixture_refs": [
+    {
+      "fixture_id": "demo_ccpa_positive",
+      "expected_assessment": "covered",
+      "may_draft": true,
+      "fixture_sha256": "753a0ad52300b4ca6b98a0f3b40f738e080529e2f651ca8552402e6183fb16e7"
+    },
+    {
+      "fixture_id": "demo_ccpa_needs_information",
+      "expected_assessment": "needs_information",
+      "may_draft": false,
+      "fixture_sha256": "4fe236d69607d9d7dbcfcc4ccef2b75a179b0a2670deadb976139a9711b126d8"
+    },
+    {
+      "fixture_id": "demo_ccpa_not_covered",
+      "expected_assessment": "not_covered",
+      "may_draft": false,
+      "fixture_sha256": "e52c35a6d22b52abbfb58641ecdd0da564ca1abfe607f32db75ef1ed1f1c5b47"
+    },
+    {
+      "fixture_id": "demo_ccpa_revenue_equal_threshold",
+      "expected_assessment": "not_covered",
+      "may_draft": false,
+      "fixture_sha256": "48a3c1b1cffee1d35ec0a8dfa3f213a5776feefbb86fc4c098c94d9709441d2c"
+    },
+    {
+      "fixture_id": "demo_ccpa_revenue_above_threshold",
+      "expected_assessment": "covered",
+      "may_draft": true,
+      "fixture_sha256": "10e4dc88ff948e420279ff587a95d0ccab272463831e714ca1f4c391e9e8914b"
+    },
+    {
+      "fixture_id": "demo_ccpa_volume_threshold",
+      "expected_assessment": "covered",
+      "may_draft": true,
+      "fixture_sha256": "94dc7800f5c11ce97ff18dfdd573d8e790384d4c740be6dde93d63fa9c788065"
+    },
+    {
+      "fixture_id": "demo_ccpa_percentage_threshold",
+      "expected_assessment": "covered",
+      "may_draft": true,
+      "fixture_sha256": "7a0a8eb7387fa00ef7cd968bdebee82f366c73be74ea5342af959aac8898ea70"
+    },
+    {
+      "fixture_id": "demo_ccpa_related_route_unknown",
+      "expected_assessment": "needs_information",
+      "may_draft": false,
+      "fixture_sha256": "6790244b02bf46d3cda619c592d4372f69996518dad1fe6017ba802f073d9584"
+    },
+    {
+      "fixture_id": "demo_ccpa_ip_only",
+      "expected_assessment": "needs_information",
+      "may_draft": false,
+      "fixture_sha256": "b823f9c65adfc6b12ce25b551d2726f1653f354057623efea066300e4be18628"
+    },
+    {
+      "fixture_id": "demo_ccpa_conflicting_revenue",
+      "expected_assessment": "needs_information",
+      "may_draft": false,
+      "fixture_sha256": "7db0324b7b42618c7653ad2f57fabe994b9db3d10606f76e99dc405a9b38e27e"
+    },
+    {
+      "fixture_id": "demo_ccpa_ny_resident_ca_ip",
+      "expected_assessment": "not_covered",
+      "may_draft": false,
+      "fixture_sha256": "4aa4b83a5cd624102261c74ae520ab3fa1172ced566a9ba4c6f5bf5360beb187"
+    }
+  ],
+  "selected_legal_fixture_mapping": {
+    "EV-01": "demo_ccpa_positive",
+    "EV-02": "demo_ccpa_needs_information",
+    "EV-03": "demo_ccpa_not_covered",
+    "EV-13": "demo_ccpa_ip_only"
+  },
+  "adapter_requirements": {
+    "source_event_alias": "customer.signup (legacy research alias; canonical T03 mapping now user.signed_up)",
+    "canonical_event_type": "user.signed_up",
+    "legal_keys": "Use T03 canonical-contract-mapping.json fact_key_aliases and source/provision aliases; T04/T17 bind final UUIDs and exact storage JSON pointers. Do not independently transform acronym spelling.",
+    "application_domain_ids": "Resolve aliases to T04 UUID registry during integration; local T07 UUIDs are closed staging examples."
+  },
+  "verified_dependency_manifests": [
+    {
+      "path": "research/T06/frozen-manifest.json",
+      "sha256": "579d443c7d9fb5197ba1b3cca23ab11b636dfe5b100ca46dffcbc914fe3df571",
+      "verified_file_count": 13,
+      "verification": "all listed current file bytes match declared SHA256"
+    }
+  ]
+}

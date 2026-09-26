@@ -1,0 +1,173 @@
+{
+  "classification": "proposed_not_executed",
+  "collection_semantics": "tenant-scoped approved legal corpus membership/chunk read model; T04 final physical name pending",
+  "index_name": "legal_lexical_v1",
+  "definition": {
+    "mappings": {
+      "dynamic": false,
+      "fields": {
+        "tenant_id": {
+          "type": "token"
+        },
+        "reset_epoch": {
+          "type": "number"
+        },
+        "corpus_version_id": {
+          "type": "token"
+        },
+        "jurisdiction": {
+          "type": "token"
+        },
+        "provision_key": {
+          "type": "token"
+        },
+        "heading": {
+          "type": "string",
+          "analyzer": "lucene.standard"
+        },
+        "search_text": {
+          "type": "string",
+          "analyzer": "lucene.standard"
+        }
+      }
+    }
+  },
+  "pipeline": [
+    {
+      "$search": {
+        "index": "legal_lexical_v1",
+        "compound": {
+          "filter": [
+            {
+              "equals": {
+                "path": "tenant_id",
+                "value": "be74d138-5c33-576c-8c53-587181505713"
+              }
+            },
+            {
+              "equals": {
+                "path": "reset_epoch",
+                "value": 1
+              }
+            },
+            {
+              "equals": {
+                "path": "corpus_version_id",
+                "value": "fff1385b-4b17-5f5b-8785-cdc47cddbf4f"
+              }
+            },
+            {
+              "equals": {
+                "path": "jurisdiction",
+                "value": "US-CA"
+              }
+            }
+          ],
+          "must": [
+            {
+              "text": {
+                "path": [
+                  "heading",
+                  "search_text"
+                ],
+                "query": "privacy policy consumer rights"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "$limit": 12
+    },
+    {
+      "$project": {
+        "_id": 1,
+        "source_version_id": 1,
+        "provision_key": 1,
+        "score": {
+          "$meta": "searchScore"
+        }
+      }
+    }
+  ],
+  "rehydration_required": true,
+  "ordinary_exact_filter_example": {
+    "tenant_id": "be74d138-5c33-576c-8c53-587181505713",
+    "reset_epoch": 1,
+    "corpus_version_id": "fff1385b-4b17-5f5b-8785-cdc47cddbf4f",
+    "provision_key": {
+      "$in": [
+        "prov_ccpa_consumer",
+        "prov_ccpa_business"
+      ]
+    }
+  },
+  "optional_vector": {
+    "enabled_by_default": false,
+    "provider": "voyage_direct",
+    "base_url": "https://api.voyageai.com/v1",
+    "model": "voyage-4-lite",
+    "dimensions": 1024,
+    "similarity": "cosine",
+    "input_type_document": "document",
+    "input_type_query": "query",
+    "truncation": false,
+    "index_definition": {
+      "fields": [
+        {
+          "type": "vector",
+          "path": "embedding",
+          "numDimensions": 1024,
+          "similarity": "cosine"
+        },
+        {
+          "type": "filter",
+          "path": "tenant_id"
+        },
+        {
+          "type": "filter",
+          "path": "reset_epoch"
+        },
+        {
+          "type": "filter",
+          "path": "corpus_version_id"
+        },
+        {
+          "type": "filter",
+          "path": "jurisdiction"
+        }
+      ]
+    },
+    "query_plan": {
+      "index": "legal_vector_v1",
+      "path": "embedding",
+      "limit": 12,
+      "numCandidates": 240,
+      "filter": {
+        "tenant_id": {
+          "$eq": "be74d138-5c33-576c-8c53-587181505713"
+        },
+        "reset_epoch": {
+          "$eq": 1
+        },
+        "corpus_version_id": {
+          "$eq": "fff1385b-4b17-5f5b-8785-cdc47cddbf4f"
+        },
+        "jurisdiction": {
+          "$eq": "US-CA"
+        }
+      },
+      "query_vector_source": "1024 finite floats from the same pinned model; never zeros as a fabricated query"
+    },
+    "readiness": [
+      "correct endpoint/key origin",
+      "actual allowance/tier verified",
+      "embedding dimension and text hash match",
+      "queryable index and indexed sentinel",
+      "required exact coverage independent",
+      "discovery evaluation passes"
+    ],
+    "fallback": "exact plus lexical"
+  }
+}

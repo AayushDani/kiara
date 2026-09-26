@@ -1,0 +1,59 @@
+{
+  "contract_id": "K-DEMO-CAUSAL-001",
+  "status": "adopts_T17_D-DEMO-001_pending_final_integrated_recheck",
+  "main_fixture": "demo_ccpa_positive",
+  "causal_failure": {
+    "failure_code": "APPLICABILITY_BUNDLE_MISSING",
+    "validator_id": "V03",
+    "phase": "before_assessment_and_draft",
+    "validated_output_subject": "context_bundle",
+    "trigger": "baseline generic cached context omits the required existing CA law/company-fact bundle",
+    "enforcement": "protected evidence gate blocks applicability assessment and draft generation until required evidence is fetched",
+    "current_run_repair": "retrieve the complete pinned bundle; do not weaken evidence requirements",
+    "metric": "missing_bundle_repairs",
+    "expected_baseline": 1,
+    "expected_candidate": 0,
+    "results_status": "expected_acceptance_not_observed"
+  },
+  "post_draft_validation": "full deterministic_and_semantic_validation_required",
+  "separate_current_output_failure": {
+    "failure_code": "CITATION_SPAN_MISMATCH",
+    "phase": "proposal_validation",
+    "fault_origin": "visibly_labeled_seeded_fault",
+    "fixture_owner": "T08",
+    "fixture_files": [
+      "research/T08/fixtures/citation-repair-trace.json",
+      "research/T08/fixtures/citation-faulty.json",
+      "research/T08/fixtures/citation-corrected.json"
+    ],
+    "concrete_fault": "11 CCR section7011(c), page21: start_utf16 is1135 in faulty citation and1134 when corrected; end_utf16 stays1238",
+    "unchanged_inputs": ["raw_source_bytes", "candidate_policy_text"],
+    "changed_provenance": ["evidence_id", "proposal_id", "legal_map_hash", "review_input_hash"],
+    "repair_number": 2,
+    "repair": "correct the actual bad span against pinned source and rerun full validation",
+    "improved_by_prefetch": false
+  },
+  "context_repair": {"repair_number": 1, "model_request_required": false},
+  "allowed_auto_patch_paths": [
+    "/retrieval/prefetch/declared_ca_resident_ccpa_bundle",
+    "/retrieval/prefetch/declared_ca_resident_company_facts"
+  ],
+  "allowed_change": "false_to_true_only",
+  "model_proposal_shape": "rule_catalog_ids, never arbitrary JSON patch",
+  "foreground_total_repair_cap": 2,
+  "foreground_logical_model_request_cap": 9,
+  "campaign_caps": {
+    "max_cost_usd": 18,
+    "max_physical_attempts": 72,
+    "max_elapsed_seconds": 900,
+    "max_inflight_requests": 2,
+    "semantic_runs": 6
+  },
+  "promotion_cas": ["expected_harness_version_id", "expected_generation"],
+  "fixed_comparison_inputs": ["event_snapshot", "company_facts", "legal_source_snapshots", "baseline_document", "model_and_settings", "protected_evidence_floor", "citation_validator"],
+  "later_event": {
+    "excluded_from_tuning_and_promotion": true,
+    "worker_restart": true,
+    "required_evidence": ["persisted_champion_read", "new_run_id", "config_hash_and_generation", "prefetch_before_draft", "missing_bundle_repair_count", "unchanged_evidence_and_human_gates"]
+  }
+}

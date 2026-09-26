@@ -1,0 +1,162 @@
+{
+  "status": "T12_isolated_security_fixtures_not_final_T04_collection_documents",
+  "ids": {
+    "tenant_a": "ecbd3818-0d91-56b3-ab39-bf8b7c54187b",
+    "tenant_b": "029b9d32-aa1f-5984-b1e4-6982521d1f0a",
+    "founder": "ca81d37b-1361-5656-b801-823c61818d15",
+    "lawyer": "7adf8073-a0d6-5516-857d-a65a6a3adbe5",
+    "workflow": "ca49e1fd-fec4-57fe-9160-890604081a8c",
+    "run": "2d3c25dd-5c25-5b50-9174-3f88255c0788",
+    "document": "1019724e-0f1f-5bd8-83b1-48e7c83e612c",
+    "base_revision": "c538354c-94a0-5bfd-ba77-117cfecd4701",
+    "candidate_revision": "1a5a5f46-4367-56bc-b32c-b53d0413841d",
+    "review_bundle": "030e0ae3-a69b-5a21-a514-6f6be2cf69de",
+    "evidence_bundle": "488cc811-5992-5327-91e8-ef95e107da93",
+    "context_snapshot": "e25fc3e9-8e1d-54cc-98d0-2f50f2e5e35f",
+    "assessment": "a8e5ea15-1e1a-59c7-8269-19902423afda",
+    "validation": "8b01a6ba-2457-5454-8fb2-6444394d6f56",
+    "harness": "e6e036c5-168d-5e7e-bcb8-c6c9b5e0a618",
+    "event": "9ca3600c-0195-5ee5-a613-dc38740eb5ec",
+    "request": "cefceeaa-4d46-5d69-b267-d4331c730105",
+    "fact_proposal": "e84e54a9-a7b8-50a9-9ab6-c324b6d42238",
+    "source_snapshot": "5f13f1a0-93c6-5ec3-b8fb-618a7ccca78b",
+    "founder_decision": "d03783fc-cc27-5263-8353-ed82c1edcd98",
+    "lawyer_decision": "199b0936-5abb-5ac9-a435-cb03ba7ebe6b",
+    "proposal": "f97e8a83-2e82-59a3-bbcd-8a3357919be3"
+  },
+  "trusted_principal_example": {
+    "tenant_id": "ecbd3818-0d91-56b3-ab39-bf8b7c54187b",
+    "actor_id": "ca81d37b-1361-5656-b801-823c61818d15",
+    "principal_kind": "human_session",
+    "roles": [
+      "founder"
+    ],
+    "membership_version": 2,
+    "request_id": "cefceeaa-4d46-5d69-b267-d4331c730105",
+    "reset_epoch": 1
+  },
+  "review_bundle": {
+    "review_bundle_id": "030e0ae3-a69b-5a21-a514-6f6be2cf69de",
+    "tenant_id": "ecbd3818-0d91-56b3-ab39-bf8b7c54187b",
+    "workflow_id": "ca49e1fd-fec4-57fe-9160-890604081a8c",
+    "document_id": "1019724e-0f1f-5bd8-83b1-48e7c83e612c",
+    "base_revision_id": "c538354c-94a0-5bfd-ba77-117cfecd4701",
+    "base_content_hash": "9a5b038b289c630fcf58c973340d6f142b1e976b263cce4238c5cbad195b7e7c",
+    "candidate_revision_id": "1a5a5f46-4367-56bc-b32c-b53d0413841d",
+    "candidate_content_hash": "1482bae32ef7f618ca4f6c7a22ef423044595c3888cbf73cb7beb4d7e47a89e2",
+    "diff_hash": "66c9cac1650fe3ada85585162a5618de5468dfc9bd27136b2365baf2ec769da5",
+    "context_snapshot_id": "e25fc3e9-8e1d-54cc-98d0-2f50f2e5e35f",
+    "evidence_bundle_id": "488cc811-5992-5327-91e8-ef95e107da93",
+    "assessment_id": "a8e5ea15-1e1a-59c7-8269-19902423afda",
+    "validation_id": "8b01a6ba-2457-5454-8fb2-6444394d6f56",
+    "pinned_harness_version_id": "e6e036c5-168d-5e7e-bcb8-c6c9b5e0a618",
+    "material_context_epoch": 4,
+    "material_evidence_epoch": 3,
+    "reset_epoch": 1,
+    "proposal_id": "f97e8a83-2e82-59a3-bbcd-8a3357919be3",
+    "review_bundle_hash": "1e368b7ff43ff3b8db0b5db2190924415174793f6ee4c192ee7ee147994612ff"
+  },
+  "founder_decision_request": {
+    "workflow_id": "ca49e1fd-fec4-57fe-9160-890604081a8c",
+    "expected_reset_epoch": 1,
+    "expected_state_version": 12,
+    "proposal_id": "f97e8a83-2e82-59a3-bbcd-8a3357919be3",
+    "candidate_revision_id": "1a5a5f46-4367-56bc-b32c-b53d0413841d",
+    "review_bundle_id": "030e0ae3-a69b-5a21-a514-6f6be2cf69de",
+    "review_bundle_hash": "1e368b7ff43ff3b8db0b5db2190924415174793f6ee4c192ee7ee147994612ff",
+    "expected_base_revision_id": "c538354c-94a0-5bfd-ba77-117cfecd4701",
+    "idempotency_key": "0b765fdd-be82-5d28-8984-490e4bbf56ac",
+    "action": "approved",
+    "feedback_id": null
+  },
+  "founder_decision_response": {
+    "decision_id": "d03783fc-cc27-5263-8353-ed82c1edcd98",
+    "workflow_id": "ca49e1fd-fec4-57fe-9160-890604081a8c",
+    "review_bundle_id": "030e0ae3-a69b-5a21-a514-6f6be2cf69de",
+    "review_bundle_hash": "1e368b7ff43ff3b8db0b5db2190924415174793f6ee4c192ee7ee147994612ff",
+    "action": "approved",
+    "gate": "founder",
+    "actor_id": "ca81d37b-1361-5656-b801-823c61818d15",
+    "state": "awaiting_lawyer",
+    "state_version": 13,
+    "notification_kind": "lawyer_review_request",
+    "auth_mode": "authenticated",
+    "principal_kind": "human_session",
+    "reset_epoch": 1
+  },
+  "stale_response": {
+    "status": 409,
+    "error": {
+      "code": "STALE_REVIEW_BUNDLE",
+      "retryable": false,
+      "request_id": "cefceeaa-4d46-5d69-b267-d4331c730105",
+      "action": "reload_current_bundle_and_review"
+    }
+  },
+  "cross_tenant_response": {
+    "status": 404,
+    "error": {
+      "code": "RESOURCE_NOT_FOUND",
+      "retryable": false,
+      "request_id": "cefceeaa-4d46-5d69-b267-d4331c730105"
+    }
+  },
+  "context_proposal_tool_args": {
+    "expected_context_revision_id": "e25fc3e9-8e1d-54cc-98d0-2f50f2e5e35f",
+    "proposed_value_json": "30000000",
+    "provenance_record_ids": [
+      "5f13f1a0-93c6-5ec3-b8fb-618a7ccca78b"
+    ],
+    "reason": "Synthetic fixture reports prior-year gross annual revenue; proposed assertion requires founder attestation.",
+    "fact_key": "annual_gross_revenue_usd"
+  },
+  "context_proposal_result": {
+    "proposal_id": "e84e54a9-a7b8-50a9-9ab6-c324b6d42238",
+    "status": "proposed",
+    "author_kind": "model_proposal",
+    "verification_status": "unverified",
+    "expected_context_revision_id": "e25fc3e9-8e1d-54cc-98d0-2f50f2e5e35f"
+  },
+  "source_envelope": {
+    "source_snapshot_id": "5f13f1a0-93c6-5ec3-b8fb-618a7ccca78b",
+    "trust_class": "authoritative_primary",
+    "instruction_trust": "untrusted_data",
+    "origin_url": "https://cppa.ca.gov/pdf/20260101_ccpa_statute.pdf",
+    "retrieved_at": "2026-09-26T16:00:00Z",
+    "effective_from": "2026-01-01",
+    "raw_content_hash": "ca667aaac51b9ef60e0ed1ee03848ba2d6a5f0f948de05841dc483da4fa787e5",
+    "snapshot_kind": "synthetic_security_example_not_actual_legal_download"
+  },
+  "hash_note": "Local fixture digest uses UTF-8 sorted-key compact JSON, excluding review_bundle_hash. Hash values for synthetic text are real but do not represent T03 legal source bytes. Integrated canonical hashing remains T08/T09 ownership. SHA-256 encoded as raw lowercase 64-hex, matching T04 wire convention.",
+  "tenant_material_guard": {
+    "tenant_id": "ecbd3818-0d91-56b3-ab39-bf8b7c54187b",
+    "material_context_epoch": 4,
+    "material_evidence_epoch": 3,
+    "review_fence": 18,
+    "reset_epoch": 1
+  },
+  "stale_reset_request": {
+    "workflow_id": "ca49e1fd-fec4-57fe-9160-890604081a8c",
+    "expected_reset_epoch": 0,
+    "expected_state_version": 12,
+    "proposal_id": "f97e8a83-2e82-59a3-bbcd-8a3357919be3",
+    "candidate_revision_id": "1a5a5f46-4367-56bc-b32c-b53d0413841d",
+    "review_bundle_id": "030e0ae3-a69b-5a21-a514-6f6be2cf69de",
+    "review_bundle_hash": "1e368b7ff43ff3b8db0b5db2190924415174793f6ee4c192ee7ee147994612ff",
+    "expected_base_revision_id": "c538354c-94a0-5bfd-ba77-117cfecd4701",
+    "idempotency_key": "0b765fdd-be82-5d28-8984-490e4bbf56ac",
+    "action": "approved",
+    "feedback_id": null
+  },
+  "stale_reset_response": {
+    "http_status": 409,
+    "error_code": "RESET_EPOCH_MISMATCH",
+    "message": "Reload current state before recording a review action.",
+    "retryable": false,
+    "correlation_id": "cefceeaa-4d46-5d69-b267-d4331c730105",
+    "current_state_version": 12,
+    "current_review_bundle_id": null,
+    "retry_after_ms": null
+  },
+  "review_command_schema_ref": "https://kiara.example/contracts/K-REVIEW-002"
+}

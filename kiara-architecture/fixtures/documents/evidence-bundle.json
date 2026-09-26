@@ -1,0 +1,29 @@
+{
+  "schema_version": "kiara.evidence_bundle.v1",
+  "_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+  "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+  "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+  "context_snapshot_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+  "context_snapshot_hash": "bbbf8a1003d9543d066529de29710a760a962c5002315104e104c612d66a2874",
+  "assessment_id": "aa9d34f4-2739-5ba9-a960-253102f31a64",
+  "assessment_hash": "5b46421e43cce19ef56516d629b16472a7e503bd1b4b9e3f1fc45ebf36390dff",
+  "source_snapshots": [
+    {
+      "source_snapshot_id": "23513bed-4516-56ad-ab38-84fab4936de3",
+      "bytes_sha256": "ea9fd8d88b36a88370b236b4271d13b122bc55289520da7a050d3b7d656c6d5f",
+      "effective_from": "2025-01-01"
+    },
+    {
+      "source_snapshot_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+      "bytes_sha256": "8d57eba97a7fe13346b7827d0131e1ab84dc110c6ff20daa6fa6ec4a4329d0fe",
+      "effective_from": "2026-01-01"
+    },
+    {
+      "source_snapshot_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+      "bytes_sha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+      "effective_from": "2026-01-01"
+    }
+  ],
+  "law_as_of": "2026-09-26",
+  "evidence_bundle_hash": "7a80b01d3d94c3d4f0d455912f337ca30d6df8cf2ed063309554d4bd9591fb2d"
+}

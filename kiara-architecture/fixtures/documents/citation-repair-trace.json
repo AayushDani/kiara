@@ -1,0 +1,130 @@
+{
+  "schema_version": "kiara.citation_repair_fixture.v1",
+  "synthetic": true,
+  "demonstration_kind": "intentionally_corrupted_proposal_citation_and_deterministic_local_repair",
+  "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+  "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+  "repair_budget": {
+    "max_total_repairs": 2,
+    "already_used": 1,
+    "current_repair_ordinal": 2,
+    "remaining_after_repair": 0,
+    "prior_repair": {
+      "failure": "APPLICABILITY_BUNDLE_MISSING",
+      "action": "deterministically_fetch_missing_applicability_context",
+      "owner": "T07/T14"
+    },
+    "independent_failure": "CITATION_SPAN_MISMATCH"
+  },
+  "source_unchanged": true,
+  "candidate_revision_unchanged": true,
+  "candidate_revision_id": "6e12d307-1397-5160-8b40-a5e83f02e303",
+  "candidate_content_hash": "c7b5c9989a828e2995eb29b0994f70c552b36a586ca1d7b721b3657ace84fa75",
+  "failed_proposal": {
+    "proposal_id": "2b38093d-cfe2-54b8-a2ea-0e56f9e24efc",
+    "review_input": {
+      "schema_version": "1.0",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+      "proposal_id": "2b38093d-cfe2-54b8-a2ea-0e56f9e24efc",
+      "document_id": "eaaa8632-ac8b-5e3a-a030-1b9c5719473a",
+      "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+      "base_revision_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+      "base_content_hash": "0b5a8befd488d45268fce251b85765110c251fae3c1202ae5ed8683da307e2f7",
+      "candidate_revision_id": "6e12d307-1397-5160-8b40-a5e83f02e303",
+      "candidate_content_hash": "c7b5c9989a828e2995eb29b0994f70c552b36a586ca1d7b721b3657ace84fa75",
+      "diff_id": "67996493-1002-57b8-bf99-975557b1d287",
+      "diff_hash": "024425e02b4f8d16dd66ea2b1e3b65b5855bc832f29be17f627ae7b317b3954b",
+      "legal_map_id": "dace9119-d836-502b-849a-f9e2563cbb90",
+      "legal_map_hash": "5d841c9fd99a90dd62c71864f7c742844606c7bc100f6d453307096e56447042",
+      "evidence_bundle_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+      "evidence_bundle_hash": "7a80b01d3d94c3d4f0d455912f337ca30d6df8cf2ed063309554d4bd9591fb2d",
+      "context_snapshot_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+      "context_snapshot_hash": "bbbf8a1003d9543d066529de29710a760a962c5002315104e104c612d66a2874",
+      "assessment_id": "aa9d34f4-2739-5ba9-a960-253102f31a64",
+      "assessment_hash": "5b46421e43cce19ef56516d629b16472a7e503bd1b4b9e3f1fc45ebf36390dff",
+      "harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+      "harness_hash": "e1641d001e93c4702e1118b577e423f45ca84294e3394fc745e854f84e0c3926",
+      "reset_epoch": 1,
+      "material_context_epoch": 1,
+      "material_evidence_epoch": 1,
+      "source_recheck_attestation_ids": [],
+      "freshness_valid_until": "2026-09-27T16:00:00Z",
+      "renderer_version": "kiara-plain-clause-v1",
+      "validator_version_id": "1245e521-68b7-515a-b515-55b0f298fabd",
+      "validator_config_hash": "510348b14125043e34e04403e205b627fc7cdae7ea8473ed6a31abdcacdb1bcf"
+    },
+    "review_input_hash": "162da9252737fb6c6074137a0277832f51cf400445f146d29101be98bd0fe5d5",
+    "evidence_file": "citation-faulty.json",
+    "validation_expected": {
+      "status": "failed",
+      "code": "CITATION_SPAN_MISMATCH",
+      "stage": "proposal_validation"
+    },
+    "review_bundle_id": null
+  },
+  "correction": {
+    "proposal_id": "5895124e-72a8-51b4-a698-76baf5df7709",
+    "supersedes_proposal_id": "2b38093d-cfe2-54b8-a2ea-0e56f9e24efc",
+    "review_input": {
+      "schema_version": "1.0",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+      "proposal_id": "5895124e-72a8-51b4-a698-76baf5df7709",
+      "document_id": "eaaa8632-ac8b-5e3a-a030-1b9c5719473a",
+      "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+      "base_revision_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+      "base_content_hash": "0b5a8befd488d45268fce251b85765110c251fae3c1202ae5ed8683da307e2f7",
+      "candidate_revision_id": "6e12d307-1397-5160-8b40-a5e83f02e303",
+      "candidate_content_hash": "c7b5c9989a828e2995eb29b0994f70c552b36a586ca1d7b721b3657ace84fa75",
+      "diff_id": "67996493-1002-57b8-bf99-975557b1d287",
+      "diff_hash": "024425e02b4f8d16dd66ea2b1e3b65b5855bc832f29be17f627ae7b317b3954b",
+      "legal_map_id": "dace9119-d836-502b-849a-f9e2563cbb90",
+      "legal_map_hash": "541c08d5390e9c856c12ab3c3d78327ed6c1861100561dd12854330f3f3a2b02",
+      "evidence_bundle_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+      "evidence_bundle_hash": "7a80b01d3d94c3d4f0d455912f337ca30d6df8cf2ed063309554d4bd9591fb2d",
+      "context_snapshot_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+      "context_snapshot_hash": "bbbf8a1003d9543d066529de29710a760a962c5002315104e104c612d66a2874",
+      "assessment_id": "aa9d34f4-2739-5ba9-a960-253102f31a64",
+      "assessment_hash": "5b46421e43cce19ef56516d629b16472a7e503bd1b4b9e3f1fc45ebf36390dff",
+      "harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+      "harness_hash": "e1641d001e93c4702e1118b577e423f45ca84294e3394fc745e854f84e0c3926",
+      "reset_epoch": 1,
+      "material_context_epoch": 1,
+      "material_evidence_epoch": 1,
+      "source_recheck_attestation_ids": [],
+      "freshness_valid_until": "2026-09-27T16:00:00Z",
+      "renderer_version": "kiara-plain-clause-v1",
+      "validator_version_id": "1245e521-68b7-515a-b515-55b0f298fabd",
+      "validator_config_hash": "510348b14125043e34e04403e205b627fc7cdae7ea8473ed6a31abdcacdb1bcf"
+    },
+    "review_input_hash": "18489714a71c5292dd27bdcbf144cac3f613bd9c3538f8c6f157e748df0e83ea",
+    "evidence_file": "citation-corrected.json",
+    "repair_action": "read pinned raw page via authorized source-anchor tool; resolve exact supported quote; allocate new evidence/proposal provenance; validate the whole review input",
+    "validation_expected": {
+      "status": "passed_for_span_check_only",
+      "full_validation_required": true
+    },
+    "sealing_rule": "Only after all required validators pass may the final main review bundle be sealed and founder review requested. No prior approval is reusable."
+  },
+  "parser_lineage": {
+    "source": "T03 pypdf-extracted saved page snapshot",
+    "version": "not recorded; preserve exact saved text and hash; reparse requires fresh anchors",
+    "pdfjs_claim": false
+  },
+  "checked": {
+    "bad_span_fails": true,
+    "correct_span_passes": true,
+    "same_real_source_bytes": true,
+    "same_candidate_text": true,
+    "different_review_input_hash": true
+  },
+  "not_executed": [
+    "LLM repair invocation",
+    "application validation pipeline",
+    "human approvals",
+    "MongoDB transaction"
+  ]
+}

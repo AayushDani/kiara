@@ -1,0 +1,78 @@
+{
+  "contract_id": "RET-BUDGET-001",
+  "classification": "reconciled_design_not_execution",
+  "runtime_policy_path": "../T06/runtime-policy.json",
+  "runtime_policy_sha256": "3a973cb796f959faa32a325debc877a6582fab785ef589d80270acb25bfb2883",
+  "runtime_contract_id": "K-RUN-POLICY-001",
+  "runtime_version": "0.1.0",
+  "limits": {
+    "max_logical_model_requests": 9,
+    "max_physical_model_attempts": 12,
+    "max_tool_calls": 16,
+    "max_repairs": 2,
+    "absolute_run_deadline_ms": 300000,
+    "max_cumulative_input_tokens": 120000,
+    "max_cumulative_output_tokens": 24000,
+    "max_cost_micro_usd": 3000000,
+    "max_inflight_model_requests_per_worker": 2,
+    "max_tool_result_chars": 12000
+  },
+  "hydration": {
+    "model_tool_result_max_chars": 12000,
+    "max_retrieved_tokens_per_request": 18000,
+    "max_legal_tokens_per_batch": 12000,
+    "max_legal_chunks_per_batch": 48,
+    "max_batches": 3,
+    "coverage_required_before_draft": true,
+    "full_document_clause_inventory_required": true,
+    "hydrate_only_server_authorized_artifacts": true,
+    "no_unbounded_conversation_append": true
+  },
+  "phase_reservations": {
+    "phases": [
+      {
+        "phase": "evidence_assessment",
+        "max_calls": 3,
+        "input_ceiling_per_call": 20000,
+        "output_ceiling_per_call": 2000
+      },
+      {
+        "phase": "draft",
+        "max_calls": 1,
+        "input_ceiling_per_call": 20000,
+        "output_ceiling_per_call": 4000
+      },
+      {
+        "phase": "semantic_validation",
+        "max_calls": 3,
+        "input_ceiling_per_call": 8000,
+        "output_ceiling_per_call": 2000
+      },
+      {
+        "phase": "targeted_repair",
+        "max_calls": 2,
+        "input_ceiling_per_call": 8000,
+        "output_ceiling_per_call": 4000
+      }
+    ],
+    "reserve_remaining_repairs_and_validations_before_each_call": true,
+    "maximal_total_input_tokens": 120000,
+    "maximal_total_output_tokens": 24000,
+    "maximal_total_cost_micro_usd": 2400000,
+    "worst_case_token_retry_headroom": 0,
+    "transport_retries_require_actual_unused_capacity": true,
+    "targeted_context_that_does_not_fit": "capacity_exceeded; preserve artifacts and needs_human_review, never truncate or skip semantic validator",
+    "absolute_deadline_feasibility": "unmeasured; 9 sequential 90-second calls cannot fit 300 seconds; independent evidence calls may use shared concurrency2 but no completion guarantee"
+  },
+  "effective_retrieval_rule": "min(max_retrieved_tokens_per_request, phase_input_ceiling - counted_or_conservatively_reserved_prompt_schema_receipt_history_overhead)",
+  "required_coverage": "complete exact legal evidence and full baseline clause inventory before draft",
+  "capacity_failure": "persist artifacts and needs_human_review; no mandatory truncation or skipped semantic validation",
+  "not_verified": [
+    "actual fixture token count",
+    "complete semantic validation context fits8000",
+    "provider p50/p95 latency",
+    "completion within300seconds",
+    "provider entitlement or cost execution"
+  ],
+  "reset_epoch_contract": "All internal operations execute under T06 ToolServerContext.reset_epoch; never model-selected; pins, receipts, hydration and effect commits reject epoch mismatch."
+}

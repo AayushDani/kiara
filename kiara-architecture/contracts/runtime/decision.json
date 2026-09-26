@@ -1,0 +1,53 @@
+{
+  "decision_id": "D-T06-001",
+  "status": "recommended_pending_integration_and_live_prerequisites",
+  "selected": "minimal_custom_typed_responses_loop",
+  "language": "TypeScript",
+  "processes": [
+    {
+      "id": "P-WEB",
+      "role": "web UI, authenticated API, deterministic human decision/context handlers"
+    },
+    {
+      "id": "P-WORKER",
+      "role": "durable jobs, bounded model/tool calls, validators, adaptation/evals, notification dispatcher"
+    }
+  ],
+  "external_dependencies": [
+    "MongoDB Atlas hackathon sandbox",
+    "OpenAI Responses API",
+    "T10 email provider",
+    "optional privacy-filtered LangSmith export"
+  ],
+  "selected_sdk": {
+    "package": "openai",
+    "version": "7.23.0",
+    "evidence_url": "https://raw.githubusercontent.com/openai/openai-node/v7.23.0/package.json",
+    "registry_confirmation_artifact": "../T10/npm-registry-check.json",
+    "installation_and_typecheck": "not_run"
+  },
+  "fallback": {
+    "trigger": "missing API entitlement/credential or capability smoke-test failure",
+    "behavior": "persist dependency-blocked readiness and preserve every required flow; do not silently change model/provider. An alternate Responses-compatible model is selectable only after documented capability, quality, budget and regression checks; fixture replay must remain labeled and cannot count as live model success."
+  },
+  "not_selected": [
+    "Strands SDK/harness",
+    "LangGraph orchestrator/checkpointer",
+    "AI SDK ToolLoopAgent"
+  ],
+  "planning_chats": "separate Astra/xhigh research/implementation work; not runtime agents",
+  "web_framework": {
+    "name": "Next.js App Router",
+    "react": true,
+    "api": "Node runtime Route Handlers",
+    "dependency_pin_owner": "T10",
+    "docs_url": "https://nextjs.org/docs/app/getting-started/installation",
+    "route_docs_url": "https://nextjs.org/docs/app/getting-started/route-handlers",
+    "next_version": "16.3.6",
+    "react_version": "19.3.0",
+    "react_dom_version": "19.3.0",
+    "node_version": "24.19.0",
+    "verification": "T10 registry peers and bundled Node version; no install/typecheck"
+  },
+  "budget_correction": "Explicit increase from 8 to 9 logical requests admits 3 evidence batches + draft + 3 semantic validations + 2 repairs; token/cost/deadline/physical caps unchanged. Remaining live feasibility risk is explicit."
+}

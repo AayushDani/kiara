@@ -1,0 +1,1766 @@
+{
+  "source": "research/T01/requirement-ledger.json",
+  "source_sha256": "49194fd5b5178539f8b362cd2665c44b4230f089f44e20123741cba115ba4965",
+  "requirements": [
+    {
+      "requirement_id": "KIARA-G01",
+      "implementation_package_ids": [
+        "I00",
+        "I11"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-G01",
+      "requirement_owner": "T17",
+      "semantic_capability": "architecture-integration",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-G02",
+      "implementation_package_ids": [
+        "I00",
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-G02",
+      "requirement_owner": "T14",
+      "semantic_capability": "execution-orchestration",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-G03",
+      "implementation_package_ids": [
+        "I00",
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-G03",
+      "requirement_owner": "T14",
+      "semantic_capability": "execution-orchestration",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-G04",
+      "implementation_package_ids": [
+        "I00",
+        "I11"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-G04",
+      "requirement_owner": "T17",
+      "semantic_capability": "architecture-integration",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-G05",
+      "implementation_package_ids": [
+        "I00",
+        "I11"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-G05",
+      "requirement_owner": "T01",
+      "semantic_capability": "traceability",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-G06",
+      "implementation_package_ids": [
+        "I00",
+        "I11"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-G06",
+      "requirement_owner": "T01",
+      "semantic_capability": "traceability",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-G07",
+      "implementation_package_ids": [
+        "I00"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-G07",
+      "requirement_owner": "T17",
+      "semantic_capability": "planning-orchestration",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-G08",
+      "implementation_package_ids": [
+        "I00"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-G08",
+      "requirement_owner": "T17",
+      "semantic_capability": "planning-orchestration",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-G09",
+      "implementation_package_ids": [
+        "I00"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-G09",
+      "requirement_owner": "T17",
+      "semantic_capability": "planning-orchestration",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-G10",
+      "implementation_package_ids": [
+        "I00"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-G10",
+      "requirement_owner": "T17",
+      "semantic_capability": "planning-orchestration",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-G11",
+      "implementation_package_ids": [
+        "I00"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-G11",
+      "requirement_owner": "T17",
+      "semantic_capability": "planning-orchestration",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-G12",
+      "implementation_package_ids": [
+        "I00",
+        "I11"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-G12",
+      "requirement_owner": "T17",
+      "semantic_capability": "architecture-integration",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-G13",
+      "implementation_package_ids": [
+        "I00",
+        "I11"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-G13",
+      "requirement_owner": "T15",
+      "semantic_capability": "architecture-integration",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-B01",
+      "implementation_package_ids": [
+        "I07",
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-B01",
+      "requirement_owner": "T02",
+      "semantic_capability": "product-story",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-B02",
+      "implementation_package_ids": [
+        "I01",
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-B02",
+      "requirement_owner": "T02",
+      "semantic_capability": "product-fixtures",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-B03",
+      "implementation_package_ids": [
+        "I07",
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-B03",
+      "requirement_owner": "T11",
+      "semantic_capability": "demo-experience",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-B04",
+      "implementation_package_ids": [
+        "I07",
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-B04",
+      "requirement_owner": "T11",
+      "semantic_capability": "demo-experience",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-L01",
+      "implementation_package_ids": [
+        "I01",
+        "I02",
+        "I06"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-L01",
+      "requirement_owner": "T03",
+      "semantic_capability": "legal-fixtures",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-L02",
+      "implementation_package_ids": [
+        "I01",
+        "I02",
+        "I06"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-L02",
+      "requirement_owner": "T03",
+      "semantic_capability": "legal-fixtures",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-L03",
+      "implementation_package_ids": [
+        "I01",
+        "I02",
+        "I06"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-L03",
+      "requirement_owner": "T03",
+      "semantic_capability": "legal-fixtures",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-L04",
+      "implementation_package_ids": [
+        "I01",
+        "I02",
+        "I06"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-L04",
+      "requirement_owner": "T03",
+      "semantic_capability": "legal-fixtures",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-L05",
+      "implementation_package_ids": [
+        "I01",
+        "I02",
+        "I06"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-L05",
+      "requirement_owner": "T03",
+      "semantic_capability": "legal-fixtures",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-L06",
+      "implementation_package_ids": [
+        "I01",
+        "I02",
+        "I06"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-L06",
+      "requirement_owner": "T03",
+      "semantic_capability": "legal-fixtures",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-L07",
+      "implementation_package_ids": [
+        "I05"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-L07",
+      "requirement_owner": "T08",
+      "semantic_capability": "document-engine",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-L08",
+      "implementation_package_ids": [
+        "I07"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-L08",
+      "requirement_owner": "T11",
+      "semantic_capability": "app-ui",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-L09",
+      "implementation_package_ids": [
+        "I01",
+        "I02",
+        "I06"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-L09",
+      "requirement_owner": "T03",
+      "semantic_capability": "legal-fixtures",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-R01",
+      "implementation_package_ids": [
+        "I02"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-R01",
+      "requirement_owner": "T05",
+      "semantic_capability": "retrieval",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-R02",
+      "implementation_package_ids": [
+        "I02"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-R02",
+      "requirement_owner": "T05",
+      "semantic_capability": "retrieval",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-R03",
+      "implementation_package_ids": [
+        "I02"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-R03",
+      "requirement_owner": "T05",
+      "semantic_capability": "retrieval",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-R04",
+      "implementation_package_ids": [
+        "I02"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-R04",
+      "requirement_owner": "T05",
+      "semantic_capability": "retrieval",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-R05",
+      "implementation_package_ids": [
+        "I02"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-R05",
+      "requirement_owner": "T05",
+      "semantic_capability": "retrieval",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-R06",
+      "implementation_package_ids": [
+        "I02"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-R06",
+      "requirement_owner": "T05",
+      "semantic_capability": "retrieval",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-R07",
+      "implementation_package_ids": [
+        "I03"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-R07",
+      "requirement_owner": "T06",
+      "semantic_capability": "runtime-tools",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-R08",
+      "implementation_package_ids": [
+        "I03"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-R08",
+      "requirement_owner": "T06",
+      "semantic_capability": "runtime-tools",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-S01",
+      "implementation_package_ids": [
+        "I01"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-S01",
+      "requirement_owner": "T04",
+      "semantic_capability": "atlas-schema",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-S02",
+      "implementation_package_ids": [
+        "I01"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-S02",
+      "requirement_owner": "T04",
+      "semantic_capability": "atlas-schema",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-S03",
+      "implementation_package_ids": [
+        "I01"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-S03",
+      "requirement_owner": "T04",
+      "semantic_capability": "atlas-schema",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-S04",
+      "implementation_package_ids": [
+        "I01"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-S04",
+      "requirement_owner": "T04",
+      "semantic_capability": "atlas-schema",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-S05",
+      "implementation_package_ids": [
+        "I01"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-S05",
+      "requirement_owner": "T04",
+      "semantic_capability": "atlas-schema",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-S06",
+      "implementation_package_ids": [
+        "I01"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-S06",
+      "requirement_owner": "T04",
+      "semantic_capability": "atlas-schema",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-S07",
+      "implementation_package_ids": [
+        "I01"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-S07",
+      "requirement_owner": "T04",
+      "semantic_capability": "atlas-schema",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-S08",
+      "implementation_package_ids": [
+        "I01"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-S08",
+      "requirement_owner": "T04",
+      "semantic_capability": "atlas-schema",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-S09",
+      "implementation_package_ids": [
+        "I01"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-S09",
+      "requirement_owner": "T04",
+      "semantic_capability": "atlas-schema",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-S10",
+      "implementation_package_ids": [
+        "I01"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-S10",
+      "requirement_owner": "T04",
+      "semantic_capability": "atlas-schema",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-S11",
+      "implementation_package_ids": [
+        "I01"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-S11",
+      "requirement_owner": "T04",
+      "semantic_capability": "atlas-schema",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-S12",
+      "implementation_package_ids": [
+        "I01"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-S12",
+      "requirement_owner": "T04",
+      "semantic_capability": "atlas-schema",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-S13",
+      "implementation_package_ids": [
+        "I10",
+        "I03",
+        "I04"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-S13",
+      "requirement_owner": "T12",
+      "semantic_capability": "security",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-S14",
+      "implementation_package_ids": [
+        "I01"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-S14",
+      "requirement_owner": "T04",
+      "semantic_capability": "atlas-schema",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-S15",
+      "implementation_package_ids": [
+        "I01"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-S15",
+      "requirement_owner": "T04",
+      "semantic_capability": "seed-reset",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-S16",
+      "implementation_package_ids": [
+        "I01"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-S16",
+      "requirement_owner": "T04",
+      "semantic_capability": "atlas-schema",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-W01",
+      "implementation_package_ids": [
+        "I04"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-W01",
+      "requirement_owner": "T09",
+      "semantic_capability": "workflow",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-W02",
+      "implementation_package_ids": [
+        "I04"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-W02",
+      "requirement_owner": "T09",
+      "semantic_capability": "workflow",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-W03",
+      "implementation_package_ids": [
+        "I04"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-W03",
+      "requirement_owner": "T09",
+      "semantic_capability": "workflow",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-W04",
+      "implementation_package_ids": [
+        "I04"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-W04",
+      "requirement_owner": "T09",
+      "semantic_capability": "workflow",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-W05",
+      "implementation_package_ids": [
+        "I04"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-W05",
+      "requirement_owner": "T09",
+      "semantic_capability": "workflow",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-W06",
+      "implementation_package_ids": [
+        "I04"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-W06",
+      "requirement_owner": "T09",
+      "semantic_capability": "workflow",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-W07",
+      "implementation_package_ids": [
+        "I04"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-W07",
+      "requirement_owner": "T09",
+      "semantic_capability": "workflow",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-W08",
+      "implementation_package_ids": [
+        "I04"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-W08",
+      "requirement_owner": "T09",
+      "semantic_capability": "workflow",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-W09",
+      "implementation_package_ids": [
+        "I04"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-W09",
+      "requirement_owner": "T09",
+      "semantic_capability": "workflow",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-C01",
+      "implementation_package_ids": [
+        "I03"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-C01",
+      "requirement_owner": "T06",
+      "semantic_capability": "runtime-tools",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-C02",
+      "implementation_package_ids": [
+        "I03"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-C02",
+      "requirement_owner": "T06",
+      "semantic_capability": "runtime-tools",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-C03",
+      "implementation_package_ids": [
+        "I00",
+        "I10"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-C03",
+      "requirement_owner": "T15",
+      "semantic_capability": "architecture-contracts",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-D01",
+      "implementation_package_ids": [
+        "I05"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-D01",
+      "requirement_owner": "T08",
+      "semantic_capability": "document-engine",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-D02",
+      "implementation_package_ids": [
+        "I05"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-D02",
+      "requirement_owner": "T08",
+      "semantic_capability": "document-engine",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-D03",
+      "implementation_package_ids": [
+        "I05"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-D03",
+      "requirement_owner": "T08",
+      "semantic_capability": "document-engine",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-D04",
+      "implementation_package_ids": [
+        "I05"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-D04",
+      "requirement_owner": "T08",
+      "semantic_capability": "document-engine",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-D05",
+      "implementation_package_ids": [
+        "I07"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-D05",
+      "requirement_owner": "T11",
+      "semantic_capability": "app-ui",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-D06",
+      "implementation_package_ids": [
+        "I07"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-D06",
+      "requirement_owner": "T11",
+      "semantic_capability": "app-ui",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-H01",
+      "implementation_package_ids": [
+        "I06"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-H01",
+      "requirement_owner": "T07",
+      "semantic_capability": "harness-evals",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-H02",
+      "implementation_package_ids": [
+        "I06"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-H02",
+      "requirement_owner": "T07",
+      "semantic_capability": "harness-evals",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-H03",
+      "implementation_package_ids": [
+        "I06"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-H03",
+      "requirement_owner": "T07",
+      "semantic_capability": "harness-evals",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-H04",
+      "implementation_package_ids": [
+        "I06"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-H04",
+      "requirement_owner": "T07",
+      "semantic_capability": "harness-evals",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-H05",
+      "implementation_package_ids": [
+        "I06"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-H05",
+      "requirement_owner": "T07",
+      "semantic_capability": "harness-evals",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-H06",
+      "implementation_package_ids": [
+        "I10",
+        "I03",
+        "I04"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-H06",
+      "requirement_owner": "T12",
+      "semantic_capability": "security",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-H07",
+      "implementation_package_ids": [
+        "I06"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-H07",
+      "requirement_owner": "T07",
+      "semantic_capability": "harness-evals",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-H08",
+      "implementation_package_ids": [
+        "I06"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-H08",
+      "requirement_owner": "T07",
+      "semantic_capability": "harness-evals",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-H09",
+      "implementation_package_ids": [
+        "I06"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-H09",
+      "requirement_owner": "T07",
+      "semantic_capability": "harness-evals",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-H10",
+      "implementation_package_ids": [
+        "I06"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-H10",
+      "requirement_owner": "T07",
+      "semantic_capability": "harness-evals",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-H11",
+      "implementation_package_ids": [
+        "I06"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-H11",
+      "requirement_owner": "T07",
+      "semantic_capability": "harness-evals",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-H12",
+      "implementation_package_ids": [
+        "I06"
+      ],
+      "scope": "user_designated_stretch",
+      "acceptance_check_id": "AC-KIARA-H12",
+      "requirement_owner": "T07",
+      "semantic_capability": "harness-evals",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-H13",
+      "implementation_package_ids": [
+        "I03",
+        "I00"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-H13",
+      "requirement_owner": "T06",
+      "semantic_capability": "runtime-selection",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-U01",
+      "implementation_package_ids": [
+        "I07"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-U01",
+      "requirement_owner": "T11",
+      "semantic_capability": "app-ui",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-U02",
+      "implementation_package_ids": [
+        "I07"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-U02",
+      "requirement_owner": "T11",
+      "semantic_capability": "app-ui",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-U03",
+      "implementation_package_ids": [
+        "I07"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-U03",
+      "requirement_owner": "T11",
+      "semantic_capability": "app-ui",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-N01",
+      "implementation_package_ids": [
+        "I08"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-N01",
+      "requirement_owner": "T10",
+      "semantic_capability": "email-integration",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-N02",
+      "implementation_package_ids": [
+        "I08"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-N02",
+      "requirement_owner": "T09",
+      "semantic_capability": "email-integration",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-O01",
+      "implementation_package_ids": [
+        "I09"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-O01",
+      "requirement_owner": "T13",
+      "semantic_capability": "observability",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-O02",
+      "implementation_package_ids": [
+        "I09"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-O02",
+      "requirement_owner": "T13",
+      "semantic_capability": "observability",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-O03",
+      "implementation_package_ids": [
+        "I09"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-O03",
+      "requirement_owner": "T13",
+      "semantic_capability": "observability",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-P01",
+      "implementation_package_ids": [
+        "I10",
+        "I03",
+        "I04"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-P01",
+      "requirement_owner": "T12",
+      "semantic_capability": "security",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-P02",
+      "implementation_package_ids": [
+        "I10",
+        "I03",
+        "I04"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-P02",
+      "requirement_owner": "T12",
+      "semantic_capability": "security",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-P03",
+      "implementation_package_ids": [
+        "I10",
+        "I03",
+        "I04"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-P03",
+      "requirement_owner": "T12",
+      "semantic_capability": "security",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-I01",
+      "implementation_package_ids": [
+        "I00",
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-I01",
+      "requirement_owner": "T01",
+      "semantic_capability": "source-research",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-I02",
+      "implementation_package_ids": [
+        "I00",
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-I02",
+      "requirement_owner": "T01",
+      "semantic_capability": "source-research",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-I03",
+      "implementation_package_ids": [
+        "I03",
+        "I00"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-I03",
+      "requirement_owner": "T10",
+      "semantic_capability": "runtime-selection",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-I04",
+      "implementation_package_ids": [
+        "I03",
+        "I00"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-I04",
+      "requirement_owner": "T10",
+      "semantic_capability": "runtime-selection",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-I05",
+      "implementation_package_ids": [
+        "I03",
+        "I00"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-I05",
+      "requirement_owner": "T10",
+      "semantic_capability": "runtime-selection",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-I06",
+      "implementation_package_ids": [
+        "I03",
+        "I00"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-I06",
+      "requirement_owner": "T06",
+      "semantic_capability": "runtime-selection",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-I07",
+      "implementation_package_ids": [
+        "I03",
+        "I00"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-I07",
+      "requirement_owner": "T10",
+      "semantic_capability": "runtime-selection",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-I08",
+      "implementation_package_ids": [
+        "I00",
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-I08",
+      "requirement_owner": "T01",
+      "semantic_capability": "source-research",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-I09",
+      "implementation_package_ids": [
+        "I03",
+        "I00"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-I09",
+      "requirement_owner": "T10",
+      "semantic_capability": "runtime-selection",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-K01",
+      "implementation_package_ids": [
+        "I00",
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-K01",
+      "requirement_owner": "T14",
+      "semantic_capability": "execution-orchestration",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-K02",
+      "implementation_package_ids": [
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-K02",
+      "requirement_owner": "T14",
+      "semantic_capability": "submission",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-K03",
+      "implementation_package_ids": [
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-K03",
+      "requirement_owner": "T14",
+      "semantic_capability": "submission",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-K04",
+      "implementation_package_ids": [
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-K04",
+      "requirement_owner": "T14",
+      "semantic_capability": "submission",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-K05",
+      "implementation_package_ids": [
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-K05",
+      "requirement_owner": "T14",
+      "semantic_capability": "submission",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-A01",
+      "implementation_package_ids": [
+        "I00",
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-A01",
+      "requirement_owner": "T15",
+      "semantic_capability": "diagrams",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-A02",
+      "implementation_package_ids": [
+        "I00",
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-A02",
+      "requirement_owner": "T15",
+      "semantic_capability": "diagrams",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-A03",
+      "implementation_package_ids": [
+        "I00",
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-A03",
+      "requirement_owner": "T15",
+      "semantic_capability": "diagrams",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-A04",
+      "implementation_package_ids": [
+        "I00",
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-A04",
+      "requirement_owner": "T15",
+      "semantic_capability": "diagrams",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-A05",
+      "implementation_package_ids": [
+        "I00",
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-A05",
+      "requirement_owner": "T15",
+      "semantic_capability": "diagrams",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-A06",
+      "implementation_package_ids": [
+        "I00",
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-A06",
+      "requirement_owner": "T15",
+      "semantic_capability": "diagrams",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-A07",
+      "implementation_package_ids": [
+        "I00",
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-A07",
+      "requirement_owner": "T15",
+      "semantic_capability": "diagrams",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-E01",
+      "implementation_package_ids": [
+        "I00",
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-E01",
+      "requirement_owner": "T14",
+      "semantic_capability": "execution-orchestration",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-E02",
+      "implementation_package_ids": [
+        "I00",
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-E02",
+      "requirement_owner": "T14",
+      "semantic_capability": "execution-orchestration",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-E03",
+      "implementation_package_ids": [
+        "I00",
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-E03",
+      "requirement_owner": "T14",
+      "semantic_capability": "execution-orchestration",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-E04",
+      "implementation_package_ids": [
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-E04",
+      "requirement_owner": "T14",
+      "semantic_capability": "demo-production",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-E05",
+      "implementation_package_ids": [
+        "I12"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-E05",
+      "requirement_owner": "T14",
+      "semantic_capability": "demo-production",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-F01",
+      "implementation_package_ids": [
+        "I00",
+        "I11"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-F01",
+      "requirement_owner": "T17",
+      "semantic_capability": "architecture-integration",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-F02",
+      "implementation_package_ids": [
+        "I00",
+        "I11"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-F02",
+      "requirement_owner": "T17",
+      "semantic_capability": "architecture-integration",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-F03",
+      "implementation_package_ids": [
+        "I00",
+        "I11"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-F03",
+      "requirement_owner": "T17",
+      "semantic_capability": "architecture-integration",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-F04",
+      "implementation_package_ids": [
+        "I00",
+        "I11"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-F04",
+      "requirement_owner": "T17",
+      "semantic_capability": "architecture-integration",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-F05",
+      "implementation_package_ids": [
+        "I00",
+        "I11"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-F05",
+      "requirement_owner": "T17",
+      "semantic_capability": "architecture-integration",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-F06",
+      "implementation_package_ids": [
+        "I00",
+        "I11"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-F06",
+      "requirement_owner": "T17",
+      "semantic_capability": "architecture-integration",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-F07",
+      "implementation_package_ids": [
+        "I00",
+        "I11"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-F07",
+      "requirement_owner": "T17",
+      "semantic_capability": "architecture-integration",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-F08",
+      "implementation_package_ids": [
+        "I00",
+        "I11"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-F08",
+      "requirement_owner": "T17",
+      "semantic_capability": "architecture-integration",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Architecture/research requirements remain preparation or audit controls, not invented runtime features."
+    },
+    {
+      "requirement_id": "KIARA-V01",
+      "implementation_package_ids": [
+        "I11",
+        "I10"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-V01",
+      "requirement_owner": "T16",
+      "semantic_capability": "independent-review",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-V02",
+      "implementation_package_ids": [
+        "I11",
+        "I10"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-V02",
+      "requirement_owner": "T16",
+      "semantic_capability": "independent-review",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-V03",
+      "implementation_package_ids": [
+        "I11",
+        "I10"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-V03",
+      "requirement_owner": "T16",
+      "semantic_capability": "independent-review",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    },
+    {
+      "requirement_id": "KIARA-V04",
+      "implementation_package_ids": [
+        "I11",
+        "I10"
+      ],
+      "scope": "committed",
+      "acceptance_check_id": "AC-KIARA-V04",
+      "requirement_owner": "T16",
+      "semantic_capability": "independent-review",
+      "design_status": "designed_mapping_pending_T17_integration",
+      "execution_status": "not_run_later_implementation",
+      "note": "Committed behavior remains in scope; mapping is not evidence of completion."
+    }
+  ]
+}

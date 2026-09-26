@@ -1,0 +1,29 @@
+{
+  "evidence_id": "b9f92c15-71ca-53ad-925e-813321b58544",
+  "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+  "source_key": "src_ca_ccpa_regs_20260101",
+  "provision_key": "prov_regs_policy",
+  "display_citation": "11 CCR §7011(c)",
+  "authority_type": "regulation",
+  "jurisdiction": "US-CA",
+  "source_url": "https://cppa.ca.gov/regulations/pdf/ccpa_statute_eff_20260101.pdf",
+  "raw_sha256": "8d57eba97a7fe13346b7827d0131e1ab84dc110c6ff20daa6fa6ec4a4329d0fe",
+  "parser": "pypdf T03 saved page text",
+  "parser_version": "unrecorded_in_seed_snapshot",
+  "retrieved_at": "2026-09-26T16:14:36.183Z",
+  "verified_at": "2026-09-26T16:14:36.183Z",
+  "effective_from": "2026-01-01",
+  "operative_from": "2026-01-01",
+  "freshness_status": "fresh",
+  "content_kind": "authoritative_text",
+  "segments": [
+    {
+      "page_number": 21,
+      "raw_page_text_sha256": "5cf473cf8165bc3ad9fb714a887c4a6209a9ca7a4706059a7ebc41bfadfc4079",
+      "start_utf16": 1135,
+      "end_utf16": 1238,
+      "quote_text": "The privacy policy shall be available in a format that allows a consumer to print it out as a \ndocument.",
+      "quote_sha256": "8f686c151827e29996927c456de7929cdee209f3bc18c3e4f9fc9e2031a3a994"
+    }
+  ]
+}

@@ -1,0 +1,2358 @@
+{
+  "execution_status": "synthetic_machine_contract_examples_only",
+  "record_ref_policy": "References reuse T04 UUID/tenant/reset shapes. Independent temporal scenarios are not one observed end-to-end trace, and future-state conditions are explicit.",
+  "exchanges": [
+    {
+      "name": "assess_applicability_success",
+      "operation": "assess_applicability",
+      "variant": "success",
+      "execution_status": "illustrative_contract_exchange_not_executed",
+      "scenario_conditions": [
+        "Isolated temporal fixture; seeded record IDs do not assert this service actually ran."
+      ],
+      "request": {
+        "operation": "assess_applicability",
+        "request_id": "a6d8cfbd-b5a5-524d-9494-8c774ef9b70e",
+        "server_context": {
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+          "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+          "invocation_id": "758ed89d-222e-53dd-b56e-21cad0b25ed1",
+          "principal_id": "c5cf2f55-92b2-5a55-8e48-8efdb8f2589b",
+          "principal_kind": "worker_service",
+          "fencing_token": 1,
+          "context_revision_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+          "legal_snapshot_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+          "base_document_version_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+          "harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "reset_epoch": 1
+        },
+        "budget_scope_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+        "guard": {
+          "expected_tenant_state_version": 1,
+          "expected_policy_epoch": 1,
+          "expected_workflow_state_version": 3,
+          "expected_run_state_version": 1
+        },
+        "idempotency_key": "io-assess_applicability-success",
+        "payload": {
+          "event_ref": {
+            "collection": "events",
+            "record_id": "4fbd9f2e-d458-5a31-99c6-e333fe338b64",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "context_ref": {
+            "collection": "company_context_versions",
+            "record_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "evidence_ref": {
+            "collection": "evidence_bundles",
+            "record_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "harness_ref": {
+            "collection": "harness_versions",
+            "record_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "rule_pack_version": "legal_ca_20260926_v1",
+          "scenario_date": "2026-09-26",
+          "model_invocation_id": "38879322-7ff9-54a3-9432-3d01f266661a",
+          "model_output": {
+            "outcome": "covered",
+            "criteria": [
+              {
+                "criterion_key": "map_applicability",
+                "result": "satisfied",
+                "fact_ids": [
+                  "286b1546-e0a9-5097-87ea-62c1db70a886",
+                  "ab5b5336-e7ab-5cb6-b1dd-b242a307ee97",
+                  "5165d721-4db8-568a-b983-026abdca586c",
+                  "435478f3-3926-5090-a0cf-a9a1183f76b7",
+                  "04a9b32e-8d01-5ce2-b464-d32fa5c90203",
+                  "f8d26045-3f56-512b-ab1c-3117b6e3bbb0",
+                  "8efdf173-cc82-5a54-8af5-67ea323a7348",
+                  "5cb3f07d-32b2-5b91-891d-8700729615c1",
+                  "ea4792ed-c755-582c-81dd-934188018892",
+                  "24819f60-a842-5dc7-9131-90358c10cad9"
+                ],
+                "provision_chunk_ids": [
+                  "0a3e6a6c-2ede-502e-83f0-761ccd88d419",
+                  "272567e6-ed7c-5c45-92e6-e5451f92818b",
+                  "d94a8332-fa87-5f8a-9adb-83e34c5f3514",
+                  "d1d9e765-35d6-5401-8653-66ed350937bb",
+                  "37725ca6-9249-5d11-afab-4cc58e7b5b60"
+                ],
+                "reason": "Revenue route passes on explicit 2025 USD30m fixture. A CA signup triggers assessment; it does not prove all elements."
+              }
+            ],
+            "missing_fact_keys": [],
+            "rationale": "CCPA business definition and ordinary California consumer signup processing; proposed legal interpretation from T03 synthetic fixture."
+          }
+        }
+      },
+      "response": {
+        "operation": "assess_applicability",
+        "request_id": "a6d8cfbd-b5a5-524d-9494-8c774ef9b70e",
+        "ok": true,
+        "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+        "reset_epoch": 1,
+        "idempotency_key": "io-assess_applicability-success",
+        "replayed": false,
+        "result": {
+          "assessment_ref": {
+            "collection": "assessments",
+            "record_id": "aa9d34f4-2739-5ba9-a960-253102f31a64",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "outcome": "covered",
+          "missing_fact_keys": [],
+          "review_status": "unreviewed"
+        },
+        "receipt_ref": {
+          "collection": "tool_receipts",
+          "record_id": "962d9982-59a2-5991-9bf5-600ef1701a43",
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "reset_epoch": 1
+        },
+        "event_refs": []
+      }
+    },
+    {
+      "name": "validate_retrieval_plan_success",
+      "operation": "validate_retrieval_plan",
+      "variant": "success",
+      "execution_status": "illustrative_contract_exchange_not_executed",
+      "scenario_conditions": [
+        "Isolated temporal fixture; seeded record IDs do not assert this service actually ran."
+      ],
+      "request": {
+        "operation": "validate_retrieval_plan",
+        "request_id": "d425eba5-1b4b-5612-8c00-8c35a2936c0d",
+        "server_context": {
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+          "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+          "invocation_id": "758ed89d-222e-53dd-b56e-21cad0b25ed1",
+          "principal_id": "c5cf2f55-92b2-5a55-8e48-8efdb8f2589b",
+          "principal_kind": "worker_service",
+          "fencing_token": 1,
+          "context_revision_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+          "legal_snapshot_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+          "base_document_version_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+          "harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "reset_epoch": 1
+        },
+        "budget_scope_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+        "guard": {
+          "expected_tenant_state_version": 1,
+          "expected_policy_epoch": 1,
+          "expected_workflow_state_version": 3,
+          "expected_run_state_version": 1
+        },
+        "idempotency_key": "io-validate_retrieval_plan-success",
+        "payload": {
+          "subject_kind": "context_readiness",
+          "context_ref": {
+            "collection": "company_context_versions",
+            "record_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "context_selection_id": "9cbddeeb-57aa-50d3-afcc-5a138483660b",
+          "evidence_ref": null,
+          "harness_ref": {
+            "collection": "harness_versions",
+            "record_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "input_bundle_sha256": "d80446e18ed008274f96617a7794a3ae148f3466d07a22203890abf9e22f7fb7"
+        }
+      },
+      "response": {
+        "operation": "validate_retrieval_plan",
+        "request_id": "d425eba5-1b4b-5612-8c00-8c35a2936c0d",
+        "ok": true,
+        "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+        "reset_epoch": 1,
+        "idempotency_key": "io-validate_retrieval_plan-success",
+        "replayed": false,
+        "result": {
+          "validation_ref": {
+            "collection": "validation_runs",
+            "record_id": "acafc846-37c2-5726-a926-10a2d4cc9bb0",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "status": "failed",
+          "blocking_codes": [
+            "APPLICABILITY_BUNDLE_MISSING"
+          ],
+          "review_bundle_ref": null,
+          "authorizes_approval": false
+        },
+        "receipt_ref": {
+          "collection": "tool_receipts",
+          "record_id": "962d9982-59a2-5991-9bf5-600ef1701a43",
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "reset_epoch": 1
+        },
+        "event_refs": []
+      }
+    },
+    {
+      "name": "validate_proposal_success",
+      "operation": "validate_proposal",
+      "variant": "success",
+      "execution_status": "illustrative_contract_exchange_not_executed",
+      "scenario_conditions": [
+        "Isolated temporal fixture; seeded record IDs do not assert this service actually ran."
+      ],
+      "request": {
+        "operation": "validate_proposal",
+        "request_id": "189927bd-642c-5133-977e-3415a4c6ae07",
+        "server_context": {
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+          "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+          "invocation_id": "758ed89d-222e-53dd-b56e-21cad0b25ed1",
+          "principal_id": "c5cf2f55-92b2-5a55-8e48-8efdb8f2589b",
+          "principal_kind": "worker_service",
+          "fencing_token": 1,
+          "context_revision_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+          "legal_snapshot_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+          "base_document_version_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+          "harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "reset_epoch": 1
+        },
+        "budget_scope_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+        "guard": {
+          "expected_tenant_state_version": 1,
+          "expected_policy_epoch": 1,
+          "expected_workflow_state_version": 3,
+          "expected_run_state_version": 1
+        },
+        "idempotency_key": "io-validate_proposal-success",
+        "payload": {
+          "subject_kind": "proposal",
+          "proposal_ref": {
+            "collection": "change_proposals",
+            "record_id": "2b38093d-cfe2-54b8-a2ea-0e56f9e24efc",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "candidate_revision_ref": {
+            "collection": "document_revisions",
+            "record_id": "6e12d307-1397-5160-8b40-a5e83f02e303",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "evidence_ref": {
+            "collection": "evidence_bundles",
+            "record_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "assessment_ref": {
+            "collection": "assessments",
+            "record_id": "aa9d34f4-2739-5ba9-a960-253102f31a64",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "harness_ref": {
+            "collection": "harness_versions",
+            "record_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "review_input_hash": "8c45d68b6a7e3a9c8ffebaa54bcc51c8e84cc10b412b4289571ff3cb1455164a",
+          "semantic_review": {
+            "verdict": "supported",
+            "findings": []
+          },
+          "semantic_model_invocation_id": "426b7d4b-c728-557f-93f8-a945e2a355b7"
+        }
+      },
+      "response": {
+        "operation": "validate_proposal",
+        "request_id": "189927bd-642c-5133-977e-3415a4c6ae07",
+        "ok": true,
+        "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+        "reset_epoch": 1,
+        "idempotency_key": "io-validate_proposal-success",
+        "replayed": false,
+        "result": {
+          "validation_ref": {
+            "collection": "validation_runs",
+            "record_id": "7687ca3b-5d93-512f-b088-9a2bcce10c64",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "status": "passed",
+          "blocking_codes": [],
+          "review_bundle_ref": {
+            "collection": "review_bundles",
+            "record_id": "73669cc9-9746-5d1c-a40b-fa274647af0d",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "authorizes_approval": false
+        },
+        "receipt_ref": {
+          "collection": "tool_receipts",
+          "record_id": "962d9982-59a2-5991-9bf5-600ef1701a43",
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "reset_epoch": 1
+        },
+        "event_refs": []
+      }
+    },
+    {
+      "name": "plan_current_repair_success",
+      "operation": "plan_current_repair",
+      "variant": "success",
+      "execution_status": "illustrative_contract_exchange_not_executed",
+      "scenario_conditions": [
+        "Isolated temporal fixture; seeded record IDs do not assert this service actually ran."
+      ],
+      "request": {
+        "operation": "plan_current_repair",
+        "request_id": "978fddd0-c895-5f04-ab8a-745b6e0adf1a",
+        "server_context": {
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+          "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+          "invocation_id": "758ed89d-222e-53dd-b56e-21cad0b25ed1",
+          "principal_id": "c5cf2f55-92b2-5a55-8e48-8efdb8f2589b",
+          "principal_kind": "worker_service",
+          "fencing_token": 1,
+          "context_revision_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+          "legal_snapshot_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+          "base_document_version_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+          "harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "reset_epoch": 1
+        },
+        "budget_scope_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+        "guard": {
+          "expected_tenant_state_version": 1,
+          "expected_policy_epoch": 1,
+          "expected_workflow_state_version": 3,
+          "expected_run_state_version": 1
+        },
+        "idempotency_key": "io-plan_current_repair-success",
+        "payload": {
+          "validation_ref": {
+            "collection": "validation_runs",
+            "record_id": "acafc846-37c2-5726-a926-10a2d4cc9bb0",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "subject_kind": "context_readiness",
+          "expected_repair_count": 0,
+          "harness_ref": {
+            "collection": "harness_versions",
+            "record_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          }
+        }
+      },
+      "response": {
+        "operation": "plan_current_repair",
+        "request_id": "978fddd0-c895-5f04-ab8a-745b6e0adf1a",
+        "ok": true,
+        "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+        "reset_epoch": 1,
+        "idempotency_key": "io-plan_current_repair-success",
+        "replayed": false,
+        "result": {
+          "action": "retrieve_evidence",
+          "repair_ordinal": 1,
+          "remaining_repairs": 1,
+          "job_ref": {
+            "collection": "jobs",
+            "record_id": "3d6975b8-4dfb-5eaf-8b1a-136f01c05dd7",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "workflow_disposition": "repairing",
+          "budget": {
+            "logical_model_requests": 0,
+            "physical_model_attempts": 0,
+            "tool_calls": 0,
+            "repair_attempts": 1,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "reserved_cost_micro_usd": 0,
+            "settled_cost_micro_usd": 0,
+            "unknown_cost_micro_usd": 0
+          }
+        },
+        "receipt_ref": {
+          "collection": "tool_receipts",
+          "record_id": "962d9982-59a2-5991-9bf5-600ef1701a43",
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "reset_epoch": 1
+        },
+        "event_refs": []
+      }
+    },
+    {
+      "name": "propose_harness_change_success",
+      "operation": "propose_harness_change",
+      "variant": "success",
+      "execution_status": "illustrative_contract_exchange_not_executed",
+      "scenario_conditions": [
+        "Isolated temporal fixture; seeded record IDs do not assert this service actually ran."
+      ],
+      "request": {
+        "operation": "propose_harness_change",
+        "request_id": "31900213-f529-5610-a54a-6b441e56f4e0",
+        "server_context": {
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+          "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+          "invocation_id": "758ed89d-222e-53dd-b56e-21cad0b25ed1",
+          "principal_id": "c5cf2f55-92b2-5a55-8e48-8efdb8f2589b",
+          "principal_kind": "worker_service",
+          "fencing_token": 1,
+          "context_revision_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+          "legal_snapshot_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+          "base_document_version_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+          "harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "reset_epoch": 1
+        },
+        "budget_scope_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+        "guard": {
+          "expected_tenant_state_version": 1,
+          "expected_policy_epoch": 1,
+          "expected_workflow_state_version": 3,
+          "expected_run_state_version": 1
+        },
+        "idempotency_key": "io-propose_harness_change-success",
+        "payload": {
+          "model_arguments": {
+            "observation_ids": [
+              "acafc846-37c2-5726-a926-10a2d4cc9bb0"
+            ],
+            "rule_catalog_ids": [
+              "declared_ca_resident_ccpa_bundle",
+              "declared_ca_resident_company_facts"
+            ],
+            "rationale": "Validation detected missing jurisdiction context; enable catalog prefetch on future declared-CA signup events."
+          }
+        }
+      },
+      "response": {
+        "operation": "propose_harness_change",
+        "request_id": "31900213-f529-5610-a54a-6b441e56f4e0",
+        "ok": true,
+        "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+        "reset_epoch": 1,
+        "idempotency_key": "io-propose_harness_change-success",
+        "replayed": false,
+        "result": {
+          "candidate_ref": {
+            "collection": "harness_candidates",
+            "record_id": "72cea827-a276-519e-b076-2f86e992eb5c",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "model_result": {
+            "candidate_id": "72cea827-a276-519e-b076-2f86e992eb5c",
+            "status": "pending_validation",
+            "authoritative_state_changed": false,
+            "reset_epoch": 1
+          },
+          "status": "proposed",
+          "evaluation_job_ref": {
+            "collection": "jobs",
+            "record_id": "3d6975b8-4dfb-5eaf-8b1a-136f01c05dd7",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "champion_changed": false
+        },
+        "receipt_ref": {
+          "collection": "tool_receipts",
+          "record_id": "962d9982-59a2-5991-9bf5-600ef1701a43",
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "reset_epoch": 1
+        },
+        "event_refs": []
+      }
+    },
+    {
+      "name": "evaluate_harness_patch_success",
+      "operation": "evaluate_harness_patch",
+      "variant": "success",
+      "execution_status": "illustrative_contract_exchange_not_executed",
+      "scenario_conditions": [
+        "Planned synthetic replay values only. No model or Atlas evaluation executed. This response cannot authorize promotion."
+      ],
+      "request": {
+        "operation": "evaluate_harness_patch",
+        "request_id": "e4faacb0-412c-54e4-8d16-e3bd1bfd9713",
+        "server_context": {
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+          "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+          "invocation_id": "758ed89d-222e-53dd-b56e-21cad0b25ed1",
+          "principal_id": "c5cf2f55-92b2-5a55-8e48-8efdb8f2589b",
+          "principal_kind": "worker_service",
+          "fencing_token": 1,
+          "context_revision_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+          "legal_snapshot_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+          "base_document_version_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+          "harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "reset_epoch": 1
+        },
+        "budget_scope_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+        "guard": {
+          "expected_tenant_state_version": 1,
+          "expected_policy_epoch": 1,
+          "expected_workflow_state_version": 3,
+          "expected_run_state_version": 1
+        },
+        "idempotency_key": "io-evaluate_harness_patch-success",
+        "payload": {
+          "candidate_ref": {
+            "collection": "harness_candidates",
+            "record_id": "72cea827-a276-519e-b076-2f86e992eb5c",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "baseline_ref": {
+            "collection": "harness_versions",
+            "record_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "proposed_ref": {
+            "collection": "harness_versions",
+            "record_id": "e084aa8e-40c1-5c94-abac-a701cb08022b",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "binding": {
+            "manifest_sha256": "6d120cd1838c84807e27ea4ba21741f0db8e6600d4523fba180dc5081312e8f8",
+            "dataset_sha256": "58424a8b3bf9e25c89576e012090740e0f4da32e0f390dacb39f07af26d3223f",
+            "base_config_sha256": "6c54874e3b5b5b7c586bd019e206b89372568a5fcd7e6b42eb33a64c02726db5",
+            "candidate_config_sha256": "3e5ac9cc65b817cdf27fad9c3db62a07f91eb300275cd8ee165b8cbbff9554e0",
+            "protected_policy_sha256": "d057c9ba6c9e9b0a4652e6be5686bbbca3dfabfaf9d409ef137072436cddaaf0",
+            "runtime_policy_sha256": "3a973cb796f959faa32a325debc877a6582fab785ef589d80270acb25bfb2883",
+            "evaluator_sha256": "35485d8ae4787cabf7db5cdf03085cddc84956c318319dbda36d86486e8db780",
+            "model_settings_sha256": "e4ff491169b8a9ea78518a7972422b5a24d5e3790e0d9a9e5cbfb384d9b621e0",
+            "context_refs": [
+              {
+                "collection": "company_context_versions",
+                "record_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+                "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+                "reset_epoch": 1
+              }
+            ],
+            "source_refs": [
+              {
+                "collection": "legal_source_versions",
+                "record_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+                "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+                "reset_epoch": 1
+              },
+              {
+                "collection": "legal_source_versions",
+                "record_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+                "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+                "reset_epoch": 1
+              },
+              {
+                "collection": "legal_source_versions",
+                "record_id": "23513bed-4516-56ad-ab38-84fab4936de3",
+                "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+                "reset_epoch": 1
+              }
+            ],
+            "event_refs": [
+              {
+                "collection": "events",
+                "record_id": "4fbd9f2e-d458-5a31-99c6-e333fe338b64",
+                "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+                "reset_epoch": 1
+              }
+            ],
+            "requested_model": "gpt-6-astra",
+            "returned_model": null,
+            "provider_version": null,
+            "comparability": "provider_version_unavailable",
+            "reset_epoch": 1
+          },
+          "measurement_mode": "fixture_replay"
+        }
+      },
+      "response": {
+        "operation": "evaluate_harness_patch",
+        "request_id": "e4faacb0-412c-54e4-8d16-e3bd1bfd9713",
+        "ok": true,
+        "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+        "reset_epoch": 1,
+        "idempotency_key": "io-evaluate_harness_patch-success",
+        "replayed": false,
+        "result": {
+          "evaluation_ref": {
+            "collection": "evaluation_runs",
+            "record_id": "cd3acd36-7e86-5737-80b6-330bbf11e7fa",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "binding_sha256": "b5679ce9110e440f39539c3fafea56e3cbd8cd435bc5e47cc672aa74d35c8482",
+          "metrics": {
+            "baseline_pass_count": 24,
+            "candidate_pass_count": 25,
+            "case_count": 25,
+            "critical_regressions": 0
+          },
+          "target_metric": {
+            "name": "missing_bundle_repairs",
+            "baseline": 1,
+            "candidate": 0
+          },
+          "reason_codes": [
+            "PLANNED_FIXTURE_NOT_PROMOTABLE"
+          ],
+          "status": "passed",
+          "measurement_status": "planned_fixture",
+          "promotion_eligible": false
+        },
+        "receipt_ref": {
+          "collection": "tool_receipts",
+          "record_id": "962d9982-59a2-5991-9bf5-600ef1701a43",
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "reset_epoch": 1
+        },
+        "event_refs": []
+      }
+    },
+    {
+      "name": "evaluate_harness_patch_inconclusive",
+      "operation": "evaluate_harness_patch",
+      "variant": "inconclusive",
+      "execution_status": "illustrative_contract_exchange_not_executed",
+      "scenario_conditions": [
+        "Isolated temporal fixture; seeded record IDs do not assert this service actually ran."
+      ],
+      "request": {
+        "operation": "evaluate_harness_patch",
+        "request_id": "0c4e7ba9-ac7d-5a9e-8f1f-c0fc2bfb256d",
+        "server_context": {
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+          "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+          "invocation_id": "758ed89d-222e-53dd-b56e-21cad0b25ed1",
+          "principal_id": "c5cf2f55-92b2-5a55-8e48-8efdb8f2589b",
+          "principal_kind": "worker_service",
+          "fencing_token": 1,
+          "context_revision_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+          "legal_snapshot_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+          "base_document_version_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+          "harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "reset_epoch": 1
+        },
+        "budget_scope_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+        "guard": {
+          "expected_tenant_state_version": 1,
+          "expected_policy_epoch": 1,
+          "expected_workflow_state_version": 3,
+          "expected_run_state_version": 1
+        },
+        "idempotency_key": "io-evaluate_harness_patch-inconclusive",
+        "payload": {
+          "candidate_ref": {
+            "collection": "harness_candidates",
+            "record_id": "72cea827-a276-519e-b076-2f86e992eb5c",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "baseline_ref": {
+            "collection": "harness_versions",
+            "record_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "proposed_ref": {
+            "collection": "harness_versions",
+            "record_id": "e084aa8e-40c1-5c94-abac-a701cb08022b",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "binding": {
+            "manifest_sha256": "6d120cd1838c84807e27ea4ba21741f0db8e6600d4523fba180dc5081312e8f8",
+            "dataset_sha256": "58424a8b3bf9e25c89576e012090740e0f4da32e0f390dacb39f07af26d3223f",
+            "base_config_sha256": "6c54874e3b5b5b7c586bd019e206b89372568a5fcd7e6b42eb33a64c02726db5",
+            "candidate_config_sha256": "3e5ac9cc65b817cdf27fad9c3db62a07f91eb300275cd8ee165b8cbbff9554e0",
+            "protected_policy_sha256": "d057c9ba6c9e9b0a4652e6be5686bbbca3dfabfaf9d409ef137072436cddaaf0",
+            "runtime_policy_sha256": "3a973cb796f959faa32a325debc877a6582fab785ef589d80270acb25bfb2883",
+            "evaluator_sha256": "35485d8ae4787cabf7db5cdf03085cddc84956c318319dbda36d86486e8db780",
+            "model_settings_sha256": "e4ff491169b8a9ea78518a7972422b5a24d5e3790e0d9a9e5cbfb384d9b621e0",
+            "context_refs": [
+              {
+                "collection": "company_context_versions",
+                "record_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+                "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+                "reset_epoch": 1
+              }
+            ],
+            "source_refs": [
+              {
+                "collection": "legal_source_versions",
+                "record_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+                "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+                "reset_epoch": 1
+              },
+              {
+                "collection": "legal_source_versions",
+                "record_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+                "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+                "reset_epoch": 1
+              },
+              {
+                "collection": "legal_source_versions",
+                "record_id": "23513bed-4516-56ad-ab38-84fab4936de3",
+                "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+                "reset_epoch": 1
+              }
+            ],
+            "event_refs": [
+              {
+                "collection": "events",
+                "record_id": "4fbd9f2e-d458-5a31-99c6-e333fe338b64",
+                "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+                "reset_epoch": 1
+              }
+            ],
+            "requested_model": "gpt-6-astra",
+            "returned_model": null,
+            "provider_version": null,
+            "comparability": "provider_version_unavailable",
+            "reset_epoch": 1
+          },
+          "measurement_mode": "fixture_replay"
+        }
+      },
+      "response": {
+        "operation": "evaluate_harness_patch",
+        "request_id": "0c4e7ba9-ac7d-5a9e-8f1f-c0fc2bfb256d",
+        "ok": true,
+        "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+        "reset_epoch": 1,
+        "idempotency_key": "io-evaluate_harness_patch-inconclusive",
+        "replayed": false,
+        "result": {
+          "evaluation_ref": {
+            "collection": "evaluation_runs",
+            "record_id": "cd3acd36-7e86-5737-80b6-330bbf11e7fa",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "binding_sha256": "b5679ce9110e440f39539c3fafea56e3cbd8cd435bc5e47cc672aa74d35c8482",
+          "metrics": {
+            "baseline_pass_count": 24,
+            "candidate_pass_count": 25,
+            "case_count": 25,
+            "critical_regressions": 0
+          },
+          "target_metric": {
+            "name": "missing_bundle_repairs",
+            "baseline": null,
+            "candidate": null
+          },
+          "reason_codes": [
+            "EVALUATION_BUDGET_EXHAUSTED"
+          ],
+          "status": "inconclusive",
+          "measurement_status": "planned_fixture",
+          "promotion_eligible": false
+        },
+        "receipt_ref": {
+          "collection": "tool_receipts",
+          "record_id": "962d9982-59a2-5991-9bf5-600ef1701a43",
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "reset_epoch": 1
+        },
+        "event_refs": []
+      }
+    },
+    {
+      "name": "promote_harness_version_success",
+      "operation": "promote_harness_version",
+      "variant": "success",
+      "execution_status": "illustrative_contract_exchange_not_executed",
+      "scenario_conditions": [
+        "Hypothetical future state: referenced evaluation replaced by a separately executed and fully comparable passing run in isolated test setup.",
+        "Do not execute promotion using current T04 planned_fixture evaluation. This exchange validates shape only."
+      ],
+      "request": {
+        "operation": "promote_harness_version",
+        "request_id": "f726613a-f176-53d8-b753-d3d5fba554a5",
+        "server_context": {
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+          "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+          "invocation_id": "758ed89d-222e-53dd-b56e-21cad0b25ed1",
+          "principal_id": "c5cf2f55-92b2-5a55-8e48-8efdb8f2589b",
+          "principal_kind": "worker_service",
+          "fencing_token": 1,
+          "context_revision_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+          "legal_snapshot_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+          "base_document_version_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+          "harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "reset_epoch": 1
+        },
+        "budget_scope_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+        "guard": {
+          "expected_tenant_state_version": 1,
+          "expected_policy_epoch": 1,
+          "expected_workflow_state_version": 3,
+          "expected_run_state_version": 1
+        },
+        "idempotency_key": "io-promote_harness_version-success",
+        "payload": {
+          "candidate_ref": {
+            "collection": "harness_candidates",
+            "record_id": "72cea827-a276-519e-b076-2f86e992eb5c",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "evaluation_ref": {
+            "collection": "evaluation_runs",
+            "record_id": "cd3acd36-7e86-5737-80b6-330bbf11e7fa",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "expected_harness_head_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "expected_harness_epoch": 1,
+          "expected_policy_epoch": 1
+        }
+      },
+      "response": {
+        "operation": "promote_harness_version",
+        "request_id": "f726613a-f176-53d8-b753-d3d5fba554a5",
+        "ok": true,
+        "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+        "reset_epoch": 1,
+        "idempotency_key": "io-promote_harness_version-success",
+        "replayed": false,
+        "result": {
+          "candidate_ref": {
+            "collection": "harness_candidates",
+            "record_id": "72cea827-a276-519e-b076-2f86e992eb5c",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "harness_state": {
+            "tenant_ref": {
+              "collection": "tenants",
+              "record_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+              "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+              "reset_epoch": 1
+            },
+            "harness_version_ref": {
+              "collection": "harness_versions",
+              "record_id": "e084aa8e-40c1-5c94-abac-a701cb08022b",
+              "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+              "reset_epoch": 1
+            },
+            "harness_epoch": 2,
+            "policy_epoch": 1,
+            "tenant_state_version": 2
+          },
+          "promotion_event_ref": {
+            "collection": "events",
+            "record_id": "370a4b27-cf34-5acf-af57-ec054534d97d",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "promotion_mode": "automatic_allowlisted",
+          "outcome": "promoted"
+        },
+        "receipt_ref": {
+          "collection": "tool_receipts",
+          "record_id": "962d9982-59a2-5991-9bf5-600ef1701a43",
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "reset_epoch": 1
+        },
+        "event_refs": []
+      }
+    },
+    {
+      "name": "rollback_harness_version_success",
+      "operation": "rollback_harness_version",
+      "variant": "success",
+      "execution_status": "illustrative_contract_exchange_not_executed",
+      "scenario_conditions": [
+        "Isolated temporal fixture; seeded record IDs do not assert this service actually ran."
+      ],
+      "request": {
+        "operation": "rollback_harness_version",
+        "request_id": "5712967d-e776-5709-9415-1b5328380b5a",
+        "server_context": {
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+          "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+          "invocation_id": "758ed89d-222e-53dd-b56e-21cad0b25ed1",
+          "principal_id": "c5cf2f55-92b2-5a55-8e48-8efdb8f2589b",
+          "principal_kind": "worker_service",
+          "fencing_token": 1,
+          "context_revision_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+          "legal_snapshot_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+          "base_document_version_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+          "harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "reset_epoch": 1
+        },
+        "budget_scope_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+        "guard": {
+          "expected_tenant_state_version": 1,
+          "expected_policy_epoch": 1,
+          "expected_workflow_state_version": 3,
+          "expected_run_state_version": 1
+        },
+        "idempotency_key": "io-rollback_harness_version-success",
+        "payload": {
+          "expected_harness_head_id": "e084aa8e-40c1-5c94-abac-a701cb08022b",
+          "expected_harness_epoch": 2,
+          "expected_policy_epoch": 1,
+          "target_version_ref": {
+            "collection": "harness_versions",
+            "record_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "reason_code": "hard_regression",
+          "evidence_refs": [
+            {
+              "collection": "validation_runs",
+              "record_id": "854af570-312d-562d-a480-5032d0adb066",
+              "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+              "reset_epoch": 1
+            }
+          ],
+          "authorized_request_event_ref": {
+            "collection": "events",
+            "record_id": "370a4b27-cf34-5acf-af57-ec054534d97d",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          }
+        }
+      },
+      "response": {
+        "operation": "rollback_harness_version",
+        "request_id": "5712967d-e776-5709-9415-1b5328380b5a",
+        "ok": true,
+        "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+        "reset_epoch": 1,
+        "idempotency_key": "io-rollback_harness_version-success",
+        "replayed": false,
+        "result": {
+          "harness_state": {
+            "tenant_ref": {
+              "collection": "tenants",
+              "record_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+              "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+              "reset_epoch": 1
+            },
+            "harness_version_ref": {
+              "collection": "harness_versions",
+              "record_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+              "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+              "reset_epoch": 1
+            },
+            "harness_epoch": 3,
+            "policy_epoch": 1,
+            "tenant_state_version": 3
+          },
+          "rollback_event_ref": {
+            "collection": "events",
+            "record_id": "370a4b27-cf34-5acf-af57-ec054534d97d",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "automatic_promotion_paused": true,
+          "outcome": "rolled_back"
+        },
+        "receipt_ref": {
+          "collection": "tool_receipts",
+          "record_id": "962d9982-59a2-5991-9bf5-600ef1701a43",
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "reset_epoch": 1
+        },
+        "event_refs": []
+      }
+    },
+    {
+      "name": "start_agent_run_success",
+      "operation": "start_agent_run",
+      "variant": "success",
+      "execution_status": "illustrative_contract_exchange_not_executed",
+      "scenario_conditions": [
+        "Isolated temporal fixture; seeded record IDs do not assert this service actually ran."
+      ],
+      "request": {
+        "operation": "start_agent_run",
+        "request_id": "548e635e-2315-57ed-9123-a3729af86d65",
+        "server_context": {
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+          "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+          "invocation_id": "758ed89d-222e-53dd-b56e-21cad0b25ed1",
+          "principal_id": "c5cf2f55-92b2-5a55-8e48-8efdb8f2589b",
+          "principal_kind": "worker_service",
+          "fencing_token": 1,
+          "context_revision_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+          "legal_snapshot_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+          "base_document_version_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+          "harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "reset_epoch": 1
+        },
+        "budget_scope_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+        "guard": {
+          "expected_tenant_state_version": 1,
+          "expected_policy_epoch": 1,
+          "expected_workflow_state_version": 3,
+          "expected_run_state_version": 1
+        },
+        "idempotency_key": "io-start_agent_run-success",
+        "payload": {
+          "run_input": {
+            "contract_version": "0.1.0",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+            "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+            "job_id": "3d6975b8-4dfb-5eaf-8b1a-136f01c05dd7",
+            "trigger_event_id": "4fbd9f2e-d458-5a31-99c6-e333fe338b64",
+            "run_kind": "review",
+            "expected_state_version": 3,
+            "fencing_token": 1,
+            "context_revision": {
+              "record_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+              "sha256": "9664742bfe75ada5f367d7f671cef7ba08f1f1a3c9074ecb000ae3a82bff8ee7"
+            },
+            "base_document_version": {
+              "record_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+              "sha256": "0b5a8befd488d45268fce251b85765110c251fae3c1202ae5ed8683da307e2f7"
+            },
+            "legal_snapshot": {
+              "record_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+              "sha256": "64185db2a9f3956abdf9530d6a2abca709284af65577f3bd02aad11326c92910"
+            },
+            "harness_version": {
+              "record_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+              "sha256": "6c54874e3b5b5b7c586bd019e206b89372568a5fcd7e6b42eb33a64c02726db5"
+            },
+            "runtime_policy_version": {
+              "record_id": "97f8a45d-50e4-5451-9f0c-6ff965d38c32",
+              "sha256": "3a973cb796f959faa32a325debc877a6582fab785ef589d80270acb25bfb2883"
+            },
+            "tool_registry_version": "0.1.0",
+            "model": {
+              "provider": "openai",
+              "requested_model": "gpt-6-astra",
+              "reasoning_effort": "medium"
+            },
+            "started_at": "2026-09-26T16:00:00Z",
+            "deadline_at": "2026-09-26T16:05:00Z",
+            "budget": {
+              "logical_model_requests": 0,
+              "physical_model_attempts": 0,
+              "tool_calls": 0,
+              "repair_attempts": 0,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "reserved_cost_micro_usd": 0,
+              "settled_cost_micro_usd": 0,
+              "unknown_cost_micro_usd": 0
+            },
+            "budget_scope_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+            "reset_epoch": 1
+          },
+          "expected_harness_head_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "expected_harness_epoch": 1
+        }
+      },
+      "response": {
+        "operation": "start_agent_run",
+        "request_id": "548e635e-2315-57ed-9123-a3729af86d65",
+        "ok": true,
+        "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+        "reset_epoch": 1,
+        "idempotency_key": "io-start_agent_run-success",
+        "replayed": false,
+        "result": {
+          "run_ref": {
+            "collection": "agent_runs",
+            "record_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "pinned_harness_ref": {
+            "collection": "harness_versions",
+            "record_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "run_input": {
+            "contract_version": "0.1.0",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+            "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+            "job_id": "3d6975b8-4dfb-5eaf-8b1a-136f01c05dd7",
+            "trigger_event_id": "4fbd9f2e-d458-5a31-99c6-e333fe338b64",
+            "run_kind": "review",
+            "expected_state_version": 3,
+            "fencing_token": 1,
+            "context_revision": {
+              "record_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+              "sha256": "9664742bfe75ada5f367d7f671cef7ba08f1f1a3c9074ecb000ae3a82bff8ee7"
+            },
+            "base_document_version": {
+              "record_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+              "sha256": "0b5a8befd488d45268fce251b85765110c251fae3c1202ae5ed8683da307e2f7"
+            },
+            "legal_snapshot": {
+              "record_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+              "sha256": "64185db2a9f3956abdf9530d6a2abca709284af65577f3bd02aad11326c92910"
+            },
+            "harness_version": {
+              "record_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+              "sha256": "6c54874e3b5b5b7c586bd019e206b89372568a5fcd7e6b42eb33a64c02726db5"
+            },
+            "runtime_policy_version": {
+              "record_id": "97f8a45d-50e4-5451-9f0c-6ff965d38c32",
+              "sha256": "3a973cb796f959faa32a325debc877a6582fab785ef589d80270acb25bfb2883"
+            },
+            "tool_registry_version": "0.1.0",
+            "model": {
+              "provider": "openai",
+              "requested_model": "gpt-6-astra",
+              "reasoning_effort": "medium"
+            },
+            "started_at": "2026-09-26T16:00:00Z",
+            "deadline_at": "2026-09-26T16:05:00Z",
+            "budget": {
+              "logical_model_requests": 0,
+              "physical_model_attempts": 0,
+              "tool_calls": 0,
+              "repair_attempts": 0,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "reserved_cost_micro_usd": 0,
+              "settled_cost_micro_usd": 0,
+              "unknown_cost_micro_usd": 0
+            },
+            "budget_scope_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+            "reset_epoch": 1
+          },
+          "outcome": "created"
+        },
+        "receipt_ref": {
+          "collection": "tool_receipts",
+          "record_id": "962d9982-59a2-5991-9bf5-600ef1701a43",
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "reset_epoch": 1
+        },
+        "event_refs": []
+      }
+    },
+    {
+      "name": "assess_applicability_source_not_operative",
+      "operation": "assess_applicability",
+      "variant": "error",
+      "execution_status": "illustrative_contract_exchange_not_executed",
+      "scenario_conditions": [
+        "Rejected before effects; re-read current state or satisfy missing prerequisite rather than blindly retry."
+      ],
+      "request": {
+        "operation": "assess_applicability",
+        "request_id": "ab6f660b-c39c-588a-ba38-0e9e4d0157dd",
+        "server_context": {
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+          "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+          "invocation_id": "758ed89d-222e-53dd-b56e-21cad0b25ed1",
+          "principal_id": "c5cf2f55-92b2-5a55-8e48-8efdb8f2589b",
+          "principal_kind": "worker_service",
+          "fencing_token": 1,
+          "context_revision_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+          "legal_snapshot_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+          "base_document_version_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+          "harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "reset_epoch": 1
+        },
+        "budget_scope_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+        "guard": {
+          "expected_tenant_state_version": 1,
+          "expected_policy_epoch": 1,
+          "expected_workflow_state_version": 3,
+          "expected_run_state_version": 1
+        },
+        "idempotency_key": "io-assess_applicability-source_not_operative",
+        "payload": {
+          "event_ref": {
+            "collection": "events",
+            "record_id": "4fbd9f2e-d458-5a31-99c6-e333fe338b64",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "context_ref": {
+            "collection": "company_context_versions",
+            "record_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "evidence_ref": {
+            "collection": "evidence_bundles",
+            "record_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "harness_ref": {
+            "collection": "harness_versions",
+            "record_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "rule_pack_version": "legal_ca_20260926_v1",
+          "scenario_date": "2026-09-26",
+          "model_invocation_id": "38879322-7ff9-54a3-9432-3d01f266661a",
+          "model_output": {
+            "outcome": "covered",
+            "criteria": [
+              {
+                "criterion_key": "map_applicability",
+                "result": "satisfied",
+                "fact_ids": [
+                  "286b1546-e0a9-5097-87ea-62c1db70a886",
+                  "ab5b5336-e7ab-5cb6-b1dd-b242a307ee97",
+                  "5165d721-4db8-568a-b983-026abdca586c",
+                  "435478f3-3926-5090-a0cf-a9a1183f76b7",
+                  "04a9b32e-8d01-5ce2-b464-d32fa5c90203",
+                  "f8d26045-3f56-512b-ab1c-3117b6e3bbb0",
+                  "8efdf173-cc82-5a54-8af5-67ea323a7348",
+                  "5cb3f07d-32b2-5b91-891d-8700729615c1",
+                  "ea4792ed-c755-582c-81dd-934188018892",
+                  "24819f60-a842-5dc7-9131-90358c10cad9"
+                ],
+                "provision_chunk_ids": [
+                  "0a3e6a6c-2ede-502e-83f0-761ccd88d419",
+                  "272567e6-ed7c-5c45-92e6-e5451f92818b",
+                  "d94a8332-fa87-5f8a-9adb-83e34c5f3514",
+                  "d1d9e765-35d6-5401-8653-66ed350937bb",
+                  "37725ca6-9249-5d11-afab-4cc58e7b5b60"
+                ],
+                "reason": "Revenue route passes on explicit 2025 USD30m fixture. A CA signup triggers assessment; it does not prove all elements."
+              }
+            ],
+            "missing_fact_keys": [],
+            "rationale": "CCPA business definition and ordinary California consumer signup processing; proposed legal interpretation from T03 synthetic fixture."
+          }
+        }
+      },
+      "response": {
+        "operation": "assess_applicability",
+        "request_id": "ab6f660b-c39c-588a-ba38-0e9e4d0157dd",
+        "ok": false,
+        "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+        "reset_epoch": 1,
+        "idempotency_key": "io-assess_applicability-source_not_operative",
+        "http_status": 422,
+        "error": {
+          "domain_code": "SOURCE_NOT_OPERATIVE",
+          "runtime_error": {
+            "code": "SOURCE_EXPIRED",
+            "message": "Illustrative contract rejection: SOURCE_NOT_OPERATIVE",
+            "retryable": false,
+            "correlation_id": "ab6f660b-c39c-588a-ba38-0e9e4d0157dd",
+            "reset_epoch": 1
+          },
+          "field_paths": [
+            "/payload"
+          ],
+          "current_harness_state": null,
+          "side_effects_committed": false
+        }
+      }
+    },
+    {
+      "name": "validate_retrieval_plan_stale_reset_epoch",
+      "operation": "validate_retrieval_plan",
+      "variant": "error",
+      "execution_status": "illustrative_contract_exchange_not_executed",
+      "scenario_conditions": [
+        "Rejected before effects; re-read current state or satisfy missing prerequisite rather than blindly retry."
+      ],
+      "request": {
+        "operation": "validate_retrieval_plan",
+        "request_id": "e6cbe94a-43de-547e-9905-39806b314ee1",
+        "server_context": {
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+          "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+          "invocation_id": "758ed89d-222e-53dd-b56e-21cad0b25ed1",
+          "principal_id": "c5cf2f55-92b2-5a55-8e48-8efdb8f2589b",
+          "principal_kind": "worker_service",
+          "fencing_token": 1,
+          "context_revision_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+          "legal_snapshot_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+          "base_document_version_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+          "harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "reset_epoch": 1
+        },
+        "budget_scope_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+        "guard": {
+          "expected_tenant_state_version": 1,
+          "expected_policy_epoch": 1,
+          "expected_workflow_state_version": 3,
+          "expected_run_state_version": 1
+        },
+        "idempotency_key": "io-validate_retrieval_plan-stale_reset_epoch",
+        "payload": {
+          "subject_kind": "context_readiness",
+          "context_ref": {
+            "collection": "company_context_versions",
+            "record_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "context_selection_id": "9cbddeeb-57aa-50d3-afcc-5a138483660b",
+          "evidence_ref": null,
+          "harness_ref": {
+            "collection": "harness_versions",
+            "record_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "input_bundle_sha256": "d80446e18ed008274f96617a7794a3ae148f3466d07a22203890abf9e22f7fb7"
+        }
+      },
+      "response": {
+        "operation": "validate_retrieval_plan",
+        "request_id": "e6cbe94a-43de-547e-9905-39806b314ee1",
+        "ok": false,
+        "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+        "reset_epoch": 1,
+        "idempotency_key": "io-validate_retrieval_plan-stale_reset_epoch",
+        "http_status": 409,
+        "error": {
+          "domain_code": "STALE_RESET_EPOCH",
+          "runtime_error": {
+            "code": "STALE_RESET_EPOCH",
+            "message": "Illustrative contract rejection: STALE_RESET_EPOCH",
+            "retryable": false,
+            "correlation_id": "e6cbe94a-43de-547e-9905-39806b314ee1",
+            "reset_epoch": 1
+          },
+          "field_paths": [
+            "/payload"
+          ],
+          "current_harness_state": null,
+          "side_effects_committed": false
+        }
+      }
+    },
+    {
+      "name": "validate_proposal_base_version_mismatch",
+      "operation": "validate_proposal",
+      "variant": "error",
+      "execution_status": "illustrative_contract_exchange_not_executed",
+      "scenario_conditions": [
+        "Rejected before effects; re-read current state or satisfy missing prerequisite rather than blindly retry."
+      ],
+      "request": {
+        "operation": "validate_proposal",
+        "request_id": "1eb22fad-59ef-55d7-888d-727d6ee6d411",
+        "server_context": {
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+          "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+          "invocation_id": "758ed89d-222e-53dd-b56e-21cad0b25ed1",
+          "principal_id": "c5cf2f55-92b2-5a55-8e48-8efdb8f2589b",
+          "principal_kind": "worker_service",
+          "fencing_token": 1,
+          "context_revision_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+          "legal_snapshot_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+          "base_document_version_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+          "harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "reset_epoch": 1
+        },
+        "budget_scope_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+        "guard": {
+          "expected_tenant_state_version": 1,
+          "expected_policy_epoch": 1,
+          "expected_workflow_state_version": 3,
+          "expected_run_state_version": 1
+        },
+        "idempotency_key": "io-validate_proposal-base_version_mismatch",
+        "payload": {
+          "subject_kind": "proposal",
+          "proposal_ref": {
+            "collection": "change_proposals",
+            "record_id": "2b38093d-cfe2-54b8-a2ea-0e56f9e24efc",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "candidate_revision_ref": {
+            "collection": "document_revisions",
+            "record_id": "6e12d307-1397-5160-8b40-a5e83f02e303",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "evidence_ref": {
+            "collection": "evidence_bundles",
+            "record_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "assessment_ref": {
+            "collection": "assessments",
+            "record_id": "aa9d34f4-2739-5ba9-a960-253102f31a64",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "harness_ref": {
+            "collection": "harness_versions",
+            "record_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "review_input_hash": "8c45d68b6a7e3a9c8ffebaa54bcc51c8e84cc10b412b4289571ff3cb1455164a",
+          "semantic_review": {
+            "verdict": "supported",
+            "findings": []
+          },
+          "semantic_model_invocation_id": "426b7d4b-c728-557f-93f8-a945e2a355b7"
+        }
+      },
+      "response": {
+        "operation": "validate_proposal",
+        "request_id": "1eb22fad-59ef-55d7-888d-727d6ee6d411",
+        "ok": false,
+        "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+        "reset_epoch": 1,
+        "idempotency_key": "io-validate_proposal-base_version_mismatch",
+        "http_status": 409,
+        "error": {
+          "domain_code": "BASE_VERSION_MISMATCH",
+          "runtime_error": {
+            "code": "STALE_SNAPSHOT",
+            "message": "Illustrative contract rejection: BASE_VERSION_MISMATCH",
+            "retryable": false,
+            "correlation_id": "1eb22fad-59ef-55d7-888d-727d6ee6d411",
+            "reset_epoch": 1
+          },
+          "field_paths": [
+            "/payload"
+          ],
+          "current_harness_state": null,
+          "side_effects_committed": false
+        }
+      }
+    },
+    {
+      "name": "plan_current_repair_repair_exhausted",
+      "operation": "plan_current_repair",
+      "variant": "error",
+      "execution_status": "illustrative_contract_exchange_not_executed",
+      "scenario_conditions": [
+        "Rejected before effects; re-read current state or satisfy missing prerequisite rather than blindly retry."
+      ],
+      "request": {
+        "operation": "plan_current_repair",
+        "request_id": "2b06249d-c875-5350-b554-fda5c36256cf",
+        "server_context": {
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+          "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+          "invocation_id": "758ed89d-222e-53dd-b56e-21cad0b25ed1",
+          "principal_id": "c5cf2f55-92b2-5a55-8e48-8efdb8f2589b",
+          "principal_kind": "worker_service",
+          "fencing_token": 1,
+          "context_revision_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+          "legal_snapshot_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+          "base_document_version_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+          "harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "reset_epoch": 1
+        },
+        "budget_scope_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+        "guard": {
+          "expected_tenant_state_version": 1,
+          "expected_policy_epoch": 1,
+          "expected_workflow_state_version": 3,
+          "expected_run_state_version": 1
+        },
+        "idempotency_key": "io-plan_current_repair-repair_exhausted",
+        "payload": {
+          "validation_ref": {
+            "collection": "validation_runs",
+            "record_id": "acafc846-37c2-5726-a926-10a2d4cc9bb0",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "subject_kind": "context_readiness",
+          "expected_repair_count": 0,
+          "harness_ref": {
+            "collection": "harness_versions",
+            "record_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          }
+        }
+      },
+      "response": {
+        "operation": "plan_current_repair",
+        "request_id": "2b06249d-c875-5350-b554-fda5c36256cf",
+        "ok": false,
+        "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+        "reset_epoch": 1,
+        "idempotency_key": "io-plan_current_repair-repair_exhausted",
+        "http_status": 422,
+        "error": {
+          "domain_code": "REPAIR_EXHAUSTED",
+          "runtime_error": {
+            "code": "BUDGET_EXHAUSTED",
+            "message": "Illustrative contract rejection: REPAIR_EXHAUSTED",
+            "retryable": false,
+            "correlation_id": "2b06249d-c875-5350-b554-fda5c36256cf",
+            "reset_epoch": 1
+          },
+          "field_paths": [
+            "/payload"
+          ],
+          "current_harness_state": null,
+          "side_effects_committed": false
+        }
+      }
+    },
+    {
+      "name": "propose_harness_change_patch_path_forbidden",
+      "operation": "propose_harness_change",
+      "variant": "error",
+      "execution_status": "illustrative_contract_exchange_not_executed",
+      "scenario_conditions": [
+        "Rejected before effects; re-read current state or satisfy missing prerequisite rather than blindly retry."
+      ],
+      "request": {
+        "operation": "propose_harness_change",
+        "request_id": "cecdc382-eae9-52f9-b20c-6baee8d3f922",
+        "server_context": {
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+          "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+          "invocation_id": "758ed89d-222e-53dd-b56e-21cad0b25ed1",
+          "principal_id": "c5cf2f55-92b2-5a55-8e48-8efdb8f2589b",
+          "principal_kind": "worker_service",
+          "fencing_token": 1,
+          "context_revision_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+          "legal_snapshot_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+          "base_document_version_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+          "harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "reset_epoch": 1
+        },
+        "budget_scope_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+        "guard": {
+          "expected_tenant_state_version": 1,
+          "expected_policy_epoch": 1,
+          "expected_workflow_state_version": 3,
+          "expected_run_state_version": 1
+        },
+        "idempotency_key": "io-propose_harness_change-patch_path_forbidden",
+        "payload": {
+          "model_arguments": {
+            "observation_ids": [
+              "acafc846-37c2-5726-a926-10a2d4cc9bb0"
+            ],
+            "rule_catalog_ids": [
+              "declared_ca_resident_ccpa_bundle",
+              "declared_ca_resident_company_facts"
+            ],
+            "rationale": "Validation detected missing jurisdiction context; enable catalog prefetch on future declared-CA signup events."
+          }
+        }
+      },
+      "response": {
+        "operation": "propose_harness_change",
+        "request_id": "cecdc382-eae9-52f9-b20c-6baee8d3f922",
+        "ok": false,
+        "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+        "reset_epoch": 1,
+        "idempotency_key": "io-propose_harness_change-patch_path_forbidden",
+        "http_status": 422,
+        "error": {
+          "domain_code": "PATCH_PATH_FORBIDDEN",
+          "runtime_error": {
+            "code": "INVALID_ARGUMENT",
+            "message": "Illustrative contract rejection: PATCH_PATH_FORBIDDEN",
+            "retryable": false,
+            "correlation_id": "cecdc382-eae9-52f9-b20c-6baee8d3f922",
+            "reset_epoch": 1
+          },
+          "field_paths": [
+            "/payload"
+          ],
+          "current_harness_state": null,
+          "side_effects_committed": false
+        }
+      }
+    },
+    {
+      "name": "evaluate_harness_patch_evaluation_binding_mismatch",
+      "operation": "evaluate_harness_patch",
+      "variant": "error",
+      "execution_status": "illustrative_contract_exchange_not_executed",
+      "scenario_conditions": [
+        "Rejected before effects; re-read current state or satisfy missing prerequisite rather than blindly retry."
+      ],
+      "request": {
+        "operation": "evaluate_harness_patch",
+        "request_id": "65bfea57-c4d7-5a51-8142-330efe99c291",
+        "server_context": {
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+          "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+          "invocation_id": "758ed89d-222e-53dd-b56e-21cad0b25ed1",
+          "principal_id": "c5cf2f55-92b2-5a55-8e48-8efdb8f2589b",
+          "principal_kind": "worker_service",
+          "fencing_token": 1,
+          "context_revision_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+          "legal_snapshot_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+          "base_document_version_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+          "harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "reset_epoch": 1
+        },
+        "budget_scope_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+        "guard": {
+          "expected_tenant_state_version": 1,
+          "expected_policy_epoch": 1,
+          "expected_workflow_state_version": 3,
+          "expected_run_state_version": 1
+        },
+        "idempotency_key": "io-evaluate_harness_patch-evaluation_binding_mismatch",
+        "payload": {
+          "candidate_ref": {
+            "collection": "harness_candidates",
+            "record_id": "72cea827-a276-519e-b076-2f86e992eb5c",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "baseline_ref": {
+            "collection": "harness_versions",
+            "record_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "proposed_ref": {
+            "collection": "harness_versions",
+            "record_id": "e084aa8e-40c1-5c94-abac-a701cb08022b",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "binding": {
+            "manifest_sha256": "6d120cd1838c84807e27ea4ba21741f0db8e6600d4523fba180dc5081312e8f8",
+            "dataset_sha256": "58424a8b3bf9e25c89576e012090740e0f4da32e0f390dacb39f07af26d3223f",
+            "base_config_sha256": "6c54874e3b5b5b7c586bd019e206b89372568a5fcd7e6b42eb33a64c02726db5",
+            "candidate_config_sha256": "3e5ac9cc65b817cdf27fad9c3db62a07f91eb300275cd8ee165b8cbbff9554e0",
+            "protected_policy_sha256": "d057c9ba6c9e9b0a4652e6be5686bbbca3dfabfaf9d409ef137072436cddaaf0",
+            "runtime_policy_sha256": "3a973cb796f959faa32a325debc877a6582fab785ef589d80270acb25bfb2883",
+            "evaluator_sha256": "35485d8ae4787cabf7db5cdf03085cddc84956c318319dbda36d86486e8db780",
+            "model_settings_sha256": "e4ff491169b8a9ea78518a7972422b5a24d5e3790e0d9a9e5cbfb384d9b621e0",
+            "context_refs": [
+              {
+                "collection": "company_context_versions",
+                "record_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+                "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+                "reset_epoch": 1
+              }
+            ],
+            "source_refs": [
+              {
+                "collection": "legal_source_versions",
+                "record_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+                "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+                "reset_epoch": 1
+              },
+              {
+                "collection": "legal_source_versions",
+                "record_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+                "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+                "reset_epoch": 1
+              },
+              {
+                "collection": "legal_source_versions",
+                "record_id": "23513bed-4516-56ad-ab38-84fab4936de3",
+                "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+                "reset_epoch": 1
+              }
+            ],
+            "event_refs": [
+              {
+                "collection": "events",
+                "record_id": "4fbd9f2e-d458-5a31-99c6-e333fe338b64",
+                "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+                "reset_epoch": 1
+              }
+            ],
+            "requested_model": "gpt-6-astra",
+            "returned_model": null,
+            "provider_version": null,
+            "comparability": "provider_version_unavailable",
+            "reset_epoch": 1
+          },
+          "measurement_mode": "fixture_replay"
+        }
+      },
+      "response": {
+        "operation": "evaluate_harness_patch",
+        "request_id": "65bfea57-c4d7-5a51-8142-330efe99c291",
+        "ok": false,
+        "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+        "reset_epoch": 1,
+        "idempotency_key": "io-evaluate_harness_patch-evaluation_binding_mismatch",
+        "http_status": 422,
+        "error": {
+          "domain_code": "EVALUATION_BINDING_MISMATCH",
+          "runtime_error": {
+            "code": "INVALID_ARGUMENT",
+            "message": "Illustrative contract rejection: EVALUATION_BINDING_MISMATCH",
+            "retryable": false,
+            "correlation_id": "65bfea57-c4d7-5a51-8142-330efe99c291",
+            "reset_epoch": 1
+          },
+          "field_paths": [
+            "/payload"
+          ],
+          "current_harness_state": null,
+          "side_effects_committed": false
+        }
+      }
+    },
+    {
+      "name": "promote_harness_version_champion_conflict",
+      "operation": "promote_harness_version",
+      "variant": "error",
+      "execution_status": "illustrative_contract_exchange_not_executed",
+      "scenario_conditions": [
+        "Rejected before effects; re-read current state or satisfy missing prerequisite rather than blindly retry."
+      ],
+      "request": {
+        "operation": "promote_harness_version",
+        "request_id": "be3b8bb4-c41c-5445-9968-a13bf8302156",
+        "server_context": {
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+          "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+          "invocation_id": "758ed89d-222e-53dd-b56e-21cad0b25ed1",
+          "principal_id": "c5cf2f55-92b2-5a55-8e48-8efdb8f2589b",
+          "principal_kind": "worker_service",
+          "fencing_token": 1,
+          "context_revision_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+          "legal_snapshot_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+          "base_document_version_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+          "harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "reset_epoch": 1
+        },
+        "budget_scope_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+        "guard": {
+          "expected_tenant_state_version": 1,
+          "expected_policy_epoch": 1,
+          "expected_workflow_state_version": 3,
+          "expected_run_state_version": 1
+        },
+        "idempotency_key": "io-promote_harness_version-champion_conflict",
+        "payload": {
+          "candidate_ref": {
+            "collection": "harness_candidates",
+            "record_id": "72cea827-a276-519e-b076-2f86e992eb5c",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "evaluation_ref": {
+            "collection": "evaluation_runs",
+            "record_id": "cd3acd36-7e86-5737-80b6-330bbf11e7fa",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "expected_harness_head_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "expected_harness_epoch": 1,
+          "expected_policy_epoch": 1
+        }
+      },
+      "response": {
+        "operation": "promote_harness_version",
+        "request_id": "be3b8bb4-c41c-5445-9968-a13bf8302156",
+        "ok": false,
+        "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+        "reset_epoch": 1,
+        "idempotency_key": "io-promote_harness_version-champion_conflict",
+        "http_status": 409,
+        "error": {
+          "domain_code": "CHAMPION_CONFLICT",
+          "runtime_error": {
+            "code": "CONFLICT",
+            "message": "Illustrative contract rejection: CHAMPION_CONFLICT",
+            "retryable": false,
+            "correlation_id": "be3b8bb4-c41c-5445-9968-a13bf8302156",
+            "reset_epoch": 1
+          },
+          "field_paths": [
+            "/payload"
+          ],
+          "current_harness_state": {
+            "tenant_ref": {
+              "collection": "tenants",
+              "record_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+              "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+              "reset_epoch": 1
+            },
+            "harness_version_ref": {
+              "collection": "harness_versions",
+              "record_id": "e084aa8e-40c1-5c94-abac-a701cb08022b",
+              "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+              "reset_epoch": 1
+            },
+            "harness_epoch": 2,
+            "policy_epoch": 1,
+            "tenant_state_version": 2
+          },
+          "side_effects_committed": false
+        }
+      }
+    },
+    {
+      "name": "rollback_harness_version_rollback_target_incompatible",
+      "operation": "rollback_harness_version",
+      "variant": "error",
+      "execution_status": "illustrative_contract_exchange_not_executed",
+      "scenario_conditions": [
+        "Rejected before effects; re-read current state or satisfy missing prerequisite rather than blindly retry."
+      ],
+      "request": {
+        "operation": "rollback_harness_version",
+        "request_id": "b289cb08-0d2b-59b1-a1ab-dd4bce689fe1",
+        "server_context": {
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+          "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+          "invocation_id": "758ed89d-222e-53dd-b56e-21cad0b25ed1",
+          "principal_id": "c5cf2f55-92b2-5a55-8e48-8efdb8f2589b",
+          "principal_kind": "worker_service",
+          "fencing_token": 1,
+          "context_revision_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+          "legal_snapshot_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+          "base_document_version_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+          "harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "reset_epoch": 1
+        },
+        "budget_scope_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+        "guard": {
+          "expected_tenant_state_version": 1,
+          "expected_policy_epoch": 1,
+          "expected_workflow_state_version": 3,
+          "expected_run_state_version": 1
+        },
+        "idempotency_key": "io-rollback_harness_version-rollback_target_incompatible",
+        "payload": {
+          "expected_harness_head_id": "e084aa8e-40c1-5c94-abac-a701cb08022b",
+          "expected_harness_epoch": 2,
+          "expected_policy_epoch": 1,
+          "target_version_ref": {
+            "collection": "harness_versions",
+            "record_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "reason_code": "hard_regression",
+          "evidence_refs": [
+            {
+              "collection": "validation_runs",
+              "record_id": "854af570-312d-562d-a480-5032d0adb066",
+              "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+              "reset_epoch": 1
+            }
+          ],
+          "authorized_request_event_ref": {
+            "collection": "events",
+            "record_id": "370a4b27-cf34-5acf-af57-ec054534d97d",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          }
+        }
+      },
+      "response": {
+        "operation": "rollback_harness_version",
+        "request_id": "b289cb08-0d2b-59b1-a1ab-dd4bce689fe1",
+        "ok": false,
+        "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+        "reset_epoch": 1,
+        "idempotency_key": "io-rollback_harness_version-rollback_target_incompatible",
+        "http_status": 409,
+        "error": {
+          "domain_code": "ROLLBACK_TARGET_INCOMPATIBLE",
+          "runtime_error": {
+            "code": "STALE_SNAPSHOT",
+            "message": "Illustrative contract rejection: ROLLBACK_TARGET_INCOMPATIBLE",
+            "retryable": false,
+            "correlation_id": "b289cb08-0d2b-59b1-a1ab-dd4bce689fe1",
+            "reset_epoch": 1
+          },
+          "field_paths": [
+            "/payload"
+          ],
+          "current_harness_state": null,
+          "side_effects_committed": false
+        }
+      }
+    },
+    {
+      "name": "start_agent_run_state_conflict",
+      "operation": "start_agent_run",
+      "variant": "error",
+      "execution_status": "illustrative_contract_exchange_not_executed",
+      "scenario_conditions": [
+        "Rejected before effects; re-read current state or satisfy missing prerequisite rather than blindly retry."
+      ],
+      "request": {
+        "operation": "start_agent_run",
+        "request_id": "fe800a78-bab4-57bb-86eb-7119478f37e6",
+        "server_context": {
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+          "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+          "invocation_id": "758ed89d-222e-53dd-b56e-21cad0b25ed1",
+          "principal_id": "c5cf2f55-92b2-5a55-8e48-8efdb8f2589b",
+          "principal_kind": "worker_service",
+          "fencing_token": 1,
+          "context_revision_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+          "legal_snapshot_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+          "base_document_version_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+          "harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "reset_epoch": 1
+        },
+        "budget_scope_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+        "guard": {
+          "expected_tenant_state_version": 1,
+          "expected_policy_epoch": 1,
+          "expected_workflow_state_version": 3,
+          "expected_run_state_version": 1
+        },
+        "idempotency_key": "io-start_agent_run-state_conflict",
+        "payload": {
+          "run_input": {
+            "contract_version": "0.1.0",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+            "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+            "job_id": "3d6975b8-4dfb-5eaf-8b1a-136f01c05dd7",
+            "trigger_event_id": "4fbd9f2e-d458-5a31-99c6-e333fe338b64",
+            "run_kind": "review",
+            "expected_state_version": 3,
+            "fencing_token": 1,
+            "context_revision": {
+              "record_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+              "sha256": "9664742bfe75ada5f367d7f671cef7ba08f1f1a3c9074ecb000ae3a82bff8ee7"
+            },
+            "base_document_version": {
+              "record_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+              "sha256": "0b5a8befd488d45268fce251b85765110c251fae3c1202ae5ed8683da307e2f7"
+            },
+            "legal_snapshot": {
+              "record_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+              "sha256": "64185db2a9f3956abdf9530d6a2abca709284af65577f3bd02aad11326c92910"
+            },
+            "harness_version": {
+              "record_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+              "sha256": "6c54874e3b5b5b7c586bd019e206b89372568a5fcd7e6b42eb33a64c02726db5"
+            },
+            "runtime_policy_version": {
+              "record_id": "97f8a45d-50e4-5451-9f0c-6ff965d38c32",
+              "sha256": "3a973cb796f959faa32a325debc877a6582fab785ef589d80270acb25bfb2883"
+            },
+            "tool_registry_version": "0.1.0",
+            "model": {
+              "provider": "openai",
+              "requested_model": "gpt-6-astra",
+              "reasoning_effort": "medium"
+            },
+            "started_at": "2026-09-26T16:00:00Z",
+            "deadline_at": "2026-09-26T16:05:00Z",
+            "budget": {
+              "logical_model_requests": 0,
+              "physical_model_attempts": 0,
+              "tool_calls": 0,
+              "repair_attempts": 0,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "reserved_cost_micro_usd": 0,
+              "settled_cost_micro_usd": 0,
+              "unknown_cost_micro_usd": 0
+            },
+            "budget_scope_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+            "reset_epoch": 1
+          },
+          "expected_harness_head_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "expected_harness_epoch": 1
+        }
+      },
+      "response": {
+        "operation": "start_agent_run",
+        "request_id": "fe800a78-bab4-57bb-86eb-7119478f37e6",
+        "ok": false,
+        "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+        "reset_epoch": 1,
+        "idempotency_key": "io-start_agent_run-state_conflict",
+        "http_status": 409,
+        "error": {
+          "domain_code": "STATE_CONFLICT",
+          "runtime_error": {
+            "code": "CONFLICT",
+            "message": "Illustrative contract rejection: STATE_CONFLICT",
+            "retryable": false,
+            "correlation_id": "fe800a78-bab4-57bb-86eb-7119478f37e6",
+            "reset_epoch": 1
+          },
+          "field_paths": [
+            "/payload"
+          ],
+          "current_harness_state": null,
+          "side_effects_committed": false
+        }
+      }
+    },
+    {
+      "name": "promote_harness_version_evaluation_not_promotable",
+      "operation": "promote_harness_version",
+      "variant": "error",
+      "execution_status": "illustrative_contract_exchange_not_executed",
+      "scenario_conditions": [
+        "Rejected before effects; re-read current state or satisfy missing prerequisite rather than blindly retry."
+      ],
+      "request": {
+        "operation": "promote_harness_version",
+        "request_id": "c075eb00-93c5-56cf-a2fd-b517bc825276",
+        "server_context": {
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+          "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+          "invocation_id": "758ed89d-222e-53dd-b56e-21cad0b25ed1",
+          "principal_id": "c5cf2f55-92b2-5a55-8e48-8efdb8f2589b",
+          "principal_kind": "worker_service",
+          "fencing_token": 1,
+          "context_revision_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+          "legal_snapshot_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+          "base_document_version_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+          "harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "reset_epoch": 1
+        },
+        "budget_scope_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+        "guard": {
+          "expected_tenant_state_version": 1,
+          "expected_policy_epoch": 1,
+          "expected_workflow_state_version": 3,
+          "expected_run_state_version": 1
+        },
+        "idempotency_key": "io-promote_harness_version-evaluation_not_promotable",
+        "payload": {
+          "candidate_ref": {
+            "collection": "harness_candidates",
+            "record_id": "72cea827-a276-519e-b076-2f86e992eb5c",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "evaluation_ref": {
+            "collection": "evaluation_runs",
+            "record_id": "cd3acd36-7e86-5737-80b6-330bbf11e7fa",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "expected_harness_head_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "expected_harness_epoch": 1,
+          "expected_policy_epoch": 1
+        }
+      },
+      "response": {
+        "operation": "promote_harness_version",
+        "request_id": "c075eb00-93c5-56cf-a2fd-b517bc825276",
+        "ok": false,
+        "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+        "reset_epoch": 1,
+        "idempotency_key": "io-promote_harness_version-evaluation_not_promotable",
+        "http_status": 409,
+        "error": {
+          "domain_code": "EVALUATION_NOT_PROMOTABLE",
+          "runtime_error": {
+            "code": "CONFLICT",
+            "message": "Illustrative contract rejection: EVALUATION_NOT_PROMOTABLE",
+            "retryable": false,
+            "correlation_id": "c075eb00-93c5-56cf-a2fd-b517bc825276",
+            "reset_epoch": 1
+          },
+          "field_paths": [
+            "/payload"
+          ],
+          "current_harness_state": null,
+          "side_effects_committed": false
+        }
+      }
+    },
+    {
+      "name": "promote_harness_version_policy_epoch_conflict",
+      "operation": "promote_harness_version",
+      "variant": "error",
+      "execution_status": "illustrative_contract_exchange_not_executed",
+      "scenario_conditions": [
+        "Rejected before effects; re-read current state or satisfy missing prerequisite rather than blindly retry."
+      ],
+      "request": {
+        "operation": "promote_harness_version",
+        "request_id": "4664c05e-7929-565f-85b2-0c39117b2311",
+        "server_context": {
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+          "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+          "invocation_id": "758ed89d-222e-53dd-b56e-21cad0b25ed1",
+          "principal_id": "c5cf2f55-92b2-5a55-8e48-8efdb8f2589b",
+          "principal_kind": "worker_service",
+          "fencing_token": 1,
+          "context_revision_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+          "legal_snapshot_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+          "base_document_version_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+          "harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "reset_epoch": 1
+        },
+        "budget_scope_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+        "guard": {
+          "expected_tenant_state_version": 1,
+          "expected_policy_epoch": 1,
+          "expected_workflow_state_version": 3,
+          "expected_run_state_version": 1
+        },
+        "idempotency_key": "io-promote_harness_version-policy_epoch_conflict",
+        "payload": {
+          "candidate_ref": {
+            "collection": "harness_candidates",
+            "record_id": "72cea827-a276-519e-b076-2f86e992eb5c",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "evaluation_ref": {
+            "collection": "evaluation_runs",
+            "record_id": "cd3acd36-7e86-5737-80b6-330bbf11e7fa",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "expected_harness_head_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "expected_harness_epoch": 1,
+          "expected_policy_epoch": 1
+        }
+      },
+      "response": {
+        "operation": "promote_harness_version",
+        "request_id": "4664c05e-7929-565f-85b2-0c39117b2311",
+        "ok": false,
+        "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+        "reset_epoch": 1,
+        "idempotency_key": "io-promote_harness_version-policy_epoch_conflict",
+        "http_status": 409,
+        "error": {
+          "domain_code": "POLICY_EPOCH_CONFLICT",
+          "runtime_error": {
+            "code": "CONFLICT",
+            "message": "Illustrative contract rejection: POLICY_EPOCH_CONFLICT",
+            "retryable": false,
+            "correlation_id": "4664c05e-7929-565f-85b2-0c39117b2311",
+            "reset_epoch": 1
+          },
+          "field_paths": [
+            "/payload"
+          ],
+          "current_harness_state": {
+            "tenant_ref": {
+              "collection": "tenants",
+              "record_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+              "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+              "reset_epoch": 1
+            },
+            "harness_version_ref": {
+              "collection": "harness_versions",
+              "record_id": "e084aa8e-40c1-5c94-abac-a701cb08022b",
+              "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+              "reset_epoch": 1
+            },
+            "harness_epoch": 2,
+            "policy_epoch": 1,
+            "tenant_state_version": 2
+          },
+          "side_effects_committed": false
+        }
+      }
+    },
+    {
+      "name": "evaluate_harness_patch_protected_boundary_changed",
+      "operation": "evaluate_harness_patch",
+      "variant": "error",
+      "execution_status": "illustrative_contract_exchange_not_executed",
+      "scenario_conditions": [
+        "Rejected before effects; re-read current state or satisfy missing prerequisite rather than blindly retry."
+      ],
+      "request": {
+        "operation": "evaluate_harness_patch",
+        "request_id": "73f41f03-913d-5f79-9d8e-d18bdead370a",
+        "server_context": {
+          "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+          "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+          "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+          "invocation_id": "758ed89d-222e-53dd-b56e-21cad0b25ed1",
+          "principal_id": "c5cf2f55-92b2-5a55-8e48-8efdb8f2589b",
+          "principal_kind": "worker_service",
+          "fencing_token": 1,
+          "context_revision_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+          "legal_snapshot_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+          "base_document_version_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+          "harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+          "reset_epoch": 1
+        },
+        "budget_scope_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+        "guard": {
+          "expected_tenant_state_version": 1,
+          "expected_policy_epoch": 1,
+          "expected_workflow_state_version": 3,
+          "expected_run_state_version": 1
+        },
+        "idempotency_key": "io-evaluate_harness_patch-protected_boundary_changed",
+        "payload": {
+          "candidate_ref": {
+            "collection": "harness_candidates",
+            "record_id": "72cea827-a276-519e-b076-2f86e992eb5c",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "baseline_ref": {
+            "collection": "harness_versions",
+            "record_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "proposed_ref": {
+            "collection": "harness_versions",
+            "record_id": "e084aa8e-40c1-5c94-abac-a701cb08022b",
+            "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+            "reset_epoch": 1
+          },
+          "binding": {
+            "manifest_sha256": "6d120cd1838c84807e27ea4ba21741f0db8e6600d4523fba180dc5081312e8f8",
+            "dataset_sha256": "58424a8b3bf9e25c89576e012090740e0f4da32e0f390dacb39f07af26d3223f",
+            "base_config_sha256": "6c54874e3b5b5b7c586bd019e206b89372568a5fcd7e6b42eb33a64c02726db5",
+            "candidate_config_sha256": "3e5ac9cc65b817cdf27fad9c3db62a07f91eb300275cd8ee165b8cbbff9554e0",
+            "protected_policy_sha256": "d057c9ba6c9e9b0a4652e6be5686bbbca3dfabfaf9d409ef137072436cddaaf0",
+            "runtime_policy_sha256": "3a973cb796f959faa32a325debc877a6582fab785ef589d80270acb25bfb2883",
+            "evaluator_sha256": "35485d8ae4787cabf7db5cdf03085cddc84956c318319dbda36d86486e8db780",
+            "model_settings_sha256": "e4ff491169b8a9ea78518a7972422b5a24d5e3790e0d9a9e5cbfb384d9b621e0",
+            "context_refs": [
+              {
+                "collection": "company_context_versions",
+                "record_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+                "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+                "reset_epoch": 1
+              }
+            ],
+            "source_refs": [
+              {
+                "collection": "legal_source_versions",
+                "record_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+                "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+                "reset_epoch": 1
+              },
+              {
+                "collection": "legal_source_versions",
+                "record_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+                "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+                "reset_epoch": 1
+              },
+              {
+                "collection": "legal_source_versions",
+                "record_id": "23513bed-4516-56ad-ab38-84fab4936de3",
+                "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+                "reset_epoch": 1
+              }
+            ],
+            "event_refs": [
+              {
+                "collection": "events",
+                "record_id": "4fbd9f2e-d458-5a31-99c6-e333fe338b64",
+                "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+                "reset_epoch": 1
+              }
+            ],
+            "requested_model": "gpt-6-astra",
+            "returned_model": null,
+            "provider_version": null,
+            "comparability": "provider_version_unavailable",
+            "reset_epoch": 1
+          },
+          "measurement_mode": "fixture_replay"
+        }
+      },
+      "response": {
+        "operation": "evaluate_harness_patch",
+        "request_id": "73f41f03-913d-5f79-9d8e-d18bdead370a",
+        "ok": false,
+        "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+        "reset_epoch": 1,
+        "idempotency_key": "io-evaluate_harness_patch-protected_boundary_changed",
+        "http_status": 422,
+        "error": {
+          "domain_code": "PROTECTED_BOUNDARY_CHANGED",
+          "runtime_error": {
+            "code": "INVALID_ARGUMENT",
+            "message": "Illustrative contract rejection: PROTECTED_BOUNDARY_CHANGED",
+            "retryable": false,
+            "correlation_id": "73f41f03-913d-5f79-9d8e-d18bdead370a",
+            "reset_epoch": 1
+          },
+          "field_paths": [
+            "/payload"
+          ],
+          "current_harness_state": null,
+          "side_effects_committed": false
+        }
+      }
+    }
+  ]
+}

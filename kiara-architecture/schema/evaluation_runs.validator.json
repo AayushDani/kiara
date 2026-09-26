@@ -1,0 +1,296 @@
+{
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "required": [
+        "_id",
+        "tenant_id",
+        "schema_version",
+        "created_at",
+        "candidate_id",
+        "baseline_harness_version_id",
+        "candidate_harness_version_id",
+        "fixture_set_hash",
+        "event_ids",
+        "context_version_ids",
+        "source_version_ids",
+        "model",
+        "model_settings_hash",
+        "evaluator_version",
+        "protected_policy_hash",
+        "status",
+        "cases",
+        "metrics",
+        "measurement_status",
+        "nondeterminism_notes",
+        "reset_epoch"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "tenant_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "schema_version": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "enum": [
+            1
+          ]
+        },
+        "created_at": {
+          "bsonType": "date"
+        },
+        "candidate_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "baseline_harness_version_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "candidate_harness_version_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "fixture_set_hash": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "event_ids": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "string",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "maxItems": 30,
+          "minItems": 1
+        },
+        "context_version_ids": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "string",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "maxItems": 30,
+          "minItems": 1
+        },
+        "source_version_ids": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "string",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "maxItems": 30,
+          "minItems": 1
+        },
+        "model": {
+          "bsonType": "string",
+          "maxLength": 160
+        },
+        "model_settings_hash": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "evaluator_version": {
+          "bsonType": "string",
+          "minLength": 1,
+          "maxLength": 160,
+          "pattern": "^[a-z0-9][a-z0-9_.:-]*$"
+        },
+        "protected_policy_hash": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "status": {
+          "bsonType": "string",
+          "enum": [
+            "passed",
+            "failed",
+            "inconclusive"
+          ]
+        },
+        "cases": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "object",
+            "required": [
+              "case_key",
+              "split",
+              "baseline_pass",
+              "candidate_pass",
+              "baseline_repairs",
+              "candidate_repairs",
+              "assertions"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "case_key": {
+                "bsonType": "string",
+                "minLength": 1,
+                "maxLength": 160,
+                "pattern": "^[a-z0-9][a-z0-9_.:-]*$"
+              },
+              "split": {
+                "bsonType": "string",
+                "enum": [
+                  "diagnostic",
+                  "holdout",
+                  "later_event"
+                ]
+              },
+              "baseline_pass": {
+                "bsonType": "bool"
+              },
+              "candidate_pass": {
+                "bsonType": "bool"
+              },
+              "baseline_repairs": {
+                "bsonType": [
+                  "int",
+                  "long"
+                ],
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "candidate_repairs": {
+                "bsonType": [
+                  "int",
+                  "long"
+                ],
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "assertions": {
+                "bsonType": "array",
+                "items": {
+                  "bsonType": "object",
+                  "required": [
+                    "check_id",
+                    "result",
+                    "severity",
+                    "detail",
+                    "related_ids"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "check_id": {
+                      "bsonType": "string",
+                      "minLength": 1,
+                      "maxLength": 160,
+                      "pattern": "^[a-z0-9][a-z0-9_.:-]*$"
+                    },
+                    "result": {
+                      "bsonType": "string",
+                      "enum": [
+                        "pass",
+                        "fail",
+                        "not_run"
+                      ]
+                    },
+                    "severity": {
+                      "bsonType": "string",
+                      "enum": [
+                        "blocking",
+                        "warning",
+                        "info"
+                      ]
+                    },
+                    "detail": {
+                      "bsonType": "string",
+                      "maxLength": 2000
+                    },
+                    "related_ids": {
+                      "bsonType": "array",
+                      "items": {
+                        "bsonType": "string",
+                        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                      },
+                      "maxItems": 20,
+                      "minItems": 0
+                    }
+                  }
+                },
+                "maxItems": 30,
+                "minItems": 1
+              }
+            }
+          },
+          "maxItems": 50,
+          "minItems": 1
+        },
+        "metrics": {
+          "bsonType": "object",
+          "required": [
+            "baseline_pass_count",
+            "candidate_pass_count",
+            "case_count",
+            "critical_regressions"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "baseline_pass_count": {
+              "bsonType": [
+                "int",
+                "long"
+              ],
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "candidate_pass_count": {
+              "bsonType": [
+                "int",
+                "long"
+              ],
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "case_count": {
+              "bsonType": [
+                "int",
+                "long"
+              ],
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "critical_regressions": {
+              "bsonType": [
+                "int",
+                "long"
+              ],
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          }
+        },
+        "measurement_status": {
+          "bsonType": "string",
+          "enum": [
+            "planned_fixture",
+            "executed"
+          ]
+        },
+        "nondeterminism_notes": {
+          "bsonType": "string",
+          "maxLength": 2000
+        },
+        "reset_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    }
+  },
+  "validationLevel": "strict",
+  "validationAction": "error"
+}

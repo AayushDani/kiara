@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "status": "proposed_form_contract_pending_T12_T17_endpoint_normalization",
+  "operation": "record_source_recheck_attestation",
+  "screen_id": "UX-06",
+  "panel": "Evidence / Source freshness",
+  "button_label": "Record source recheck",
+  "required_capability": "source_review",
+  "required_actor": "authenticated assigned lawyer",
+  "form_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "T11 source recheck form; separate from K-REVIEW-002",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "workflow_id": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "expected_state_version": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "expected_reset_epoch": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "expected_material_evidence_epoch": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "source_version_id": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "source_content_hash": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{64}$"
+      },
+      "scenario_as_of": {
+        "type": "string",
+        "format": "date"
+      },
+      "method": {
+        "enum": [
+          "official_index_rechecked",
+          "official_publication_compared"
+        ]
+      },
+      "supporting_official_url": {
+        "type": "string",
+        "format": "uri",
+        "pattern": "^https://"
+      },
+      "supporting_locator": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 4000
+      },
+      "reason": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 4000
+      },
+      "idempotency_key": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200
+      }
+    },
+    "required": [
+      "workflow_id",
+      "expected_state_version",
+      "expected_reset_epoch",
+      "expected_material_evidence_epoch",
+      "source_version_id",
+      "source_content_hash",
+      "scenario_as_of",
+      "method",
+      "supporting_official_url",
+      "supporting_locator",
+      "reason",
+      "idempotency_key"
+    ]
+  },
+  "example_form": {
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "expected_reset_epoch": 1,
+    "expected_state_version": 7,
+    "expected_material_evidence_epoch": 1,
+    "source_version_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+    "source_content_hash": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+    "scenario_as_of": "2026-09-26",
+    "method": "official_index_rechecked",
+    "supporting_official_url": "https://cppa.ca.gov/regulations/",
+    "supporting_locator": "CCPA statute effective January 1, 2026 link; compare publication and stored source version",
+    "reason": "Synthetic form example of a substantiated manual engineering recheck; no attestation was executed.",
+    "idempotency_key": "synthetic-source-recheck-001"
+  },
+  "server_derived_fields": [
+    "tenant_id",
+    "actor_id",
+    "capability",
+    "attested_at",
+    "expires_at",
+    "attestation_id"
+  ],
+  "expiry_rule": "Minimum of server attested_at +24h and known effective/supersession validity boundary. Recheck at each human decision and finalization.",
+  "side_effects": [
+    "new immutable evidence bundle",
+    "increment material_evidence_epoch",
+    "revalidate",
+    "founder then lawyer approvals required again"
+  ],
+  "protected_limits": [
+    "Only satisfy overdue engineering freshness check",
+    "Official/trusted/operative/applicable/nonconflicting evidence still required",
+    "No model or founder attestation authority",
+    "No accept-stale checkbox",
+    "No automatic external fetch from user-entered URL; T05 registered allowlist rules apply"
+  ],
+  "binding_fields": [
+    "source_recheck_attestation_ids",
+    "freshness_valid_until"
+  ],
+  "ui_errors": {
+    "SOURCE_REVIEW_REQUIRED": "This source needs a substantiated recheck before approval.",
+    "SOURCE_TRUST_INVALID": "This evidence cannot support approval. Replace or resolve the source; a freshness attestation cannot override this block."
+  }
+}

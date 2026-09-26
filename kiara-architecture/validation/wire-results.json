@@ -1,0 +1,944 @@
+{
+  "checked_at": "2026-09-26T16:40:05.452Z",
+  "scope": "Ajv 8.17.1 with formats: complete schema compilation and supplied examples. No Atlas or runtime application behavior executed.",
+  "passed": true,
+  "checks_count": 234,
+  "checks": [
+    {
+      "name": "schema_registered:contracts/context/contracts.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_registered:contracts/documents/document-contracts.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_registered:contracts/documents/document-io.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_registered:contracts/harness/harness-commands.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_registered:contracts/harness/harness-config.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_registered:contracts/legal/fact.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_registered:contracts/notification/notification-adapter.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_registered:contracts/observability/read-models.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_registered:contracts/observability/telemetry-span.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_registered:contracts/runtime/runtime-contracts.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_registered:contracts/security/boundary-schemas.json",
+      "passed": true
+    },
+    {
+      "name": "schema_registered:contracts/workflow/command-io.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_registered:contracts/workflow/event.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_registered:contracts/workflow/feedback-command.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_registered:contracts/workflow/job.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_registered:contracts/workflow/notification.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_registered:contracts/workflow/review-bundle.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_registered:contracts/workflow/review-command.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_registered:contracts/workflow/workflow.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_compiles_all_defs:contracts/context/contracts.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_compiles_all_defs:contracts/documents/document-contracts.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_compiles_all_defs:contracts/documents/document-io.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_compiles_all_defs:contracts/harness/harness-commands.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_compiles_all_defs:contracts/harness/harness-config.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_compiles_all_defs:contracts/legal/fact.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_compiles_all_defs:contracts/notification/notification-adapter.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_compiles_all_defs:contracts/observability/read-models.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_compiles_all_defs:contracts/observability/telemetry-span.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_compiles_all_defs:contracts/runtime/runtime-contracts.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_compiles_all_defs:contracts/security/boundary-schemas.json",
+      "passed": true
+    },
+    {
+      "name": "schema_compiles_all_defs:contracts/workflow/command-io.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_compiles_all_defs:contracts/workflow/event.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_compiles_all_defs:contracts/workflow/feedback-command.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_compiles_all_defs:contracts/workflow/job.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_compiles_all_defs:contracts/workflow/notification.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_compiles_all_defs:contracts/workflow/review-bundle.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_compiles_all_defs:contracts/workflow/review-command.schema.json",
+      "passed": true
+    },
+    {
+      "name": "schema_compiles_all_defs:contracts/workflow/workflow.schema.json",
+      "passed": true
+    },
+    {
+      "name": "runtime:review_run_input",
+      "passed": true
+    },
+    {
+      "name": "runtime:unknown_company_fact",
+      "passed": true
+    },
+    {
+      "name": "runtime:context_update_candidate",
+      "passed": true
+    },
+    {
+      "name": "runtime:legal_search",
+      "passed": true
+    },
+    {
+      "name": "runtime:candidate_write_result",
+      "passed": true
+    },
+    {
+      "name": "runtime:completed_review_run",
+      "passed": true
+    },
+    {
+      "name": "runtime:stale_snapshot_error",
+      "passed": true
+    },
+    {
+      "name": "runtime:legal_manifest_for_worker_hydration",
+      "passed": true
+    },
+    {
+      "name": "runtime:full_candidate_document_manifest",
+      "passed": true
+    },
+    {
+      "name": "RET-01:request",
+      "passed": true
+    },
+    {
+      "name": "RET-01:success",
+      "passed": true
+    },
+    {
+      "name": "RET-01:error",
+      "passed": true
+    },
+    {
+      "name": "RET-02:request",
+      "passed": true
+    },
+    {
+      "name": "RET-02:success",
+      "passed": true
+    },
+    {
+      "name": "RET-02:error",
+      "passed": true
+    },
+    {
+      "name": "RET-03:request",
+      "passed": true
+    },
+    {
+      "name": "RET-03:success",
+      "passed": true
+    },
+    {
+      "name": "RET-03:error",
+      "passed": true
+    },
+    {
+      "name": "RET-04:request",
+      "passed": true
+    },
+    {
+      "name": "RET-04:success",
+      "passed": true
+    },
+    {
+      "name": "RET-04:error",
+      "passed": true
+    },
+    {
+      "name": "RET-05:request",
+      "passed": true
+    },
+    {
+      "name": "RET-05:success",
+      "passed": true
+    },
+    {
+      "name": "RET-05:error",
+      "passed": true
+    },
+    {
+      "name": "ING-01:request",
+      "passed": true
+    },
+    {
+      "name": "ING-01:success",
+      "passed": true
+    },
+    {
+      "name": "ING-01:error",
+      "passed": true
+    },
+    {
+      "name": "K-DOC-001:request",
+      "passed": true
+    },
+    {
+      "name": "K-DOC-001:success",
+      "passed": true
+    },
+    {
+      "name": "K-DOC-001:error",
+      "passed": true
+    },
+    {
+      "name": "K-DOC-002:request",
+      "passed": true
+    },
+    {
+      "name": "K-DOC-002:success",
+      "passed": true
+    },
+    {
+      "name": "K-DOC-002:error",
+      "passed": true
+    },
+    {
+      "name": "K-DOC-003:request",
+      "passed": true
+    },
+    {
+      "name": "K-DOC-003:success",
+      "passed": true
+    },
+    {
+      "name": "K-DOC-003:error",
+      "passed": true
+    },
+    {
+      "name": "K-DOC-004:request",
+      "passed": true
+    },
+    {
+      "name": "K-DOC-004:success",
+      "passed": true
+    },
+    {
+      "name": "K-DOC-004:error",
+      "passed": true
+    },
+    {
+      "name": "K-DOC-005:request",
+      "passed": true
+    },
+    {
+      "name": "K-DOC-005:success",
+      "passed": true
+    },
+    {
+      "name": "K-DOC-005:error",
+      "passed": true
+    },
+    {
+      "name": "positive-ingest_event:context",
+      "passed": true
+    },
+    {
+      "name": "positive-ingest_event:request",
+      "passed": true
+    },
+    {
+      "name": "positive-ingest_event:response",
+      "passed": true
+    },
+    {
+      "name": "positive-claim_job:context",
+      "passed": true
+    },
+    {
+      "name": "positive-claim_job:request",
+      "passed": true
+    },
+    {
+      "name": "positive-claim_job:response",
+      "passed": true
+    },
+    {
+      "name": "positive-commit_workflow_step:context",
+      "passed": true
+    },
+    {
+      "name": "positive-commit_workflow_step:request",
+      "passed": true
+    },
+    {
+      "name": "positive-commit_workflow_step:response",
+      "passed": true
+    },
+    {
+      "name": "positive-record_feedback:context",
+      "passed": true
+    },
+    {
+      "name": "positive-record_feedback:request",
+      "passed": true
+    },
+    {
+      "name": "positive-record_feedback:response",
+      "passed": true
+    },
+    {
+      "name": "positive-record_review_action:context",
+      "passed": true
+    },
+    {
+      "name": "positive-record_review_action:request",
+      "passed": true
+    },
+    {
+      "name": "positive-record_review_action:response",
+      "passed": true
+    },
+    {
+      "name": "positive-finalize_document:context",
+      "passed": true
+    },
+    {
+      "name": "positive-finalize_document:request",
+      "passed": true
+    },
+    {
+      "name": "positive-finalize_document:response",
+      "passed": true
+    },
+    {
+      "name": "positive-supersede_workflow:context",
+      "passed": true
+    },
+    {
+      "name": "positive-supersede_workflow:request",
+      "passed": true
+    },
+    {
+      "name": "positive-supersede_workflow:response",
+      "passed": true
+    },
+    {
+      "name": "positive-enqueue_notification:context",
+      "passed": true
+    },
+    {
+      "name": "positive-enqueue_notification:request",
+      "passed": true
+    },
+    {
+      "name": "positive-enqueue_notification:response",
+      "passed": true
+    },
+    {
+      "name": "positive-dispatch_notification:context",
+      "passed": true
+    },
+    {
+      "name": "positive-dispatch_notification:request",
+      "passed": true
+    },
+    {
+      "name": "positive-dispatch_notification:response",
+      "passed": true
+    },
+    {
+      "name": "positive-record_delivery_webhook:context",
+      "passed": true
+    },
+    {
+      "name": "positive-record_delivery_webhook:request",
+      "passed": true
+    },
+    {
+      "name": "positive-record_delivery_webhook:response",
+      "passed": true
+    },
+    {
+      "name": "idempotent-ingest-replay:context",
+      "passed": true
+    },
+    {
+      "name": "idempotent-ingest-replay:request",
+      "passed": true
+    },
+    {
+      "name": "idempotent-ingest-replay:response",
+      "passed": true
+    },
+    {
+      "name": "conflict-idempotency_key_reused:context",
+      "passed": true
+    },
+    {
+      "name": "conflict-idempotency_key_reused:request",
+      "passed": true
+    },
+    {
+      "name": "conflict-idempotency_key_reused:response",
+      "passed": true
+    },
+    {
+      "name": "conflict-stale_review_bundle:context",
+      "passed": true
+    },
+    {
+      "name": "conflict-stale_review_bundle:request",
+      "passed": true
+    },
+    {
+      "name": "conflict-stale_review_bundle:response",
+      "passed": true
+    },
+    {
+      "name": "conflict-reset_epoch_mismatch:context",
+      "passed": true
+    },
+    {
+      "name": "conflict-reset_epoch_mismatch:request",
+      "passed": true
+    },
+    {
+      "name": "conflict-reset_epoch_mismatch:response",
+      "passed": true
+    },
+    {
+      "name": "conflict-source_review_expired:context",
+      "passed": true
+    },
+    {
+      "name": "conflict-source_review_expired:request",
+      "passed": true
+    },
+    {
+      "name": "conflict-source_review_expired:response",
+      "passed": true
+    },
+    {
+      "name": "ambiguous-provider-timeout:context",
+      "passed": true
+    },
+    {
+      "name": "ambiguous-provider-timeout:request",
+      "passed": true
+    },
+    {
+      "name": "ambiguous-provider-timeout:response",
+      "passed": true
+    },
+    {
+      "name": "OBS-OBSERVABILITY:request",
+      "passed": true
+    },
+    {
+      "name": "OBS-OBSERVABILITY:success",
+      "passed": true
+    },
+    {
+      "name": "OBS-OBSERVABILITY:error0",
+      "passed": true
+    },
+    {
+      "name": "OBS-OBSERVABILITY:error1",
+      "passed": true
+    },
+    {
+      "name": "OBS-OBSERVABILITY:error2",
+      "passed": true
+    },
+    {
+      "name": "OBS-OBSERVABILITY:error3",
+      "passed": true
+    },
+    {
+      "name": "OBS-OBSERVABILITY:error4",
+      "passed": true
+    },
+    {
+      "name": "OBS-OBSERVABILITY:error5",
+      "passed": true
+    },
+    {
+      "name": "OBS-EVIDENCEMAP:request",
+      "passed": true
+    },
+    {
+      "name": "OBS-EVIDENCEMAP:success",
+      "passed": true
+    },
+    {
+      "name": "OBS-EVIDENCEMAP:error0",
+      "passed": true
+    },
+    {
+      "name": "OBS-EVIDENCEMAP:error1",
+      "passed": true
+    },
+    {
+      "name": "OBS-EVIDENCEMAP:error2",
+      "passed": true
+    },
+    {
+      "name": "OBS-EVIDENCEMAP:error3",
+      "passed": true
+    },
+    {
+      "name": "OBS-EVIDENCEMAP:error4",
+      "passed": true
+    },
+    {
+      "name": "OBS-HARNESSHISTORY:request",
+      "passed": true
+    },
+    {
+      "name": "OBS-HARNESSHISTORY:success",
+      "passed": true
+    },
+    {
+      "name": "OBS-HARNESSHISTORY:error0",
+      "passed": true
+    },
+    {
+      "name": "OBS-HARNESSHISTORY:error1",
+      "passed": true
+    },
+    {
+      "name": "OBS-HARNESSHISTORY:error2",
+      "passed": true
+    },
+    {
+      "name": "OBS-HARNESSHISTORY:error3",
+      "passed": true
+    },
+    {
+      "name": "OBS-HARNESSHISTORY:error4",
+      "passed": true
+    },
+    {
+      "name": "OBS-HARNESSHISTORY:error5",
+      "passed": true
+    },
+    {
+      "name": "OBS-READINESS:request",
+      "passed": true
+    },
+    {
+      "name": "OBS-READINESS:success",
+      "passed": true
+    },
+    {
+      "name": "OBS-READINESS:error0",
+      "passed": true
+    },
+    {
+      "name": "OBS-READINESS:error1",
+      "passed": true
+    },
+    {
+      "name": "OBS-READINESS:error2",
+      "passed": true
+    },
+    {
+      "name": "OBS-READINESS:error3",
+      "passed": true
+    },
+    {
+      "name": "OBS-LIVENESS:request",
+      "passed": true
+    },
+    {
+      "name": "OBS-LIVENESS:success",
+      "passed": true
+    },
+    {
+      "name": "OBS-LIVENESS:error0",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:0",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:1",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:2",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:3",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:4",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:5",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:6",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:7",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:8",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:9",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:10",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:11",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:12",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:13",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:14",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:15",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:16",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:17",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:18",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:19",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:20",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:21",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:22",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:23",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:24",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:25",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:26",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:27",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:28",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:29",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:30",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:31",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:32",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:33",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:34",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:35",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:36",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:37",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:38",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:39",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:40",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:41",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:42",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:43",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:44",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:45",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:46",
+      "passed": true
+    },
+    {
+      "name": "example-events.json:47",
+      "passed": true
+    },
+    {
+      "name": "example-workflow.json:0",
+      "passed": true
+    },
+    {
+      "name": "example-job.json:0",
+      "passed": true
+    },
+    {
+      "name": "example-notification.json:0",
+      "passed": true
+    },
+    {
+      "name": "example-review-bundle.json:0",
+      "passed": true
+    },
+    {
+      "name": "example-review-command.json:0",
+      "passed": true
+    },
+    {
+      "name": "example-feedback-command.json:0",
+      "passed": true
+    },
+    {
+      "name": "ux:review_commands:0",
+      "passed": true
+    },
+    {
+      "name": "ux:review_commands:1",
+      "passed": true
+    },
+    {
+      "name": "ux:review_commands:2",
+      "passed": true
+    },
+    {
+      "name": "ux:feedback_commands:0",
+      "passed": true
+    },
+    {
+      "name": "ux:feedback_commands:1",
+      "passed": true
+    },
+    {
+      "name": "ux:feedback_commands:2",
+      "passed": true
+    },
+    {
+      "name": "ux:feedback_commands:3",
+      "passed": true
+    },
+    {
+      "name": "harness:propose_harness_change",
+      "passed": true
+    },
+    {
+      "name": "harness:promote_harness_version",
+      "passed": true
+    },
+    {
+      "name": "harness:validation_result",
+      "passed": true
+    },
+    {
+      "name": "harness:config-before.json",
+      "passed": true
+    },
+    {
+      "name": "harness:config-after.json",
+      "passed": true
+    },
+    {
+      "name": "telemetry:0",
+      "passed": true
+    },
+    {
+      "name": "telemetry:1",
+      "passed": true
+    },
+    {
+      "name": "telemetry:2",
+      "passed": true
+    },
+    {
+      "name": "notification:preview_request",
+      "passed": true
+    },
+    {
+      "name": "notification:preview_result",
+      "passed": true
+    },
+    {
+      "name": "notification:resend_request_shape_only",
+      "passed": true
+    },
+    {
+      "name": "notification:resend_accepted_shape_only",
+      "passed": true
+    },
+    {
+      "name": "notification:unknown_delivery_shape_only",
+      "passed": true
+    }
+  ]
+}

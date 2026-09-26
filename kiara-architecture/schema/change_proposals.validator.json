@@ -1,0 +1,1206 @@
+{
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "required": [
+        "_id",
+        "tenant_id",
+        "schema_version",
+        "created_at",
+        "workflow_id",
+        "document_id",
+        "base_revision_id",
+        "candidate_revision_id",
+        "evidence_bundle_id",
+        "assessment_id",
+        "edits",
+        "diff_hash",
+        "created_by_run_id",
+        "supersedes_proposal_id",
+        "redline",
+        "source_anchor_evidence",
+        "legal_map",
+        "legal_map_hash",
+        "reset_epoch"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "tenant_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "schema_version": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "enum": [
+            1
+          ]
+        },
+        "created_at": {
+          "bsonType": "date"
+        },
+        "workflow_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "document_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "base_revision_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "candidate_revision_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "evidence_bundle_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "assessment_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "edits": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "object",
+            "required": [
+              "clause_id",
+              "operation",
+              "before",
+              "after",
+              "citation_chunk_ids",
+              "fact_ids",
+              "rationale",
+              "unresolved_questions"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "clause_id": {
+                "bsonType": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+              },
+              "operation": {
+                "bsonType": "string",
+                "enum": [
+                  "insert",
+                  "replace",
+                  "delete"
+                ]
+              },
+              "before": {
+                "anyOf": [
+                  {
+                    "bsonType": "object",
+                    "required": [
+                      "clause_id",
+                      "heading",
+                      "body"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "clause_id": {
+                        "bsonType": "string",
+                        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                      },
+                      "heading": {
+                        "bsonType": "string",
+                        "maxLength": 256
+                      },
+                      "body": {
+                        "bsonType": "string",
+                        "maxLength": 50000
+                      }
+                    }
+                  },
+                  {
+                    "bsonType": "null"
+                  }
+                ]
+              },
+              "after": {
+                "anyOf": [
+                  {
+                    "bsonType": "object",
+                    "required": [
+                      "clause_id",
+                      "heading",
+                      "body"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "clause_id": {
+                        "bsonType": "string",
+                        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                      },
+                      "heading": {
+                        "bsonType": "string",
+                        "maxLength": 256
+                      },
+                      "body": {
+                        "bsonType": "string",
+                        "maxLength": 50000
+                      }
+                    }
+                  },
+                  {
+                    "bsonType": "null"
+                  }
+                ]
+              },
+              "citation_chunk_ids": {
+                "bsonType": "array",
+                "items": {
+                  "bsonType": "string",
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                },
+                "maxItems": 20,
+                "minItems": 0
+              },
+              "fact_ids": {
+                "bsonType": "array",
+                "items": {
+                  "bsonType": "string",
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                },
+                "maxItems": 30,
+                "minItems": 0
+              },
+              "rationale": {
+                "bsonType": "string",
+                "maxLength": 2000
+              },
+              "unresolved_questions": {
+                "bsonType": "array",
+                "items": {
+                  "bsonType": "string",
+                  "maxLength": 1000
+                },
+                "maxItems": 20,
+                "minItems": 0
+              }
+            }
+          },
+          "maxItems": 200,
+          "minItems": 1
+        },
+        "diff_hash": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "created_by_run_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "supersedes_proposal_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "redline": {
+          "bsonType": "object",
+          "required": [
+            "schema_version",
+            "_id",
+            "tenant_id",
+            "document_id",
+            "base_revision_id",
+            "base_content_hash",
+            "candidate_revision_id",
+            "candidate_content_hash",
+            "algorithm",
+            "target_order",
+            "target_metadata",
+            "operations",
+            "diff_hash"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "schema_version": {
+              "bsonType": "string",
+              "enum": [
+                "kiara.clause_diff.v1"
+              ]
+            },
+            "_id": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "tenant_id": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "document_id": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "base_revision_id": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "base_content_hash": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "candidate_revision_id": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "candidate_content_hash": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "algorithm": {
+              "bsonType": "object",
+              "required": [
+                "library",
+                "version",
+                "method",
+                "tokenizer_version",
+                "max_edit_length",
+                "equality",
+                "offset_units"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "library": {
+                  "bsonType": "string",
+                  "enum": [
+                    "diff"
+                  ]
+                },
+                "version": {
+                  "bsonType": "string",
+                  "maxLength": 40
+                },
+                "method": {
+                  "bsonType": "string",
+                  "enum": [
+                    "diffArrays"
+                  ]
+                },
+                "tokenizer_version": {
+                  "bsonType": "string",
+                  "maxLength": 80
+                },
+                "max_edit_length": {
+                  "bsonType": [
+                    "int",
+                    "long"
+                  ],
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "equality": {
+                  "bsonType": "string",
+                  "enum": [
+                    "strict"
+                  ]
+                },
+                "offset_units": {
+                  "bsonType": "string",
+                  "enum": [
+                    "utf16_code_units"
+                  ]
+                }
+              }
+            },
+            "target_order": {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+              },
+              "maxItems": 200,
+              "minItems": 0
+            },
+            "target_metadata": {
+              "bsonType": "object",
+              "required": [
+                "language",
+                "title",
+                "policy_updated_on"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "language": {
+                  "bsonType": "string",
+                  "maxLength": 20
+                },
+                "title": {
+                  "bsonType": "string",
+                  "maxLength": 256
+                },
+                "policy_updated_on": {
+                  "bsonType": "string",
+                  "maxLength": 10
+                }
+              }
+            },
+            "operations": {
+              "bsonType": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "bsonType": "object",
+                    "required": [
+                      "op",
+                      "clause_id",
+                      "clause"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "op": {
+                        "bsonType": "string",
+                        "enum": [
+                          "add_clause"
+                        ]
+                      },
+                      "clause_id": {
+                        "bsonType": "string",
+                        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                      },
+                      "clause": {
+                        "bsonType": "object",
+                        "required": [
+                          "clause_id",
+                          "heading",
+                          "body"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "clause_id": {
+                            "bsonType": "string",
+                            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                          },
+                          "heading": {
+                            "bsonType": "string",
+                            "maxLength": 256
+                          },
+                          "body": {
+                            "bsonType": "string",
+                            "maxLength": 20000
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "bsonType": "object",
+                    "required": [
+                      "op",
+                      "clause_id",
+                      "expected_clause_hash",
+                      "clause",
+                      "heading_tokens",
+                      "body_tokens"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "op": {
+                        "bsonType": "string",
+                        "enum": [
+                          "replace_clause"
+                        ]
+                      },
+                      "clause_id": {
+                        "bsonType": "string",
+                        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                      },
+                      "expected_clause_hash": {
+                        "bsonType": "string",
+                        "pattern": "^[0-9a-f]{64}$"
+                      },
+                      "clause": {
+                        "bsonType": "object",
+                        "required": [
+                          "clause_id",
+                          "heading",
+                          "body"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "clause_id": {
+                            "bsonType": "string",
+                            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                          },
+                          "heading": {
+                            "bsonType": "string",
+                            "maxLength": 256
+                          },
+                          "body": {
+                            "bsonType": "string",
+                            "maxLength": 20000
+                          }
+                        }
+                      },
+                      "heading_tokens": {
+                        "bsonType": "array",
+                        "items": {
+                          "bsonType": "object",
+                          "required": [
+                            "kind",
+                            "text",
+                            "base_start_utf16",
+                            "base_end_utf16",
+                            "candidate_start_utf16",
+                            "candidate_end_utf16"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "kind": {
+                              "bsonType": "string",
+                              "enum": [
+                                "equal",
+                                "delete",
+                                "insert"
+                              ]
+                            },
+                            "text": {
+                              "bsonType": "string",
+                              "maxLength": 20000
+                            },
+                            "base_start_utf16": {
+                              "bsonType": [
+                                "int",
+                                "long"
+                              ],
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "base_end_utf16": {
+                              "bsonType": [
+                                "int",
+                                "long"
+                              ],
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "candidate_start_utf16": {
+                              "bsonType": [
+                                "int",
+                                "long"
+                              ],
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "candidate_end_utf16": {
+                              "bsonType": [
+                                "int",
+                                "long"
+                              ],
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            }
+                          }
+                        },
+                        "maxItems": 2000,
+                        "minItems": 0
+                      },
+                      "body_tokens": {
+                        "bsonType": "array",
+                        "items": {
+                          "bsonType": "object",
+                          "required": [
+                            "kind",
+                            "text",
+                            "base_start_utf16",
+                            "base_end_utf16",
+                            "candidate_start_utf16",
+                            "candidate_end_utf16"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "kind": {
+                              "bsonType": "string",
+                              "enum": [
+                                "equal",
+                                "delete",
+                                "insert"
+                              ]
+                            },
+                            "text": {
+                              "bsonType": "string",
+                              "maxLength": 20000
+                            },
+                            "base_start_utf16": {
+                              "bsonType": [
+                                "int",
+                                "long"
+                              ],
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "base_end_utf16": {
+                              "bsonType": [
+                                "int",
+                                "long"
+                              ],
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "candidate_start_utf16": {
+                              "bsonType": [
+                                "int",
+                                "long"
+                              ],
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "candidate_end_utf16": {
+                              "bsonType": [
+                                "int",
+                                "long"
+                              ],
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            }
+                          }
+                        },
+                        "maxItems": 10000,
+                        "minItems": 0
+                      }
+                    }
+                  },
+                  {
+                    "bsonType": "object",
+                    "required": [
+                      "op",
+                      "clause_id",
+                      "expected_clause_hash"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "op": {
+                        "bsonType": "string",
+                        "enum": [
+                          "delete_clause"
+                        ]
+                      },
+                      "clause_id": {
+                        "bsonType": "string",
+                        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                      },
+                      "expected_clause_hash": {
+                        "bsonType": "string",
+                        "pattern": "^[0-9a-f]{64}$"
+                      }
+                    }
+                  }
+                ]
+              },
+              "maxItems": 200,
+              "minItems": 0
+            },
+            "diff_hash": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          }
+        },
+        "source_anchor_evidence": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "object",
+            "required": [
+              "evidence_id",
+              "source_version_id",
+              "source_key",
+              "provision_key",
+              "display_citation",
+              "authority_type",
+              "jurisdiction",
+              "source_url",
+              "raw_sha256",
+              "parser",
+              "parser_version",
+              "retrieved_at",
+              "verified_at",
+              "effective_from",
+              "operative_from",
+              "freshness_status",
+              "content_kind",
+              "segments",
+              "raw_page_text"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "evidence_id": {
+                "bsonType": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+              },
+              "source_version_id": {
+                "bsonType": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+              },
+              "source_key": {
+                "bsonType": "string",
+                "minLength": 1,
+                "maxLength": 160,
+                "pattern": "^[a-z0-9][a-z0-9_.:-]*$"
+              },
+              "provision_key": {
+                "bsonType": "string",
+                "minLength": 1,
+                "maxLength": 160,
+                "pattern": "^[a-z0-9][a-z0-9_.:-]*$"
+              },
+              "display_citation": {
+                "bsonType": "string",
+                "maxLength": 256
+              },
+              "authority_type": {
+                "bsonType": "string",
+                "enum": [
+                  "regulation",
+                  "statute"
+                ]
+              },
+              "jurisdiction": {
+                "bsonType": "string",
+                "maxLength": 32
+              },
+              "source_url": {
+                "bsonType": "string",
+                "pattern": "^https://",
+                "maxLength": 2048
+              },
+              "raw_sha256": {
+                "bsonType": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "parser": {
+                "bsonType": "string",
+                "maxLength": 160
+              },
+              "parser_version": {
+                "bsonType": "string",
+                "maxLength": 80
+              },
+              "retrieved_at": {
+                "bsonType": "date"
+              },
+              "verified_at": {
+                "bsonType": "date"
+              },
+              "effective_from": {
+                "bsonType": "string",
+                "maxLength": 10
+              },
+              "operative_from": {
+                "bsonType": "string",
+                "maxLength": 10
+              },
+              "freshness_status": {
+                "bsonType": "string",
+                "enum": [
+                  "fresh",
+                  "stale",
+                  "unknown"
+                ]
+              },
+              "content_kind": {
+                "bsonType": "string",
+                "enum": [
+                  "authoritative_text"
+                ]
+              },
+              "segments": {
+                "bsonType": "array",
+                "items": {
+                  "bsonType": "object",
+                  "required": [
+                    "page_number",
+                    "raw_page_text_sha256",
+                    "start_utf16",
+                    "end_utf16",
+                    "quote_text",
+                    "quote_sha256"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "page_number": {
+                      "bsonType": [
+                        "int",
+                        "long"
+                      ],
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "raw_page_text_sha256": {
+                      "bsonType": "string",
+                      "pattern": "^[0-9a-f]{64}$"
+                    },
+                    "start_utf16": {
+                      "bsonType": [
+                        "int",
+                        "long"
+                      ],
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "end_utf16": {
+                      "bsonType": [
+                        "int",
+                        "long"
+                      ],
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "quote_text": {
+                      "bsonType": "string",
+                      "maxLength": 8000
+                    },
+                    "quote_sha256": {
+                      "bsonType": "string",
+                      "pattern": "^[0-9a-f]{64}$"
+                    }
+                  }
+                },
+                "maxItems": 30,
+                "minItems": 0
+              },
+              "raw_page_text": {
+                "bsonType": "string",
+                "maxLength": 30000
+              }
+            }
+          },
+          "maxItems": 100,
+          "minItems": 0
+        },
+        "legal_map": {
+          "bsonType": "object",
+          "required": [
+            "_id",
+            "schema_version",
+            "tenant_id",
+            "candidate_revision_id",
+            "context_snapshot_id",
+            "rows",
+            "source_anchor_evidence"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "_id": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "schema_version": {
+              "bsonType": "string",
+              "enum": [
+                "kiara.clause_binding_map.v1"
+              ]
+            },
+            "tenant_id": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "candidate_revision_id": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "context_snapshot_id": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "rows": {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "object",
+                "required": [
+                  "mapping_key",
+                  "context_snapshot_id",
+                  "clause_ids",
+                  "fact_refs",
+                  "legal_refs",
+                  "operational_followup_keys"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "mapping_key": {
+                    "bsonType": "string",
+                    "minLength": 1,
+                    "maxLength": 160,
+                    "pattern": "^[a-z0-9][a-z0-9_.:-]*$"
+                  },
+                  "context_snapshot_id": {
+                    "bsonType": "string",
+                    "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                  },
+                  "clause_ids": {
+                    "bsonType": "array",
+                    "items": {
+                      "bsonType": "string",
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                    },
+                    "maxItems": 30,
+                    "minItems": 0
+                  },
+                  "fact_refs": {
+                    "bsonType": "array",
+                    "items": {
+                      "bsonType": "object",
+                      "required": [
+                        "fact_key",
+                        "fact_id"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "fact_key": {
+                          "bsonType": "string",
+                          "minLength": 1,
+                          "maxLength": 160,
+                          "pattern": "^[a-z0-9][a-z0-9_.:-]*$"
+                        },
+                        "fact_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        }
+                      }
+                    },
+                    "maxItems": 100,
+                    "minItems": 0
+                  },
+                  "legal_refs": {
+                    "bsonType": "array",
+                    "items": {
+                      "bsonType": "object",
+                      "required": [
+                        "provision_key",
+                        "legal_chunk_id",
+                        "source_version_id",
+                        "source_hash",
+                        "chunk_content_hash",
+                        "locator"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "provision_key": {
+                          "bsonType": "string",
+                          "minLength": 1,
+                          "maxLength": 160,
+                          "pattern": "^[a-z0-9][a-z0-9_.:-]*$"
+                        },
+                        "legal_chunk_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "source_version_id": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                        },
+                        "source_hash": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{64}$"
+                        },
+                        "chunk_content_hash": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{64}$"
+                        },
+                        "locator": {
+                          "bsonType": "object",
+                          "required": [
+                            "section",
+                            "pages",
+                            "start_char",
+                            "end_char",
+                            "offset_basis",
+                            "excerpt_path"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "section": {
+                              "bsonType": "string",
+                              "maxLength": 300
+                            },
+                            "pages": {
+                              "bsonType": "array",
+                              "items": {
+                                "bsonType": [
+                                  "int",
+                                  "long"
+                                ],
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              "maxItems": 100,
+                              "minItems": 0
+                            },
+                            "start_char": {
+                              "anyOf": [
+                                {
+                                  "bsonType": [
+                                    "int",
+                                    "long"
+                                  ],
+                                  "minimum": 0,
+                                  "maximum": 9007199254740991
+                                },
+                                {
+                                  "bsonType": "null"
+                                }
+                              ]
+                            },
+                            "end_char": {
+                              "anyOf": [
+                                {
+                                  "bsonType": [
+                                    "int",
+                                    "long"
+                                  ],
+                                  "minimum": 0,
+                                  "maximum": 9007199254740991
+                                },
+                                {
+                                  "bsonType": "null"
+                                }
+                              ]
+                            },
+                            "offset_basis": {
+                              "bsonType": "string",
+                              "enum": [
+                                "full_extracted_text",
+                                "page_excerpt_file"
+                              ]
+                            },
+                            "excerpt_path": {
+                              "anyOf": [
+                                {
+                                  "bsonType": "string",
+                                  "maxLength": 512
+                                },
+                                {
+                                  "bsonType": "null"
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "maxItems": 100,
+                    "minItems": 0
+                  },
+                  "operational_followup_keys": {
+                    "bsonType": "array",
+                    "items": {
+                      "bsonType": "string",
+                      "minLength": 1,
+                      "maxLength": 160,
+                      "pattern": "^[a-z0-9][a-z0-9_.:-]*$"
+                    },
+                    "maxItems": 30,
+                    "minItems": 0
+                  }
+                }
+              },
+              "maxItems": 100,
+              "minItems": 0
+            },
+            "source_anchor_evidence": {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "object",
+                "required": [
+                  "evidence_id",
+                  "source_version_id",
+                  "source_key",
+                  "provision_key",
+                  "display_citation",
+                  "authority_type",
+                  "jurisdiction",
+                  "source_url",
+                  "raw_sha256",
+                  "parser",
+                  "parser_version",
+                  "retrieved_at",
+                  "verified_at",
+                  "effective_from",
+                  "operative_from",
+                  "freshness_status",
+                  "content_kind",
+                  "segments",
+                  "raw_page_text"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "evidence_id": {
+                    "bsonType": "string",
+                    "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                  },
+                  "source_version_id": {
+                    "bsonType": "string",
+                    "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                  },
+                  "source_key": {
+                    "bsonType": "string",
+                    "minLength": 1,
+                    "maxLength": 160,
+                    "pattern": "^[a-z0-9][a-z0-9_.:-]*$"
+                  },
+                  "provision_key": {
+                    "bsonType": "string",
+                    "minLength": 1,
+                    "maxLength": 160,
+                    "pattern": "^[a-z0-9][a-z0-9_.:-]*$"
+                  },
+                  "display_citation": {
+                    "bsonType": "string",
+                    "maxLength": 256
+                  },
+                  "authority_type": {
+                    "bsonType": "string",
+                    "enum": [
+                      "regulation",
+                      "statute"
+                    ]
+                  },
+                  "jurisdiction": {
+                    "bsonType": "string",
+                    "maxLength": 32
+                  },
+                  "source_url": {
+                    "bsonType": "string",
+                    "pattern": "^https://",
+                    "maxLength": 2048
+                  },
+                  "raw_sha256": {
+                    "bsonType": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  },
+                  "parser": {
+                    "bsonType": "string",
+                    "maxLength": 160
+                  },
+                  "parser_version": {
+                    "bsonType": "string",
+                    "maxLength": 80
+                  },
+                  "retrieved_at": {
+                    "bsonType": "date"
+                  },
+                  "verified_at": {
+                    "bsonType": "date"
+                  },
+                  "effective_from": {
+                    "bsonType": "string",
+                    "maxLength": 10
+                  },
+                  "operative_from": {
+                    "bsonType": "string",
+                    "maxLength": 10
+                  },
+                  "freshness_status": {
+                    "bsonType": "string",
+                    "enum": [
+                      "fresh",
+                      "stale",
+                      "unknown"
+                    ]
+                  },
+                  "content_kind": {
+                    "bsonType": "string",
+                    "enum": [
+                      "authoritative_text"
+                    ]
+                  },
+                  "segments": {
+                    "bsonType": "array",
+                    "items": {
+                      "bsonType": "object",
+                      "required": [
+                        "page_number",
+                        "raw_page_text_sha256",
+                        "start_utf16",
+                        "end_utf16",
+                        "quote_text",
+                        "quote_sha256"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "page_number": {
+                          "bsonType": [
+                            "int",
+                            "long"
+                          ],
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "raw_page_text_sha256": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{64}$"
+                        },
+                        "start_utf16": {
+                          "bsonType": [
+                            "int",
+                            "long"
+                          ],
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "end_utf16": {
+                          "bsonType": [
+                            "int",
+                            "long"
+                          ],
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "quote_text": {
+                          "bsonType": "string",
+                          "maxLength": 8000
+                        },
+                        "quote_sha256": {
+                          "bsonType": "string",
+                          "pattern": "^[0-9a-f]{64}$"
+                        }
+                      }
+                    },
+                    "maxItems": 30,
+                    "minItems": 0
+                  },
+                  "raw_page_text": {
+                    "bsonType": "string",
+                    "maxLength": 30000
+                  }
+                }
+              },
+              "maxItems": 100,
+              "minItems": 0
+            }
+          }
+        },
+        "legal_map_hash": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "reset_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    }
+  },
+  "validationLevel": "strict",
+  "validationAction": "error"
+}

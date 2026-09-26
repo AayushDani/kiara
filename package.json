@@ -1,0 +1,43 @@
+{
+  "name": "kiara",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1",
+    "build": "next build",
+    "start": "next start --hostname 127.0.0.1",
+    "worker": "node --import tsx src/worker/index.ts",
+    "check": "tsc --noEmit",
+    "test": "node --import tsx --test tests/*.test.ts tests/ui/*.test.ts",
+    "doctor": "node --import tsx scripts/doctor.ts",
+    "seed": "node --import tsx scripts/seed.ts",
+    "reset": "node --import tsx scripts/reset.ts",
+    "verify-seed": "node --import tsx scripts/verify-seed.ts"
+  },
+  "dependencies": {
+    "mongodb": "7.6.0",
+    "next": "16.3.6",
+    "openai": "7.23.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "resend": "6.30.0",
+    "workflow": "4.8.9"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.1",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "tsx": "4.20.6",
+    "typescript": "5.9.3"
+  },
+  "overrides": {
+    "@workflow/core": {
+      "nanoid": "5.1.16"
+    },
+    "undici": "7.29.0"
+  }
+}

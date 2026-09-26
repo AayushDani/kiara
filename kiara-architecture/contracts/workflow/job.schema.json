@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kiara.example/contracts/K-JOB-001",
+  "title": "K-JOB-001",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "job_id",
+    "tenant_id",
+    "reset_epoch",
+    "workflow_id",
+    "kind",
+    "dedupe_key",
+    "state",
+    "expected_state_version",
+    "input_refs",
+    "available_at",
+    "attempt_count",
+    "max_attempts",
+    "lease_owner",
+    "lease_epoch",
+    "lease_expires_at",
+    "deadline_at",
+    "run_id",
+    "last_error",
+    "created_at"
+  ],
+  "properties": {
+    "job_id": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "tenant_id": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "reset_epoch": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "workflow_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "acquire_document_slot",
+        "assess_and_draft",
+        "repair_proposal",
+        "finalize_document",
+        "invalidate_stale_bundle",
+        "adapt_harness",
+        "dispatch_notification",
+        "reconcile_delivery"
+      ]
+    },
+    "dedupe_key": {
+      "type": "string",
+      "minLength": 1
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "ready",
+        "leased",
+        "retry_wait",
+        "succeeded",
+        "dead_letter",
+        "canceled"
+      ]
+    },
+    "expected_state_version": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "input_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+      }
+    },
+    "available_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "attempt_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "max_attempts": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "lease_owner": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "lease_epoch": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "lease_expires_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "deadline_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "run_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "last_error": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

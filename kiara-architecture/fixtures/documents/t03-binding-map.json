@@ -1,0 +1,189 @@
+[
+  {
+    "mapping_id": "map_inventory",
+    "provision_ids": [
+      "prov_ccpa_policy",
+      "prov_regs_policy",
+      "prov_ccpa_pi",
+      "prov_ccpa_sensitive",
+      "prov_regs_sensitive"
+    ],
+    "t03_fact_pointers": [
+      "/facts/dataInventory",
+      "/facts/accountCredentialsCollected"
+    ],
+    "t03_clause_keys": [
+      "clause_ca_inventory"
+    ],
+    "clause_ids": [
+      "dcac8a94-e1b2-59ec-84c1-7400e5230938",
+      "c021b2da-7670-5bc6-bb35-19c58e8966ce",
+      "4c79b519-e7d5-5182-a92d-e20124237e0d"
+    ],
+    "operational_followup_keys": [],
+    "interpretation": "Describe categories, sources, purposes, recipients using actual fixture inventory; include credentials as SPI and do not invent device-precise location from address."
+  },
+  {
+    "mapping_id": "map_disclosures",
+    "provision_ids": [
+      "prov_ccpa_policy",
+      "prov_regs_policy",
+      "prov_ccpa_sale_share"
+    ],
+    "t03_fact_pointers": [
+      "/facts/sellsPersonalInformation",
+      "/facts/sharesForCrossContextBehavioralAdvertising",
+      "/facts/dataInventory",
+      "/facts/vendorContractsStatus"
+    ],
+    "t03_clause_keys": [
+      "clause_ca_disclosures"
+    ],
+    "clause_ids": [
+      "016bb052-b08f-5208-884b-3343949680f1"
+    ],
+    "operational_followup_keys": [
+      "op_vendor_contracts"
+    ],
+    "interpretation": "No sale/share conclusion requires service-provider restrictions and actual-purpose evidence, not vendor label alone."
+  },
+  {
+    "mapping_id": "map_rights",
+    "provision_ids": [
+      "prov_ccpa_rights",
+      "prov_ccpa_policy",
+      "prov_regs_policy"
+    ],
+    "t03_fact_pointers": [
+      "/facts/ordinarySignupDataNonexempt"
+    ],
+    "t03_clause_keys": [
+      "clause_ca_rights"
+    ],
+    "clause_ids": [
+      "d38acbf4-c1cc-5eb2-8650-ce5de03c4eda"
+    ],
+    "operational_followup_keys": [
+      "op_consumer_rights_process"
+    ],
+    "interpretation": "Know/delete/correct and nonretaliation; deletion exceptions remain. Do not state unconditional erase-everything promises."
+  },
+  {
+    "mapping_id": "map_requests",
+    "provision_ids": [
+      "prov_ccpa_request_methods",
+      "prov_regs_request_methods",
+      "prov_regs_policy"
+    ],
+    "t03_fact_pointers": [
+      "/facts/exclusivelyOnline",
+      "/facts/directConsumerRelationship",
+      "/facts/consumerRequestEmail",
+      "/facts/consumerRequestWebPath",
+      "/facts/consumerRequestMethodsReadiness"
+    ],
+    "t03_clause_keys": [
+      "clause_ca_requests"
+    ],
+    "clause_ids": [
+      "a84b9e93-a656-5e98-9d5a-d7be19e46954",
+      "3618409a-546d-57ed-976d-10114cd85254",
+      "40f65f82-3391-51bb-8941-23311cab54a5"
+    ],
+    "operational_followup_keys": [
+      "op_consumer_rights_process"
+    ],
+    "interpretation": "Email plus website request method chosen; online-direct exception does not justify inventing a working endpoint."
+  },
+  {
+    "mapping_id": "map_sensitive_limit",
+    "provision_ids": [
+      "prov_ccpa_sensitive",
+      "prov_ccpa_limit",
+      "prov_regs_limit",
+      "prov_regs_policy"
+    ],
+    "t03_fact_pointers": [
+      "/facts/accountCredentialsCollected",
+      "/facts/spiOnlyPermittedPurposes"
+    ],
+    "t03_clause_keys": [
+      "clause_ca_sensitive"
+    ],
+    "clause_ids": [
+      "d7dc353b-161d-596a-a504-2f3de8d7cfb0"
+    ],
+    "operational_followup_keys": [
+      "op_spurpose_review"
+    ],
+    "interpretation": "Credentials exist; permitted account/security-only uses do not automatically require a limit link. Unknown use blocks this assertion."
+  },
+  {
+    "mapping_id": "map_optout",
+    "provision_ids": [
+      "prov_ccpa_optout",
+      "prov_regs_optout",
+      "prov_regs_policy"
+    ],
+    "t03_fact_pointers": [
+      "/facts/sellsPersonalInformation",
+      "/facts/sharesForCrossContextBehavioralAdvertising",
+      "/facts/actualKnowledgeUnder16"
+    ],
+    "t03_clause_keys": [
+      "clause_ca_sale_share_signals"
+    ],
+    "clause_ids": [
+      "784f3762-3d89-573e-a0f0-fb3b27e2e430",
+      "ce9e8ae5-354d-5597-b08f-a4e530237fb2"
+    ],
+    "operational_followup_keys": [
+      "op_signal_and_sale_review"
+    ],
+    "interpretation": "Main no-sale/no-share fixture does not claim an implemented universal GPC mechanism. Sale/share variant requires opt-out/signals and under16 review."
+  },
+  {
+    "mapping_id": "map_retention_notice",
+    "provision_ids": [
+      "prov_ccpa_notice",
+      "prov_regs_notice"
+    ],
+    "t03_fact_pointers": [
+      "/facts/dataInventory",
+      "/facts/noticeAtCollectionReadiness"
+    ],
+    "t03_clause_keys": [
+      "clause_ca_retention"
+    ],
+    "clause_ids": [
+      "9689ef85-b969-51cd-8dcc-b423dacbc9ed"
+    ],
+    "operational_followup_keys": [
+      "op_notice_at_collection",
+      "op_retention_enforcement"
+    ],
+    "interpretation": "Draft retention information may support separate direct-linked notice, but approval does not retroactively provide notice."
+  },
+  {
+    "mapping_id": "map_dates_access",
+    "provision_ids": [
+      "prov_ccpa_policy",
+      "prov_regs_policy",
+      "prov_regs_presentation"
+    ],
+    "t03_fact_pointers": [
+      "/facts/baselinePolicyLastUpdated"
+    ],
+    "t03_clause_keys": [
+      "clause_ca_date_contact"
+    ],
+    "clause_ids": [
+      "de59121d-08a5-5e6b-a801-c2899e8ebcb0",
+      "06aee531-095d-531b-bb20-4afc8ceba2e2"
+    ],
+    "operational_followup_keys": [
+      "op_accessible_publication"
+    ],
+    "interpretation": "Date and accessibility checks; legal draft finalized only means workflow decisions complete, never published."
+  }
+]

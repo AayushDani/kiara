@@ -1,0 +1,58 @@
+---
+title: California signup — readiness repair, redline and ordered human gates
+---
+sequenceDiagram
+  autonumber
+  actor Founder as C02 Founder
+  participant API as C05 API + C12 Atlas
+  participant Worker as C06 Durable worker
+  participant Harness as C07/08 Retrieval + harness
+  participant Docs as C09/10 Validation + documents
+  actor Lawyer as C03 Lawyer
+  participant Mail as C13/14 Email
+  Note over API,Worker: D01/D05/D06 · user.signed_up → durable event + job, duplicate is deduplicated
+  API-->>Worker: D06 A · claim leased job with fence
+  Worker->>Harness: D07 S · pin corpus, facts and harness v1, retrieve context
+  Worker->>Docs: K-EVAL-01 S · validate context readiness before assessment
+  Docs-->>Worker: V03 APPLICABILITY_BUNDLE_MISSING
+  Worker->>Harness: K-EVAL-02 S · repair: select same available pinned CA law and facts
+  Harness-->>Worker: context.snapshot_pinned: complete applicability bundle
+  Worker->>Harness: D09 S · assess with complete context
+  Harness-->>Worker: assessment.completed: covered / not_covered / needs_information
+  alt Missing facts
+    Worker-->>Founder: D17 A · request information, persisted needs_information
+    Founder->>API: D04 H/S · attributed fact correction
+    API-->>Worker: company.context_updated, re-assess
+  else Not covered, no other change identified
+    Worker->>API: D29 D · closed_no_change with evidence
+  else Covered synthetic main demo
+    Worker->>Harness: D09 S · draft clause changes against immutable base
+    Harness->>Docs: D11 S · create_change_proposal
+    Worker->>Docs: D12 S · validate_proposal
+    Docs-->>Worker: validation.failed: CITATION_SPAN_MISMATCH (seeded draft-output fault)
+    Worker->>Harness: K-EVAL-02 S · repair citation against SAME pinned source
+    Harness->>Docs: D11 S · new immutable corrected candidate revision
+    Worker->>Docs: D12 S · full validation after output repair
+    Docs-->>Worker: validation.passed, exact review_bundle_id/hash
+    Note over Worker,Docs: Readiness repair + output repair share max TWO total actions. No cap reset.
+    Worker-->>Mail: D17 A · founder review request
+    Founder->>API: D02/D04 H/S · viewed or reviewed activity
+    opt Founder requests changes
+      Founder->>API: D15 H/S · attributed feedback
+      API-->>Worker: review.changes_requested → new revision → validation → founder
+    end
+    Founder->>API: D15 H/S · explicit approve exact review bundle
+    API-->>Worker: review.founder_approved
+    Worker-->>Mail: D17 A · lawyer review request for same bundle
+    Mail-->>Lawyer: D18 S · review link, delivery state separate
+    opt Lawyer requests changes
+      Lawyer->>API: D15 H/S · requested document/legal changes
+      API-->>Worker: New material invalidates both gates, validate then founder again
+    end
+    Lawyer->>API: D15 H/S · explicit approve same current bundle
+    API-->>Worker: review.lawyer_approved
+    Worker->>Docs: D28 S · atomic finalization check and current pointer update
+    Docs->>API: D16 D · document.finalized, no public publication
+    Worker-->>Mail: D17 A · final status/document link
+  end
+  Note over API,Mail: Email retries do not regenerate drafts or grant approvals. Reject stale decisions atomically.

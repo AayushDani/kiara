@@ -1,0 +1,12 @@
+{
+  "_id": "aa9d34f4-2739-5ba9-a960-253102f31a64",
+  "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+  "context_snapshot_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+  "law_as_of": "2026-09-26",
+  "outcome": "covered",
+  "synthetic": true,
+  "fixture_status": "expected_legal_assessment_not_live_runtime_execution",
+  "basis": "for_profit_controller_doing_business_in_ca_revenue_over_adjusted_threshold_nonexempt_signup_pi",
+  "threshold_usd": 26625000,
+  "prior_year_revenue_usd": 30000000
+}

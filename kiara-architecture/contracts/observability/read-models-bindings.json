@@ -1,0 +1,243 @@
+{
+  "contract_id": "K-OBS-001",
+  "contract_version": "1.1.0",
+  "schema_id": "urn:kiara:read-models:1.1.0",
+  "endpoints": [
+    {
+      "endpoint_id": "OBS-OBSERVABILITY",
+      "method": "GET",
+      "path": "/api/workflows/{workflow_id}/observability",
+      "request_schema": "#/$defs/ObservabilityRequest",
+      "query_schema": "#/$defs/PageQuery",
+      "success_schema": "#/$defs/ObservabilitySuccess",
+      "error_schema": "#/$defs/ObservabilityError",
+      "error_statuses": [
+        400,
+        401,
+        403,
+        404,
+        409,
+        503
+      ]
+    },
+    {
+      "endpoint_id": "OBS-EVIDENCEMAP",
+      "method": "GET",
+      "path": "/api/workflows/{workflow_id}/evidence-map",
+      "request_schema": "#/$defs/EvidenceMapRequest",
+      "query_schema": "#/$defs/EvidenceQuery",
+      "success_schema": "#/$defs/EvidenceMapSuccess",
+      "error_schema": "#/$defs/EvidenceMapError",
+      "error_statuses": [
+        400,
+        401,
+        403,
+        404,
+        503
+      ]
+    },
+    {
+      "endpoint_id": "OBS-HARNESSHISTORY",
+      "method": "GET",
+      "path": "/api/workflows/{workflow_id}/harness-history",
+      "request_schema": "#/$defs/HarnessHistoryRequest",
+      "query_schema": "#/$defs/HistoryQuery",
+      "success_schema": "#/$defs/HarnessHistorySuccess",
+      "error_schema": "#/$defs/HarnessHistoryError",
+      "error_statuses": [
+        400,
+        401,
+        403,
+        404,
+        409,
+        503
+      ]
+    },
+    {
+      "endpoint_id": "OBS-READINESS",
+      "method": "GET",
+      "path": "/api/ops/readiness",
+      "request_schema": "#/$defs/ReadinessRequest",
+      "query_schema": "#/$defs/Empty",
+      "success_schema": "#/$defs/ReadinessSuccess",
+      "error_schema": "#/$defs/ReadinessError",
+      "error_statuses": [
+        400,
+        401,
+        403,
+        503
+      ]
+    },
+    {
+      "endpoint_id": "OBS-LIVENESS",
+      "method": "GET",
+      "path": "/health/live",
+      "request_schema": "#/$defs/LivenessRequest",
+      "query_schema": "#/$defs/Empty",
+      "success_schema": "#/$defs/LivenessSuccess",
+      "error_schema": "#/$defs/LivenessError",
+      "error_statuses": [
+        503
+      ]
+    }
+  ],
+  "external_schemas": [
+    {
+      "path": "T09/event.schema.json",
+      "schema_id": "https://kiara.example/contracts/K-EVT-001"
+    },
+    {
+      "path": "T09/workflow.schema.json",
+      "schema_id": "https://kiara.example/contracts/K-WF-RECORD-001"
+    },
+    {
+      "path": "T09/notification.schema.json",
+      "schema_id": "https://kiara.example/contracts/K-NOTIFY-001"
+    },
+    {
+      "path": "T06/runtime-contracts.schema.json",
+      "schema_id": "urn:kiara:runtime-contracts:0.1.0"
+    }
+  ],
+  "wire_leaf_sources": [
+    {
+      "path": "T08/document-contracts.schema.json",
+      "schema_id": "urn:kiara:t08:document-contracts:1",
+      "dialect": "http://json-schema.org/draft-07/schema#",
+      "pointer": "/$defs/clause/properties/clause_id",
+      "target_pointer": "/$defs/ClauseId",
+      "source_sha256": "a5665280cb9f17ef37d38a173ebd733856b2ea833170ee6d311dff2beecf962e",
+      "leaf_sha256": "586d51131ae542e6e1f9f8624e35bf9a420342117a032493409f97ee3375935c",
+      "operation": "exact compatible scalar leaf copy; no UUID-pattern change"
+    }
+  ],
+  "domain_field_sources": [
+    {
+      "path": "T04/schema/company_context_versions.validator.json",
+      "pointer": "/validator/$jsonSchema/properties/facts/items/properties/knowledge",
+      "sha256": "1ac239978400d684b9db90c28a8e8cd4b147928fd9be36fa2d2a5f624478e22e"
+    },
+    {
+      "path": "T04/schema/company_context_versions.validator.json",
+      "pointer": "/validator/$jsonSchema/properties/facts/items/properties/provenance/properties/references/items",
+      "sha256": "1ac239978400d684b9db90c28a8e8cd4b147928fd9be36fa2d2a5f624478e22e"
+    },
+    {
+      "path": "T04/schema/company_context_versions.validator.json",
+      "pointer": "/validator/$jsonSchema/properties/facts/items/properties/provenance/properties/origin",
+      "sha256": "1ac239978400d684b9db90c28a8e8cd4b147928fd9be36fa2d2a5f624478e22e"
+    },
+    {
+      "path": "T04/schema/company_context_versions.validator.json",
+      "pointer": "/validator/$jsonSchema/properties/facts/items/properties/provenance/properties/verification_status",
+      "sha256": "1ac239978400d684b9db90c28a8e8cd4b147928fd9be36fa2d2a5f624478e22e"
+    },
+    {
+      "path": "T04/schema/harness_candidates.validator.json",
+      "pointer": "/validator/$jsonSchema/properties/patch",
+      "sha256": "f9ce111c02b3851c761fac031c6d264fbabe93b5758f8dbe0e9fd0190b6cdeb5"
+    },
+    {
+      "path": "T04/schema/harness_candidates.validator.json",
+      "pointer": "/validator/$jsonSchema/properties/status",
+      "sha256": "f9ce111c02b3851c761fac031c6d264fbabe93b5758f8dbe0e9fd0190b6cdeb5"
+    },
+    {
+      "path": "T04/schema/harness_candidates.validator.json",
+      "pointer": "/validator/$jsonSchema/properties/promotion_class",
+      "sha256": "f9ce111c02b3851c761fac031c6d264fbabe93b5758f8dbe0e9fd0190b6cdeb5"
+    },
+    {
+      "path": "T04/schema/evaluation_runs.validator.json",
+      "pointer": "/validator/$jsonSchema/properties/status",
+      "sha256": "b0443ad32bf16a3268576738b1d4768f63544526bf15f9128a9952f7929726b7"
+    },
+    {
+      "path": "T04/schema/evaluation_runs.validator.json",
+      "pointer": "/validator/$jsonSchema/properties/metrics",
+      "sha256": "b0443ad32bf16a3268576738b1d4768f63544526bf15f9128a9952f7929726b7"
+    },
+    {
+      "path": "T04/schema/evaluation_runs.validator.json",
+      "pointer": "/validator/$jsonSchema/properties/measurement_status",
+      "sha256": "b0443ad32bf16a3268576738b1d4768f63544526bf15f9128a9952f7929726b7"
+    },
+    {
+      "path": "T04/schema/legal_source_versions.validator.json",
+      "pointer": "/validator/$jsonSchema/properties/status",
+      "sha256": "1d1e92b9c7321df0608d0b5c1ca4cab494ce8335d2bf3756d84ba0da3f95f49e"
+    },
+    {
+      "path": "T04/schema/assessments.validator.json",
+      "pointer": "/validator/$jsonSchema/properties/outcome",
+      "sha256": "e6b216fe00e27836429d3ea42c1531dcdf17e157682c810d9d134280cd56c129"
+    },
+    {
+      "path": "T04/schema/validation_runs.validator.json",
+      "pointer": "/validator/$jsonSchema/properties/status",
+      "sha256": "796f246592f7d3b604ef5d78039c6086e37e9d741c3cdea1d4365e1e2b610299"
+    },
+    {
+      "path": "T04/schema/legal_source_versions.validator.json",
+      "pointer": "/validator/$jsonSchema/properties/effective_date_status",
+      "sha256": "1d1e92b9c7321df0608d0b5c1ca4cab494ce8335d2bf3756d84ba0da3f95f49e"
+    },
+    {
+      "path": "T04/schema/validation_runs.validator.json",
+      "pointer": "/validator/$jsonSchema/properties/checks/items/properties/result",
+      "sha256": "796f246592f7d3b604ef5d78039c6086e37e9d741c3cdea1d4365e1e2b610299"
+    },
+    {
+      "path": "T04/schema/company_context_versions.validator.json",
+      "pointer": "/validator/$jsonSchema/properties/facts/items/properties/fact_key",
+      "sha256": "1ac239978400d684b9db90c28a8e8cd4b147928fd9be36fa2d2a5f624478e22e"
+    }
+  ],
+  "physical_reads": {
+    "observability": [
+      "workflows",
+      "events",
+      "agent_runs",
+      "telemetry_spans",
+      "notification_outbox"
+    ],
+    "evidence_map": [
+      "company_context_versions",
+      "assessments",
+      "evidence_bundles",
+      "legal_source_versions",
+      "legal_chunks",
+      "review_bundles",
+      "document_revisions",
+      "validation_runs"
+    ],
+    "harness_history": [
+      "agent_runs",
+      "tenants",
+      "harness_versions",
+      "harness_candidates",
+      "evaluation_runs",
+      "events"
+    ]
+  },
+  "adapters": {
+    "run_id": "agent_runs._id",
+    "run.harness_version.record_id": "agent_runs.harness_version_id",
+    "run.harness_version.sha256": "agent_runs.harness_hash",
+    "run.runtime_policy_version.record_id": "agent_runs.runtime_policy_id",
+    "run.runtime_policy_version.sha256": "agent_runs.runtime_policy_hash",
+    "revision_id": "document_revisions._id",
+    "context_version_id": "company_context_versions._id",
+    "notification_id": "notification_outbox._id"
+  },
+  "handler_invariants": [
+    "Authenticate and authorize before all tenant joins; hidden/cross-tenant IDs return NOT_FOUND.",
+    "Every event in workflow page matches aggregate_type=workflow and aggregate_id=workflow_id; event_type equals summary.code.",
+    "Strictly increasing aggregate_seq above request.after_seq, never above high_water; next_cursor is last returned sequence or request.after_seq if empty.",
+    "run bindings and artifact links refer to the same authorized tenant and workflow or explicitly authorized shared evidence.",
+    "Context fact provenance, legal source hashes, clause IDs and validation check references resolve to pinned artifacts.",
+    "Readiness components appear once each; boolean summaries are derived from component checks, not user input.",
+    "A verified sandbox status requires a nonnull attestation; connectivity alone is insufficient.",
+    "No mutation, provider probe, review activity append or approval is performed by these GET routes."
+  ]
+}

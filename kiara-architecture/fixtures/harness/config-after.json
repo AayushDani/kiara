@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "retrieval": {
+    "prefetch": {
+      "declared_ca_resident_ccpa_bundle": true,
+      "declared_ca_resident_company_facts": true
+    }
+  }
+}

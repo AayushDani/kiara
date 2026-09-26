@@ -1,0 +1,20 @@
+{
+  "_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+  "version": 1,
+  "protected_rules_version": "kiara-protected-v1",
+  "config": {
+    "retrieval": {
+      "required_facts": [
+        "revenue",
+        "controller",
+        "ca_business",
+        "residence",
+        "exemptions"
+      ]
+    },
+    "drafting": {
+      "clause_schema": "kiara.document_revision.v1",
+      "forbid_compliance_guarantees": true
+    }
+  }
+}

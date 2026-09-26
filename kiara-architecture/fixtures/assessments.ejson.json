@@ -1,0 +1,55 @@
+[
+  {
+    "_id": "aa9d34f4-2739-5ba9-a960-253102f31a64",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "context_version_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+    "event_id": "4fbd9f2e-d458-5a31-99c6-e333fe338b64",
+    "law_key": "ca.ccpa",
+    "scenario_date": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "outcome": "covered",
+    "criteria": [
+      {
+        "criterion_key": "map_applicability",
+        "result": "satisfied",
+        "fact_ids": [
+          "286b1546-e0a9-5097-87ea-62c1db70a886",
+          "ab5b5336-e7ab-5cb6-b1dd-b242a307ee97",
+          "5165d721-4db8-568a-b983-026abdca586c",
+          "435478f3-3926-5090-a0cf-a9a1183f76b7",
+          "04a9b32e-8d01-5ce2-b464-d32fa5c90203",
+          "f8d26045-3f56-512b-ab1c-3117b6e3bbb0",
+          "8efdf173-cc82-5a54-8af5-67ea323a7348",
+          "5cb3f07d-32b2-5b91-891d-8700729615c1",
+          "ea4792ed-c755-582c-81dd-934188018892",
+          "24819f60-a842-5dc7-9131-90358c10cad9"
+        ],
+        "provision_chunk_ids": [
+          "0a3e6a6c-2ede-502e-83f0-761ccd88d419",
+          "272567e6-ed7c-5c45-92e6-e5451f92818b",
+          "d94a8332-fa87-5f8a-9adb-83e34c5f3514",
+          "d1d9e765-35d6-5401-8653-66ed350937bb",
+          "37725ca6-9249-5d11-afab-4cc58e7b5b60"
+        ],
+        "reason": "Revenue route passes on explicit 2025 USD30m fixture. A CA signup triggers assessment; it does not prove all elements."
+      }
+    ],
+    "missing_fact_keys": [],
+    "source_version_ids": [
+      "a9ca10a1-7b79-585a-aade-7768033f21c7",
+      "98a9f500-1333-5897-82e0-4d870f9aa15f",
+      "23513bed-4516-56ad-ab38-84fab4936de3"
+    ],
+    "review_status": "unreviewed",
+    "rationale": "CCPA business definition and ordinary California consumer signup processing; proposed legal interpretation from T03 synthetic fixture.",
+    "created_by_run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+    "content_hash": "68e60e57321654759de895917c550a1669f6fa0b647005ffbdedcbb402695f45",
+    "reset_epoch": 1
+  }
+]

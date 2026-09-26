@@ -1,0 +1,67 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "correlation_id": "13c42ae4-6073-51b0-ab47-93f05ebb214a",
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+    "attempt_id": "1c1f2551-f0e8-52f1-8e03-de92eeeb0923",
+    "attempt_no": 1,
+    "trace_id": "b263e55c-12f3-502c-abcd-2b2cc32d9974",
+    "parent_span_id": null,
+    "event_id": "4fbd9f2e-d458-5a31-99c6-e333fe338b64",
+    "stage": "run",
+    "status": "succeeded",
+    "model_invocation_id": null,
+    "logical_request_id": null,
+    "physical_attempt": null,
+    "tool_receipt_id": null,
+    "started_at": {
+      "$date": "2026-09-26T16:00:00.000Z"
+    },
+    "ended_at": {
+      "$date": "2026-09-26T16:02:31.000Z"
+    },
+    "duration_ms": 151000,
+    "duration_source": "monotonic_clock",
+    "error_code": null,
+    "harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+    "context_version_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+    "evidence_bundle_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+    "review_bundle_id": null,
+    "revision_id": null,
+    "validation_run_id": null,
+    "evaluation_run_id": null,
+    "model_provider": null,
+    "model_id": null,
+    "usage": {
+      "status": "not_applicable",
+      "input_tokens": null,
+      "cached_input_tokens": null,
+      "output_tokens": null,
+      "reasoning_output_tokens": null,
+      "estimated_cost_micro_usd": null,
+      "reserved_cost_micro_usd": 0,
+      "pricing_version": null
+    },
+    "export": {
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": null,
+      "next_attempt_at": null,
+      "last_error_code": null,
+      "privacy_policy_version": "safe-metrics-v1",
+      "project_key": "kiara-demo-safe",
+      "sample_rate": 1
+    },
+    "expires_at": {
+      "$date": "2026-10-10T16:02:31.000Z"
+    },
+    "_id": "91ee663d-de36-5067-bb79-0e7405863b0c",
+    "created_at": {
+      "$date": "2026-09-26T16:00:00.000Z"
+    },
+    "reset_epoch": 1
+  }
+]

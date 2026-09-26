@@ -1,0 +1,2346 @@
+{
+  "updated_at": "2026-09-26T17:24:19.976862+00:00",
+  "repository": "https://github.com/AayushDani/kiara",
+  "contract_release": "kiara-architecture-0.2.0-rc1",
+  "status": "local_application_implemented_provider_acceptance_pending",
+  "external_blockers": [
+    "Atlas sandbox credentials and access not supplied",
+    "OpenAI API credentials not supplied",
+    "Resend credentials and real-send authorization not supplied",
+    "Public repository push/publication not yet authorized"
+  ],
+  "requirements": [
+    {
+      "requirement_id": "KIARA-G01",
+      "obligation": "Preserve the event-driven legal-document review product for smaller founders and lawyers; no pivot or unauthorized scope deletion.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-G02",
+      "obligation": "Plan five elapsed hours T+0 through T+300 of parallel agent-assisted execution, separate from research time.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-G03",
+      "obligation": "Account for actual concurrency limits, model/tool latency, setup and serial bottlenecks without guaranteeing an unmeasured deadline.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-G04",
+      "obligation": "Limit current work to research, architecture and reversible local validation; do not build full app or publish/send/submit credit forms.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "superseded_by_user",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "User explicitly requested full app implementation after the architecture phase. Publication and real email remain separate.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-G05",
+      "obligation": "Give every original requirement a stable ID and map artifact, diagram node/edge, schema/contract, owner chat, package, acceptance and demo evidence.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-G06",
+      "obligation": "Use designed, dependency_blocked or unresolved statuses; only tool implementation mutation is user-designated stretch; separate new suggestions.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-G07",
+      "obligation": "Use 17 real separate persistent planning specialist chats including independent reviewer and integrator; no simulated roles or ephemeral replacement.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-G08",
+      "obligation": "Explicitly request gpt-6-astra and xhigh for every planning/reviewer/integration chat and future implementation packet; report rejection or unverified effective settings honestly.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-G09",
+      "obligation": "Discover project before dispatch, verify local project/context, retain pending versus ready IDs, respect host limits, and queue waves.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-G10",
+      "obligation": "Give each specialist complete authoritative brief, scoped ownership, dependencies, source URLs, paths, acceptance and coordination authorization.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-G11",
+      "obligation": "Collect asynchronous results with bounded wait/read, review actual artifacts, send dependencies and repair requests to authors, preserve settings.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-G12",
+      "obligation": "Only integrator edits shared final pack; specialists own task-specific directories; preserve existing files.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-G13",
+      "obligation": "Keep research-chat graph, later implementation-task graph and deployed runtime graph distinct; 17 chats do not imply 17 runtime services.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-B01",
+      "obligation": "Explain founder and lawyer jobs, incentives, buyer versus user, alternatives and value proposition without invented market/savings/validation/compliance claims.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Design/research evaluated in retained pack. Optional LangSmith export and vector retrieval are not used by the current exact-selector runtime.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "docs/persistence.md",
+        "docs/runtime.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-B02",
+      "obligation": "Recheck public Rippit inspiration and use a clearly fictional Rippit-inspired company; do not invent Rippit's actual facts or policy deficiencies.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Design/research evaluated in retained pack. Optional LangSmith export and vector retrieval are not used by the current exact-selector runtime.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "docs/persistence.md",
+        "docs/runtime.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-B03",
+      "obligation": "Preserve NY-only known customer baseline to declared CA-residence signup with name/address, assessment, evidence, redline, correction, founder/lawyer feedback and approval, persisted improvement.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-B04",
+      "obligation": "Connect company facts and schema fields to exact legal provisions and proposed clauses visibly.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-L01",
+      "obligation": "Treat CA signup as applicability signal; absence of the CCPA acronym is not a compliance test.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-L02",
+      "obligation": "Distinguish declared legal residence, street address, billing address and IP/geolocation evidence.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-L03",
+      "obligation": "Use operative California statute/regulations and CPPA primary sources, exact effective dates and scenario-date inflation-adjusted thresholds.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-L04",
+      "obligation": "Model business-definition predicates, thresholds, exemptions and data practices with explicit known/unknown facts.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-L05",
+      "obligation": "Represent needs_information and non-covered/no-action outcomes explicitly.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-L06",
+      "obligation": "Choose explicit synthetic covered facts so main CA/CCPA demo reaches a proposed privacy-policy redline.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-L07",
+      "obligation": "Separate privacy-policy drafting from operational duties and missing notice-at-collection remediation; no retroactive cure claim.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-L08",
+      "obligation": "Use potential-gap/applicability-unresolved/awaiting-review language; never infer all NY policies current from seed customers.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-L09",
+      "obligation": "Separate authoritative source text from generated interpretation and review status; cite provisions with exact locators.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-R01",
+      "obligation": "Retrieve and read company documents using concrete formats, parsing tools, ingestion and read behavior.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-R02",
+      "obligation": "Retrieve and read authoritative legal documents/rulings with actual sources and tools.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-R03",
+      "obligation": "Define deterministic tenant/fact/document filters, query shapes, relevance and token/result budgets.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-R04",
+      "obligation": "Handle source freshness/effective dates, supersession, conflicts and missing evidence.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-R05",
+      "obligation": "Persist exact context snapshot used for each run, including facts, document bases, source versions and retrieval policy.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-R06",
+      "obligation": "Evaluate exact, lexical and vector retrieval; if vectors are omitted explain tradeoff; if selected specify model/dimension/index/prefilters/readiness/update/fallback.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "Design/research evaluated in retained pack. Optional LangSmith export and vector retrieval are not used by the current exact-selector runtime.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "docs/persistence.md",
+        "docs/runtime.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-R07",
+      "obligation": "Provide typed permission-aware company-context retrieval tool with provenance, retrieval rules and guardrails.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-R08",
+      "obligation": "Provide typed company-context update/proposal tool with allowed fields, actor/provenance, expected-version conflict handling and verification.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-S01",
+      "obligation": "Store company context, customers/events, documents, legal evidence, workflow state and agent memory in Atlas.",
+      "scope": "committed",
+      "implementation_owner": "persistence",
+      "status": "provider_acceptance_pending",
+      "code": [
+        "src/data/",
+        "scripts/seed.ts",
+        "scripts/reset.ts"
+      ],
+      "acceptance": "Adapter and local contracts exercised. Atlas/real-send credentials and live acceptance unavailable.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-S02",
+      "obligation": "Specify types, required/optional fields, enums, canonical IDs, references, cardinality and embed/reference choices; avoid collection-per-noun design.",
+      "scope": "committed",
+      "implementation_owner": "persistence",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/data/",
+        "scripts/seed.ts",
+        "scripts/reset.ts"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-S03",
+      "obligation": "Define unique/compound indexes, query support and validation/versioning/concurrency strategy.",
+      "scope": "committed",
+      "implementation_owner": "persistence",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/data/",
+        "scripts/seed.ts",
+        "scripts/reset.ts"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-S04",
+      "obligation": "Model tenant/company, actors/roles, business profile and customer residency/event evidence with writer ownership.",
+      "scope": "committed",
+      "implementation_owner": "persistence",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/data/",
+        "scripts/seed.ts",
+        "scripts/reset.ts"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-S05",
+      "obligation": "Model facts with origin, author, verification, known/unknown status, timestamp and supersession.",
+      "scope": "committed",
+      "implementation_owner": "persistence",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/data/",
+        "scripts/seed.ts",
+        "scripts/reset.ts"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-S06",
+      "obligation": "Model immutable events, runs, transitions/checkpoints and idempotency records.",
+      "scope": "committed",
+      "implementation_owner": "persistence",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/data/",
+        "scripts/seed.ts",
+        "scripts/reset.ts"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-S07",
+      "obligation": "Model source versions and provisions/chunks with authority URL, jurisdiction, locator, retrieval/effective dates, hash, status and supersession.",
+      "scope": "committed",
+      "implementation_owner": "persistence",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/data/",
+        "scripts/seed.ts",
+        "scripts/reset.ts"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-S08",
+      "obligation": "Model assessments with criteria, company-fact IDs, missing facts, legal-provision IDs, result and review state.",
+      "scope": "committed",
+      "implementation_owner": "persistence",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/data/",
+        "scripts/seed.ts",
+        "scripts/reset.ts"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-S09",
+      "obligation": "Model documents, immutable revisions, parent/base, stable clause IDs, proposals, hash, citations/rationale and follow-ups.",
+      "scope": "committed",
+      "implementation_owner": "persistence",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/data/",
+        "scripts/seed.ts",
+        "scripts/reset.ts"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-S10",
+      "obligation": "Model validation/repair results, structured attributed founder/lawyer feedback and version-specific decisions.",
+      "scope": "committed",
+      "implementation_owner": "persistence",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/data/",
+        "scripts/seed.ts",
+        "scripts/reset.ts"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-S11",
+      "obligation": "Model harness versions, candidate patches, evaluation runs, promotion and rollback history.",
+      "scope": "committed",
+      "implementation_owner": "persistence",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/data/",
+        "scripts/seed.ts",
+        "scripts/reset.ts"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-S12",
+      "obligation": "Model notification outbox/delivery attempts and audit/trace references.",
+      "scope": "committed",
+      "implementation_owner": "persistence",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/data/",
+        "scripts/seed.ts",
+        "scripts/reset.ts"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-S13",
+      "obligation": "Separate shared public legal corpus from tenant-confidential data; derive private scope from authenticated server context, never model arguments.",
+      "scope": "committed",
+      "implementation_owner": "persistence",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/data/",
+        "scripts/seed.ts",
+        "scripts/reset.ts"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-S14",
+      "obligation": "Provide one complete synthetic trace with consistent signup, assessment, provision, clause, draft, validation, approvals and harness-update IDs.",
+      "scope": "committed",
+      "implementation_owner": "persistence",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/data/",
+        "scripts/seed.ts",
+        "scripts/reset.ts"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-S15",
+      "obligation": "Specify repeatable deterministic seed/reset script for company facts, NY/CA events, baseline docs, legal snapshots, actors and harness versions.",
+      "scope": "committed",
+      "implementation_owner": "persistence",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/data/",
+        "scripts/seed.ts",
+        "scripts/reset.ts"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-S16",
+      "obligation": "Provide parseable schema-valid examples for every physical collection, no ellipses.",
+      "scope": "committed",
+      "implementation_owner": "persistence",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/data/",
+        "scripts/seed.ts",
+        "scripts/reset.ts"
+      ],
+      "acceptance": "Design/research evaluated in retained pack. Optional LangSmith export and vector retrieval are not used by the current exact-selector runtime.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "docs/persistence.md",
+        "docs/runtime.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-W01",
+      "obligation": "Define UI/API/worker/harness/data/email/observability deployment and module boundaries, including worker hosting limits.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Design/research evaluated in retained pack. Optional LangSmith export and vector retrieval are not used by the current exact-selector runtime.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "docs/persistence.md",
+        "docs/runtime.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-W02",
+      "obligation": "Choose one event/state vocabulary and concrete trigger envelope with tenant, schema version, occurred/received times, actor/source, correlation/causation, idempotency and minimal residence evidence.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-W03",
+      "obligation": "Specify every transition's trigger, actor, preconditions, writes, emitted event and retry behavior.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-W04",
+      "obligation": "Persist claims/checkpoints/waits/retries so approval waits survive restart/browser close; justify job/queue/change-stream choice.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-W05",
+      "obligation": "Handle duplicate/out-of-order events, model retries/timeouts and duplicate notification attempts with concrete mechanisms.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-W06",
+      "obligation": "Prevent or resolve two proposals against one base with implementable atomic claims/version preconditions.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-W07",
+      "obligation": "Route founder approval before lawyer review; require both authorized gates for exact draft finalization.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-W08",
+      "obligation": "Support requested changes, rejection, superseded draft and terminal failure; define finalization as approved artifact rather than automatic public publication.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-W09",
+      "obligation": "Separate lawyer review request from final delivery; failed email retries delivery without regenerating draft or approving it.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-C01",
+      "obligation": "Classify every selected Kiara operation as deterministic API, model-callable tool, adapter or human-only action.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-C02",
+      "obligation": "For each operation define typed inputs/outputs, caller/role, effects, reads/writes, validation, idempotency, expected versions, timeout/retry/errors and trace IDs.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-C03",
+      "obligation": "Give every diagram edge a real contract/event ID or documented internal operation; mark custom pseudocode and verify vendor methods.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Design/research evaluated in retained pack. Optional LangSmith export and vector retrieval are not used by the current exact-selector runtime.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "docs/persistence.md",
+        "docs/runtime.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-D01",
+      "obligation": "Choose one editable representation, storage strategy, diff algorithm/library and reviewer UI; decide export scope without inventing mandatory integrations.",
+      "scope": "committed",
+      "implementation_owner": "ux",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/ui/",
+        "src/app/globals.css"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-D02",
+      "obligation": "Generate clause-level redlines between immutable base/proposal preserving unchanged text and stable clause IDs.",
+      "scope": "committed",
+      "implementation_owner": "ux",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/ui/",
+        "src/app/globals.css"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-D03",
+      "obligation": "Bind approvals to exact revision/hash and evidence/assessment version; reject stale approvals atomically.",
+      "scope": "committed",
+      "implementation_owner": "ux",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/ui/",
+        "src/app/globals.css"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-D04",
+      "obligation": "Text changes create new revision and invalidate required approvals; material fact/source changes trigger revalidation and defined reapproval even without text change.",
+      "scope": "committed",
+      "implementation_owner": "ux",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/ui/",
+        "src/app/globals.css"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-D05",
+      "obligation": "Track viewed, reviewed, requested_changes, rejected and approved as distinct events/actions.",
+      "scope": "committed",
+      "implementation_owner": "ux",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/ui/",
+        "src/app/globals.css"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-D06",
+      "obligation": "Accept attributed founder and lawyer feedback separated into fact correction, document edit, legal interpretation/review note and harness proposal.",
+      "scope": "committed",
+      "implementation_owner": "ux",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/ui/",
+        "src/app/globals.css"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-H01",
+      "obligation": "Implement distinct current-output repair using deterministic structure/reference/state checks plus bounded semantic review.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-H02",
+      "obligation": "Classify validation failures and retrieve evidence/revise/revalidate with explicit attempts/time/cost cap and needs_human_review terminal path.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-H03",
+      "obligation": "Persist future-run adaptation: diagnosis \u2192 typed candidate config patch \u2192 frozen regression \u2192 promotion/rejection \u2192 immutable version \u2192 next run \u2192 rollback.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-H04",
+      "obligation": "Provide concrete before/after config that changes future retrieval/context/drafting behavior; corpus/fact/document updates alone are not proof of harness improvement.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-H05",
+      "obligation": "Allow narrow automatic tenant-scoped retrieval/context changes only after deterministic patch allowlist/value checks and regression pass outside model control.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-H06",
+      "obligation": "Keep approval requirements, authorization, tenant scope, trusted sources, applicability criteria, evaluation gates and tool permissions outside self-promotion.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-H07",
+      "obligation": "Atomically compare expected champion version on promotion; preserve immutable history and rollback pointer.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-H08",
+      "obligation": "Pin harness version per run; any repair switching versions requires explicit persisted transition.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-H09",
+      "obligation": "Freeze events/facts, legal corpus, model/settings and evaluator across baseline/candidate comparison; record nondeterminism and holdouts.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-H10",
+      "obligation": "Use a separate later/related event to prove persisted improved behavior, with baseline/candidate/replay distinction and synthetic-suite limits.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-H11",
+      "obligation": "Specify positive, noncovered/unknown, unsupported citation/stale source, duplicate event, stale approval, cross-tenant, exhausted repair, failed notification, harmful patch, repeated improved event cases.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-H12",
+      "obligation": "Consider changing tool implementation itself only as the original user-designated stretch goal; mandatory rule/context/guardrail adaptation remains committed.",
+      "scope": "user_designated_stretch",
+      "implementation_owner": "runtime",
+      "status": "user_designated_stretch",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "Arbitrary tool-code self-mutation remains unimplemented optional stretch; finite retrieval adaptation is implemented.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-H13",
+      "obligation": "Critically inspect Strands Harness Optimizer, version/maturity/compatibility and ARC workload; do not infer legal reliability or safe promotion from benchmark claims.",
+      "scope": "committed",
+      "implementation_owner": "runtime",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/runtime/",
+        "src/workflow/legal.ts",
+        "src/adaptation/"
+      ],
+      "acceptance": "Design/research evaluated in retained pack. Optional LangSmith export and vector retrieval are not used by the current exact-selector runtime.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "docs/persistence.md",
+        "docs/runtime.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-U01",
+      "obligation": "Provide founder view for event, facts, uncertainty, evidence, redline, feedback and explicit review decisions.",
+      "scope": "committed",
+      "implementation_owner": "ux",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/ui/",
+        "src/app/globals.css"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-U02",
+      "obligation": "Provide lawyer view for founder-approved bundle, provision/fact/clauses, legal notes, edits and explicit review/approval.",
+      "scope": "committed",
+      "implementation_owner": "ux",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/ui/",
+        "src/app/globals.css"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-U03",
+      "obligation": "Expose event, fact/source/collection IDs, concise tool results, failure/correction, config diff, evaluation and active version beside product actions.",
+      "scope": "committed",
+      "implementation_owner": "ux",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/ui/",
+        "src/app/globals.css"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-N01",
+      "obligation": "Design real email integration sending exact document/review links with auth/provider prerequisites; preview does not replace send capability.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "provider_acceptance_pending",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Adapter and local contracts exercised. Atlas/real-send credentials and live acceptance unavailable.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-N02",
+      "obligation": "Specify outbox state, idempotency/deduplication, retry/backoff, delivery attempts and preview/test mode.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-O01",
+      "obligation": "Make event chain, evidence, versions, validation, active config and config changes observable through Atlas-backed application views.",
+      "scope": "committed",
+      "implementation_owner": "ux",
+      "status": "provider_acceptance_pending",
+      "code": [
+        "src/ui/",
+        "src/app/globals.css"
+      ],
+      "acceptance": "Adapter and local contracts exercised. Atlas/real-send credentials and live acceptance unavailable.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-O02",
+      "obligation": "Evaluate and verify LangSmith integration for traces separately from Atlas workflow persistence and product config-history UI.",
+      "scope": "committed",
+      "implementation_owner": "ux",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/ui/",
+        "src/app/globals.css"
+      ],
+      "acceptance": "Design/research evaluated in retained pack. Optional LangSmith export and vector retrieval are not used by the current exact-selector runtime.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "docs/persistence.md",
+        "docs/runtime.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-O03",
+      "obligation": "Correlate event, workflow, revision, source snapshot, harness, evaluation and trace IDs; measure latency/cost/error/outages.",
+      "scope": "committed",
+      "implementation_owner": "ux",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/ui/",
+        "src/app/globals.css"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-P01",
+      "obligation": "Treat fetched pages/docs/feedback as untrusted data, defend prompt injection/source fetching, sanitize rendered content and restrict context writes.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-P02",
+      "obligation": "Protect secrets/PII in repo, screenshots, traces and legal searches; use synthetic names/addresses.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-P03",
+      "obligation": "Define authenticated role/action matrix and tenant authority; a demo role switch is explicitly simulation rather than production auth.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-I01",
+      "obligation": "Visit/account for every Section 11 URL and distinct tool/resource named or linked in native guide; resolve shortlinks honestly and enumerate relevant nested guides.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-I02",
+      "obligation": "Record original/resolved URL, name/type/purpose, access/retrieval date, effective/version date, evidence state, prerequisites, requirement relevance, owner and disposition.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-I03",
+      "obligation": "Inspect actual SDK/MCP capabilities, auth, maturity, language/setup and classify selected/development_only/alternative/rejected/blocked without dropping requirements.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-I04",
+      "obligation": "Evaluate native MongoDB driver versus MCP, local/managed/developer MCP, embeddings versus automated preview, exact/search, LangSmith persistence limits and Kiro/v0/Codex build role.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-I05",
+      "obligation": "Recheck promotional eligibility/allowances and account/model access prerequisites without redeeming credits or assuming funded production usage.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-I06",
+      "obligation": "Compare custom loop, Strands, LangGraph and AI SDK, select one coherent stack, at most one fallback per critical dependency with switch trigger.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-I07",
+      "obligation": "For selected components record exact package/API, language/runtime, version/range, official integration, env names, sandbox availability, effort and limits.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-I08",
+      "obligation": "Treat top-level prior research as leads; re-read live sources and label source access honestly.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-I09",
+      "obligation": "Distinguish documentation MCP from Strands runtime application-tool MCP and preassembled harness from SDK; recheck archived migration, alpha status and API drift.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-K01",
+      "obligation": "Verify organizer tracks and select recursive harnessing based on persisted measurable adaptation with MongoDB data/memory.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-K02",
+      "obligation": "Require organizer-invited Atlas Hackathon Sandbox project/cluster for finalist eligibility; no private-email inspection without authority.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Organizer sandbox eligibility, public repository/video publication, and submission remain external handoff requirements; no completion claimed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-K03",
+      "obligation": "Verify original work/no prior projects, up-to-four human teammates, public repository/demo, permitted examples/licenses and unclear rules.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Organizer sandbox eligibility, public repository/video publication, and submission remain external handoff requirements; no completion claimed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-K04",
+      "obligation": "Recheck onsite Sept26 recording and finalist representative Sept30 10AM\u20134:30PM; record discrepancies/effective dates.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-K05",
+      "obligation": "Plan Cerebral Valley submission of public repository, one-minute code/functionality video with working voice/audio and concise description; include all teammates.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Organizer sandbox eligibility, public repository/video publication, and submission remain external handoff requirements; no completion claimed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-A01",
+      "obligation": "Deliver readable system overview with roughly 10\u201318 meaningful nodes, actors/process boundaries, API/workflow, harness, stores, gates and notifications.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-A02",
+      "obligation": "Deliver CA-to-approval sequence with one failed validation/repair plus missing-fact and requested-change alternatives.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-A03",
+      "obligation": "Deliver allowed-state diagram with persisted waits, bounded retry/escalation, supersession, finalization and separate delivery lifecycle.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-A04",
+      "obligation": "Deliver logical ER view with keys/cardinalities and physical collection/embed mapping, splitting linked pages if needed.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-A05",
+      "obligation": "Deliver failure/feedback-to-patch/evaluation/promotion/next-run/rollback diagram with auto/human boundary and versions.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-A06",
+      "obligation": "Give every node stable ID, owner/task, responsibility, code location, inputs/outputs and backing data; plain vocabulary, acronym definitions and semantic legend.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-A07",
+      "obligation": "Keep editable Mermaid and deterministic SVG/preview; parse/render every file and inspect for clipping/text/tangles and cross-view IDs locally.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-E01",
+      "obligation": "Provide each implementation task ID/title, Astra/xhigh launch prompt, owned components/files, I/O/contracts, deps, outputs/checks, time uncertainty, integration point and reviewer.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-E02",
+      "obligation": "Show fixed-contract/mock parallel starts and real-integration replacement checkpoints; improve decomposition/fixtures/SDK reuse before reducing scope.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-E03",
+      "obligation": "Specify repo layout, env template without values, startup/demo procedure, sandbox/index/provider/model/email readiness and capability-preserving alternatives.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-E04",
+      "obligation": "Write exactly 60 seconds with ranges, screen action, voiceover, event/state and visible evidence, product/config split screen and complete requested workflow.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-E05",
+      "obligation": "Provide concise product description and public-repo/video/submission handoff owners, separating synthetic/scripted/proven-executed behavior.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-F01",
+      "obligation": "Deliver coherent README with problem/scope, selected stack, overview, decisions, five-hour path and navigation.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-F02",
+      "obligation": "Deliver schema.md, machine-readable schema/indexes and valid fixtures consistently.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-F03",
+      "obligation": "Deliver component registry and API/tool/event/state contracts with critical request/response/error examples.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-F04",
+      "obligation": "Deliver repair/adaptation, config diff, protected gates, eval fixtures/metrics/promotion/rollback specification.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-F05",
+      "obligation": "Deliver build-plan, demo, task-packets, registry, source/tool inventory, decisions and rejected alternatives.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-F06",
+      "obligation": "Preserve unchanged user source brief and latest multi-thread/Astra/five-elapsed-hour instructions.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-F07",
+      "obligation": "Deliver full requirement-to-diagram/schema/contract/owner/package/check/demo mapping and review.md findings/fixes/uncertainties/status.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-F08",
+      "obligation": "Final response leads with main architecture diagram and links pack, selected stack, task boundaries/chat IDs, adaptation, real model confirmation, review/integration and actually-run checks.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "retained_design_evidence",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "Retained architecture/research artifact. See local application verification separately; submission/publication requirements are not claimed executed.",
+      "evidence": [
+        "kiara-architecture/README.md",
+        "kiara-architecture/traceability.md",
+        "kiara-architecture/review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-V01",
+      "obligation": "Independent Astra/xhigh reviewer reads original brief, instructions, ledger, registry, final diagrams/schema/contracts/build/demo/traceability and audits integrated work.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-V02",
+      "obligation": "Report severity, evidence/location, impact and concrete remedy for scope, legal, model/thread, schedule, approval, tenancy, self-modification, API, consistency, resource, diagram and eval failures.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-V03",
+      "obligation": "Run at least one critique/revision/recheck pass, cap at three, route repairs to owners and reintegrate via T17.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    },
+    {
+      "requirement_id": "KIARA-V04",
+      "obligation": "Mark pack provisional for unavailable access/user-decision blockers, preserve requirement and proposed resolution; architecture acceptance does not require building full app.",
+      "scope": "committed",
+      "implementation_owner": "integration",
+      "status": "implemented_local_verified",
+      "code": [
+        "src/workflow/engine.ts",
+        "src/server/",
+        "src/app/api/",
+        "README.md"
+      ],
+      "acceptance": "63 automated tests on Node 24.19.0, successful production build, and recorded browser acceptance. Credential-dependent proof is explicitly excluded.",
+      "evidence": [
+        "docs/verification.md",
+        "docs/independent-review.md"
+      ]
+    }
+  ],
+  "status_legend": {
+    "implemented_local_verified": "Implemented and exercised with local/scripted/provider-injected verification; not live provider proof.",
+    "provider_acceptance_pending": "Adapter implemented; the named live service requirement remains unverified without access.",
+    "retained_design_evidence": "Planning/research/delivery requirement retained in the architecture pack; does not stand for runtime execution.",
+    "superseded_by_user": "Earlier restriction replaced by the explicit request to build the actual app.",
+    "user_designated_stretch": "Original optional stretch retained without pretending implementation exists."
+  }
+}

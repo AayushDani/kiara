@@ -1,0 +1,11 @@
+{
+  "_id": "7687ca3b-5d93-512f-b088-9a2bcce10c64",
+  "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+  "review_input_hash": "18489714a71c5292dd27bdcbf144cac3f613bd9c3538f8c6f157e748df0e83ea",
+  "validator_version_id": "1245e521-68b7-515a-b515-55b0f298fabd",
+  "validator_config_hash": "510348b14125043e34e04403e205b627fc7cdae7ea8473ed6a31abdcacdb1bcf",
+  "status": "passed",
+  "synthetic": true,
+  "fixture_status": "expected_pass_record_not_live_model_legal_validation",
+  "completed_at": "2026-09-26T16:05:00Z"
+}

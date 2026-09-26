@@ -1,0 +1,1194 @@
+{
+  "_id": "dace9119-d836-502b-849a-f9e2563cbb90",
+  "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+  "schema_version": "kiara.clause_legal_map.v1",
+  "candidate_revision_id": "6e12d307-1397-5160-8b40-a5e83f02e303",
+  "context_snapshot_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+  "rows": [
+    {
+      "clause_id": "dcac8a94-e1b2-59ec-84c1-7400e5230938",
+      "fact_paths": [
+        "facts.data_practices.categories",
+        "facts.service.authentication"
+      ],
+      "citations": [
+        {
+          "source_snapshot_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "provision": "11 CCR §7011(e)(1)(A)",
+          "pdf_page": 21
+        },
+        {
+          "source_snapshot_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+          "provision": "Civil Code §1798.140(v)(1)(A),(B),(F),(G),(K)",
+          "pdf_page": 25
+        },
+        {
+          "source_snapshot_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+          "provision": "Civil Code §1798.140(ae)(1)(B)",
+          "pdf_page": 29
+        }
+      ],
+      "rationale": "Replace a generic list with category-specific preceding-12-month disclosure; credentials are sensitive information, not silently absent.",
+      "interpretation_status": "proposed_for_lawyer_review"
+    },
+    {
+      "clause_id": "c021b2da-7670-5bc6-bb35-19c58e8966ce",
+      "fact_paths": [
+        "facts.data_practices.sources"
+      ],
+      "citations": [
+        {
+          "source_snapshot_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "provision": "11 CCR §7011(e)(1)(B)",
+          "pdf_page": 22
+        }
+      ],
+      "rationale": "Explain collection sources and derived preferences.",
+      "interpretation_status": "proposed_for_lawyer_review"
+    },
+    {
+      "clause_id": "4c79b519-e7d5-5182-a92d-e20124237e0d",
+      "fact_paths": [
+        "facts.service.admt_significant_decisions"
+      ],
+      "citations": [
+        {
+          "source_snapshot_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "provision": "11 CCR §7011(e)(1)(C)",
+          "pdf_page": 22
+        }
+      ],
+      "rationale": "Tie actual data uses to categories; do not invent advertising practices.",
+      "interpretation_status": "proposed_for_lawyer_review"
+    },
+    {
+      "clause_id": "016bb052-b08f-5208-884b-3343949680f1",
+      "fact_paths": [
+        "facts.data_practices.recipient_categories",
+        "facts.data_practices.provider_contracts_restrict_use"
+      ],
+      "citations": [
+        {
+          "source_snapshot_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "provision": "11 CCR §7011(e)(1)(H)-(I)",
+          "pdf_page": 22
+        },
+        {
+          "source_snapshot_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+          "provision": "Civil Code §1798.115(c)(2), §1798.130(a)(5)(C)",
+          "pdf_page": 8
+        }
+      ],
+      "rationale": "State disclosures, recipient categories and purposes using the confirmed fictional processor arrangements.",
+      "interpretation_status": "proposed_for_lawyer_review"
+    },
+    {
+      "clause_id": "784f3762-3d89-573e-a0f0-fb3b27e2e430",
+      "fact_paths": [
+        "facts.data_practices.sold_past_12_months",
+        "facts.data_practices.shared_cross_context_advertising_past_12_months",
+        "facts.data_practices.under16_sale_share_actual_knowledge"
+      ],
+      "citations": [
+        {
+          "source_snapshot_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "provision": "11 CCR §7011(e)(1)(D)-(G)",
+          "pdf_page": 22
+        }
+      ],
+      "rationale": "Add an explicit no-sale/no-sharing statement for the defined period and the under-16 knowledge statement.",
+      "interpretation_status": "proposed_for_lawyer_review"
+    },
+    {
+      "clause_id": "d7dc353b-161d-596a-a504-2f3de8d7cfb0",
+      "fact_paths": [
+        "facts.data_practices.spi_uses_beyond_7027_m",
+        "facts.data_practices.spi_infers_characteristics"
+      ],
+      "citations": [
+        {
+          "source_snapshot_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "provision": "11 CCR §7011(e)(1)(J), §7027(m)",
+          "pdf_page": 22
+        },
+        {
+          "source_snapshot_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+          "provision": "Civil Code §1798.121",
+          "pdf_page": 9
+        }
+      ],
+      "rationale": "Disclose narrow credential use without inventing a right-to-limit control; conditional applicability must be checked.",
+      "interpretation_status": "proposed_for_lawyer_review"
+    },
+    {
+      "clause_id": "9689ef85-b969-51cd-8dcc-b423dacbc9ed",
+      "fact_paths": [
+        "facts.operations.account_deletion_days",
+        "facts.operations.security_log_days",
+        "facts.operations.privacy_request_records_months_minimum"
+      ],
+      "citations": [
+        {
+          "source_snapshot_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+          "provision": "Civil Code §1798.100(a)(3)",
+          "pdf_page": 3
+        },
+        {
+          "source_snapshot_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "provision": "11 CCR §7101",
+          "pdf_page": 73
+        }
+      ],
+      "rationale": "Provide fixture-backed retention detail; collection-time notice remains a separate operational task.",
+      "interpretation_status": "proposed_for_lawyer_review"
+    },
+    {
+      "clause_id": "d38acbf4-c1cc-5eb2-8650-ce5de03c4eda",
+      "fact_paths": [
+        "facts.trigger.declared_legal_residence",
+        "facts.legal_entity.gross_revenue_usd_2025",
+        "facts.data_practices.currently_sells_or_shares"
+      ],
+      "citations": [
+        {
+          "source_snapshot_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "provision": "11 CCR §7011(e)(2)(A)-(H)",
+          "pdf_page": 23
+        }
+      ],
+      "rationale": "Describe applicable rights and conditional rights accurately; no claim that one signup proves coverage.",
+      "interpretation_status": "proposed_for_lawyer_review"
+    },
+    {
+      "clause_id": "a84b9e93-a656-5e98-9d5a-d7be19e46954",
+      "fact_paths": [
+        "facts.service.online_only",
+        "facts.service.direct_consumer_relationship",
+        "facts.operations.request_email",
+        "facts.operations.request_url"
+      ],
+      "citations": [
+        {
+          "source_snapshot_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+          "provision": "Civil Code §1798.130(a)(1)-(2)",
+          "pdf_page": 11
+        },
+        {
+          "source_snapshot_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "provision": "11 CCR §7011(e)(3)(A)-(B), §7021(a)-(b)",
+          "pdf_page": 23
+        }
+      ],
+      "rationale": "Add actual fixture request methods and response expectations; no live endpoint claim.",
+      "interpretation_status": "proposed_for_lawyer_review"
+    },
+    {
+      "clause_id": "3618409a-546d-57ed-976d-10114cd85254",
+      "fact_paths": [
+        "facts.service.authentication"
+      ],
+      "citations": [
+        {
+          "source_snapshot_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "provision": "11 CCR §7011(e)(3)(E), §§7060-7062",
+          "pdf_page": 24
+        }
+      ],
+      "rationale": "Explain proportional verification without requiring a new account or password disclosure.",
+      "interpretation_status": "proposed_for_lawyer_review"
+    },
+    {
+      "clause_id": "40f65f82-3391-51bb-8941-23311cab54a5",
+      "fact_paths": [
+        "facts.operations.request_email",
+        "facts.operations.request_url"
+      ],
+      "citations": [
+        {
+          "source_snapshot_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "provision": "11 CCR §7011(e)(3)(H), §7063",
+          "pdf_page": 24
+        }
+      ],
+      "rationale": "Add authorized-agent instructions and power-of-attorney distinction.",
+      "interpretation_status": "proposed_for_lawyer_review"
+    },
+    {
+      "clause_id": "ce9e8ae5-354d-5597-b08f-a4e530237fb2",
+      "fact_paths": [
+        "facts.data_practices.currently_sells_or_shares"
+      ],
+      "citations": [
+        {
+          "source_snapshot_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "provision": "11 CCR §7011(e)(3)(F)-(G), §7025",
+          "pdf_page": 24
+        }
+      ],
+      "rationale": "Explain browser signals in the no-sale/no-sharing fixture; do not falsely claim implemented processing.",
+      "interpretation_status": "proposed_for_lawyer_review"
+    },
+    {
+      "clause_id": "de59121d-08a5-5e6b-a801-c2899e8ebcb0",
+      "fact_paths": [
+        "facts.operations.policy_publication_status"
+      ],
+      "citations": [
+        {
+          "source_snapshot_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "provision": "11 CCR §7011(c)-(d),(e)(4)",
+          "pdf_page": 21
+        },
+        {
+          "source_snapshot_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+          "provision": "Civil Code §1798.130(a)(5)",
+          "pdf_page": 14
+        }
+      ],
+      "rationale": "Include update date and printable policy; publication is a later operational action.",
+      "interpretation_status": "proposed_for_lawyer_review"
+    }
+  ],
+  "source_locator_note": "pdf_page is the one-based starting page for the first named provision; composite references may continue or appear elsewhere; provision is authoritative locator",
+  "assessment_basis": [
+    {
+      "source_snapshot_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+      "provision": "Civil Code §1798.140(d)(1)(A), (i)"
+    },
+    {
+      "source_snapshot_id": "23513bed-4516-56ad-ab38-84fab4936de3",
+      "provision": "2025 adjusted annual gross revenue threshold: USD 26,625,000"
+    }
+  ],
+  "t03_bindings": [
+    {
+      "mapping_id": "map_inventory",
+      "provision_ids": [
+        "prov_ccpa_policy",
+        "prov_regs_policy",
+        "prov_ccpa_pi",
+        "prov_ccpa_sensitive",
+        "prov_regs_sensitive"
+      ],
+      "t03_fact_pointers": [
+        "/facts/dataInventory",
+        "/facts/accountCredentialsCollected"
+      ],
+      "t03_clause_keys": [
+        "clause_ca_inventory"
+      ],
+      "clause_ids": [
+        "dcac8a94-e1b2-59ec-84c1-7400e5230938",
+        "c021b2da-7670-5bc6-bb35-19c58e8966ce",
+        "4c79b519-e7d5-5182-a92d-e20124237e0d"
+      ],
+      "operational_followup_keys": [],
+      "interpretation": "Describe categories, sources, purposes, recipients using actual fixture inventory; include credentials as SPI and do not invent device-precise location from address."
+    },
+    {
+      "mapping_id": "map_disclosures",
+      "provision_ids": [
+        "prov_ccpa_policy",
+        "prov_regs_policy",
+        "prov_ccpa_sale_share"
+      ],
+      "t03_fact_pointers": [
+        "/facts/sellsPersonalInformation",
+        "/facts/sharesForCrossContextBehavioralAdvertising",
+        "/facts/dataInventory",
+        "/facts/vendorContractsStatus"
+      ],
+      "t03_clause_keys": [
+        "clause_ca_disclosures"
+      ],
+      "clause_ids": [
+        "016bb052-b08f-5208-884b-3343949680f1"
+      ],
+      "operational_followup_keys": [
+        "op_vendor_contracts"
+      ],
+      "interpretation": "No sale/share conclusion requires service-provider restrictions and actual-purpose evidence, not vendor label alone."
+    },
+    {
+      "mapping_id": "map_rights",
+      "provision_ids": [
+        "prov_ccpa_rights",
+        "prov_ccpa_policy",
+        "prov_regs_policy"
+      ],
+      "t03_fact_pointers": [
+        "/facts/ordinarySignupDataNonexempt"
+      ],
+      "t03_clause_keys": [
+        "clause_ca_rights"
+      ],
+      "clause_ids": [
+        "d38acbf4-c1cc-5eb2-8650-ce5de03c4eda"
+      ],
+      "operational_followup_keys": [
+        "op_consumer_rights_process"
+      ],
+      "interpretation": "Know/delete/correct and nonretaliation; deletion exceptions remain. Do not state unconditional erase-everything promises."
+    },
+    {
+      "mapping_id": "map_requests",
+      "provision_ids": [
+        "prov_ccpa_request_methods",
+        "prov_regs_request_methods",
+        "prov_regs_policy"
+      ],
+      "t03_fact_pointers": [
+        "/facts/exclusivelyOnline",
+        "/facts/directConsumerRelationship",
+        "/facts/consumerRequestEmail",
+        "/facts/consumerRequestWebPath",
+        "/facts/consumerRequestMethodsReadiness"
+      ],
+      "t03_clause_keys": [
+        "clause_ca_requests"
+      ],
+      "clause_ids": [
+        "a84b9e93-a656-5e98-9d5a-d7be19e46954",
+        "3618409a-546d-57ed-976d-10114cd85254",
+        "40f65f82-3391-51bb-8941-23311cab54a5"
+      ],
+      "operational_followup_keys": [
+        "op_consumer_rights_process"
+      ],
+      "interpretation": "Email plus website request method chosen; online-direct exception does not justify inventing a working endpoint."
+    },
+    {
+      "mapping_id": "map_sensitive_limit",
+      "provision_ids": [
+        "prov_ccpa_sensitive",
+        "prov_ccpa_limit",
+        "prov_regs_limit",
+        "prov_regs_policy"
+      ],
+      "t03_fact_pointers": [
+        "/facts/accountCredentialsCollected",
+        "/facts/spiOnlyPermittedPurposes"
+      ],
+      "t03_clause_keys": [
+        "clause_ca_sensitive"
+      ],
+      "clause_ids": [
+        "d7dc353b-161d-596a-a504-2f3de8d7cfb0"
+      ],
+      "operational_followup_keys": [
+        "op_spurpose_review"
+      ],
+      "interpretation": "Credentials exist; permitted account/security-only uses do not automatically require a limit link. Unknown use blocks this assertion."
+    },
+    {
+      "mapping_id": "map_optout",
+      "provision_ids": [
+        "prov_ccpa_optout",
+        "prov_regs_optout",
+        "prov_regs_policy"
+      ],
+      "t03_fact_pointers": [
+        "/facts/sellsPersonalInformation",
+        "/facts/sharesForCrossContextBehavioralAdvertising",
+        "/facts/actualKnowledgeUnder16"
+      ],
+      "t03_clause_keys": [
+        "clause_ca_sale_share_signals"
+      ],
+      "clause_ids": [
+        "784f3762-3d89-573e-a0f0-fb3b27e2e430",
+        "ce9e8ae5-354d-5597-b08f-a4e530237fb2"
+      ],
+      "operational_followup_keys": [
+        "op_signal_and_sale_review"
+      ],
+      "interpretation": "Main no-sale/no-share fixture does not claim an implemented universal GPC mechanism. Sale/share variant requires opt-out/signals and under16 review."
+    },
+    {
+      "mapping_id": "map_retention_notice",
+      "provision_ids": [
+        "prov_ccpa_notice",
+        "prov_regs_notice"
+      ],
+      "t03_fact_pointers": [
+        "/facts/dataInventory",
+        "/facts/noticeAtCollectionReadiness"
+      ],
+      "t03_clause_keys": [
+        "clause_ca_retention"
+      ],
+      "clause_ids": [
+        "9689ef85-b969-51cd-8dcc-b423dacbc9ed"
+      ],
+      "operational_followup_keys": [
+        "op_notice_at_collection",
+        "op_retention_enforcement"
+      ],
+      "interpretation": "Draft retention information may support separate direct-linked notice, but approval does not retroactively provide notice."
+    },
+    {
+      "mapping_id": "map_dates_access",
+      "provision_ids": [
+        "prov_ccpa_policy",
+        "prov_regs_policy",
+        "prov_regs_presentation"
+      ],
+      "t03_fact_pointers": [
+        "/facts/baselinePolicyLastUpdated"
+      ],
+      "t03_clause_keys": [
+        "clause_ca_date_contact"
+      ],
+      "clause_ids": [
+        "de59121d-08a5-5e6b-a801-c2899e8ebcb0",
+        "06aee531-095d-531b-bb20-4afc8ceba2e2"
+      ],
+      "operational_followup_keys": [
+        "op_accessible_publication"
+      ],
+      "interpretation": "Date and accessibility checks; legal draft finalized only means workflow decisions complete, never published."
+    }
+  ],
+  "canonical_bindings": [
+    {
+      "mapping_key": "map_inventory",
+      "context_snapshot_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+      "clause_ids": [
+        "dcac8a94-e1b2-59ec-84c1-7400e5230938",
+        "c021b2da-7670-5bc6-bb35-19c58e8966ce",
+        "4c79b519-e7d5-5182-a92d-e20124237e0d"
+      ],
+      "fact_refs": [
+        {
+          "fact_key": "data_inventory",
+          "fact_id": "61f93875-5234-5e3a-8c2c-639229827733"
+        },
+        {
+          "fact_key": "account_credentials_collected",
+          "fact_id": "1db64ec6-99a4-53e1-b7dc-48e1df8ab6a8"
+        }
+      ],
+      "legal_refs": [
+        {
+          "provision_key": "prov_ccpa_policy",
+          "legal_chunk_id": "74dc3eee-8eaf-5564-8b5b-5519e7c0e33c",
+          "source_version_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+          "source_hash": "b8015a95e0173236313283fe8f108ad68339ac563367089183e8938fab0f204c",
+          "chunk_content_hash": "82f38d6b2e4f4296ae251a64fa2c02ef52abe9d909f3b8dce677e0754e66e074",
+          "locator": {
+            "section": "Civ. Code §1798.130(a)(5), (c)",
+            "pages": [
+              14,
+              15
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_ccpa_policy.txt"
+          }
+        },
+        {
+          "provision_key": "prov_regs_policy",
+          "legal_chunk_id": "63b27177-7e08-5784-88b4-6757a2599872",
+          "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "source_hash": "3bb4284e43c679a1f2443851b8e050c9ce228ae55a8a29833a0432a8a933ea8b",
+          "chunk_content_hash": "99ac3cb728c846eeb73b7aa7ed2f16f742401065722dfbd4cc5468761415a43f",
+          "locator": {
+            "section": "11 CCR §7011(a)-(e)",
+            "pages": [
+              21,
+              22,
+              23,
+              24
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_regs_policy.txt"
+          }
+        },
+        {
+          "provision_key": "prov_ccpa_pi",
+          "legal_chunk_id": "d94a8332-fa87-5f8a-9adb-83e34c5f3514",
+          "source_version_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+          "source_hash": "b8015a95e0173236313283fe8f108ad68339ac563367089183e8938fab0f204c",
+          "chunk_content_hash": "d3e79d155203ead2624126cb3f3c30940b89fcdced3c2756f93d3f9f695933ab",
+          "locator": {
+            "section": "Civ. Code §1798.140(v)(1)-(4), (w)",
+            "pages": [
+              25,
+              26
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_ccpa_pi.txt"
+          }
+        },
+        {
+          "provision_key": "prov_ccpa_sensitive",
+          "legal_chunk_id": "745926ab-7c21-529e-8987-6c39dcc57a11",
+          "source_version_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+          "source_hash": "b8015a95e0173236313283fe8f108ad68339ac563367089183e8938fab0f204c",
+          "chunk_content_hash": "ba5f5691d95c44923778ef219c5f62fb667bb7ace10b6884cff87a6393d96155",
+          "locator": {
+            "section": "Civ. Code §1798.140(ae)",
+            "pages": [
+              29
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_ccpa_sensitive.txt"
+          }
+        },
+        {
+          "provision_key": "prov_regs_sensitive",
+          "legal_chunk_id": "aec3605c-32a0-5596-8637-ac85bf7e2901",
+          "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "source_hash": "3bb4284e43c679a1f2443851b8e050c9ce228ae55a8a29833a0432a8a933ea8b",
+          "chunk_content_hash": "a15f7fa130eebf4bf4a7fdcf7cb8aa0cbeb219a5560947ea610993fb395c96ad",
+          "locator": {
+            "section": "11 CCR §7001(bbb)",
+            "pages": [
+              10,
+              11
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_regs_sensitive.txt"
+          }
+        }
+      ],
+      "operational_followup_keys": []
+    },
+    {
+      "mapping_key": "map_disclosures",
+      "context_snapshot_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+      "clause_ids": [
+        "016bb052-b08f-5208-884b-3343949680f1"
+      ],
+      "fact_refs": [
+        {
+          "fact_key": "sells_personal_information",
+          "fact_id": "63681525-a950-5027-b92a-e4ab1ed3e487"
+        },
+        {
+          "fact_key": "shares_for_cross_context_behavioral_advertising",
+          "fact_id": "a502faee-cd98-5e25-8e39-e154e708c129"
+        },
+        {
+          "fact_key": "data_inventory",
+          "fact_id": "61f93875-5234-5e3a-8c2c-639229827733"
+        },
+        {
+          "fact_key": "vendor_contracts_status",
+          "fact_id": "2d6be8b0-c4ef-5be5-a0eb-177c27c8fef7"
+        }
+      ],
+      "legal_refs": [
+        {
+          "provision_key": "prov_ccpa_policy",
+          "legal_chunk_id": "74dc3eee-8eaf-5564-8b5b-5519e7c0e33c",
+          "source_version_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+          "source_hash": "b8015a95e0173236313283fe8f108ad68339ac563367089183e8938fab0f204c",
+          "chunk_content_hash": "82f38d6b2e4f4296ae251a64fa2c02ef52abe9d909f3b8dce677e0754e66e074",
+          "locator": {
+            "section": "Civ. Code §1798.130(a)(5), (c)",
+            "pages": [
+              14,
+              15
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_ccpa_policy.txt"
+          }
+        },
+        {
+          "provision_key": "prov_regs_policy",
+          "legal_chunk_id": "63b27177-7e08-5784-88b4-6757a2599872",
+          "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "source_hash": "3bb4284e43c679a1f2443851b8e050c9ce228ae55a8a29833a0432a8a933ea8b",
+          "chunk_content_hash": "99ac3cb728c846eeb73b7aa7ed2f16f742401065722dfbd4cc5468761415a43f",
+          "locator": {
+            "section": "11 CCR §7011(a)-(e)",
+            "pages": [
+              21,
+              22,
+              23,
+              24
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_regs_policy.txt"
+          }
+        },
+        {
+          "provision_key": "prov_ccpa_sale_share",
+          "legal_chunk_id": "8a418dd8-492c-5e32-a273-a36ddfd9b12b",
+          "source_version_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+          "source_hash": "b8015a95e0173236313283fe8f108ad68339ac563367089183e8938fab0f204c",
+          "chunk_content_hash": "1a84bebd2d302a558347f0e7da380692e315f5e6f12ed4f55bbc0e70202d75ff",
+          "locator": {
+            "section": "Civ. Code §1798.140(ad), (ah)",
+            "pages": [
+              28,
+              29,
+              30,
+              31
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_ccpa_sale_share.txt"
+          }
+        }
+      ],
+      "operational_followup_keys": [
+        "op_vendor_contracts"
+      ]
+    },
+    {
+      "mapping_key": "map_rights",
+      "context_snapshot_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+      "clause_ids": [
+        "d38acbf4-c1cc-5eb2-8650-ce5de03c4eda"
+      ],
+      "fact_refs": [
+        {
+          "fact_key": "ordinary_signup_data_nonexempt",
+          "fact_id": "ea4792ed-c755-582c-81dd-934188018892"
+        }
+      ],
+      "legal_refs": [
+        {
+          "provision_key": "prov_ccpa_rights",
+          "legal_chunk_id": "4e3514ad-c6cd-5fce-8574-60e65cdd0199",
+          "source_version_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+          "source_hash": "b8015a95e0173236313283fe8f108ad68339ac563367089183e8938fab0f204c",
+          "chunk_content_hash": "a2a40dacb357da3bc2b1abd475244d016b5e871f9e27db7c5174f2404a6f480e",
+          "locator": {
+            "section": "Civ. Code §§1798.105(a)-(d), 1798.106, 1798.110, 1798.115, 1798.125",
+            "pages": [
+              4,
+              5,
+              6,
+              7,
+              8,
+              10,
+              11
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_ccpa_rights.txt"
+          }
+        },
+        {
+          "provision_key": "prov_ccpa_policy",
+          "legal_chunk_id": "74dc3eee-8eaf-5564-8b5b-5519e7c0e33c",
+          "source_version_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+          "source_hash": "b8015a95e0173236313283fe8f108ad68339ac563367089183e8938fab0f204c",
+          "chunk_content_hash": "82f38d6b2e4f4296ae251a64fa2c02ef52abe9d909f3b8dce677e0754e66e074",
+          "locator": {
+            "section": "Civ. Code §1798.130(a)(5), (c)",
+            "pages": [
+              14,
+              15
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_ccpa_policy.txt"
+          }
+        },
+        {
+          "provision_key": "prov_regs_policy",
+          "legal_chunk_id": "63b27177-7e08-5784-88b4-6757a2599872",
+          "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "source_hash": "3bb4284e43c679a1f2443851b8e050c9ce228ae55a8a29833a0432a8a933ea8b",
+          "chunk_content_hash": "99ac3cb728c846eeb73b7aa7ed2f16f742401065722dfbd4cc5468761415a43f",
+          "locator": {
+            "section": "11 CCR §7011(a)-(e)",
+            "pages": [
+              21,
+              22,
+              23,
+              24
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_regs_policy.txt"
+          }
+        }
+      ],
+      "operational_followup_keys": [
+        "op_consumer_rights_process"
+      ]
+    },
+    {
+      "mapping_key": "map_requests",
+      "context_snapshot_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+      "clause_ids": [
+        "a84b9e93-a656-5e98-9d5a-d7be19e46954",
+        "3618409a-546d-57ed-976d-10114cd85254",
+        "40f65f82-3391-51bb-8941-23311cab54a5"
+      ],
+      "fact_refs": [
+        {
+          "fact_key": "exclusively_online",
+          "fact_id": "988e421e-5650-5446-8702-8c81ade16008"
+        },
+        {
+          "fact_key": "direct_consumer_relationship",
+          "fact_id": "0abfc43a-270b-5de1-940d-7992b2f79699"
+        },
+        {
+          "fact_key": "consumer_request_email",
+          "fact_id": "f00c962a-9e15-5bd5-ac14-a5ed03811600"
+        },
+        {
+          "fact_key": "consumer_request_web_path",
+          "fact_id": "79094e64-fc4e-590c-ae62-ffee89cf8f3a"
+        },
+        {
+          "fact_key": "consumer_request_methods_readiness",
+          "fact_id": "e8fb76ec-ed0a-53de-a11d-0d038365d9d9"
+        }
+      ],
+      "legal_refs": [
+        {
+          "provision_key": "prov_ccpa_request_methods",
+          "legal_chunk_id": "bc0e0529-0acd-5a30-bedc-508fdb3651f6",
+          "source_version_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+          "source_hash": "b8015a95e0173236313283fe8f108ad68339ac563367089183e8938fab0f204c",
+          "chunk_content_hash": "4ec73c344fbd22c6592f4b5ff73255eab645015f455c9e084ef7000c0b7508c5",
+          "locator": {
+            "section": "Civ. Code §1798.130(a)(1)-(2)",
+            "pages": [
+              11,
+              12
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_ccpa_request_methods.txt"
+          }
+        },
+        {
+          "provision_key": "prov_regs_request_methods",
+          "legal_chunk_id": "d2917855-7e9a-5c37-80ed-69f13cce4431",
+          "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "source_hash": "3bb4284e43c679a1f2443851b8e050c9ce228ae55a8a29833a0432a8a933ea8b",
+          "chunk_content_hash": "9b53fa070406c071c0bcdd59dffe20220c1b3336834399581c9304bc0dac46f0",
+          "locator": {
+            "section": "11 CCR §§7020, 7021, 7060-7063",
+            "pages": [
+              34,
+              35,
+              64,
+              65,
+              66,
+              67,
+              68
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_regs_request_methods.txt"
+          }
+        },
+        {
+          "provision_key": "prov_regs_policy",
+          "legal_chunk_id": "63b27177-7e08-5784-88b4-6757a2599872",
+          "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "source_hash": "3bb4284e43c679a1f2443851b8e050c9ce228ae55a8a29833a0432a8a933ea8b",
+          "chunk_content_hash": "99ac3cb728c846eeb73b7aa7ed2f16f742401065722dfbd4cc5468761415a43f",
+          "locator": {
+            "section": "11 CCR §7011(a)-(e)",
+            "pages": [
+              21,
+              22,
+              23,
+              24
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_regs_policy.txt"
+          }
+        }
+      ],
+      "operational_followup_keys": [
+        "op_consumer_rights_process"
+      ]
+    },
+    {
+      "mapping_key": "map_sensitive_limit",
+      "context_snapshot_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+      "clause_ids": [
+        "d7dc353b-161d-596a-a504-2f3de8d7cfb0"
+      ],
+      "fact_refs": [
+        {
+          "fact_key": "account_credentials_collected",
+          "fact_id": "1db64ec6-99a4-53e1-b7dc-48e1df8ab6a8"
+        },
+        {
+          "fact_key": "spi_only_permitted_purposes",
+          "fact_id": "06691f45-4d13-5b88-af0e-b5aa240125cb"
+        }
+      ],
+      "legal_refs": [
+        {
+          "provision_key": "prov_ccpa_sensitive",
+          "legal_chunk_id": "745926ab-7c21-529e-8987-6c39dcc57a11",
+          "source_version_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+          "source_hash": "b8015a95e0173236313283fe8f108ad68339ac563367089183e8938fab0f204c",
+          "chunk_content_hash": "ba5f5691d95c44923778ef219c5f62fb667bb7ace10b6884cff87a6393d96155",
+          "locator": {
+            "section": "Civ. Code §1798.140(ae)",
+            "pages": [
+              29
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_ccpa_sensitive.txt"
+          }
+        },
+        {
+          "provision_key": "prov_ccpa_limit",
+          "legal_chunk_id": "b63ab359-aaf2-5830-9759-0b5eb5bd7634",
+          "source_version_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+          "source_hash": "b8015a95e0173236313283fe8f108ad68339ac563367089183e8938fab0f204c",
+          "chunk_content_hash": "a53e223d6e6ebf85df831680a7f221fa02e4a675b034db996b6f0e4c8bddc4b4",
+          "locator": {
+            "section": "Civ. Code §1798.121",
+            "pages": [
+              9,
+              10
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_ccpa_limit.txt"
+          }
+        },
+        {
+          "provision_key": "prov_regs_limit",
+          "legal_chunk_id": "3c3ddcf2-0674-5baf-9b4c-067dbc3c22c4",
+          "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "source_hash": "3bb4284e43c679a1f2443851b8e050c9ce228ae55a8a29833a0432a8a933ea8b",
+          "chunk_content_hash": "c450fb930870e5ea233357d407f9e15fde844b402dd4a5080b0731d800e65fa7",
+          "locator": {
+            "section": "11 CCR §7027(m)(1)-(8)",
+            "pages": [
+              55,
+              56,
+              57
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_regs_limit.txt"
+          }
+        },
+        {
+          "provision_key": "prov_regs_policy",
+          "legal_chunk_id": "63b27177-7e08-5784-88b4-6757a2599872",
+          "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "source_hash": "3bb4284e43c679a1f2443851b8e050c9ce228ae55a8a29833a0432a8a933ea8b",
+          "chunk_content_hash": "99ac3cb728c846eeb73b7aa7ed2f16f742401065722dfbd4cc5468761415a43f",
+          "locator": {
+            "section": "11 CCR §7011(a)-(e)",
+            "pages": [
+              21,
+              22,
+              23,
+              24
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_regs_policy.txt"
+          }
+        }
+      ],
+      "operational_followup_keys": [
+        "op_spurpose_review"
+      ]
+    },
+    {
+      "mapping_key": "map_optout",
+      "context_snapshot_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+      "clause_ids": [
+        "784f3762-3d89-573e-a0f0-fb3b27e2e430",
+        "ce9e8ae5-354d-5597-b08f-a4e530237fb2"
+      ],
+      "fact_refs": [
+        {
+          "fact_key": "sells_personal_information",
+          "fact_id": "63681525-a950-5027-b92a-e4ab1ed3e487"
+        },
+        {
+          "fact_key": "shares_for_cross_context_behavioral_advertising",
+          "fact_id": "a502faee-cd98-5e25-8e39-e154e708c129"
+        },
+        {
+          "fact_key": "actual_knowledge_under16",
+          "fact_id": "83608a22-0cd5-55a3-a8ed-ca2de94dbfcd"
+        }
+      ],
+      "legal_refs": [
+        {
+          "provision_key": "prov_ccpa_optout",
+          "legal_chunk_id": "26d7f335-e731-510b-8ebc-15bbefd682e8",
+          "source_version_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+          "source_hash": "b8015a95e0173236313283fe8f108ad68339ac563367089183e8938fab0f204c",
+          "chunk_content_hash": "1eb64163c5ae3e78b616d2012dd88db30271d281d8ea67da0e359c1cbb04d693",
+          "locator": {
+            "section": "Civ. Code §§1798.120, 1798.135(a)-(c)",
+            "pages": [
+              8,
+              9,
+              15,
+              16,
+              17
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_ccpa_optout.txt"
+          }
+        },
+        {
+          "provision_key": "prov_regs_optout",
+          "legal_chunk_id": "c4080d02-0e36-52c7-9649-4a914c96ae49",
+          "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "source_hash": "3bb4284e43c679a1f2443851b8e050c9ce228ae55a8a29833a0432a8a933ea8b",
+          "chunk_content_hash": "393f0e526874ed2e83f1b17a1bd5d837df4b5d4e988a116383edb6e68446fec3",
+          "locator": {
+            "section": "11 CCR §§7013, 7025, 7026",
+            "pages": [
+              27,
+              28,
+              29,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_regs_optout.txt"
+          }
+        },
+        {
+          "provision_key": "prov_regs_policy",
+          "legal_chunk_id": "63b27177-7e08-5784-88b4-6757a2599872",
+          "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "source_hash": "3bb4284e43c679a1f2443851b8e050c9ce228ae55a8a29833a0432a8a933ea8b",
+          "chunk_content_hash": "99ac3cb728c846eeb73b7aa7ed2f16f742401065722dfbd4cc5468761415a43f",
+          "locator": {
+            "section": "11 CCR §7011(a)-(e)",
+            "pages": [
+              21,
+              22,
+              23,
+              24
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_regs_policy.txt"
+          }
+        }
+      ],
+      "operational_followup_keys": [
+        "op_signal_and_sale_review"
+      ]
+    },
+    {
+      "mapping_key": "map_retention_notice",
+      "context_snapshot_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+      "clause_ids": [
+        "9689ef85-b969-51cd-8dcc-b423dacbc9ed"
+      ],
+      "fact_refs": [
+        {
+          "fact_key": "data_inventory",
+          "fact_id": "61f93875-5234-5e3a-8c2c-639229827733"
+        },
+        {
+          "fact_key": "notice_at_collection_readiness",
+          "fact_id": "855708b2-e5cc-51c8-a9bc-372551ccc910"
+        }
+      ],
+      "legal_refs": [
+        {
+          "provision_key": "prov_ccpa_notice",
+          "legal_chunk_id": "c3e109ea-13dc-59b7-a900-d694333300a8",
+          "source_version_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+          "source_hash": "b8015a95e0173236313283fe8f108ad68339ac563367089183e8938fab0f204c",
+          "chunk_content_hash": "bcae6ca1838b8f1a7680a53dbad400e95e60be8f35b7669d6677c982fe660813",
+          "locator": {
+            "section": "Civ. Code §1798.100(a)-(e)",
+            "pages": [
+              3,
+              4
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_ccpa_notice.txt"
+          }
+        },
+        {
+          "provision_key": "prov_regs_notice",
+          "legal_chunk_id": "faed795e-d7f5-584e-a14c-7a2d95bb03be",
+          "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "source_hash": "3bb4284e43c679a1f2443851b8e050c9ce228ae55a8a29833a0432a8a933ea8b",
+          "chunk_content_hash": "997f8a976ffda3fb0265b2a043d2de408cdda24fc7f68c15552292f960cafa6c",
+          "locator": {
+            "section": "11 CCR §7012(a)-(g)",
+            "pages": [
+              24,
+              25,
+              26,
+              27
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_regs_notice.txt"
+          }
+        }
+      ],
+      "operational_followup_keys": [
+        "op_notice_at_collection",
+        "op_retention_enforcement"
+      ]
+    },
+    {
+      "mapping_key": "map_dates_access",
+      "context_snapshot_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+      "clause_ids": [
+        "de59121d-08a5-5e6b-a801-c2899e8ebcb0",
+        "06aee531-095d-531b-bb20-4afc8ceba2e2"
+      ],
+      "fact_refs": [
+        {
+          "fact_key": "baseline_policy_last_updated",
+          "fact_id": "23b883ff-1575-5a61-8ee3-b90360eb0b5e"
+        }
+      ],
+      "legal_refs": [
+        {
+          "provision_key": "prov_ccpa_policy",
+          "legal_chunk_id": "74dc3eee-8eaf-5564-8b5b-5519e7c0e33c",
+          "source_version_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+          "source_hash": "b8015a95e0173236313283fe8f108ad68339ac563367089183e8938fab0f204c",
+          "chunk_content_hash": "82f38d6b2e4f4296ae251a64fa2c02ef52abe9d909f3b8dce677e0754e66e074",
+          "locator": {
+            "section": "Civ. Code §1798.130(a)(5), (c)",
+            "pages": [
+              14,
+              15
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_ccpa_policy.txt"
+          }
+        },
+        {
+          "provision_key": "prov_regs_policy",
+          "legal_chunk_id": "63b27177-7e08-5784-88b4-6757a2599872",
+          "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "source_hash": "3bb4284e43c679a1f2443851b8e050c9ce228ae55a8a29833a0432a8a933ea8b",
+          "chunk_content_hash": "99ac3cb728c846eeb73b7aa7ed2f16f742401065722dfbd4cc5468761415a43f",
+          "locator": {
+            "section": "11 CCR §7011(a)-(e)",
+            "pages": [
+              21,
+              22,
+              23,
+              24
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_regs_policy.txt"
+          }
+        },
+        {
+          "provision_key": "prov_regs_presentation",
+          "legal_chunk_id": "e723f507-0a99-5681-9386-f0d18be975d4",
+          "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+          "source_hash": "3bb4284e43c679a1f2443851b8e050c9ce228ae55a8a29833a0432a8a933ea8b",
+          "chunk_content_hash": "3d39d9351bf937618ffa042980e16e99ce7c6b088254edd72645e822e62ee4a4",
+          "locator": {
+            "section": "11 CCR §§7003, 7004",
+            "pages": [
+              16,
+              17,
+              18,
+              19,
+              20
+            ],
+            "start_char": null,
+            "end_char": null,
+            "offset_basis": "page_excerpt_file",
+            "excerpt_path": "evidence/prov_regs_presentation.txt"
+          }
+        }
+      ],
+      "operational_followup_keys": [
+        "op_accessible_publication"
+      ]
+    }
+  ],
+  "source_anchor_evidence": [
+    {
+      "evidence_id": "f6a9e9d3-269c-5a8d-99f8-e579a1181821",
+      "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+      "source_key": "src_ca_ccpa_regs_20260101",
+      "provision_key": "prov_regs_policy",
+      "display_citation": "11 CCR §7011(c)",
+      "authority_type": "regulation",
+      "jurisdiction": "US-CA",
+      "source_url": "https://cppa.ca.gov/regulations/pdf/ccpa_statute_eff_20260101.pdf",
+      "raw_sha256": "8d57eba97a7fe13346b7827d0131e1ab84dc110c6ff20daa6fa6ec4a4329d0fe",
+      "parser": "pypdf T03 saved page text",
+      "parser_version": "unrecorded_in_seed_snapshot",
+      "retrieved_at": "2026-09-26T16:14:36.183Z",
+      "verified_at": "2026-09-26T16:14:36.183Z",
+      "effective_from": "2026-01-01",
+      "operative_from": "2026-01-01",
+      "freshness_status": "fresh",
+      "content_kind": "authoritative_text",
+      "segments": [
+        {
+          "page_number": 21,
+          "raw_page_text_sha256": "5cf473cf8165bc3ad9fb714a887c4a6209a9ca7a4706059a7ebc41bfadfc4079",
+          "start_utf16": 1134,
+          "end_utf16": 1238,
+          "quote_text": "The privacy policy shall be available in a format that allows a consumer to print it out as a \ndocument.",
+          "quote_sha256": "8f686c151827e29996927c456de7929cdee209f3bc18c3e4f9fc9e2031a3a994"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+node_modules/
+.next/
+.env*
+!.env.example
+.kiara/
+*.tsbuildinfo
+next-env.d.ts
+
+.vercel
+/.swc
+
+# Local research and agent coordination are not application source.
+/build-coordination/
+/research/
+/KIARA_ARCHITECTURE_TEAM_PROMPT.md
+/kiara-architecture/coordination/
+/kiara-architecture/research/
+/kiara-architecture/task-packets/
+/kiara-architecture/thread-registry.json
+/kiara-architecture/original-brief.md

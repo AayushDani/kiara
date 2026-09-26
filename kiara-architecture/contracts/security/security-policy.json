@@ -1,0 +1,280 @@
+{
+  "contract_id": "K-SEC-002",
+  "version": "0.2.0",
+  "status": "frozen_security_design_aligned_T09_review_T06_reset_fence",
+  "auth": {
+    "trusted_context_fields": [
+      "tenant_id",
+      "actor_id",
+      "principal_kind",
+      "roles",
+      "membership_version",
+      "request_id",
+      "workflow_id",
+      "reset_epoch"
+    ],
+    "client_or_model_forbidden_fields": [
+      "tenant_id",
+      "actor_id",
+      "principal_kind",
+      "roles",
+      "auth_mode",
+      "membership_version",
+      "reset_epoch"
+    ],
+    "human_principal_kind": "human_session",
+    "service_principal_kind": "service",
+    "demo_principal_kind": "demo_simulated",
+    "demo_is_production_auth": false,
+    "demo_human_decision_condition": "Explicit demo mode, synthetic tenant, server-bound seeded founder/lawyer session and actual interactive decision; never accepted by non-demo handler.",
+    "expected_epoch_rule": "Human commands may provide expected_reset_epoch only as a precondition; authoritative reset_epoch comes from surviving tenant guard and trusted server context."
+  },
+  "protected_kernel_fields": [
+    "authorization",
+    "tenant_scope",
+    "actor_roles",
+    "human_approval_order",
+    "approval_bundle_binding",
+    "trusted_source_registry",
+    "legal_applicability_criteria",
+    "required_evidence_coverage",
+    "evaluation_assertions",
+    "tool_permissions",
+    "provider_endpoints",
+    "notification_recipients",
+    "security_logging",
+    "max_repair_attempts",
+    "hard_token_time_cost_caps",
+    "minimum_retrieval_budget",
+    "reset_epoch_fencing"
+  ],
+  "adaptive_policy": {
+    "owner": "T07",
+    "kernel_version": "kiara-protected-kernel-1",
+    "patch_policy": {
+      "format": "RFC6902_restricted_subset",
+      "allowed_paths": [
+        "/retrieval/prefetch/declared_ca_resident_ccpa_bundle",
+        "/retrieval/prefetch/declared_ca_resident_company_facts"
+      ],
+      "allowed_operations": [
+        "test",
+        "replace"
+      ],
+      "transition": {
+        "from": false,
+        "to": true
+      },
+      "maximum_changed_paths": 2,
+      "maximum_patch_bytes": 2048,
+      "exact_keys_per_operation": [
+        "op",
+        "path",
+        "value"
+      ],
+      "reject_unknown_properties": true,
+      "canonical_paths_only": true,
+      "no_root_ancestor_array_or_escaped_paths": true,
+      "unique_test_and_replace_per_path": true
+    },
+    "selector_descriptors": {
+      "declared_ca_resident_ccpa_bundle": {
+        "event_type": "user.signed_up",
+        "residence_kind": "declared_legal_residence",
+        "country_code": "US",
+        "subdivision_code": "CA",
+        "on_every_matching_event": true,
+        "behavior": "Retrieve pinned operative CCPA applicability and privacy-disclosure provisions plus evidence-map requirements; never infer coverage from residence alone."
+      },
+      "declared_ca_resident_company_facts": {
+        "event_type": "user.signed_up",
+        "residence_kind": "declared_legal_residence",
+        "country_code": "US",
+        "subdivision_code": "CA",
+        "on_every_matching_event": true,
+        "behavior": "Retrieve same-tenant authoritative context revision, nulls and conflicts, coverage facts, data practices and operational followups; never write facts."
+      }
+    },
+    "requires": [
+      "same_tenant",
+      "expected_base_version",
+      "candidate_digest_matches_evaluation",
+      "frozen_manifest",
+      "mandatory_security_regression_pass",
+      "holdout_pass",
+      "protected_kernel_hash_unchanged",
+      "champion_compare_and_set"
+    ],
+    "whole_candidate_diff": "All bytes outside the two allowed boolean values remain unchanged. No removal/addition/ancestor/escaped path or arbitrary prompt string.",
+    "global_champion_change_invalidates_existing_approvals": false
+  },
+  "source_fetch": {
+    "schemes": [
+      "https"
+    ],
+    "ports": [
+      443
+    ],
+    "allowlisted_hosts": [
+      "cppa.ca.gov",
+      "leginfo.legislature.ca.gov",
+      "oag.ca.gov",
+      "www.oag.ca.gov"
+    ],
+    "automatic_redirects": false,
+    "max_manual_redirects": 3,
+    "max_response_bytes": 4194304,
+    "timeout_seconds": 10,
+    "dns_rule": "All A/AAAA answers and connected peer must be globally routable; reject loopback/private/link-local/multicast/reserved/unspecified/IPv4-mapped bypass; connect only to a validated resolution while retaining hostname TLS verification. No live SSRF probe performed.",
+    "credentials": "No cookies, auth headers, cloud credentials or client URL userinfo on public fetches; no PII in query",
+    "endpoint_source": "curated registry IDs; models cannot fetch arbitrary URLs",
+    "max_bson_snapshot_bytes": 8388608
+  },
+  "trace_policy": {
+    "mode": "metadata_allowlist",
+    "allowed_fields": [
+      "request_id",
+      "trace_id",
+      "event_id",
+      "workflow_id",
+      "document_revision_id",
+      "context_snapshot_id",
+      "assessment_id",
+      "evidence_bundle_id",
+      "harness_version_id",
+      "evaluation_run_id",
+      "action",
+      "outcome",
+      "error_code",
+      "latency_ms",
+      "input_tokens",
+      "output_tokens",
+      "cost_estimate_usd",
+      "repair_attempt",
+      "config_patch_id",
+      "synthetic"
+    ],
+    "forbidden_values": [
+      "raw_names",
+      "raw_addresses",
+      "raw_emails",
+      "raw_ip_addresses",
+      "raw_document_body",
+      "session_cookie",
+      "access_token",
+      "api_key",
+      "database_uri",
+      "unredacted_feedback",
+      "hidden_chain_of_thought"
+    ],
+    "langsmith_env": {
+      "LANGSMITH_HIDE_INPUTS": "true",
+      "LANGSMITH_HIDE_OUTPUTS": "true"
+    },
+    "external_export": "Construct T13 DTO only; HMAC pseudonyms replace tenant/workflow/run/correlation IDs; no automatic model/tool wrappers; metadata/tags/errors/attachments also filtered."
+  },
+  "source_storage": {
+    "scope": "per_tenant_copies_in_tenant_scoped_collections",
+    "public_origin_is_metadata_only": true,
+    "tenant_null_bypass": false,
+    "raw_bytes_limit": 4194304,
+    "bson_document_limit": 8388608,
+    "oversize_error": "source_too_large",
+    "gridfs_selected": false
+  },
+  "source_recheck_attestation": {
+    "action": "record_source_recheck_attestation",
+    "allowed_roles": [
+      "lawyer"
+    ],
+    "requires_assigned_workflow": true,
+    "requires_explicit_source_review_capability": true,
+    "model_callable": false,
+    "max_validity_seconds": 86400,
+    "required_fields": [
+      "source_version_id",
+      "source_content_hash",
+      "scenario_as_of",
+      "attested_at",
+      "method",
+      "authoritative_support_locator",
+      "reason",
+      "expires_at"
+    ],
+    "server_injected_fields": [
+      "tenant_id",
+      "actor_id",
+      "auth_mode"
+    ],
+    "may_satisfy": "overdue_engineering_recheck_only",
+    "cannot_override": [
+      "untrusted_origin",
+      "superseded",
+      "future_effective",
+      "inapplicable",
+      "legal_criteria",
+      "required_evidence",
+      "human_approval_order"
+    ],
+    "effect": [
+      "new_evidence_bundle",
+      "increment_material_evidence_epoch",
+      "revalidate",
+      "founder_then_lawyer_gate"
+    ],
+    "expiry_checked": [
+      "human_decision",
+      "finalization"
+    ],
+    "collection": "source_recheck_attestations",
+    "schema_owner": "T05 exact schema; T04 physical collection"
+  },
+  "reset_fence": {
+    "authority": "persistent tenant guard reset_epoch; never model supplied",
+    "minimum_epoch": 1,
+    "monotonically_increases": true,
+    "preserved_during_reset": true,
+    "scope_keys": [
+      "tenant_id",
+      "reset_epoch",
+      "run_id"
+    ],
+    "receipt_identity_keys": [
+      "tenant_id",
+      "reset_epoch",
+      "run_id",
+      "idempotency_key"
+    ],
+    "budget_scope_keys": [
+      "tenant_id",
+      "reset_epoch",
+      "budget_scope_id"
+    ],
+    "guard_compare_in_same_transaction": true,
+    "guard_write_required": "conditional CAS/touch of the same persistent tenant guard; snapshot-only read is insufficient for reset serialization",
+    "compare_before": [
+      "job claim",
+      "model cost reservation and dispatch",
+      "tool execution",
+      "artifact hydration",
+      "stage commit",
+      "result reuse",
+      "receipt replay"
+    ],
+    "receipt_hash_includes_reset_epoch": true,
+    "reset_preconditions": [
+      "quiesce job/model/tool/email dispatch",
+      "cancel old in-flight work",
+      "retain unresolved model charges and live-send intents/receipts outside discarded fixture epoch, or block reset until reconciled",
+      "advance surviving tenant guard before deletion/reseed"
+    ],
+    "late_result": "old epoch diagnostic only; never attach to new same UUID or replay old receipt"
+  },
+  "review_reset_fence": {
+    "canonical_command_ref": "https://kiara.example/contracts/K-REVIEW-002",
+    "required": "expected_reset_epoch equals trusted context reset_epoch equals current surviving tenant guard reset_epoch; nonnegative input does not grant authority",
+    "conditional_write": "Every decision/effect transaction conditionally writes the same surviving tenant guard using tenant_id and reset_epoch, plus material epochs and review_fence as applicable. Snapshot read alone is insufficient.",
+    "external_effects": "Recheck trusted tenant/epoch at model/tool/email dispatch and before effect commit; reset quiesces old dispatch and retains unknown charges/send intents. An already-dispatched external request cannot be retracted by advancing epoch.",
+    "stale_error": "RESET_EPOCH_MISMATCH"
+  }
+}

@@ -1,0 +1,198 @@
+[
+  {
+    "collection": "tenants",
+    "mutable": true,
+    "validator": "tenants.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "tenant_id"
+  },
+  {
+    "collection": "actors",
+    "mutable": true,
+    "validator": "actors.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "actor_id"
+  },
+  {
+    "collection": "company_context_versions",
+    "mutable": false,
+    "validator": "company_context_versions.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "context_version_id"
+  },
+  {
+    "collection": "customers",
+    "mutable": true,
+    "validator": "customers.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "customer_id"
+  },
+  {
+    "collection": "events",
+    "mutable": false,
+    "validator": "events.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "event_id"
+  },
+  {
+    "collection": "documents",
+    "mutable": true,
+    "validator": "documents.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "document_id"
+  },
+  {
+    "collection": "document_revisions",
+    "mutable": false,
+    "validator": "document_revisions.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "revision_id"
+  },
+  {
+    "collection": "legal_source_versions",
+    "mutable": false,
+    "validator": "legal_source_versions.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "source_version_id"
+  },
+  {
+    "collection": "legal_chunks",
+    "mutable": false,
+    "validator": "legal_chunks.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "legal_chunk_id"
+  },
+  {
+    "collection": "assessments",
+    "mutable": false,
+    "validator": "assessments.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "assessment_id"
+  },
+  {
+    "collection": "evidence_bundles",
+    "mutable": false,
+    "validator": "evidence_bundles.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "evidence_bundle_id"
+  },
+  {
+    "collection": "change_proposals",
+    "mutable": false,
+    "validator": "change_proposals.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "change_proposal_id"
+  },
+  {
+    "collection": "validation_runs",
+    "mutable": false,
+    "validator": "validation_runs.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "validation_run_id"
+  },
+  {
+    "collection": "review_bundles",
+    "mutable": false,
+    "validator": "review_bundles.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "review_bundle_id"
+  },
+  {
+    "collection": "workflows",
+    "mutable": true,
+    "validator": "workflows.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "workflow_id"
+  },
+  {
+    "collection": "jobs",
+    "mutable": true,
+    "validator": "jobs.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "job_id"
+  },
+  {
+    "collection": "agent_runs",
+    "mutable": true,
+    "validator": "agent_runs.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "run_id"
+  },
+  {
+    "collection": "tool_receipts",
+    "mutable": true,
+    "validator": "tool_receipts.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "receipt_id"
+  },
+  {
+    "collection": "review_actions",
+    "mutable": false,
+    "validator": "review_actions.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "review_action_id"
+  },
+  {
+    "collection": "feedback",
+    "mutable": true,
+    "validator": "feedback.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "feedback_id"
+  },
+  {
+    "collection": "harness_versions",
+    "mutable": false,
+    "validator": "harness_versions.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "harness_version_id"
+  },
+  {
+    "collection": "harness_candidates",
+    "mutable": true,
+    "validator": "harness_candidates.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "harness_candidate_id"
+  },
+  {
+    "collection": "evaluation_runs",
+    "mutable": false,
+    "validator": "evaluation_runs.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "evaluation_run_id"
+  },
+  {
+    "collection": "operational_followups",
+    "mutable": true,
+    "validator": "operational_followups.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "operational_followup_id"
+  },
+  {
+    "collection": "seed_manifests",
+    "mutable": true,
+    "validator": "seed_manifests.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "seed_manifest_id"
+  },
+  {
+    "collection": "notification_outbox",
+    "mutable": true,
+    "validator": "notification_outbox.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "notification_id"
+  },
+  {
+    "collection": "telemetry_spans",
+    "mutable": true,
+    "validator": "telemetry_spans.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "span_id"
+  },
+  {
+    "collection": "source_recheck_attestations",
+    "mutable": false,
+    "validator": "source_recheck_attestations.validator.json",
+    "tenant_scoped": true,
+    "id_wire_name": "attestation_id"
+  }
+]

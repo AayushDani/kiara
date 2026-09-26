@@ -1,0 +1,14 @@
+{
+  "workflow_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+  "expected_state_version": 9,
+  "expected_reset_epoch": 1,
+  "review_bundle_id": "f660de0e-5a11-5782-ba17-46d096f61d03",
+  "proposal_id": "ef28b9a9-1e7a-5f52-b65a-9b5253230a5b",
+  "feedback_type": "document_edit",
+  "body": "Clarify the service-provider disclosure rationale in clause privacy.ca.disclosures.",
+  "requested_change": true,
+  "clause_ids": [
+    "privacy.ca.disclosures"
+  ],
+  "idempotency_key": "lawyer-feedback-fixture-1"
+}

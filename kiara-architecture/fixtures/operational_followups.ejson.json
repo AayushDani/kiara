@@ -1,0 +1,312 @@
+[
+  {
+    "_id": "cdb58aed-13de-581e-b995-da32d098e36a",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "assessment_id": "aa9d34f4-2739-5ba9-a960-253102f31a64",
+    "proposal_id": "5895124e-72a8-51b4-a698-76baf5df7709",
+    "owner_actor_id": "6c6939bf-2453-539f-8f86-6b1e6e61edbe",
+    "category": "notice_at_collection",
+    "summary": "Verify whether required notice was presented before the simulated collection; remediate future collection entry points with direct relevant-section link. A post-event policy draft cannot cure prior notice timing.",
+    "evidence_chunk_ids": [
+      "faed795e-d7f5-584e-a14c-7a2d95bb03be"
+    ],
+    "status": "open",
+    "resolution": null,
+    "state_version": 1,
+    "followup_key": "op_notice_at_collection",
+    "readiness": "needs_information",
+    "may_close_by_policy_approval": false,
+    "reset_epoch": 1
+  },
+  {
+    "_id": "afb04cf6-5c31-5959-82d7-835129315edc",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "assessment_id": "aa9d34f4-2739-5ba9-a960-253102f31a64",
+    "proposal_id": "5895124e-72a8-51b4-a698-76baf5df7709",
+    "owner_actor_id": "6c6939bf-2453-539f-8f86-6b1e6e61edbe",
+    "category": "other",
+    "summary": "Check/document assessment before new 2026 SPI processing and calendar reporting obligations. Authentication credentials make this separate inquiry material. No executed assessment is claimed.",
+    "evidence_chunk_ids": [
+      "632f79ed-3728-55a7-80fc-fb91ced3df24"
+    ],
+    "status": "open",
+    "resolution": null,
+    "state_version": 1,
+    "followup_key": "op_2026_risk_assessment",
+    "readiness": "needs_information",
+    "may_close_by_policy_approval": false,
+    "reset_epoch": 1
+  },
+  {
+    "_id": "827e34f4-df28-5e93-835e-55d92aa179e0",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "assessment_id": "aa9d34f4-2739-5ba9-a960-253102f31a64",
+    "proposal_id": "5895124e-72a8-51b4-a698-76baf5df7709",
+    "owner_actor_id": "6c6939bf-2453-539f-8f86-6b1e6e61edbe",
+    "category": "other",
+    "summary": "Verify monitored email, web request form, identity/agent verification and request fulfillment/SLA. Kiara proposal delivery email is different from the company consumer-rights channel.",
+    "evidence_chunk_ids": [
+      "d2917855-7e9a-5c37-80ed-69f13cce4431"
+    ],
+    "status": "open",
+    "resolution": null,
+    "state_version": 1,
+    "followup_key": "op_consumer_rights_process",
+    "readiness": "synthetic_fixture_only",
+    "may_close_by_policy_approval": false,
+    "reset_epoch": 1
+  },
+  {
+    "_id": "138b6dcd-2b14-58c2-9c63-635c83d7ecbe",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "assessment_id": "aa9d34f4-2739-5ba9-a960-253102f31a64",
+    "proposal_id": "5895124e-72a8-51b4-a698-76baf5df7709",
+    "owner_actor_id": "6c6939bf-2453-539f-8f86-6b1e6e61edbe",
+    "category": "other",
+    "summary": "Check contractual and actual service-provider use restrictions. Label alone does not establish the service-provider exception.",
+    "evidence_chunk_ids": [
+      "c3e109ea-13dc-59b7-a900-d694333300a8"
+    ],
+    "status": "open",
+    "resolution": null,
+    "state_version": 1,
+    "followup_key": "op_vendor_contracts",
+    "readiness": "synthetic_fixture_only",
+    "may_close_by_policy_approval": false,
+    "reset_epoch": 1
+  },
+  {
+    "_id": "e416c877-aed5-55f7-a30b-f89d2189884a",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "assessment_id": "aa9d34f4-2739-5ba9-a960-253102f31a64",
+    "proposal_id": "5895124e-72a8-51b4-a698-76baf5df7709",
+    "owner_actor_id": "6c6939bf-2453-539f-8f86-6b1e6e61edbe",
+    "category": "other",
+    "summary": "Confirm SPI account/security purposes and necessity/proportionality. No automatic limit link solely because credentials exist.",
+    "evidence_chunk_ids": [
+      "3c3ddcf2-0674-5baf-9b4c-067dbc3c22c4"
+    ],
+    "status": "open",
+    "resolution": null,
+    "state_version": 1,
+    "followup_key": "op_spurpose_review",
+    "readiness": "synthetic_fixture_only",
+    "may_close_by_policy_approval": false,
+    "reset_epoch": 1
+  },
+  {
+    "_id": "b02ee470-8b8a-579a-aaea-7da5f71ce400",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "assessment_id": "aa9d34f4-2739-5ba9-a960-253102f31a64",
+    "proposal_id": "5895124e-72a8-51b4-a698-76baf5df7709",
+    "owner_actor_id": "6c6939bf-2453-539f-8f86-6b1e6e61edbe",
+    "category": "other",
+    "summary": "Confirm no sale/share and truthful browser-signal disclosure; re-scope if practice changes. Do not conflate DNT, consent, or ordinary sharing with CCPA sale/share.",
+    "evidence_chunk_ids": [
+      "c4080d02-0e36-52c7-9649-4a914c96ae49"
+    ],
+    "status": "open",
+    "resolution": null,
+    "state_version": 1,
+    "followup_key": "op_signal_and_sale_review",
+    "readiness": "synthetic_fixture_only",
+    "may_close_by_policy_approval": false,
+    "reset_epoch": 1
+  },
+  {
+    "_id": "d02b023a-bad0-57dd-9303-e5a2aaa238ba",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "assessment_id": "aa9d34f4-2739-5ba9-a960-253102f31a64",
+    "proposal_id": "5895124e-72a8-51b4-a698-76baf5df7709",
+    "owner_actor_id": "6c6939bf-2453-539f-8f86-6b1e6e61edbe",
+    "category": "other",
+    "summary": "Verify real category-specific retention/deletion controls. A policy sentence does not create a deletion mechanism.",
+    "evidence_chunk_ids": [
+      "c3e109ea-13dc-59b7-a900-d694333300a8"
+    ],
+    "status": "open",
+    "resolution": null,
+    "state_version": 1,
+    "followup_key": "op_retention_enforcement",
+    "readiness": "synthetic_fixture_only",
+    "may_close_by_policy_approval": false,
+    "reset_epoch": 1
+  },
+  {
+    "_id": "0260bf12-140e-5482-b20d-024b6ac1b3a2",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "assessment_id": "aa9d34f4-2739-5ba9-a960-253102f31a64",
+    "proposal_id": "5895124e-72a8-51b4-a698-76baf5df7709",
+    "owner_actor_id": "6c6939bf-2453-539f-8f86-6b1e6e61edbe",
+    "category": "other",
+    "summary": "Confirm why full postal address is necessary; assess whether city/state suffice for event discovery and constrain future collection/retention accordingly. The requested synthetic address event is preserved; recording it does not establish necessity or proportionality under section1798.100(c).",
+    "evidence_chunk_ids": [
+      "c3e109ea-13dc-59b7-a900-d694333300a8"
+    ],
+    "status": "open",
+    "resolution": null,
+    "state_version": 1,
+    "followup_key": "op_data_minimization",
+    "readiness": "needs_information",
+    "may_close_by_policy_approval": false,
+    "reset_epoch": 1
+  },
+  {
+    "_id": "0c24d902-91b3-5ce4-8d43-e0608ccd3226",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "assessment_id": "aa9d34f4-2739-5ba9-a960-253102f31a64",
+    "proposal_id": "5895124e-72a8-51b4-a698-76baf5df7709",
+    "owner_actor_id": "6c6939bf-2453-539f-8f86-6b1e6e61edbe",
+    "category": "other",
+    "summary": "Test conspicuous privacy link, printing/accessibility, notice links, publication authorization and yearly refresh. Both human gates finalize a draft only; publication is separate.",
+    "evidence_chunk_ids": [
+      "e723f507-0a99-5681-9386-f0d18be975d4"
+    ],
+    "status": "open",
+    "resolution": null,
+    "state_version": 1,
+    "followup_key": "op_accessible_publication",
+    "readiness": "not_executed",
+    "may_close_by_policy_approval": false,
+    "reset_epoch": 1
+  },
+  {
+    "_id": "a1f16f3a-3dce-5247-a14d-e750be7b8c33",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "assessment_id": "aa9d34f4-2739-5ba9-a960-253102f31a64",
+    "proposal_id": "5895124e-72a8-51b4-a698-76baf5df7709",
+    "owner_actor_id": "6c6939bf-2453-539f-8f86-6b1e6e61edbe",
+    "category": "other",
+    "summary": "Recheck annual California PI/SPI volumes and applicable audit revenue year. No conclusion for unknown future metrics.",
+    "evidence_chunk_ids": [
+      "97f19c8a-8767-5d0e-8fea-fc29fa3dd703"
+    ],
+    "status": "open",
+    "resolution": null,
+    "state_version": 1,
+    "followup_key": "op_cyber_audit_scope",
+    "readiness": "not_triggered_on_fixture",
+    "may_close_by_policy_approval": false,
+    "reset_epoch": 1
+  },
+  {
+    "_id": "9e27f975-bffb-545b-a59c-34d43c665c58",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "assessment_id": "aa9d34f4-2739-5ba9-a960-253102f31a64",
+    "proposal_id": "5895124e-72a8-51b4-a698-76baf5df7709",
+    "owner_actor_id": "6c6939bf-2453-539f-8f86-6b1e6e61edbe",
+    "category": "other",
+    "summary": "Calendar Jan2027 ADMT/browser dates where actual activity matches. Music discovery and Kiara drafting are not automatically significant decisions.",
+    "evidence_chunk_ids": [
+      "4d3e816f-954d-5d3d-a818-bd026bd5fe4f"
+    ],
+    "status": "open",
+    "resolution": null,
+    "state_version": 1,
+    "followup_key": "op_future_obligations",
+    "readiness": "not_triggered_on_fixture",
+    "may_close_by_policy_approval": false,
+    "reset_epoch": 1
+  },
+  {
+    "_id": "9c8b132f-92eb-59a5-9d73-8b4facfd0b5c",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "assessment_id": "aa9d34f4-2739-5ba9-a960-253102f31a64",
+    "proposal_id": "5895124e-72a8-51b4-a698-76baf5df7709",
+    "owner_actor_id": "6c6939bf-2453-539f-8f86-6b1e6e61edbe",
+    "category": "other",
+    "summary": "Verify trained rights handlers and protected consumer-request records. Company privacy duties remain outside approval of a text revision.",
+    "evidence_chunk_ids": [
+      "85bfb0ac-5d74-5c57-bb77-de8168ebb145"
+    ],
+    "status": "open",
+    "resolution": null,
+    "state_version": 1,
+    "followup_key": "op_request_records_training",
+    "readiness": "not_executed",
+    "may_close_by_policy_approval": false,
+    "reset_epoch": 1
+  },
+  {
+    "_id": "5cbe6502-edc2-59e1-8be8-6b0c93a61f2c",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "assessment_id": "aa9d34f4-2739-5ba9-a960-253102f31a64",
+    "proposal_id": "5895124e-72a8-51b4-a698-76baf5df7709",
+    "owner_actor_id": "6c6939bf-2453-539f-8f86-6b1e6e61edbe",
+    "category": "other",
+    "summary": "Assess independent California privacy-policy duties on noncovered CCPA case. No claim that not-covered CCPA means no California obligations.",
+    "evidence_chunk_ids": [],
+    "status": "open",
+    "resolution": null,
+    "state_version": 1,
+    "followup_key": "op_other_law_review",
+    "readiness": "needs_separate_assessment",
+    "may_close_by_policy_approval": false,
+    "reset_epoch": 1
+  }
+]

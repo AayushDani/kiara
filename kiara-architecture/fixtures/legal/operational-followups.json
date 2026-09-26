@@ -1,0 +1,106 @@
+[
+  {
+    "followupId": "op_notice_at_collection",
+    "action": "Verify whether required notice was presented before the simulated collection; remediate future collection entry points with direct relevant-section link.",
+    "provisionId": "prov_regs_notice",
+    "status": "needs_information",
+    "whySeparate": "A post-event policy draft cannot cure prior notice timing.",
+    "mayBeClosedByPolicyApproval": false
+  },
+  {
+    "followupId": "op_2026_risk_assessment",
+    "action": "Check/document assessment before new 2026 SPI processing and calendar reporting obligations.",
+    "provisionId": "prov_regs_risk",
+    "status": "needs_information",
+    "whySeparate": "Authentication credentials make this separate inquiry material. No executed assessment is claimed.",
+    "mayBeClosedByPolicyApproval": false
+  },
+  {
+    "followupId": "op_consumer_rights_process",
+    "action": "Verify monitored email, web request form, identity/agent verification and request fulfillment/SLA.",
+    "provisionId": "prov_regs_request_methods",
+    "status": "synthetic_fixture_only",
+    "whySeparate": "Kiara proposal delivery email is different from the company consumer-rights channel.",
+    "mayBeClosedByPolicyApproval": false
+  },
+  {
+    "followupId": "op_vendor_contracts",
+    "action": "Check contractual and actual service-provider use restrictions.",
+    "provisionId": "prov_ccpa_notice",
+    "status": "synthetic_fixture_only",
+    "whySeparate": "Label alone does not establish the service-provider exception.",
+    "mayBeClosedByPolicyApproval": false
+  },
+  {
+    "followupId": "op_spurpose_review",
+    "action": "Confirm SPI account/security purposes and necessity/proportionality.",
+    "provisionId": "prov_regs_limit",
+    "status": "synthetic_fixture_only",
+    "whySeparate": "No automatic limit link solely because credentials exist.",
+    "mayBeClosedByPolicyApproval": false
+  },
+  {
+    "followupId": "op_signal_and_sale_review",
+    "action": "Confirm no sale/share and truthful browser-signal disclosure; re-scope if practice changes.",
+    "provisionId": "prov_regs_optout",
+    "status": "synthetic_fixture_only",
+    "whySeparate": "Do not conflate DNT, consent, or ordinary sharing with CCPA sale/share.",
+    "mayBeClosedByPolicyApproval": false
+  },
+  {
+    "followupId": "op_retention_enforcement",
+    "action": "Verify real category-specific retention/deletion controls.",
+    "provisionId": "prov_ccpa_notice",
+    "status": "synthetic_fixture_only",
+    "whySeparate": "A policy sentence does not create a deletion mechanism.",
+    "mayBeClosedByPolicyApproval": false
+  },
+  {
+    "followupId": "op_data_minimization",
+    "action": "Confirm why full postal address is necessary; assess whether city/state suffice for event discovery and constrain future collection/retention accordingly.",
+    "provisionId": "prov_ccpa_notice",
+    "status": "needs_information",
+    "whySeparate": "The requested synthetic address event is preserved; recording it does not establish necessity or proportionality under section1798.100(c).",
+    "mayBeClosedByPolicyApproval": false
+  },
+  {
+    "followupId": "op_accessible_publication",
+    "action": "Test conspicuous privacy link, printing/accessibility, notice links, publication authorization and yearly refresh.",
+    "provisionId": "prov_regs_presentation",
+    "status": "not_executed",
+    "whySeparate": "Both human gates finalize a draft only; publication is separate.",
+    "mayBeClosedByPolicyApproval": false
+  },
+  {
+    "followupId": "op_cyber_audit_scope",
+    "action": "Recheck annual California PI/SPI volumes and applicable audit revenue year.",
+    "provisionId": "prov_regs_audit",
+    "status": "not_triggered_on_fixture",
+    "whySeparate": "No conclusion for unknown future metrics.",
+    "mayBeClosedByPolicyApproval": false
+  },
+  {
+    "followupId": "op_future_obligations",
+    "action": "Calendar Jan2027 ADMT/browser dates where actual activity matches.",
+    "provisionId": "prov_regs_admt",
+    "status": "not_triggered_on_fixture",
+    "whySeparate": "Music discovery and Kiara drafting are not automatically significant decisions.",
+    "mayBeClosedByPolicyApproval": false
+  },
+  {
+    "followupId": "op_request_records_training",
+    "action": "Verify trained rights handlers and protected consumer-request records.",
+    "provisionId": "prov_regs_records",
+    "status": "not_executed",
+    "whySeparate": "Company privacy duties remain outside approval of a text revision.",
+    "mayBeClosedByPolicyApproval": false
+  },
+  {
+    "followupId": "op_other_law_review",
+    "action": "Assess independent California privacy-policy duties on noncovered CCPA case.",
+    "provisionId": "prov_caloppa_policy",
+    "status": "needs_separate_assessment",
+    "whySeparate": "No claim that not-covered CCPA means no California obligations.",
+    "mayBeClosedByPolicyApproval": false
+  }
+]

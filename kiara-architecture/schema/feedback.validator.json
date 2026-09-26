@@ -1,0 +1,730 @@
+{
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "required": [
+        "_id",
+        "tenant_id",
+        "schema_version",
+        "created_at",
+        "workflow_id",
+        "review_bundle_id",
+        "actor_id",
+        "actor_role",
+        "feedback_type",
+        "body",
+        "clause_id",
+        "fact_key",
+        "proposed_fact",
+        "proposed_patch",
+        "status",
+        "resolved_by",
+        "resolved_at",
+        "result_context_version_id",
+        "result_proposal_id",
+        "result_harness_candidate_id",
+        "state_version",
+        "reset_epoch"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "tenant_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "schema_version": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "enum": [
+            1
+          ]
+        },
+        "created_at": {
+          "bsonType": "date"
+        },
+        "workflow_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "review_bundle_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "actor_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "actor_role": {
+          "bsonType": "string",
+          "enum": [
+            "founder",
+            "lawyer",
+            "service"
+          ]
+        },
+        "feedback_type": {
+          "bsonType": "string",
+          "enum": [
+            "fact_correction",
+            "document_edit",
+            "legal_interpretation_note",
+            "harness_improvement"
+          ]
+        },
+        "body": {
+          "bsonType": "string",
+          "maxLength": 8000
+        },
+        "clause_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "minLength": 1,
+              "maxLength": 160,
+              "pattern": "^[a-z0-9][a-z0-9_.:-]*$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "fact_key": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "minLength": 1,
+              "maxLength": 160,
+              "pattern": "^[a-z0-9][a-z0-9_.:-]*$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "proposed_fact": {
+          "anyOf": [
+            {
+              "bsonType": "object",
+              "required": [
+                "fact_id",
+                "fact_key",
+                "knowledge",
+                "value",
+                "unit",
+                "period",
+                "provenance",
+                "supersedes_fact_id"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "fact_id": {
+                  "bsonType": "string",
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                },
+                "fact_key": {
+                  "bsonType": "string",
+                  "minLength": 1,
+                  "maxLength": 160,
+                  "pattern": "^[a-z0-9][a-z0-9_.:-]*$"
+                },
+                "knowledge": {
+                  "bsonType": "string",
+                  "enum": [
+                    "known",
+                    "unknown",
+                    "conflicted"
+                  ]
+                },
+                "value": {
+                  "anyOf": [
+                    {
+                      "anyOf": [
+                        {
+                          "bsonType": "bool"
+                        },
+                        {
+                          "bsonType": [
+                            "int",
+                            "long"
+                          ],
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        {
+                          "bsonType": "string",
+                          "maxLength": 5000
+                        },
+                        {
+                          "bsonType": "array",
+                          "items": {
+                            "bsonType": "string",
+                            "maxLength": 512
+                          },
+                          "maxItems": 100,
+                          "minItems": 0
+                        },
+                        {
+                          "bsonType": "array",
+                          "items": {
+                            "bsonType": "object",
+                            "required": [
+                              "categoryId",
+                              "examples",
+                              "statuteCategory",
+                              "sourceCategories",
+                              "purposes",
+                              "recipientCategories",
+                              "retention"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                              "categoryId": {
+                                "bsonType": "string",
+                                "maxLength": 100
+                              },
+                              "examples": {
+                                "bsonType": "array",
+                                "items": {
+                                  "bsonType": "string",
+                                  "maxLength": 500
+                                },
+                                "maxItems": 30,
+                                "minItems": 0
+                              },
+                              "statuteCategory": {
+                                "bsonType": "string",
+                                "maxLength": 120
+                              },
+                              "sourceCategories": {
+                                "bsonType": "array",
+                                "items": {
+                                  "bsonType": "string",
+                                  "maxLength": 500
+                                },
+                                "maxItems": 30,
+                                "minItems": 0
+                              },
+                              "purposes": {
+                                "bsonType": "array",
+                                "items": {
+                                  "bsonType": "string",
+                                  "maxLength": 500
+                                },
+                                "maxItems": 30,
+                                "minItems": 0
+                              },
+                              "recipientCategories": {
+                                "bsonType": "array",
+                                "items": {
+                                  "bsonType": "string",
+                                  "maxLength": 500
+                                },
+                                "maxItems": 30,
+                                "minItems": 0
+                              },
+                              "retention": {
+                                "bsonType": "string",
+                                "maxLength": 2000
+                              }
+                            }
+                          },
+                          "maxItems": 40,
+                          "minItems": 0
+                        },
+                        {
+                          "bsonType": "object",
+                          "required": [
+                            "scope",
+                            "healthAndClinicalResearch",
+                            "regulatedFinancialInformation",
+                            "fcraRegulatedActivity",
+                            "dppaData",
+                            "vehicleOrVesselRecall",
+                            "educationalAssessment",
+                            "commercialCreditReporting",
+                            "publicOrDeidentifiedOnly",
+                            "privilegedCommunication",
+                            "lawEnforcementHold",
+                            "otherSpecializedClaim"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "scope": {
+                              "bsonType": "string",
+                              "maxLength": 1000
+                            },
+                            "healthAndClinicalResearch": {
+                              "bsonType": "bool"
+                            },
+                            "regulatedFinancialInformation": {
+                              "bsonType": "bool"
+                            },
+                            "fcraRegulatedActivity": {
+                              "bsonType": "bool"
+                            },
+                            "dppaData": {
+                              "bsonType": "bool"
+                            },
+                            "vehicleOrVesselRecall": {
+                              "bsonType": "bool"
+                            },
+                            "educationalAssessment": {
+                              "bsonType": "bool"
+                            },
+                            "commercialCreditReporting": {
+                              "bsonType": "bool"
+                            },
+                            "publicOrDeidentifiedOnly": {
+                              "bsonType": "bool"
+                            },
+                            "privilegedCommunication": {
+                              "bsonType": "bool"
+                            },
+                            "lawEnforcementHold": {
+                              "bsonType": "bool"
+                            },
+                            "otherSpecializedClaim": {
+                              "bsonType": "bool"
+                            }
+                          }
+                        },
+                        {
+                          "bsonType": "object",
+                          "required": [
+                            "method",
+                            "timing",
+                            "readiness"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "method": {
+                              "bsonType": "string",
+                              "maxLength": 2000
+                            },
+                            "timing": {
+                              "bsonType": "string",
+                              "maxLength": 2000
+                            },
+                            "readiness": {
+                              "bsonType": "string",
+                              "maxLength": 2000
+                            }
+                          }
+                        },
+                        {
+                          "bsonType": "object",
+                          "required": [
+                            "existing_account",
+                            "no_account_access",
+                            "require_new_account",
+                            "new_verification_pi_deleted",
+                            "agent_permission",
+                            "consumer_resubmission_required",
+                            "power_of_attorney_mandatory"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "existing_account": {
+                              "bsonType": "string",
+                              "maxLength": 2000
+                            },
+                            "no_account_access": {
+                              "bsonType": "string",
+                              "maxLength": 2000
+                            },
+                            "require_new_account": {
+                              "bsonType": "bool"
+                            },
+                            "new_verification_pi_deleted": {
+                              "bsonType": "string",
+                              "maxLength": 2000
+                            },
+                            "agent_permission": {
+                              "bsonType": "string",
+                              "maxLength": 2000
+                            },
+                            "consumer_resubmission_required": {
+                              "bsonType": "bool"
+                            },
+                            "power_of_attorney_mandatory": {
+                              "bsonType": "bool"
+                            }
+                          }
+                        },
+                        {
+                          "bsonType": "object",
+                          "required": [
+                            "edit_profile",
+                            "remove_saved_events",
+                            "promotional_email_unsubscribe",
+                            "account_closure"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "edit_profile": {
+                              "bsonType": "bool"
+                            },
+                            "remove_saved_events": {
+                              "bsonType": "bool"
+                            },
+                            "promotional_email_unsubscribe": {
+                              "bsonType": "string",
+                              "maxLength": 2000
+                            },
+                            "account_closure": {
+                              "bsonType": "string",
+                              "maxLength": 2000
+                            }
+                          }
+                        },
+                        {
+                          "bsonType": "object",
+                          "required": [
+                            "access_controls",
+                            "safeguards",
+                            "guarantee_complete_security"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "access_controls": {
+                              "bsonType": "bool"
+                            },
+                            "safeguards": {
+                              "bsonType": "bool"
+                            },
+                            "guarantee_complete_security": {
+                              "bsonType": "bool"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "bsonType": "null"
+                    }
+                  ]
+                },
+                "unit": {
+                  "anyOf": [
+                    {
+                      "bsonType": "string",
+                      "maxLength": 40
+                    },
+                    {
+                      "bsonType": "null"
+                    }
+                  ]
+                },
+                "period": {
+                  "anyOf": [
+                    {
+                      "bsonType": "string",
+                      "maxLength": 40
+                    },
+                    {
+                      "bsonType": "null"
+                    }
+                  ]
+                },
+                "provenance": {
+                  "bsonType": "object",
+                  "required": [
+                    "origin",
+                    "author_id",
+                    "verification_status",
+                    "observed_at",
+                    "effective_from",
+                    "effective_to",
+                    "references"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "origin": {
+                      "bsonType": "string",
+                      "enum": [
+                        "synthetic_fixture",
+                        "founder_assertion",
+                        "lawyer_verified",
+                        "imported_record",
+                        "derived"
+                      ]
+                    },
+                    "author_id": {
+                      "bsonType": "string",
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                    },
+                    "verification_status": {
+                      "bsonType": "string",
+                      "enum": [
+                        "unverified",
+                        "asserted",
+                        "verified",
+                        "disputed"
+                      ]
+                    },
+                    "observed_at": {
+                      "bsonType": "date"
+                    },
+                    "effective_from": {
+                      "bsonType": "date"
+                    },
+                    "effective_to": {
+                      "anyOf": [
+                        {
+                          "bsonType": "date"
+                        },
+                        {
+                          "bsonType": "null"
+                        }
+                      ]
+                    },
+                    "references": {
+                      "bsonType": "array",
+                      "items": {
+                        "bsonType": "object",
+                        "required": [
+                          "collection",
+                          "id",
+                          "locator"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "collection": {
+                            "bsonType": "string",
+                            "enum": [
+                              "company_context_versions",
+                              "customers",
+                              "events",
+                              "document_revisions",
+                              "legal_source_versions",
+                              "legal_chunks",
+                              "feedback"
+                            ]
+                          },
+                          "id": {
+                            "bsonType": "string",
+                            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                          },
+                          "locator": {
+                            "bsonType": "string",
+                            "maxLength": 512
+                          }
+                        }
+                      },
+                      "maxItems": 20,
+                      "minItems": 0
+                    }
+                  }
+                },
+                "supersedes_fact_id": {
+                  "anyOf": [
+                    {
+                      "bsonType": "string",
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                    },
+                    {
+                      "bsonType": "null"
+                    }
+                  ]
+                }
+              },
+              "allOf": [
+                {
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "knowledge": {
+                          "enum": [
+                            "known"
+                          ]
+                        },
+                        "value": {
+                          "not": {
+                            "bsonType": "null"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "knowledge": {
+                          "enum": [
+                            "unknown",
+                            "conflicted"
+                          ]
+                        },
+                        "value": {
+                          "bsonType": "null"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "proposed_patch": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "object",
+            "required": [
+              "op",
+              "path",
+              "value"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "op": {
+                "bsonType": "string",
+                "enum": [
+                  "add",
+                  "replace",
+                  "remove"
+                ]
+              },
+              "path": {
+                "bsonType": "string",
+                "maxLength": 256
+              },
+              "value": {
+                "anyOf": [
+                  {
+                    "anyOf": [
+                      {
+                        "bsonType": "bool"
+                      },
+                      {
+                        "bsonType": [
+                          "int",
+                          "long"
+                        ],
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      {
+                        "bsonType": "string",
+                        "maxLength": 4096
+                      },
+                      {
+                        "bsonType": "array",
+                        "items": {
+                          "bsonType": "string",
+                          "maxLength": 256
+                        },
+                        "maxItems": 100,
+                        "minItems": 0
+                      }
+                    ]
+                  },
+                  {
+                    "bsonType": "null"
+                  }
+                ]
+              }
+            }
+          },
+          "maxItems": 30,
+          "minItems": 0
+        },
+        "status": {
+          "bsonType": "string",
+          "enum": [
+            "open",
+            "accepted",
+            "rejected",
+            "applied"
+          ]
+        },
+        "resolved_by": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "resolved_at": {
+          "anyOf": [
+            {
+              "bsonType": "date"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "result_context_version_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "result_proposal_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "result_harness_candidate_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "state_version": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "reset_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    }
+  },
+  "validationLevel": "strict",
+  "validationAction": "error"
+}

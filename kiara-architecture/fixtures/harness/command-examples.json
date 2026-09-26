@@ -1,0 +1,53 @@
+{
+  "propose_harness_change": {
+    "observation_ids": [
+      "7baad3cf-3f46-50fc-8769-08d486078751"
+    ],
+    "rule_catalog_ids": [
+      "declared_ca_resident_ccpa_bundle",
+      "declared_ca_resident_company_facts"
+    ],
+    "rationale": "Validation detected missing jurisdiction context; enable catalog prefetch on future declared-CA signup events."
+  },
+  "promote_harness_version": {
+    "reset_epoch": 1,
+    "candidate_id": "d00c5665-89ba-5e76-b916-ec05672e55bd",
+    "evaluation_id": "debc764f-c12e-5ea7-a773-ecf32cf3abfb",
+    "expected_champion_version_id": "f3e7266f-0111-5ece-b7e7-322863eae195",
+    "expected_champion_generation": 1,
+    "expected_policy_epoch": 1,
+    "idempotency_key": "demo-promote-candidate-001"
+  },
+  "validation_result": {
+    "id": "7baad3cf-3f46-50fc-8769-08d486078751",
+    "tenant_id": "4c2d1e3c-2b27-5a6d-a21d-4123ac46acb1",
+    "reset_epoch": 1,
+    "run_id": "1489e36a-ee7a-5b32-889c-7867a23f7aa5",
+    "subject_kind": "context_readiness",
+    "validation_stage": "retrieval_preflight",
+    "subject_id": "f618ad77-bcfb-5d8b-9cd3-40f0c58acf4b",
+    "context_snapshot_id": "f618ad77-bcfb-5d8b-9cd3-40f0c58acf4b",
+    "context_selection_id": "5b612b8e-a174-5813-9a5d-fb0c03e29119",
+    "proposal_id": null,
+    "candidate_revision_id": null,
+    "review_input_hash": null,
+    "input_bundle_sha256": "d80446e18ed008274f96617a7794a3ae148f3466d07a22203890abf9e22f7fb7",
+    "harness_version_id": "f3e7266f-0111-5ece-b7e7-322863eae195",
+    "validator_version": "kiara-validator-1",
+    "status": "failed",
+    "checks": [
+      {
+        "check_id": "V03",
+        "status": "failed",
+        "severity": "blocking",
+        "failure_code": "APPLICABILITY_BUNDLE_MISSING",
+        "evidence_refs": [
+          "map_applicability"
+        ],
+        "repair_action": "retrieve_missing_evidence"
+      }
+    ]
+  },
+  "example_only": true,
+  "example_hash_note": "Preflight input_bundle_sha256 is computed from preflight-input.json. No proposal exists at this stage, so proposal_id, candidate_revision_id and review_input_hash are null. Post-draft validation requires actual T08 review_input_hash."
+}

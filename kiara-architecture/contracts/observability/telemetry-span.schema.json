@@ -1,0 +1,575 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kiara.invalid/contracts/telemetry-span-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "enum": [
+        "1.0.0"
+      ]
+    },
+    "span_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "tenant_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "company_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "correlation_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "workflow_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "run_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "attempt_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "attempt_no": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "trace_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "parent_span_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "event_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "stage": {
+      "enum": [
+        "run",
+        "context_retrieval",
+        "legal_retrieval",
+        "assessment",
+        "model_request",
+        "drafting",
+        "validation",
+        "repair",
+        "tool_call",
+        "evaluation",
+        "promotion_check",
+        "notification_dispatch"
+      ]
+    },
+    "model_invocation_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "logical_request_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "physical_attempt": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "tool_receipt_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "status": {
+      "enum": [
+        "running",
+        "succeeded",
+        "failed",
+        "canceled",
+        "interrupted"
+      ]
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "ended_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "duration_ms": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "duration_source": {
+      "enum": [
+        "monotonic_clock",
+        "wall_clock_estimate",
+        "unknown"
+      ]
+    },
+    "error_code": {
+      "anyOf": [
+        {
+          "enum": [
+            "MODEL_TIMEOUT",
+            "MODEL_RATE_LIMIT",
+            "MODEL_AUTH",
+            "MODEL_SCHEMA_INVALID",
+            "BUDGET_EXHAUSTED",
+            "SOURCE_UNAVAILABLE",
+            "EVIDENCE_STALE",
+            "CONTEXT_CONFLICT",
+            "VALIDATION_FAILED",
+            "LEASE_LOST",
+            "WORKER_INTERRUPTED",
+            "ATLAS_UNAVAILABLE",
+            "EMAIL_DELIVERY_UNKNOWN",
+            "TELEMETRY_EXPORT_FAILED",
+            "UNKNOWN_SAFE_ERROR"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "harness_version_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "context_version_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "evidence_bundle_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "review_bundle_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "revision_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "validation_run_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "evaluation_run_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "model_provider": {
+      "enum": [
+        "openai",
+        null
+      ]
+    },
+    "model_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 100
+    },
+    "usage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "reported",
+            "unknown",
+            "not_applicable"
+          ]
+        },
+        "input_tokens": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "cached_input_tokens": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "output_tokens": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reasoning_output_tokens": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "estimated_cost_micro_usd": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reserved_cost_micro_usd": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pricing_version": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 80
+        }
+      },
+      "required": [
+        "status",
+        "input_tokens",
+        "cached_input_tokens",
+        "output_tokens",
+        "reasoning_output_tokens",
+        "estimated_cost_micro_usd",
+        "reserved_cost_micro_usd",
+        "pricing_version"
+      ]
+    },
+    "export": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "disabled",
+            "pending",
+            "submitted",
+            "confirmed",
+            "retry_wait",
+            "failed",
+            "sampled_out",
+            "expired"
+          ]
+        },
+        "attempts": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "last_attempt_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "next_attempt_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "last_error_code": {
+          "enum": [
+            "TELEMETRY_EXPORT_FAILED",
+            null
+          ]
+        },
+        "privacy_policy_version": {
+          "enum": [
+            "safe-metrics-v1"
+          ]
+        },
+        "project_key": {
+          "enum": [
+            "kiara-demo-safe"
+          ]
+        },
+        "sample_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "required": [
+        "status",
+        "attempts",
+        "last_attempt_at",
+        "next_attempt_at",
+        "last_error_code",
+        "privacy_policy_version",
+        "project_key",
+        "sample_rate"
+      ]
+    },
+    "expires_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "span_id",
+    "tenant_id",
+    "company_id",
+    "correlation_id",
+    "workflow_id",
+    "run_id",
+    "attempt_id",
+    "attempt_no",
+    "trace_id",
+    "parent_span_id",
+    "event_id",
+    "stage",
+    "model_invocation_id",
+    "logical_request_id",
+    "physical_attempt",
+    "tool_receipt_id",
+    "status",
+    "started_at",
+    "ended_at",
+    "duration_ms",
+    "duration_source",
+    "error_code",
+    "harness_version_id",
+    "context_version_id",
+    "evidence_bundle_id",
+    "review_bundle_id",
+    "revision_id",
+    "validation_run_id",
+    "evaluation_run_id",
+    "model_provider",
+    "model_id",
+    "usage",
+    "export",
+    "expires_at"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "running"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "ended_at": {
+            "type": "null"
+          },
+          "expires_at": {
+            "type": "null"
+          },
+          "duration_ms": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "ended_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "usage": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "const": "unknown"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "usage": {
+            "type": "object",
+            "properties": {
+              "input_tokens": {
+                "type": "null"
+              },
+              "cached_input_tokens": {
+                "type": "null"
+              },
+              "output_tokens": {
+                "type": "null"
+              },
+              "reasoning_output_tokens": {
+                "type": "null"
+              },
+              "estimated_cost_micro_usd": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

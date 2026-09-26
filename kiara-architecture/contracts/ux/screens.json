@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "classification": "proposed_design",
+  "owner": "T11",
+  "action_namespace_note": "Review actions use T09 enums. Other screen action keys are UI-only command/navigation labels.",
+  "screens": [
+    {
+      "screen_id": "UX-01",
+      "route": "/company",
+      "title": "Company overview",
+      "roles": [
+        "founder"
+      ],
+      "actions": [
+        "open_review",
+        "view_company_facts",
+        "simulate_signup"
+      ]
+    },
+    {
+      "screen_id": "UX-02",
+      "route": "/demo/signup",
+      "title": "Synthetic signup",
+      "roles": [
+        "demo_operator"
+      ],
+      "actions": [
+        "create_synthetic_signup"
+      ]
+    },
+    {
+      "screen_id": "UX-03",
+      "route": "/workflows/{workflow_id}",
+      "title": "Event and assessment",
+      "roles": [
+        "founder",
+        "lawyer"
+      ],
+      "actions": [
+        "open_proposed_changes",
+        "supply_information",
+        "open_failed_checks",
+        "view_technical_pane"
+      ]
+    },
+    {
+      "screen_id": "UX-04",
+      "route": "/reviews/{review_bundle_id}",
+      "title": "Founder review",
+      "roles": [
+        "founder"
+      ],
+      "actions": [
+        "reviewed",
+        "record_feedback",
+        "requested_changes",
+        "rejected",
+        "approved"
+      ]
+    },
+    {
+      "screen_id": "UX-05",
+      "route": "/lawyer/reviews",
+      "title": "Assigned lawyer queue",
+      "roles": [
+        "lawyer"
+      ],
+      "actions": [
+        "open_review"
+      ]
+    },
+    {
+      "screen_id": "UX-06",
+      "route": "/reviews/{review_bundle_id}",
+      "title": "Lawyer review",
+      "roles": [
+        "lawyer"
+      ],
+      "actions": [
+        "reviewed",
+        "record_feedback",
+        "requested_changes",
+        "rejected",
+        "approved",
+        "record_source_recheck_attestation"
+      ]
+    },
+    {
+      "screen_id": "UX-07",
+      "route": "/workflows/{workflow_id}/delivery",
+      "title": "Notification delivery",
+      "roles": [
+        "founder",
+        "lawyer",
+        "notification_operator"
+      ],
+      "actions": [
+        "preview_email",
+        "retry_delivery"
+      ]
+    },
+    {
+      "screen_id": "UX-08",
+      "route": "/harness/versions/{harness_version_id}",
+      "title": "Harness history",
+      "roles": [
+        "founder",
+        "lawyer",
+        "harness_admin"
+      ],
+      "actions": [
+        "suggest_harness_improvement",
+        "view_evaluation"
+      ]
+    },
+    {
+      "screen_id": "UX-09",
+      "route": "/workflows/{workflow_id}/technical",
+      "title": "Technical evidence",
+      "roles": [
+        "founder",
+        "lawyer",
+        "operator"
+      ],
+      "actions": [
+        "select_correlated_record",
+        "view_trace"
+      ]
+    },
+    {
+      "screen_id": "UX-10",
+      "route": "/documents/{document_id}/revisions/{revision_id}",
+      "title": "Immutable document",
+      "roles": [
+        "founder",
+        "lawyer"
+      ],
+      "actions": [
+        "download_html",
+        "download_markdown",
+        "view_approval_record"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,218 @@
+{
+  "status": "proposed_design_not_security_test_result",
+  "threats": [
+    {
+      "id": "TH-01",
+      "threat": "Cross-tenant object ID or query substitution",
+      "severity": "Critical",
+      "control": "server tenant derivation; tenant-filtered repository methods; private reference closure; cache/search tenant keys",
+      "owners": [
+        "T04",
+        "T06"
+      ],
+      "source_ids": [
+        "SEC-S01",
+        "SEC-S05"
+      ]
+    },
+    {
+      "id": "TH-02",
+      "threat": "Model or client forges founder/lawyer decision",
+      "severity": "Critical",
+      "control": "human-only route and principal kind; no decision tool; membership/assignment and server actor; CSRF",
+      "owners": [
+        "T09",
+        "T11"
+      ],
+      "source_ids": [
+        "SEC-S01",
+        "SEC-S09"
+      ]
+    },
+    {
+      "id": "TH-03",
+      "threat": "Approval survives draft, context or evidence change",
+      "severity": "Critical",
+      "control": "immutable bundle; material epochs; transactional decision/finalize fence; exact bundle founder then lawyer",
+      "owners": [
+        "T04",
+        "T08",
+        "T09"
+      ],
+      "source_ids": [
+        "SEC-S04"
+      ]
+    },
+    {
+      "id": "TH-04",
+      "threat": "Prompt injection in documents, feedback or legal text",
+      "severity": "High",
+      "control": "tainted data envelopes; strict tool schemas; no arbitrary DB/network/shell; server authority; render escaping",
+      "owners": [
+        "T05",
+        "T06"
+      ],
+      "source_ids": [
+        "SEC-S02"
+      ]
+    },
+    {
+      "id": "TH-05",
+      "threat": "SSRF through direct URL, redirect, DNS rebinding or embedded resource",
+      "severity": "Critical",
+      "control": "registry destination; manual redirect validation; DNS and connect-time network check; no parser network",
+      "owners": [
+        "T05"
+      ],
+      "source_ids": [
+        "SEC-S03"
+      ]
+    },
+    {
+      "id": "TH-06",
+      "threat": "Source poisoning or forged law/provenance",
+      "severity": "High",
+      "control": "separate authoritative-source curator; immutable snapshots and dates/hash; authoritative URL metadata from fetch adapter; citation existence and content checks",
+      "owners": [
+        "T03",
+        "T05"
+      ],
+      "source_ids": [
+        "SEC-S02"
+      ]
+    },
+    {
+      "id": "TH-07",
+      "threat": "Lost context update or inference laundered as verified fact",
+      "severity": "High",
+      "control": "typed proposal; expected version CAS; append provenance; human attestation; unknown/conflicting state preserved",
+      "owners": [
+        "T04",
+        "T06"
+      ],
+      "source_ids": [
+        "SEC-S04"
+      ]
+    },
+    {
+      "id": "TH-08",
+      "threat": "Adaptive patch indirectly removes required evidence or approvals",
+      "severity": "Critical",
+      "control": "outside-model immutable kernel; strict typed allowlist and whole-candidate diff; frozen regression; CAS; no free-form prompts",
+      "owners": [
+        "T06",
+        "T07"
+      ],
+      "source_ids": [
+        "SEC-S01",
+        "SEC-S02"
+      ]
+    },
+    {
+      "id": "TH-09",
+      "threat": "PII/secrets in traces, legal search, screenshots or public repository",
+      "severity": "High",
+      "control": "synthetic fixtures; minimization before model/search/trace; metadata allowlist; secret exclusion and artifact review",
+      "owners": [
+        "T13",
+        "T14"
+      ],
+      "source_ids": [
+        "SEC-S07",
+        "SEC-S08"
+      ]
+    },
+    {
+      "id": "TH-10",
+      "threat": "HTML/Markdown injection executes or fetches exfiltration URL",
+      "severity": "High",
+      "control": "escaped clause text; no raw HTML; no remote images/scripts; sanitized links; CSP; authenticated asset handler",
+      "owners": [
+        "T08",
+        "T11"
+      ],
+      "source_ids": [
+        "SEC-S02",
+        "SEC-S10"
+      ]
+    },
+    {
+      "id": "TH-11",
+      "threat": "Malicious parser input or resource exhaustion",
+      "severity": "High",
+      "control": "format/size limits; sandboxed no-network parsing; deadline; no macros/external relationships; reject unsupported files",
+      "owners": [
+        "T05"
+      ],
+      "source_ids": [
+        "SEC-S10"
+      ]
+    },
+    {
+      "id": "TH-12",
+      "threat": "Email exfiltration, spoofed webhook, click-to-approve or duplicate delivery",
+      "severity": "High",
+      "control": "server recipient IDs; fixed links/template; webhook verification and dedupe; GET read only; provider state separate from workflow",
+      "owners": [
+        "T09",
+        "T10"
+      ],
+      "source_ids": [
+        "SEC-S01",
+        "SEC-S09"
+      ]
+    },
+    {
+      "id": "TH-13",
+      "threat": "Stale/replayed service event or expired worker commits",
+      "severity": "High",
+      "control": "producer authentication; timestamp/nonce or event key; idempotency payload hash; leases/fencing; state CAS",
+      "owners": [
+        "T09"
+      ],
+      "source_ids": [
+        "SEC-S04"
+      ]
+    },
+    {
+      "id": "TH-14",
+      "threat": "Role switcher or public demo becomes real authentication",
+      "severity": "Critical",
+      "control": "explicit simulation label; synthetic tenant; demo mode separated at server; production refuses demo principals/routes",
+      "owners": [
+        "T11",
+        "T14"
+      ],
+      "source_ids": [
+        "SEC-S01"
+      ]
+    },
+    {
+      "id": "TH-15",
+      "threat": "Public corpus/memory cross-contaminated with tenant content",
+      "severity": "Critical",
+      "control": "tenant-owned legal copies; separate authoritative-source writer; tenant-private notes/embeddings/cache/harness memory; no automatic cross-tenant learning",
+      "owners": [
+        "T04",
+        "T05",
+        "T07"
+      ],
+      "source_ids": [
+        "SEC-S05"
+      ]
+    },
+    {
+      "id": "TH-16",
+      "threat": "Security log erased or secret leaked during error handling",
+      "severity": "High",
+      "control": "append-only app audit; allowlist errors; sensitive write fails on audit transaction failure; external trace outage does not block",
+      "owners": [
+        "T09",
+        "T13"
+      ],
+      "source_ids": [
+        "SEC-S07"
+      ]
+    }
+  ]
+}

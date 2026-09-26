@@ -1,0 +1,146 @@
+{
+  "fixture_kind": "synthetic_payloads_captured_only_by_fake_transport",
+  "runs": [
+    {
+      "session_name": "kiara-demo-safe",
+      "id": "13000000-0000-4000-8000-000000000100",
+      "name": "kiara.run",
+      "run_type": "chain",
+      "start_time": "2026-09-26T16:00:00.000Z",
+      "end_time": "2026-09-26T16:02:31.000Z",
+      "inputs": {},
+      "outputs": {},
+      "extra": {
+        "metadata": {
+          "privacy_policy_version": "safe-metrics-v1",
+          "tenant_ref": "7009a4fc9df0220502826a046d94c803911eb6eabaa1cbf4057842f5a798bdc7",
+          "workflow_ref": "f35d4388d9136f365098f136e66d694c5f693cb7b8057368d3bb3ca06c66eec9",
+          "app_run_ref": "2b0ae54cc07452c5d7e2447c787c533847da46b3be5fce7a479aa8f3903bd149",
+          "flow_ref": "35c3fb4cc32bf038abda16c8440c64840249c78f51946e7a17cdbfef05d27ded",
+          "harness_ref": "6f906e92fce68a6d67ed589e7c096feda324761c0dde291e04344a7268414737",
+          "stage": "run",
+          "status": "succeeded",
+          "attempt_no": 1,
+          "usage_status": "not_applicable",
+          "export_kind": "sanitized_telemetry",
+          "synthetic": true
+        }
+      },
+      "tags": [
+        "kiara",
+        "synthetic",
+        "safe-metrics-v1"
+      ]
+    },
+    {
+      "session_name": "kiara-demo-safe",
+      "id": "13000000-0000-4000-8000-000000000101",
+      "name": "kiara.model_request",
+      "run_type": "llm",
+      "start_time": "2026-09-26T16:00:00.000Z",
+      "end_time": "2026-09-26T16:00:12.000Z",
+      "inputs": {},
+      "outputs": {},
+      "parent_run_id": "13000000-0000-4000-8000-000000000100",
+      "extra": {
+        "metadata": {
+          "privacy_policy_version": "safe-metrics-v1",
+          "tenant_ref": "7009a4fc9df0220502826a046d94c803911eb6eabaa1cbf4057842f5a798bdc7",
+          "workflow_ref": "f35d4388d9136f365098f136e66d694c5f693cb7b8057368d3bb3ca06c66eec9",
+          "app_run_ref": "2b0ae54cc07452c5d7e2447c787c533847da46b3be5fce7a479aa8f3903bd149",
+          "flow_ref": "35c3fb4cc32bf038abda16c8440c64840249c78f51946e7a17cdbfef05d27ded",
+          "harness_ref": "6f906e92fce68a6d67ed589e7c096feda324761c0dde291e04344a7268414737",
+          "stage": "model_request",
+          "status": "succeeded",
+          "attempt_no": 1,
+          "usage_status": "reported",
+          "export_kind": "sanitized_telemetry",
+          "synthetic": true,
+          "ls_provider": "openai",
+          "ls_model_name": "gpt-6-astra",
+          "usage_metadata": {
+            "input_tokens": 1200,
+            "output_tokens": 300,
+            "total_tokens": 1500,
+            "input_token_details": {
+              "cache_read": 0
+            },
+            "output_token_details": {
+              "reasoning": 100
+            }
+          }
+        }
+      },
+      "tags": [
+        "kiara",
+        "synthetic",
+        "safe-metrics-v1"
+      ]
+    },
+    {
+      "session_name": "kiara-demo-safe",
+      "id": "13000000-0000-4000-8000-000000000102",
+      "name": "kiara.model_request",
+      "run_type": "llm",
+      "start_time": "2026-09-26T16:01:00.000Z",
+      "end_time": "2026-09-26T16:02:30.000Z",
+      "inputs": {},
+      "outputs": {},
+      "parent_run_id": "13000000-0000-4000-8000-000000000100",
+      "error": "MODEL_TIMEOUT",
+      "extra": {
+        "metadata": {
+          "privacy_policy_version": "safe-metrics-v1",
+          "tenant_ref": "7009a4fc9df0220502826a046d94c803911eb6eabaa1cbf4057842f5a798bdc7",
+          "workflow_ref": "f35d4388d9136f365098f136e66d694c5f693cb7b8057368d3bb3ca06c66eec9",
+          "app_run_ref": "2b0ae54cc07452c5d7e2447c787c533847da46b3be5fce7a479aa8f3903bd149",
+          "flow_ref": "35c3fb4cc32bf038abda16c8440c64840249c78f51946e7a17cdbfef05d27ded",
+          "harness_ref": "6f906e92fce68a6d67ed589e7c096feda324761c0dde291e04344a7268414737",
+          "stage": "model_request",
+          "status": "failed",
+          "attempt_no": 1,
+          "usage_status": "unknown",
+          "export_kind": "sanitized_telemetry",
+          "synthetic": true,
+          "ls_provider": "openai",
+          "ls_model_name": "gpt-6-astra"
+        }
+      },
+      "tags": [
+        "kiara",
+        "synthetic",
+        "safe-metrics-v1"
+      ]
+    },
+    {
+      "id": "13000000-0000-4000-8000-000000000100",
+      "name": "kiara.run",
+      "run_type": "chain",
+      "start_time": "2026-09-26T16:00:00.000Z",
+      "end_time": "2026-09-26T16:02:31.000Z",
+      "inputs": {},
+      "outputs": {},
+      "extra": {
+        "metadata": {
+          "privacy_policy_version": "safe-metrics-v1",
+          "tenant_ref": "7009a4fc9df0220502826a046d94c803911eb6eabaa1cbf4057842f5a798bdc7",
+          "workflow_ref": "f35d4388d9136f365098f136e66d694c5f693cb7b8057368d3bb3ca06c66eec9",
+          "app_run_ref": "2b0ae54cc07452c5d7e2447c787c533847da46b3be5fce7a479aa8f3903bd149",
+          "flow_ref": "35c3fb4cc32bf038abda16c8440c64840249c78f51946e7a17cdbfef05d27ded",
+          "harness_ref": "6f906e92fce68a6d67ed589e7c096feda324761c0dde291e04344a7268414737",
+          "stage": "run",
+          "status": "succeeded",
+          "attempt_no": 1,
+          "usage_status": "not_applicable",
+          "export_kind": "sanitized_telemetry",
+          "synthetic": true
+        }
+      },
+      "tags": [
+        "kiara",
+        "synthetic",
+        "safe-metrics-v1"
+      ]
+    }
+  ]
+}

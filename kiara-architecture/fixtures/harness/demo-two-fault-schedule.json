@@ -1,0 +1,45 @@
+{
+  "status": "planned_not_executed",
+  "total_repair_cap": 2,
+  "first_failure": {
+    "failure_code": "APPLICABILITY_BUNDLE_MISSING",
+    "subject_kind": "context_readiness",
+    "validation_stage": "retrieval_preflight",
+    "repair_attempt": 1,
+    "model_repair_calls": 0,
+    "causes_candidate_id": "d00c5665-89ba-5e76-b916-ec05672e55bd"
+  },
+  "second_failure": {
+    "failure_code": "CITATION_SPAN_MISMATCH",
+    "subject_kind": "proposal",
+    "validation_stage": "proposal",
+    "repair_attempt": 2,
+    "model_repair_calls": 1,
+    "demo_seeded_fault": true,
+    "causes_candidate_id": null,
+    "utf16_expected_fixture_owner": "T08"
+  },
+  "model_schedule": {
+    "assessment": 3,
+    "draft": 1,
+    "output_repair": 1,
+    "semantic_review": 2,
+    "total_logical_calls": 7,
+    "input_ceiling_tokens": 104000,
+    "output_ceiling_tokens": 18000,
+    "worst_logical_cap": 9,
+    "physical_attempt_cap": 12
+  },
+  "semantic_preconditions": [
+    "closed schema and authorized tenant",
+    "complete required evidence independently resolved",
+    "recoverable bad anchor never authorizes pass",
+    "unsafe or unreadable input fails fast"
+  ],
+  "measured_harness_metric_only": "missing_bundle_repairs",
+  "expected_metric": {
+    "baseline": 1,
+    "candidate": 0
+  },
+  "actual_results": null
+}

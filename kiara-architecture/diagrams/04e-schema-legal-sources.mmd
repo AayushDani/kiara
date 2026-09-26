@@ -1,0 +1,17 @@
+---
+title: Logical ER — dated source provisions (T04 mapping provisional)
+---
+erDiagram
+  direction LR
+  ASSESSMENT }o--o{ LEGAL_PROVISION : R11_supports
+  LEGAL_SOURCE_VERSION ||--|{ LEGAL_PROVISION : R12_contains
+  ASSESSMENT { string id PK
+    string workflow_id FK
+    string outcome }
+  LEGAL_SOURCE_VERSION { string id PK
+    string authoritative_url
+    string effective_at
+    string content_hash }
+  LEGAL_PROVISION { string id PK
+    string source_version_id FK
+    string citation_locator }

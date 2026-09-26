@@ -1,0 +1,39 @@
+[
+  {
+    "_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "name": "Rippit-inspired DemoCo (fictional)",
+    "fictional_demo": true,
+    "scenario_date": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "company_profile": {
+      "legal_name": "DemoCo (fictional)",
+      "description": "Synthetic NYC music discovery/community company for architecture fixtures.",
+      "known_customer_regions": [
+        "NY"
+      ]
+    },
+    "context_head_id": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+    "context_epoch": 1,
+    "harness_head_id": "e084aa8e-40c1-5c94-abac-a701cb08022b",
+    "harness_epoch": 2,
+    "reset_epoch": 1,
+    "state_version": 2,
+    "material_context_epoch": 1,
+    "material_evidence_epoch": 1,
+    "review_fence": 3,
+    "policy_epoch": 1,
+    "active_source_version_ids": [
+      "a9ca10a1-7b79-585a-aade-7768033f21c7",
+      "98a9f500-1333-5897-82e0-4d870f9aa15f",
+      "23513bed-4516-56ad-ab38-84fab4936de3"
+    ],
+    "maintenance_state": "ready",
+    "active_source_recheck_attestation_ids": []
+  }
+]

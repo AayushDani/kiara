@@ -1,0 +1,540 @@
+[
+  {
+    "provisionId": "prov_ccpa_business",
+    "sourceId": "src_ca_ccpa_statute_20260101",
+    "locator": "Civ. Code §1798.140(d)(1)-(4)",
+    "pdfPages1Based": [
+      20,
+      21
+    ],
+    "url": "https://cppa.ca.gov/pdf/20260101_ccpa_statute.pdf#page=20",
+    "sourceSha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Business definition, three alternative thresholds, related entity/JV/voluntary certification routes",
+    "evidenceTextFile": "evidence/prov_ccpa_business.txt"
+  },
+  {
+    "provisionId": "prov_ccpa_consumer",
+    "sourceId": "src_ca_ccpa_statute_20260101",
+    "locator": "Civ. Code §1798.140(i)",
+    "pdfPages1Based": [
+      22
+    ],
+    "url": "https://cppa.ca.gov/pdf/20260101_ccpa_statute.pdf#page=22",
+    "sourceSha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Consumer is a natural person with California residency; cross-reference freezes 18 CCR 17014 as of Sep 1 2017",
+    "evidenceTextFile": "evidence/prov_ccpa_consumer.txt"
+  },
+  {
+    "provisionId": "prov_ccpa_pi",
+    "sourceId": "src_ca_ccpa_statute_20260101",
+    "locator": "Civ. Code §1798.140(v)(1)-(4), (w)",
+    "pdfPages1Based": [
+      25,
+      26
+    ],
+    "url": "https://cppa.ca.gov/pdf/20260101_ccpa_statute.pdf#page=25",
+    "sourceSha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Personal information categories, exclusions, and device-derived precise-geolocation definition",
+    "evidenceTextFile": "evidence/prov_ccpa_pi.txt"
+  },
+  {
+    "provisionId": "prov_ccpa_sensitive",
+    "sourceId": "src_ca_ccpa_statute_20260101",
+    "locator": "Civ. Code §1798.140(ae)",
+    "pdfPages1Based": [
+      29
+    ],
+    "url": "https://cppa.ca.gov/pdf/20260101_ccpa_statute.pdf#page=29",
+    "sourceSha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Sensitive information includes account login combined with credentials",
+    "evidenceTextFile": "evidence/prov_ccpa_sensitive.txt"
+  },
+  {
+    "provisionId": "prov_ccpa_sale_share",
+    "sourceId": "src_ca_ccpa_statute_20260101",
+    "locator": "Civ. Code §1798.140(ad), (ah)",
+    "pdfPages1Based": [
+      28,
+      29,
+      30,
+      31
+    ],
+    "url": "https://cppa.ca.gov/pdf/20260101_ccpa_statute.pdf#page=28",
+    "sourceSha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Sale involves monetary or other valuable consideration; sharing concerns cross-context behavioral advertising",
+    "evidenceTextFile": "evidence/prov_ccpa_sale_share.txt"
+  },
+  {
+    "provisionId": "prov_ccpa_exemptions",
+    "sourceId": "src_ca_ccpa_statute_20260101",
+    "locator": "Civ. Code §§1798.145(a)-(r), 1798.146",
+    "pdfPages1Based": [
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44
+    ],
+    "url": "https://cppa.ca.gov/pdf/20260101_ccpa_statute.pdf#page=32",
+    "sourceSha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Scope-specific exemptions/exceptions; employment and B2B provisions state inoperative January 1 2023",
+    "evidenceTextFile": "evidence/prov_ccpa_exemptions.txt"
+  },
+  {
+    "provisionId": "prov_ccpa_cpi_authority",
+    "sourceId": "src_ca_ccpa_statute_20260101",
+    "locator": "Civ. Code §1798.199.95(d)",
+    "pdfPages1Based": [
+      66
+    ],
+    "url": "https://cppa.ca.gov/pdf/20260101_ccpa_statute.pdf#page=66",
+    "sourceSha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Adjustment on Jan 1 2025 and odd-numbered years; posting by Jan 15",
+    "evidenceTextFile": "evidence/prov_ccpa_cpi_authority.txt"
+  },
+  {
+    "provisionId": "prov_ccpa_cpi",
+    "sourceId": "src_ca_ccpa_cpi_20250101",
+    "locator": "Table row: Civil Code §1798.140(d)(1)(A)",
+    "pdfPages1Based": [],
+    "url": "https://cppa.ca.gov/regulations/cpi_adjustment.html",
+    "sourceSha256": "ea9fd8d88b36a88370b236b4271d13b122bc55289520da7a050d3b7d656c6d5f",
+    "effectiveFrom": "2025-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Annual gross revenue threshold $26,625,000 effective Jan 1 2025"
+  },
+  {
+    "provisionId": "prov_ccpa_policy",
+    "sourceId": "src_ca_ccpa_statute_20260101",
+    "locator": "Civ. Code §1798.130(a)(5), (c)",
+    "pdfPages1Based": [
+      14,
+      15
+    ],
+    "url": "https://cppa.ca.gov/pdf/20260101_ccpa_statute.pdf#page=14",
+    "sourceSha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Policy rights, methods, category/source/purpose/disclosure lists, annual update",
+    "evidenceTextFile": "evidence/prov_ccpa_policy.txt"
+  },
+  {
+    "provisionId": "prov_regs_policy",
+    "sourceId": "src_ca_ccpa_regs_20260101",
+    "locator": "11 CCR §7011(a)-(e)",
+    "pdfPages1Based": [
+      21,
+      22,
+      23,
+      24
+    ],
+    "url": "https://cppa.ca.gov/regulations/pdf/ccpa_statute_eff_20260101.pdf#page=21",
+    "sourceSha256": "8d57eba97a7fe13346b7827d0131e1ab84dc110c6ff20daa6fa6ec4a4329d0fe",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Policy content, format, access, contact, date and conditional disclosures",
+    "evidenceTextFile": "evidence/prov_regs_policy.txt"
+  },
+  {
+    "provisionId": "prov_ccpa_notice",
+    "sourceId": "src_ca_ccpa_statute_20260101",
+    "locator": "Civ. Code §1798.100(a)-(e)",
+    "pdfPages1Based": [
+      3,
+      4
+    ],
+    "url": "https://cppa.ca.gov/pdf/20260101_ccpa_statute.pdf#page=3",
+    "sourceSha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "At/before-collection notice, retention, minimization, recipient agreements and security",
+    "evidenceTextFile": "evidence/prov_ccpa_notice.txt"
+  },
+  {
+    "provisionId": "prov_regs_notice",
+    "sourceId": "src_ca_ccpa_regs_20260101",
+    "locator": "11 CCR §7012(a)-(g)",
+    "pdfPages1Based": [
+      24,
+      25,
+      26,
+      27
+    ],
+    "url": "https://cppa.ca.gov/regulations/pdf/ccpa_statute_eff_20260101.pdf#page=24",
+    "sourceSha256": "8d57eba97a7fe13346b7827d0131e1ab84dc110c6ff20daa6fa6ec4a4329d0fe",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Notice timing, content, direct link to relevant policy section; absent timely notice do not collect",
+    "evidenceTextFile": "evidence/prov_regs_notice.txt"
+  },
+  {
+    "provisionId": "prov_ccpa_rights",
+    "sourceId": "src_ca_ccpa_statute_20260101",
+    "locator": "Civ. Code §§1798.105(a)-(d), 1798.106, 1798.110, 1798.115, 1798.125",
+    "pdfPages1Based": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      10,
+      11
+    ],
+    "url": "https://cppa.ca.gov/pdf/20260101_ccpa_statute.pdf#page=4",
+    "sourceSha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Deletion subject to exceptions, correction, knowing/access/disclosure, nonretaliation",
+    "evidenceTextFile": "evidence/prov_ccpa_rights.txt"
+  },
+  {
+    "provisionId": "prov_ccpa_request_methods",
+    "sourceId": "src_ca_ccpa_statute_20260101",
+    "locator": "Civ. Code §1798.130(a)(1)-(2)",
+    "pdfPages1Based": [
+      11,
+      12
+    ],
+    "url": "https://cppa.ca.gov/pdf/20260101_ccpa_statute.pdf#page=11",
+    "sourceSha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Designated request methods and online-direct relationship exception; response timing",
+    "evidenceTextFile": "evidence/prov_ccpa_request_methods.txt"
+  },
+  {
+    "provisionId": "prov_regs_request_methods",
+    "sourceId": "src_ca_ccpa_regs_20260101",
+    "locator": "11 CCR §§7020, 7021, 7060-7063",
+    "pdfPages1Based": [
+      34,
+      35,
+      64,
+      65,
+      66,
+      67,
+      68
+    ],
+    "url": "https://cppa.ca.gov/regulations/pdf/ccpa_statute_eff_20260101.pdf#page=34",
+    "sourceSha256": "8d57eba97a7fe13346b7827d0131e1ab84dc110c6ff20daa6fa6ec4a4329d0fe",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Request methods, 10-business-day acknowledgment, 45-calendar-day response, verification and authorized agents",
+    "evidenceTextFile": "evidence/prov_regs_request_methods.txt"
+  },
+  {
+    "provisionId": "prov_ccpa_optout",
+    "sourceId": "src_ca_ccpa_statute_20260101",
+    "locator": "Civ. Code §§1798.120, 1798.135(a)-(c)",
+    "pdfPages1Based": [
+      8,
+      9,
+      15,
+      16,
+      17
+    ],
+    "url": "https://cppa.ca.gov/pdf/20260101_ccpa_statute.pdf#page=8",
+    "sourceSha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Sale/share opt-out, links and conditional under-16 opt-in",
+    "evidenceTextFile": "evidence/prov_ccpa_optout.txt"
+  },
+  {
+    "provisionId": "prov_regs_optout",
+    "sourceId": "src_ca_ccpa_regs_20260101",
+    "locator": "11 CCR §§7013, 7025, 7026",
+    "pdfPages1Based": [
+      27,
+      28,
+      29,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53
+    ],
+    "url": "https://cppa.ca.gov/regulations/pdf/ccpa_statute_eff_20260101.pdf#page=27",
+    "sourceSha256": "8d57eba97a7fe13346b7827d0131e1ab84dc110c6ff20daa6fa6ec4a4329d0fe",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Sale/share notices, preference signals and request handling",
+    "evidenceTextFile": "evidence/prov_regs_optout.txt"
+  },
+  {
+    "provisionId": "prov_ccpa_limit",
+    "sourceId": "src_ca_ccpa_statute_20260101",
+    "locator": "Civ. Code §1798.121",
+    "pdfPages1Based": [
+      9,
+      10
+    ],
+    "url": "https://cppa.ca.gov/pdf/20260101_ccpa_statute.pdf#page=9",
+    "sourceSha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Limit right depends on sensitive-data purposes",
+    "evidenceTextFile": "evidence/prov_ccpa_limit.txt"
+  },
+  {
+    "provisionId": "prov_regs_limit",
+    "sourceId": "src_ca_ccpa_regs_20260101",
+    "locator": "11 CCR §7027(m)(1)-(8)",
+    "pdfPages1Based": [
+      55,
+      56,
+      57
+    ],
+    "url": "https://cppa.ca.gov/regulations/pdf/ccpa_statute_eff_20260101.pdf#page=55",
+    "sourceSha256": "8d57eba97a7fe13346b7827d0131e1ab84dc110c6ff20daa6fa6ec4a4329d0fe",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Permitted sensitive-information purposes where limit notice/method is not required",
+    "evidenceTextFile": "evidence/prov_regs_limit.txt"
+  },
+  {
+    "provisionId": "prov_regs_presentation",
+    "sourceId": "src_ca_ccpa_regs_20260101",
+    "locator": "11 CCR §§7003, 7004",
+    "pdfPages1Based": [
+      16,
+      17,
+      18,
+      19,
+      20
+    ],
+    "url": "https://cppa.ca.gov/regulations/pdf/ccpa_statute_eff_20260101.pdf#page=16",
+    "sourceSha256": "8d57eba97a7fe13346b7827d0131e1ab84dc110c6ff20daa6fa6ec4a4329d0fe",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Plain understandable accessible notices and usable nondark-pattern rights methods",
+    "evidenceTextFile": "evidence/prov_regs_presentation.txt"
+  },
+  {
+    "provisionId": "prov_regs_records",
+    "sourceId": "src_ca_ccpa_regs_20260101",
+    "locator": "11 CCR §§7100-7102",
+    "pdfPages1Based": [
+      72,
+      73,
+      74
+    ],
+    "url": "https://cppa.ca.gov/regulations/pdf/ccpa_statute_eff_20260101.pdf#page=72",
+    "sourceSha256": "8d57eba97a7fe13346b7827d0131e1ab84dc110c6ff20daa6fa6ec4a4329d0fe",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Training, 24-month request records, conditional 10m-consumer annual reporting",
+    "evidenceTextFile": "evidence/prov_regs_records.txt"
+  },
+  {
+    "provisionId": "prov_regs_audit",
+    "sourceId": "src_ca_ccpa_regs_20260101",
+    "locator": "11 CCR §§7120-7121",
+    "pdfPages1Based": [
+      74,
+      75
+    ],
+    "url": "https://cppa.ca.gov/regulations/pdf/ccpa_statute_eff_20260101.pdf#page=74",
+    "sourceSha256": "8d57eba97a7fe13346b7827d0131e1ab84dc110c6ff20daa6fa6ec4a4329d0fe",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Audit applicability conditions and first audit reports due 2028/2029/2030 depending revenue bands",
+    "evidenceTextFile": "evidence/prov_regs_audit.txt"
+  },
+  {
+    "provisionId": "prov_regs_risk",
+    "sourceId": "src_ca_ccpa_regs_20260101",
+    "locator": "11 CCR §§7150(a)-(b), 7155(b)-(c), 7157(a)",
+    "pdfPages1Based": [
+      83,
+      84,
+      89,
+      90
+    ],
+    "url": "https://cppa.ca.gov/regulations/pdf/ccpa_statute_eff_20260101.pdf#page=83",
+    "sourceSha256": "8d57eba97a7fe13346b7827d0131e1ab84dc110c6ff20daa6fa6ec4a4329d0fe",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Risk assessment before new specified processing; legacy processing deadline Dec 31 2027; 2026/27 submission Apr 1 2028",
+    "evidenceTextFile": "evidence/prov_regs_risk.txt"
+  },
+  {
+    "provisionId": "prov_regs_admt",
+    "sourceId": "src_ca_ccpa_regs_20260101",
+    "locator": "11 CCR §§7001(e), (ddd), 7200",
+    "pdfPages1Based": [
+      4,
+      5,
+      11,
+      12,
+      91
+    ],
+    "url": "https://cppa.ca.gov/regulations/pdf/ccpa_statute_eff_20260101.pdf#page=4",
+    "sourceSha256": "8d57eba97a7fe13346b7827d0131e1ab84dc110c6ff20daa6fa6ec4a4329d0fe",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "ADMT significant decisions and Jan 1 2027 compliance boundary",
+    "complianceFrom": "2027-01-01",
+    "evidenceTextFile": "evidence/prov_regs_admt.txt"
+  },
+  {
+    "provisionId": "prov_regs_sensitive",
+    "sourceId": "src_ca_ccpa_regs_20260101",
+    "locator": "11 CCR §7001(bbb)",
+    "pdfPages1Based": [
+      10,
+      11
+    ],
+    "url": "https://cppa.ca.gov/regulations/pdf/ccpa_statute_eff_20260101.pdf#page=10",
+    "sourceSha256": "8d57eba97a7fe13346b7827d0131e1ab84dc110c6ff20daa6fa6ec4a4329d0fe",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Regulatory sensitive definition also includes known-under-16 consumers personal information",
+    "evidenceTextFile": "evidence/prov_regs_sensitive.txt"
+  },
+  {
+    "provisionId": "prov_ccpa_browser_future",
+    "sourceId": "src_ca_ccpa_statute_20260101",
+    "locator": "Civ. Code §1798.136(f)",
+    "pdfPages1Based": [
+      19
+    ],
+    "url": "https://cppa.ca.gov/pdf/20260101_ccpa_statute.pdf#page=19",
+    "sourceSha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Browser signal-configuration duty operative Jan 1 2027, not Sep 2026",
+    "operativeFrom": "2027-01-01",
+    "evidenceTextFile": "evidence/prov_ccpa_browser_future.txt"
+  },
+  {
+    "provisionId": "prov_caloppa_policy",
+    "sourceId": "src_ca_caloppa_22575",
+    "locator": "Bus. & Prof. Code §22575(a)-(b)",
+    "pdfPages1Based": [],
+    "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=BPC&sectionNum=22575.",
+    "sourceSha256": null,
+    "effectiveFrom": "2014-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Independent commercial-site disclosure rule without CCPA revenue threshold"
+  },
+  {
+    "provisionId": "prov_ccpa_exemption_outside",
+    "sourceId": "src_ca_ccpa_statute_20260101",
+    "locator": "Civ. Code §1798.145(a)(1)(G)",
+    "pdfPages1Based": [
+      33
+    ],
+    "url": "https://cppa.ca.gov/pdf/20260101_ccpa_statute.pdf#page=33",
+    "sourceSha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Wholly-outside-California commercial-conduct exception is not established by an out-of-state company address",
+    "evidenceTextFile": "evidence/prov_ccpa_exemption_outside.txt"
+  },
+  {
+    "provisionId": "prov_ccpa_exemption_health",
+    "sourceId": "src_ca_ccpa_statute_20260101",
+    "locator": "Civ. Code §1798.145(c), §1798.146(a)-(b)",
+    "pdfPages1Based": [
+      34,
+      35,
+      42,
+      43,
+      44
+    ],
+    "url": "https://cppa.ca.gov/pdf/20260101_ccpa_statute.pdf#page=34",
+    "sourceSha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Specified medical, patient and research information; not a blanket exemption for every datum held by a healthcare company",
+    "evidenceTextFile": "evidence/prov_ccpa_exemption_health.txt"
+  },
+  {
+    "provisionId": "prov_ccpa_exemption_financial",
+    "sourceId": "src_ca_ccpa_statute_20260101",
+    "locator": "Civ. Code §1798.145(d)-(f)",
+    "pdfPages1Based": [
+      35
+    ],
+    "url": "https://cppa.ca.gov/pdf/20260101_ccpa_statute.pdf#page=35",
+    "sourceSha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "FCRA-activity, GLBA/CFIPA/Farm Credit and DPPA information exemptions, with section1798.150 carveouts",
+    "evidenceTextFile": "evidence/prov_ccpa_exemption_financial.txt"
+  },
+  {
+    "provisionId": "prov_ccpa_exemption_expired",
+    "sourceId": "src_ca_ccpa_statute_20260101",
+    "locator": "Civ. Code §1798.145(m)(4), (n)(3)",
+    "pdfPages1Based": [
+      39,
+      40
+    ],
+    "url": "https://cppa.ca.gov/pdf/20260101_ccpa_statute.pdf#page=39",
+    "sourceSha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Employment and B2B exemptions inoperative Jan 1 2023",
+    "evidenceTextFile": "evidence/prov_ccpa_exemption_expired.txt"
+  },
+  {
+    "provisionId": "prov_ccpa_public_deidentified",
+    "sourceId": "src_ca_ccpa_statute_20260101",
+    "locator": "Civ. Code §1798.140(v)(2)-(3), §1798.145(a)(1)(F)",
+    "pdfPages1Based": [
+      26,
+      33
+    ],
+    "url": "https://cppa.ca.gov/pdf/20260101_ccpa_statute.pdf#page=26",
+    "sourceSha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Public/deidentified exclusions are conditioned definitions, not a blanket public-profile exclusion",
+    "evidenceTextFile": "evidence/prov_ccpa_public_deidentified.txt"
+  },
+  {
+    "provisionId": "prov_ccpa_service_provider",
+    "sourceId": "src_ca_ccpa_statute_20260101",
+    "locator": "Civ. Code §1798.140(ag), (ai), §1798.145(i)(1)",
+    "pdfPages1Based": [
+      30,
+      31,
+      37
+    ],
+    "url": "https://cppa.ca.gov/pdf/20260101_ccpa_statute.pdf#page=30",
+    "sourceSha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+    "effectiveFrom": "2026-01-01",
+    "asOf": "2026-09-26",
+    "summary": "Contract/purpose-specific service provider role and limited liability, not a generic exemption from own obligations",
+    "evidenceTextFile": "evidence/prov_ccpa_service_provider.txt"
+  }
+]

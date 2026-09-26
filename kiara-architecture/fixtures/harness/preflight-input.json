@@ -1,0 +1,12 @@
+{
+  "tenant_id": "4c2d1e3c-2b27-5a6d-a21d-4123ac46acb1",
+  "reset_epoch": 1,
+  "event_id": "a5732175-8dc9-53e9-b4bd-a19cc2e954b5",
+  "context_version_id": "f618ad77-bcfb-5d8b-9cd3-40f0c58acf4b",
+  "harness_version_id": "f3e7266f-0111-5ece-b7e7-322863eae195",
+  "required_bundle_keys": [
+    "declared_ca_resident_ccpa_bundle",
+    "declared_ca_resident_company_facts"
+  ],
+  "retrieved_bundle_keys": []
+}

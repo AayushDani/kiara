@@ -1,0 +1,42 @@
+---
+title: Separate current-output repair from persisted future-run improvement
+---
+flowchart TB
+  subgraph NOW["Current run — pinned harness H1 and frozen corpus"]
+    A01["C09 · Context readiness fails<br/>V03 APPLICABILITY_BUNDLE_MISSING<br/>before assessment / draft"]
+    A02["C08 · Bounded current-run repair<br/>select same pinned CA facts / law<br/>recheck, then assess / draft"]
+    A03["C06 · needs_human_review<br/>after two failed repairs"]
+    A01 -->|"D13 S · repair budget remains"| A02
+    A02 -->|"validation.failed · cap reached"| A03
+  end
+  subgraph FUTURE["Future runs — candidate is not active config"]
+    A04["C10 · Attributed founder / lawyer feedback<br/>fact, text, law note or harness proposal"]
+    A05["C11 · Structured diagnosis<br/>link failure and reviewed feedback"]
+    A06["C11 · Immutable candidate H2<br/>prefetch CA bundle + company facts<br/>two false → true flags"]
+    A07{"C11 · Protected-path check<br/>fixed rules outside model"}
+    A08["C11 · Frozen regression evaluation<br/>same facts, corpus, model and evaluator"]
+    A09{"C11 · Passing gates?<br/>allowlisted automatic change?"}
+    A10["Authorized human configuration review<br/>for permitted nonautomatic change"]
+    A11["Rejected candidate<br/>retain H1 and reason"]
+    A12["C12 · Atomic champion pointer<br/>version + generation compare-and-set"]
+    A13["C08 · Later event pins H2<br/>same corpus; prefetch before readiness<br/>measure missing_bundle_repairs<br/>1 → 0 only if observed"]
+    A14["C11 · Regression monitor / rollback<br/>CAS back to prior known-good version"]
+    A04 -.->|"D24 A · harness feedback only"| A05
+    A05 -->|"K-EVAL-03 S"| A06
+    A06 -->|"internal · exact allowlist"| A07
+    A07 -->|"protected change · reject"| A11
+    A07 -->|"allowed candidate"| A08
+    A08 -->|"K-EVAL-04 · frozen comparison"| A09
+    A09 -->|"failure / regression"| A11
+    A09 ==>|"H · human route"| A10
+    A10 -->|"approved allowed change"| A12
+    A09 -->|"K-EVAL-05 · allowlist + pass"| A12
+    A12 ==>|"K-EVAL-07 D · next run only"| A13
+    A13 -->|"internal · quality regression"| A14
+    A14 ==>|"K-EVAL-06 D · restore prior version"| A12
+  end
+  A01 -.->|"D23 A · diagnosis input"| A05
+  classDef decision fill:#fff1cc,stroke:#806521,color:#30290c;
+  classDef durable fill:#e3f2ea,stroke:#256b49,color:#143424;
+  class A07,A09,A10 decision;
+  class A12,A13,A14 durable;

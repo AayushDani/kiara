@@ -1,0 +1,68 @@
+{
+  "schema_version": "kiara.document_revision.v1",
+  "_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+  "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+  "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+  "document_id": "eaaa8632-ac8b-5e3a-a030-1b9c5719473a",
+  "revision_number": 1,
+  "parent_revision_id": null,
+  "base_revision_id": null,
+  "language": "en-US",
+  "title": "Rippit-inspired DemoCo (fictional) — Privacy Policy",
+  "policy_updated_on": "2026-09-01",
+  "clauses": [
+    {
+      "clause_id": "2f950064-c9b1-5aa9-bc66-ffa199f1cfa2",
+      "heading": "About this policy",
+      "body": "Rippit-inspired DemoCo (fictional) operates an online music discovery service for adults. This policy explains how we handle information when you create an account, discover events, read reviews, save favorites, or contact us."
+    },
+    {
+      "clause_id": "dcac8a94-e1b2-59ec-84c1-7400e5230938",
+      "heading": "Information we collect",
+      "body": "We collect your name, email, account credentials, postal address, declared state of residence and saved events. We also collect device identifiers, approximate location and activity on our website."
+    },
+    {
+      "clause_id": "4c79b519-e7d5-5182-a92d-e20124237e0d",
+      "heading": "How we use information",
+      "body": "We use information to provide accounts, recommend local events, respond to support requests, and keep the service secure."
+    },
+    {
+      "clause_id": "016bb052-b08f-5208-884b-3343949680f1",
+      "heading": "How we disclose information",
+      "body": "We use providers to host the service, deliver email and help us understand first-party activity. We do not sell personal information."
+    },
+    {
+      "clause_id": "9689ef85-b969-51cd-8dcc-b423dacbc9ed",
+      "heading": "How long we keep information",
+      "body": "We keep information for as long as we need it to provide our service and meet our obligations."
+    },
+    {
+      "clause_id": "8e2e31f5-41ad-56ae-908f-25f208bfc08b",
+      "heading": "Your choices",
+      "body": "You can edit your profile, remove saved events and unsubscribe from promotional email in account settings. Contact support if you want to close your account."
+    },
+    {
+      "clause_id": "730e1692-f5e1-5960-aa7c-65f297fd36c5",
+      "heading": "Security",
+      "body": "We use access controls and other safeguards to protect information. No online service can guarantee complete security."
+    },
+    {
+      "clause_id": "b7239933-2f36-5fe1-833b-619f1b3b855d",
+      "heading": "Age restriction",
+      "body": "Our service is intended for adults aged 18 and older."
+    },
+    {
+      "clause_id": "de59121d-08a5-5e6b-a801-c2899e8ebcb0",
+      "heading": "Policy updates",
+      "body": "We may update this policy as our service changes. We will post the updated policy here."
+    },
+    {
+      "clause_id": "06aee531-095d-531b-bb20-4afc8ceba2e2",
+      "heading": "Contact",
+      "body": "For privacy questions, contact privacy@democo.example."
+    }
+  ],
+  "created_at": "2026-09-26T16:00:00Z",
+  "synthetic": true,
+  "content_hash": "0b5a8befd488d45268fce251b85765110c251fae3c1202ae5ed8683da307e2f7"
+}

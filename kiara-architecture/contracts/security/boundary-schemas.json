@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:kiara:t12:security-boundaries:1",
+  "$defs": {
+    "human_decision_body": {
+      "$ref": "https://kiara.example/contracts/K-REVIEW-002"
+    },
+    "context_proposal_tool_args": {
+      "$ref": "urn:kiara:runtime-contracts:0.1.0#/$defs/ProposeCompanyContextUpdateInput"
+    }
+  },
+  "semantic_validation": "T06 exact input adopted. Parse proposed_value_json as data, reject duplicate/prototype/operator keys and malformed/oversized JSON, validate decoded value using fact_key-specific T04 registry; no direct database operators. Provenance refs are same-tenant or explicitly registered legal-source refs. An absent fact remains unknown; it is not false. Expected context revision and human verification are deterministic service checks.",
+  "adopted_contracts": {
+    "https://kiara.example/contracts/K-REVIEW-002": {
+      "local_path": "../T09/review-command.schema.json",
+      "contract_id": "K-REVIEW-002",
+      "ownership": "T09 canonical; resolve through local schema registry; never fetch synthetic kiara.example host"
+    },
+    "urn:kiara:runtime-contracts:0.1.0": {
+      "local_path": "../T06/runtime-contracts.schema.json",
+      "contract_id": "K-RUN-TOOLS-001",
+      "ownership": "T06 canonical; register local schema by $id"
+    }
+  }
+}

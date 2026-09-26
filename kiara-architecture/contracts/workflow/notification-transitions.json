@@ -1,0 +1,145 @@
+{
+  "contract_id": "K-NOTIFY-002",
+  "version": "1.0",
+  "transitions": [
+    {
+      "from": [
+        "pending"
+      ],
+      "cause": "render_preview",
+      "to": "previewed",
+      "owner": "notification_worker",
+      "guard": "mode_preview; no provider call"
+    },
+    {
+      "from": [
+        "pending",
+        "retry_wait"
+      ],
+      "cause": "claim_send",
+      "to": "sending",
+      "owner": "notification_worker",
+      "guard": "live_mode; due; first_attempt_before_deadline; lease_fenced; review_bundle_still_active_if_review_request"
+    },
+    {
+      "from": [
+        "sending"
+      ],
+      "cause": "provider_accepts",
+      "to": "sent",
+      "owner": "notification_worker",
+      "guard": "matching_lease; store_provider_message_id"
+    },
+    {
+      "from": [
+        "sending"
+      ],
+      "cause": "transient_failure",
+      "to": "retry_wait",
+      "owner": "notification_worker",
+      "guard": "max_5_attempts; next_attempt_before_first_attempt_plus_23h"
+    },
+    {
+      "from": [
+        "sending"
+      ],
+      "cause": "lease_expired_after_crash",
+      "to": "unknown_delivery",
+      "owner": "reconciler",
+      "guard": "first_attempt_persisted; provider_acceptance_unknown"
+    },
+    {
+      "from": [
+        "sending"
+      ],
+      "cause": "ambiguous_timeout",
+      "to": "unknown_delivery",
+      "owner": "notification_worker",
+      "guard": "keep_payload_and_key_immutable"
+    },
+    {
+      "from": [
+        "unknown_delivery"
+      ],
+      "cause": "safe_idempotent_replay",
+      "to": "retry_wait",
+      "owner": "notification_worker",
+      "guard": "first_attempt_plus_23h_not_elapsed; same_key_and_exact_payload; no_canceled_or_obsolete_request"
+    },
+    {
+      "from": [
+        "pending",
+        "sending",
+        "retry_wait",
+        "unknown_delivery"
+      ],
+      "cause": "permanent_failure_or_retry_exhausted",
+      "to": "failed",
+      "owner": "notification_worker",
+      "guard": "permanent_error OR known_not_accepted_and_retries_exhausted; unknown_acceptance_stays_unknown_delivery"
+    },
+    {
+      "from": [
+        "sent",
+        "sending",
+        "unknown_delivery",
+        "retry_wait"
+      ],
+      "cause": "verified_provider_delivery",
+      "to": "delivered",
+      "owner": "webhook_handler_or_reconciler",
+      "guard": "known_message_or_signed_tag_binding; provider_event_deduped"
+    },
+    {
+      "from": [
+        "sent",
+        "sending",
+        "unknown_delivery",
+        "retry_wait",
+        "delivered"
+      ],
+      "cause": "verified_provider_bounce",
+      "to": "bounced",
+      "owner": "webhook_handler_or_reconciler",
+      "guard": "known_message_or_signed_tag_binding; record_provider_occurrence_time"
+    },
+    {
+      "from": [
+        "sent",
+        "sending",
+        "unknown_delivery",
+        "retry_wait"
+      ],
+      "cause": "verified_provider_failure",
+      "to": "failed",
+      "owner": "webhook_handler_or_reconciler",
+      "guard": "known_message_or_signed_tag_binding"
+    },
+    {
+      "from": [
+        "pending",
+        "retry_wait"
+      ],
+      "cause": "bundle_superseded_or_explicit_cancel",
+      "to": "canceled",
+      "owner": "workflow_service",
+      "guard": "no_current_send_lease; suppress_future_delivery"
+    },
+    {
+      "from": [
+        "unknown_delivery"
+      ],
+      "cause": "window_expired_without_provider_id",
+      "to": "unknown_delivery",
+      "owner": "reconciler",
+      "guard": "manual_action_required; never_blind_resend"
+    }
+  ],
+  "notes": [
+    "Webhook receipts remain immutable even when no projection transition is allowed.",
+    "Delivered means recipient mail server accepted, not viewed or approved.",
+    "Out-of-order email.sent never downgrades delivered/bounced/failed. Delayed events only add telemetry.",
+    "For conflicting delivered/bounced/failed outcomes use provider occurred_at; tie precedence bounced > failed > delivered > sent. Earlier outcomes remain in audit history.",
+    "An already sending obsolete review message may still arrive; its exact-bundle link shows superseded and rejects approval. No guaranteed recall."
+  ]
+}

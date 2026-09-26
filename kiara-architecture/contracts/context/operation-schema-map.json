@@ -1,0 +1,278 @@
+{
+  "contract_id": "RET-ING-SCHEMA-MAP-001",
+  "schema_version": 1,
+  "owner": "T05",
+  "status": "designed_not_executed",
+  "canonical_attestation_schema": "contracts.schema.json#/$defs/SourceRecheckAttestation",
+  "canonical_attestation_reference_field": "source_recheck_attestation_ids",
+  "ingestion_policy": "ingestion-policy.json",
+  "operations": [
+    {
+      "operation_id": "RET-01",
+      "operation_name": "get_company_context",
+      "version": "1",
+      "request_schema": "contracts.schema.json#/$defs/ContextRequest",
+      "success_schema": "contracts.schema.json#/$defs/ContextResponse",
+      "error_schema": "contracts.schema.json#/$defs/RET01Error",
+      "example_request": "operation-examples.json#/operations/RET-01/request",
+      "example_success": "operation-examples.json#/operations/RET-01/success",
+      "example_error": "operation-examples.json#/operations/RET-01/error",
+      "model_exposed": true,
+      "runtime_tool_name": "get_company_context",
+      "runtime_input_schema": "../T06/runtime-contracts.schema.json#/$defs/GetCompanyContextInput",
+      "runtime_output_schema": "../T06/runtime-contracts.schema.json#/$defs/CompanyContextResult",
+      "adapter": {
+        "input": {
+          "event_id": "agent_run input.event_id resolved from ToolServerContext.run_id",
+          "company_context_version_id": "run pinned context revision",
+          "purpose": "server stage",
+          "requested_fact_paths": "model.fact_paths"
+        },
+        "output": "Map company_context_version_id to context_revision_id and facts to T06 FactAssertion; never drop unknown/conflicted required facts."
+      },
+      "trusted_context": [
+        "tenant_id",
+        "actor_id",
+        "role",
+        "run pins",
+        "company_id",
+        "reset_epoch"
+      ],
+      "authority": "server-mediated scoped read",
+      "error_codes": [
+        "not_found_or_forbidden",
+        "invalid_arguments",
+        "version_conflict",
+        "deadline_exceeded"
+      ],
+      "success_does_not_imply": "legal applicability, source verification, human approval, or finalization",
+      "server_context_schema": "../T06/runtime-contracts.schema.json#/$defs/ToolServerContext",
+      "reset_scope_rule": "Trusted tenant/reset_epoch required on reads, receipts, cached hydration and effect-commit guard; epoch is never model-supplied. Compound idempotency namespace includes tenant_id and reset_epoch."
+    },
+    {
+      "operation_id": "RET-02",
+      "operation_name": "get_document_clauses",
+      "version": "1",
+      "request_schema": "contracts.schema.json#/$defs/DocumentClausesRequest",
+      "success_schema": "contracts.schema.json#/$defs/DocumentClausesResponse",
+      "error_schema": "contracts.schema.json#/$defs/RET02Error",
+      "example_request": "operation-examples.json#/operations/RET-02/request",
+      "example_success": "operation-examples.json#/operations/RET-02/success",
+      "example_error": "operation-examples.json#/operations/RET-02/error",
+      "model_exposed": true,
+      "runtime_tool_name": "read_company_document",
+      "runtime_input_schema": "../T06/runtime-contracts.schema.json#/$defs/ReadCompanyDocumentInput",
+      "runtime_output_schema": "../T06/runtime-contracts.schema.json#/$defs/CompanyDocumentResult",
+      "adapter": {
+        "input": {
+          "document_version_id": "model.document_version_id checked against run base",
+          "clause_ids": "model.clause_ids",
+          "purpose": "server stage"
+        },
+        "output": "Store full clauses; return T06 CompanyDocumentResult metadata/artifact reference. Empty clause_ids means request the complete inventory; page bounded internal reads until full_inventory_loaded."
+      },
+      "trusted_context": [
+        "tenant_id",
+        "actor_id",
+        "role",
+        "run pins",
+        "company_id",
+        "reset_epoch"
+      ],
+      "authority": "server-mediated scoped read",
+      "error_codes": [
+        "not_found_or_forbidden",
+        "invalid_arguments",
+        "version_conflict",
+        "retrieval_capacity_exceeded",
+        "deadline_exceeded"
+      ],
+      "success_does_not_imply": "legal applicability, source verification, human approval, or finalization",
+      "server_context_schema": "../T06/runtime-contracts.schema.json#/$defs/ToolServerContext",
+      "reset_scope_rule": "Trusted tenant/reset_epoch required on reads, receipts, cached hydration and effect-commit guard; epoch is never model-supplied. Compound idempotency namespace includes tenant_id and reset_epoch."
+    },
+    {
+      "operation_id": "RET-03",
+      "operation_name": "retrieve_legal_evidence",
+      "version": "1",
+      "request_schema": "contracts.schema.json#/$defs/RetrievalRequest",
+      "success_schema": "contracts.schema.json#/$defs/RetrievalResponse",
+      "error_schema": "contracts.schema.json#/$defs/RET03Error",
+      "example_request": "operation-examples.json#/operations/RET-03/request",
+      "example_success": "operation-examples.json#/operations/RET-03/success",
+      "example_error": "operation-examples.json#/operations/RET-03/error",
+      "model_exposed": true,
+      "runtime_tool_name": "search_legal_evidence",
+      "runtime_input_schema": "../T06/runtime-contracts.schema.json#/$defs/SearchLegalEvidenceInput",
+      "runtime_output_schema": "../T06/runtime-contracts.schema.json#/$defs/LegalEvidenceResult",
+      "adapter": {
+        "input": {
+          "bindings": "ToolServerContext and immutable run pins",
+          "as_of": "pinned scenario date",
+          "criterion_keys": "protected criterion registry",
+          "additional_provision_keys": "authorized model provision selection",
+          "discovery_query": "model query text after limits",
+          "batch_index": "server batch planner"
+        },
+        "output": "Persist RetrievalResponse; emit bounded T06 LegalEvidenceResult manifest; hydrate complete authorized segments within phase budget."
+      },
+      "trusted_context": [
+        "tenant_id",
+        "actor_id",
+        "role",
+        "run pins",
+        "company_id",
+        "reset_epoch"
+      ],
+      "authority": "server-mediated scoped read",
+      "error_codes": [
+        "not_found_or_forbidden",
+        "invalid_arguments",
+        "retrieval_capacity_exceeded",
+        "source_unavailable",
+        "version_conflict",
+        "deadline_exceeded"
+      ],
+      "success_does_not_imply": "legal applicability, source verification, human approval, or finalization",
+      "server_context_schema": "../T06/runtime-contracts.schema.json#/$defs/ToolServerContext",
+      "reset_scope_rule": "Trusted tenant/reset_epoch required on reads, receipts, cached hydration and effect-commit guard; epoch is never model-supplied. Compound idempotency namespace includes tenant_id and reset_epoch."
+    },
+    {
+      "operation_id": "RET-04",
+      "operation_name": "read_source_anchor",
+      "version": "1",
+      "request_schema": "contracts.schema.json#/$defs/SourceAnchorRequest",
+      "success_schema": "contracts.schema.json#/$defs/SourceAnchorResponse",
+      "error_schema": "contracts.schema.json#/$defs/RET04Error",
+      "example_request": "operation-examples.json#/operations/RET-04/request",
+      "example_success": "operation-examples.json#/operations/RET-04/success",
+      "example_error": "operation-examples.json#/operations/RET-04/error",
+      "model_exposed": true,
+      "runtime_tool_name": "read_legal_provision",
+      "runtime_input_schema": "../T06/runtime-contracts.schema.json#/$defs/ReadLegalProvisionInput",
+      "runtime_output_schema": "../T06/runtime-contracts.schema.json#/$defs/LegalEvidenceResult",
+      "adapter": {
+        "input": {
+          "evidence_bundle_id": "run pinned bundle",
+          "evidence_id": "model.evidence_id checked in bundle"
+        },
+        "output": "Return bounded T06 LegalEvidenceResult manifest for the evidence plus source-view data through authorized UI; uppercase validator code CITATION_SPAN_MISMATCH maps internal citation_span_mismatch."
+      },
+      "trusted_context": [
+        "tenant_id",
+        "actor_id",
+        "role",
+        "run pins",
+        "company_id",
+        "reset_epoch"
+      ],
+      "authority": "server-mediated scoped read",
+      "error_codes": [
+        "not_found_or_forbidden",
+        "invalid_arguments",
+        "citation_span_mismatch",
+        "source_unavailable",
+        "source_trust_invalid",
+        "deadline_exceeded"
+      ],
+      "success_does_not_imply": "legal applicability, source verification, human approval, or finalization",
+      "server_context_schema": "../T06/runtime-contracts.schema.json#/$defs/ToolServerContext",
+      "reset_scope_rule": "Trusted tenant/reset_epoch required on reads, receipts, cached hydration and effect-commit guard; epoch is never model-supplied. Compound idempotency namespace includes tenant_id and reset_epoch."
+    },
+    {
+      "operation_id": "RET-05",
+      "operation_name": "propose_company_fact_change",
+      "version": "1",
+      "request_schema": "contracts.schema.json#/$defs/FactChangeRequest",
+      "success_schema": "contracts.schema.json#/$defs/FactChangeResponse",
+      "error_schema": "contracts.schema.json#/$defs/RET05Error",
+      "example_request": "operation-examples.json#/operations/RET-05/request",
+      "example_success": "operation-examples.json#/operations/RET-05/success",
+      "example_error": "operation-examples.json#/operations/RET-05/error",
+      "model_exposed": true,
+      "runtime_tool_name": "propose_company_context_update",
+      "runtime_input_schema": "../T06/runtime-contracts.schema.json#/$defs/ProposeCompanyContextUpdateInput",
+      "runtime_output_schema": null,
+      "adapter": {
+        "input": {
+          "event_id": "agent_run input.event_id resolved from ToolServerContext.run_id",
+          "workflow_id": "ToolServerContext.workflow_id",
+          "expected_context_revision_id": "model.expected_context_revision_id checked against run pin",
+          "fact_key": "model.fact_key checked in protected fact catalog",
+          "proposed_value_json": "model.proposed_value_json parsed and validated against fact-specific type",
+          "knowledge_state": "derived known for non-null proposed value; unknown for explicit null",
+          "reason": "model.reason",
+          "provenance_record_ids": "model.provenance_record_ids ownership-checked"
+        },
+        "output": "Return proposal receipt; no accepted context mutation; T06 canonical mutation receipt remains owner-managed."
+      },
+      "trusted_context": [
+        "tenant_id",
+        "actor_id",
+        "role",
+        "run pins",
+        "company_id",
+        "reset_epoch"
+      ],
+      "authority": "model may propose only; human founder accepts",
+      "error_codes": [
+        "not_found_or_forbidden",
+        "invalid_arguments",
+        "version_conflict",
+        "deadline_exceeded"
+      ],
+      "success_does_not_imply": "legal applicability, source verification, human approval, or finalization",
+      "server_context_schema": "../T06/runtime-contracts.schema.json#/$defs/ToolServerContext",
+      "reset_scope_rule": "Trusted tenant/reset_epoch required on reads, receipts, cached hydration and effect-commit guard; epoch is never model-supplied. Compound idempotency namespace includes tenant_id and reset_epoch."
+    },
+    {
+      "operation_id": "ING-01",
+      "operation_name": "ingest_registered_source",
+      "version": "1",
+      "request_schema": "contracts.schema.json#/$defs/IngestSourceRequest",
+      "success_schema": "contracts.schema.json#/$defs/IngestSourceResponse",
+      "error_schema": "contracts.schema.json#/$defs/ING01Error",
+      "example_request": "operation-examples.json#/operations/ING-01/request",
+      "example_success": "operation-examples.json#/operations/ING-01/success",
+      "example_error": "operation-examples.json#/operations/ING-01/error",
+      "model_exposed": false,
+      "runtime_tool_name": null,
+      "runtime_input_schema": null,
+      "runtime_output_schema": null,
+      "adapter": {
+        "input": {
+          "input_kind": "privileged source registry/upload selection",
+          "input_ref_id": "registered ID ownership-checked",
+          "expected_raw_sha256": "seed manifest or caller integrity assertion",
+          "ingestion_profile_id": "protected profile",
+          "idempotency_key": "caller request key bound to tenant/input/hash/profile"
+        },
+        "output": "Parsed source remains unpublished until separate authorized legal source verification/activation."
+      },
+      "trusted_context": [
+        "tenant_id",
+        "reset_epoch",
+        "principal_id",
+        "principal_kind",
+        "capability",
+        "request_id"
+      ],
+      "authority": "privileged source operator or seed loader; model forbidden",
+      "error_codes": [
+        "not_found_or_forbidden",
+        "invalid_arguments",
+        "source_unavailable",
+        "source_size_exceeded",
+        "parse_capacity_exceeded",
+        "hash_mismatch",
+        "unsupported_format",
+        "parse_failed",
+        "needs_transcription",
+        "deadline_exceeded"
+      ],
+      "success_does_not_imply": "legal applicability, source verification, human approval, or finalization",
+      "server_context_schema": "contracts.schema.json#/$defs/IngestionServerContext",
+      "reset_scope_rule": "Trusted tenant/reset_epoch required on reads, receipts, cached hydration and effect-commit guard; epoch is never model-supplied. Compound idempotency namespace includes tenant_id and reset_epoch."
+    }
+  ]
+}

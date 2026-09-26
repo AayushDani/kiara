@@ -1,0 +1,81 @@
+✔ finite config rejects arbitrary code, prototype keys and reordered unguarded replacement (1.520833ms)
+✔ executed paired regression/holdout comparison promotes only narrow config and later event proves persistence (2283.076042ms)
+✔ parallel evaluation admission permits only one candidate and stale reset epochs cannot mutate champion (1315.840334ms)
+✔ live mode cannot promote using only deterministic comparison evidence (1048.866292ms)
+✔ isolated live campaign reserves before dispatch, persists six alternating outcomes and never mutates parent review (1312.561083ms)
+✔ interrupted trial stops the campaign and retains unknown cost instead of spending remaining trial reservations (874.190875ms)
+✔ actual evaluation child processes keep stores isolated and fail closed without provider credentials (4449.2395ms)
+✔ preview is durable and never grants lawyer approval (1208.061458ms)
+✔ a changed review bundle cancels its old queued notification (251.960333ms)
+✔ expired send is unknown, blocks blind retry and preserves the provider key (156.463542ms)
+✔ webhook rejects requests when signature configuration is absent (7.748042ms)
+▶ persistence: deterministic baseline, atomic transactions, fences and physical records
+  ✔ baseline is deterministic and seed twice is a byte-identical no-op (254.472167ms)
+  ✔ an exception or async callback cannot commit a partial write (55.382916ms)
+  ✔ tenant injection, stale epoch and stale CAS are rejected (90.928959ms)
+  ✔ immutable revision edits fail; appending a new sealed revision succeeds (135.956709ms)
+  ✔ concurrent independent processes do not lose increments (3378.470167ms)
+  ✔ dead-owner lock recovers without manual data deletion (134.33925ms)
+  ✔ CA event produces scoped customer, context and durable dispatch rows (76.630542ms)
+  ✔ reset retains evaluation campaign reservations and unknown charges (274.500375ms)
+  ✔ reset blocks unknown charges and preserves a surviving monotonic guard (202.050834ms)
+✔ persistence: deterministic baseline, atomic transactions, fences and physical records (4611.461042ms)
+✔ review regression: unresolved model charges survive human-edit validation (1089.062416ms)
+✔ review: authenticated early delivery receipts reconcile once when the send response arrives (1004.4365ms)
+✔ review regression: verified company facts preserve signup-specific provenance (636.86475ms)
+✔ review regression: changed input can start a new settled model ledger (1255.917333ms)
+✔ review regression: scripted document edits cannot contradict an explicit no-sale fact (549.573958ms)
+[Resend API Error]: {
+  error: {
+    name: 'application_error',
+    statusCode: null,
+    message: 'Unable to fetch data. The request could not be resolved.'
+  },
+  path: '/emails'
+}
+✔ review regression: Resend SDK transport errors remain unknown delivery and block reset (614.515917ms)
+✔ review: a later unchanged event closes only against a current sealed finalized packet (1489.075292ms)
+✔ review: exhausted automatic repairs escalate without hiding the failing output (810.249792ms)
+✔ review regression: stale document edits reject before mutation while a fresh snapshot succeeds (475.2185ms)
+✔ review regression: a session cannot cross the reset fence while its command body is being read (48.522ms)
+✔ review: model fact proposals require current founder verification and retain model attribution (251.688709ms)
+✔ review regression: founder verification of a model fact authorizes a linked run after the settled parent deadline (524.76175ms)
+✔ eleven frozen legal cases execute with unknown/conflict preservation (4.613125ms)
+✔ actual citation span, complete evidence, clauses, unknown facts and semantic rules are validated (679.144709ms)
+✔ live mode without credentials blocks instead of substituting the scripted revision (589.532292ms)
+✔ timeout retains pre-dispatch reservation and prevents reset (866.484833ms)
+✔ crashed dispatched run recovers once without replaying model or discarding charge (654.749334ms)
+✔ budget deadline, request ceiling and unknown-charge reservation cannot reset on reuse (399.531583ms)
+✔ provider adapter exercises scoped tools, exact citations, full-law semantic hydration and immutable generated revision (1919.607667ms)
+✔ an out-of-scope model tool is blocked before it can mutate state (615.352209ms)
+✔ verified human edit after a settled run deadline starts a linked child and retains immutable costs; automatic repair cannot rotate (1106.090125ms)
+✔ founder verification of an attributed model fact proposal authorizes a settled expired child scope without fabricating human feedback (1020.99775ms)
+▶ security: HTTP permissions and persisted human-review guards
+  ✔ rejects client identity injection, unexpected fields, bad CSRF and cross-origin actions (10.585959ms)
+  ✔ lawyer cannot inject company signup (4.3915ms)
+  ✔ lawyer-first, stale state and stale bundle approvals are rejected (100.188875ms)
+  ✔ source integrity changes invalidate an otherwise matching approval (39.542417ms)
+  ✔ replayed same approval does not add another decision (0.9935ms)
+  ✔ old notification is canceled after new feedback changes its sealed bundle (220.092042ms)
+  ✔ malformed business facts cannot be promoted to verified known facts (100.362167ms)
+  ✔ applicability fails closed when a required boolean has invalid type (0.8455ms)
+  ✔ old session and stale reset command cannot mutate a new epoch (109.109791ms)
+✔ security: HTTP permissions and persisted human-review guards (1526.250167ms)
+✔ redline comparison retains every original and proposed clause with exact full text (0.886ms)
+✔ removals and heading-only edits cannot disappear from the redline (0.088ms)
+✔ empty and missing revisions remain honest instead of inventing policy text (0.196583ms)
+✔ unknown facts stay distinct from false and zero (10.768417ms)
+✔ client surfaces actionable structured API errors without coercing objects (0.107542ms)
+✔ persisted signup, bounded repair, ordered sealed approval and finalization (1156.3035ms)
+✔ measured deterministic harness persists; later distinct event avoids missing-bundle repair (514.407125ms)
+✔ unknown facts block drafting and old reset commands cannot affect reused workspace (1029.13ms)
+✔ material edit invalidates earlier founder approval and requires both gates again (841.620792ms)
+✔ source expiry prevents approval even without a background invalidation job (83.51825ms)
+ℹ tests 63
+ℹ suites 0
+ℹ pass 63
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11771.28675

@@ -1,0 +1,29 @@
+---
+title: Delivery is independent of document approval
+---
+stateDiagram-v2
+  direction LR
+  [*] --> pending: notification.enqueued
+  pending --> previewed: preview mode only
+  pending --> sending: claim outbox lease
+  sending --> sent: provider accepted
+  sending --> retry_wait: retriable known failure
+  sending --> unknown_delivery: timeout after possible acceptance
+  retry_wait --> sending: due attempt with same idempotency key
+  unknown_delivery --> retry_wait: safe retry established
+  sent --> delivered: verified provider webhook
+  sent --> bounced: verified provider webhook
+  retry_wait --> failed: attempt/time budget exhausted
+  pending --> canceled: stale review request
+  retry_wait --> canceled: stale review request
+  note right of previewed
+    Preview demonstrates message content only.
+    Real provider delivery remains required.
+  end note
+  note right of delivered
+    Delivery never changes approval state.
+    Sending final notice never publishes policy.
+    Verified webhooks can also resolve sending,
+    retry_wait and unknown_delivery directly.
+    Full guards: T09 K-NOTIFY-002.
+  end note

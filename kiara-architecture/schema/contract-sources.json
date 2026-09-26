@@ -1,0 +1,19 @@
+{
+  "T09": [
+    "event",
+    "workflow",
+    "job",
+    "notification",
+    "review-bundle"
+  ],
+  "T06": [
+    "BudgetCounters",
+    "ModelInvocation",
+    "ToolReceipt",
+    "runtime-policy"
+  ],
+  "T13": [
+    "telemetry-span"
+  ],
+  "policy": "Wire named identity maps to Mongo _id; RFC3339 maps to BSON date; storage-only created_at/schema_version/tenant_id added where absent. one company per tenant."
+}

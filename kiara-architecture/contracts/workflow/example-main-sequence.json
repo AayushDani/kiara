@@ -1,0 +1,675 @@
+{
+  "measurement_status": "planned_fixture_not_executed",
+  "note": "V03 readiness fails before any proposal exists; repair retrieves the same available pinned legal corpus; a subsequent seeded CITATION_SPAN_MISMATCH output failure is repaired against the same source before final proposal validation. Both repairs share the total limit of2. Notification jobs are transactional companions, not delivery claims.",
+  "events": [
+    {
+      "schema_version": "1.0",
+      "event_id": "a2c5fb03-554a-5464-90fb-97af3a4dd3de",
+      "event_type": "user.signed_up",
+      "tenant_id": "286ea0c9-1360-5574-84ae-b88f28527610",
+      "reset_epoch": 1,
+      "aggregate_type": "customer",
+      "aggregate_id": "a2e5bb5e-3ad2-5688-8ac5-54f5a7ec89e4",
+      "aggregate_seq": 1,
+      "occurred_at": "2026-09-26T17:00:00Z",
+      "received_at": "2026-09-26T17:00:00Z",
+      "actor": {
+        "actor_type": "service",
+        "actor_id": "f93f172c-fa8e-5931-8ff3-672770b4d3db",
+        "role": "signup_integration"
+      },
+      "source": {
+        "kind": "seed",
+        "system": "planned_synthetic_demo_fixture",
+        "source_event_id": null
+      },
+      "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125",
+      "causation_id": null,
+      "idempotency_key": "fixture/user.signed_up",
+      "payload_hash": "aeae26ed86bb61fa73bd2e1554fd054a031867f93c24a10f4f7f4be6d881952b",
+      "workflow_id": null,
+      "run_id": "736f1ec2-a823-5cee-a45a-78edbe1660e6",
+      "trace_id": null,
+      "payload": {
+        "company_id": "286ea0c9-1360-5574-84ae-b88f28527610",
+        "customer_id": "a2e5bb5e-3ad2-5688-8ac5-54f5a7ec89e4",
+        "customer_context_version": 2,
+        "residence_evidence": {
+          "kind": "declared_legal_residence",
+          "country": "US",
+          "region": "CA",
+          "asserted_at": "2026-09-26T16:59:00Z",
+          "provenance_ref": "b55cb955-2992-5f0f-b99d-13ef6cc9eb95"
+        },
+        "is_synthetic": true
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "event_id": "1698ff3c-cee7-5d45-bf0f-196b7e8aa775",
+      "event_type": "workflow.created",
+      "tenant_id": "286ea0c9-1360-5574-84ae-b88f28527610",
+      "reset_epoch": 1,
+      "aggregate_type": "workflow",
+      "aggregate_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "aggregate_seq": 1,
+      "occurred_at": "2026-09-26T17:00:00Z",
+      "received_at": "2026-09-26T17:00:00Z",
+      "actor": {
+        "actor_type": "service",
+        "actor_id": "f93f172c-fa8e-5931-8ff3-672770b4d3db",
+        "role": "workflow_service"
+      },
+      "source": {
+        "kind": "worker",
+        "system": "planned_synthetic_demo_fixture",
+        "source_event_id": null
+      },
+      "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125",
+      "causation_id": "a2c5fb03-554a-5464-90fb-97af3a4dd3de",
+      "idempotency_key": "fixture/workflow.created",
+      "payload_hash": "a799f935443fe66a7e5e557725e2272567467cb2d86630c936560921e982de11",
+      "workflow_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "run_id": "736f1ec2-a823-5cee-a45a-78edbe1660e6",
+      "trace_id": null,
+      "payload": {
+        "company_id": "286ea0c9-1360-5574-84ae-b88f28527610",
+        "document_id": "83243ed0-3713-5631-bf48-279cc7a257ec",
+        "trigger_event_id": "a2c5fb03-554a-5464-90fb-97af3a4dd3de",
+        "intake_seq": 1
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "event_id": "fcd57662-839b-5310-a166-df8ea735d708",
+      "event_type": "workflow.slot_acquired",
+      "tenant_id": "286ea0c9-1360-5574-84ae-b88f28527610",
+      "reset_epoch": 1,
+      "aggregate_type": "workflow",
+      "aggregate_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "aggregate_seq": 2,
+      "occurred_at": "2026-09-26T17:00:00Z",
+      "received_at": "2026-09-26T17:00:00Z",
+      "actor": {
+        "actor_type": "service",
+        "actor_id": "f93f172c-fa8e-5931-8ff3-672770b4d3db",
+        "role": "workflow_service"
+      },
+      "source": {
+        "kind": "worker",
+        "system": "planned_synthetic_demo_fixture",
+        "source_event_id": null
+      },
+      "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125",
+      "causation_id": "1698ff3c-cee7-5d45-bf0f-196b7e8aa775",
+      "idempotency_key": "fixture/workflow.slot_acquired",
+      "payload_hash": "e217bf9f448a7a395dbe44baa3fa4d6d29430ebc0e651c592d76662f21c0e614",
+      "workflow_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "run_id": "736f1ec2-a823-5cee-a45a-78edbe1660e6",
+      "trace_id": null,
+      "payload": {
+        "document_id": "83243ed0-3713-5631-bf48-279cc7a257ec",
+        "slot_epoch": 3,
+        "base_revision_id": "76a93b17-2e92-595e-a3c8-c287d24e14aa",
+        "base_content_hash": "05ec89a902522c1d5551aeaeefa5fd1fbee874b9adccd1d502b876e3042c3376"
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "event_id": "6359caf2-318e-5e5c-94ef-fcf802c1c857",
+      "event_type": "validation.failed",
+      "tenant_id": "286ea0c9-1360-5574-84ae-b88f28527610",
+      "reset_epoch": 1,
+      "aggregate_type": "workflow",
+      "aggregate_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "aggregate_seq": 3,
+      "occurred_at": "2026-09-26T17:00:00Z",
+      "received_at": "2026-09-26T17:00:00Z",
+      "actor": {
+        "actor_type": "service",
+        "actor_id": "f93f172c-fa8e-5931-8ff3-672770b4d3db",
+        "role": "workflow_service"
+      },
+      "source": {
+        "kind": "worker",
+        "system": "planned_synthetic_demo_fixture",
+        "source_event_id": null
+      },
+      "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125",
+      "causation_id": "fcd57662-839b-5310-a166-df8ea735d708",
+      "idempotency_key": "fixture/validation.failed",
+      "payload_hash": "2252862fb825deccf008390432fac20ca942dc8afda1e9a596fc6a025df2aa5e",
+      "workflow_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "run_id": "736f1ec2-a823-5cee-a45a-78edbe1660e6",
+      "trace_id": null,
+      "payload": {
+        "validation_run_id": "1b819492-5355-58c8-bb0f-2ceb9222276d",
+        "subject_kind": "context_readiness",
+        "context_selection_id": "af1fb1d4-0ffb-5826-864d-0458369490b6",
+        "proposal_id": null,
+        "failure_codes": [
+          "V03/APPLICABILITY_BUNDLE_MISSING"
+        ],
+        "repair_count": 0,
+        "repair_limit": 2,
+        "repairable": true
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "event_id": "1a105d27-6388-500f-b2e2-fc9ae647e14c",
+      "event_type": "workflow.repair_started",
+      "tenant_id": "286ea0c9-1360-5574-84ae-b88f28527610",
+      "reset_epoch": 1,
+      "aggregate_type": "workflow",
+      "aggregate_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "aggregate_seq": 4,
+      "occurred_at": "2026-09-26T17:00:00Z",
+      "received_at": "2026-09-26T17:00:00Z",
+      "actor": {
+        "actor_type": "service",
+        "actor_id": "f93f172c-fa8e-5931-8ff3-672770b4d3db",
+        "role": "workflow_service"
+      },
+      "source": {
+        "kind": "worker",
+        "system": "planned_synthetic_demo_fixture",
+        "source_event_id": null
+      },
+      "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125",
+      "causation_id": "6359caf2-318e-5e5c-94ef-fcf802c1c857",
+      "idempotency_key": "fixture/workflow.repair_started",
+      "payload_hash": "cd7140393caca7fba151d0c916cdfe49765853106852b5c7d9cc299970add05c",
+      "workflow_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "run_id": "736f1ec2-a823-5cee-a45a-78edbe1660e6",
+      "trace_id": null,
+      "payload": {
+        "failed_validation_run_id": "1b819492-5355-58c8-bb0f-2ceb9222276d",
+        "repair_count": 1,
+        "strategy": "retrieve_evidence"
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "event_id": "be8b9327-ab93-5b19-9aee-2e2f1e53bdc9",
+      "event_type": "validation.passed",
+      "tenant_id": "286ea0c9-1360-5574-84ae-b88f28527610",
+      "reset_epoch": 1,
+      "aggregate_type": "workflow",
+      "aggregate_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "aggregate_seq": 5,
+      "occurred_at": "2026-09-26T17:00:00Z",
+      "received_at": "2026-09-26T17:00:00Z",
+      "actor": {
+        "actor_type": "service",
+        "actor_id": "f93f172c-fa8e-5931-8ff3-672770b4d3db",
+        "role": "workflow_service"
+      },
+      "source": {
+        "kind": "worker",
+        "system": "planned_synthetic_demo_fixture",
+        "source_event_id": null
+      },
+      "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125",
+      "causation_id": "1a105d27-6388-500f-b2e2-fc9ae647e14c",
+      "idempotency_key": "fixture/validation.passed",
+      "payload_hash": "61f959e3e09ee68801e115b6cadfe017e17c5728690a43cc322145b206e8633d",
+      "workflow_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "run_id": "736f1ec2-a823-5cee-a45a-78edbe1660e6",
+      "trace_id": null,
+      "payload": {
+        "validation_run_id": "4a653ad0-11ed-50c4-98e1-d4ca596c5f41",
+        "validator_version_id": "adce47c5-d540-58a9-af04-d4ca86cc452d",
+        "subject_kind": "context_readiness",
+        "context_selection_id": "af1fb1d4-0ffb-5826-864d-0458369490b6",
+        "review_input_hash": null,
+        "review_bundle_id": null,
+        "review_bundle_hash": null,
+        "proposal_id": null
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "event_id": "bc066c8e-da36-5694-96d5-9b36ec41bb9d",
+      "event_type": "context.snapshot_pinned",
+      "tenant_id": "286ea0c9-1360-5574-84ae-b88f28527610",
+      "reset_epoch": 1,
+      "aggregate_type": "workflow",
+      "aggregate_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "aggregate_seq": 6,
+      "occurred_at": "2026-09-26T17:00:00Z",
+      "received_at": "2026-09-26T17:00:00Z",
+      "actor": {
+        "actor_type": "service",
+        "actor_id": "f93f172c-fa8e-5931-8ff3-672770b4d3db",
+        "role": "workflow_service"
+      },
+      "source": {
+        "kind": "worker",
+        "system": "planned_synthetic_demo_fixture",
+        "source_event_id": null
+      },
+      "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125",
+      "causation_id": "be8b9327-ab93-5b19-9aee-2e2f1e53bdc9",
+      "idempotency_key": "fixture/context.snapshot_pinned",
+      "payload_hash": "b1ef06974e387fe6a452756c2baa061bbaf4dba2840a85c350a1cb7624890fa3",
+      "workflow_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "run_id": "736f1ec2-a823-5cee-a45a-78edbe1660e6",
+      "trace_id": null,
+      "payload": {
+        "context_snapshot_id": "a17614cf-6e6d-53d4-bcde-c202c11cb7b9",
+        "evidence_bundle_id": "a9b77d62-9fa8-5750-8a83-54860d735e72",
+        "material_context_epoch": 4,
+        "material_evidence_epoch": 2,
+        "harness_version_id": "fe3371a2-7afc-5f8e-a890-8b1138c10be7"
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "event_id": "9ca4fd4f-7545-54db-ac05-d5c2bac64ec1",
+      "event_type": "assessment.completed",
+      "tenant_id": "286ea0c9-1360-5574-84ae-b88f28527610",
+      "reset_epoch": 1,
+      "aggregate_type": "workflow",
+      "aggregate_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "aggregate_seq": 7,
+      "occurred_at": "2026-09-26T17:00:00Z",
+      "received_at": "2026-09-26T17:00:00Z",
+      "actor": {
+        "actor_type": "service",
+        "actor_id": "f93f172c-fa8e-5931-8ff3-672770b4d3db",
+        "role": "workflow_service"
+      },
+      "source": {
+        "kind": "worker",
+        "system": "planned_synthetic_demo_fixture",
+        "source_event_id": null
+      },
+      "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125",
+      "causation_id": "bc066c8e-da36-5694-96d5-9b36ec41bb9d",
+      "idempotency_key": "fixture/assessment.completed",
+      "payload_hash": "973f89226d853745a1ebef53e0aa144cfb916fd5080ecbb57892d308e54efa74",
+      "workflow_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "run_id": "736f1ec2-a823-5cee-a45a-78edbe1660e6",
+      "trace_id": null,
+      "payload": {
+        "assessment_id": "f3da5553-1b34-5a27-b38a-83cf133f015e",
+        "outcome": "covered",
+        "context_snapshot_id": "a17614cf-6e6d-53d4-bcde-c202c11cb7b9",
+        "evidence_bundle_id": "a9b77d62-9fa8-5750-8a83-54860d735e72",
+        "missing_fact_keys": [],
+        "operational_followup_ids": []
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "event_id": "d5500e24-4a7b-55db-8fe6-fb90eccd97d8",
+      "event_type": "proposal.created",
+      "tenant_id": "286ea0c9-1360-5574-84ae-b88f28527610",
+      "reset_epoch": 1,
+      "aggregate_type": "workflow",
+      "aggregate_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "aggregate_seq": 8,
+      "occurred_at": "2026-09-26T17:00:00Z",
+      "received_at": "2026-09-26T17:00:00Z",
+      "actor": {
+        "actor_type": "service",
+        "actor_id": "f93f172c-fa8e-5931-8ff3-672770b4d3db",
+        "role": "workflow_service"
+      },
+      "source": {
+        "kind": "worker",
+        "system": "planned_synthetic_demo_fixture",
+        "source_event_id": null
+      },
+      "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125",
+      "causation_id": "9ca4fd4f-7545-54db-ac05-d5c2bac64ec1",
+      "idempotency_key": "fixture/proposal.created",
+      "payload_hash": "e23ec138eacc84eaaccb73b2e4677bb8abe42cc43286875c57e0fbe8a85c7ea7",
+      "workflow_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "run_id": "736f1ec2-a823-5cee-a45a-78edbe1660e6",
+      "trace_id": null,
+      "payload": {
+        "proposal_id": "d1095d58-cc44-56c4-92d7-e2534553de6a",
+        "candidate_revision_id": "1d482d6f-ca38-51e0-b7af-032b1032af2b",
+        "base_revision_id": "76a93b17-2e92-595e-a3c8-c287d24e14aa",
+        "diff_id": "d2aad326-ba59-5c68-8534-a609daa98824",
+        "review_input_hash": "d8d5fad1639405e8ca9c955948e31e5fdf30ea0b1cf62868cde75a0ead7660a3",
+        "replaces_proposal_id": null
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "event_id": "464d074f-9791-5dac-9b9c-fd57c2507d0b",
+      "event_type": "validation.failed",
+      "tenant_id": "286ea0c9-1360-5574-84ae-b88f28527610",
+      "reset_epoch": 1,
+      "aggregate_type": "workflow",
+      "aggregate_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "aggregate_seq": 9,
+      "occurred_at": "2026-09-26T17:00:00Z",
+      "received_at": "2026-09-26T17:00:00Z",
+      "actor": {
+        "actor_type": "service",
+        "actor_id": "f93f172c-fa8e-5931-8ff3-672770b4d3db",
+        "role": "workflow_service"
+      },
+      "source": {
+        "kind": "worker",
+        "system": "planned_synthetic_demo_fixture",
+        "source_event_id": null
+      },
+      "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125",
+      "causation_id": "d5500e24-4a7b-55db-8fe6-fb90eccd97d8",
+      "idempotency_key": "fixture/validation.failed",
+      "payload_hash": "77082fe02258118fdb7eb1f8cc0128f2786051160ea50770ebb7fa0964fa6e84",
+      "workflow_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "run_id": "736f1ec2-a823-5cee-a45a-78edbe1660e6",
+      "trace_id": null,
+      "payload": {
+        "validation_run_id": "acf7e051-f065-51d6-99a0-7162c82eb55a",
+        "subject_kind": "proposal",
+        "context_selection_id": null,
+        "proposal_id": "d1095d58-cc44-56c4-92d7-e2534553de6a",
+        "failure_codes": [
+          "CITATION_SPAN_MISMATCH"
+        ],
+        "repair_count": 1,
+        "repair_limit": 2,
+        "repairable": true
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "event_id": "3b890e7a-3794-5d5f-979d-e22f923234c1",
+      "event_type": "workflow.repair_started",
+      "tenant_id": "286ea0c9-1360-5574-84ae-b88f28527610",
+      "reset_epoch": 1,
+      "aggregate_type": "workflow",
+      "aggregate_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "aggregate_seq": 10,
+      "occurred_at": "2026-09-26T17:00:00Z",
+      "received_at": "2026-09-26T17:00:00Z",
+      "actor": {
+        "actor_type": "service",
+        "actor_id": "f93f172c-fa8e-5931-8ff3-672770b4d3db",
+        "role": "workflow_service"
+      },
+      "source": {
+        "kind": "worker",
+        "system": "planned_synthetic_demo_fixture",
+        "source_event_id": null
+      },
+      "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125",
+      "causation_id": "464d074f-9791-5dac-9b9c-fd57c2507d0b",
+      "idempotency_key": "fixture/workflow.repair_started",
+      "payload_hash": "c28d62cc939d5791fcea9d4bbf886519c69751e8949c4d128b21d4d9519ce15e",
+      "workflow_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "run_id": "736f1ec2-a823-5cee-a45a-78edbe1660e6",
+      "trace_id": null,
+      "payload": {
+        "failed_validation_run_id": "acf7e051-f065-51d6-99a0-7162c82eb55a",
+        "repair_count": 2,
+        "strategy": "revise_document"
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "event_id": "d474edc2-ad3a-5969-8e16-e71b8de55950",
+      "event_type": "proposal.created",
+      "tenant_id": "286ea0c9-1360-5574-84ae-b88f28527610",
+      "reset_epoch": 1,
+      "aggregate_type": "workflow",
+      "aggregate_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "aggregate_seq": 11,
+      "occurred_at": "2026-09-26T17:00:00Z",
+      "received_at": "2026-09-26T17:00:00Z",
+      "actor": {
+        "actor_type": "service",
+        "actor_id": "f93f172c-fa8e-5931-8ff3-672770b4d3db",
+        "role": "workflow_service"
+      },
+      "source": {
+        "kind": "worker",
+        "system": "planned_synthetic_demo_fixture",
+        "source_event_id": null
+      },
+      "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125",
+      "causation_id": "3b890e7a-3794-5d5f-979d-e22f923234c1",
+      "idempotency_key": "fixture/proposal.created",
+      "payload_hash": "dd65041fa269ec0243377e2cb986fac302eda82e548bfa6dffc0fb43741e8f31",
+      "workflow_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "run_id": "736f1ec2-a823-5cee-a45a-78edbe1660e6",
+      "trace_id": null,
+      "payload": {
+        "proposal_id": "ef28b9a9-1e7a-5f52-b65a-9b5253230a5b",
+        "candidate_revision_id": "72c7ae26-80b8-54ea-8011-92581d79392d",
+        "base_revision_id": "76a93b17-2e92-595e-a3c8-c287d24e14aa",
+        "diff_id": "d2aad326-ba59-5c68-8534-a609daa98824",
+        "review_input_hash": "b12dbe1ed1ad1d4edac5b8a083eae354e0a61f1ae33c7dbfb5b53244ae3568a5",
+        "replaces_proposal_id": "d1095d58-cc44-56c4-92d7-e2534553de6a"
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "event_id": "03b893a2-13d3-5e6f-ae33-419354771e74",
+      "event_type": "validation.passed",
+      "tenant_id": "286ea0c9-1360-5574-84ae-b88f28527610",
+      "reset_epoch": 1,
+      "aggregate_type": "workflow",
+      "aggregate_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "aggregate_seq": 12,
+      "occurred_at": "2026-09-26T17:00:00Z",
+      "received_at": "2026-09-26T17:00:00Z",
+      "actor": {
+        "actor_type": "service",
+        "actor_id": "f93f172c-fa8e-5931-8ff3-672770b4d3db",
+        "role": "workflow_service"
+      },
+      "source": {
+        "kind": "worker",
+        "system": "planned_synthetic_demo_fixture",
+        "source_event_id": null
+      },
+      "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125",
+      "causation_id": "d474edc2-ad3a-5969-8e16-e71b8de55950",
+      "idempotency_key": "fixture/validation.passed",
+      "payload_hash": "522f035e0c1797a1dc5078406109e2c898c1fe85f5a12d06773197495add642e",
+      "workflow_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "run_id": "736f1ec2-a823-5cee-a45a-78edbe1660e6",
+      "trace_id": null,
+      "payload": {
+        "validation_run_id": "ba6d6530-e544-54d7-bcc6-add9fdecfb88",
+        "validator_version_id": "adce47c5-d540-58a9-af04-d4ca86cc452d",
+        "subject_kind": "proposal",
+        "context_selection_id": null,
+        "review_input_hash": "b12dbe1ed1ad1d4edac5b8a083eae354e0a61f1ae33c7dbfb5b53244ae3568a5",
+        "review_bundle_id": "f660de0e-5a11-5782-ba17-46d096f61d03",
+        "review_bundle_hash": "b6bb1be4cb8042468237df24a4279dfda54c30840f3c46d24ca7ed6feacf1349",
+        "proposal_id": "ef28b9a9-1e7a-5f52-b65a-9b5253230a5b"
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "event_id": "6aeaf3a8-829a-5e25-a809-2aadc2440c8b",
+      "event_type": "review.founder_requested",
+      "tenant_id": "286ea0c9-1360-5574-84ae-b88f28527610",
+      "reset_epoch": 1,
+      "aggregate_type": "workflow",
+      "aggregate_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "aggregate_seq": 13,
+      "occurred_at": "2026-09-26T17:00:00Z",
+      "received_at": "2026-09-26T17:00:00Z",
+      "actor": {
+        "actor_type": "service",
+        "actor_id": "f93f172c-fa8e-5931-8ff3-672770b4d3db",
+        "role": "workflow_service"
+      },
+      "source": {
+        "kind": "worker",
+        "system": "planned_synthetic_demo_fixture",
+        "source_event_id": null
+      },
+      "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125",
+      "causation_id": "03b893a2-13d3-5e6f-ae33-419354771e74",
+      "idempotency_key": "fixture/review.founder_requested",
+      "payload_hash": "cfe617392243f08d1d645c3614965a12976273a0d02b8b6161c2cd15f74b8be6",
+      "workflow_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "run_id": "736f1ec2-a823-5cee-a45a-78edbe1660e6",
+      "trace_id": null,
+      "payload": {
+        "review_bundle_id": "f660de0e-5a11-5782-ba17-46d096f61d03",
+        "review_bundle_hash": "b6bb1be4cb8042468237df24a4279dfda54c30840f3c46d24ca7ed6feacf1349",
+        "proposal_id": "ef28b9a9-1e7a-5f52-b65a-9b5253230a5b",
+        "assigned_actor_id": "3ec6ecf3-431a-5f4d-b2fd-9604b476204b",
+        "notification_id": "e87beb59-f712-515b-bc89-26b92732b19a"
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "event_id": "4aee2f46-c8b3-5f02-bd63-73f291977c67",
+      "event_type": "review.founder_approved",
+      "tenant_id": "286ea0c9-1360-5574-84ae-b88f28527610",
+      "reset_epoch": 1,
+      "aggregate_type": "workflow",
+      "aggregate_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "aggregate_seq": 14,
+      "occurred_at": "2026-09-26T17:00:00Z",
+      "received_at": "2026-09-26T17:00:00Z",
+      "actor": {
+        "actor_type": "human",
+        "actor_id": "3ec6ecf3-431a-5f4d-b2fd-9604b476204b",
+        "role": "founder"
+      },
+      "source": {
+        "kind": "api",
+        "system": "planned_synthetic_demo_fixture",
+        "source_event_id": null
+      },
+      "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125",
+      "causation_id": "6aeaf3a8-829a-5e25-a809-2aadc2440c8b",
+      "idempotency_key": "fixture/review.founder_approved",
+      "payload_hash": "db4ceeae14051a3b0f7351158e69409db30d6656e31189ed9e1f84401305f765",
+      "workflow_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "run_id": "736f1ec2-a823-5cee-a45a-78edbe1660e6",
+      "trace_id": null,
+      "payload": {
+        "approval_id": "2cbdfc7e-ed28-5d18-be2e-76a34cfd199e",
+        "review_bundle_id": "f660de0e-5a11-5782-ba17-46d096f61d03",
+        "review_bundle_hash": "b6bb1be4cb8042468237df24a4279dfda54c30840f3c46d24ca7ed6feacf1349",
+        "candidate_revision_id": "72c7ae26-80b8-54ea-8011-92581d79392d",
+        "predecessor_approval_id": null
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "event_id": "91095a8c-b500-5bf3-bd0a-1fcc8ce827ab",
+      "event_type": "review.lawyer_requested",
+      "tenant_id": "286ea0c9-1360-5574-84ae-b88f28527610",
+      "reset_epoch": 1,
+      "aggregate_type": "workflow",
+      "aggregate_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "aggregate_seq": 15,
+      "occurred_at": "2026-09-26T17:00:00Z",
+      "received_at": "2026-09-26T17:00:00Z",
+      "actor": {
+        "actor_type": "service",
+        "actor_id": "f93f172c-fa8e-5931-8ff3-672770b4d3db",
+        "role": "workflow_service"
+      },
+      "source": {
+        "kind": "worker",
+        "system": "planned_synthetic_demo_fixture",
+        "source_event_id": null
+      },
+      "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125",
+      "causation_id": "4aee2f46-c8b3-5f02-bd63-73f291977c67",
+      "idempotency_key": "fixture/review.lawyer_requested",
+      "payload_hash": "344dffb8a5145f3819d23a12d6c9c9f1fbea15d7d4f60af454247e38b2f98564",
+      "workflow_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "run_id": "736f1ec2-a823-5cee-a45a-78edbe1660e6",
+      "trace_id": null,
+      "payload": {
+        "review_bundle_id": "f660de0e-5a11-5782-ba17-46d096f61d03",
+        "review_bundle_hash": "b6bb1be4cb8042468237df24a4279dfda54c30840f3c46d24ca7ed6feacf1349",
+        "proposal_id": "ef28b9a9-1e7a-5f52-b65a-9b5253230a5b",
+        "assigned_actor_id": "3ff0409c-60a2-5817-8e24-18526415754e",
+        "notification_id": "223093ef-57a5-5f4d-a6b3-7d42c26acf81"
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "event_id": "17f844db-8f2f-57ca-97c6-60a5d98452bb",
+      "event_type": "review.lawyer_approved",
+      "tenant_id": "286ea0c9-1360-5574-84ae-b88f28527610",
+      "reset_epoch": 1,
+      "aggregate_type": "workflow",
+      "aggregate_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "aggregate_seq": 16,
+      "occurred_at": "2026-09-26T17:00:00Z",
+      "received_at": "2026-09-26T17:00:00Z",
+      "actor": {
+        "actor_type": "human",
+        "actor_id": "3ff0409c-60a2-5817-8e24-18526415754e",
+        "role": "lawyer"
+      },
+      "source": {
+        "kind": "api",
+        "system": "planned_synthetic_demo_fixture",
+        "source_event_id": null
+      },
+      "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125",
+      "causation_id": "91095a8c-b500-5bf3-bd0a-1fcc8ce827ab",
+      "idempotency_key": "fixture/review.lawyer_approved",
+      "payload_hash": "6809f0bc4cb732f7f74159a534aa7c140c7ff2574b6fce8bd458423c79b319b8",
+      "workflow_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "run_id": "736f1ec2-a823-5cee-a45a-78edbe1660e6",
+      "trace_id": null,
+      "payload": {
+        "approval_id": "22128b39-6956-531a-9bb9-9d304c16a008",
+        "review_bundle_id": "f660de0e-5a11-5782-ba17-46d096f61d03",
+        "review_bundle_hash": "b6bb1be4cb8042468237df24a4279dfda54c30840f3c46d24ca7ed6feacf1349",
+        "candidate_revision_id": "72c7ae26-80b8-54ea-8011-92581d79392d",
+        "predecessor_approval_id": "2cbdfc7e-ed28-5d18-be2e-76a34cfd199e"
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "event_id": "69a2befe-f797-5f22-906a-6f3dd581b335",
+      "event_type": "document.finalized",
+      "tenant_id": "286ea0c9-1360-5574-84ae-b88f28527610",
+      "reset_epoch": 1,
+      "aggregate_type": "workflow",
+      "aggregate_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "aggregate_seq": 17,
+      "occurred_at": "2026-09-26T17:00:00Z",
+      "received_at": "2026-09-26T17:00:00Z",
+      "actor": {
+        "actor_type": "service",
+        "actor_id": "f93f172c-fa8e-5931-8ff3-672770b4d3db",
+        "role": "workflow_service"
+      },
+      "source": {
+        "kind": "worker",
+        "system": "planned_synthetic_demo_fixture",
+        "source_event_id": null
+      },
+      "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125",
+      "causation_id": "17f844db-8f2f-57ca-97c6-60a5d98452bb",
+      "idempotency_key": "fixture/document.finalized",
+      "payload_hash": "ed545bcaa08a1ab7536497a2a3819a5f7e7bbc368091db3d7bcd822820a80e7c",
+      "workflow_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+      "run_id": "736f1ec2-a823-5cee-a45a-78edbe1660e6",
+      "trace_id": null,
+      "payload": {
+        "document_id": "83243ed0-3713-5631-bf48-279cc7a257ec",
+        "previous_revision_id": "7a835b86-f8a7-5055-9b4c-51a3afd28d9c",
+        "revision_id": "ad29f77d-f994-5ce3-9f88-eedb2e3f7c78",
+        "review_bundle_id": "f660de0e-5a11-5782-ba17-46d096f61d03",
+        "founder_approval_id": "2cbdfc7e-ed28-5d18-be2e-76a34cfd199e",
+        "lawyer_approval_id": "22128b39-6956-531a-9bb9-9d304c16a008",
+        "publication_status": "not_published"
+      }
+    }
+  ]
+}

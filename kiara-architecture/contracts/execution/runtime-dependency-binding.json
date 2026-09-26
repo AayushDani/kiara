@@ -1,0 +1,86 @@
+{
+  "status": "adopted_refrozen_T06_manifest_verified",
+  "owner": "T06",
+  "files": [
+    {
+      "path": "research/T06/decision.json",
+      "sha256": "f794029e12e2cea6be5140acc038e6b730c01e60f8266ddba273f7a8497b7ee8"
+    },
+    {
+      "path": "research/T06/runtime-policy.json",
+      "sha256": "3a973cb796f959faa32a325debc877a6582fab785ef589d80270acb25bfb2883"
+    },
+    {
+      "path": "research/T06/runtime-contracts.schema.json",
+      "sha256": "44d619e45a2bd8f8e87546959514cb03bbfd111b6dde4e0fb9a593b6f11cea30"
+    },
+    {
+      "path": "research/T06/report.md",
+      "sha256": "d6410909cfdd9ffb581d42ec367d4a14a684b87749550c5469eb0cb0f0828bdf"
+    },
+    {
+      "path": "research/T06/frozen-manifest.json",
+      "sha256": "579d443c7d9fb5197ba1b3cca23ab11b636dfe5b100ca46dffcbc914fe3df571"
+    }
+  ],
+  "versions": {
+    "node": "24.19.0",
+    "next": "16.3.6",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "openai": "7.23.0",
+    "mongodb": "7.6.0",
+    "resend": "6.30.0"
+  },
+  "limits": {
+    "logical_requests": 9,
+    "physical_attempts": 12,
+    "total_repairs": 2,
+    "proposal_semantic_passes": 3,
+    "input_tokens": 120000,
+    "output_tokens": 24000,
+    "cost_usd": 3,
+    "deadline_seconds": 300
+  },
+  "main_three_batch_arithmetic": {
+    "calls": 7,
+    "input_tokens": 104000,
+    "output_tokens": 18000,
+    "cost_usd": 1.94,
+    "measured": false
+  },
+  "worst_two_output_repair_arithmetic": {
+    "calls": 9,
+    "input_tokens": 120000,
+    "output_tokens": 24000,
+    "cost_usd": 2.4,
+    "measured": false
+  },
+  "unresolved": [
+    "actual main fixture token sizes",
+    "8000-token semantic validation fit",
+    "300-second live run latency",
+    "account/provider entitlements"
+  ],
+  "environment_name_authority": "research/T06/runtime.env.example; T14 extra operational variables are separate",
+  "supersession": {
+    "reason": "T06 owner corrected and re-froze trusted reset_epoch fencing for run/tool/receipt identities and guarded reset serialization; runtime caps, schedule and demo remain unchanged.",
+    "prior_binding_files": [
+      {
+        "path": "research/T06/decision.json",
+        "sha256": "f794029e12e2cea6be5140acc038e6b730c01e60f8266ddba273f7a8497b7ee8"
+      },
+      {
+        "path": "research/T06/runtime-policy.json",
+        "sha256": "c7033a7a20fba4f836be921b9c7693d2525fdcde3fb4d25d277d5c30061b096a"
+      },
+      {
+        "path": "research/T06/frozen-manifest.json",
+        "sha256": "d58a2b1cb6547ec10b704aebbc2dbe827db0b7f3ed77dd527106aacd2a2ba66e"
+      }
+    ],
+    "replacement_manifest_frozen_at": "2026-09-26T16:24:29.261413+00:00",
+    "verification": "Every file in current T06 frozen manifest matched its actual SHA256 before adoption; no mismatched hash blessed."
+  },
+  "reset_epoch_contract": "trusted persistent monotonic tenant guard; epoch-scoped run/tool/receipt/budget identities; guarded CAS/touch per transaction; quiesce and retain or reconcile charges/send intents before reseed; reject old-epoch reuse"
+}

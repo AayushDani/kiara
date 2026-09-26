@@ -1,0 +1,159 @@
+{
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "required": [
+        "_id",
+        "tenant_id",
+        "schema_version",
+        "created_at",
+        "workflow_id",
+        "review_bundle_id",
+        "review_bundle_hash",
+        "candidate_revision_id",
+        "candidate_content_hash",
+        "actor_id",
+        "role",
+        "action",
+        "expected_state_version",
+        "approval_epoch",
+        "founder_approval_id",
+        "idempotency_key",
+        "comment",
+        "auth_mode",
+        "principal_kind",
+        "reset_epoch"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "tenant_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "schema_version": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "enum": [
+            1
+          ]
+        },
+        "created_at": {
+          "bsonType": "date"
+        },
+        "workflow_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "review_bundle_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "review_bundle_hash": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "candidate_revision_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "candidate_content_hash": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "actor_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "role": {
+          "bsonType": "string",
+          "enum": [
+            "founder",
+            "lawyer"
+          ]
+        },
+        "action": {
+          "bsonType": "string",
+          "enum": [
+            "viewed",
+            "reviewed",
+            "requested_changes",
+            "rejected",
+            "approved"
+          ]
+        },
+        "expected_state_version": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "approval_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "founder_approval_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "idempotency_key": {
+          "bsonType": "string",
+          "maxLength": 256
+        },
+        "comment": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "maxLength": 4000
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "auth_mode": {
+          "bsonType": "string",
+          "enum": [
+            "demo_simulated",
+            "human_session"
+          ]
+        },
+        "principal_kind": {
+          "bsonType": "string",
+          "enum": [
+            "human",
+            "demo_actor"
+          ]
+        },
+        "reset_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    }
+  },
+  "validationLevel": "strict",
+  "validationAction": "error"
+}

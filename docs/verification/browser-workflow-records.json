@@ -1,0 +1,271 @@
+{
+  "verified_at": "2026-09-26T17:25:56.219Z",
+  "node": "v24.19.0",
+  "modes": {
+    "persistence": "local",
+    "model": "scripted",
+    "email": "preview"
+  },
+  "reset_epoch": 2,
+  "champion_version": 2,
+  "workflows": [
+    {
+      "workflow_id": "1550fb89-8633-4767-a992-045b0b2f5f5a",
+      "customer_name": "Taylor Morgan",
+      "state": "finalized",
+      "harness_version": 1,
+      "missing_bundle_repairs": 1,
+      "repair_count": 2,
+      "approvals": [
+        {
+          "role": "founder",
+          "action": "approved",
+          "bundle_hash": "79c36bbcd5616dcef6da7446e44a1990ef123e1ceba3eb3c11d7312a493ea474"
+        },
+        {
+          "role": "lawyer",
+          "action": "approved",
+          "bundle_hash": "79c36bbcd5616dcef6da7446e44a1990ef123e1ceba3eb3c11d7312a493ea474"
+        }
+      ]
+    },
+    {
+      "workflow_id": "f9635165-387b-45bd-9544-de45edadfab7",
+      "customer_name": "Alex Rivera",
+      "state": "closed_no_change",
+      "harness_version": 2,
+      "missing_bundle_repairs": 0,
+      "repair_count": 0,
+      "approvals": []
+    }
+  ],
+  "evaluations": [
+    {
+      "evaluation_id": "30f2ef8b-713d-49be-b862-ada77c2a9da6",
+      "created_at": "2026-09-26T17:24:03.150Z",
+      "baseline_version": 1,
+      "candidate_version": 2,
+      "mode": "deterministic_executed",
+      "cases": [
+        {
+          "name": "holdout · demo_ccpa_positive",
+          "expected": "covered",
+          "actual": "covered",
+          "passed": true
+        },
+        {
+          "name": "regression · demo_ccpa_needs_information",
+          "expected": "needs_information",
+          "actual": "needs_information",
+          "passed": true
+        },
+        {
+          "name": "regression · demo_ccpa_not_covered",
+          "expected": "not_covered",
+          "actual": "not_covered",
+          "passed": true
+        },
+        {
+          "name": "holdout · demo_ccpa_revenue_equal_threshold",
+          "expected": "not_covered",
+          "actual": "not_covered",
+          "passed": true
+        },
+        {
+          "name": "regression · demo_ccpa_revenue_above_threshold",
+          "expected": "covered",
+          "actual": "covered",
+          "passed": true
+        },
+        {
+          "name": "regression · demo_ccpa_volume_threshold",
+          "expected": "covered",
+          "actual": "covered",
+          "passed": true
+        },
+        {
+          "name": "holdout · demo_ccpa_percentage_threshold",
+          "expected": "covered",
+          "actual": "covered",
+          "passed": true
+        },
+        {
+          "name": "regression · demo_ccpa_related_route_unknown",
+          "expected": "needs_information",
+          "actual": "needs_information",
+          "passed": true
+        },
+        {
+          "name": "regression · demo_ccpa_ip_only",
+          "expected": "needs_information",
+          "actual": "needs_information",
+          "passed": true
+        },
+        {
+          "name": "holdout · demo_ccpa_conflicting_revenue",
+          "expected": "needs_information",
+          "actual": "needs_information",
+          "passed": true
+        },
+        {
+          "name": "regression · demo_ccpa_ny_resident_ca_ip",
+          "expected": "not_covered",
+          "actual": "not_covered",
+          "passed": true
+        },
+        {
+          "name": "regression · grounded full candidate",
+          "expected": "passed",
+          "actual": "passed",
+          "passed": true
+        },
+        {
+          "name": "regression · wrong quote span",
+          "expected": "blocked",
+          "actual": "blocked",
+          "passed": true
+        },
+        {
+          "name": "holdout · stale authority review",
+          "expected": "blocked",
+          "actual": "blocked",
+          "passed": true
+        },
+        {
+          "name": "holdout · invented provision",
+          "expected": "blocked",
+          "actual": "blocked",
+          "passed": true
+        },
+        {
+          "name": "regression · unrelated clause deletion",
+          "expected": "blocked",
+          "actual": "blocked",
+          "passed": true
+        },
+        {
+          "name": "holdout · untrusted instructions",
+          "expected": "blocked",
+          "actual": "blocked",
+          "passed": true
+        },
+        {
+          "name": "regression · policy is not operational compliance",
+          "expected": "blocked",
+          "actual": "blocked",
+          "passed": true
+        },
+        {
+          "name": "holdout · protected patch /approval_gates",
+          "expected": "blocked",
+          "actual": "blocked",
+          "passed": true
+        },
+        {
+          "name": "holdout · protected patch /trusted_sources",
+          "expected": "blocked",
+          "actual": "blocked",
+          "passed": true
+        },
+        {
+          "name": "holdout · protected patch /required_evidence",
+          "expected": "blocked",
+          "actual": "blocked",
+          "passed": true
+        },
+        {
+          "name": "holdout · protected patch /budgets",
+          "expected": "blocked",
+          "actual": "blocked",
+          "passed": true
+        },
+        {
+          "name": "holdout · protected patch /legal_threshold",
+          "expected": "blocked",
+          "actual": "blocked",
+          "passed": true
+        },
+        {
+          "name": "holdout · protected patch /eval_assertions",
+          "expected": "blocked",
+          "actual": "blocked",
+          "passed": true
+        },
+        {
+          "name": "holdout · protected patch /__proto__/polluted",
+          "expected": "blocked",
+          "actual": "blocked",
+          "passed": true
+        },
+        {
+          "name": "holdout · protected patch /retrieval/prefetch/declared_ca_resident_ccpa_bundle/child",
+          "expected": "blocked",
+          "actual": "blocked",
+          "passed": true
+        },
+        {
+          "name": "diagnosis · same legal outcome",
+          "expected": "covered",
+          "actual": "covered",
+          "passed": true
+        },
+        {
+          "name": "regression · candidate preserves legal outcome",
+          "expected": "covered",
+          "actual": "covered",
+          "passed": true
+        },
+        {
+          "name": "regression · candidate preserves evidence",
+          "expected": "6bc1c03a6b2bbc806daf9b67fba44d826f86b18c38e82d3181eefca0e8a45ad8",
+          "actual": "6bc1c03a6b2bbc806daf9b67fba44d826f86b18c38e82d3181eefca0e8a45ad8",
+          "passed": true
+        },
+        {
+          "name": "regression · citation challenge remains visible",
+          "expected": "1",
+          "actual": "1",
+          "passed": true
+        },
+        {
+          "name": "regression · all proposal checks after repairs",
+          "expected": "passed",
+          "actual": "passed",
+          "passed": true
+        },
+        {
+          "name": "holdout · frozen evaluation inputs",
+          "expected": "unchanged",
+          "actual": "unchanged",
+          "passed": true
+        },
+        {
+          "name": "regression · champion version/generation compare-and-swap",
+          "expected": "matched",
+          "actual": "matched",
+          "passed": true
+        }
+      ],
+      "baseline_repairs": 1,
+      "candidate_repairs": 0,
+      "passed": true,
+      "duration_ms": 198.72,
+      "promoted": true,
+      "dataset_hash": "74294ca8fe440b4cb408b980d84c0f2671259d262c5dd163a0e6e3b13800d6e0"
+    }
+  ],
+  "notifications": [
+    {
+      "notification_id": "4aabdceb-fed0-4e1f-b264-3ba4ea9575fa",
+      "kind": "lawyer_review_requested",
+      "mode": "preview",
+      "status": "previewed"
+    },
+    {
+      "notification_id": "0c65d6d3-2bed-449e-a729-18e025f51ec7",
+      "kind": "document_finalized",
+      "mode": "preview",
+      "status": "previewed"
+    }
+  ]
+}

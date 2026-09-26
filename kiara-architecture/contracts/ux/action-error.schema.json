@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "T11 safe action error envelope",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "command_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "correlation_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "enum": [
+            "stale_review_bundle",
+            "state_conflict",
+            "founder_approval_required",
+            "validation_not_passed",
+            "missing_information",
+            "fact_version_conflict",
+            "action_not_permitted",
+            "not_found",
+            "idempotency_conflict",
+            "feedback_required",
+            "feedback_too_large",
+            "notification_delivery_unknown",
+            "temporarily_unavailable",
+            "source_review_required",
+            "source_trust_invalid",
+            "reset_epoch_conflict"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "retry_after_ms": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "current_state_version": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "current_review_bundle_id": {
+          "oneOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "next_actions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "compare_current_packet",
+              "reload_workflow",
+              "open_failed_checks",
+              "supply_information",
+              "compare_fact_versions",
+              "contact_assigned_reviewer",
+              "check_command_status",
+              "retry_same_command",
+              "open_notification",
+              "add_feedback"
+            ]
+          }
+        }
+      },
+      "required": [
+        "code",
+        "message",
+        "retryable",
+        "retry_after_ms",
+        "current_state_version",
+        "current_review_bundle_id",
+        "next_actions"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "command_id",
+    "correlation_id",
+    "error"
+  ]
+}

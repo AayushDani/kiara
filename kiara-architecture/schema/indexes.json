@@ -1,0 +1,523 @@
+{
+  "tenants": [
+    {
+      "name": "tenant_created",
+      "key": {
+        "tenant_id": 1,
+        "created_at": -1
+      },
+      "unique": false
+    }
+  ],
+  "actors": [
+    {
+      "name": "tenant_created",
+      "key": {
+        "tenant_id": 1,
+        "created_at": -1
+      },
+      "unique": false
+    },
+    {
+      "name": "tenant_subject",
+      "key": {
+        "tenant_id": 1,
+        "subject": 1
+      },
+      "unique": true
+    }
+  ],
+  "company_context_versions": [
+    {
+      "name": "tenant_created",
+      "key": {
+        "tenant_id": 1,
+        "created_at": -1
+      },
+      "unique": false
+    },
+    {
+      "name": "tenant_sequence",
+      "key": {
+        "tenant_id": 1,
+        "version": 1
+      },
+      "unique": true
+    }
+  ],
+  "customers": [
+    {
+      "name": "tenant_created",
+      "key": {
+        "tenant_id": 1,
+        "created_at": -1
+      },
+      "unique": false
+    },
+    {
+      "name": "tenant_external_key",
+      "key": {
+        "tenant_id": 1,
+        "external_key": 1
+      },
+      "unique": true
+    }
+  ],
+  "events": [
+    {
+      "name": "tenant_created",
+      "key": {
+        "tenant_id": 1,
+        "created_at": -1
+      },
+      "unique": false
+    },
+    {
+      "name": "tenant_idempotency_key",
+      "key": {
+        "tenant_id": 1,
+        "idempotency_key": 1
+      },
+      "unique": true
+    },
+    {
+      "name": "tenant_sequence",
+      "key": {
+        "tenant_id": 1,
+        "aggregate_type": 1,
+        "aggregate_id": 1,
+        "aggregate_seq": 1
+      },
+      "unique": true
+    }
+  ],
+  "documents": [
+    {
+      "name": "tenant_created",
+      "key": {
+        "tenant_id": 1,
+        "created_at": -1
+      },
+      "unique": false
+    }
+  ],
+  "document_revisions": [
+    {
+      "name": "tenant_created",
+      "key": {
+        "tenant_id": 1,
+        "created_at": -1
+      },
+      "unique": false
+    },
+    {
+      "name": "tenant_sequence",
+      "key": {
+        "tenant_id": 1,
+        "document_id": 1,
+        "revision_number": 1
+      },
+      "unique": true
+    }
+  ],
+  "legal_source_versions": [
+    {
+      "name": "tenant_created",
+      "key": {
+        "tenant_id": 1,
+        "created_at": -1
+      },
+      "unique": false
+    },
+    {
+      "name": "tenant_sequence",
+      "key": {
+        "tenant_id": 1,
+        "source_key": 1,
+        "version": 1
+      },
+      "unique": true
+    },
+    {
+      "name": "legal_as_of",
+      "key": {
+        "tenant_id": 1,
+        "jurisdiction": 1,
+        "status": 1,
+        "effective_from": -1
+      },
+      "unique": false
+    }
+  ],
+  "legal_chunks": [
+    {
+      "name": "tenant_created",
+      "key": {
+        "tenant_id": 1,
+        "created_at": -1
+      },
+      "unique": false
+    },
+    {
+      "name": "tenant_sequence",
+      "key": {
+        "tenant_id": 1,
+        "source_version_id": 1,
+        "chunk_index": 1
+      },
+      "unique": true
+    },
+    {
+      "name": "provision_lookup",
+      "key": {
+        "tenant_id": 1,
+        "source_version_id": 1,
+        "provision_key": 1,
+        "chunk_index": 1
+      },
+      "unique": false
+    }
+  ],
+  "assessments": [
+    {
+      "name": "tenant_created",
+      "key": {
+        "tenant_id": 1,
+        "created_at": -1
+      },
+      "unique": false
+    }
+  ],
+  "evidence_bundles": [
+    {
+      "name": "tenant_created",
+      "key": {
+        "tenant_id": 1,
+        "created_at": -1
+      },
+      "unique": false
+    }
+  ],
+  "change_proposals": [
+    {
+      "name": "tenant_created",
+      "key": {
+        "tenant_id": 1,
+        "created_at": -1
+      },
+      "unique": false
+    }
+  ],
+  "validation_runs": [
+    {
+      "name": "tenant_created",
+      "key": {
+        "tenant_id": 1,
+        "created_at": -1
+      },
+      "unique": false
+    }
+  ],
+  "review_bundles": [
+    {
+      "name": "tenant_created",
+      "key": {
+        "tenant_id": 1,
+        "created_at": -1
+      },
+      "unique": false
+    }
+  ],
+  "workflows": [
+    {
+      "name": "tenant_created",
+      "key": {
+        "tenant_id": 1,
+        "created_at": -1
+      },
+      "unique": false
+    },
+    {
+      "name": "tenant_trigger_document",
+      "key": {
+        "tenant_id": 1,
+        "trigger_event_id": 1,
+        "document_id": 1
+      },
+      "unique": true
+    },
+    {
+      "name": "tenant_state_updated",
+      "key": {
+        "tenant_id": 1,
+        "state": 1,
+        "updated_at": 1
+      },
+      "unique": false
+    },
+    {
+      "name": "tenant_document_queue",
+      "key": {
+        "tenant_id": 1,
+        "document_id": 1,
+        "state": 1,
+        "intake_seq": 1
+      },
+      "unique": false
+    }
+  ],
+  "jobs": [
+    {
+      "name": "tenant_created",
+      "key": {
+        "tenant_id": 1,
+        "created_at": -1
+      },
+      "unique": false
+    },
+    {
+      "name": "worker_ready",
+      "key": {
+        "tenant_id": 1,
+        "state": 1,
+        "available_at": 1,
+        "_id": 1
+      },
+      "unique": false
+    },
+    {
+      "name": "lease_recovery",
+      "key": {
+        "tenant_id": 1,
+        "state": 1,
+        "lease_expires_at": 1
+      },
+      "unique": false
+    },
+    {
+      "name": "tenant_dedupe_key",
+      "key": {
+        "tenant_id": 1,
+        "dedupe_key": 1
+      },
+      "unique": true
+    }
+  ],
+  "agent_runs": [
+    {
+      "name": "tenant_created",
+      "key": {
+        "tenant_id": 1,
+        "created_at": -1
+      },
+      "unique": false
+    },
+    {
+      "name": "workflow_runs",
+      "key": {
+        "tenant_id": 1,
+        "workflow_id": 1,
+        "created_at": 1
+      },
+      "unique": false
+    }
+  ],
+  "tool_receipts": [
+    {
+      "name": "tenant_run_idempotency",
+      "key": {
+        "tenant_id": 1,
+        "run_id": 1,
+        "idempotency_key": 1
+      },
+      "unique": true
+    }
+  ],
+  "review_actions": [
+    {
+      "name": "tenant_created",
+      "key": {
+        "tenant_id": 1,
+        "created_at": -1
+      },
+      "unique": false
+    },
+    {
+      "name": "tenant_idempotency_key",
+      "key": {
+        "tenant_id": 1,
+        "idempotency_key": 1
+      },
+      "unique": true
+    },
+    {
+      "name": "one_approval_per_role_epoch",
+      "key": {
+        "tenant_id": 1,
+        "workflow_id": 1,
+        "approval_epoch": 1,
+        "role": 1
+      },
+      "unique": true,
+      "partialFilterExpression": {
+        "action": "approved"
+      }
+    },
+    {
+      "name": "bundle_activity",
+      "key": {
+        "tenant_id": 1,
+        "review_bundle_id": 1,
+        "created_at": 1
+      },
+      "unique": false
+    }
+  ],
+  "feedback": [
+    {
+      "name": "tenant_created",
+      "key": {
+        "tenant_id": 1,
+        "created_at": -1
+      },
+      "unique": false
+    },
+    {
+      "name": "workflow_feedback",
+      "key": {
+        "tenant_id": 1,
+        "workflow_id": 1,
+        "created_at": 1
+      },
+      "unique": false
+    }
+  ],
+  "harness_versions": [
+    {
+      "name": "tenant_created",
+      "key": {
+        "tenant_id": 1,
+        "created_at": -1
+      },
+      "unique": false
+    },
+    {
+      "name": "tenant_sequence",
+      "key": {
+        "tenant_id": 1,
+        "version": 1
+      },
+      "unique": true
+    }
+  ],
+  "harness_candidates": [
+    {
+      "name": "tenant_created",
+      "key": {
+        "tenant_id": 1,
+        "created_at": -1
+      },
+      "unique": false
+    },
+    {
+      "name": "candidate_status",
+      "key": {
+        "tenant_id": 1,
+        "status": 1,
+        "created_at": 1
+      },
+      "unique": false
+    }
+  ],
+  "evaluation_runs": [
+    {
+      "name": "tenant_created",
+      "key": {
+        "tenant_id": 1,
+        "created_at": -1
+      },
+      "unique": false
+    }
+  ],
+  "operational_followups": [
+    {
+      "name": "tenant_created",
+      "key": {
+        "tenant_id": 1,
+        "created_at": -1
+      },
+      "unique": false
+    }
+  ],
+  "seed_manifests": [
+    {
+      "name": "tenant_created",
+      "key": {
+        "tenant_id": 1,
+        "created_at": -1
+      },
+      "unique": false
+    }
+  ],
+  "notification_outbox": [
+    {
+      "name": "semantic_dedupe",
+      "key": {
+        "tenant_id": 1,
+        "workflow_id": 1,
+        "kind": 1,
+        "recipient_actor_id": 1,
+        "review_bundle_id": 1,
+        "mode": 1
+      },
+      "unique": true
+    },
+    {
+      "name": "delivery_due",
+      "key": {
+        "tenant_id": 1,
+        "state": 1,
+        "available_at": 1
+      },
+      "unique": false
+    },
+    {
+      "name": "provider_idempotency",
+      "key": {
+        "tenant_id": 1,
+        "provider_idempotency_key": 1
+      },
+      "unique": true
+    }
+  ],
+  "telemetry_spans": [
+    {
+      "name": "workflow_spans",
+      "key": {
+        "tenant_id": 1,
+        "workflow_id": 1,
+        "started_at": 1,
+        "_id": 1
+      },
+      "unique": false
+    },
+    {
+      "name": "diagnostic_span_retention",
+      "key": {
+        "expires_at": 1
+      },
+      "expireAfterSeconds": 0
+    }
+  ],
+  "source_recheck_attestations": [
+    {
+      "name": "source_recheck_history",
+      "key": {
+        "tenant_id": 1,
+        "source_version_id": 1,
+        "attested_at": -1
+      },
+      "unique": false
+    }
+  ]
+}

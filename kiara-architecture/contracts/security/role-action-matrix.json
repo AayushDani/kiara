@@ -1,0 +1,246 @@
+{
+  "contract_id": "K-SEC-001",
+  "version": "0.1.0",
+  "status": "proposed_design",
+  "roles": [
+    "founder",
+    "lawyer",
+    "runtime_service",
+    "ingestion_service",
+    "notification_service",
+    "harness_evaluator",
+    "platform_maintainer"
+  ],
+  "default": "deny",
+  "all_grants_require": "server-derived authenticated principal, same tenant or explicitly public source, object relationship, permitted workflow state; service capability is not authority to impersonate human",
+  "model_tools": "Model invokes a run-bound adapter; allowed_roles governs executing principal, not an identity selected by model. Model outputs never supply actor/tenant/role. Human feedback is not model-callable.",
+  "actions": [
+    {
+      "action": "get_company_context",
+      "allowed_roles": [
+        "founder",
+        "lawyer",
+        "runtime_service"
+      ],
+      "model_callable": true,
+      "constraints": "tenant; lawyer workflow assignment; run-scoped minimum fields"
+    },
+    {
+      "action": "read_company_document",
+      "allowed_roles": [
+        "founder",
+        "lawyer",
+        "runtime_service"
+      ],
+      "model_callable": true,
+      "constraints": "tenant; lawyer workflow assignment; immutable revision lookup"
+    },
+    {
+      "action": "search_legal_evidence",
+      "allowed_roles": [
+        "founder",
+        "lawyer",
+        "runtime_service"
+      ],
+      "model_callable": true,
+      "constraints": "tenant-owned approved legal snapshots or same-tenant company material; source IDs not arbitrary URLs"
+    },
+    {
+      "action": "propose_company_context_update",
+      "allowed_roles": [
+        "founder",
+        "lawyer",
+        "runtime_service"
+      ],
+      "model_callable": true,
+      "constraints": "append proposal only; expected context version and provenance; no verification promotion"
+    },
+    {
+      "action": "apply_company_context_update",
+      "allowed_roles": [
+        "founder",
+        "ingestion_service"
+      ],
+      "model_callable": false,
+      "constraints": "founder attestation or source-bound typed event fact only; CAS; immutable new fact version"
+    },
+    {
+      "action": "create_change_proposal",
+      "allowed_roles": [
+        "runtime_service"
+      ],
+      "model_callable": false,
+      "constraints": "current workflow, immutable base, bounded clauses and citations; service validates persistence"
+    },
+    {
+      "action": "record_feedback",
+      "allowed_roles": [
+        "founder",
+        "lawyer"
+      ],
+      "model_callable": false,
+      "constraints": "authenticated human author and typed feedback; lawyer assignment"
+    },
+    {
+      "action": "record_review_activity",
+      "allowed_roles": [
+        "founder",
+        "lawyer"
+      ],
+      "model_callable": false,
+      "constraints": "view/review only; never approval"
+    },
+    {
+      "action": "founder_decision",
+      "allowed_roles": [
+        "founder"
+      ],
+      "model_callable": false,
+      "constraints": "human session; current bundle; awaiting_founder; immutable decision and CAS"
+    },
+    {
+      "action": "lawyer_decision",
+      "allowed_roles": [
+        "lawyer"
+      ],
+      "model_callable": false,
+      "constraints": "human session; assigned lawyer; awaiting_lawyer; founder approved same bundle"
+    },
+    {
+      "action": "validate_proposal",
+      "allowed_roles": [
+        "runtime_service"
+      ],
+      "model_callable": false,
+      "constraints": "deterministic validator plus bounded semantic step; cannot accept model pass flag"
+    },
+    {
+      "action": "finalize_document",
+      "allowed_roles": [
+        "runtime_service"
+      ],
+      "model_callable": false,
+      "constraints": "both gates same current bundle; current fact/evidence/base epochs; validated; transactional CAS"
+    },
+    {
+      "action": "ingest_event",
+      "allowed_roles": [
+        "ingestion_service"
+      ],
+      "model_callable": false,
+      "constraints": "authenticated producer; mapped tenant; schema and replay protection"
+    },
+    {
+      "action": "enqueue_notification",
+      "allowed_roles": [
+        "runtime_service"
+      ],
+      "model_callable": false,
+      "constraints": "fixed transition-triggered template and assigned recipient IDs; no arbitrary address/body"
+    },
+    {
+      "action": "deliver_notification",
+      "allowed_roles": [
+        "notification_service"
+      ],
+      "model_callable": false,
+      "constraints": "claimed outbox item; authorized recipient recheck; fixed provider; dedupe"
+    },
+    {
+      "action": "propose_harness_change",
+      "allowed_roles": [
+        "founder",
+        "lawyer",
+        "runtime_service"
+      ],
+      "model_callable": true,
+      "constraints": "tenant-scoped candidate only; protected kernel cannot be altered"
+    },
+    {
+      "action": "evaluate_harness_patch",
+      "allowed_roles": [
+        "harness_evaluator"
+      ],
+      "model_callable": false,
+      "constraints": "immutable candidate digest; frozen baseline/candidate manifest; mandatory regression and holdout"
+    },
+    {
+      "action": "promote_harness_version",
+      "allowed_roles": [
+        "harness_evaluator"
+      ],
+      "model_callable": false,
+      "constraints": "narrow allowed patch; passing bound evaluations; expected champion CAS; kernel unchanged"
+    },
+    {
+      "action": "rollback_harness_version",
+      "allowed_roles": [
+        "harness_evaluator",
+        "platform_maintainer"
+      ],
+      "model_callable": false,
+      "constraints": "previous approved version only; expected champion CAS; recorded reason"
+    },
+    {
+      "action": "curate_public_legal_source",
+      "allowed_roles": [
+        "platform_maintainer"
+      ],
+      "model_callable": false,
+      "constraints": "separate source-maintenance capability; authoritative registry and provenance verification"
+    },
+    {
+      "action": "change_protected_kernel",
+      "allowed_roles": [
+        "platform_maintainer"
+      ],
+      "model_callable": false,
+      "constraints": "reviewed code/config deployment outside agent runtime; no tenant-human or model API"
+    },
+    {
+      "action": "raw_database_or_shell",
+      "allowed_roles": [],
+      "model_callable": false,
+      "constraints": "never in model or human product API; scoped deployment/operator tooling outside product"
+    },
+    {
+      "action": "read_legal_provision",
+      "allowed_roles": [
+        "founder",
+        "lawyer",
+        "runtime_service"
+      ],
+      "model_callable": true,
+      "constraints": "server-bound tenant/workflow; assigned lawyer; registered authorized IDs; no arbitrary fetch"
+    },
+    {
+      "action": "read_validation_results",
+      "allowed_roles": [
+        "founder",
+        "lawyer",
+        "runtime_service"
+      ],
+      "model_callable": true,
+      "constraints": "server-bound tenant/workflow; assigned lawyer; registered authorized IDs; no arbitrary fetch"
+    },
+    {
+      "action": "read_feedback",
+      "allowed_roles": [
+        "founder",
+        "lawyer",
+        "runtime_service"
+      ],
+      "model_callable": true,
+      "constraints": "server-bound tenant/workflow; assigned lawyer; registered authorized IDs; no arbitrary fetch"
+    },
+    {
+      "action": "record_source_recheck_attestation",
+      "allowed_roles": [
+        "lawyer"
+      ],
+      "model_callable": false,
+      "constraints": "authenticated assigned lawyer plus explicit source-review capability; overdue engineering recheck only; exact source/hash/as_of/support/expiry<=24h; new evidence epoch and both draft gates"
+    }
+  ],
+  "model_callable_contract_owner": "T06; exact names agreed via cross-chat update 2026-09-26"
+}

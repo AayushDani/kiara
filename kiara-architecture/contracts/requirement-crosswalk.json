@@ -1,0 +1,5176 @@
+{
+  "schema_version": 1,
+  "requirements": [
+    {
+      "id": "KIARA-G01",
+      "status": "designed",
+      "obligation": "Preserve the event-driven legal-document review product for smaller founders and lawyers; no pivot or unauthorized scope deletion.",
+      "scope": "committed",
+      "ownerTask": "T17",
+      "ownerThreadId": "01a0de70-1d11-7143-a768-d81e6d87e61c",
+      "designEvidence": [
+        {
+          "path": "README.md",
+          "locator": "line 28: ## Behavior and invariants"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/0 (id=KIARA-G01)"
+        }
+      ],
+      "diagramIds": [
+        "C04",
+        "C06",
+        "C08",
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "contracts/operation-registry.json",
+        "research/T17/integration-freeze.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I11"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-G01",
+        "description": "Reviewer compares original plan to traceability; every committed capability is mapped.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-G02",
+      "status": "designed",
+      "obligation": "Plan five elapsed hours T+0 through T+300 of parallel agent-assisted execution, separate from research time.",
+      "scope": "committed",
+      "ownerTask": "T14",
+      "ownerThreadId": "01a0de71-67f1-78e2-8e9f-c7228ea94c2b",
+      "designEvidence": [
+        {
+          "path": "build-plan.md",
+          "locator": "line 15: ## Elapsed schedule and gates"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/1 (id=KIARA-G02)"
+        }
+      ],
+      "diagramIds": [
+        "C01",
+        "C04",
+        "C06",
+        "C13"
+      ],
+      "schemaOrContractIds": [
+        "contracts/execution/schedule.json",
+        "contracts/execution/implementation-manifest.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-G02",
+        "description": "Schedule totals 300 elapsed minutes and shows overlapping tasks and dependencies, not human-hours.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-G03",
+      "status": "designed",
+      "obligation": "Account for actual concurrency limits, model/tool latency, setup and serial bottlenecks without guaranteeing an unmeasured deadline.",
+      "scope": "committed",
+      "ownerTask": "T14",
+      "ownerThreadId": "01a0de71-67f1-78e2-8e9f-c7228ea94c2b",
+      "designEvidence": [
+        {
+          "path": "build-plan.md",
+          "locator": "line 36: ## Capacity and latency sensitivity"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/2 (id=KIARA-G03)"
+        }
+      ],
+      "diagramIds": [
+        "C01",
+        "C04",
+        "C06",
+        "C13"
+      ],
+      "schemaOrContractIds": [
+        "contracts/execution/schedule.json",
+        "contracts/execution/implementation-manifest.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-G03",
+        "description": "Critical path names assumed capacity, measured versus unmeasured latency, sensitivity and unresolved timing risks.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-G04",
+      "status": "designed",
+      "obligation": "Limit current work to research, architecture and reversible local validation; do not build full app or publish/send/submit credit forms.",
+      "scope": "committed",
+      "ownerTask": "T17",
+      "ownerThreadId": "01a0de70-1d11-7143-a768-d81e6d87e61c",
+      "designEvidence": [
+        {
+          "path": "README.md",
+          "locator": "line 28: ## Behavior and invariants"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/3 (id=KIARA-G04)"
+        }
+      ],
+      "diagramIds": [
+        "C04",
+        "C06",
+        "C08",
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "contracts/operation-registry.json",
+        "research/T17/integration-freeze.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I11"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-G04",
+        "description": "Actually-run checks are separate from future implementation; no prohibited external mutations are reported as authorized.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": [
+        "Historical architecture-only boundary superseded for implementation by user authorization relayed2026-09-26T16:36Z; T17 remains architecture-only owner. Original obligation retained unchanged."
+      ]
+    },
+    {
+      "id": "KIARA-G05",
+      "status": "designed",
+      "obligation": "Give every original requirement a stable ID and map artifact, diagram node/edge, schema/contract, owner chat, package, acceptance and demo evidence.",
+      "scope": "committed",
+      "ownerTask": "T01",
+      "ownerThreadId": "01a0de6d-c5ee-70d3-b131-9bdbd13b09e6",
+      "designEvidence": [
+        {
+          "path": "traceability.md",
+          "locator": "line 1: # Requirement traceability"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/4 (id=KIARA-G05)"
+        }
+      ],
+      "diagramIds": [
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "contracts/operation-registry.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I11"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-G05",
+        "description": "Ledger and final traceability have no omitted requirement and expose unresolved links.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-G06",
+      "status": "designed",
+      "obligation": "Use designed, dependency_blocked or unresolved statuses; only tool implementation mutation is user-designated stretch; separate new suggestions.",
+      "scope": "committed",
+      "ownerTask": "T01",
+      "ownerThreadId": "01a0de6d-c5ee-70d3-b131-9bdbd13b09e6",
+      "designEvidence": [
+        {
+          "path": "traceability.md",
+          "locator": "line 1: # Requirement traceability"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/5 (id=KIARA-G06)"
+        }
+      ],
+      "diagramIds": [
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "contracts/operation-registry.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I11"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-G06",
+        "description": "Enums validate; exactly the tool-mutation row carries user_designated_stretch.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-G07",
+      "status": "designed",
+      "obligation": "Use 17 real separate persistent planning specialist chats including independent reviewer and integrator; no simulated roles or ephemeral replacement.",
+      "scope": "committed",
+      "ownerTask": "T17",
+      "ownerThreadId": "01a0de70-1d11-7143-a768-d81e6d87e61c",
+      "designEvidence": [
+        {
+          "path": "README.md",
+          "locator": "line 28: ## Behavior and invariants"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/6 (id=KIARA-G07)"
+        },
+        {
+          "path": "thread-registry.json",
+          "locator": "/tasks; distinct persistent thread_id and requested model/thinking metadata"
+        }
+      ],
+      "diagramIds": [
+        "C04",
+        "C06",
+        "C08",
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "contracts/operation-registry.json",
+        "research/T17/integration-freeze.json"
+      ],
+      "implementationPackageIds": [
+        "I00"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-G07",
+        "description": "Registry contains ready tool-returned thread IDs and distinct specialist artifacts for all T01\u2013T17.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-G08",
+      "status": "designed",
+      "obligation": "Explicitly request gpt-6-astra and xhigh for every planning/reviewer/integration chat and future implementation packet; report rejection or unverified effective settings honestly.",
+      "scope": "committed",
+      "ownerTask": "T17",
+      "ownerThreadId": "01a0de70-1d11-7143-a768-d81e6d87e61c",
+      "designEvidence": [
+        {
+          "path": "README.md",
+          "locator": "line 28: ## Behavior and invariants"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/7 (id=KIARA-G08)"
+        },
+        {
+          "path": "thread-registry.json",
+          "locator": "/tasks; distinct persistent thread_id and requested model/thinking metadata"
+        }
+      ],
+      "diagramIds": [
+        "C04",
+        "C06",
+        "C08",
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "contracts/operation-registry.json",
+        "research/T17/integration-freeze.json"
+      ],
+      "implementationPackageIds": [
+        "I00"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-G08",
+        "description": "Requested and tool-confirmed settings are separately recorded; no inferred confirmation or downgrade.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-G09",
+      "status": "designed",
+      "obligation": "Discover project before dispatch, verify local project/context, retain pending versus ready IDs, respect host limits, and queue waves.",
+      "scope": "committed",
+      "ownerTask": "T17",
+      "ownerThreadId": "01a0de70-1d11-7143-a768-d81e6d87e61c",
+      "designEvidence": [
+        {
+          "path": "README.md",
+          "locator": "line 28: ## Behavior and invariants"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/8 (id=KIARA-G09)"
+        },
+        {
+          "path": "thread-registry.json",
+          "locator": "/tasks; distinct persistent thread_id and requested model/thinking metadata"
+        }
+      ],
+      "diagramIds": [
+        "C04",
+        "C06",
+        "C08",
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "contracts/operation-registry.json",
+        "research/T17/integration-freeze.json"
+      ],
+      "implementationPackageIds": [
+        "I00"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-G09",
+        "description": "Registry links project discovery, ready IDs, wave states and owned output paths.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-G10",
+      "status": "designed",
+      "obligation": "Give each specialist complete authoritative brief, scoped ownership, dependencies, source URLs, paths, acceptance and coordination authorization.",
+      "scope": "committed",
+      "ownerTask": "T17",
+      "ownerThreadId": "01a0de70-1d11-7143-a768-d81e6d87e61c",
+      "designEvidence": [
+        {
+          "path": "README.md",
+          "locator": "line 28: ## Behavior and invariants"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/9 (id=KIARA-G10)"
+        },
+        {
+          "path": "thread-registry.json",
+          "locator": "/tasks; distinct persistent thread_id and requested model/thinking metadata"
+        }
+      ],
+      "diagramIds": [
+        "C04",
+        "C06",
+        "C08",
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "contracts/operation-registry.json",
+        "research/T17/integration-freeze.json"
+      ],
+      "implementationPackageIds": [
+        "I00"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-G10",
+        "description": "Every launch packet contains readable context and unambiguous ownership.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-G11",
+      "status": "designed",
+      "obligation": "Collect asynchronous results with bounded wait/read, review actual artifacts, send dependencies and repair requests to authors, preserve settings.",
+      "scope": "committed",
+      "ownerTask": "T17",
+      "ownerThreadId": "01a0de70-1d11-7143-a768-d81e6d87e61c",
+      "designEvidence": [
+        {
+          "path": "README.md",
+          "locator": "line 28: ## Behavior and invariants"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/10 (id=KIARA-G11)"
+        },
+        {
+          "path": "thread-registry.json",
+          "locator": "/tasks; distinct persistent thread_id and requested model/thinking metadata"
+        }
+      ],
+      "diagramIds": [
+        "C04",
+        "C06",
+        "C08",
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "contracts/operation-registry.json",
+        "research/T17/integration-freeze.json"
+      ],
+      "implementationPackageIds": [
+        "I00"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-G11",
+        "description": "Registry and review record actual handoffs and rechecks, not creation alone.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-G12",
+      "status": "designed",
+      "obligation": "Only integrator edits shared final pack; specialists own task-specific directories; preserve existing files.",
+      "scope": "committed",
+      "ownerTask": "T17",
+      "ownerThreadId": "01a0de70-1d11-7143-a768-d81e6d87e61c",
+      "designEvidence": [
+        {
+          "path": "README.md",
+          "locator": "line 28: ## Behavior and invariants"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/11 (id=KIARA-G12)"
+        },
+        {
+          "path": "thread-registry.json",
+          "locator": "/tasks; distinct persistent thread_id and requested model/thinking metadata"
+        }
+      ],
+      "diagramIds": [
+        "C04",
+        "C06",
+        "C08",
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "contracts/operation-registry.json",
+        "research/T17/integration-freeze.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I11"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-G12",
+        "description": "Artifact ownership agrees with registry and integration provenance.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-G13",
+      "status": "designed",
+      "obligation": "Keep research-chat graph, later implementation-task graph and deployed runtime graph distinct; 17 chats do not imply 17 runtime services.",
+      "scope": "committed",
+      "ownerTask": "T15",
+      "ownerThreadId": "01a0de71-7302-7271-b378-04d5dd71e867",
+      "designEvidence": [
+        {
+          "path": "research/T15/report.md",
+          "locator": "line 18: ## Proposed design decisions"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/12 (id=KIARA-G13)"
+        }
+      ],
+      "diagramIds": [
+        "C01",
+        "C04",
+        "C06",
+        "C08",
+        "C12",
+        "C15"
+      ],
+      "schemaOrContractIds": [
+        "contracts/component-registry.json",
+        "contracts/edge-contract-crosswalk.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I11"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-G13",
+        "description": "Three graphs or explicit crosswalk distinguish processes from planning tasks.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-B01",
+      "status": "designed",
+      "obligation": "Explain founder and lawyer jobs, incentives, buyer versus user, alternatives and value proposition without invented market/savings/validation/compliance claims.",
+      "scope": "committed",
+      "ownerTask": "T02",
+      "ownerThreadId": "01a0de70-aeba-73f0-8a66-df70ae1f4e04",
+      "designEvidence": [
+        {
+          "path": "research/T02/report.md",
+          "locator": "line 17: ## Proposed positioning and buying hypothesis"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/13 (id=KIARA-B01)"
+        }
+      ],
+      "diagramIds": [
+        "C02",
+        "C03",
+        "C04"
+      ],
+      "schemaOrContractIds": [
+        "contracts/ux/screens.json"
+      ],
+      "implementationPackageIds": [
+        "I07",
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-B01",
+        "description": "Product narrative addresses all dimensions and labels assumptions.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-B02",
+      "status": "designed",
+      "obligation": "Recheck public Rippit inspiration and use a clearly fictional Rippit-inspired company; do not invent Rippit's actual facts or policy deficiencies.",
+      "scope": "committed",
+      "ownerTask": "T02",
+      "ownerThreadId": "01a0de70-aeba-73f0-8a66-df70ae1f4e04",
+      "designEvidence": [
+        {
+          "path": "research/T02/report.md",
+          "locator": "line 5: ## Verified facts and access limits"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/14 (id=KIARA-B02)"
+        }
+      ],
+      "diagramIds": [
+        "C02",
+        "C03",
+        "C04"
+      ],
+      "schemaOrContractIds": [
+        "contracts/ux/screens.json"
+      ],
+      "implementationPackageIds": [
+        "I01",
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-B02",
+        "description": "Seed identity is labeled synthetic and public claims cite live source; private facts remain unknown.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-B03",
+      "status": "designed",
+      "obligation": "Preserve NY-only known customer baseline to declared CA-residence signup with name/address, assessment, evidence, redline, correction, founder/lawyer feedback and approval, persisted improvement.",
+      "scope": "committed",
+      "ownerTask": "T11",
+      "ownerThreadId": "01a0de71-46b6-7231-8e13-a08f3b3d0c00",
+      "designEvidence": [
+        {
+          "path": "research/T11/report.md",
+          "locator": "line 29: ## 3. PROPOSED DESIGN \u2014 screen map"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/15 (id=KIARA-B03)"
+        }
+      ],
+      "diagramIds": [
+        "C02",
+        "C03",
+        "C04",
+        "D02",
+        "D03",
+        "D04",
+        "D15"
+      ],
+      "schemaOrContractIds": [
+        "contracts/workflow/review-command.schema.json",
+        "contracts/workflow/feedback-command.schema.json",
+        "contracts/ux/screens.json"
+      ],
+      "implementationPackageIds": [
+        "I07",
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-B03",
+        "description": "Main path traverses the entire requested sequence; no warning-only or alternate-law replacement.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-B04",
+      "status": "designed",
+      "obligation": "Connect company facts and schema fields to exact legal provisions and proposed clauses visibly.",
+      "scope": "committed",
+      "ownerTask": "T11",
+      "ownerThreadId": "01a0de71-46b6-7231-8e13-a08f3b3d0c00",
+      "designEvidence": [
+        {
+          "path": "research/T11/report.md",
+          "locator": "line 29: ## 3. PROPOSED DESIGN \u2014 screen map"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/16 (id=KIARA-B04)"
+        }
+      ],
+      "diagramIds": [
+        "C02",
+        "C03",
+        "C04",
+        "D02",
+        "D03",
+        "D04",
+        "D15"
+      ],
+      "schemaOrContractIds": [
+        "contracts/workflow/review-command.schema.json",
+        "contracts/workflow/feedback-command.schema.json",
+        "contracts/ux/screens.json"
+      ],
+      "implementationPackageIds": [
+        "I07",
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-B04",
+        "description": "Reviewer can follow fact ID to criterion to provision ID to clause/change in the UI design.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-L01",
+      "status": "designed",
+      "obligation": "Treat CA signup as applicability signal; absence of the CCPA acronym is not a compliance test.",
+      "scope": "committed",
+      "ownerTask": "T03",
+      "ownerThreadId": "01a0de6d-cf73-79f1-8acc-c2b11c9dbbcf",
+      "designEvidence": [
+        {
+          "path": "research/T03/report.md",
+          "locator": "line 25: ## 2. Applicability: verified provisions and proposed interpretation"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/17 (id=KIARA-L01)"
+        }
+      ],
+      "diagramIds": [
+        "C07",
+        "C09",
+        "D07",
+        "D12"
+      ],
+      "schemaOrContractIds": [
+        "schema/assessments.validator.json",
+        "contracts/legal/legal-interface.json"
+      ],
+      "implementationPackageIds": [
+        "I01",
+        "I02",
+        "I06"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-L01",
+        "description": "Fixtures and wording never infer coverage or violation from location/acronym alone.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-L02",
+      "status": "designed",
+      "obligation": "Distinguish declared legal residence, street address, billing address and IP/geolocation evidence.",
+      "scope": "committed",
+      "ownerTask": "T03",
+      "ownerThreadId": "01a0de6d-cf73-79f1-8acc-c2b11c9dbbcf",
+      "designEvidence": [
+        {
+          "path": "research/T03/report.md",
+          "locator": "line 25: ## 2. Applicability: verified provisions and proposed interpretation"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/18 (id=KIARA-L02)"
+        }
+      ],
+      "diagramIds": [
+        "C07",
+        "C09",
+        "D07",
+        "D12"
+      ],
+      "schemaOrContractIds": [
+        "schema/assessments.validator.json",
+        "contracts/legal/legal-interface.json"
+      ],
+      "implementationPackageIds": [
+        "I01",
+        "I02",
+        "I06"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-L02",
+        "description": "Event schema encodes evidence type, origin and confidence/verification without conflation.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-L03",
+      "status": "designed",
+      "obligation": "Use operative California statute/regulations and CPPA primary sources, exact effective dates and scenario-date inflation-adjusted thresholds.",
+      "scope": "committed",
+      "ownerTask": "T03",
+      "ownerThreadId": "01a0de6d-cf73-79f1-8acc-c2b11c9dbbcf",
+      "designEvidence": [
+        {
+          "path": "research/T03/report.md",
+          "locator": "line 7: ## 1. Verified source facts and access"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/19 (id=KIARA-L03)"
+        }
+      ],
+      "diagramIds": [
+        "C07",
+        "C09",
+        "D07",
+        "D12"
+      ],
+      "schemaOrContractIds": [
+        "schema/assessments.validator.json",
+        "contracts/legal/legal-interface.json"
+      ],
+      "implementationPackageIds": [
+        "I01",
+        "I02",
+        "I06"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-L03",
+        "description": "Dated evidence supports applicable definitions, adjusted thresholds and operative provisions.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-L04",
+      "status": "designed",
+      "obligation": "Model business-definition predicates, thresholds, exemptions and data practices with explicit known/unknown facts.",
+      "scope": "committed",
+      "ownerTask": "T03",
+      "ownerThreadId": "01a0de6d-cf73-79f1-8acc-c2b11c9dbbcf",
+      "designEvidence": [
+        {
+          "path": "research/T03/report.md",
+          "locator": "line 25: ## 2. Applicability: verified provisions and proposed interpretation"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/20 (id=KIARA-L04)"
+        }
+      ],
+      "diagramIds": [
+        "C07",
+        "C09",
+        "D07",
+        "D12"
+      ],
+      "schemaOrContractIds": [
+        "schema/assessments.validator.json",
+        "contracts/legal/legal-interface.json"
+      ],
+      "implementationPackageIds": [
+        "I01",
+        "I02",
+        "I06"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-L04",
+        "description": "Assessment criteria reference supporting fact IDs or missing-fact IDs; unknown never silently becomes false.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-L05",
+      "status": "designed",
+      "obligation": "Represent needs_information and non-covered/no-action outcomes explicitly.",
+      "scope": "committed",
+      "ownerTask": "T03",
+      "ownerThreadId": "01a0de6d-cf73-79f1-8acc-c2b11c9dbbcf",
+      "designEvidence": [
+        {
+          "path": "research/T03/report.md",
+          "locator": "line 25: ## 2. Applicability: verified provisions and proposed interpretation"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/21 (id=KIARA-L05)"
+        }
+      ],
+      "diagramIds": [
+        "C07",
+        "C09",
+        "D07",
+        "D12"
+      ],
+      "schemaOrContractIds": [
+        "schema/assessments.validator.json",
+        "contracts/legal/legal-interface.json"
+      ],
+      "implementationPackageIds": [
+        "I01",
+        "I02",
+        "I06"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-L05",
+        "description": "Unknown/noncovered evaluation cases follow distinct designed outcomes.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-L06",
+      "status": "designed",
+      "obligation": "Choose explicit synthetic covered facts so main CA/CCPA demo reaches a proposed privacy-policy redline.",
+      "scope": "committed",
+      "ownerTask": "T03",
+      "ownerThreadId": "01a0de6d-cf73-79f1-8acc-c2b11c9dbbcf",
+      "designEvidence": [
+        {
+          "path": "research/T03/report.md",
+          "locator": "line 60: ## 4. Synthetic fixture and provision \u2192 fact \u2192 clause interfaces"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/22 (id=KIARA-L06)"
+        }
+      ],
+      "diagramIds": [
+        "C07",
+        "C09",
+        "D07",
+        "D12"
+      ],
+      "schemaOrContractIds": [
+        "schema/assessments.validator.json",
+        "contracts/legal/legal-interface.json"
+      ],
+      "implementationPackageIds": [
+        "I01",
+        "I02",
+        "I06"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-L06",
+        "description": "Positive fixture satisfies documented applicability predicates and yields evidence-backed changes.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-L07",
+      "status": "designed",
+      "obligation": "Separate privacy-policy drafting from operational duties and missing notice-at-collection remediation; no retroactive cure claim.",
+      "scope": "committed",
+      "ownerTask": "T08",
+      "ownerThreadId": "01a0de70-a21b-7dd1-b451-caff676245ee",
+      "designEvidence": [
+        {
+          "path": "research/T03/report.md",
+          "locator": "line 39: ## 3. Operative dates and operational conditions"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/23 (id=KIARA-L07)"
+        }
+      ],
+      "diagramIds": [
+        "C10",
+        "D11",
+        "D14",
+        "D16",
+        "D28"
+      ],
+      "schemaOrContractIds": [
+        "contracts/documents/document-io.schema.json",
+        "schema/review_bundles.validator.json"
+      ],
+      "implementationPackageIds": [
+        "I05"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-L07",
+        "description": "Proposal records operational follow-ups separately from policy clauses.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-L08",
+      "status": "designed",
+      "obligation": "Use potential-gap/applicability-unresolved/awaiting-review language; never infer all NY policies current from seed customers.",
+      "scope": "committed",
+      "ownerTask": "T11",
+      "ownerThreadId": "01a0de71-46b6-7231-8e13-a08f3b3d0c00",
+      "designEvidence": [
+        {
+          "path": "research/T11/report.md",
+          "locator": "line 29: ## 3. PROPOSED DESIGN \u2014 screen map"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/24 (id=KIARA-L08)"
+        }
+      ],
+      "diagramIds": [
+        "C02",
+        "C03",
+        "C04",
+        "D02",
+        "D03",
+        "D04",
+        "D15"
+      ],
+      "schemaOrContractIds": [
+        "contracts/workflow/review-command.schema.json",
+        "contracts/workflow/feedback-command.schema.json",
+        "contracts/ux/screens.json"
+      ],
+      "implementationPackageIds": [
+        "I07"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-L08",
+        "description": "UI, email and script claims match evidence status and limited baseline checks.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-L09",
+      "status": "designed",
+      "obligation": "Separate authoritative source text from generated interpretation and review status; cite provisions with exact locators.",
+      "scope": "committed",
+      "ownerTask": "T03",
+      "ownerThreadId": "01a0de6d-cf73-79f1-8acc-c2b11c9dbbcf",
+      "designEvidence": [
+        {
+          "path": "research/T03/report.md",
+          "locator": "line 25: ## 2. Applicability: verified provisions and proposed interpretation"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/25 (id=KIARA-L09)"
+        }
+      ],
+      "diagramIds": [
+        "C07",
+        "C09",
+        "D07",
+        "D12"
+      ],
+      "schemaOrContractIds": [
+        "schema/assessments.validator.json",
+        "contracts/legal/legal-interface.json"
+      ],
+      "implementationPackageIds": [
+        "I01",
+        "I02",
+        "I06"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-L09",
+        "description": "Evidence chain identifies source versus model/legal-review interpretation.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-R01",
+      "status": "designed",
+      "obligation": "Retrieve and read company documents using concrete formats, parsing tools, ingestion and read behavior.",
+      "scope": "committed",
+      "ownerTask": "T05",
+      "ownerThreadId": "01a0de70-86a4-7bb2-a393-47f085d953f9",
+      "designEvidence": [
+        {
+          "path": "research/T05/report.md",
+          "locator": "line 29: ## Actual sources and formats"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/26 (id=KIARA-R01)"
+        }
+      ],
+      "diagramIds": [
+        "C07",
+        "C16",
+        "D07",
+        "D08",
+        "D27"
+      ],
+      "schemaOrContractIds": [
+        "contracts/context/operation-schema-map.json",
+        "contracts/context/contracts.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I02"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-R01",
+        "description": "Ingestion contract identifies supported formats, parser/version, content hash, errors and provenance.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-R02",
+      "status": "designed",
+      "obligation": "Retrieve and read authoritative legal documents/rulings with actual sources and tools.",
+      "scope": "committed",
+      "ownerTask": "T05",
+      "ownerThreadId": "01a0de70-86a4-7bb2-a393-47f085d953f9",
+      "designEvidence": [
+        {
+          "path": "research/T05/report.md",
+          "locator": "line 45: ## Ingestion, normalization and provenance"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/27 (id=KIARA-R02)"
+        }
+      ],
+      "diagramIds": [
+        "C07",
+        "C16",
+        "D07",
+        "D08",
+        "D27"
+      ],
+      "schemaOrContractIds": [
+        "contracts/context/operation-schema-map.json",
+        "contracts/context/contracts.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I02"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-R02",
+        "description": "Source type and parser are defined for statutory/regulatory PDF/HTML and relevant rulings; no imaginary API.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-R03",
+      "status": "designed",
+      "obligation": "Define deterministic tenant/fact/document filters, query shapes, relevance and token/result budgets.",
+      "scope": "committed",
+      "ownerTask": "T05",
+      "ownerThreadId": "01a0de70-86a4-7bb2-a393-47f085d953f9",
+      "designEvidence": [
+        {
+          "path": "research/T05/report.md",
+          "locator": "line 58: ## Retrieval algorithm and concrete budgets"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/28 (id=KIARA-R03)"
+        }
+      ],
+      "diagramIds": [
+        "C07",
+        "C16",
+        "D07",
+        "D08",
+        "D27"
+      ],
+      "schemaOrContractIds": [
+        "contracts/context/operation-schema-map.json",
+        "contracts/context/contracts.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I02"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-R03",
+        "description": "Context request/response examples include stable filters, bounded counts and snapshot IDs.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-R04",
+      "status": "designed",
+      "obligation": "Handle source freshness/effective dates, supersession, conflicts and missing evidence.",
+      "scope": "committed",
+      "ownerTask": "T05",
+      "ownerThreadId": "01a0de70-86a4-7bb2-a393-47f085d953f9",
+      "designEvidence": [
+        {
+          "path": "research/T05/report.md",
+          "locator": "line 99: ## Freshness, conflicts and snapshot semantics"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/29 (id=KIARA-R04)"
+        }
+      ],
+      "diagramIds": [
+        "C07",
+        "C16",
+        "D07",
+        "D08",
+        "D27"
+      ],
+      "schemaOrContractIds": [
+        "contracts/context/operation-schema-map.json",
+        "contracts/context/contracts.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I02"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-R04",
+        "description": "Retrieval excludes inoperative/stale authority for the scenario or reports explicit unresolved evidence.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-R05",
+      "status": "designed",
+      "obligation": "Persist exact context snapshot used for each run, including facts, document bases, source versions and retrieval policy.",
+      "scope": "committed",
+      "ownerTask": "T05",
+      "ownerThreadId": "01a0de70-86a4-7bb2-a393-47f085d953f9",
+      "designEvidence": [
+        {
+          "path": "research/T05/report.md",
+          "locator": "line 58: ## Retrieval algorithm and concrete budgets"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/30 (id=KIARA-R05)"
+        }
+      ],
+      "diagramIds": [
+        "C07",
+        "C16",
+        "D07",
+        "D08",
+        "D27"
+      ],
+      "schemaOrContractIds": [
+        "contracts/context/operation-schema-map.json",
+        "contracts/context/contracts.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I02"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-R05",
+        "description": "Same run can be inspected/reproduced against pinned snapshot references.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-R06",
+      "status": "designed",
+      "obligation": "Evaluate exact, lexical and vector retrieval; if vectors are omitted explain tradeoff; if selected specify model/dimension/index/prefilters/readiness/update/fallback.",
+      "scope": "committed",
+      "ownerTask": "T05",
+      "ownerThreadId": "01a0de70-86a4-7bb2-a393-47f085d953f9",
+      "designEvidence": [
+        {
+          "path": "research/T05/report.md",
+          "locator": "line 58: ## Retrieval algorithm and concrete budgets"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/31 (id=KIARA-R06)"
+        }
+      ],
+      "diagramIds": [
+        "C07",
+        "C16",
+        "D07",
+        "D08",
+        "D27"
+      ],
+      "schemaOrContractIds": [
+        "contracts/context/operation-schema-map.json",
+        "contracts/context/contracts.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I02"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-R06",
+        "description": "One chosen strategy and readiness-triggered fallback preserve retrieval capability.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-R07",
+      "status": "designed",
+      "obligation": "Provide typed permission-aware company-context retrieval tool with provenance, retrieval rules and guardrails.",
+      "scope": "committed",
+      "ownerTask": "T06",
+      "ownerThreadId": "01a0de6f-eaed-70a3-a3bb-dc20b148e485",
+      "designEvidence": [
+        {
+          "path": "research/T06/report.md",
+          "locator": "line 43: ## Concrete runtime interfaces"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/32 (id=KIARA-R07)"
+        }
+      ],
+      "diagramIds": [
+        "C08",
+        "C17",
+        "D09",
+        "D10",
+        "D30"
+      ],
+      "schemaOrContractIds": [
+        "contracts/runtime/runtime-contracts.schema.json",
+        "contracts/runtime/runtime-policy.json"
+      ],
+      "implementationPackageIds": [
+        "I03"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-R07",
+        "description": "Model tools receive trusted server tenant scope and bounded structured evidence.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-R08",
+      "status": "dependency_blocked",
+      "obligation": "Provide typed company-context update/proposal tool with allowed fields, actor/provenance, expected-version conflict handling and verification.",
+      "scope": "committed",
+      "ownerTask": "T06",
+      "ownerThreadId": "01a0de6f-eaed-70a3-a3bb-dc20b148e485",
+      "designEvidence": [
+        {
+          "path": "research/T06/report.md",
+          "locator": "line 43: ## Concrete runtime interfaces"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/33 (id=KIARA-R08)"
+        }
+      ],
+      "diagramIds": [
+        "C08",
+        "C17",
+        "D09",
+        "D10",
+        "D30"
+      ],
+      "schemaOrContractIds": [
+        "contracts/runtime/runtime-contracts.schema.json",
+        "contracts/runtime/runtime-policy.json"
+      ],
+      "implementationPackageIds": [
+        "I03"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-R08",
+        "description": "Unauthorized/stale writes fail; proposed/verified facts and human review authority are distinct.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": [
+        "Final protected context/assessment/harness service IO and integrated schema recheck"
+      ]
+    },
+    {
+      "id": "KIARA-S01",
+      "status": "designed",
+      "obligation": "Store company context, customers/events, documents, legal evidence, workflow state and agent memory in Atlas.",
+      "scope": "committed",
+      "ownerTask": "T04",
+      "ownerThreadId": "01a0de70-7a80-7010-8274-47e00e2cb855",
+      "designEvidence": [
+        {
+          "path": "schema.md",
+          "locator": "line 37: ## Physical boundaries and field ownership"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/34 (id=KIARA-S01)"
+        }
+      ],
+      "diagramIds": [
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "schema/collection-catalog.json",
+        "schema/indexes.json"
+      ],
+      "implementationPackageIds": [
+        "I01"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-S01",
+        "description": "Physical collection/embedding map covers every required concept.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-S02",
+      "status": "designed",
+      "obligation": "Specify types, required/optional fields, enums, canonical IDs, references, cardinality and embed/reference choices; avoid collection-per-noun design.",
+      "scope": "committed",
+      "ownerTask": "T04",
+      "ownerThreadId": "01a0de70-7a80-7010-8274-47e00e2cb855",
+      "designEvidence": [
+        {
+          "path": "schema.md",
+          "locator": "line 37: ## Physical boundaries and field ownership"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/35 (id=KIARA-S02)"
+        }
+      ],
+      "diagramIds": [
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "schema/collection-catalog.json",
+        "schema/indexes.json"
+      ],
+      "implementationPackageIds": [
+        "I01"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-S02",
+        "description": "Machine-readable validators and ER/physical mapping agree.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-S03",
+      "status": "designed",
+      "obligation": "Define unique/compound indexes, query support and validation/versioning/concurrency strategy.",
+      "scope": "committed",
+      "ownerTask": "T04",
+      "ownerThreadId": "01a0de70-7a80-7010-8274-47e00e2cb855",
+      "designEvidence": [
+        {
+          "path": "schema.md",
+          "locator": "line 86: ## Concurrency and transaction contracts"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/36 (id=KIARA-S03)"
+        }
+      ],
+      "diagramIds": [
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "schema/collection-catalog.json",
+        "schema/indexes.json"
+      ],
+      "implementationPackageIds": [
+        "I01"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-S03",
+        "description": "Index manifest supports tenant lookups, claims, dedupe, version checks and active-proposal constraint.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-S04",
+      "status": "designed",
+      "obligation": "Model tenant/company, actors/roles, business profile and customer residency/event evidence with writer ownership.",
+      "scope": "committed",
+      "ownerTask": "T04",
+      "ownerThreadId": "01a0de70-7a80-7010-8274-47e00e2cb855",
+      "designEvidence": [
+        {
+          "path": "schema.md",
+          "locator": "line 37: ## Physical boundaries and field ownership"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/37 (id=KIARA-S04)"
+        }
+      ],
+      "diagramIds": [
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "schema/tenants.validator.json",
+        "schema/collection-catalog.json",
+        "schema/indexes.json"
+      ],
+      "implementationPackageIds": [
+        "I01"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-S04",
+        "description": "Valid examples include each concept and cardinality/writer declarations.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-S05",
+      "status": "designed",
+      "obligation": "Model facts with origin, author, verification, known/unknown status, timestamp and supersession.",
+      "scope": "committed",
+      "ownerTask": "T04",
+      "ownerThreadId": "01a0de70-7a80-7010-8274-47e00e2cb855",
+      "designEvidence": [
+        {
+          "path": "schema.md",
+          "locator": "line 37: ## Physical boundaries and field ownership"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/38 (id=KIARA-S05)"
+        }
+      ],
+      "diagramIds": [
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "schema/company_context_versions.validator.json",
+        "schema/collection-catalog.json",
+        "schema/indexes.json"
+      ],
+      "implementationPackageIds": [
+        "I01"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-S05",
+        "description": "Complete fact-version example carries provenance and never conflates null/false/unknown.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-S06",
+      "status": "designed",
+      "obligation": "Model immutable events, runs, transitions/checkpoints and idempotency records.",
+      "scope": "committed",
+      "ownerTask": "T04",
+      "ownerThreadId": "01a0de70-7a80-7010-8274-47e00e2cb855",
+      "designEvidence": [
+        {
+          "path": "schema.md",
+          "locator": "line 37: ## Physical boundaries and field ownership"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/39 (id=KIARA-S06)"
+        }
+      ],
+      "diagramIds": [
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "schema/events.validator.json",
+        "schema/collection-catalog.json",
+        "schema/indexes.json"
+      ],
+      "implementationPackageIds": [
+        "I01"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-S06",
+        "description": "Persisted resume/dedupe references form a consistent synthetic trace.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-S07",
+      "status": "designed",
+      "obligation": "Model source versions and provisions/chunks with authority URL, jurisdiction, locator, retrieval/effective dates, hash, status and supersession.",
+      "scope": "committed",
+      "ownerTask": "T04",
+      "ownerThreadId": "01a0de70-7a80-7010-8274-47e00e2cb855",
+      "designEvidence": [
+        {
+          "path": "schema.md",
+          "locator": "line 37: ## Physical boundaries and field ownership"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/40 (id=KIARA-S07)"
+        }
+      ],
+      "diagramIds": [
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "schema/legal_source_versions.validator.json",
+        "schema/collection-catalog.json",
+        "schema/indexes.json"
+      ],
+      "implementationPackageIds": [
+        "I01"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-S07",
+        "description": "Schema-valid source/provision examples connect citation locator to immutable snapshot.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-S08",
+      "status": "designed",
+      "obligation": "Model assessments with criteria, company-fact IDs, missing facts, legal-provision IDs, result and review state.",
+      "scope": "committed",
+      "ownerTask": "T04",
+      "ownerThreadId": "01a0de70-7a80-7010-8274-47e00e2cb855",
+      "designEvidence": [
+        {
+          "path": "schema.md",
+          "locator": "line 37: ## Physical boundaries and field ownership"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/41 (id=KIARA-S08)"
+        }
+      ],
+      "diagramIds": [
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "schema/assessments.validator.json",
+        "schema/collection-catalog.json",
+        "schema/indexes.json"
+      ],
+      "implementationPackageIds": [
+        "I01"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-S08",
+        "description": "Positive and unknown examples validate and link to exact evidence.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-S09",
+      "status": "designed",
+      "obligation": "Model documents, immutable revisions, parent/base, stable clause IDs, proposals, hash, citations/rationale and follow-ups.",
+      "scope": "committed",
+      "ownerTask": "T04",
+      "ownerThreadId": "01a0de70-7a80-7010-8274-47e00e2cb855",
+      "designEvidence": [
+        {
+          "path": "schema.md",
+          "locator": "line 37: ## Physical boundaries and field ownership"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/42 (id=KIARA-S09)"
+        }
+      ],
+      "diagramIds": [
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "schema/document_revisions.validator.json",
+        "schema/collection-catalog.json",
+        "schema/indexes.json"
+      ],
+      "implementationPackageIds": [
+        "I01"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-S09",
+        "description": "A base and proposed revision can be traversed without narrative inference.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-S10",
+      "status": "designed",
+      "obligation": "Model validation/repair results, structured attributed founder/lawyer feedback and version-specific decisions.",
+      "scope": "committed",
+      "ownerTask": "T04",
+      "ownerThreadId": "01a0de70-7a80-7010-8274-47e00e2cb855",
+      "designEvidence": [
+        {
+          "path": "schema.md",
+          "locator": "line 37: ## Physical boundaries and field ownership"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/43 (id=KIARA-S10)"
+        }
+      ],
+      "diagramIds": [
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "schema/review_actions.validator.json",
+        "schema/collection-catalog.json",
+        "schema/indexes.json"
+      ],
+      "implementationPackageIds": [
+        "I01"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-S10",
+        "description": "Examples distinguish activity from approval and bind immutable review bundle.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-S11",
+      "status": "designed",
+      "obligation": "Model harness versions, candidate patches, evaluation runs, promotion and rollback history.",
+      "scope": "committed",
+      "ownerTask": "T04",
+      "ownerThreadId": "01a0de70-7a80-7010-8274-47e00e2cb855",
+      "designEvidence": [
+        {
+          "path": "schema.md",
+          "locator": "line 37: ## Physical boundaries and field ownership"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/44 (id=KIARA-S11)"
+        }
+      ],
+      "diagramIds": [
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "schema/harness_versions.validator.json",
+        "schema/collection-catalog.json",
+        "schema/indexes.json"
+      ],
+      "implementationPackageIds": [
+        "I01"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-S11",
+        "description": "Candidate, evaluation, champion pointer and immutable history are linked consistently.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-S12",
+      "status": "designed",
+      "obligation": "Model notification outbox/delivery attempts and audit/trace references.",
+      "scope": "committed",
+      "ownerTask": "T04",
+      "ownerThreadId": "01a0de70-7a80-7010-8274-47e00e2cb855",
+      "designEvidence": [
+        {
+          "path": "schema.md",
+          "locator": "line 37: ## Physical boundaries and field ownership"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/45 (id=KIARA-S12)"
+        }
+      ],
+      "diagramIds": [
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "schema/notification_outbox.validator.json",
+        "schema/collection-catalog.json",
+        "schema/indexes.json"
+      ],
+      "implementationPackageIds": [
+        "I01"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-S12",
+        "description": "Notification state can change independently from workflow approval.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-S13",
+      "status": "designed",
+      "obligation": "Separate shared public legal corpus from tenant-confidential data; derive private scope from authenticated server context, never model arguments.",
+      "scope": "committed",
+      "ownerTask": "T12",
+      "ownerThreadId": "01a0de71-5163-7d62-b23a-04dd48403fe6",
+      "designEvidence": [
+        {
+          "path": "research/T12/report.md",
+          "locator": "line 26: ## Proposed design: trust and identity boundaries"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/46 (id=KIARA-S13)"
+        }
+      ],
+      "diagramIds": [
+        "C05",
+        "C09",
+        "C11",
+        "D04",
+        "D25",
+        "D30",
+        "D31"
+      ],
+      "schemaOrContractIds": [
+        "contracts/security/security-policy.json",
+        "contracts/security/role-action-matrix.json"
+      ],
+      "implementationPackageIds": [
+        "I10",
+        "I03",
+        "I04"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-S13",
+        "description": "Cross-tenant read/write rejection is specified at every private operation.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-S14",
+      "status": "designed",
+      "obligation": "Provide one complete synthetic trace with consistent signup, assessment, provision, clause, draft, validation, approvals and harness-update IDs.",
+      "scope": "committed",
+      "ownerTask": "T04",
+      "ownerThreadId": "01a0de70-7a80-7010-8274-47e00e2cb855",
+      "designEvidence": [
+        {
+          "path": "fixtures/README.md",
+          "locator": "line 1: # Synthetic fixture catalog"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/47 (id=KIARA-S14)"
+        }
+      ],
+      "diagramIds": [
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "schema/collection-catalog.json",
+        "schema/indexes.json"
+      ],
+      "implementationPackageIds": [
+        "I01"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-S14",
+        "description": "Referential validation follows full trace and canonical BSON/JSON/API ID representation.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-S15",
+      "status": "designed",
+      "obligation": "Specify repeatable deterministic seed/reset script for company facts, NY/CA events, baseline docs, legal snapshots, actors and harness versions.",
+      "scope": "committed",
+      "ownerTask": "T04",
+      "ownerThreadId": "01a0de70-7a80-7010-8274-47e00e2cb855",
+      "designEvidence": [
+        {
+          "path": "run-interface.md",
+          "locator": "line 42: ## CLI interface"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/48 (id=KIARA-S15)"
+        }
+      ],
+      "diagramIds": [
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "schema/seed_manifests.validator.json",
+        "schema/collection-catalog.json",
+        "schema/indexes.json"
+      ],
+      "implementationPackageIds": [
+        "I01"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-S15",
+        "description": "Planned CLI reset is idempotent, fixture-versioned and restricted to explicit demo tenant/database.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-S16",
+      "status": "designed",
+      "obligation": "Provide parseable schema-valid examples for every physical collection, no ellipses.",
+      "scope": "committed",
+      "ownerTask": "T04",
+      "ownerThreadId": "01a0de70-7a80-7010-8274-47e00e2cb855",
+      "designEvidence": [
+        {
+          "path": "schema.md",
+          "locator": "line 37: ## Physical boundaries and field ownership"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/49 (id=KIARA-S16)"
+        }
+      ],
+      "diagramIds": [
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "schema/collection-catalog.json",
+        "schema/indexes.json"
+      ],
+      "implementationPackageIds": [
+        "I01"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-S16",
+        "description": "Local validator checks all examples, enums, IDs and referenced versions with real results reported.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-W01",
+      "status": "designed",
+      "obligation": "Define UI/API/worker/harness/data/email/observability deployment and module boundaries, including worker hosting limits.",
+      "scope": "committed",
+      "ownerTask": "T09",
+      "ownerThreadId": "01a0de6f-f87e-72c1-a88b-cd79736ea3dd",
+      "designEvidence": [
+        {
+          "path": "contracts.md",
+          "locator": "line 29: ## Event and state ownership"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/50 (id=KIARA-W01)"
+        }
+      ],
+      "diagramIds": [
+        "C05",
+        "C06",
+        "C13",
+        "D01",
+        "D06",
+        "D15",
+        "D17",
+        "D29"
+      ],
+      "schemaOrContractIds": [
+        "contracts/workflow/event.schema.json",
+        "contracts/workflow/transitions.json",
+        "contracts/workflow/command-io.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I04"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-W01",
+        "description": "No long-running approval/model wait depends on a short-lived web request or open browser.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-W02",
+      "status": "designed",
+      "obligation": "Choose one event/state vocabulary and concrete trigger envelope with tenant, schema version, occurred/received times, actor/source, correlation/causation, idempotency and minimal residence evidence.",
+      "scope": "committed",
+      "ownerTask": "T09",
+      "ownerThreadId": "01a0de6f-f87e-72c1-a88b-cd79736ea3dd",
+      "designEvidence": [
+        {
+          "path": "contracts.md",
+          "locator": "line 29: ## Event and state ownership"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/51 (id=KIARA-W02)"
+        }
+      ],
+      "diagramIds": [
+        "C05",
+        "C06",
+        "C13",
+        "D01",
+        "D06",
+        "D15",
+        "D17",
+        "D29"
+      ],
+      "schemaOrContractIds": [
+        "contracts/workflow/event.schema.json",
+        "contracts/workflow/transitions.json",
+        "contracts/workflow/command-io.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I04"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-W02",
+        "description": "Canonical user.signed_up or explicit alias mapping is consistent across artifacts.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-W03",
+      "status": "designed",
+      "obligation": "Specify every transition's trigger, actor, preconditions, writes, emitted event and retry behavior.",
+      "scope": "committed",
+      "ownerTask": "T09",
+      "ownerThreadId": "01a0de6f-f87e-72c1-a88b-cd79736ea3dd",
+      "designEvidence": [
+        {
+          "path": "contracts.md",
+          "locator": "line 29: ## Event and state ownership"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/52 (id=KIARA-W03)"
+        }
+      ],
+      "diagramIds": [
+        "C05",
+        "C06",
+        "C13",
+        "D01",
+        "D06",
+        "D15",
+        "D17",
+        "D29"
+      ],
+      "schemaOrContractIds": [
+        "contracts/workflow/event.schema.json",
+        "contracts/workflow/transitions.json",
+        "contracts/workflow/command-io.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I04"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-W03",
+        "description": "State table covers ingestion through delivery, missing facts, no action, drafting, repair, human waits and terminal failure.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-W04",
+      "status": "designed",
+      "obligation": "Persist claims/checkpoints/waits/retries so approval waits survive restart/browser close; justify job/queue/change-stream choice.",
+      "scope": "committed",
+      "ownerTask": "T09",
+      "ownerThreadId": "01a0de6f-f87e-72c1-a88b-cd79736ea3dd",
+      "designEvidence": [
+        {
+          "path": "contracts.md",
+          "locator": "line 29: ## Event and state ownership"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/53 (id=KIARA-W04)"
+        }
+      ],
+      "diagramIds": [
+        "C05",
+        "C06",
+        "C13",
+        "D01",
+        "D06",
+        "D15",
+        "D17",
+        "D29"
+      ],
+      "schemaOrContractIds": [
+        "contracts/workflow/event.schema.json",
+        "contracts/workflow/transitions.json",
+        "contracts/workflow/command-io.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I04"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-W04",
+        "description": "Worker restart scenario resumes once safely; change streams are not treated as a complete durable queue.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-W05",
+      "status": "designed",
+      "obligation": "Handle duplicate/out-of-order events, model retries/timeouts and duplicate notification attempts with concrete mechanisms.",
+      "scope": "committed",
+      "ownerTask": "T09",
+      "ownerThreadId": "01a0de6f-f87e-72c1-a88b-cd79736ea3dd",
+      "designEvidence": [
+        {
+          "path": "contracts.md",
+          "locator": "line 29: ## Event and state ownership"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/54 (id=KIARA-W05)"
+        }
+      ],
+      "diagramIds": [
+        "C05",
+        "C06",
+        "C13",
+        "D01",
+        "D06",
+        "D15",
+        "D17",
+        "D29"
+      ],
+      "schemaOrContractIds": [
+        "contracts/workflow/event.schema.json",
+        "contracts/workflow/transitions.json",
+        "contracts/workflow/command-io.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I04"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-W05",
+        "description": "Acceptance fixtures show dedupe keys and conditional state transitions; no unsupported exactly-once promise.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-W06",
+      "status": "designed",
+      "obligation": "Prevent or resolve two proposals against one base with implementable atomic claims/version preconditions.",
+      "scope": "committed",
+      "ownerTask": "T09",
+      "ownerThreadId": "01a0de6f-f87e-72c1-a88b-cd79736ea3dd",
+      "designEvidence": [
+        {
+          "path": "contracts.md",
+          "locator": "line 29: ## Event and state ownership"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/55 (id=KIARA-W06)"
+        }
+      ],
+      "diagramIds": [
+        "C05",
+        "C06",
+        "C13",
+        "D01",
+        "D06",
+        "D15",
+        "D17",
+        "D29"
+      ],
+      "schemaOrContractIds": [
+        "contracts/workflow/event.schema.json",
+        "contracts/workflow/transitions.json",
+        "contracts/workflow/command-io.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I04"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-W06",
+        "description": "Concurrent proposal attempt has defined conflict result and recovery.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-W07",
+      "status": "designed",
+      "obligation": "Route founder approval before lawyer review; require both authorized gates for exact draft finalization.",
+      "scope": "committed",
+      "ownerTask": "T09",
+      "ownerThreadId": "01a0de6f-f87e-72c1-a88b-cd79736ea3dd",
+      "designEvidence": [
+        {
+          "path": "contracts.md",
+          "locator": "line 29: ## Event and state ownership"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/56 (id=KIARA-W07)"
+        }
+      ],
+      "diagramIds": [
+        "C05",
+        "C06",
+        "C13",
+        "D01",
+        "D06",
+        "D15",
+        "D17",
+        "D29"
+      ],
+      "schemaOrContractIds": [
+        "contracts/workflow/event.schema.json",
+        "contracts/workflow/transitions.json",
+        "contracts/workflow/command-io.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I04"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-W07",
+        "description": "Lawyer review cannot start without current founder gate and model cannot approve either role.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-W08",
+      "status": "designed",
+      "obligation": "Support requested changes, rejection, superseded draft and terminal failure; define finalization as approved artifact rather than automatic public publication.",
+      "scope": "committed",
+      "ownerTask": "T09",
+      "ownerThreadId": "01a0de6f-f87e-72c1-a88b-cd79736ea3dd",
+      "designEvidence": [
+        {
+          "path": "contracts.md",
+          "locator": "line 29: ## Event and state ownership"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/57 (id=KIARA-W08)"
+        }
+      ],
+      "diagramIds": [
+        "C05",
+        "C06",
+        "C13",
+        "D01",
+        "D06",
+        "D15",
+        "D17",
+        "D29"
+      ],
+      "schemaOrContractIds": [
+        "contracts/workflow/event.schema.json",
+        "contracts/workflow/transitions.json",
+        "contracts/workflow/command-io.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I04"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-W08",
+        "description": "Each branch has explicit persisted state, retry/stop and approval invalidation behavior.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-W09",
+      "status": "designed",
+      "obligation": "Separate lawyer review request from final delivery; failed email retries delivery without regenerating draft or approving it.",
+      "scope": "committed",
+      "ownerTask": "T09",
+      "ownerThreadId": "01a0de6f-f87e-72c1-a88b-cd79736ea3dd",
+      "designEvidence": [
+        {
+          "path": "contracts.md",
+          "locator": "line 29: ## Event and state ownership"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/58 (id=KIARA-W09)"
+        }
+      ],
+      "diagramIds": [
+        "C05",
+        "C06",
+        "C13",
+        "D01",
+        "D06",
+        "D15",
+        "D17",
+        "D29"
+      ],
+      "schemaOrContractIds": [
+        "contracts/workflow/event.schema.json",
+        "contracts/workflow/transitions.json",
+        "contracts/workflow/command-io.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I04"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-W09",
+        "description": "After founder approval lawyer notification can enqueue before finalization; delivery failure leaves approved content intact.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-C01",
+      "status": "designed",
+      "obligation": "Classify every selected Kiara operation as deterministic API, model-callable tool, adapter or human-only action.",
+      "scope": "committed",
+      "ownerTask": "T06",
+      "ownerThreadId": "01a0de6f-eaed-70a3-a3bb-dc20b148e485",
+      "designEvidence": [
+        {
+          "path": "research/T06/report.md",
+          "locator": "line 43: ## Concrete runtime interfaces"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/59 (id=KIARA-C01)"
+        }
+      ],
+      "diagramIds": [
+        "C08",
+        "C17",
+        "D09",
+        "D10",
+        "D30"
+      ],
+      "schemaOrContractIds": [
+        "contracts/runtime/runtime-contracts.schema.json",
+        "contracts/runtime/runtime-policy.json"
+      ],
+      "implementationPackageIds": [
+        "I03"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-C01",
+        "description": "Registry covers event/context/legal/assessment/document/validation/feedback/approval/patch/evaluation/promotion/notification operations or documented consolidations.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-C02",
+      "status": "dependency_blocked",
+      "obligation": "For each operation define typed inputs/outputs, caller/role, effects, reads/writes, validation, idempotency, expected versions, timeout/retry/errors and trace IDs.",
+      "scope": "committed",
+      "ownerTask": "T06",
+      "ownerThreadId": "01a0de6f-eaed-70a3-a3bb-dc20b148e485",
+      "designEvidence": [
+        {
+          "path": "research/T06/report.md",
+          "locator": "line 43: ## Concrete runtime interfaces"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/60 (id=KIARA-C02)"
+        }
+      ],
+      "diagramIds": [
+        "C08",
+        "C17",
+        "D09",
+        "D10",
+        "D30"
+      ],
+      "schemaOrContractIds": [
+        "contracts/runtime/runtime-contracts.schema.json",
+        "contracts/runtime/runtime-policy.json"
+      ],
+      "implementationPackageIds": [
+        "I03"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-C02",
+        "description": "Complete critical-path and representative error requests/responses are parseable and schema-aligned.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": [
+        "Final protected context/assessment/harness service IO and integrated schema recheck"
+      ]
+    },
+    {
+      "id": "KIARA-C03",
+      "status": "designed",
+      "obligation": "Give every diagram edge a real contract/event ID or documented internal operation; mark custom pseudocode and verify vendor methods.",
+      "scope": "committed",
+      "ownerTask": "T15",
+      "ownerThreadId": "01a0de71-7302-7271-b378-04d5dd71e867",
+      "designEvidence": [
+        {
+          "path": "research/T15/report.md",
+          "locator": "line 18: ## Proposed design decisions"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/61 (id=KIARA-C03)"
+        }
+      ],
+      "diagramIds": [
+        "C01",
+        "C04",
+        "C06",
+        "C08",
+        "C12",
+        "C15"
+      ],
+      "schemaOrContractIds": [
+        "contracts/component-registry.json",
+        "contracts/edge-contract-crosswalk.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I10"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-C03",
+        "description": "Diagram-to-contract crosswalk has no imaginary vendor APIs or unnamed consequential edges.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-D01",
+      "status": "designed",
+      "obligation": "Choose one editable representation, storage strategy, diff algorithm/library and reviewer UI; decide export scope without inventing mandatory integrations.",
+      "scope": "committed",
+      "ownerTask": "T08",
+      "ownerThreadId": "01a0de70-a21b-7dd1-b451-caff676245ee",
+      "designEvidence": [
+        {
+          "path": "research/T08/report.md",
+          "locator": "line 27: ## Canonical revision and identity contract"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/62 (id=KIARA-D01)"
+        }
+      ],
+      "diagramIds": [
+        "C10",
+        "D11",
+        "D14",
+        "D16",
+        "D28"
+      ],
+      "schemaOrContractIds": [
+        "contracts/documents/document-io.schema.json",
+        "schema/review_bundles.validator.json"
+      ],
+      "implementationPackageIds": [
+        "I05"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-D01",
+        "description": "Selected representation and pinned diff dependency have deterministic examples.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-D02",
+      "status": "designed",
+      "obligation": "Generate clause-level redlines between immutable base/proposal preserving unchanged text and stable clause IDs.",
+      "scope": "committed",
+      "ownerTask": "T08",
+      "ownerThreadId": "01a0de70-a21b-7dd1-b451-caff676245ee",
+      "designEvidence": [
+        {
+          "path": "research/T08/report.md",
+          "locator": "line 48: ## Diff, annotations and tools"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/63 (id=KIARA-D02)"
+        }
+      ],
+      "diagramIds": [
+        "C10",
+        "D11",
+        "D14",
+        "D16",
+        "D28"
+      ],
+      "schemaOrContractIds": [
+        "contracts/documents/document-io.schema.json",
+        "schema/review_bundles.validator.json"
+      ],
+      "implementationPackageIds": [
+        "I05"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-D02",
+        "description": "Diff fixture preserves unchanged clauses and links each material edit to evidence, assessment, rationale and unresolved questions.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-D03",
+      "status": "designed",
+      "obligation": "Bind approvals to exact revision/hash and evidence/assessment version; reject stale approvals atomically.",
+      "scope": "committed",
+      "ownerTask": "T08",
+      "ownerThreadId": "01a0de70-a21b-7dd1-b451-caff676245ee",
+      "designEvidence": [
+        {
+          "path": "research/T08/report.md",
+          "locator": "line 74: ## Evidence binding and approval invalidation"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/64 (id=KIARA-D03)"
+        }
+      ],
+      "diagramIds": [
+        "C10",
+        "D11",
+        "D14",
+        "D16",
+        "D28"
+      ],
+      "schemaOrContractIds": [
+        "contracts/documents/document-io.schema.json",
+        "schema/review_bundles.validator.json"
+      ],
+      "implementationPackageIds": [
+        "I05"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-D03",
+        "description": "Stale approval after edit fails; bundle includes exact version identities.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-D04",
+      "status": "designed",
+      "obligation": "Text changes create new revision and invalidate required approvals; material fact/source changes trigger revalidation and defined reapproval even without text change.",
+      "scope": "committed",
+      "ownerTask": "T08",
+      "ownerThreadId": "01a0de70-a21b-7dd1-b451-caff676245ee",
+      "designEvidence": [
+        {
+          "path": "research/T08/report.md",
+          "locator": "line 74: ## Evidence binding and approval invalidation"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/65 (id=KIARA-D04)"
+        }
+      ],
+      "diagramIds": [
+        "C10",
+        "D11",
+        "D14",
+        "D16",
+        "D28"
+      ],
+      "schemaOrContractIds": [
+        "contracts/documents/document-io.schema.json",
+        "schema/review_bundles.validator.json"
+      ],
+      "implementationPackageIds": [
+        "I05"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-D04",
+        "description": "Changed-facts/source fixtures force explicit review policy while preserving founder-before-lawyer order.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-D05",
+      "status": "designed",
+      "obligation": "Track viewed, reviewed, requested_changes, rejected and approved as distinct events/actions.",
+      "scope": "committed",
+      "ownerTask": "T11",
+      "ownerThreadId": "01a0de71-46b6-7231-8e13-a08f3b3d0c00",
+      "designEvidence": [
+        {
+          "path": "research/T11/report.md",
+          "locator": "line 67: ## 5. Exact human decision semantics"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/66 (id=KIARA-D05)"
+        }
+      ],
+      "diagramIds": [
+        "C02",
+        "C03",
+        "C04",
+        "D02",
+        "D03",
+        "D04",
+        "D15"
+      ],
+      "schemaOrContractIds": [
+        "contracts/workflow/review-command.schema.json",
+        "contracts/workflow/feedback-command.schema.json",
+        "contracts/ux/screens.json"
+      ],
+      "implementationPackageIds": [
+        "I07"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-D05",
+        "description": "View/review telemetry never satisfies approval gate.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-D06",
+      "status": "designed",
+      "obligation": "Accept attributed founder and lawyer feedback separated into fact correction, document edit, legal interpretation/review note and harness proposal.",
+      "scope": "committed",
+      "ownerTask": "T11",
+      "ownerThreadId": "01a0de71-46b6-7231-8e13-a08f3b3d0c00",
+      "designEvidence": [
+        {
+          "path": "research/T11/report.md",
+          "locator": "line 85: ## 6. Feedback types and authority"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/67 (id=KIARA-D06)"
+        }
+      ],
+      "diagramIds": [
+        "C02",
+        "C03",
+        "C04",
+        "D02",
+        "D03",
+        "D04",
+        "D15"
+      ],
+      "schemaOrContractIds": [
+        "contracts/workflow/review-command.schema.json",
+        "contracts/workflow/feedback-command.schema.json",
+        "contracts/ux/screens.json"
+      ],
+      "implementationPackageIds": [
+        "I07"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-D06",
+        "description": "Role/verification/promotion matrix distinguishes four feedback types and prevents feedback rewriting authoritative law.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-H01",
+      "status": "designed",
+      "obligation": "Implement distinct current-output repair using deterministic structure/reference/state checks plus bounded semantic review.",
+      "scope": "committed",
+      "ownerTask": "T07",
+      "ownerThreadId": "01a0de70-9240-75f1-90cb-b7f5a644206e",
+      "designEvidence": [
+        {
+          "path": "harness-and-evals.md",
+          "locator": "line 5: ## Current run"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/68 (id=KIARA-H01)"
+        }
+      ],
+      "diagramIds": [
+        "C09",
+        "C11",
+        "D12",
+        "D13",
+        "D23",
+        "D25",
+        "D26"
+      ],
+      "schemaOrContractIds": [
+        "contracts/harness/harness-config.schema.json",
+        "contracts/harness/harness-commands.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I06"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-H01",
+        "description": "Checks cover applicability support, citation validity/freshness, assertions, clause preservation, versions and gates; second-LLM agreement alone is insufficient.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-H02",
+      "status": "designed",
+      "obligation": "Classify validation failures and retrieve evidence/revise/revalidate with explicit attempts/time/cost cap and needs_human_review terminal path.",
+      "scope": "committed",
+      "ownerTask": "T07",
+      "ownerThreadId": "01a0de70-9240-75f1-90cb-b7f5a644206e",
+      "designEvidence": [
+        {
+          "path": "harness-and-evals.md",
+          "locator": "line 5: ## Current run"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/69 (id=KIARA-H02)"
+        }
+      ],
+      "diagramIds": [
+        "C09",
+        "C11",
+        "D12",
+        "D13",
+        "D23",
+        "D25",
+        "D26"
+      ],
+      "schemaOrContractIds": [
+        "contracts/harness/harness-config.schema.json",
+        "contracts/harness/harness-commands.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I06"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-H02",
+        "description": "Exhaustion fixture stops; trace shows cause, correction and remaining budget.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-H03",
+      "status": "designed",
+      "obligation": "Persist future-run adaptation: diagnosis \u2192 typed candidate config patch \u2192 frozen regression \u2192 promotion/rejection \u2192 immutable version \u2192 next run \u2192 rollback.",
+      "scope": "committed",
+      "ownerTask": "T07",
+      "ownerThreadId": "01a0de70-9240-75f1-90cb-b7f5a644206e",
+      "designEvidence": [
+        {
+          "path": "harness-and-evals.md",
+          "locator": "line 41: ## Frozen comparison and promotion"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/70 (id=KIARA-H03)"
+        }
+      ],
+      "diagramIds": [
+        "C09",
+        "C11",
+        "D12",
+        "D13",
+        "D23",
+        "D25",
+        "D26"
+      ],
+      "schemaOrContractIds": [
+        "contracts/harness/harness-config.schema.json",
+        "contracts/harness/harness-commands.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I06"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-H03",
+        "description": "Full artifact chain is specified independently from current draft repair.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-H04",
+      "status": "designed",
+      "obligation": "Provide concrete before/after config that changes future retrieval/context/drafting behavior; corpus/fact/document updates alone are not proof of harness improvement.",
+      "scope": "committed",
+      "ownerTask": "T07",
+      "ownerThreadId": "01a0de70-9240-75f1-90cb-b7f5a644206e",
+      "designEvidence": [
+        {
+          "path": "harness-and-evals.md",
+          "locator": "line 22: ## Exact automatic patch"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/71 (id=KIARA-H04)"
+        }
+      ],
+      "diagramIds": [
+        "C09",
+        "C11",
+        "D12",
+        "D13",
+        "D23",
+        "D25",
+        "D26"
+      ],
+      "schemaOrContractIds": [
+        "contracts/harness/harness-config.schema.json",
+        "contracts/harness/harness-commands.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I06"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-H04",
+        "description": "Candidate diff names executable policy path and subsequent changed tool behavior.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-H05",
+      "status": "designed",
+      "obligation": "Allow narrow automatic tenant-scoped retrieval/context changes only after deterministic patch allowlist/value checks and regression pass outside model control.",
+      "scope": "committed",
+      "ownerTask": "T07",
+      "ownerThreadId": "01a0de70-9240-75f1-90cb-b7f5a644206e",
+      "designEvidence": [
+        {
+          "path": "harness-and-evals.md",
+          "locator": "line 22: ## Exact automatic patch"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/72 (id=KIARA-H05)"
+        }
+      ],
+      "diagramIds": [
+        "C09",
+        "C11",
+        "D12",
+        "D13",
+        "D23",
+        "D25",
+        "D26"
+      ],
+      "schemaOrContractIds": [
+        "contracts/harness/harness-config.schema.json",
+        "contracts/harness/harness-commands.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I06"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-H05",
+        "description": "Safe patch auto-promotes without a human click and rejects indirect source/budget weakening.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-H06",
+      "status": "designed",
+      "obligation": "Keep approval requirements, authorization, tenant scope, trusted sources, applicability criteria, evaluation gates and tool permissions outside self-promotion.",
+      "scope": "committed",
+      "ownerTask": "T12",
+      "ownerThreadId": "01a0de71-5163-7d62-b23a-04dd48403fe6",
+      "designEvidence": [
+        {
+          "path": "harness-and-evals.md",
+          "locator": "line 22: ## Exact automatic patch"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/73 (id=KIARA-H06)"
+        }
+      ],
+      "diagramIds": [
+        "C05",
+        "C09",
+        "C11",
+        "D04",
+        "D25",
+        "D30",
+        "D31"
+      ],
+      "schemaOrContractIds": [
+        "contracts/security/security-policy.json",
+        "contracts/security/role-action-matrix.json"
+      ],
+      "implementationPackageIds": [
+        "I10",
+        "I03",
+        "I04"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-H06",
+        "description": "Harmful patch fixture fails before promotion even if model score approves it.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-H07",
+      "status": "designed",
+      "obligation": "Atomically compare expected champion version on promotion; preserve immutable history and rollback pointer.",
+      "scope": "committed",
+      "ownerTask": "T07",
+      "ownerThreadId": "01a0de70-9240-75f1-90cb-b7f5a644206e",
+      "designEvidence": [
+        {
+          "path": "harness-and-evals.md",
+          "locator": "line 41: ## Frozen comparison and promotion"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/74 (id=KIARA-H07)"
+        }
+      ],
+      "diagramIds": [
+        "C09",
+        "C11",
+        "D12",
+        "D13",
+        "D23",
+        "D25",
+        "D26"
+      ],
+      "schemaOrContractIds": [
+        "contracts/harness/harness-config.schema.json",
+        "contracts/harness/harness-commands.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I06"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-H07",
+        "description": "Concurrent candidate conflict cannot silently replace champion.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-H08",
+      "status": "designed",
+      "obligation": "Pin harness version per run; any repair switching versions requires explicit persisted transition.",
+      "scope": "committed",
+      "ownerTask": "T07",
+      "ownerThreadId": "01a0de70-9240-75f1-90cb-b7f5a644206e",
+      "designEvidence": [
+        {
+          "path": "harness-and-evals.md",
+          "locator": "line 41: ## Frozen comparison and promotion"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/75 (id=KIARA-H08)"
+        }
+      ],
+      "diagramIds": [
+        "C09",
+        "C11",
+        "D12",
+        "D13",
+        "D23",
+        "D25",
+        "D26"
+      ],
+      "schemaOrContractIds": [
+        "contracts/harness/harness-config.schema.json",
+        "contracts/harness/harness-commands.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I06"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-H08",
+        "description": "Trace reports initial/current config and transition reason without mutable retroactive versioning.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-H09",
+      "status": "designed",
+      "obligation": "Freeze events/facts, legal corpus, model/settings and evaluator across baseline/candidate comparison; record nondeterminism and holdouts.",
+      "scope": "committed",
+      "ownerTask": "T07",
+      "ownerThreadId": "01a0de70-9240-75f1-90cb-b7f5a644206e",
+      "designEvidence": [
+        {
+          "path": "harness-and-evals.md",
+          "locator": "line 41: ## Frozen comparison and promotion"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/76 (id=KIARA-H09)"
+        }
+      ],
+      "diagramIds": [
+        "C09",
+        "C11",
+        "D12",
+        "D13",
+        "D23",
+        "D25",
+        "D26"
+      ],
+      "schemaOrContractIds": [
+        "contracts/harness/harness-config.schema.json",
+        "contracts/harness/harness-commands.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I06"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-H09",
+        "description": "Metrics attribute gains only to patch and include rejection thresholds and quality-regression rollback.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-H10",
+      "status": "designed",
+      "obligation": "Use a separate later/related event to prove persisted improved behavior, with baseline/candidate/replay distinction and synthetic-suite limits.",
+      "scope": "committed",
+      "ownerTask": "T07",
+      "ownerThreadId": "01a0de70-9240-75f1-90cb-b7f5a644206e",
+      "designEvidence": [
+        {
+          "path": "harness-and-evals.md",
+          "locator": "line 53: ## Later event and rollback"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/77 (id=KIARA-H10)"
+        }
+      ],
+      "diagramIds": [
+        "C09",
+        "C11",
+        "D12",
+        "D13",
+        "D23",
+        "D25",
+        "D26"
+      ],
+      "schemaOrContractIds": [
+        "contracts/harness/harness-config.schema.json",
+        "contracts/harness/harness-commands.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I06"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-H10",
+        "description": "Later event reads promoted version and demonstrates defined measurable improvement.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-H11",
+      "status": "designed",
+      "obligation": "Specify positive, noncovered/unknown, unsupported citation/stale source, duplicate event, stale approval, cross-tenant, exhausted repair, failed notification, harmful patch, repeated improved event cases.",
+      "scope": "committed",
+      "ownerTask": "T07",
+      "ownerThreadId": "01a0de70-9240-75f1-90cb-b7f5a644206e",
+      "designEvidence": [
+        {
+          "path": "harness-and-evals.md",
+          "locator": "line 41: ## Frozen comparison and promotion"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/78 (id=KIARA-H11)"
+        }
+      ],
+      "diagramIds": [
+        "C09",
+        "C11",
+        "D12",
+        "D13",
+        "D23",
+        "D25",
+        "D26"
+      ],
+      "schemaOrContractIds": [
+        "contracts/harness/harness-config.schema.json",
+        "contracts/harness/harness-commands.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I06"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-H11",
+        "description": "All ten minimum case classes have fixture, expected result and owning check; no claim of unexecuted tests.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-H12",
+      "status": "designed",
+      "obligation": "Consider changing tool implementation itself only as the original user-designated stretch goal; mandatory rule/context/guardrail adaptation remains committed.",
+      "scope": "user_designated_stretch",
+      "ownerTask": "T07",
+      "ownerThreadId": "01a0de70-9240-75f1-90cb-b7f5a644206e",
+      "designEvidence": [
+        {
+          "path": "harness-and-evals.md",
+          "locator": "line 22: ## Exact automatic patch"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/79 (id=KIARA-H12)"
+        }
+      ],
+      "diagramIds": [
+        "C09",
+        "C11",
+        "D12",
+        "D13",
+        "D23",
+        "D25",
+        "D26"
+      ],
+      "schemaOrContractIds": [
+        "contracts/harness/harness-config.schema.json",
+        "contracts/harness/harness-commands.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I06"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-H12",
+        "description": "Only this row is stretch and diagrams clearly distinguish it from required persisted config adaptation.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-H13",
+      "status": "designed",
+      "obligation": "Critically inspect Strands Harness Optimizer, version/maturity/compatibility and ARC workload; do not infer legal reliability or safe promotion from benchmark claims.",
+      "scope": "committed",
+      "ownerTask": "T06",
+      "ownerThreadId": "01a0de6f-eaed-70a3-a3bb-dc20b148e485",
+      "designEvidence": [
+        {
+          "path": "research/T06/report.md",
+          "locator": "line 13: ## Verified facts and comparison"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/80 (id=KIARA-H13)"
+        }
+      ],
+      "diagramIds": [
+        "C08",
+        "C17",
+        "D09",
+        "D10",
+        "D30"
+      ],
+      "schemaOrContractIds": [
+        "contracts/runtime/runtime-contracts.schema.json",
+        "contracts/runtime/runtime-policy.json"
+      ],
+      "implementationPackageIds": [
+        "I03",
+        "I00"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-H13",
+        "description": "Decision cites current code metadata and safe custom boundary requirements.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-U01",
+      "status": "designed",
+      "obligation": "Provide founder view for event, facts, uncertainty, evidence, redline, feedback and explicit review decisions.",
+      "scope": "committed",
+      "ownerTask": "T11",
+      "ownerThreadId": "01a0de71-46b6-7231-8e13-a08f3b3d0c00",
+      "designEvidence": [
+        {
+          "path": "research/T11/report.md",
+          "locator": "line 29: ## 3. PROPOSED DESIGN \u2014 screen map"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/81 (id=KIARA-U01)"
+        }
+      ],
+      "diagramIds": [
+        "C02",
+        "C03",
+        "C04",
+        "D02",
+        "D03",
+        "D04",
+        "D15"
+      ],
+      "schemaOrContractIds": [
+        "contracts/workflow/review-command.schema.json",
+        "contracts/workflow/feedback-command.schema.json",
+        "contracts/ux/screens.json"
+      ],
+      "implementationPackageIds": [
+        "I07"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-U01",
+        "description": "Founder journey exposes actionable fields and exact request/error payloads.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-U02",
+      "status": "designed",
+      "obligation": "Provide lawyer view for founder-approved bundle, provision/fact/clauses, legal notes, edits and explicit review/approval.",
+      "scope": "committed",
+      "ownerTask": "T11",
+      "ownerThreadId": "01a0de71-46b6-7231-8e13-a08f3b3d0c00",
+      "designEvidence": [
+        {
+          "path": "research/T11/report.md",
+          "locator": "line 29: ## 3. PROPOSED DESIGN \u2014 screen map"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/82 (id=KIARA-U02)"
+        }
+      ],
+      "diagramIds": [
+        "C02",
+        "C03",
+        "C04",
+        "D02",
+        "D03",
+        "D04",
+        "D15"
+      ],
+      "schemaOrContractIds": [
+        "contracts/workflow/review-command.schema.json",
+        "contracts/workflow/feedback-command.schema.json",
+        "contracts/ux/screens.json"
+      ],
+      "implementationPackageIds": [
+        "I07"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-U02",
+        "description": "Lawyer view enforces gate and presents current revision/evidence binding.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-U03",
+      "status": "designed",
+      "obligation": "Expose event, fact/source/collection IDs, concise tool results, failure/correction, config diff, evaluation and active version beside product actions.",
+      "scope": "committed",
+      "ownerTask": "T11",
+      "ownerThreadId": "01a0de71-46b6-7231-8e13-a08f3b3d0c00",
+      "designEvidence": [
+        {
+          "path": "research/T11/report.md",
+          "locator": "line 29: ## 3. PROPOSED DESIGN \u2014 screen map"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/83 (id=KIARA-U03)"
+        }
+      ],
+      "diagramIds": [
+        "C02",
+        "C03",
+        "C04",
+        "D02",
+        "D03",
+        "D04",
+        "D15"
+      ],
+      "schemaOrContractIds": [
+        "contracts/workflow/review-command.schema.json",
+        "contracts/workflow/feedback-command.schema.json",
+        "contracts/ux/screens.json"
+      ],
+      "implementationPackageIds": [
+        "I07"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-U03",
+        "description": "Split-screen specification demonstrates behavior without hidden chain-of-thought.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-N01",
+      "status": "designed",
+      "obligation": "Design real email integration sending exact document/review links with auth/provider prerequisites; preview does not replace send capability.",
+      "scope": "committed",
+      "ownerTask": "T10",
+      "ownerThreadId": "01a0de70-0aac-7ae1-8cef-3e18e0e1fac2",
+      "designEvidence": [
+        {
+          "path": "research/T10/report.md",
+          "locator": "line 5: ## Selected design"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/84 (id=KIARA-N01)"
+        }
+      ],
+      "diagramIds": [
+        "C13",
+        "C14",
+        "C17",
+        "D18",
+        "D19"
+      ],
+      "schemaOrContractIds": [
+        "contracts/notification/notification-adapter.schema.json",
+        "contracts/notification/selected-dependencies.json"
+      ],
+      "implementationPackageIds": [
+        "I08"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-N01",
+        "description": "Provider method and environment names are verified; actual send gated on future authorized configured operation.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-N02",
+      "status": "designed",
+      "obligation": "Specify outbox state, idempotency/deduplication, retry/backoff, delivery attempts and preview/test mode.",
+      "scope": "committed",
+      "ownerTask": "T09",
+      "ownerThreadId": "01a0de6f-f87e-72c1-a88b-cd79736ea3dd",
+      "designEvidence": [
+        {
+          "path": "contracts.md",
+          "locator": "line 29: ## Event and state ownership"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/85 (id=KIARA-N02)"
+        }
+      ],
+      "diagramIds": [
+        "C05",
+        "C06",
+        "C13",
+        "D01",
+        "D06",
+        "D15",
+        "D17",
+        "D29"
+      ],
+      "schemaOrContractIds": [
+        "contracts/workflow/event.schema.json",
+        "contracts/workflow/transitions.json",
+        "contracts/workflow/command-io.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I08"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-N02",
+        "description": "Failure and duplicate-send fixture has concrete policy distinct from approval state.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-O01",
+      "status": "designed",
+      "obligation": "Make event chain, evidence, versions, validation, active config and config changes observable through Atlas-backed application views.",
+      "scope": "committed",
+      "ownerTask": "T13",
+      "ownerThreadId": "01a0de71-5bab-7630-a36b-389b221141d4",
+      "designEvidence": [
+        {
+          "path": "research/T13/report.md",
+          "locator": "line 51: ## Concrete read-view contracts"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/86 (id=KIARA-O01)"
+        }
+      ],
+      "diagramIds": [
+        "C15",
+        "C18",
+        "D20",
+        "D21",
+        "D22"
+      ],
+      "schemaOrContractIds": [
+        "contracts/observability/read-models.schema.json",
+        "contracts/observability/telemetry-span.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I09"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-O01",
+        "description": "Views query persisted records with correlation IDs, not raw DB console assumptions.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-O02",
+      "status": "designed",
+      "obligation": "Evaluate and verify LangSmith integration for traces separately from Atlas workflow persistence and product config-history UI.",
+      "scope": "committed",
+      "ownerTask": "T13",
+      "ownerThreadId": "01a0de71-5bab-7630-a36b-389b221141d4",
+      "designEvidence": [
+        {
+          "path": "research/T13/report.md",
+          "locator": "line 73: ## Telemetry contract and SDK adapter"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/87 (id=KIARA-O02)"
+        }
+      ],
+      "diagramIds": [
+        "C15",
+        "C18",
+        "D20",
+        "D21",
+        "D22"
+      ],
+      "schemaOrContractIds": [
+        "contracts/observability/read-models.schema.json",
+        "contracts/observability/telemetry-span.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I09"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-O02",
+        "description": "Selected trace adapter has documented support and Atlas fallback if unavailable.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-O03",
+      "status": "designed",
+      "obligation": "Correlate event, workflow, revision, source snapshot, harness, evaluation and trace IDs; measure latency/cost/error/outages.",
+      "scope": "committed",
+      "ownerTask": "T13",
+      "ownerThreadId": "01a0de71-5bab-7630-a36b-389b221141d4",
+      "designEvidence": [
+        {
+          "path": "research/T13/report.md",
+          "locator": "line 31: ## Proposed design: source of truth and correlations"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/88 (id=KIARA-O03)"
+        }
+      ],
+      "diagramIds": [
+        "C15",
+        "C18",
+        "D20",
+        "D21",
+        "D22"
+      ],
+      "schemaOrContractIds": [
+        "contracts/observability/read-models.schema.json",
+        "contracts/observability/telemetry-span.schema.json"
+      ],
+      "implementationPackageIds": [
+        "I09"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-O03",
+        "description": "One synthetic trace has all links and privacy-safe telemetry fields with failure behavior.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Product/code split-screen or supporting replay",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-P01",
+      "status": "designed",
+      "obligation": "Treat fetched pages/docs/feedback as untrusted data, defend prompt injection/source fetching, sanitize rendered content and restrict context writes.",
+      "scope": "committed",
+      "ownerTask": "T12",
+      "ownerThreadId": "01a0de71-5163-7d62-b23a-04dd48403fe6",
+      "designEvidence": [
+        {
+          "path": "research/T12/report.md",
+          "locator": "line 76: ## Untrusted sources, fetching and rendering"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/89 (id=KIARA-P01)"
+        }
+      ],
+      "diagramIds": [
+        "C05",
+        "C09",
+        "C11",
+        "D04",
+        "D25",
+        "D30",
+        "D31"
+      ],
+      "schemaOrContractIds": [
+        "contracts/security/security-policy.json",
+        "contracts/security/role-action-matrix.json"
+      ],
+      "implementationPackageIds": [
+        "I10",
+        "I03",
+        "I04"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-P01",
+        "description": "Threat-control map includes safe fetch, rendering and bounded model-tool access with tests.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-P02",
+      "status": "designed",
+      "obligation": "Protect secrets/PII in repo, screenshots, traces and legal searches; use synthetic names/addresses.",
+      "scope": "committed",
+      "ownerTask": "T12",
+      "ownerThreadId": "01a0de71-5163-7d62-b23a-04dd48403fe6",
+      "designEvidence": [
+        {
+          "path": "research/T12/report.md",
+          "locator": "line 101: ## Data, secrets, telemetry and email"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/90 (id=KIARA-P02)"
+        }
+      ],
+      "diagramIds": [
+        "C05",
+        "C09",
+        "C11",
+        "D04",
+        "D25",
+        "D30",
+        "D31"
+      ],
+      "schemaOrContractIds": [
+        "contracts/security/security-policy.json",
+        "contracts/security/role-action-matrix.json"
+      ],
+      "implementationPackageIds": [
+        "I10",
+        "I03",
+        "I04"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-P02",
+        "description": "Public/demo data review excludes real credentials/PII and legal queries avoid personal data.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-P03",
+      "status": "designed",
+      "obligation": "Define authenticated role/action matrix and tenant authority; a demo role switch is explicitly simulation rather than production auth.",
+      "scope": "committed",
+      "ownerTask": "T12",
+      "ownerThreadId": "01a0de71-5163-7d62-b23a-04dd48403fe6",
+      "designEvidence": [
+        {
+          "path": "research/T12/report.md",
+          "locator": "line 36: ## Role/action matrix"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/91 (id=KIARA-P03)"
+        }
+      ],
+      "diagramIds": [
+        "C05",
+        "C09",
+        "C11",
+        "D04",
+        "D25",
+        "D30",
+        "D31"
+      ],
+      "schemaOrContractIds": [
+        "contracts/security/security-policy.json",
+        "contracts/security/role-action-matrix.json"
+      ],
+      "implementationPackageIds": [
+        "I10",
+        "I03",
+        "I04"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-P03",
+        "description": "Founder/lawyer/model permissions are concrete and approval impersonation is rejected.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-I01",
+      "status": "designed",
+      "obligation": "Visit/account for every Section 11 URL and distinct tool/resource named or linked in native guide; resolve shortlinks honestly and enumerate relevant nested guides.",
+      "scope": "committed",
+      "ownerTask": "T01",
+      "ownerThreadId": "01a0de6d-c5ee-70d3-b131-9bdbd13b09e6",
+      "designEvidence": [
+        {
+          "path": "traceability.md",
+          "locator": "line 1: # Requirement traceability"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/92 (id=KIARA-I01)"
+        }
+      ],
+      "diagramIds": [
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "contracts/operation-registry.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-I01",
+        "description": "Inventory set covers all 71 original URLs, four unlinked names, native links and nested resources with read/blocked/pending status.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-I02",
+      "status": "designed",
+      "obligation": "Record original/resolved URL, name/type/purpose, access/retrieval date, effective/version date, evidence state, prerequisites, requirement relevance, owner and disposition.",
+      "scope": "committed",
+      "ownerTask": "T01",
+      "ownerThreadId": "01a0de6d-c5ee-70d3-b131-9bdbd13b09e6",
+      "designEvidence": [
+        {
+          "path": "traceability.md",
+          "locator": "line 1: # Requirement traceability"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/93 (id=KIARA-I02)"
+        }
+      ],
+      "diagramIds": [
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "contracts/operation-registry.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-I02",
+        "description": "Required source fields parse; alternate official pages are not claimed redirects; blocked is never counted read.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-I03",
+      "status": "designed",
+      "obligation": "Inspect actual SDK/MCP capabilities, auth, maturity, language/setup and classify selected/development_only/alternative/rejected/blocked without dropping requirements.",
+      "scope": "committed",
+      "ownerTask": "T10",
+      "ownerThreadId": "01a0de70-0aac-7ae1-8cef-3e18e0e1fac2",
+      "designEvidence": [
+        {
+          "path": "research/T10/report.md",
+          "locator": "line 5: ## Selected design"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/94 (id=KIARA-I03)"
+        }
+      ],
+      "diagramIds": [
+        "C13",
+        "C14",
+        "C17",
+        "D18",
+        "D19"
+      ],
+      "schemaOrContractIds": [
+        "contracts/notification/notification-adapter.schema.json",
+        "contracts/notification/selected-dependencies.json"
+      ],
+      "implementationPackageIds": [
+        "I03",
+        "I00"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-I03",
+        "description": "Tool-by-tool table distinguishes candidate disposition from product scope.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-I04",
+      "status": "designed",
+      "obligation": "Evaluate native MongoDB driver versus MCP, local/managed/developer MCP, embeddings versus automated preview, exact/search, LangSmith persistence limits and Kiro/v0/Codex build role.",
+      "scope": "committed",
+      "ownerTask": "T10",
+      "ownerThreadId": "01a0de70-0aac-7ae1-8cef-3e18e0e1fac2",
+      "designEvidence": [
+        {
+          "path": "research/T10/report.md",
+          "locator": "line 5: ## Selected design"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/95 (id=KIARA-I04)"
+        }
+      ],
+      "diagramIds": [
+        "C13",
+        "C14",
+        "C17",
+        "D18",
+        "D19"
+      ],
+      "schemaOrContractIds": [
+        "contracts/notification/notification-adapter.schema.json",
+        "contracts/notification/selected-dependencies.json"
+      ],
+      "implementationPackageIds": [
+        "I03",
+        "I00"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-I04",
+        "description": "Selected runtime excludes unnecessary developer permissions and explains rejected/alternative tools.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-I05",
+      "status": "designed",
+      "obligation": "Recheck promotional eligibility/allowances and account/model access prerequisites without redeeming credits or assuming funded production usage.",
+      "scope": "committed",
+      "ownerTask": "T10",
+      "ownerThreadId": "01a0de70-0aac-7ae1-8cef-3e18e0e1fac2",
+      "designEvidence": [
+        {
+          "path": "research/T10/report.md",
+          "locator": "line 5: ## Selected design"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/96 (id=KIARA-I05)"
+        }
+      ],
+      "diagramIds": [
+        "C13",
+        "C14",
+        "C17",
+        "D18",
+        "D19"
+      ],
+      "schemaOrContractIds": [
+        "contracts/notification/notification-adapter.schema.json",
+        "contracts/notification/selected-dependencies.json"
+      ],
+      "implementationPackageIds": [
+        "I03",
+        "I00"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-I05",
+        "description": "Credit/account rows distinguish organizer claim, vendor verification and user-account access not checked.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-I06",
+      "status": "designed",
+      "obligation": "Compare custom loop, Strands, LangGraph and AI SDK, select one coherent stack, at most one fallback per critical dependency with switch trigger.",
+      "scope": "committed",
+      "ownerTask": "T06",
+      "ownerThreadId": "01a0de6f-eaed-70a3-a3bb-dc20b148e485",
+      "designEvidence": [
+        {
+          "path": "research/T06/report.md",
+          "locator": "line 43: ## Concrete runtime interfaces"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/97 (id=KIARA-I06)"
+        }
+      ],
+      "diagramIds": [
+        "C08",
+        "C17",
+        "D09",
+        "D10",
+        "D30"
+      ],
+      "schemaOrContractIds": [
+        "contracts/runtime/runtime-contracts.schema.json",
+        "contracts/runtime/runtime-policy.json"
+      ],
+      "implementationPackageIds": [
+        "I03",
+        "I00"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-I06",
+        "description": "Main architecture names selected components; alternatives are appendix rather than unresolved menu.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-I07",
+      "status": "designed",
+      "obligation": "For selected components record exact package/API, language/runtime, version/range, official integration, env names, sandbox availability, effort and limits.",
+      "scope": "committed",
+      "ownerTask": "T10",
+      "ownerThreadId": "01a0de70-0aac-7ae1-8cef-3e18e0e1fac2",
+      "designEvidence": [
+        {
+          "path": "research/T10/report.md",
+          "locator": "line 5: ## Selected design"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/98 (id=KIARA-I07)"
+        }
+      ],
+      "diagramIds": [
+        "C13",
+        "C14",
+        "C17",
+        "D18",
+        "D19"
+      ],
+      "schemaOrContractIds": [
+        "contracts/notification/notification-adapter.schema.json",
+        "contracts/notification/selected-dependencies.json"
+      ],
+      "implementationPackageIds": [
+        "I03",
+        "I00"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-I07",
+        "description": "Manifest distinguishes documented support, access prerequisites and actually executed checks.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-I08",
+      "status": "designed",
+      "obligation": "Treat top-level prior research as leads; re-read live sources and label source access honestly.",
+      "scope": "committed",
+      "ownerTask": "T01",
+      "ownerThreadId": "01a0de6d-c5ee-70d3-b131-9bdbd13b09e6",
+      "designEvidence": [
+        {
+          "path": "traceability.md",
+          "locator": "line 1: # Requirement traceability"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/99 (id=KIARA-I08)"
+        }
+      ],
+      "diagramIds": [
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "contracts/operation-registry.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-I08",
+        "description": "No prior claim is promoted to verified without fresh evidence or attributed specialist handoff.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-I09",
+      "status": "designed",
+      "obligation": "Distinguish documentation MCP from Strands runtime application-tool MCP and preassembled harness from SDK; recheck archived migration, alpha status and API drift.",
+      "scope": "committed",
+      "ownerTask": "T10",
+      "ownerThreadId": "01a0de70-0aac-7ae1-8cef-3e18e0e1fac2",
+      "designEvidence": [
+        {
+          "path": "research/T10/report.md",
+          "locator": "line 5: ## Selected design"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/100 (id=KIARA-I09)"
+        }
+      ],
+      "diagramIds": [
+        "C13",
+        "C14",
+        "C17",
+        "D18",
+        "D19"
+      ],
+      "schemaOrContractIds": [
+        "contracts/notification/notification-adapter.schema.json",
+        "contracts/notification/selected-dependencies.json"
+      ],
+      "implementationPackageIds": [
+        "I03",
+        "I00"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-I09",
+        "description": "Sources verify exact repository/version and supported methods without conflation.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-K01",
+      "status": "designed",
+      "obligation": "Verify organizer tracks and select recursive harnessing based on persisted measurable adaptation with MongoDB data/memory.",
+      "scope": "committed",
+      "ownerTask": "T14",
+      "ownerThreadId": "01a0de71-67f1-78e2-8e9f-c7228ea94c2b",
+      "designEvidence": [
+        {
+          "path": "build-plan.md",
+          "locator": "line 15: ## Elapsed schedule and gates"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/101 (id=KIARA-K01)"
+        }
+      ],
+      "diagramIds": [
+        "C01",
+        "C04",
+        "C06",
+        "C13"
+      ],
+      "schemaOrContractIds": [
+        "contracts/execution/schedule.json",
+        "contracts/execution/implementation-manifest.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-K01",
+        "description": "Track selection cites live guide and ties to required improvement proof.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-K02",
+      "status": "designed",
+      "obligation": "Require organizer-invited Atlas Hackathon Sandbox project/cluster for finalist eligibility; no private-email inspection without authority.",
+      "scope": "committed",
+      "ownerTask": "T14",
+      "ownerThreadId": "01a0de71-67f1-78e2-8e9f-c7228ea94c2b",
+      "designEvidence": [
+        {
+          "path": "build-plan.md",
+          "locator": "line 15: ## Elapsed schedule and gates"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/102 (id=KIARA-K02)"
+        }
+      ],
+      "diagramIds": [
+        "C01",
+        "C04",
+        "C06",
+        "C13"
+      ],
+      "schemaOrContractIds": [
+        "contracts/execution/schedule.json",
+        "contracts/execution/implementation-manifest.json"
+      ],
+      "implementationPackageIds": [
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-K02",
+        "description": "Readiness checklist exposes invite access as prerequisite; local fallback is not claimed eligible.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-K03",
+      "status": "designed",
+      "obligation": "Verify original work/no prior projects, up-to-four human teammates, public repository/demo, permitted examples/licenses and unclear rules.",
+      "scope": "committed",
+      "ownerTask": "T14",
+      "ownerThreadId": "01a0de71-67f1-78e2-8e9f-c7228ea94c2b",
+      "designEvidence": [
+        {
+          "path": "build-plan.md",
+          "locator": "line 15: ## Elapsed schedule and gates"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/103 (id=KIARA-K03)"
+        }
+      ],
+      "diagramIds": [
+        "C01",
+        "C04",
+        "C06",
+        "C13"
+      ],
+      "schemaOrContractIds": [
+        "contracts/execution/schedule.json",
+        "contracts/execution/implementation-manifest.json"
+      ],
+      "implementationPackageIds": [
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-K03",
+        "description": "Submission checklist distinguishes human entrant limit from AI task capacity and retains licenses.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-K04",
+      "status": "designed",
+      "obligation": "Recheck onsite Sept26 recording and finalist representative Sept30 10AM\u20134:30PM; record discrepancies/effective dates.",
+      "scope": "committed",
+      "ownerTask": "T14",
+      "ownerThreadId": "01a0de71-67f1-78e2-8e9f-c7228ea94c2b",
+      "designEvidence": [
+        {
+          "path": "build-plan.md",
+          "locator": "line 15: ## Elapsed schedule and gates"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/104 (id=KIARA-K04)"
+        }
+      ],
+      "diagramIds": [
+        "C01",
+        "C04",
+        "C06",
+        "C13"
+      ],
+      "schemaOrContractIds": [
+        "contracts/execution/schedule.json",
+        "contracts/execution/implementation-manifest.json"
+      ],
+      "implementationPackageIds": [
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-K04",
+        "description": "Checklist has owner, exact cited constraints and unresolved event facts.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-K05",
+      "status": "designed",
+      "obligation": "Plan Cerebral Valley submission of public repository, one-minute code/functionality video with working voice/audio and concise description; include all teammates.",
+      "scope": "committed",
+      "ownerTask": "T14",
+      "ownerThreadId": "01a0de71-67f1-78e2-8e9f-c7228ea94c2b",
+      "designEvidence": [
+        {
+          "path": "build-plan.md",
+          "locator": "line 15: ## Elapsed schedule and gates"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/105 (id=KIARA-K05)"
+        }
+      ],
+      "diagramIds": [
+        "C01",
+        "C04",
+        "C06",
+        "C13"
+      ],
+      "schemaOrContractIds": [
+        "contracts/execution/schedule.json",
+        "contracts/execution/implementation-manifest.json"
+      ],
+      "implementationPackageIds": [
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-K05",
+        "description": "Submission checklist verifies accessible links/audio and required artifacts without publishing during architecture work.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-A01",
+      "status": "designed",
+      "obligation": "Deliver readable system overview with roughly 10\u201318 meaningful nodes, actors/process boundaries, API/workflow, harness, stores, gates and notifications.",
+      "scope": "committed",
+      "ownerTask": "T15",
+      "ownerThreadId": "01a0de71-7302-7271-b378-04d5dd71e867",
+      "designEvidence": [
+        {
+          "path": "research/T15/report.md",
+          "locator": "line 18: ## Proposed design decisions"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/106 (id=KIARA-A01)"
+        }
+      ],
+      "diagramIds": [
+        "C01",
+        "C04",
+        "C06",
+        "C08",
+        "C12",
+        "C15"
+      ],
+      "schemaOrContractIds": [
+        "contracts/component-registry.json",
+        "contracts/edge-contract-crosswalk.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-A01",
+        "description": "Landscape rendered overview exposes ownership and primary path without lost capabilities.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-A02",
+      "status": "designed",
+      "obligation": "Deliver CA-to-approval sequence with one failed validation/repair plus missing-fact and requested-change alternatives.",
+      "scope": "committed",
+      "ownerTask": "T15",
+      "ownerThreadId": "01a0de71-7302-7271-b378-04d5dd71e867",
+      "designEvidence": [
+        {
+          "path": "research/T15/report.md",
+          "locator": "line 18: ## Proposed design decisions"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/107 (id=KIARA-A02)"
+        }
+      ],
+      "diagramIds": [
+        "C01",
+        "C04",
+        "C06",
+        "C08",
+        "C12",
+        "C15"
+      ],
+      "schemaOrContractIds": [
+        "contracts/component-registry.json",
+        "contracts/edge-contract-crosswalk.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-A02",
+        "description": "Sequence uses canonical contracts/state and links each step to its persisted artifact.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-A03",
+      "status": "designed",
+      "obligation": "Deliver allowed-state diagram with persisted waits, bounded retry/escalation, supersession, finalization and separate delivery lifecycle.",
+      "scope": "committed",
+      "ownerTask": "T15",
+      "ownerThreadId": "01a0de71-7302-7271-b378-04d5dd71e867",
+      "designEvidence": [
+        {
+          "path": "research/T15/report.md",
+          "locator": "line 18: ## Proposed design decisions"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/108 (id=KIARA-A03)"
+        }
+      ],
+      "diagramIds": [
+        "C01",
+        "C04",
+        "C06",
+        "C08",
+        "C12",
+        "C15"
+      ],
+      "schemaOrContractIds": [
+        "contracts/component-registry.json",
+        "contracts/edge-contract-crosswalk.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-A03",
+        "description": "Diagram agrees with transition table and invalidates stale decision paths.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-A04",
+      "status": "designed",
+      "obligation": "Deliver logical ER view with keys/cardinalities and physical collection/embed mapping, splitting linked pages if needed.",
+      "scope": "committed",
+      "ownerTask": "T15",
+      "ownerThreadId": "01a0de71-7302-7271-b378-04d5dd71e867",
+      "designEvidence": [
+        {
+          "path": "research/T15/report.md",
+          "locator": "line 18: ## Proposed design decisions"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/109 (id=KIARA-A04)"
+        }
+      ],
+      "diagramIds": [
+        "C01",
+        "C04",
+        "C06",
+        "C08",
+        "C12",
+        "C15"
+      ],
+      "schemaOrContractIds": [
+        "contracts/component-registry.json",
+        "contracts/edge-contract-crosswalk.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-A04",
+        "description": "All collection examples map to readable entities/relationships.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-A05",
+      "status": "designed",
+      "obligation": "Deliver failure/feedback-to-patch/evaluation/promotion/next-run/rollback diagram with auto/human boundary and versions.",
+      "scope": "committed",
+      "ownerTask": "T15",
+      "ownerThreadId": "01a0de71-7302-7271-b378-04d5dd71e867",
+      "designEvidence": [
+        {
+          "path": "research/T15/report.md",
+          "locator": "line 18: ## Proposed design decisions"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/110 (id=KIARA-A05)"
+        }
+      ],
+      "diagramIds": [
+        "C01",
+        "C04",
+        "C06",
+        "C08",
+        "C12",
+        "C15"
+      ],
+      "schemaOrContractIds": [
+        "contracts/component-registry.json",
+        "contracts/edge-contract-crosswalk.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-A05",
+        "description": "Diagram distinguishes repair, source updates, future config adaptation and tool-mutation stretch.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-A06",
+      "status": "designed",
+      "obligation": "Give every node stable ID, owner/task, responsibility, code location, inputs/outputs and backing data; plain vocabulary, acronym definitions and semantic legend.",
+      "scope": "committed",
+      "ownerTask": "T15",
+      "ownerThreadId": "01a0de71-7302-7271-b378-04d5dd71e867",
+      "designEvidence": [
+        {
+          "path": "research/T15/report.md",
+          "locator": "line 18: ## Proposed design decisions"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/111 (id=KIARA-A06)"
+        }
+      ],
+      "diagramIds": [
+        "C01",
+        "C04",
+        "C06",
+        "C08",
+        "C12",
+        "C15"
+      ],
+      "schemaOrContractIds": [
+        "contracts/component-registry.json",
+        "contracts/edge-contract-crosswalk.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-A06",
+        "description": "Legend covers sync/async/data/human/trust boundaries without relying only on color; no unexplained AI magic.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-A07",
+      "status": "dependency_blocked",
+      "obligation": "Keep editable Mermaid and deterministic SVG/preview; parse/render every file and inspect for clipping/text/tangles and cross-view IDs locally.",
+      "scope": "committed",
+      "ownerTask": "T15",
+      "ownerThreadId": "01a0de71-7302-7271-b378-04d5dd71e867",
+      "designEvidence": [
+        {
+          "path": "research/T15/report.md",
+          "locator": "line 18: ## Proposed design decisions"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/112 (id=KIARA-A07)"
+        }
+      ],
+      "diagramIds": [
+        "C01",
+        "C04",
+        "C06",
+        "C08",
+        "C12",
+        "C15"
+      ],
+      "schemaOrContractIds": [
+        "contracts/component-registry.json",
+        "contracts/edge-contract-crosswalk.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-A07",
+        "description": "Actual rendering/visual checks are reported; unavailable rendering means provisional status with reproduction instructions.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": [
+        "Independent final-pack critique, owner corrections and recheck pending"
+      ]
+    },
+    {
+      "id": "KIARA-E01",
+      "status": "designed",
+      "obligation": "Provide each implementation task ID/title, Astra/xhigh launch prompt, owned components/files, I/O/contracts, deps, outputs/checks, time uncertainty, integration point and reviewer.",
+      "scope": "committed",
+      "ownerTask": "T14",
+      "ownerThreadId": "01a0de71-67f1-78e2-8e9f-c7228ea94c2b",
+      "designEvidence": [
+        {
+          "path": "build-plan.md",
+          "locator": "line 15: ## Elapsed schedule and gates"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/113 (id=KIARA-E01)"
+        }
+      ],
+      "diagramIds": [
+        "C01",
+        "C04",
+        "C06",
+        "C13"
+      ],
+      "schemaOrContractIds": [
+        "contracts/execution/schedule.json",
+        "contracts/execution/implementation-manifest.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-E01",
+        "description": "Ready-to-dispatch packets cover complete scope with dedicated integration and verification chats.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-E02",
+      "status": "designed",
+      "obligation": "Show fixed-contract/mock parallel starts and real-integration replacement checkpoints; improve decomposition/fixtures/SDK reuse before reducing scope.",
+      "scope": "committed",
+      "ownerTask": "T14",
+      "ownerThreadId": "01a0de71-67f1-78e2-8e9f-c7228ea94c2b",
+      "designEvidence": [
+        {
+          "path": "build-plan.md",
+          "locator": "line 15: ## Elapsed schedule and gates"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/114 (id=KIARA-E02)"
+        }
+      ],
+      "diagramIds": [
+        "C01",
+        "C04",
+        "C06",
+        "C13"
+      ],
+      "schemaOrContractIds": [
+        "contracts/execution/schedule.json",
+        "contracts/execution/implementation-manifest.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-E02",
+        "description": "Critical path shows earliest integrated path and all permanent integrations with realistic serial gates.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-E03",
+      "status": "designed",
+      "obligation": "Specify repo layout, env template without values, startup/demo procedure, sandbox/index/provider/model/email readiness and capability-preserving alternatives.",
+      "scope": "committed",
+      "ownerTask": "T14",
+      "ownerThreadId": "01a0de71-67f1-78e2-8e9f-c7228ea94c2b",
+      "designEvidence": [
+        {
+          "path": "run-interface.md",
+          "locator": "line 7: ## Environment schema"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/115 (id=KIARA-E03)"
+        }
+      ],
+      "diagramIds": [
+        "C01",
+        "C04",
+        "C06",
+        "C13"
+      ],
+      "schemaOrContractIds": [
+        "contracts/execution/schedule.json",
+        "contracts/execution/implementation-manifest.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-E03",
+        "description": "Runbook names commands/interfaces and prerequisite failure messages without claiming execution.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-E04",
+      "status": "designed",
+      "obligation": "Write exactly 60 seconds with ranges, screen action, voiceover, event/state and visible evidence, product/config split screen and complete requested workflow.",
+      "scope": "committed",
+      "ownerTask": "T14",
+      "ownerThreadId": "01a0de71-67f1-78e2-8e9f-c7228ea94c2b",
+      "designEvidence": [
+        {
+          "path": "demo.md",
+          "locator": "line 1: # Kiara \u2014 60-second split-screen recording plan"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/116 (id=KIARA-E04)"
+        }
+      ],
+      "diagramIds": [
+        "C01",
+        "C04",
+        "C06",
+        "C13"
+      ],
+      "schemaOrContractIds": [
+        "contracts/execution/schedule.json",
+        "contracts/execution/implementation-manifest.json"
+      ],
+      "implementationPackageIds": [
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-E04",
+        "description": "Durations total 60; shows baseline, CA assessment/gap/correction/redline, both feedback/approvals and persisted subsequent improvement.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-E05",
+      "status": "designed",
+      "obligation": "Provide concise product description and public-repo/video/submission handoff owners, separating synthetic/scripted/proven-executed behavior.",
+      "scope": "committed",
+      "ownerTask": "T14",
+      "ownerThreadId": "01a0de71-67f1-78e2-8e9f-c7228ea94c2b",
+      "designEvidence": [
+        {
+          "path": "demo.md",
+          "locator": "line 31: ## Concise proposed submission description"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/117 (id=KIARA-E05)"
+        }
+      ],
+      "diagramIds": [
+        "C01",
+        "C04",
+        "C06",
+        "C13"
+      ],
+      "schemaOrContractIds": [
+        "contracts/execution/schedule.json",
+        "contracts/execution/implementation-manifest.json"
+      ],
+      "implementationPackageIds": [
+        "I12"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-E05",
+        "description": "Description preserves target/value and script never labels future-only behavior demonstrated.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-F01",
+      "status": "designed",
+      "obligation": "Deliver coherent README with problem/scope, selected stack, overview, decisions, five-hour path and navigation.",
+      "scope": "committed",
+      "ownerTask": "T17",
+      "ownerThreadId": "01a0de70-1d11-7143-a768-d81e6d87e61c",
+      "designEvidence": [
+        {
+          "path": "README.md",
+          "locator": "line 46: ## Pack navigation"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/118 (id=KIARA-F01)"
+        }
+      ],
+      "diagramIds": [
+        "C04",
+        "C06",
+        "C08",
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "contracts/operation-registry.json",
+        "research/T17/integration-freeze.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I11"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-F01",
+        "description": "All navigation resolves and main diagram is visible/linkable.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-F02",
+      "status": "designed",
+      "obligation": "Deliver schema.md, machine-readable schema/indexes and valid fixtures consistently.",
+      "scope": "committed",
+      "ownerTask": "T17",
+      "ownerThreadId": "01a0de70-1d11-7143-a768-d81e6d87e61c",
+      "designEvidence": [
+        {
+          "path": "schema.md",
+          "locator": "line 5: ## Decisions and artifact entry points"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/119 (id=KIARA-F02)"
+        }
+      ],
+      "diagramIds": [
+        "C04",
+        "C06",
+        "C08",
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "contracts/operation-registry.json",
+        "research/T17/integration-freeze.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I11"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-F02",
+        "description": "Schema validation and referential checks run and actual output is reported.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-F03",
+      "status": "dependency_blocked",
+      "obligation": "Deliver component registry and API/tool/event/state contracts with critical request/response/error examples.",
+      "scope": "committed",
+      "ownerTask": "T17",
+      "ownerThreadId": "01a0de70-1d11-7143-a768-d81e6d87e61c",
+      "designEvidence": [
+        {
+          "path": "contracts.md",
+          "locator": "line 13: ## Runtime and adapters"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/120 (id=KIARA-F03)"
+        }
+      ],
+      "diagramIds": [
+        "C04",
+        "C06",
+        "C08",
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "contracts/operation-registry.json",
+        "research/T17/integration-freeze.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I11"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-F03",
+        "description": "All final examples parse and IDs/enums/version references agree.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": [
+        "Final protected context/assessment/harness service IO and integrated schema recheck"
+      ]
+    },
+    {
+      "id": "KIARA-F04",
+      "status": "designed",
+      "obligation": "Deliver repair/adaptation, config diff, protected gates, eval fixtures/metrics/promotion/rollback specification.",
+      "scope": "committed",
+      "ownerTask": "T17",
+      "ownerThreadId": "01a0de70-1d11-7143-a768-d81e6d87e61c",
+      "designEvidence": [
+        {
+          "path": "harness-and-evals.md",
+          "locator": "line 22: ## Exact automatic patch"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/121 (id=KIARA-F04)"
+        }
+      ],
+      "diagramIds": [
+        "C04",
+        "C06",
+        "C08",
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "contracts/operation-registry.json",
+        "research/T17/integration-freeze.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I11"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-F04",
+        "description": "Required loops/fixtures and measured-versus-planned distinction are retained.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-F05",
+      "status": "designed",
+      "obligation": "Deliver build-plan, demo, task-packets, registry, source/tool inventory, decisions and rejected alternatives.",
+      "scope": "committed",
+      "ownerTask": "T17",
+      "ownerThreadId": "01a0de70-1d11-7143-a768-d81e6d87e61c",
+      "designEvidence": [
+        {
+          "path": "build-plan.md",
+          "locator": "line 7: ## Admission, ownership and contracts"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/122 (id=KIARA-F05)"
+        }
+      ],
+      "diagramIds": [
+        "C04",
+        "C06",
+        "C08",
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "contracts/operation-registry.json",
+        "research/T17/integration-freeze.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I11"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-F05",
+        "description": "Final pack joins actual specialist work to later implementation packages.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-F06",
+      "status": "designed",
+      "obligation": "Preserve unchanged user source brief and latest multi-thread/Astra/five-elapsed-hour instructions.",
+      "scope": "committed",
+      "ownerTask": "T17",
+      "ownerThreadId": "01a0de70-1d11-7143-a768-d81e6d87e61c",
+      "designEvidence": [
+        {
+          "path": "original-brief.md",
+          "locator": "line 398: ## 12. Original user brief and latest direction \u2014 preserve as the source of truth"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/123 (id=KIARA-F06)"
+        }
+      ],
+      "diagramIds": [
+        "C04",
+        "C06",
+        "C08",
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "contracts/operation-registry.json",
+        "research/T17/integration-freeze.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I11"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-F06",
+        "description": "Source hash and content remain unchanged by specialists and integrator.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": []
+    },
+    {
+      "id": "KIARA-F07",
+      "status": "dependency_blocked",
+      "obligation": "Deliver full requirement-to-diagram/schema/contract/owner/package/check/demo mapping and review.md findings/fixes/uncertainties/status.",
+      "scope": "committed",
+      "ownerTask": "T17",
+      "ownerThreadId": "01a0de70-1d11-7143-a768-d81e6d87e61c",
+      "designEvidence": [
+        {
+          "path": "traceability.md",
+          "locator": "line 1: # Requirement traceability"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/124 (id=KIARA-F07)"
+        }
+      ],
+      "diagramIds": [
+        "C04",
+        "C06",
+        "C08",
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "contracts/operation-registry.json",
+        "research/T17/integration-freeze.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I11"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-F07",
+        "description": "No unmapped committed requirement is silently accepted; unresolved rows remain visible.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": [
+        "Independent final-pack critique, owner corrections and recheck pending"
+      ]
+    },
+    {
+      "id": "KIARA-F08",
+      "status": "dependency_blocked",
+      "obligation": "Final response leads with main architecture diagram and links pack, selected stack, task boundaries/chat IDs, adaptation, real model confirmation, review/integration and actually-run checks.",
+      "scope": "committed",
+      "ownerTask": "T17",
+      "ownerThreadId": "01a0de70-1d11-7143-a768-d81e6d87e61c",
+      "designEvidence": [
+        {
+          "path": "README.md",
+          "locator": "line 28: ## Behavior and invariants"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/125 (id=KIARA-F08)"
+        }
+      ],
+      "diagramIds": [
+        "C04",
+        "C06",
+        "C08",
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "contracts/operation-registry.json",
+        "research/T17/integration-freeze.json"
+      ],
+      "implementationPackageIds": [
+        "I00",
+        "I11"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-F08",
+        "description": "Final claims match registry and validation artifacts, with no unselected technology menu.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": [
+        "Independent final-pack critique, owner corrections and recheck pending"
+      ]
+    },
+    {
+      "id": "KIARA-V01",
+      "status": "dependency_blocked",
+      "obligation": "Independent Astra/xhigh reviewer reads original brief, instructions, ledger, registry, final diagrams/schema/contracts/build/demo/traceability and audits integrated work.",
+      "scope": "committed",
+      "ownerTask": "T16",
+      "ownerThreadId": "01a0de6d-bcd2-7d12-b8dc-3465416ad84d",
+      "designEvidence": [
+        {
+          "path": "review.md",
+          "locator": "line 1: # Integrated review and validation"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/126 (id=KIARA-V01)"
+        }
+      ],
+      "diagramIds": [
+        "C05",
+        "C09",
+        "C11",
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "contracts/operation-registry.json",
+        "research/T17/integration-manifest.json"
+      ],
+      "implementationPackageIds": [
+        "I11",
+        "I10"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-V01",
+        "description": "Review references actual final files and proves work distributed across real chats.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": [
+        "Independent final-pack critique, owner corrections and recheck pending"
+      ]
+    },
+    {
+      "id": "KIARA-V02",
+      "status": "dependency_blocked",
+      "obligation": "Report severity, evidence/location, impact and concrete remedy for scope, legal, model/thread, schedule, approval, tenancy, self-modification, API, consistency, resource, diagram and eval failures.",
+      "scope": "committed",
+      "ownerTask": "T16",
+      "ownerThreadId": "01a0de6d-bcd2-7d12-b8dc-3465416ad84d",
+      "designEvidence": [
+        {
+          "path": "review.md",
+          "locator": "line 1: # Integrated review and validation"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/127 (id=KIARA-V02)"
+        }
+      ],
+      "diagramIds": [
+        "C05",
+        "C09",
+        "C11",
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "contracts/operation-registry.json",
+        "research/T17/integration-manifest.json"
+      ],
+      "implementationPackageIds": [
+        "I11",
+        "I10"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-V02",
+        "description": "Blocking findings are explicit with owners and are never hidden behind green status.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": [
+        "Independent final-pack critique, owner corrections and recheck pending"
+      ]
+    },
+    {
+      "id": "KIARA-V03",
+      "status": "dependency_blocked",
+      "obligation": "Run at least one critique/revision/recheck pass, cap at three, route repairs to owners and reintegrate via T17.",
+      "scope": "committed",
+      "ownerTask": "T16",
+      "ownerThreadId": "01a0de6d-bcd2-7d12-b8dc-3465416ad84d",
+      "designEvidence": [
+        {
+          "path": "review.md",
+          "locator": "line 1: # Integrated review and validation"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/128 (id=KIARA-V03)"
+        }
+      ],
+      "diagramIds": [
+        "C05",
+        "C09",
+        "C11",
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "contracts/operation-registry.json",
+        "research/T17/integration-manifest.json"
+      ],
+      "implementationPackageIds": [
+        "I11",
+        "I10"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-V03",
+        "description": "Review log traces initial finding, authored fix, integration and independent recheck.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": [
+        "Independent final-pack critique, owner corrections and recheck pending"
+      ]
+    },
+    {
+      "id": "KIARA-V04",
+      "status": "dependency_blocked",
+      "obligation": "Mark pack provisional for unavailable access/user-decision blockers, preserve requirement and proposed resolution; architecture acceptance does not require building full app.",
+      "scope": "committed",
+      "ownerTask": "T16",
+      "ownerThreadId": "01a0de6d-bcd2-7d12-b8dc-3465416ad84d",
+      "designEvidence": [
+        {
+          "path": "review.md",
+          "locator": "line 1: # Integrated review and validation"
+        },
+        {
+          "path": "contracts/requirement-crosswalk.json",
+          "locator": "/requirements/129 (id=KIARA-V04)"
+        }
+      ],
+      "diagramIds": [
+        "C05",
+        "C09",
+        "C11",
+        "C12"
+      ],
+      "schemaOrContractIds": [
+        "contracts/operation-registry.json",
+        "research/T17/integration-manifest.json"
+      ],
+      "implementationPackageIds": [
+        "I11",
+        "I10"
+      ],
+      "acceptanceEvidence": {
+        "id": "AC-KIARA-V04",
+        "description": "Final status differentiates useful design from unresolved access/timing and future end-to-end implementation proof.",
+        "executionStatus": "planned_application_acceptance_unexecuted; artifact checks separately in validation/results.json"
+      },
+      "plannedDemoEvidence": "Architecture/repository/review evidence; need not consume one-minute screen time",
+      "unresolvedDependencies": [
+        "Independent final-pack critique, owner corrections and recheck pending"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+{
+  "status": "future_implementation_acceptance_not_executed",
+  "cases": [
+    {
+      "id": "A-WF-01",
+      "name": "covered CA main",
+      "setup": "NY baseline; T03 explicit positive synthetic facts; CA declared residence",
+      "expected": "assessment covered; redline; intentional failed validation; bounded repair; founder then lawyer; finalized, not published"
+    },
+    {
+      "id": "A-WF-02",
+      "name": "unknown/non-covered",
+      "setup": "unknown threshold or T03 non-covered fixture",
+      "expected": "needs_information preserves nulls OR closed_no_change narrowly scoped; no false compliance claim"
+    },
+    {
+      "id": "A-WF-03",
+      "name": "duplicate signup",
+      "setup": "repeat same source_event_id/key/hash concurrently",
+      "expected": "one event/workflow; same IDs returned; different payload with same key409"
+    },
+    {
+      "id": "A-WF-04",
+      "name": "out-of-order source",
+      "setup": "customer version3 arrives then version2",
+      "expected": "current facts remain v3; v2 audit flagged stale; no obsolete draft"
+    },
+    {
+      "id": "A-WF-05",
+      "name": "lease crash",
+      "setup": "worker dies after claim; second worker acquires later lease epoch",
+      "expected": "late first completion rejected; one committed output; budgets unchanged"
+    },
+    {
+      "id": "A-WF-06",
+      "name": "model timeout",
+      "setup": "provider outcome unknown then old completion after retry",
+      "expected": "reservation retained; capped retry; stale result discarded; no duplicate context mutation"
+    },
+    {
+      "id": "A-WF-07",
+      "name": "document slot",
+      "setup": "two different signup events target same policy",
+      "expected": "one slot owner through human wait; second queued FIFO; second pins then-current base"
+    },
+    {
+      "id": "A-WF-08",
+      "name": "base conflict",
+      "setup": "manual base import races finalization",
+      "expected": "one ordered winner; stale finalization409; no overwrite or approval carryover"
+    },
+    {
+      "id": "A-WF-09",
+      "name": "human order",
+      "setup": "lawyer approves before founder OR reviewed/viewed only",
+      "expected": "no lawyer gate; no finalization; immutable audit distinguishes activity"
+    },
+    {
+      "id": "A-WF-10",
+      "name": "stale after text edit",
+      "setup": "founder approves revision2; lawyer edits into revision3; stale lawyer approval",
+      "expected": "both old gates inactive; new validation and founder review required; stale409"
+    },
+    {
+      "id": "A-WF-11",
+      "name": "fact/source write skew",
+      "setup": "parallel material tenant context/evidence activation and founder/lawyer/finalization txn",
+      "expected": "shared guard write conflict; later transaction sees changed epoch; stale packet rejected"
+    },
+    {
+      "id": "A-WF-12",
+      "name": "repair exhaustion",
+      "setup": "third attempted automatic repair or absolute deadline hit",
+      "expected": "needs_human_review; no background loop or silent fresh budget"
+    },
+    {
+      "id": "A-WF-13",
+      "name": "feedback separation",
+      "setup": "record harness note, fact correction, doc edit, legal note",
+      "expected": "typed destination/provenance; no automatic approval, fact acceptance or law rewrite"
+    },
+    {
+      "id": "A-WF-14",
+      "name": "supersession",
+      "setup": "replace awaiting_lawyer workflow explicitly",
+      "expected": "historical records retained; old jobs fenced; unsent notifications canceled; stale link rejects"
+    },
+    {
+      "id": "A-WF-15",
+      "name": "mail outage",
+      "setup": "lawyer request send fails repeatedly after founder approved",
+      "expected": "workflow stays awaiting_lawyer; exact existing bundle; only outbox retries; dashboard usable"
+    },
+    {
+      "id": "A-WF-16",
+      "name": "unknown delivery window",
+      "setup": "provider accepted then response lost; no providerID at23h",
+      "expected": "unknown_delivery/manual action; never new-key blind replay; within window same payload/key"
+    },
+    {
+      "id": "A-WF-17",
+      "name": "webhook duplicates/order",
+      "setup": "delivered before sent; duplicate svix-id; invalid signature",
+      "expected": "no downgrade or duplicate domain effect; invalid signature rejected"
+    },
+    {
+      "id": "A-WF-18",
+      "name": "preview versus live",
+      "setup": "mode preview, then separate authorized live test intent",
+      "expected": "previewed has no provider call; real send needs actual provider acceptance/delivery evidence"
+    },
+    {
+      "id": "A-WF-19",
+      "name": "cross-tenant access",
+      "setup": "tenantB asks for tenantA workflow or bundle; model spoofs founder",
+      "expected": "404 or denied without leaking records; no side effect"
+    },
+    {
+      "id": "A-WF-20",
+      "name": "harness persisted improvement",
+      "setup": "T07 harmful patch rejected; approved allowlisted candidate wins expected-version CAS; later event",
+      "expected": "no protected-rule change; later run pins promoted persisted version; prior pending bundle unchanged"
+    },
+    {
+      "id": "A-WF-21",
+      "name": "freshness exception expiry",
+      "setup": "lawyer source attestation accepted then expires/revoked before approval/finalization",
+      "expected": "new evidence bundle/gates after acceptance; expired/revoked packet rejects regardless of background projector"
+    },
+    {
+      "id": "A-WF-22",
+      "name": "membership revocation race",
+      "setup": "founder/lawyer membership revoked during approval txn",
+      "expected": "revocation writes tenant review_fence; gate conflicts and rechecks current membership"
+    },
+    {
+      "id": "A-WF-23",
+      "name": "change stream lost history",
+      "setup": "invalid resume token while durable jobs pending",
+      "expected": "poll scan finds due work; no lost event, duplicate mutation or guessed event-time ordering"
+    },
+    {
+      "id": "A-WF-24",
+      "name": "ambiguous DB commit",
+      "setup": "command transaction commits but HTTP response lost",
+      "expected": "receipt reconciliation returns prior IDs; external effects never inside callback"
+    }
+  ]
+}

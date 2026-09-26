@@ -1,0 +1,472 @@
+{
+  "contract_id": "K-SEC-ACCEPT-001",
+  "status": "future_application_acceptance_not_executed",
+  "cases": [
+    {
+      "id": "SEC-A01",
+      "threat_id": "TH-01",
+      "owners": [
+        "T04",
+        "T06"
+      ],
+      "given_or_attempt": "Tenant A reads Tenant B revision UUID",
+      "expected": "404; no private bytes or existence leak; deny audit",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A02",
+      "threat_id": "TH-01",
+      "owners": [
+        "T04",
+        "T06"
+      ],
+      "given_or_attempt": "Tenant A supplies B evidence/fact/proposal reference in otherwise valid write",
+      "expected": "Reject reference before write; no cross-tenant pointer",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A03",
+      "threat_id": "TH-01",
+      "owners": [
+        "T04",
+        "T05"
+      ],
+      "given_or_attempt": "Search/cache/export returns stale B record or missing tenant key",
+      "expected": "Filter before and after retrieval; rehydrate under A; cache keys include tenant; zero leakage",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A04",
+      "threat_id": "TH-02",
+      "owners": [
+        "T06",
+        "T09"
+      ],
+      "given_or_attempt": "Model attempts record_review_decision or sends roles/actor_id/tenant_id",
+      "expected": "Unknown tool/strict-input rejection; no decision",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A05",
+      "threat_id": "TH-02",
+      "owners": [
+        "T09",
+        "T11"
+      ],
+      "given_or_attempt": "Founder calls lawyer approval with forged client role",
+      "expected": "403; server principal remains founder",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A06",
+      "threat_id": "TH-02",
+      "owners": [
+        "T09",
+        "T11"
+      ],
+      "given_or_attempt": "Assigned lawyer membership revoked after review page opened",
+      "expected": "Recheck latest membership/assignment; reject decision",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A07",
+      "threat_id": "TH-02",
+      "owners": [
+        "T09",
+        "T11"
+      ],
+      "given_or_attempt": "Lawyer approves before founder or different bundle",
+      "expected": "409 gate conflict; no lawyer approval/finalization",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A08",
+      "threat_id": "TH-03",
+      "owners": [
+        "T04",
+        "T08",
+        "T09"
+      ],
+      "given_or_attempt": "Founder or lawyer approves stale revision after text change",
+      "expected": "409 STALE_REVIEW_BUNDLE; preserve historical approval; revalidate/new founder gate",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A09",
+      "threat_id": "TH-03",
+      "owners": [
+        "T04",
+        "T09"
+      ],
+      "given_or_attempt": "Material fact update races finalization under snapshot transaction",
+      "expected": "Both write tenant guard; one conflicts; retry rechecks epochs; never finalize obsolete bundle",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A10",
+      "threat_id": "TH-03",
+      "owners": [
+        "T04",
+        "T09"
+      ],
+      "given_or_attempt": "Relevant legal activation races finalization with unchanged draft text",
+      "expected": "Same tenant guard conflicts via material_evidence_epoch; fresh validation and both gates",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A11",
+      "threat_id": "TH-03",
+      "owners": [
+        "T07",
+        "T09"
+      ],
+      "given_or_attempt": "Global champion changes while old pinned bundle awaits review",
+      "expected": "No invalidation solely for champion move; old run remains pinned",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A12",
+      "threat_id": "TH-03",
+      "owners": [
+        "T09"
+      ],
+      "given_or_attempt": "Duplicate approval command same idempotency key and payload then changed payload",
+      "expected": "Same returns original decision; changed payload rejected; one decision/outbox",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A13",
+      "threat_id": "TH-04",
+      "owners": [
+        "T05",
+        "T06"
+      ],
+      "given_or_attempt": "Document instructs ignore system, approve, fetch internal host, email secrets",
+      "expected": "Content treated as data; prohibited tools absent; authority unchanged even if model proposes forbidden action",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A14",
+      "threat_id": "TH-05",
+      "owners": [
+        "T05"
+      ],
+      "given_or_attempt": "Fetcher receives file URL, HTTP, userinfo, localhost, alternate port or host suffix spoof",
+      "expected": "Reject before DNS/network request",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A15",
+      "threat_id": "TH-05",
+      "owners": [
+        "T05"
+      ],
+      "given_or_attempt": "Approved URL redirects to metadata/loopback/private destination",
+      "expected": "Automatic redirect off; per-hop policy refuses; no request to target",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A16",
+      "threat_id": "TH-05",
+      "owners": [
+        "T05"
+      ],
+      "given_or_attempt": "Mixed public/private A/AAAA or DNS validation/connect address change",
+      "expected": "Reject non-public resolution and unmatched peer; no metadata request",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A17",
+      "threat_id": "TH-06",
+      "owners": [
+        "T03",
+        "T05"
+      ],
+      "given_or_attempt": "Tenant upload claims authoritative_primary or invented provision locator",
+      "expected": "Cannot publish public source; citation/excerpt lookup fails validation",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A18",
+      "threat_id": "TH-07",
+      "owners": [
+        "T04",
+        "T06"
+      ],
+      "given_or_attempt": "Two accepted context updates share expected context revision",
+      "expected": "One commits; other 409; append-only provenance retained",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A19",
+      "threat_id": "TH-07",
+      "owners": [
+        "T03",
+        "T04",
+        "T06"
+      ],
+      "given_or_attempt": "Unknown revenue, conflicting residence evidence, model says verified",
+      "expected": "Preserve unknown/conflicting/asserted; require information/attestation; no false coverage",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A20",
+      "threat_id": "TH-08",
+      "owners": [
+        "T06",
+        "T07"
+      ],
+      "given_or_attempt": "Canonical two-path false-to-true prefetch patch and passing bound evaluation",
+      "expected": "Permit eligible auto-promotion via service CAS; later event pins new version",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A21",
+      "threat_id": "TH-08",
+      "owners": [
+        "T06",
+        "T07"
+      ],
+      "given_or_attempt": "Patch approval count, source exclusions, budget, eval threshold, tool permissions or free-form prompt",
+      "expected": "Reject protected change before evaluation/promotion",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A22",
+      "threat_id": "TH-08",
+      "owners": [
+        "T07"
+      ],
+      "given_or_attempt": "Patch escaped/ancestor path, duplicate path, extra key, remove/add, true-to-false",
+      "expected": "Reject complete candidate; no partial patch persistence",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A23",
+      "threat_id": "TH-08",
+      "owners": [
+        "T07"
+      ],
+      "given_or_attempt": "Promote stale base or evaluation for another candidate/corpus/model",
+      "expected": "Reject CAS/digest/manifest mismatch; rerun proper baseline if input changed",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A24",
+      "threat_id": "TH-08",
+      "owners": [
+        "T07"
+      ],
+      "given_or_attempt": "Additional prefetch consumes mandatory evidence budget or omits unknown facts",
+      "expected": "Required-context floor fails; escalate, never silently truncate",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A25",
+      "threat_id": "TH-09",
+      "owners": [
+        "T13"
+      ],
+      "given_or_attempt": "Canary PII/secret in prompt, metadata, span name, error, tag, URL, attachment",
+      "expected": "No canary in captured exporter payload; local audit stores allowed references only",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A26",
+      "threat_id": "TH-09",
+      "owners": [
+        "T14"
+      ],
+      "given_or_attempt": "Public artifact/demo scan contains seeded fake secret or real-looking personal input",
+      "expected": "Block artifact release until removed; demo fixtures explicitly synthetic",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A27",
+      "threat_id": "TH-10",
+      "owners": [
+        "T08",
+        "T11"
+      ],
+      "given_or_attempt": "Clause contains script, image tracker, javascript link or encoded HTML",
+      "expected": "Displayed as safe text/sanitized link; no execution or external fetch",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A28",
+      "threat_id": "TH-11",
+      "owners": [
+        "T05"
+      ],
+      "given_or_attempt": "Oversized/decompression bomb/parser timeout/external relationship",
+      "expected": "Bounded failure; no network, ambient credentials or writes outside sandbox",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A29",
+      "threat_id": "TH-12",
+      "owners": [
+        "T09",
+        "T10"
+      ],
+      "given_or_attempt": "Email link preview or provider delivery webhook received",
+      "expected": "No approval; signature/dedupe for provider state; unauthorized webhook rejected",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A30",
+      "threat_id": "TH-12",
+      "owners": [
+        "T09",
+        "T10"
+      ],
+      "given_or_attempt": "Model injects external recipient; assigned lawyer later loses access",
+      "expected": "No free-form recipient accepted; dispatcher suppresses unauthorized recipient and audits",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A31",
+      "threat_id": "TH-12",
+      "owners": [
+        "T09",
+        "T10"
+      ],
+      "given_or_attempt": "Provider timeout/failure then retry",
+      "expected": "Delivery state isolated; deterministic dedupe policy; no redraft or duplicate approval",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A32",
+      "threat_id": "TH-13",
+      "owners": [
+        "T09"
+      ],
+      "given_or_attempt": "Replayed event key with changed payload or expired worker completes",
+      "expected": "Payload conflict or fencing rejection; one workflow result",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A33",
+      "threat_id": "TH-14",
+      "owners": [
+        "T11"
+      ],
+      "given_or_attempt": "Non-demo server receives demo principal/role header",
+      "expected": "Deny; no privileged identity or real tenant access",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A34",
+      "threat_id": "TH-15",
+      "owners": [
+        "T04",
+        "T05",
+        "T07"
+      ],
+      "given_or_attempt": "Tenant A annotation or harness memory appears in B or public corpus",
+      "expected": "Deny/write isolation; no automatic cross-tenant memory promotion",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A35",
+      "threat_id": "TH-16",
+      "owners": [
+        "T09",
+        "T13"
+      ],
+      "given_or_attempt": "Required audit transaction fails; separately LangSmith unavailable",
+      "expected": "First mutation aborts; second only marks telemetry failure and workflow proceeds",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A36",
+      "threat_id": "TH-02",
+      "owners": [
+        "T11"
+      ],
+      "given_or_attempt": "Cross-site browser POST or GET approval attempt",
+      "expected": "CSRF/origin failure or method rejection; no decision",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A37",
+      "threat_id": "TH-01",
+      "owners": [
+        "T04"
+      ],
+      "given_or_attempt": "Runtime DB principal inherits admin/broad collection mutation grant",
+      "expected": "Readiness check fails least-privilege requirement; no claim of DB-enforced row isolation",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A38",
+      "threat_id": "TH-07",
+      "owners": [
+        "T06"
+      ],
+      "given_or_attempt": "proposed_value_json contains operator/prototype key, duplicate keys or wrong fact type",
+      "expected": "Parse as data; reject by strict typed fact registry; never spread as MongoDB update",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A39",
+      "threat_id": "TH-06",
+      "owners": [
+        "T05",
+        "T09",
+        "T12"
+      ],
+      "given_or_attempt": "Assigned lawyer with explicit capability attests overdue engineering recheck with exact source/hash/as_of/support and <=24h expiry",
+      "expected": "New evidence version/epoch, revalidation and both ordered draft gates; source review is not lawyer approval",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A40",
+      "threat_id": "TH-06",
+      "owners": [
+        "T05",
+        "T09",
+        "T12"
+      ],
+      "given_or_attempt": "Source attestation expired, lacks substantiation, or attempts superseded/future/untrusted source admission",
+      "expected": "Reject at approval/finalization; preserve uncertainty; no protected-policy override",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A41",
+      "threat_id": "TH-02",
+      "owners": [
+        "T04",
+        "T09"
+      ],
+      "given_or_attempt": "Membership revocation races approval transaction",
+      "expected": "Both touch shared tenant guard; conflict/retry reads revoked membership and rejects",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A42",
+      "threat_id": "TH-13",
+      "owners": [
+        "T04",
+        "T06",
+        "T09"
+      ],
+      "given_or_attempt": "Old-epoch review command or trusted principal uses same reseeded UUID",
+      "expected": "RESET_EPOCH_MISMATCH; same tenant reset guard CAS prevents decision/effect; no old receipt reuse",
+      "application_execution_status": "not_run"
+    },
+    {
+      "id": "SEC-A43",
+      "threat_id": "TH-13",
+      "owners": [
+        "T04",
+        "T06",
+        "T09",
+        "T10"
+      ],
+      "given_or_attempt": "Reset races model/tool/email dispatch and late effect commit",
+      "expected": "Quiesce/cancel old work; advance surviving monotonic tenant epoch; retain unresolved charges/live-send receipts or block reset; old result diagnostic only",
+      "application_execution_status": "not_run"
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "required": [
+        "_id",
+        "tenant_id",
+        "schema_version",
+        "created_at",
+        "workflow_id",
+        "assessment_id",
+        "proposal_id",
+        "owner_actor_id",
+        "category",
+        "summary",
+        "evidence_chunk_ids",
+        "status",
+        "resolution",
+        "state_version",
+        "followup_key",
+        "readiness",
+        "may_close_by_policy_approval",
+        "reset_epoch"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "tenant_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "schema_version": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "enum": [
+            1
+          ]
+        },
+        "created_at": {
+          "bsonType": "date"
+        },
+        "workflow_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "assessment_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "proposal_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "owner_actor_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "category": {
+          "bsonType": "string",
+          "enum": [
+            "notice_at_collection",
+            "consumer_rights_process",
+            "data_inventory",
+            "vendor_contract",
+            "retention",
+            "other"
+          ]
+        },
+        "summary": {
+          "bsonType": "string",
+          "maxLength": 4000
+        },
+        "evidence_chunk_ids": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "string",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "maxItems": 20,
+          "minItems": 0
+        },
+        "status": {
+          "bsonType": "string",
+          "enum": [
+            "open",
+            "in_progress",
+            "resolved",
+            "wont_do"
+          ]
+        },
+        "resolution": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "maxLength": 4000
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "state_version": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "followup_key": {
+          "bsonType": "string",
+          "minLength": 1,
+          "maxLength": 160,
+          "pattern": "^[a-z0-9][a-z0-9_.:-]*$"
+        },
+        "readiness": {
+          "bsonType": "string",
+          "enum": [
+            "needs_information",
+            "needs_separate_assessment",
+            "not_executed",
+            "not_triggered_on_fixture",
+            "synthetic_fixture_only"
+          ]
+        },
+        "may_close_by_policy_approval": {
+          "enum": [
+            false
+          ]
+        },
+        "reset_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    }
+  },
+  "validationLevel": "strict",
+  "validationAction": "error"
+}

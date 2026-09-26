@@ -1,0 +1,844 @@
+{
+  "status": "staged_not_created",
+  "contract_release": "T17 final release required before launch",
+  "packages": [
+    {
+      "task_id": "I00",
+      "title": "Kiara I00 \u2014 Integration and build coordination",
+      "model": "gpt-6-astra",
+      "thinking": "xhigh",
+      "thread_id": null,
+      "launch_status": "staged_not_created",
+      "packet_path": "/Users/aayushdani/Documents/ChatGPT/Kiara/kiara-architecture/task-packets/implementation/I00.md",
+      "owned_components": [
+        "C05",
+        "C06"
+      ],
+      "owned_paths": [
+        "package.json",
+        "package-lock.json",
+        "tsconfig.json",
+        "src/app/",
+        "src/server/",
+        "src/worker/",
+        "scripts/doctor.ts",
+        "README.md",
+        "implementation-registry.json"
+      ],
+      "research_inputs": [
+        "T06",
+        "T09",
+        "T17"
+      ],
+      "phases": [
+        {
+          "job_id": "J00",
+          "estimated_elapsed_minutes": 15,
+          "dependencies": []
+        },
+        {
+          "job_id": "J17",
+          "estimated_elapsed_minutes": 20,
+          "dependencies": [
+            "J11",
+            "J13",
+            "J14",
+            "J15",
+            "J16"
+          ]
+        },
+        {
+          "job_id": "J20",
+          "estimated_elapsed_minutes": 35,
+          "dependencies": [
+            "J18",
+            "J19"
+          ]
+        },
+        {
+          "job_id": "J24",
+          "estimated_elapsed_minutes": 15,
+          "dependencies": [
+            "J21"
+          ]
+        }
+      ],
+      "reviewer": "I10/I11",
+      "diagram_component_ids": [
+        "C05",
+        "C06"
+      ],
+      "requirement_ids": [
+        "KIARA-G01",
+        "KIARA-G02",
+        "KIARA-G03",
+        "KIARA-G04",
+        "KIARA-G05",
+        "KIARA-G06",
+        "KIARA-G07",
+        "KIARA-G08",
+        "KIARA-G09",
+        "KIARA-G10",
+        "KIARA-G11",
+        "KIARA-G12",
+        "KIARA-G13",
+        "KIARA-C03",
+        "KIARA-H13",
+        "KIARA-I01",
+        "KIARA-I02",
+        "KIARA-I03",
+        "KIARA-I04",
+        "KIARA-I05",
+        "KIARA-I06",
+        "KIARA-I07",
+        "KIARA-I08",
+        "KIARA-I09",
+        "KIARA-K01",
+        "KIARA-A01",
+        "KIARA-A02",
+        "KIARA-A03",
+        "KIARA-A04",
+        "KIARA-A05",
+        "KIARA-A06",
+        "KIARA-A07",
+        "KIARA-E01",
+        "KIARA-E02",
+        "KIARA-E03",
+        "KIARA-F01",
+        "KIARA-F02",
+        "KIARA-F03",
+        "KIARA-F04",
+        "KIARA-F05",
+        "KIARA-F06",
+        "KIARA-F07",
+        "KIARA-F08"
+      ]
+    },
+    {
+      "task_id": "I01",
+      "title": "Kiara I01 \u2014 Atlas data, fixtures and reset",
+      "model": "gpt-6-astra",
+      "thinking": "xhigh",
+      "thread_id": null,
+      "launch_status": "staged_not_created",
+      "packet_path": "/Users/aayushdani/Documents/ChatGPT/Kiara/kiara-architecture/task-packets/implementation/I01.md",
+      "owned_components": [
+        "C12",
+        "C16"
+      ],
+      "owned_paths": [
+        "src/data/",
+        "scripts/seed.ts",
+        "scripts/reset.ts",
+        "scripts/verify-seed.ts",
+        "fixtures/"
+      ],
+      "research_inputs": [
+        "T03",
+        "T04",
+        "T12"
+      ],
+      "phases": [
+        {
+          "job_id": "J01",
+          "estimated_elapsed_minutes": 50,
+          "dependencies": [
+            "J00"
+          ]
+        }
+      ],
+      "reviewer": "I10/I11",
+      "diagram_component_ids": [
+        "C12",
+        "C16"
+      ],
+      "requirement_ids": [
+        "KIARA-B02",
+        "KIARA-L01",
+        "KIARA-L02",
+        "KIARA-L03",
+        "KIARA-L04",
+        "KIARA-L05",
+        "KIARA-L06",
+        "KIARA-L09",
+        "KIARA-S01",
+        "KIARA-S02",
+        "KIARA-S03",
+        "KIARA-S04",
+        "KIARA-S05",
+        "KIARA-S06",
+        "KIARA-S07",
+        "KIARA-S08",
+        "KIARA-S09",
+        "KIARA-S10",
+        "KIARA-S11",
+        "KIARA-S12",
+        "KIARA-S14",
+        "KIARA-S15",
+        "KIARA-S16"
+      ]
+    },
+    {
+      "task_id": "I02",
+      "title": "Kiara I02 \u2014 Ingestion and evidence retrieval",
+      "model": "gpt-6-astra",
+      "thinking": "xhigh",
+      "thread_id": null,
+      "launch_status": "staged_not_created",
+      "packet_path": "/Users/aayushdani/Documents/ChatGPT/Kiara/kiara-architecture/task-packets/implementation/I02.md",
+      "owned_components": [
+        "C07",
+        "C16"
+      ],
+      "owned_paths": [
+        "src/ingestion/",
+        "src/retrieval/",
+        "tests/retrieval/"
+      ],
+      "research_inputs": [
+        "T03",
+        "T05",
+        "T12"
+      ],
+      "phases": [
+        {
+          "job_id": "J02",
+          "estimated_elapsed_minutes": 55,
+          "dependencies": [
+            "J00"
+          ]
+        },
+        {
+          "job_id": "J11",
+          "estimated_elapsed_minutes": 15,
+          "dependencies": [
+            "J01",
+            "J02"
+          ]
+        }
+      ],
+      "reviewer": "I10/I11",
+      "diagram_component_ids": [
+        "C07",
+        "C16"
+      ],
+      "requirement_ids": [
+        "KIARA-L01",
+        "KIARA-L02",
+        "KIARA-L03",
+        "KIARA-L04",
+        "KIARA-L05",
+        "KIARA-L06",
+        "KIARA-L09",
+        "KIARA-R01",
+        "KIARA-R02",
+        "KIARA-R03",
+        "KIARA-R04",
+        "KIARA-R05",
+        "KIARA-R06"
+      ]
+    },
+    {
+      "task_id": "I03",
+      "title": "Kiara I03 \u2014 Runtime and context tools",
+      "model": "gpt-6-astra",
+      "thinking": "xhigh",
+      "thread_id": null,
+      "launch_status": "staged_not_created",
+      "packet_path": "/Users/aayushdani/Documents/ChatGPT/Kiara/kiara-architecture/task-packets/implementation/I03.md",
+      "owned_components": [
+        "C07",
+        "C08",
+        "C17"
+      ],
+      "owned_paths": [
+        "src/runtime/",
+        "src/tools/",
+        "tests/runtime/"
+      ],
+      "research_inputs": [
+        "T06",
+        "T05",
+        "T12"
+      ],
+      "phases": [
+        {
+          "job_id": "J03",
+          "estimated_elapsed_minutes": 60,
+          "dependencies": [
+            "J00"
+          ]
+        }
+      ],
+      "reviewer": "I10/I11",
+      "diagram_component_ids": [
+        "C07",
+        "C08",
+        "C17"
+      ],
+      "requirement_ids": [
+        "KIARA-R07",
+        "KIARA-R08",
+        "KIARA-S13",
+        "KIARA-C01",
+        "KIARA-C02",
+        "KIARA-H06",
+        "KIARA-H13",
+        "KIARA-P01",
+        "KIARA-P02",
+        "KIARA-P03",
+        "KIARA-I03",
+        "KIARA-I04",
+        "KIARA-I05",
+        "KIARA-I06",
+        "KIARA-I07",
+        "KIARA-I09"
+      ]
+    },
+    {
+      "task_id": "I04",
+      "title": "Kiara I04 \u2014 Events, approvals and recovery",
+      "model": "gpt-6-astra",
+      "thinking": "xhigh",
+      "thread_id": null,
+      "launch_status": "staged_not_created",
+      "packet_path": "/Users/aayushdani/Documents/ChatGPT/Kiara/kiara-architecture/task-packets/implementation/I04.md",
+      "owned_components": [
+        "C01",
+        "C05",
+        "C06",
+        "C10",
+        "C13"
+      ],
+      "owned_paths": [
+        "src/events/",
+        "src/workflow/",
+        "src/reviews/",
+        "tests/workflow/"
+      ],
+      "research_inputs": [
+        "T09",
+        "T04",
+        "T08",
+        "T12"
+      ],
+      "phases": [
+        {
+          "job_id": "J04",
+          "estimated_elapsed_minutes": 65,
+          "dependencies": [
+            "J00"
+          ]
+        },
+        {
+          "job_id": "J12",
+          "estimated_elapsed_minutes": 20,
+          "dependencies": [
+            "J01",
+            "J03",
+            "J04",
+            "J05"
+          ]
+        }
+      ],
+      "reviewer": "I10/I11",
+      "diagram_component_ids": [
+        "C01",
+        "C05",
+        "C06",
+        "C10",
+        "C13"
+      ],
+      "requirement_ids": [
+        "KIARA-S13",
+        "KIARA-W01",
+        "KIARA-W02",
+        "KIARA-W03",
+        "KIARA-W04",
+        "KIARA-W05",
+        "KIARA-W06",
+        "KIARA-W07",
+        "KIARA-W08",
+        "KIARA-W09",
+        "KIARA-H06",
+        "KIARA-P01",
+        "KIARA-P02",
+        "KIARA-P03"
+      ]
+    },
+    {
+      "task_id": "I05",
+      "title": "Kiara I05 \u2014 Documents and redlines",
+      "model": "gpt-6-astra",
+      "thinking": "xhigh",
+      "thread_id": null,
+      "launch_status": "staged_not_created",
+      "packet_path": "/Users/aayushdani/Documents/ChatGPT/Kiara/kiara-architecture/task-packets/implementation/I05.md",
+      "owned_components": [
+        "C10"
+      ],
+      "owned_paths": [
+        "src/documents/",
+        "src/ui/redline/",
+        "tests/documents/"
+      ],
+      "research_inputs": [
+        "T08",
+        "T03",
+        "T04"
+      ],
+      "phases": [
+        {
+          "job_id": "J05",
+          "estimated_elapsed_minutes": 50,
+          "dependencies": [
+            "J00"
+          ]
+        }
+      ],
+      "reviewer": "I10/I11",
+      "diagram_component_ids": [
+        "C10"
+      ],
+      "requirement_ids": [
+        "KIARA-L07",
+        "KIARA-D01",
+        "KIARA-D02",
+        "KIARA-D03",
+        "KIARA-D04"
+      ]
+    },
+    {
+      "task_id": "I06",
+      "title": "Kiara I06 \u2014 Validators and persisted adaptation",
+      "model": "gpt-6-astra",
+      "thinking": "xhigh",
+      "thread_id": null,
+      "launch_status": "staged_not_created",
+      "packet_path": "/Users/aayushdani/Documents/ChatGPT/Kiara/kiara-architecture/task-packets/implementation/I06.md",
+      "owned_components": [
+        "C09",
+        "C11"
+      ],
+      "owned_paths": [
+        "src/validation/",
+        "src/adaptation/",
+        "evals/",
+        "tests/adaptation/"
+      ],
+      "research_inputs": [
+        "T07",
+        "T03",
+        "T06",
+        "T09"
+      ],
+      "phases": [
+        {
+          "job_id": "J06",
+          "estimated_elapsed_minutes": 60,
+          "dependencies": [
+            "J00"
+          ]
+        },
+        {
+          "job_id": "J14",
+          "estimated_elapsed_minutes": 20,
+          "dependencies": [
+            "J06",
+            "J11",
+            "J12"
+          ]
+        },
+        {
+          "job_id": "J19",
+          "estimated_elapsed_minutes": 25,
+          "dependencies": [
+            "J14"
+          ]
+        }
+      ],
+      "reviewer": "I10/I11",
+      "diagram_component_ids": [
+        "C09",
+        "C11"
+      ],
+      "requirement_ids": [
+        "KIARA-L01",
+        "KIARA-L02",
+        "KIARA-L03",
+        "KIARA-L04",
+        "KIARA-L05",
+        "KIARA-L06",
+        "KIARA-L09",
+        "KIARA-H01",
+        "KIARA-H02",
+        "KIARA-H03",
+        "KIARA-H04",
+        "KIARA-H05",
+        "KIARA-H07",
+        "KIARA-H08",
+        "KIARA-H09",
+        "KIARA-H10",
+        "KIARA-H11",
+        "KIARA-H12"
+      ]
+    },
+    {
+      "task_id": "I07",
+      "title": "Kiara I07 \u2014 Founder and lawyer product views",
+      "model": "gpt-6-astra",
+      "thinking": "xhigh",
+      "thread_id": null,
+      "launch_status": "staged_not_created",
+      "packet_path": "/Users/aayushdani/Documents/ChatGPT/Kiara/kiara-architecture/task-packets/implementation/I07.md",
+      "owned_components": [
+        "C02",
+        "C03",
+        "C04",
+        "C15"
+      ],
+      "owned_paths": [
+        "src/ui/founder/",
+        "src/ui/lawyer/",
+        "src/ui/shared/",
+        "src/ui/pages/",
+        "tests/ui/"
+      ],
+      "research_inputs": [
+        "T11",
+        "T08",
+        "T09",
+        "T12"
+      ],
+      "phases": [
+        {
+          "job_id": "J07",
+          "estimated_elapsed_minutes": 65,
+          "dependencies": [
+            "J00"
+          ]
+        },
+        {
+          "job_id": "J13",
+          "estimated_elapsed_minutes": 20,
+          "dependencies": [
+            "J07",
+            "J12"
+          ]
+        }
+      ],
+      "reviewer": "I10/I11",
+      "diagram_component_ids": [
+        "C02",
+        "C03",
+        "C04",
+        "C15"
+      ],
+      "requirement_ids": [
+        "KIARA-B01",
+        "KIARA-B03",
+        "KIARA-B04",
+        "KIARA-L08",
+        "KIARA-D05",
+        "KIARA-D06",
+        "KIARA-U01",
+        "KIARA-U02",
+        "KIARA-U03"
+      ]
+    },
+    {
+      "task_id": "I08",
+      "title": "Kiara I08 \u2014 Email integration and delivery state",
+      "model": "gpt-6-astra",
+      "thinking": "xhigh",
+      "thread_id": null,
+      "launch_status": "staged_not_created",
+      "packet_path": "/Users/aayushdani/Documents/ChatGPT/Kiara/kiara-architecture/task-packets/implementation/I08.md",
+      "owned_components": [
+        "C13",
+        "C14"
+      ],
+      "owned_paths": [
+        "src/notifications/",
+        "src/notifications/webhooks/",
+        "tests/notifications/"
+      ],
+      "research_inputs": [
+        "T09",
+        "T10",
+        "T12"
+      ],
+      "phases": [
+        {
+          "job_id": "J08",
+          "estimated_elapsed_minutes": 40,
+          "dependencies": [
+            "J00"
+          ]
+        },
+        {
+          "job_id": "J15",
+          "estimated_elapsed_minutes": 15,
+          "dependencies": [
+            "J08",
+            "J12"
+          ]
+        }
+      ],
+      "reviewer": "I10/I11",
+      "diagram_component_ids": [
+        "C13",
+        "C14"
+      ],
+      "requirement_ids": [
+        "KIARA-N01",
+        "KIARA-N02"
+      ]
+    },
+    {
+      "task_id": "I09",
+      "title": "Kiara I09 \u2014 Timeline, config history and operations",
+      "model": "gpt-6-astra",
+      "thinking": "xhigh",
+      "thread_id": null,
+      "launch_status": "staged_not_created",
+      "packet_path": "/Users/aayushdani/Documents/ChatGPT/Kiara/kiara-architecture/task-packets/implementation/I09.md",
+      "owned_components": [
+        "C15",
+        "C18"
+      ],
+      "owned_paths": [
+        "src/observability/",
+        "src/ui/technical/",
+        "tests/observability/"
+      ],
+      "research_inputs": [
+        "T13",
+        "T07",
+        "T09",
+        "T12"
+      ],
+      "phases": [
+        {
+          "job_id": "J09",
+          "estimated_elapsed_minutes": 35,
+          "dependencies": [
+            "J00"
+          ]
+        },
+        {
+          "job_id": "J16",
+          "estimated_elapsed_minutes": 15,
+          "dependencies": [
+            "J09",
+            "J12"
+          ]
+        }
+      ],
+      "reviewer": "I10/I11",
+      "diagram_component_ids": [
+        "C15",
+        "C18"
+      ],
+      "requirement_ids": [
+        "KIARA-O01",
+        "KIARA-O02",
+        "KIARA-O03"
+      ]
+    },
+    {
+      "task_id": "I10",
+      "title": "Kiara I10 \u2014 Security and contract verification",
+      "model": "gpt-6-astra",
+      "thinking": "xhigh",
+      "thread_id": null,
+      "launch_status": "staged_not_created",
+      "packet_path": "/Users/aayushdani/Documents/ChatGPT/Kiara/kiara-architecture/task-packets/implementation/I10.md",
+      "owned_components": [
+        "C05"
+      ],
+      "owned_paths": [
+        "tests/security/",
+        "tests/contracts/",
+        "docs/security-review.md"
+      ],
+      "research_inputs": [
+        "T12",
+        "T04",
+        "T09",
+        "T17"
+      ],
+      "phases": [
+        {
+          "job_id": "J10",
+          "estimated_elapsed_minutes": 35,
+          "dependencies": [
+            "J00"
+          ]
+        }
+      ],
+      "reviewer": "I10/I11",
+      "diagram_component_ids": [
+        "C05"
+      ],
+      "requirement_ids": [
+        "KIARA-S13",
+        "KIARA-C03",
+        "KIARA-H06",
+        "KIARA-P01",
+        "KIARA-P02",
+        "KIARA-P03",
+        "KIARA-V01",
+        "KIARA-V02",
+        "KIARA-V03",
+        "KIARA-V04"
+      ]
+    },
+    {
+      "task_id": "I11",
+      "title": "Kiara I11 \u2014 Independent end-to-end verification",
+      "model": "gpt-6-astra",
+      "thinking": "xhigh",
+      "thread_id": null,
+      "launch_status": "staged_not_created",
+      "packet_path": "/Users/aayushdani/Documents/ChatGPT/Kiara/kiara-architecture/task-packets/implementation/I11.md",
+      "owned_components": [],
+      "owned_paths": [
+        "tests/e2e/",
+        "artifacts/verification/",
+        "docs/acceptance.md"
+      ],
+      "research_inputs": [
+        "T16",
+        "T01",
+        "T07",
+        "T14",
+        "T17"
+      ],
+      "phases": [
+        {
+          "job_id": "J18",
+          "estimated_elapsed_minutes": 45,
+          "dependencies": [
+            "J10",
+            "J17"
+          ]
+        },
+        {
+          "job_id": "J21",
+          "estimated_elapsed_minutes": 20,
+          "dependencies": [
+            "J20"
+          ]
+        }
+      ],
+      "reviewer": "I00/independent plan reviewer",
+      "diagram_component_ids": [],
+      "requirement_ids": [
+        "KIARA-G01",
+        "KIARA-G04",
+        "KIARA-G05",
+        "KIARA-G06",
+        "KIARA-G12",
+        "KIARA-G13",
+        "KIARA-F01",
+        "KIARA-F02",
+        "KIARA-F03",
+        "KIARA-F04",
+        "KIARA-F05",
+        "KIARA-F06",
+        "KIARA-F07",
+        "KIARA-F08",
+        "KIARA-V01",
+        "KIARA-V02",
+        "KIARA-V03",
+        "KIARA-V04"
+      ]
+    },
+    {
+      "task_id": "I12",
+      "title": "Kiara I12 \u2014 Demo, repository and submission handoff",
+      "model": "gpt-6-astra",
+      "thinking": "xhigh",
+      "thread_id": null,
+      "launch_status": "staged_not_created",
+      "packet_path": "/Users/aayushdani/Documents/ChatGPT/Kiara/kiara-architecture/task-packets/implementation/I12.md",
+      "owned_components": [
+        "C04",
+        "C15"
+      ],
+      "owned_paths": [
+        "demo/",
+        "docs/submission.md",
+        "docs/licenses.md",
+        "artifacts/release/"
+      ],
+      "research_inputs": [
+        "T02",
+        "T14",
+        "T01",
+        "T11",
+        "T13"
+      ],
+      "phases": [
+        {
+          "job_id": "J22",
+          "estimated_elapsed_minutes": 25,
+          "dependencies": [
+            "J05",
+            "J07"
+          ]
+        },
+        {
+          "job_id": "J23",
+          "estimated_elapsed_minutes": 25,
+          "dependencies": [
+            "J21",
+            "J22"
+          ]
+        },
+        {
+          "job_id": "J25",
+          "estimated_elapsed_minutes": 20,
+          "dependencies": [
+            "J23",
+            "J24"
+          ]
+        }
+      ],
+      "reviewer": "I10/I11",
+      "diagram_component_ids": [
+        "C04",
+        "C15"
+      ],
+      "requirement_ids": [
+        "KIARA-G02",
+        "KIARA-G03",
+        "KIARA-B01",
+        "KIARA-B02",
+        "KIARA-B03",
+        "KIARA-B04",
+        "KIARA-I01",
+        "KIARA-I02",
+        "KIARA-I08",
+        "KIARA-K01",
+        "KIARA-K02",
+        "KIARA-K03",
+        "KIARA-K04",
+        "KIARA-K05",
+        "KIARA-A01",
+        "KIARA-A02",
+        "KIARA-A03",
+        "KIARA-A04",
+        "KIARA-A05",
+        "KIARA-A06",
+        "KIARA-A07",
+        "KIARA-E01",
+        "KIARA-E02",
+        "KIARA-E03",
+        "KIARA-E04",
+        "KIARA-E05"
+      ]
+    }
+  ]
+}

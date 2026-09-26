@@ -1,0 +1,353 @@
+{
+  "validator": {
+    "$jsonSchema": {
+      "title": "K-NOTIFY-001",
+      "bsonType": "object",
+      "additionalProperties": false,
+      "required": [
+        "_id",
+        "tenant_id",
+        "reset_epoch",
+        "workflow_id",
+        "kind",
+        "recipient_actor_id",
+        "channel",
+        "mode",
+        "state",
+        "review_bundle_id",
+        "revision_id",
+        "template_version",
+        "rendered_payload_ref",
+        "payload_hash",
+        "provider",
+        "provider_idempotency_key",
+        "first_attempt_at",
+        "retry_until",
+        "provider_message_id",
+        "attempt_count",
+        "available_at",
+        "lease_epoch",
+        "lease_owner",
+        "lease_expires_at",
+        "created_at",
+        "schema_version",
+        "rendered_payload",
+        "delivery_attempts",
+        "state_version"
+      ],
+      "properties": {
+        "tenant_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "reset_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0
+        },
+        "workflow_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "kind": {
+          "bsonType": "string",
+          "enum": [
+            "founder_review_request",
+            "lawyer_review_request",
+            "information_request",
+            "finalization_notice",
+            "operational_followup"
+          ]
+        },
+        "recipient_actor_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "channel": {
+          "enum": [
+            "email"
+          ]
+        },
+        "mode": {
+          "bsonType": "string",
+          "enum": [
+            "preview",
+            "live"
+          ]
+        },
+        "state": {
+          "bsonType": "string",
+          "enum": [
+            "pending",
+            "sending",
+            "retry_wait",
+            "sent",
+            "delivered",
+            "bounced",
+            "failed",
+            "unknown_delivery",
+            "previewed",
+            "canceled"
+          ]
+        },
+        "review_bundle_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "revision_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "template_version": {
+          "bsonType": "string",
+          "minLength": 1
+        },
+        "rendered_payload_ref": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "payload_hash": {
+          "bsonType": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "provider": {
+          "bsonType": "string",
+          "enum": [
+            "resend",
+            "local_preview"
+          ]
+        },
+        "provider_idempotency_key": {
+          "bsonType": "string",
+          "maxLength": 256,
+          "minLength": 1
+        },
+        "first_attempt_at": {
+          "anyOf": [
+            {
+              "bsonType": "date"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "retry_until": {
+          "anyOf": [
+            {
+              "bsonType": "date"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "provider_message_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "minLength": 1
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "attempt_count": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0
+        },
+        "available_at": {
+          "bsonType": "date"
+        },
+        "lease_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0
+        },
+        "lease_owner": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "minLength": 1
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "lease_expires_at": {
+          "anyOf": [
+            {
+              "bsonType": "date"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "created_at": {
+          "bsonType": "date"
+        },
+        "_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "schema_version": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "enum": [
+            1
+          ]
+        },
+        "rendered_payload": {
+          "bsonType": "object",
+          "required": [
+            "_id",
+            "to_email",
+            "subject",
+            "body_text",
+            "review_url"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "_id": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "to_email": {
+              "bsonType": "string",
+              "maxLength": 254
+            },
+            "subject": {
+              "bsonType": "string",
+              "maxLength": 256
+            },
+            "body_text": {
+              "bsonType": "string",
+              "maxLength": 16000
+            },
+            "review_url": {
+              "bsonType": "string",
+              "pattern": "^https://",
+              "maxLength": 2048
+            }
+          }
+        },
+        "delivery_attempts": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "object",
+            "required": [
+              "attempt_id",
+              "attempt_number",
+              "started_at",
+              "finished_at",
+              "provider_message_id",
+              "result",
+              "error_code"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "attempt_id": {
+                "bsonType": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+              },
+              "attempt_number": {
+                "bsonType": [
+                  "int",
+                  "long"
+                ],
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "started_at": {
+                "bsonType": "date"
+              },
+              "finished_at": {
+                "anyOf": [
+                  {
+                    "bsonType": "date"
+                  },
+                  {
+                    "bsonType": "null"
+                  }
+                ]
+              },
+              "provider_message_id": {
+                "anyOf": [
+                  {
+                    "bsonType": "string",
+                    "maxLength": 256
+                  },
+                  {
+                    "bsonType": "null"
+                  }
+                ]
+              },
+              "result": {
+                "bsonType": "string",
+                "enum": [
+                  "accepted",
+                  "delivered",
+                  "bounced",
+                  "failed",
+                  "unknown",
+                  "previewed"
+                ]
+              },
+              "error_code": {
+                "anyOf": [
+                  {
+                    "bsonType": "string",
+                    "minLength": 1,
+                    "maxLength": 160,
+                    "pattern": "^[a-z0-9][a-z0-9_.:-]*$"
+                  },
+                  {
+                    "bsonType": "null"
+                  }
+                ]
+              }
+            }
+          },
+          "maxItems": 10,
+          "minItems": 0
+        },
+        "state_version": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    }
+  },
+  "validationLevel": "strict",
+  "validationAction": "error"
+}

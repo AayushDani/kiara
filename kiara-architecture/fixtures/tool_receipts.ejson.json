@@ -1,0 +1,30 @@
+[
+  {
+    "_id": "962d9982-59a2-5991-9bf5-600ef1701a43",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+    "invocation_id": "544d2eb0-3bb9-5950-b091-234e175bf54e",
+    "provider_call_id": "synthetic-provider-call",
+    "tool_name": "search_legal_evidence",
+    "tool_schema_version": "0.1.0",
+    "input_sha256": "91d4e8303d6cb8687c118b14b229c0c76760ee9b87aeb06c6c225c7d5d55d601",
+    "snapshot_sha256": "64185db2a9f3956abdf9530d6a2abca709284af65577f3bd02aad11326c92910",
+    "idempotency_key": "run:search_legal_evidence:1",
+    "status": "completed",
+    "result_record_id": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+    "result_sha256": "64185db2a9f3956abdf9530d6a2abca709284af65577f3bd02aad11326c92910",
+    "error": null,
+    "fencing_token": 1,
+    "started_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "completed_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "reset_epoch": 1
+  }
+]

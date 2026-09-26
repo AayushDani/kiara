@@ -1,0 +1,2460 @@
+{
+  "status": "proposed_estimates_not_measured",
+  "window_minutes": 300,
+  "total_job_elapsed_minutes": 865,
+  "total_worker_minutes_including_correction_assistants": 935,
+  "preflight_parallel_coordinator_minutes": [
+    0,
+    15
+  ],
+  "scenarios": [
+    {
+      "active_worker_capacity": 3,
+      "coordinator_separate": true,
+      "duration_multiplier": 1,
+      "finish_minute": 395,
+      "jobs": [
+        {
+          "job_id": "J00",
+          "owner": "I00",
+          "label": "scaffold and contract lock",
+          "start_minute": 0,
+          "end_minute": 15,
+          "dependencies": [],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J04",
+          "owner": "I04",
+          "label": "event/workflow/review handlers",
+          "start_minute": 15,
+          "end_minute": 80,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J03",
+          "owner": "I03",
+          "label": "runtime and typed tools against frozen adapters",
+          "start_minute": 15,
+          "end_minute": 75,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J01",
+          "owner": "I01",
+          "label": "Atlas schema, repositories, deterministic fixtures",
+          "start_minute": 15,
+          "end_minute": 65,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J02",
+          "owner": "I02",
+          "label": "ingestion and retrieval against frozen adapters",
+          "start_minute": 65,
+          "end_minute": 120,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J05",
+          "owner": "I05",
+          "label": "clauses, revisions, redline rendering",
+          "start_minute": 75,
+          "end_minute": 125,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J07",
+          "owner": "I07",
+          "label": "founder/lawyer UI against contract fixtures",
+          "start_minute": 80,
+          "end_minute": 145,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J06",
+          "owner": "I06",
+          "label": "validators, candidate/evaluation/promotion",
+          "start_minute": 120,
+          "end_minute": 180,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J08",
+          "owner": "I08",
+          "label": "provider adapter, preview, delivery handlers",
+          "start_minute": 125,
+          "end_minute": 165,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J09",
+          "owner": "I09",
+          "label": "timeline/config UI and telemetry",
+          "start_minute": 145,
+          "end_minute": 180,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J12",
+          "owner": "I04",
+          "label": "real runtime/data/document workflow integration",
+          "start_minute": 165,
+          "end_minute": 185,
+          "dependencies": [
+            "J01",
+            "J03",
+            "J04",
+            "J05"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J11",
+          "owner": "I02",
+          "label": "real Atlas retrieval integration",
+          "start_minute": 180,
+          "end_minute": 195,
+          "dependencies": [
+            "J01",
+            "J02"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J10",
+          "owner": "I10",
+          "label": "independent contract/security test design",
+          "start_minute": 180,
+          "end_minute": 215,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J13",
+          "owner": "I07",
+          "label": "replace UI mocks with actual workflow API",
+          "start_minute": 185,
+          "end_minute": 205,
+          "dependencies": [
+            "J07",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J14",
+          "owner": "I06",
+          "label": "wire repair, evaluation, persisted promotion",
+          "start_minute": 195,
+          "end_minute": 215,
+          "dependencies": [
+            "J06",
+            "J11",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J15",
+          "owner": "I08",
+          "label": "wire outbox and review links",
+          "start_minute": 205,
+          "end_minute": 220,
+          "dependencies": [
+            "J08",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J16",
+          "owner": "I09",
+          "label": "wire persisted timeline/config history",
+          "start_minute": 215,
+          "end_minute": 230,
+          "dependencies": [
+            "J09",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J19",
+          "owner": "I06",
+          "label": "actual baseline/candidate/holdout runs",
+          "start_minute": 215,
+          "end_minute": 240,
+          "dependencies": [
+            "J14"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J22",
+          "owner": "I12",
+          "label": "capture preparation, provenance, README and licenses",
+          "start_minute": 220,
+          "end_minute": 245,
+          "dependencies": [
+            "J05",
+            "J07"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J17",
+          "owner": "I00",
+          "label": "integrated real vertical flow checkpoint",
+          "start_minute": 230,
+          "end_minute": 250,
+          "dependencies": [
+            "J11",
+            "J13",
+            "J14",
+            "J15",
+            "J16"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J18",
+          "owner": "I11",
+          "label": "independent integrated E2E and security run",
+          "start_minute": 250,
+          "end_minute": 295,
+          "dependencies": [
+            "J10",
+            "J17"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J20",
+          "owner": "I00",
+          "label": "owner-routed correction and integration reserve",
+          "start_minute": 295,
+          "end_minute": 330,
+          "dependencies": [
+            "J18",
+            "J19"
+          ],
+          "resource_slots": 3
+        },
+        {
+          "job_id": "J21",
+          "owner": "I11",
+          "label": "independent final recheck",
+          "start_minute": 330,
+          "end_minute": 350,
+          "dependencies": [
+            "J20"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J23",
+          "owner": "I12",
+          "label": "on-site recording and audio edit",
+          "start_minute": 350,
+          "end_minute": 375,
+          "dependencies": [
+            "J21",
+            "J22"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J24",
+          "owner": "I00",
+          "label": "final sanitized release/reproduction package",
+          "start_minute": 350,
+          "end_minute": 365,
+          "dependencies": [
+            "J21"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J25",
+          "owner": "I12",
+          "label": "links, video playback and submission handoff",
+          "start_minute": 375,
+          "end_minute": 395,
+          "dependencies": [
+            "J23",
+            "J24"
+          ],
+          "resource_slots": 1
+        }
+      ]
+    },
+    {
+      "active_worker_capacity": 6,
+      "coordinator_separate": true,
+      "duration_multiplier": 1,
+      "finish_minute": 310,
+      "jobs": [
+        {
+          "job_id": "J00",
+          "owner": "I00",
+          "label": "scaffold and contract lock",
+          "start_minute": 0,
+          "end_minute": 15,
+          "dependencies": [],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J04",
+          "owner": "I04",
+          "label": "event/workflow/review handlers",
+          "start_minute": 15,
+          "end_minute": 80,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J03",
+          "owner": "I03",
+          "label": "runtime and typed tools against frozen adapters",
+          "start_minute": 15,
+          "end_minute": 75,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J01",
+          "owner": "I01",
+          "label": "Atlas schema, repositories, deterministic fixtures",
+          "start_minute": 15,
+          "end_minute": 65,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J02",
+          "owner": "I02",
+          "label": "ingestion and retrieval against frozen adapters",
+          "start_minute": 15,
+          "end_minute": 70,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J05",
+          "owner": "I05",
+          "label": "clauses, revisions, redline rendering",
+          "start_minute": 15,
+          "end_minute": 65,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J07",
+          "owner": "I07",
+          "label": "founder/lawyer UI against contract fixtures",
+          "start_minute": 15,
+          "end_minute": 80,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J06",
+          "owner": "I06",
+          "label": "validators, candidate/evaluation/promotion",
+          "start_minute": 65,
+          "end_minute": 125,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J08",
+          "owner": "I08",
+          "label": "provider adapter, preview, delivery handlers",
+          "start_minute": 65,
+          "end_minute": 105,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J09",
+          "owner": "I09",
+          "label": "timeline/config UI and telemetry",
+          "start_minute": 70,
+          "end_minute": 105,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J11",
+          "owner": "I02",
+          "label": "real Atlas retrieval integration",
+          "start_minute": 75,
+          "end_minute": 90,
+          "dependencies": [
+            "J01",
+            "J02"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J12",
+          "owner": "I04",
+          "label": "real runtime/data/document workflow integration",
+          "start_minute": 80,
+          "end_minute": 100,
+          "dependencies": [
+            "J01",
+            "J03",
+            "J04",
+            "J05"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J10",
+          "owner": "I10",
+          "label": "independent contract/security test design",
+          "start_minute": 80,
+          "end_minute": 115,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J22",
+          "owner": "I12",
+          "label": "capture preparation, provenance, README and licenses",
+          "start_minute": 90,
+          "end_minute": 115,
+          "dependencies": [
+            "J05",
+            "J07"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J13",
+          "owner": "I07",
+          "label": "replace UI mocks with actual workflow API",
+          "start_minute": 100,
+          "end_minute": 120,
+          "dependencies": [
+            "J07",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J15",
+          "owner": "I08",
+          "label": "wire outbox and review links",
+          "start_minute": 105,
+          "end_minute": 120,
+          "dependencies": [
+            "J08",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J16",
+          "owner": "I09",
+          "label": "wire persisted timeline/config history",
+          "start_minute": 105,
+          "end_minute": 120,
+          "dependencies": [
+            "J09",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J14",
+          "owner": "I06",
+          "label": "wire repair, evaluation, persisted promotion",
+          "start_minute": 125,
+          "end_minute": 145,
+          "dependencies": [
+            "J06",
+            "J11",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J17",
+          "owner": "I00",
+          "label": "integrated real vertical flow checkpoint",
+          "start_minute": 145,
+          "end_minute": 165,
+          "dependencies": [
+            "J11",
+            "J13",
+            "J14",
+            "J15",
+            "J16"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J19",
+          "owner": "I06",
+          "label": "actual baseline/candidate/holdout runs",
+          "start_minute": 145,
+          "end_minute": 170,
+          "dependencies": [
+            "J14"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J18",
+          "owner": "I11",
+          "label": "independent integrated E2E and security run",
+          "start_minute": 165,
+          "end_minute": 210,
+          "dependencies": [
+            "J10",
+            "J17"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J20",
+          "owner": "I00",
+          "label": "owner-routed correction and integration reserve",
+          "start_minute": 210,
+          "end_minute": 245,
+          "dependencies": [
+            "J18",
+            "J19"
+          ],
+          "resource_slots": 3
+        },
+        {
+          "job_id": "J21",
+          "owner": "I11",
+          "label": "independent final recheck",
+          "start_minute": 245,
+          "end_minute": 265,
+          "dependencies": [
+            "J20"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J23",
+          "owner": "I12",
+          "label": "on-site recording and audio edit",
+          "start_minute": 265,
+          "end_minute": 290,
+          "dependencies": [
+            "J21",
+            "J22"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J24",
+          "owner": "I00",
+          "label": "final sanitized release/reproduction package",
+          "start_minute": 265,
+          "end_minute": 280,
+          "dependencies": [
+            "J21"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J25",
+          "owner": "I12",
+          "label": "links, video playback and submission handoff",
+          "start_minute": 290,
+          "end_minute": 310,
+          "dependencies": [
+            "J23",
+            "J24"
+          ],
+          "resource_slots": 1
+        }
+      ]
+    },
+    {
+      "active_worker_capacity": 8,
+      "coordinator_separate": true,
+      "duration_multiplier": 1,
+      "finish_minute": 285,
+      "jobs": [
+        {
+          "job_id": "J00",
+          "owner": "I00",
+          "label": "scaffold and contract lock",
+          "start_minute": 0,
+          "end_minute": 15,
+          "dependencies": [],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J04",
+          "owner": "I04",
+          "label": "event/workflow/review handlers",
+          "start_minute": 15,
+          "end_minute": 80,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J03",
+          "owner": "I03",
+          "label": "runtime and typed tools against frozen adapters",
+          "start_minute": 15,
+          "end_minute": 75,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J01",
+          "owner": "I01",
+          "label": "Atlas schema, repositories, deterministic fixtures",
+          "start_minute": 15,
+          "end_minute": 65,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J02",
+          "owner": "I02",
+          "label": "ingestion and retrieval against frozen adapters",
+          "start_minute": 15,
+          "end_minute": 70,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J05",
+          "owner": "I05",
+          "label": "clauses, revisions, redline rendering",
+          "start_minute": 15,
+          "end_minute": 65,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J07",
+          "owner": "I07",
+          "label": "founder/lawyer UI against contract fixtures",
+          "start_minute": 15,
+          "end_minute": 80,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J06",
+          "owner": "I06",
+          "label": "validators, candidate/evaluation/promotion",
+          "start_minute": 15,
+          "end_minute": 75,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J08",
+          "owner": "I08",
+          "label": "provider adapter, preview, delivery handlers",
+          "start_minute": 15,
+          "end_minute": 55,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J09",
+          "owner": "I09",
+          "label": "timeline/config UI and telemetry",
+          "start_minute": 55,
+          "end_minute": 90,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J10",
+          "owner": "I10",
+          "label": "independent contract/security test design",
+          "start_minute": 65,
+          "end_minute": 100,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J11",
+          "owner": "I02",
+          "label": "real Atlas retrieval integration",
+          "start_minute": 70,
+          "end_minute": 85,
+          "dependencies": [
+            "J01",
+            "J02"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J12",
+          "owner": "I04",
+          "label": "real runtime/data/document workflow integration",
+          "start_minute": 80,
+          "end_minute": 100,
+          "dependencies": [
+            "J01",
+            "J03",
+            "J04",
+            "J05"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J22",
+          "owner": "I12",
+          "label": "capture preparation, provenance, README and licenses",
+          "start_minute": 80,
+          "end_minute": 105,
+          "dependencies": [
+            "J05",
+            "J07"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J13",
+          "owner": "I07",
+          "label": "replace UI mocks with actual workflow API",
+          "start_minute": 100,
+          "end_minute": 120,
+          "dependencies": [
+            "J07",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J14",
+          "owner": "I06",
+          "label": "wire repair, evaluation, persisted promotion",
+          "start_minute": 100,
+          "end_minute": 120,
+          "dependencies": [
+            "J06",
+            "J11",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J15",
+          "owner": "I08",
+          "label": "wire outbox and review links",
+          "start_minute": 100,
+          "end_minute": 115,
+          "dependencies": [
+            "J08",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J16",
+          "owner": "I09",
+          "label": "wire persisted timeline/config history",
+          "start_minute": 100,
+          "end_minute": 115,
+          "dependencies": [
+            "J09",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J17",
+          "owner": "I00",
+          "label": "integrated real vertical flow checkpoint",
+          "start_minute": 120,
+          "end_minute": 140,
+          "dependencies": [
+            "J11",
+            "J13",
+            "J14",
+            "J15",
+            "J16"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J19",
+          "owner": "I06",
+          "label": "actual baseline/candidate/holdout runs",
+          "start_minute": 120,
+          "end_minute": 145,
+          "dependencies": [
+            "J14"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J18",
+          "owner": "I11",
+          "label": "independent integrated E2E and security run",
+          "start_minute": 140,
+          "end_minute": 185,
+          "dependencies": [
+            "J10",
+            "J17"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J20",
+          "owner": "I00",
+          "label": "owner-routed correction and integration reserve",
+          "start_minute": 185,
+          "end_minute": 220,
+          "dependencies": [
+            "J18",
+            "J19"
+          ],
+          "resource_slots": 3
+        },
+        {
+          "job_id": "J21",
+          "owner": "I11",
+          "label": "independent final recheck",
+          "start_minute": 220,
+          "end_minute": 240,
+          "dependencies": [
+            "J20"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J23",
+          "owner": "I12",
+          "label": "on-site recording and audio edit",
+          "start_minute": 240,
+          "end_minute": 265,
+          "dependencies": [
+            "J21",
+            "J22"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J24",
+          "owner": "I00",
+          "label": "final sanitized release/reproduction package",
+          "start_minute": 240,
+          "end_minute": 255,
+          "dependencies": [
+            "J21"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J25",
+          "owner": "I12",
+          "label": "links, video playback and submission handoff",
+          "start_minute": 265,
+          "end_minute": 285,
+          "dependencies": [
+            "J23",
+            "J24"
+          ],
+          "resource_slots": 1
+        }
+      ]
+    },
+    {
+      "active_worker_capacity": 12,
+      "coordinator_separate": true,
+      "duration_multiplier": 1,
+      "finish_minute": 285,
+      "jobs": [
+        {
+          "job_id": "J00",
+          "owner": "I00",
+          "label": "scaffold and contract lock",
+          "start_minute": 0,
+          "end_minute": 15,
+          "dependencies": [],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J04",
+          "owner": "I04",
+          "label": "event/workflow/review handlers",
+          "start_minute": 15,
+          "end_minute": 80,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J03",
+          "owner": "I03",
+          "label": "runtime and typed tools against frozen adapters",
+          "start_minute": 15,
+          "end_minute": 75,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J01",
+          "owner": "I01",
+          "label": "Atlas schema, repositories, deterministic fixtures",
+          "start_minute": 15,
+          "end_minute": 65,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J02",
+          "owner": "I02",
+          "label": "ingestion and retrieval against frozen adapters",
+          "start_minute": 15,
+          "end_minute": 70,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J05",
+          "owner": "I05",
+          "label": "clauses, revisions, redline rendering",
+          "start_minute": 15,
+          "end_minute": 65,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J07",
+          "owner": "I07",
+          "label": "founder/lawyer UI against contract fixtures",
+          "start_minute": 15,
+          "end_minute": 80,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J06",
+          "owner": "I06",
+          "label": "validators, candidate/evaluation/promotion",
+          "start_minute": 15,
+          "end_minute": 75,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J08",
+          "owner": "I08",
+          "label": "provider adapter, preview, delivery handlers",
+          "start_minute": 15,
+          "end_minute": 55,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J09",
+          "owner": "I09",
+          "label": "timeline/config UI and telemetry",
+          "start_minute": 15,
+          "end_minute": 50,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J10",
+          "owner": "I10",
+          "label": "independent contract/security test design",
+          "start_minute": 15,
+          "end_minute": 50,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J11",
+          "owner": "I02",
+          "label": "real Atlas retrieval integration",
+          "start_minute": 70,
+          "end_minute": 85,
+          "dependencies": [
+            "J01",
+            "J02"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J12",
+          "owner": "I04",
+          "label": "real runtime/data/document workflow integration",
+          "start_minute": 80,
+          "end_minute": 100,
+          "dependencies": [
+            "J01",
+            "J03",
+            "J04",
+            "J05"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J22",
+          "owner": "I12",
+          "label": "capture preparation, provenance, README and licenses",
+          "start_minute": 80,
+          "end_minute": 105,
+          "dependencies": [
+            "J05",
+            "J07"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J13",
+          "owner": "I07",
+          "label": "replace UI mocks with actual workflow API",
+          "start_minute": 100,
+          "end_minute": 120,
+          "dependencies": [
+            "J07",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J14",
+          "owner": "I06",
+          "label": "wire repair, evaluation, persisted promotion",
+          "start_minute": 100,
+          "end_minute": 120,
+          "dependencies": [
+            "J06",
+            "J11",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J15",
+          "owner": "I08",
+          "label": "wire outbox and review links",
+          "start_minute": 100,
+          "end_minute": 115,
+          "dependencies": [
+            "J08",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J16",
+          "owner": "I09",
+          "label": "wire persisted timeline/config history",
+          "start_minute": 100,
+          "end_minute": 115,
+          "dependencies": [
+            "J09",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J17",
+          "owner": "I00",
+          "label": "integrated real vertical flow checkpoint",
+          "start_minute": 120,
+          "end_minute": 140,
+          "dependencies": [
+            "J11",
+            "J13",
+            "J14",
+            "J15",
+            "J16"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J19",
+          "owner": "I06",
+          "label": "actual baseline/candidate/holdout runs",
+          "start_minute": 120,
+          "end_minute": 145,
+          "dependencies": [
+            "J14"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J18",
+          "owner": "I11",
+          "label": "independent integrated E2E and security run",
+          "start_minute": 140,
+          "end_minute": 185,
+          "dependencies": [
+            "J10",
+            "J17"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J20",
+          "owner": "I00",
+          "label": "owner-routed correction and integration reserve",
+          "start_minute": 185,
+          "end_minute": 220,
+          "dependencies": [
+            "J18",
+            "J19"
+          ],
+          "resource_slots": 3
+        },
+        {
+          "job_id": "J21",
+          "owner": "I11",
+          "label": "independent final recheck",
+          "start_minute": 220,
+          "end_minute": 240,
+          "dependencies": [
+            "J20"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J23",
+          "owner": "I12",
+          "label": "on-site recording and audio edit",
+          "start_minute": 240,
+          "end_minute": 265,
+          "dependencies": [
+            "J21",
+            "J22"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J24",
+          "owner": "I00",
+          "label": "final sanitized release/reproduction package",
+          "start_minute": 240,
+          "end_minute": 255,
+          "dependencies": [
+            "J21"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J25",
+          "owner": "I12",
+          "label": "links, video playback and submission handoff",
+          "start_minute": 265,
+          "end_minute": 285,
+          "dependencies": [
+            "J23",
+            "J24"
+          ],
+          "resource_slots": 1
+        }
+      ]
+    },
+    {
+      "active_worker_capacity": 8,
+      "coordinator_separate": true,
+      "duration_multiplier": 1.25,
+      "finish_minute": 356.25,
+      "jobs": [
+        {
+          "job_id": "J00",
+          "owner": "I00",
+          "label": "scaffold and contract lock",
+          "start_minute": 0,
+          "end_minute": 18.75,
+          "dependencies": [],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J04",
+          "owner": "I04",
+          "label": "event/workflow/review handlers",
+          "start_minute": 18.75,
+          "end_minute": 100.0,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J03",
+          "owner": "I03",
+          "label": "runtime and typed tools against frozen adapters",
+          "start_minute": 18.75,
+          "end_minute": 93.75,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J01",
+          "owner": "I01",
+          "label": "Atlas schema, repositories, deterministic fixtures",
+          "start_minute": 18.75,
+          "end_minute": 81.25,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J02",
+          "owner": "I02",
+          "label": "ingestion and retrieval against frozen adapters",
+          "start_minute": 18.75,
+          "end_minute": 87.5,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J05",
+          "owner": "I05",
+          "label": "clauses, revisions, redline rendering",
+          "start_minute": 18.75,
+          "end_minute": 81.25,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J07",
+          "owner": "I07",
+          "label": "founder/lawyer UI against contract fixtures",
+          "start_minute": 18.75,
+          "end_minute": 100.0,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J06",
+          "owner": "I06",
+          "label": "validators, candidate/evaluation/promotion",
+          "start_minute": 18.75,
+          "end_minute": 93.75,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J08",
+          "owner": "I08",
+          "label": "provider adapter, preview, delivery handlers",
+          "start_minute": 18.75,
+          "end_minute": 68.75,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J09",
+          "owner": "I09",
+          "label": "timeline/config UI and telemetry",
+          "start_minute": 68.75,
+          "end_minute": 112.5,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J10",
+          "owner": "I10",
+          "label": "independent contract/security test design",
+          "start_minute": 81.25,
+          "end_minute": 125.0,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J11",
+          "owner": "I02",
+          "label": "real Atlas retrieval integration",
+          "start_minute": 87.5,
+          "end_minute": 106.25,
+          "dependencies": [
+            "J01",
+            "J02"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J12",
+          "owner": "I04",
+          "label": "real runtime/data/document workflow integration",
+          "start_minute": 100.0,
+          "end_minute": 125.0,
+          "dependencies": [
+            "J01",
+            "J03",
+            "J04",
+            "J05"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J22",
+          "owner": "I12",
+          "label": "capture preparation, provenance, README and licenses",
+          "start_minute": 100.0,
+          "end_minute": 131.25,
+          "dependencies": [
+            "J05",
+            "J07"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J13",
+          "owner": "I07",
+          "label": "replace UI mocks with actual workflow API",
+          "start_minute": 125.0,
+          "end_minute": 150.0,
+          "dependencies": [
+            "J07",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J14",
+          "owner": "I06",
+          "label": "wire repair, evaluation, persisted promotion",
+          "start_minute": 125.0,
+          "end_minute": 150.0,
+          "dependencies": [
+            "J06",
+            "J11",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J15",
+          "owner": "I08",
+          "label": "wire outbox and review links",
+          "start_minute": 125.0,
+          "end_minute": 143.75,
+          "dependencies": [
+            "J08",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J16",
+          "owner": "I09",
+          "label": "wire persisted timeline/config history",
+          "start_minute": 125.0,
+          "end_minute": 143.75,
+          "dependencies": [
+            "J09",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J17",
+          "owner": "I00",
+          "label": "integrated real vertical flow checkpoint",
+          "start_minute": 150.0,
+          "end_minute": 175.0,
+          "dependencies": [
+            "J11",
+            "J13",
+            "J14",
+            "J15",
+            "J16"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J19",
+          "owner": "I06",
+          "label": "actual baseline/candidate/holdout runs",
+          "start_minute": 150.0,
+          "end_minute": 181.25,
+          "dependencies": [
+            "J14"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J18",
+          "owner": "I11",
+          "label": "independent integrated E2E and security run",
+          "start_minute": 175.0,
+          "end_minute": 231.25,
+          "dependencies": [
+            "J10",
+            "J17"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J20",
+          "owner": "I00",
+          "label": "owner-routed correction and integration reserve",
+          "start_minute": 231.25,
+          "end_minute": 275.0,
+          "dependencies": [
+            "J18",
+            "J19"
+          ],
+          "resource_slots": 3
+        },
+        {
+          "job_id": "J21",
+          "owner": "I11",
+          "label": "independent final recheck",
+          "start_minute": 275.0,
+          "end_minute": 300.0,
+          "dependencies": [
+            "J20"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J23",
+          "owner": "I12",
+          "label": "on-site recording and audio edit",
+          "start_minute": 300.0,
+          "end_minute": 331.25,
+          "dependencies": [
+            "J21",
+            "J22"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J24",
+          "owner": "I00",
+          "label": "final sanitized release/reproduction package",
+          "start_minute": 300.0,
+          "end_minute": 318.75,
+          "dependencies": [
+            "J21"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J25",
+          "owner": "I12",
+          "label": "links, video playback and submission handoff",
+          "start_minute": 331.25,
+          "end_minute": 356.25,
+          "dependencies": [
+            "J23",
+            "J24"
+          ],
+          "resource_slots": 1
+        }
+      ]
+    },
+    {
+      "active_worker_capacity": 3,
+      "coordinator_separate": true,
+      "duration_multiplier": 1.25,
+      "finish_minute": 493.75,
+      "jobs": [
+        {
+          "job_id": "J00",
+          "owner": "I00",
+          "label": "scaffold and contract lock",
+          "start_minute": 0,
+          "end_minute": 18.75,
+          "dependencies": [],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J04",
+          "owner": "I04",
+          "label": "event/workflow/review handlers",
+          "start_minute": 18.75,
+          "end_minute": 100.0,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J03",
+          "owner": "I03",
+          "label": "runtime and typed tools against frozen adapters",
+          "start_minute": 18.75,
+          "end_minute": 93.75,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J01",
+          "owner": "I01",
+          "label": "Atlas schema, repositories, deterministic fixtures",
+          "start_minute": 18.75,
+          "end_minute": 81.25,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J02",
+          "owner": "I02",
+          "label": "ingestion and retrieval against frozen adapters",
+          "start_minute": 81.25,
+          "end_minute": 150.0,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J05",
+          "owner": "I05",
+          "label": "clauses, revisions, redline rendering",
+          "start_minute": 93.75,
+          "end_minute": 156.25,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J07",
+          "owner": "I07",
+          "label": "founder/lawyer UI against contract fixtures",
+          "start_minute": 100.0,
+          "end_minute": 181.25,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J06",
+          "owner": "I06",
+          "label": "validators, candidate/evaluation/promotion",
+          "start_minute": 150.0,
+          "end_minute": 225.0,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J08",
+          "owner": "I08",
+          "label": "provider adapter, preview, delivery handlers",
+          "start_minute": 156.25,
+          "end_minute": 206.25,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J09",
+          "owner": "I09",
+          "label": "timeline/config UI and telemetry",
+          "start_minute": 181.25,
+          "end_minute": 225.0,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J12",
+          "owner": "I04",
+          "label": "real runtime/data/document workflow integration",
+          "start_minute": 206.25,
+          "end_minute": 231.25,
+          "dependencies": [
+            "J01",
+            "J03",
+            "J04",
+            "J05"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J11",
+          "owner": "I02",
+          "label": "real Atlas retrieval integration",
+          "start_minute": 225.0,
+          "end_minute": 243.75,
+          "dependencies": [
+            "J01",
+            "J02"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J10",
+          "owner": "I10",
+          "label": "independent contract/security test design",
+          "start_minute": 225.0,
+          "end_minute": 268.75,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J13",
+          "owner": "I07",
+          "label": "replace UI mocks with actual workflow API",
+          "start_minute": 231.25,
+          "end_minute": 256.25,
+          "dependencies": [
+            "J07",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J14",
+          "owner": "I06",
+          "label": "wire repair, evaluation, persisted promotion",
+          "start_minute": 243.75,
+          "end_minute": 268.75,
+          "dependencies": [
+            "J06",
+            "J11",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J15",
+          "owner": "I08",
+          "label": "wire outbox and review links",
+          "start_minute": 256.25,
+          "end_minute": 275.0,
+          "dependencies": [
+            "J08",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J16",
+          "owner": "I09",
+          "label": "wire persisted timeline/config history",
+          "start_minute": 268.75,
+          "end_minute": 287.5,
+          "dependencies": [
+            "J09",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J19",
+          "owner": "I06",
+          "label": "actual baseline/candidate/holdout runs",
+          "start_minute": 268.75,
+          "end_minute": 300.0,
+          "dependencies": [
+            "J14"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J22",
+          "owner": "I12",
+          "label": "capture preparation, provenance, README and licenses",
+          "start_minute": 275.0,
+          "end_minute": 306.25,
+          "dependencies": [
+            "J05",
+            "J07"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J17",
+          "owner": "I00",
+          "label": "integrated real vertical flow checkpoint",
+          "start_minute": 287.5,
+          "end_minute": 312.5,
+          "dependencies": [
+            "J11",
+            "J13",
+            "J14",
+            "J15",
+            "J16"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J18",
+          "owner": "I11",
+          "label": "independent integrated E2E and security run",
+          "start_minute": 312.5,
+          "end_minute": 368.75,
+          "dependencies": [
+            "J10",
+            "J17"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J20",
+          "owner": "I00",
+          "label": "owner-routed correction and integration reserve",
+          "start_minute": 368.75,
+          "end_minute": 412.5,
+          "dependencies": [
+            "J18",
+            "J19"
+          ],
+          "resource_slots": 3
+        },
+        {
+          "job_id": "J21",
+          "owner": "I11",
+          "label": "independent final recheck",
+          "start_minute": 412.5,
+          "end_minute": 437.5,
+          "dependencies": [
+            "J20"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J23",
+          "owner": "I12",
+          "label": "on-site recording and audio edit",
+          "start_minute": 437.5,
+          "end_minute": 468.75,
+          "dependencies": [
+            "J21",
+            "J22"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J24",
+          "owner": "I00",
+          "label": "final sanitized release/reproduction package",
+          "start_minute": 437.5,
+          "end_minute": 456.25,
+          "dependencies": [
+            "J21"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J25",
+          "owner": "I12",
+          "label": "links, video playback and submission handoff",
+          "start_minute": 468.75,
+          "end_minute": 493.75,
+          "dependencies": [
+            "J23",
+            "J24"
+          ],
+          "resource_slots": 1
+        }
+      ]
+    },
+    {
+      "active_worker_capacity": 3,
+      "coordinator_separate": true,
+      "duration_multiplier": 0.75,
+      "finish_minute": 296.25,
+      "jobs": [
+        {
+          "job_id": "J00",
+          "owner": "I00",
+          "label": "scaffold and contract lock",
+          "start_minute": 0,
+          "end_minute": 11.25,
+          "dependencies": [],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J04",
+          "owner": "I04",
+          "label": "event/workflow/review handlers",
+          "start_minute": 11.25,
+          "end_minute": 60.0,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J03",
+          "owner": "I03",
+          "label": "runtime and typed tools against frozen adapters",
+          "start_minute": 11.25,
+          "end_minute": 56.25,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J01",
+          "owner": "I01",
+          "label": "Atlas schema, repositories, deterministic fixtures",
+          "start_minute": 11.25,
+          "end_minute": 48.75,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J02",
+          "owner": "I02",
+          "label": "ingestion and retrieval against frozen adapters",
+          "start_minute": 48.75,
+          "end_minute": 90.0,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J05",
+          "owner": "I05",
+          "label": "clauses, revisions, redline rendering",
+          "start_minute": 56.25,
+          "end_minute": 93.75,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J07",
+          "owner": "I07",
+          "label": "founder/lawyer UI against contract fixtures",
+          "start_minute": 60.0,
+          "end_minute": 108.75,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J06",
+          "owner": "I06",
+          "label": "validators, candidate/evaluation/promotion",
+          "start_minute": 90.0,
+          "end_minute": 135.0,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J08",
+          "owner": "I08",
+          "label": "provider adapter, preview, delivery handlers",
+          "start_minute": 93.75,
+          "end_minute": 123.75,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J09",
+          "owner": "I09",
+          "label": "timeline/config UI and telemetry",
+          "start_minute": 108.75,
+          "end_minute": 135.0,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J12",
+          "owner": "I04",
+          "label": "real runtime/data/document workflow integration",
+          "start_minute": 123.75,
+          "end_minute": 138.75,
+          "dependencies": [
+            "J01",
+            "J03",
+            "J04",
+            "J05"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J11",
+          "owner": "I02",
+          "label": "real Atlas retrieval integration",
+          "start_minute": 135.0,
+          "end_minute": 146.25,
+          "dependencies": [
+            "J01",
+            "J02"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J10",
+          "owner": "I10",
+          "label": "independent contract/security test design",
+          "start_minute": 135.0,
+          "end_minute": 161.25,
+          "dependencies": [
+            "J00"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J13",
+          "owner": "I07",
+          "label": "replace UI mocks with actual workflow API",
+          "start_minute": 138.75,
+          "end_minute": 153.75,
+          "dependencies": [
+            "J07",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J14",
+          "owner": "I06",
+          "label": "wire repair, evaluation, persisted promotion",
+          "start_minute": 146.25,
+          "end_minute": 161.25,
+          "dependencies": [
+            "J06",
+            "J11",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J15",
+          "owner": "I08",
+          "label": "wire outbox and review links",
+          "start_minute": 153.75,
+          "end_minute": 165.0,
+          "dependencies": [
+            "J08",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J16",
+          "owner": "I09",
+          "label": "wire persisted timeline/config history",
+          "start_minute": 161.25,
+          "end_minute": 172.5,
+          "dependencies": [
+            "J09",
+            "J12"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J19",
+          "owner": "I06",
+          "label": "actual baseline/candidate/holdout runs",
+          "start_minute": 161.25,
+          "end_minute": 180.0,
+          "dependencies": [
+            "J14"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J22",
+          "owner": "I12",
+          "label": "capture preparation, provenance, README and licenses",
+          "start_minute": 165.0,
+          "end_minute": 183.75,
+          "dependencies": [
+            "J05",
+            "J07"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J17",
+          "owner": "I00",
+          "label": "integrated real vertical flow checkpoint",
+          "start_minute": 172.5,
+          "end_minute": 187.5,
+          "dependencies": [
+            "J11",
+            "J13",
+            "J14",
+            "J15",
+            "J16"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J18",
+          "owner": "I11",
+          "label": "independent integrated E2E and security run",
+          "start_minute": 187.5,
+          "end_minute": 221.25,
+          "dependencies": [
+            "J10",
+            "J17"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J20",
+          "owner": "I00",
+          "label": "owner-routed correction and integration reserve",
+          "start_minute": 221.25,
+          "end_minute": 247.5,
+          "dependencies": [
+            "J18",
+            "J19"
+          ],
+          "resource_slots": 3
+        },
+        {
+          "job_id": "J21",
+          "owner": "I11",
+          "label": "independent final recheck",
+          "start_minute": 247.5,
+          "end_minute": 262.5,
+          "dependencies": [
+            "J20"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J23",
+          "owner": "I12",
+          "label": "on-site recording and audio edit",
+          "start_minute": 262.5,
+          "end_minute": 281.25,
+          "dependencies": [
+            "J21",
+            "J22"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J24",
+          "owner": "I00",
+          "label": "final sanitized release/reproduction package",
+          "start_minute": 262.5,
+          "end_minute": 273.75,
+          "dependencies": [
+            "J21"
+          ],
+          "resource_slots": 1
+        },
+        {
+          "job_id": "J25",
+          "owner": "I12",
+          "label": "links, video playback and submission handoff",
+          "start_minute": 281.25,
+          "end_minute": 296.25,
+          "dependencies": [
+            "J23",
+            "J24"
+          ],
+          "resource_slots": 1
+        }
+      ]
+    }
+  ],
+  "jobs": [
+    {
+      "job_id": "J00",
+      "owner": "I00",
+      "label": "scaffold and contract lock",
+      "duration_minutes": 15,
+      "resource_slots": 1,
+      "dependencies": []
+    },
+    {
+      "job_id": "J01",
+      "owner": "I01",
+      "label": "Atlas schema, repositories, deterministic fixtures",
+      "duration_minutes": 50,
+      "resource_slots": 1,
+      "dependencies": [
+        "J00"
+      ]
+    },
+    {
+      "job_id": "J02",
+      "owner": "I02",
+      "label": "ingestion and retrieval against frozen adapters",
+      "duration_minutes": 55,
+      "resource_slots": 1,
+      "dependencies": [
+        "J00"
+      ]
+    },
+    {
+      "job_id": "J03",
+      "owner": "I03",
+      "label": "runtime and typed tools against frozen adapters",
+      "duration_minutes": 60,
+      "resource_slots": 1,
+      "dependencies": [
+        "J00"
+      ]
+    },
+    {
+      "job_id": "J04",
+      "owner": "I04",
+      "label": "event/workflow/review handlers",
+      "duration_minutes": 65,
+      "resource_slots": 1,
+      "dependencies": [
+        "J00"
+      ]
+    },
+    {
+      "job_id": "J05",
+      "owner": "I05",
+      "label": "clauses, revisions, redline rendering",
+      "duration_minutes": 50,
+      "resource_slots": 1,
+      "dependencies": [
+        "J00"
+      ]
+    },
+    {
+      "job_id": "J06",
+      "owner": "I06",
+      "label": "validators, candidate/evaluation/promotion",
+      "duration_minutes": 60,
+      "resource_slots": 1,
+      "dependencies": [
+        "J00"
+      ]
+    },
+    {
+      "job_id": "J07",
+      "owner": "I07",
+      "label": "founder/lawyer UI against contract fixtures",
+      "duration_minutes": 65,
+      "resource_slots": 1,
+      "dependencies": [
+        "J00"
+      ]
+    },
+    {
+      "job_id": "J08",
+      "owner": "I08",
+      "label": "provider adapter, preview, delivery handlers",
+      "duration_minutes": 40,
+      "resource_slots": 1,
+      "dependencies": [
+        "J00"
+      ]
+    },
+    {
+      "job_id": "J09",
+      "owner": "I09",
+      "label": "timeline/config UI and telemetry",
+      "duration_minutes": 35,
+      "resource_slots": 1,
+      "dependencies": [
+        "J00"
+      ]
+    },
+    {
+      "job_id": "J10",
+      "owner": "I10",
+      "label": "independent contract/security test design",
+      "duration_minutes": 35,
+      "resource_slots": 1,
+      "dependencies": [
+        "J00"
+      ]
+    },
+    {
+      "job_id": "J11",
+      "owner": "I02",
+      "label": "real Atlas retrieval integration",
+      "duration_minutes": 15,
+      "resource_slots": 1,
+      "dependencies": [
+        "J01",
+        "J02"
+      ]
+    },
+    {
+      "job_id": "J12",
+      "owner": "I04",
+      "label": "real runtime/data/document workflow integration",
+      "duration_minutes": 20,
+      "resource_slots": 1,
+      "dependencies": [
+        "J01",
+        "J03",
+        "J04",
+        "J05"
+      ]
+    },
+    {
+      "job_id": "J13",
+      "owner": "I07",
+      "label": "replace UI mocks with actual workflow API",
+      "duration_minutes": 20,
+      "resource_slots": 1,
+      "dependencies": [
+        "J07",
+        "J12"
+      ]
+    },
+    {
+      "job_id": "J14",
+      "owner": "I06",
+      "label": "wire repair, evaluation, persisted promotion",
+      "duration_minutes": 20,
+      "resource_slots": 1,
+      "dependencies": [
+        "J06",
+        "J11",
+        "J12"
+      ]
+    },
+    {
+      "job_id": "J15",
+      "owner": "I08",
+      "label": "wire outbox and review links",
+      "duration_minutes": 15,
+      "resource_slots": 1,
+      "dependencies": [
+        "J08",
+        "J12"
+      ]
+    },
+    {
+      "job_id": "J16",
+      "owner": "I09",
+      "label": "wire persisted timeline/config history",
+      "duration_minutes": 15,
+      "resource_slots": 1,
+      "dependencies": [
+        "J09",
+        "J12"
+      ]
+    },
+    {
+      "job_id": "J17",
+      "owner": "I00",
+      "label": "integrated real vertical flow checkpoint",
+      "duration_minutes": 20,
+      "resource_slots": 1,
+      "dependencies": [
+        "J11",
+        "J13",
+        "J14",
+        "J15",
+        "J16"
+      ]
+    },
+    {
+      "job_id": "J18",
+      "owner": "I11",
+      "label": "independent integrated E2E and security run",
+      "duration_minutes": 45,
+      "resource_slots": 1,
+      "dependencies": [
+        "J10",
+        "J17"
+      ]
+    },
+    {
+      "job_id": "J19",
+      "owner": "I06",
+      "label": "actual baseline/candidate/holdout runs",
+      "duration_minutes": 25,
+      "resource_slots": 1,
+      "dependencies": [
+        "J14"
+      ]
+    },
+    {
+      "job_id": "J20",
+      "owner": "I00",
+      "label": "owner-routed correction and integration reserve",
+      "duration_minutes": 35,
+      "resource_slots": 3,
+      "dependencies": [
+        "J18",
+        "J19"
+      ]
+    },
+    {
+      "job_id": "J21",
+      "owner": "I11",
+      "label": "independent final recheck",
+      "duration_minutes": 20,
+      "resource_slots": 1,
+      "dependencies": [
+        "J20"
+      ]
+    },
+    {
+      "job_id": "J22",
+      "owner": "I12",
+      "label": "capture preparation, provenance, README and licenses",
+      "duration_minutes": 25,
+      "resource_slots": 1,
+      "dependencies": [
+        "J05",
+        "J07"
+      ]
+    },
+    {
+      "job_id": "J23",
+      "owner": "I12",
+      "label": "on-site recording and audio edit",
+      "duration_minutes": 25,
+      "resource_slots": 1,
+      "dependencies": [
+        "J21",
+        "J22"
+      ]
+    },
+    {
+      "job_id": "J24",
+      "owner": "I00",
+      "label": "final sanitized release/reproduction package",
+      "duration_minutes": 15,
+      "resource_slots": 1,
+      "dependencies": [
+        "J21"
+      ]
+    },
+    {
+      "job_id": "J25",
+      "owner": "I12",
+      "label": "links, video playback and submission handoff",
+      "duration_minutes": 20,
+      "resource_slots": 1,
+      "dependencies": [
+        "J23",
+        "J24"
+      ]
+    }
+  ]
+}

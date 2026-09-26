@@ -1,0 +1,219 @@
+{
+  "contract_id": "K-RUN-POLICY-001",
+  "version": "0.1.0",
+  "status": "proposed_unbenchmarked",
+  "model": {
+    "provider": "openai",
+    "model": "gpt-6-astra",
+    "reasoning_effort": "medium",
+    "sdk_package": "openai",
+    "sdk_version": "7.23.0",
+    "node_engine": ">=22",
+    "store": false,
+    "parallel_tool_calls": false,
+    "max_output_tokens": 4000,
+    "sdk_max_retries": 0,
+    "request_timeout_ms": 90000
+  },
+  "limits": {
+    "max_logical_model_requests": 9,
+    "max_physical_model_attempts": 12,
+    "max_transport_retries_per_logical_request": 2,
+    "max_tool_calls": 16,
+    "max_repairs": 2,
+    "absolute_run_deadline_ms": 300000,
+    "max_input_tokens_per_request": 24000,
+    "max_cumulative_input_tokens": 120000,
+    "max_cumulative_output_tokens": 24000,
+    "max_cost_micro_usd": 3000000,
+    "max_inflight_model_requests_per_worker": 2,
+    "max_active_review_runs_per_company_document": 1,
+    "max_identical_tool_execution_per_snapshot": 1,
+    "max_tool_result_chars": 12000
+  },
+  "pricing_snapshot": {
+    "retrieved_on": "2026-09-26",
+    "source_url": "https://developers.openai.com/api/docs/models/gpt-6-astra",
+    "input_micro_usd_per_token": 10,
+    "output_micro_usd_per_token": 50,
+    "reservation_ignores_cache_discount": true,
+    "service_tier": "default",
+    "pricing_is_not_account_entitlement": true
+  },
+  "retry": {
+    "transient_status_codes": [
+      408,
+      429,
+      500,
+      502,
+      503,
+      504
+    ],
+    "connection_errors": true,
+    "base_backoff_ms": [
+      1000,
+      3000
+    ],
+    "jitter_max_ms": 500,
+    "honor_retry_after_within_deadline": true,
+    "rejected_request_status_codes": [
+      400,
+      401,
+      403,
+      404,
+      409,
+      422
+    ],
+    "unknown_timeout_charge": "retain full reservation until reconciled"
+  },
+  "protected": {
+    "runtime_caps_model_mutable": false,
+    "human_gates_model_mutable": false,
+    "authorization_model_mutable": false,
+    "tool_registry_model_mutable": false,
+    "source_trust_model_mutable": false,
+    "validator_code_model_mutable": false
+  },
+  "notes": [
+    "Physical attempts count retries and crashes; budgets never reset on re-lease.",
+    "Input and output budgets include consumed plus reserved maxima for in-flight/unknown calls.",
+    "Human waits are outside completed agent runs; new approved revision triggers a new run with a parent_run_id in storage.",
+    "Cost accounting counts reasoning output tokens and repeated input on every request.",
+    "Scheduled retry delay counts toward absolute foreground run deadline.",
+    "Adaptation/evaluation receive separate explicitly reserved campaign budgets; never debit invisibly from foreground run."
+  ],
+  "budget_scope": {
+    "authority": "root agent_run budget ledger referenced by budget_scope_id",
+    "automatic_child_inherits": true,
+    "automatic_child_deadline_extends": false,
+    "fresh_scope_requires": "new independent business event or explicit authorized human resolution",
+    "inflight_harness_switch_default": "disabled; champion applies on next run"
+  },
+  "adaptation_evaluation": {
+    "policy_owner": "T07",
+    "max_campaign_deadline_ms": 900000,
+    "max_physical_model_attempts": 72,
+    "max_cost_micro_usd": 18000000,
+    "max_proposals_per_diagnosis": 1,
+    "max_proposals_per_tenant_per_day": 3,
+    "max_unresolved_candidates_per_tenant": 1,
+    "separate_explicit_campaign_budget": true,
+    "foreground_limits_do_not_silently_apply_to_campaigns": true,
+    "max_child_review_runs": 6,
+    "child_run_keeps_foreground_limits": true
+  },
+  "hydration": {
+    "model_tool_result_max_chars": 12000,
+    "max_retrieved_tokens_per_request": 18000,
+    "max_legal_tokens_per_batch": 12000,
+    "max_legal_chunks_per_batch": 48,
+    "max_batches": 3,
+    "coverage_required_before_draft": true,
+    "full_document_clause_inventory_required": true,
+    "hydrate_only_server_authorized_artifacts": true,
+    "no_unbounded_conversation_append": true
+  },
+  "phase_reservations": {
+    "phases": [
+      {
+        "phase": "evidence_assessment",
+        "max_calls": 3,
+        "input_ceiling_per_call": 20000,
+        "output_ceiling_per_call": 2000
+      },
+      {
+        "phase": "draft",
+        "max_calls": 1,
+        "input_ceiling_per_call": 20000,
+        "output_ceiling_per_call": 4000
+      },
+      {
+        "phase": "semantic_validation",
+        "max_calls": 3,
+        "input_ceiling_per_call": 8000,
+        "output_ceiling_per_call": 2000
+      },
+      {
+        "phase": "targeted_repair",
+        "max_calls": 2,
+        "input_ceiling_per_call": 8000,
+        "output_ceiling_per_call": 4000
+      }
+    ],
+    "reserve_remaining_repairs_and_validations_before_each_call": true,
+    "maximal_total_input_tokens": 120000,
+    "maximal_total_output_tokens": 24000,
+    "maximal_total_cost_micro_usd": 2400000,
+    "worst_case_token_retry_headroom": 0,
+    "transport_retries_require_actual_unused_capacity": true,
+    "targeted_context_that_does_not_fit": "capacity_exceeded; preserve artifacts and needs_human_review, never truncate or skip semantic validator",
+    "absolute_deadline_feasibility": "unmeasured; 9 sequential 90-second calls cannot fit 300 seconds; independent evidence calls may use shared concurrency2 but no completion guarantee"
+  },
+  "main_demo": {
+    "faults": [
+      {
+        "stage": "context_readiness",
+        "code": "APPLICABILITY_BUNDLE_MISSING",
+        "repair": "deterministic hydrate complete same-pinned applicability bundle",
+        "repair_actions": 1,
+        "model_calls_for_repair": 0
+      },
+      {
+        "stage": "proposal_validation",
+        "code": "CITATION_SPAN_MISMATCH",
+        "repair": "correct fixture-injected citation against same authoritative source and revalidate",
+        "repair_actions": 1,
+        "model_calls_for_repair_ceiling": 1
+      }
+    ],
+    "total_repair_actions": 2,
+    "proposal_semantic_calls_ceiling": 2,
+    "three_batch_model_calls_ceiling": 7,
+    "three_batch_input_ceiling": 104000,
+    "three_batch_output_ceiling": 18000,
+    "three_batch_cost_micro_usd": 1940000,
+    "measured_status": "not_run; arithmetic reservation only",
+    "prefetch_metric": "missing_bundle_repairs:1->0 only if observed; do not claim every repair disappears"
+  },
+  "reset_fence": {
+    "authority": "persistent tenant guard reset_epoch; never model supplied",
+    "minimum_epoch": 1,
+    "monotonically_increases": true,
+    "preserved_during_reset": true,
+    "scope_keys": [
+      "tenant_id",
+      "reset_epoch",
+      "run_id"
+    ],
+    "receipt_identity_keys": [
+      "tenant_id",
+      "reset_epoch",
+      "run_id",
+      "idempotency_key"
+    ],
+    "budget_scope_keys": [
+      "tenant_id",
+      "reset_epoch",
+      "budget_scope_id"
+    ],
+    "guard_compare_in_same_transaction": true,
+    "guard_write_required": "conditional CAS/touch of the same persistent tenant guard; snapshot-only read is insufficient for reset serialization",
+    "compare_before": [
+      "job claim",
+      "model cost reservation and dispatch",
+      "tool execution",
+      "artifact hydration",
+      "stage commit",
+      "result reuse",
+      "receipt replay"
+    ],
+    "receipt_hash_includes_reset_epoch": true,
+    "reset_preconditions": [
+      "quiesce job/model/tool/email dispatch",
+      "cancel old in-flight work",
+      "retain unresolved model charges and live-send intents/receipts outside discarded fixture epoch, or block reset until reconciled",
+      "advance surviving tenant guard before deletion/reseed"
+    ],
+    "late_result": "old epoch diagnostic only; never attach to new same UUID or replay old receipt"
+  }
+}

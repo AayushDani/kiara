@@ -1,0 +1,169 @@
+{
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "required": [
+        "_id",
+        "tenant_id",
+        "schema_version",
+        "created_at",
+        "context_version_id",
+        "context_hash",
+        "assessment_id",
+        "assessment_hash",
+        "sources",
+        "selected_fact_ids",
+        "selected_chunk_ids",
+        "retrieval_policy_version",
+        "as_of",
+        "content_hash",
+        "source_recheck_attestation_ids",
+        "reset_epoch"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "tenant_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "schema_version": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "enum": [
+            1
+          ]
+        },
+        "created_at": {
+          "bsonType": "date"
+        },
+        "context_version_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "context_hash": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "assessment_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "assessment_hash": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "sources": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "object",
+            "required": [
+              "source_version_id",
+              "source_hash",
+              "chunk_ids",
+              "effective_from",
+              "effective_to"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "source_version_id": {
+                "bsonType": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+              },
+              "source_hash": {
+                "bsonType": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "chunk_ids": {
+                "bsonType": "array",
+                "items": {
+                  "bsonType": "string",
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                },
+                "maxItems": 100,
+                "minItems": 0
+              },
+              "effective_from": {
+                "anyOf": [
+                  {
+                    "bsonType": "date"
+                  },
+                  {
+                    "bsonType": "null"
+                  }
+                ]
+              },
+              "effective_to": {
+                "anyOf": [
+                  {
+                    "bsonType": "date"
+                  },
+                  {
+                    "bsonType": "null"
+                  }
+                ]
+              }
+            }
+          },
+          "maxItems": 20,
+          "minItems": 1
+        },
+        "selected_fact_ids": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "string",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "maxItems": 200,
+          "minItems": 0
+        },
+        "selected_chunk_ids": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "string",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "maxItems": 200,
+          "minItems": 0
+        },
+        "retrieval_policy_version": {
+          "bsonType": "string",
+          "minLength": 1,
+          "maxLength": 160,
+          "pattern": "^[a-z0-9][a-z0-9_.:-]*$"
+        },
+        "as_of": {
+          "bsonType": "date"
+        },
+        "content_hash": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "source_recheck_attestation_ids": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "string",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "maxItems": 20,
+          "minItems": 0
+        },
+        "reset_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    }
+  },
+  "validationLevel": "strict",
+  "validationAction": "error"
+}

@@ -1,0 +1,51 @@
+[
+  {
+    "_id": "72cea827-a276-519e-b076-2f86e992eb5c",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "base_harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+    "proposed_harness_version_id": "e084aa8e-40c1-5c94-abac-a701cb08022b",
+    "diagnosis": "First pass omitted jurisdiction-specific bundle; require it on later CA events.",
+    "trigger_validation_run_id": "acafc846-37c2-5726-a926-10a2d4cc9bb0",
+    "trigger_feedback_id": "d9557c99-101f-5ba4-9f87-a11fd6237805",
+    "patch": [
+      {
+        "op": "test",
+        "path": "/retrieval/prefetch/declared_ca_resident_ccpa_bundle",
+        "value": false
+      },
+      {
+        "op": "test",
+        "path": "/retrieval/prefetch/declared_ca_resident_company_facts",
+        "value": false
+      },
+      {
+        "op": "replace",
+        "path": "/retrieval/prefetch/declared_ca_resident_ccpa_bundle",
+        "value": true
+      },
+      {
+        "op": "replace",
+        "path": "/retrieval/prefetch/declared_ca_resident_company_facts",
+        "value": true
+      }
+    ],
+    "patch_hash": "eedb6246dd70c072411b90efbcf84641346732b98dd4cda2031e54564024afbe",
+    "promotion_class": "automatic_allowlisted",
+    "status": "promoted",
+    "evaluation_run_ids": [
+      "cd3acd36-7e86-5737-80b6-330bbf11e7fa"
+    ],
+    "expected_harness_epoch": 1,
+    "promoted_by": "c09e8cf1-b113-542e-902d-bc69877bf369",
+    "promoted_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "state_version": 3,
+    "expected_policy_epoch": 1,
+    "reset_epoch": 1
+  }
+]

@@ -1,0 +1,141 @@
+[
+  {
+    "_id": "7bf4bbf5-ee53-5f77-8f21-a47017897377",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "fixture_set": "kiara.t04.design_trace",
+    "fixture_version": "0.1.0",
+    "namespace_uuid": "cd20cbe3-869b-40d6-b7c8-06ea20dbb48c",
+    "scenario_date": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "mode": "trace",
+    "content_manifest_hash": "a3526b3374bdaa8d6fb07c66f4bf3807b6666f5aec577ead78a6d0f5fdc250a6",
+    "collection_counts": [
+      {
+        "collection": "tenants",
+        "count": 1
+      },
+      {
+        "collection": "actors",
+        "count": 3
+      },
+      {
+        "collection": "company_context_versions",
+        "count": 1
+      },
+      {
+        "collection": "customers",
+        "count": 2
+      },
+      {
+        "collection": "events",
+        "count": 7
+      },
+      {
+        "collection": "documents",
+        "count": 1
+      },
+      {
+        "collection": "document_revisions",
+        "count": 2
+      },
+      {
+        "collection": "legal_source_versions",
+        "count": 3
+      },
+      {
+        "collection": "legal_chunks",
+        "count": 31
+      },
+      {
+        "collection": "assessments",
+        "count": 1
+      },
+      {
+        "collection": "evidence_bundles",
+        "count": 2
+      },
+      {
+        "collection": "change_proposals",
+        "count": 2
+      },
+      {
+        "collection": "validation_runs",
+        "count": 3
+      },
+      {
+        "collection": "review_bundles",
+        "count": 1
+      },
+      {
+        "collection": "workflows",
+        "count": 1
+      },
+      {
+        "collection": "jobs",
+        "count": 1
+      },
+      {
+        "collection": "agent_runs",
+        "count": 1
+      },
+      {
+        "collection": "tool_receipts",
+        "count": 1
+      },
+      {
+        "collection": "review_actions",
+        "count": 2
+      },
+      {
+        "collection": "feedback",
+        "count": 1
+      },
+      {
+        "collection": "harness_versions",
+        "count": 2
+      },
+      {
+        "collection": "harness_candidates",
+        "count": 1
+      },
+      {
+        "collection": "evaluation_runs",
+        "count": 1
+      },
+      {
+        "collection": "operational_followups",
+        "count": 13
+      },
+      {
+        "collection": "notification_outbox",
+        "count": 1
+      },
+      {
+        "collection": "telemetry_spans",
+        "count": 1
+      },
+      {
+        "collection": "source_recheck_attestations",
+        "count": 1
+      }
+    ],
+    "sandbox_eligibility": "unverified",
+    "reset_epoch": 1,
+    "state": "ready",
+    "source_files": [
+      {
+        "path": "research/T03/snapshots/ccpa-statute-effective-2026-01-01.txt",
+        "sha256": "b8015a95e0173236313283fe8f108ad68339ac563367089183e8938fab0f204c"
+      },
+      {
+        "path": "research/T03/snapshots/ccpa-statute-effective-2026-01-01.pdf",
+        "sha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1"
+      }
+    ]
+  }
+]

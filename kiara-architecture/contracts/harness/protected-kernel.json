@@ -1,0 +1,154 @@
+{
+  "kernel_version": "kiara-protected-kernel-1",
+  "status": "proposed_design_not_runtime_config",
+  "patch_policy": {
+    "format": "RFC6902_restricted_subset",
+    "allowed_paths": [
+      "/retrieval/prefetch/declared_ca_resident_ccpa_bundle",
+      "/retrieval/prefetch/declared_ca_resident_company_facts"
+    ],
+    "allowed_operations": [
+      "test",
+      "replace"
+    ],
+    "transition": {
+      "from": false,
+      "to": true
+    },
+    "maximum_changed_paths": 2,
+    "maximum_patch_bytes": 2048,
+    "exact_keys_per_operation": [
+      "op",
+      "path",
+      "value"
+    ],
+    "reject_unknown_properties": true,
+    "canonical_paths_only": true,
+    "no_root_ancestor_array_or_escaped_paths": true,
+    "unique_test_and_replace_per_path": true
+  },
+  "selector_descriptors": {
+    "declared_ca_resident_ccpa_bundle": {
+      "event_type": "user.signed_up",
+      "residence_kind": "declared_legal_residence",
+      "country_code": "US",
+      "subdivision_code": "CA",
+      "on_every_matching_event": true,
+      "behavior": "Retrieve pinned operative CCPA applicability and privacy-disclosure provisions plus evidence-map requirements; never infer coverage from residence alone."
+    },
+    "declared_ca_resident_company_facts": {
+      "event_type": "user.signed_up",
+      "residence_kind": "declared_legal_residence",
+      "country_code": "US",
+      "subdivision_code": "CA",
+      "on_every_matching_event": true,
+      "behavior": "Retrieve same-tenant authoritative context revision, nulls and conflicts, coverage facts, data practices and operational followups; never write facts."
+    }
+  },
+  "non_patchable": [
+    "reset_epoch",
+    "reset_fence",
+    "budget_scope_id",
+    "tenant_id",
+    "selectors",
+    "required_evidence",
+    "legal_applicability_criteria",
+    "source_trust_policy",
+    "source_freshness_policy",
+    "validation_rules",
+    "human_approval_gates",
+    "authorization",
+    "tool_permissions",
+    "model_and_provider",
+    "prompts",
+    "budgets",
+    "context_reserves",
+    "eval_dataset",
+    "eval_assertions",
+    "eval_thresholds",
+    "rollout_policy"
+  ],
+  "evidence_policy": {
+    "mandatory_coverage": "All required T03 fact-to-provision-to-clause requirements for assessment and every material proposal change, including known/unknown/conflict state. Evidence validator is always active.",
+    "mandatory_before_review": true,
+    "mandatory_before_assessment_and_draft": true,
+    "mandatory_context_first": true,
+    "additional_prefetch_may_displace_mandatory_context": false,
+    "overflow": "needs_human_review; never silently truncate mandatory evidence",
+    "source_refresh": "May repair current run via a new evidence revision; invalidates any frozen comparison and requires rebaseline."
+  },
+  "run_caps": {
+    "max_current_output_repairs": 2,
+    "max_proposal_validation_passes": 3,
+    "max_context_readiness_passes": 2,
+    "max_semantic_review_calls": 3,
+    "max_logical_model_requests": 9,
+    "max_physical_model_attempts": 12,
+    "max_tool_calls": 16,
+    "max_request_seconds": 90,
+    "max_run_seconds": 300,
+    "max_input_tokens_per_request": 24000,
+    "max_cumulative_input_tokens": 120000,
+    "max_cumulative_output_tokens": 24000,
+    "max_output_tokens_per_request": 4000,
+    "max_reserved_plus_actual_cost_usd": 3,
+    "max_model_requests_in_flight_per_worker": 2,
+    "sdk_transport_retries": 0
+  },
+  "adaptation_caps": {
+    "max_proposals_per_diagnosis": 1,
+    "max_proposals_per_tenant_per_day": 3,
+    "max_evaluation_job_seconds": 900,
+    "max_model_eval_physical_attempts": 72,
+    "max_evaluation_reserved_plus_actual_cost_usd": 18,
+    "holdout_failure": "reject_no_automatic_retry_with_same_holdout",
+    "canary_runs": 5,
+    "max_unresolved_candidates_per_tenant": 1
+  },
+  "budget_note": "T06 foreground caps adopted. Evaluation caps are T07 proposed initial bounds; timeout/uncertain cost pauses promotion. Actual latency and cost not measured.",
+  "reset_fence": {
+    "authority": "persistent tenant guard reset_epoch; never model supplied",
+    "minimum_epoch": 1,
+    "monotonically_increases": true,
+    "preserved_during_reset": true,
+    "scope_keys": [
+      "tenant_id",
+      "reset_epoch",
+      "run_id"
+    ],
+    "receipt_identity_keys": [
+      "tenant_id",
+      "reset_epoch",
+      "run_id",
+      "idempotency_key"
+    ],
+    "budget_scope_keys": [
+      "tenant_id",
+      "reset_epoch",
+      "budget_scope_id"
+    ],
+    "guard_compare_in_same_transaction": true,
+    "guard_write_required": "conditional CAS/touch of the same persistent tenant guard; snapshot-only read is insufficient for reset serialization",
+    "compare_before": [
+      "job claim",
+      "model cost reservation and dispatch",
+      "tool execution",
+      "artifact hydration",
+      "stage commit",
+      "result reuse",
+      "receipt replay"
+    ],
+    "receipt_hash_includes_reset_epoch": true,
+    "reset_preconditions": [
+      "quiesce job/model/tool/email dispatch",
+      "cancel old in-flight work",
+      "retain unresolved model charges and live-send intents/receipts outside discarded fixture epoch, or block reset until reconciled",
+      "advance surviving tenant guard before deletion/reseed"
+    ],
+    "late_result": "old epoch diagnostic only; never attach to new same UUID or replay old receipt"
+  },
+  "runtime_policy_binding": {
+    "path": "research/T06/runtime-policy.json",
+    "sha256": "3a973cb796f959faa32a325debc877a6582fab785ef589d80270acb25bfb2883"
+  }
+}

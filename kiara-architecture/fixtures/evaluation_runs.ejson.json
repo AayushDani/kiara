@@ -1,0 +1,58 @@
+[
+  {
+    "_id": "cd3acd36-7e86-5737-80b6-330bbf11e7fa",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "candidate_id": "72cea827-a276-519e-b076-2f86e992eb5c",
+    "baseline_harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+    "candidate_harness_version_id": "e084aa8e-40c1-5c94-abac-a701cb08022b",
+    "fixture_set_hash": "93327a83558e155222504272f904ba678970c63086780913e3bcabdf213f0ffc",
+    "event_ids": [
+      "4fbd9f2e-d458-5a31-99c6-e333fe338b64"
+    ],
+    "context_version_ids": [
+      "450ccf54-f2ab-547d-b79b-c9badb798f4a"
+    ],
+    "source_version_ids": [
+      "7be3313e-093e-58d1-acdc-f43f7c730cdb"
+    ],
+    "model": "configured-at-build-time",
+    "model_settings_hash": "e4ff491169b8a9ea78518a7972422b5a24d5e3790e0d9a9e5cbfb384d9b621e0",
+    "evaluator_version": "evaluator.v1",
+    "protected_policy_hash": "352de86787f8501502b4f286b48dd86de966353244665f47bcf643075446e510",
+    "status": "passed",
+    "cases": [
+      {
+        "case_key": "covered_ca",
+        "split": "diagnostic",
+        "baseline_pass": false,
+        "candidate_pass": true,
+        "baseline_repairs": 1,
+        "candidate_repairs": 0,
+        "assertions": [
+          {
+            "check_id": "applicability_bundle_required",
+            "result": "pass",
+            "severity": "blocking",
+            "detail": "Planned result fixture; not a measured gain.",
+            "related_ids": [
+              "a1e7ef80-f977-5165-b650-ec65c7efc1bf"
+            ]
+          }
+        ]
+      }
+    ],
+    "metrics": {
+      "baseline_pass_count": 0,
+      "candidate_pass_count": 1,
+      "case_count": 1,
+      "critical_regressions": 0
+    },
+    "measurement_status": "planned_fixture",
+    "nondeterminism_notes": "Synthetic desired outcomes; no evaluation executed. Runtime promotion rejects measurement_status != executed.",
+    "reset_epoch": 1
+  }
+]

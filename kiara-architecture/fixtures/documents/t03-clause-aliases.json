@@ -1,0 +1,32 @@
+{
+  "clause_ca_inventory": [
+    "dcac8a94-e1b2-59ec-84c1-7400e5230938",
+    "c021b2da-7670-5bc6-bb35-19c58e8966ce",
+    "4c79b519-e7d5-5182-a92d-e20124237e0d"
+  ],
+  "clause_ca_disclosures": [
+    "016bb052-b08f-5208-884b-3343949680f1"
+  ],
+  "clause_ca_rights": [
+    "d38acbf4-c1cc-5eb2-8650-ce5de03c4eda"
+  ],
+  "clause_ca_requests": [
+    "a84b9e93-a656-5e98-9d5a-d7be19e46954",
+    "3618409a-546d-57ed-976d-10114cd85254",
+    "40f65f82-3391-51bb-8941-23311cab54a5"
+  ],
+  "clause_ca_sensitive": [
+    "d7dc353b-161d-596a-a504-2f3de8d7cfb0"
+  ],
+  "clause_ca_sale_share_signals": [
+    "784f3762-3d89-573e-a0f0-fb3b27e2e430",
+    "ce9e8ae5-354d-5597-b08f-a4e530237fb2"
+  ],
+  "clause_ca_retention": [
+    "9689ef85-b969-51cd-8dcc-b423dacbc9ed"
+  ],
+  "clause_ca_date_contact": [
+    "de59121d-08a5-5e6b-a801-c2899e8ebcb0",
+    "06aee531-095d-531b-bb20-4afc8ceba2e2"
+  ]
+}

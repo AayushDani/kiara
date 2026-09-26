@@ -1,0 +1,70 @@
+{
+  "classification": "synthetic_completed_state_trace_not_exhaustive_event_replay_not_executed",
+  "source_of_truth": "fixtures/*.ejson.json",
+  "stages": [
+    {
+      "stage": "NY baseline",
+      "record_ids": {
+        "customer-ny": "060fe730-06b4-523e-a8a3-1b1fce76771a",
+        "signup-ny": "370a4b27-cf34-5acf-af57-ec054534d97d",
+        "context-v1": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+        "revision-v1": "d682418a-4ae8-5e4a-b331-a644e4b38d5d"
+      }
+    },
+    {
+      "stage": "CA signal",
+      "record_ids": {
+        "customer-ca": "604fb63a-da83-53a8-8bc3-3581530a41c4",
+        "signup-ca": "4fbd9f2e-d458-5a31-99c6-e333fe338b64",
+        "workflow": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+        "run": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc"
+      }
+    },
+    {
+      "stage": "Complete evidence and assessment",
+      "record_ids": {
+        "context-v1": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+        "assessment": "aa9d34f4-2739-5ba9-a960-253102f31a64",
+        "evidence": "a1e7ef80-f977-5165-b650-ec65c7efc1bf"
+      }
+    },
+    {
+      "stage": "Candidate and both validation faults",
+      "record_ids": {
+        "revision-v2": "6e12d307-1397-5160-8b40-a5e83f02e303",
+        "proposal": "5895124e-72a8-51b4-a698-76baf5df7709",
+        "validation-failed": "acafc846-37c2-5726-a926-10a2d4cc9bb0",
+        "validation-passed": "7687ca3b-5d93-512f-b088-9a2bcce10c64"
+      }
+    },
+    {
+      "stage": "Same sealed founder/lawyer review",
+      "record_ids": {
+        "review-bundle": "73669cc9-9746-5d1c-a40b-fa274647af0d",
+        "founder-approval": "4f6f009e-c7f3-5e86-b464-592339d20c19",
+        "lawyer-approval": "fd96e69d-be83-5851-9b4e-bc48f3aa8509"
+      }
+    },
+    {
+      "stage": "Final state and delivery",
+      "record_ids": {
+        "document": "eaaa8632-ac8b-5e3a-a030-1b9c5719473a",
+        "notification": "f6722949-1d0e-5d05-82d1-20739f4ed339"
+      }
+    },
+    {
+      "stage": "Independent harness comparison",
+      "record_ids": {
+        "harness-v1": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+        "harness-candidate": "72cea827-a276-519e-b076-2f86e992eb5c",
+        "evaluation": "cd3acd36-7e86-5737-80b6-330bbf11e7fa",
+        "harness-v2": "e084aa8e-40c1-5c94-abac-a701cb08022b"
+      }
+    }
+  ],
+  "planned_transition_sequence": "contracts/workflow/example-main-sequence.json",
+  "current_output_repair": "fixtures/documents/citation-repair-trace.json",
+  "later_event_proof": "fixtures/harness/expected-later-event-proof.json",
+  "live_acceptance": "not_run",
+  "company_context_fact_count": 53
+}

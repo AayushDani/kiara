@@ -1,0 +1,266 @@
+{
+  "checked_at": "2026-09-26T16:36:07.856Z",
+  "scope": "Offline schema/fixture/reference/hash/index checks; BSON validators translated to JSON Schema and checked by Ajv. No Atlas, MongoDB server, transactions, model, email or workflow executed.",
+  "counts": {
+    "collections": 28,
+    "documents": 88,
+    "indexes": 54,
+    "checks": 61
+  },
+  "passed": true,
+  "checks": [
+    {
+      "name": "collection_has_example:tenants",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:actors",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:company_context_versions",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:customers",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:events",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:documents",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:document_revisions",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:legal_source_versions",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:legal_chunks",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:assessments",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:evidence_bundles",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:change_proposals",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:validation_runs",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:review_bundles",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:workflows",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:jobs",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:agent_runs",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:tool_receipts",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:review_actions",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:feedback",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:harness_versions",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:harness_candidates",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:evaluation_runs",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:operational_followups",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:seed_manifests",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:notification_outbox",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:telemetry_spans",
+      "passed": true
+    },
+    {
+      "name": "collection_has_example:source_recheck_attestations",
+      "passed": true
+    },
+    {
+      "name": "all_examples_match_translated_bson_validators",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "global_uuid_identity_unique",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "all_root_records_tenant_scoped",
+      "passed": true
+    },
+    {
+      "name": "typed_record_references_resolve_same_tenant",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "all_fixture_documents_conservative_bson_under_8mib",
+      "passed": true,
+      "details": {
+        "largest": 901580,
+        "not_driver_serialization": true
+      }
+    },
+    {
+      "name": "clause_edit_fact_and_citation_refs_resolve",
+      "passed": true
+    },
+    {
+      "name": "exact_redline_hash_matches_embedded_artifact",
+      "passed": true
+    },
+    {
+      "name": "unknown_facts_remain_null",
+      "passed": true
+    },
+    {
+      "name": "reset_generation_consistent",
+      "passed": true
+    },
+    {
+      "name": "raw_source_hash:src_ca_ccpa_statute_20260101",
+      "passed": true
+    },
+    {
+      "name": "raw_source_under_4mib:src_ca_ccpa_statute_20260101",
+      "passed": true
+    },
+    {
+      "name": "raw_source_hash:src_ca_ccpa_regs_20260101",
+      "passed": true
+    },
+    {
+      "name": "raw_source_under_4mib:src_ca_ccpa_regs_20260101",
+      "passed": true
+    },
+    {
+      "name": "raw_source_hash:src_ca_ccpa_cpi_20250101",
+      "passed": true
+    },
+    {
+      "name": "raw_source_under_4mib:src_ca_ccpa_cpi_20250101",
+      "passed": true
+    },
+    {
+      "name": "source_chunk_context_revision_event_harness_hashes_match",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "review_input_hash_matches",
+      "passed": true
+    },
+    {
+      "name": "review_approval_hashes_bind_same_bundle",
+      "passed": true
+    },
+    {
+      "name": "review_bundle_candidate_hash_matches",
+      "passed": true
+    },
+    {
+      "name": "review_bundle_context_hash_matches",
+      "passed": true
+    },
+    {
+      "name": "review_bundle_harness_hash_matches",
+      "passed": true
+    },
+    {
+      "name": "approval_actor_roles_match",
+      "passed": true
+    },
+    {
+      "name": "founder_precedes_lawyer_by_workflow_version",
+      "passed": true
+    },
+    {
+      "name": "review_bundle_minimal_seal_matches",
+      "passed": true
+    },
+    {
+      "name": "legal_map_hash_binds_rationale_and_citations",
+      "passed": true
+    },
+    {
+      "name": "corrected_source_span_matches_exact_text",
+      "passed": true
+    },
+    {
+      "name": "intentionally_faulty_source_span_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "all_seven_supplemental_policy_facts_present",
+      "passed": true
+    },
+    {
+      "name": "supplemental_claims_bound_to_actual_clauses",
+      "passed": true
+    },
+    {
+      "name": "unique_index_keys_no_fixture_collisions",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "no_domain_ttl",
+      "passed": true
+    },
+    {
+      "name": "reject_signup_ip_as_declared_residence",
+      "passed": true
+    },
+    {
+      "name": "reject_mixed_id_representation",
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,2253 @@
+{
+  "contract_id": "K-EVT-001",
+  "version": "1.0",
+  "events": [
+    {
+      "event_type": "user.signed_up",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "company_id",
+          "customer_id",
+          "customer_context_version",
+          "residence_evidence",
+          "is_synthetic"
+        ],
+        "properties": {
+          "company_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "customer_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "customer_context_version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "residence_evidence": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "kind",
+              "country",
+              "region",
+              "asserted_at",
+              "provenance_ref"
+            ],
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "declared_legal_residence"
+                ]
+              },
+              "country": {
+                "type": "string",
+                "enum": [
+                  "US"
+                ]
+              },
+              "region": {
+                "type": "string",
+                "minLength": 1
+              },
+              "asserted_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "provenance_ref": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              }
+            }
+          },
+          "is_synthetic": {
+            "type": "boolean"
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "company.context_updated",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "company_id",
+          "previous_context_version_id",
+          "context_version_id",
+          "material_context_epoch",
+          "verified_by",
+          "feedback_id"
+        ],
+        "properties": {
+          "company_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "previous_context_version_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "context_version_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "material_context_epoch": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "verified_by": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "feedback_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "workflow.created",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "company_id",
+          "document_id",
+          "trigger_event_id",
+          "intake_seq"
+        ],
+        "properties": {
+          "company_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "document_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "trigger_event_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "intake_seq": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "workflow.slot_waiting",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "document_id",
+          "blocking_workflow_id",
+          "intake_seq"
+        ],
+        "properties": {
+          "document_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "blocking_workflow_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "intake_seq": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "workflow.slot_acquired",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "document_id",
+          "slot_epoch",
+          "base_revision_id",
+          "base_content_hash"
+        ],
+        "properties": {
+          "document_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "slot_epoch": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "base_revision_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "base_content_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "context.snapshot_pinned",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "context_snapshot_id",
+          "evidence_bundle_id",
+          "material_context_epoch",
+          "material_evidence_epoch",
+          "harness_version_id"
+        ],
+        "properties": {
+          "context_snapshot_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "evidence_bundle_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "material_context_epoch": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "material_evidence_epoch": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "harness_version_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "assessment.completed",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "assessment_id",
+          "outcome",
+          "context_snapshot_id",
+          "evidence_bundle_id",
+          "missing_fact_keys",
+          "operational_followup_ids"
+        ],
+        "properties": {
+          "assessment_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "outcome": {
+            "type": "string",
+            "enum": [
+              "covered",
+              "not_covered",
+              "needs_information"
+            ]
+          },
+          "context_snapshot_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "evidence_bundle_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "missing_fact_keys": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "operational_followup_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            }
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "workflow.information_requested",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "assessment_id",
+          "missing_fact_keys",
+          "required_role"
+        ],
+        "properties": {
+          "assessment_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "missing_fact_keys": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required_role": {
+            "type": "string",
+            "enum": [
+              "founder",
+              "lawyer"
+            ]
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "workflow.information_supplied",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "context_version_id",
+          "verified_feedback_ids"
+        ],
+        "properties": {
+          "context_version_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "verified_feedback_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            }
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "proposal.created",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "proposal_id",
+          "candidate_revision_id",
+          "base_revision_id",
+          "diff_id",
+          "review_input_hash",
+          "replaces_proposal_id"
+        ],
+        "properties": {
+          "proposal_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "candidate_revision_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "base_revision_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "diff_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "review_input_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "replaces_proposal_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "validation.passed",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "validation_run_id",
+          "validator_version_id",
+          "subject_kind",
+          "context_selection_id",
+          "review_input_hash",
+          "review_bundle_id",
+          "review_bundle_hash",
+          "proposal_id"
+        ],
+        "properties": {
+          "validation_run_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "validator_version_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "subject_kind": {
+            "type": "string",
+            "enum": [
+              "context_readiness",
+              "proposal"
+            ]
+          },
+          "context_selection_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "review_input_hash": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "review_bundle_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "review_bundle_hash": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "proposal_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "subject_kind": {
+                  "const": "context_readiness"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "context_selection_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                },
+                "proposal_id": {
+                  "type": "null"
+                },
+                "review_input_hash": {
+                  "type": "null"
+                },
+                "review_bundle_id": {
+                  "type": "null"
+                },
+                "review_bundle_hash": {
+                  "type": "null"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "subject_kind": {
+                  "const": "proposal"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "proposal_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                },
+                "context_selection_id": {
+                  "type": "null"
+                },
+                "review_input_hash": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "review_bundle_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                },
+                "review_bundle_hash": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "validation.failed",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "validation_run_id",
+          "subject_kind",
+          "context_selection_id",
+          "proposal_id",
+          "failure_codes",
+          "repair_count",
+          "repair_limit",
+          "repairable"
+        ],
+        "properties": {
+          "validation_run_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "subject_kind": {
+            "type": "string",
+            "enum": [
+              "context_readiness",
+              "proposal"
+            ]
+          },
+          "context_selection_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "proposal_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "failure_codes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "repair_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "repair_limit": {
+            "const": 2
+          },
+          "repairable": {
+            "type": "boolean"
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "subject_kind": {
+                  "const": "context_readiness"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "context_selection_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                },
+                "proposal_id": {
+                  "type": "null"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "subject_kind": {
+                  "const": "proposal"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "proposal_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                },
+                "context_selection_id": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "workflow.repair_started",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "failed_validation_run_id",
+          "repair_count",
+          "strategy"
+        ],
+        "properties": {
+          "failed_validation_run_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "repair_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "strategy": {
+            "type": "string",
+            "enum": [
+              "retrieve_evidence",
+              "correct_context",
+              "revise_document"
+            ]
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "workflow.escalated",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "reason_code",
+          "validation_run_id",
+          "required_role"
+        ],
+        "properties": {
+          "reason_code": {
+            "type": "string",
+            "minLength": 1
+          },
+          "validation_run_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "required_role": {
+            "type": "string",
+            "enum": [
+              "founder",
+              "lawyer",
+              "operator"
+            ]
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "review.founder_requested",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "review_bundle_id",
+          "review_bundle_hash",
+          "proposal_id",
+          "assigned_actor_id",
+          "notification_id"
+        ],
+        "properties": {
+          "review_bundle_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "review_bundle_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "proposal_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "assigned_actor_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "notification_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "review.founder_approved",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "approval_id",
+          "review_bundle_id",
+          "review_bundle_hash",
+          "candidate_revision_id",
+          "predecessor_approval_id"
+        ],
+        "properties": {
+          "approval_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "review_bundle_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "review_bundle_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "candidate_revision_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "predecessor_approval_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "review.lawyer_requested",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "review_bundle_id",
+          "review_bundle_hash",
+          "proposal_id",
+          "assigned_actor_id",
+          "notification_id"
+        ],
+        "properties": {
+          "review_bundle_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "review_bundle_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "proposal_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "assigned_actor_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "notification_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "review.lawyer_approved",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "approval_id",
+          "review_bundle_id",
+          "review_bundle_hash",
+          "candidate_revision_id",
+          "predecessor_approval_id"
+        ],
+        "properties": {
+          "approval_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "review_bundle_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "review_bundle_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "candidate_revision_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "predecessor_approval_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "review.viewed",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "review_bundle_id",
+          "proposal_id",
+          "role",
+          "activity_id"
+        ],
+        "properties": {
+          "review_bundle_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "proposal_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "founder",
+              "lawyer"
+            ]
+          },
+          "activity_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "review.reviewed",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "review_bundle_id",
+          "proposal_id",
+          "role",
+          "activity_id"
+        ],
+        "properties": {
+          "review_bundle_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "proposal_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "founder",
+              "lawyer"
+            ]
+          },
+          "activity_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "feedback.recorded",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "feedback_id",
+          "feedback_type",
+          "review_bundle_id",
+          "proposal_id",
+          "requested_change"
+        ],
+        "properties": {
+          "feedback_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "feedback_type": {
+            "type": "string",
+            "enum": [
+              "fact_correction",
+              "document_edit",
+              "legal_interpretation_note",
+              "harness_improvement"
+            ]
+          },
+          "review_bundle_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "proposal_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "requested_change": {
+            "type": "boolean"
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "review.changes_requested",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "feedback_id",
+          "review_bundle_id",
+          "role",
+          "reason_code"
+        ],
+        "properties": {
+          "feedback_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "review_bundle_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "founder",
+              "lawyer"
+            ]
+          },
+          "reason_code": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "review.rejected",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "review_bundle_id",
+          "decision_id",
+          "role",
+          "reason_code"
+        ],
+        "properties": {
+          "review_bundle_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "decision_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "founder",
+              "lawyer"
+            ]
+          },
+          "reason_code": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "approval.invalidated",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "review_bundle_id",
+          "approval_ids",
+          "reason_code",
+          "replacement_bundle_id"
+        ],
+        "properties": {
+          "review_bundle_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "approval_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            }
+          },
+          "reason_code": {
+            "type": "string",
+            "enum": [
+              "text_changed",
+              "context_changed",
+              "evidence_changed",
+              "assessment_changed",
+              "base_conflict",
+              "run_harness_switched",
+              "review_bundle_changed"
+            ]
+          },
+          "replacement_bundle_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "proposal.superseded",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "proposal_id",
+          "replacement_proposal_id",
+          "reason_code"
+        ],
+        "properties": {
+          "proposal_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "replacement_proposal_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reason_code": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "document.finalized",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "document_id",
+          "previous_revision_id",
+          "revision_id",
+          "review_bundle_id",
+          "founder_approval_id",
+          "lawyer_approval_id",
+          "publication_status"
+        ],
+        "properties": {
+          "document_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "previous_revision_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "revision_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "review_bundle_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "founder_approval_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "lawyer_approval_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "publication_status": {
+            "const": "not_published"
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "workflow.closed_no_change",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "assessment_id",
+          "reason_code",
+          "operational_followup_ids"
+        ],
+        "properties": {
+          "assessment_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "reason_code": {
+            "type": "string",
+            "enum": [
+              "not_covered_for_assessed_rule",
+              "no_supported_document_gap"
+            ]
+          },
+          "operational_followup_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            }
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "workflow.superseded",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "replacement_workflow_id",
+          "reason_code"
+        ],
+        "properties": {
+          "replacement_workflow_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "reason_code": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "workflow.failed",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "error_code",
+          "operator_action"
+        ],
+        "properties": {
+          "error_code": {
+            "type": "string",
+            "minLength": 1
+          },
+          "operator_action": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "workflow.resumed",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "resume_reason",
+          "new_run_id",
+          "authorized_by"
+        ],
+        "properties": {
+          "resume_reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "new_run_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "authorized_by": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "job.retry_scheduled",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "job_id",
+          "attempt_id",
+          "attempt_count",
+          "available_at",
+          "error_code"
+        ],
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "attempt_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "attempt_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "available_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "error_code": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "job.exhausted",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "job_id",
+          "attempt_count",
+          "error_code"
+        ],
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "attempt_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "error_code": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "job.late_result_discarded",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "job_id",
+          "attempt_id",
+          "stale_lease_epoch",
+          "current_lease_epoch"
+        ],
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "attempt_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "stale_lease_epoch": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "current_lease_epoch": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "notification.enqueued",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "notification_id",
+          "kind",
+          "recipient_actor_id",
+          "review_bundle_id",
+          "mode"
+        ],
+        "properties": {
+          "notification_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "founder_review_request",
+              "lawyer_review_request",
+              "information_request",
+              "finalization_notice",
+              "operational_followup"
+            ]
+          },
+          "recipient_actor_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "review_bundle_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "preview",
+              "live"
+            ]
+          }
+        }
+      },
+      "producer": "notification_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "notification.previewed",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "notification_id",
+          "provider_message_id",
+          "provider_event_id",
+          "reason_code"
+        ],
+        "properties": {
+          "notification_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "provider_message_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "provider_event_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reason_code": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "producer": "notification_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "notification.sent",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "notification_id",
+          "provider_message_id",
+          "provider_event_id",
+          "reason_code"
+        ],
+        "properties": {
+          "notification_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "provider_message_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "provider_event_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reason_code": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "producer": "notification_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "notification.delivered",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "notification_id",
+          "provider_message_id",
+          "provider_event_id",
+          "reason_code"
+        ],
+        "properties": {
+          "notification_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "provider_message_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "provider_event_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reason_code": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "producer": "notification_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "notification.bounced",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "notification_id",
+          "provider_message_id",
+          "provider_event_id",
+          "reason_code"
+        ],
+        "properties": {
+          "notification_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "provider_message_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "provider_event_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reason_code": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "producer": "notification_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "notification.failed",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "notification_id",
+          "provider_message_id",
+          "provider_event_id",
+          "reason_code"
+        ],
+        "properties": {
+          "notification_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "provider_message_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "provider_event_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reason_code": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "producer": "notification_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "notification.delivery_unknown",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "notification_id",
+          "provider_message_id",
+          "provider_event_id",
+          "reason_code"
+        ],
+        "properties": {
+          "notification_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "provider_message_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "provider_event_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reason_code": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "producer": "notification_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "notification.canceled",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "notification_id",
+          "provider_message_id",
+          "provider_event_id",
+          "reason_code"
+        ],
+        "properties": {
+          "notification_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "provider_message_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "provider_event_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reason_code": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "producer": "notification_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "harness.candidate_created",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "candidate_id",
+          "base_harness_version_id",
+          "diagnosis_id"
+        ],
+        "properties": {
+          "candidate_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "base_harness_version_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "diagnosis_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        }
+      },
+      "producer": "harness_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "harness.evaluation_completed",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "candidate_id",
+          "evaluation_run_id",
+          "outcome"
+        ],
+        "properties": {
+          "candidate_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "evaluation_run_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "outcome": {
+            "type": "string",
+            "enum": [
+              "passed",
+              "failed",
+              "inconclusive"
+            ]
+          }
+        }
+      },
+      "producer": "harness_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "harness.promoted",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "candidate_id",
+          "harness_version_id",
+          "previous_harness_version_id",
+          "evaluation_run_id",
+          "promotion_mode"
+        ],
+        "properties": {
+          "candidate_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "harness_version_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "previous_harness_version_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "evaluation_run_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "promotion_mode": {
+            "type": "string",
+            "enum": [
+              "automatic_allowlisted",
+              "human_approved"
+            ]
+          }
+        }
+      },
+      "producer": "harness_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "harness.rejected",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "candidate_id",
+          "reason_codes"
+        ],
+        "properties": {
+          "candidate_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "reason_codes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      },
+      "producer": "harness_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "harness.rolled_back",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "previous_harness_version_id",
+          "harness_version_id",
+          "reason_code"
+        ],
+        "properties": {
+          "previous_harness_version_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "harness_version_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "reason_code": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "producer": "harness_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "run.harness_switched",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "previous_run_id",
+          "run_id",
+          "previous_harness_version_id",
+          "harness_version_id",
+          "reason_code"
+        ],
+        "properties": {
+          "previous_run_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "run_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "previous_harness_version_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "harness_version_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "reason_code": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    },
+    {
+      "event_type": "operational_followup.created",
+      "payload_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operational_followup_id",
+          "assessment_id",
+          "kind",
+          "owner_role",
+          "status"
+        ],
+        "properties": {
+          "operational_followup_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "assessment_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "kind": {
+            "type": "string",
+            "minLength": 1
+          },
+          "owner_role": {
+            "type": "string",
+            "enum": [
+              "founder",
+              "lawyer"
+            ]
+          },
+          "status": {
+            "const": "open"
+          }
+        }
+      },
+      "producer": "trusted_api_or_workflow_service",
+      "note": "Events are committed facts, never direct authorization to execute a human action."
+    }
+  ]
+}

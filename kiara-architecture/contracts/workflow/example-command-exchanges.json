@@ -1,0 +1,149 @@
+{
+  "status": "planned_synthetic_contract_examples_not_executed",
+  "note": "Feedback exchange is an alternative to the lawyer approval exchange, not a later step. server_context is supplied by authenticated middleware, never the client request body.",
+  "exchanges": [
+    {
+      "contract_id": "K-CMD-INGEST",
+      "operation": "ingest_event",
+      "server_context": {
+        "tenant_id": "286ea0c9-1360-5574-84ae-b88f28527610",
+        "reset_epoch": 1,
+        "actor_id": "f93f172c-fa8e-5931-8ff3-672770b4d3db",
+        "role": "signup_integration"
+      },
+      "request": {
+        "schema_version": "1.0",
+        "event_type": "user.signed_up",
+        "source_event_id": "synthetic-signup-ca-0001",
+        "occurred_at": "2026-09-26T16:59:00Z",
+        "idempotency_key": "demo-ca-0001",
+        "payload": {
+          "company_id": "286ea0c9-1360-5574-84ae-b88f28527610",
+          "customer_id": "a2e5bb5e-3ad2-5688-8ac5-54f5a7ec89e4",
+          "customer_context_version": 2,
+          "residence_evidence": {
+            "kind": "declared_legal_residence",
+            "country": "US",
+            "region": "CA",
+            "asserted_at": "2026-09-26T16:59:00Z",
+            "provenance_ref": "b55cb955-2992-5f0f-b99d-13ef6cc9eb95"
+          },
+          "is_synthetic": true
+        }
+      },
+      "response": {
+        "http_status": 202,
+        "body": {
+          "event_id": "a2c5fb03-554a-5464-90fb-97af3a4dd3de",
+          "workflow_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+          "state": "queued",
+          "duplicate": false,
+          "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125"
+        }
+      }
+    },
+    {
+      "contract_id": "K-CMD-REVIEW",
+      "operation": "record_review_action",
+      "server_context": {
+        "tenant_id": "286ea0c9-1360-5574-84ae-b88f28527610",
+        "reset_epoch": 1,
+        "actor_id": "3ec6ecf3-431a-5f4d-b2fd-9604b476204b",
+        "role": "founder"
+      },
+      "request": {
+        "workflow_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+        "expected_reset_epoch": 1,
+        "expected_state_version": 8,
+        "proposal_id": "ef28b9a9-1e7a-5f52-b65a-9b5253230a5b",
+        "candidate_revision_id": "72c7ae26-80b8-54ea-8011-92581d79392d",
+        "review_bundle_id": "f660de0e-5a11-5782-ba17-46d096f61d03",
+        "review_bundle_hash": "b6bb1be4cb8042468237df24a4279dfda54c30840f3c46d24ca7ed6feacf1349",
+        "expected_base_revision_id": "76a93b17-2e92-595e-a3c8-c287d24e14aa",
+        "idempotency_key": "founder-approve-fixture-1",
+        "action": "approved",
+        "feedback_id": null
+      },
+      "response": {
+        "http_status": 200,
+        "body": {
+          "action_id": "2cbdfc7e-ed28-5d18-be2e-76a34cfd199e",
+          "workflow_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+          "state": "awaiting_lawyer",
+          "state_version": 9,
+          "notification_id": "223093ef-57a5-5f4d-a6b3-7d42c26acf81",
+          "review_bundle_id": "f660de0e-5a11-5782-ba17-46d096f61d03",
+          "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125"
+        }
+      }
+    },
+    {
+      "contract_id": "K-CMD-REVIEW",
+      "operation": "record_review_action",
+      "server_context": {
+        "tenant_id": "286ea0c9-1360-5574-84ae-b88f28527610",
+        "reset_epoch": 1,
+        "actor_id": "3ff0409c-60a2-5817-8e24-18526415754e",
+        "role": "lawyer"
+      },
+      "request": {
+        "workflow_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+        "expected_reset_epoch": 1,
+        "expected_state_version": 9,
+        "proposal_id": "ef28b9a9-1e7a-5f52-b65a-9b5253230a5b",
+        "candidate_revision_id": "72c7ae26-80b8-54ea-8011-92581d79392d",
+        "review_bundle_id": "f660de0e-5a11-5782-ba17-46d096f61d03",
+        "review_bundle_hash": "b6bb1be4cb8042468237df24a4279dfda54c30840f3c46d24ca7ed6feacf1349",
+        "expected_base_revision_id": "76a93b17-2e92-595e-a3c8-c287d24e14aa",
+        "idempotency_key": "lawyer-approve-fixture-1",
+        "action": "approved",
+        "feedback_id": null
+      },
+      "response": {
+        "http_status": 200,
+        "body": {
+          "action_id": "22128b39-6956-531a-9bb9-9d304c16a008",
+          "workflow_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+          "state": "ready_to_finalize",
+          "state_version": 10,
+          "finalization_job_id": "aff7c591-0a62-59aa-8292-66b2a871c79c",
+          "review_bundle_id": "f660de0e-5a11-5782-ba17-46d096f61d03",
+          "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125"
+        }
+      }
+    },
+    {
+      "contract_id": "K-CMD-FEEDBACK",
+      "operation": "record_feedback",
+      "server_context": {
+        "tenant_id": "286ea0c9-1360-5574-84ae-b88f28527610",
+        "reset_epoch": 1,
+        "actor_id": "3ff0409c-60a2-5817-8e24-18526415754e",
+        "role": "lawyer"
+      },
+      "request": {
+        "workflow_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+        "expected_state_version": 9,
+        "expected_reset_epoch": 1,
+        "review_bundle_id": "f660de0e-5a11-5782-ba17-46d096f61d03",
+        "proposal_id": "ef28b9a9-1e7a-5f52-b65a-9b5253230a5b",
+        "feedback_type": "document_edit",
+        "body": "Clarify the service-provider disclosure rationale in clause privacy.ca.disclosures.",
+        "requested_change": true,
+        "clause_ids": [
+          "privacy.ca.disclosures"
+        ],
+        "idempotency_key": "lawyer-feedback-fixture-1"
+      },
+      "response": {
+        "http_status": 201,
+        "body": {
+          "feedback_id": "b8950b9b-a3c4-5a92-ae1c-a62acc9a87de",
+          "routing_status": "recorded",
+          "state_version": 9,
+          "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125"
+        }
+      }
+    }
+  ]
+}

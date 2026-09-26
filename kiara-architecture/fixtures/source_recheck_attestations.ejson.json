@@ -1,0 +1,30 @@
+[
+  {
+    "_id": "b7008197-ef27-5d4b-be45-f8b6f8f89131",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "source_version_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+    "source_sha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+    "as_of": "2026-09-26",
+    "scope": "freshness_check_age_recheck",
+    "reviewer_id": "3a6ef3af-edf4-58c4-8123-03bbcbf09ad1",
+    "reviewer_role": "lawyer",
+    "attested_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "expires_at": {
+      "$date": "2026-09-27T18:00:00.000Z"
+    },
+    "method": "manual_authoritative_source_recheck",
+    "supporting_official_url": "https://cppa.ca.gov/regulations/",
+    "supporting_locator": "Current Laws and Regulations index; January 1 2026 statute link",
+    "reason": "Synthetic independent attestation fixture only; illustrates an assigned lawyer checking the authoritative publication, not an executed legal review.",
+    "new_evidence_bundle_id": "a5b0391f-0c1e-5dba-ab9c-8658911f3f81",
+    "ordered_reapproval_required": true,
+    "auth_mode": "demo_simulated",
+    "reset_epoch": 1
+  }
+]

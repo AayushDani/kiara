@@ -1,0 +1,60 @@
+[
+  {
+    "followup_id": "7e9d648f-5a89-5ed8-907a-8031cfa38ff4",
+    "kind": "data_minimization",
+    "status": "needs_information",
+    "owner_role": "founder",
+    "description": "Preserve the requested name/address signup fixture, but assess whether full postal address is necessary and proportionate. Event inclusion is not proof of lawful necessity. Consider city/state collection if sufficient only through a separately approved factual/product decision.",
+    "blocks_document_workflow_finalization": false,
+    "blocks_claim_of_operational_compliance": true,
+    "source": "Civil Code §1798.100(c); 11 CCR §7002"
+  },
+  {
+    "followup_id": "181c0cb4-6763-5950-8c92-35f8bece13cc",
+    "kind": "risk_assessment",
+    "status": "needs_information",
+    "owner_role": "lawyer",
+    "description": "Review SPI processing risk assessment, initiation date and applicability with T03; no assumption that an older-transition deadline applies to new September2026 processing.",
+    "blocks_document_workflow_finalization": false,
+    "source": "11 CCR §§7150-7157; T03 op_2026_risk_assessment"
+  },
+  {
+    "followup_id": "c009db91-7fc0-5ffb-bcc7-011d6106e61f",
+    "kind": "notice_at_collection",
+    "status": "open",
+    "owner_role": "founder",
+    "description": "Verify and implement notice at or before collection for actual signup categories, purposes and retention. Later policy approval cannot cure an earlier missing notice.",
+    "blocks_document_workflow_finalization": false,
+    "blocks_claim_of_operational_compliance": true,
+    "source": "Civil Code §1798.100(a); 11 CCR §7012"
+  },
+  {
+    "followup_id": "43bedafe-6530-51c5-b52e-a1401470506f",
+    "kind": "request_channel_verification",
+    "status": "open",
+    "owner_role": "founder",
+    "description": "Confirm monitored request email, usable form, identity/agent handling and trained operations. Example .example endpoints are synthetic.",
+    "blocks_document_workflow_finalization": false,
+    "blocks_publication_until_fact_confirmed": true,
+    "source": "11 CCR §§7004(a)(5),7011(e)(3),7020-7024,7060-7063"
+  },
+  {
+    "followup_id": "6ca70fd2-3324-50c7-97f0-6faec5151ffb",
+    "kind": "policy_publication",
+    "status": "open",
+    "owner_role": "founder",
+    "description": "Publish only via a separately authorized release after operational facts match. Workflow finalization records a reviewed document, not a public policy or compliance certificate.",
+    "blocks_document_workflow_finalization": false,
+    "source": "11 CCR §7011(c)-(d)"
+  },
+  {
+    "followup_id": "255c15fa-939e-53b8-b316-56842af5fccb",
+    "kind": "practice_verification",
+    "status": "open",
+    "owner_role": "lawyer",
+    "description": "Verify processor contracts, no sale/sharing, retention, credentials, no significant-decision ADMT and reporting thresholds. These are explicit fictional assertions in this packet.",
+    "blocks_document_workflow_finalization": false,
+    "blocks_real_world_reuse": true,
+    "source": "11 CCR §7011 and conditional provisions"
+  }
+]

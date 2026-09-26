@@ -1,0 +1,224 @@
+{
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "required": [
+        "_id",
+        "tenant_id",
+        "schema_version",
+        "created_at",
+        "source_key",
+        "version",
+        "authority",
+        "url",
+        "jurisdiction",
+        "title",
+        "retrieved_at",
+        "effective_from",
+        "effective_to",
+        "effective_date_status",
+        "supersedes_source_version_id",
+        "status",
+        "media_type",
+        "original_sha256",
+        "extracted_text",
+        "content_hash",
+        "extraction_method",
+        "fixture_label",
+        "original_bytes",
+        "raw_byte_count",
+        "parser_name",
+        "parser_version",
+        "text_encoding",
+        "reset_epoch"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "tenant_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "schema_version": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "enum": [
+            1
+          ]
+        },
+        "created_at": {
+          "bsonType": "date"
+        },
+        "source_key": {
+          "bsonType": "string",
+          "minLength": 1,
+          "maxLength": 160,
+          "pattern": "^[a-z0-9][a-z0-9_.:-]*$"
+        },
+        "version": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "authority": {
+          "bsonType": "string",
+          "enum": [
+            "official_statute",
+            "official_regulation",
+            "official_agency_guidance",
+            "company_document"
+          ]
+        },
+        "url": {
+          "bsonType": "string",
+          "pattern": "^https://",
+          "maxLength": 2048
+        },
+        "jurisdiction": {
+          "bsonType": "string",
+          "maxLength": 32
+        },
+        "title": {
+          "bsonType": "string",
+          "maxLength": 512
+        },
+        "retrieved_at": {
+          "bsonType": "date"
+        },
+        "effective_from": {
+          "anyOf": [
+            {
+              "bsonType": "date"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "effective_to": {
+          "anyOf": [
+            {
+              "bsonType": "date"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "effective_date_status": {
+          "bsonType": "string",
+          "enum": [
+            "known",
+            "unknown",
+            "mixed"
+          ]
+        },
+        "supersedes_source_version_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "status": {
+          "bsonType": "string",
+          "enum": [
+            "operative",
+            "future",
+            "historical",
+            "unverified"
+          ]
+        },
+        "media_type": {
+          "bsonType": "string",
+          "enum": [
+            "application/pdf",
+            "text/html",
+            "text/plain"
+          ]
+        },
+        "original_sha256": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "extracted_text": {
+          "bsonType": "string",
+          "maxLength": 8000000
+        },
+        "content_hash": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "extraction_method": {
+          "bsonType": "string",
+          "maxLength": 160
+        },
+        "fixture_label": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "maxLength": 256
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "original_bytes": {
+          "bsonType": "binData"
+        },
+        "raw_byte_count": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "parser_name": {
+          "bsonType": "string",
+          "maxLength": 80
+        },
+        "parser_version": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "maxLength": 40
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "text_encoding": {
+          "bsonType": "string",
+          "enum": [
+            "utf8"
+          ]
+        },
+        "reset_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    }
+  },
+  "validationLevel": "strict",
+  "validationAction": "error"
+}

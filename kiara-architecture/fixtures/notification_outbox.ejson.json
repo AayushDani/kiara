@@ -1,0 +1,61 @@
+[
+  {
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "reset_epoch": 1,
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "kind": "lawyer_review_request",
+    "recipient_actor_id": "3a6ef3af-edf4-58c4-8123-03bbcbf09ad1",
+    "channel": "email",
+    "mode": "preview",
+    "state": "previewed",
+    "review_bundle_id": "73669cc9-9746-5d1c-a40b-fa274647af0d",
+    "revision_id": "6e12d307-1397-5160-8b40-a5e83f02e303",
+    "template_version": "review-request-v1",
+    "rendered_payload_ref": "79bf7ad8-c11a-597a-8803-a9c798452acc",
+    "payload_hash": "a46c0690db703f495b283eea05fcee292df5b36f3e402dce5dbc1be43c7e41ec",
+    "provider": "local_preview",
+    "provider_idempotency_key": "kiara/1/f6722949-1d0e-5d05-82d1-20739f4ed339",
+    "first_attempt_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "retry_until": {
+      "$date": "2026-09-27T18:00:00.000Z"
+    },
+    "provider_message_id": null,
+    "attempt_count": 1,
+    "available_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "lease_epoch": 0,
+    "lease_owner": null,
+    "lease_expires_at": null,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "_id": "f6722949-1d0e-5d05-82d1-20739f4ed339",
+    "schema_version": 1,
+    "rendered_payload": {
+      "_id": "79bf7ad8-c11a-597a-8803-a9c798452acc",
+      "to_email": "lawyer@example.test",
+      "subject": "Proposed California privacy update awaiting review",
+      "body_text": "Synthetic California signup prompted an assessment and proposed policy changes. Review the evidence and draft.",
+      "review_url": "https://demo.example.test/review/73669cc9-9746-5d1c-a40b-fa274647af0d"
+    },
+    "delivery_attempts": [
+      {
+        "attempt_id": "49198b09-90ee-5350-a391-a211832475fa",
+        "attempt_number": 1,
+        "started_at": {
+          "$date": "2026-09-26T18:00:00.000Z"
+        },
+        "finished_at": {
+          "$date": "2026-09-26T18:00:00.000Z"
+        },
+        "provider_message_id": null,
+        "result": "previewed",
+        "error_code": null
+      }
+    ],
+    "state_version": 1
+  }
+]

@@ -1,0 +1,416 @@
+{
+  "contract_id": "K-WF-002",
+  "version": "1.0",
+  "initial_state": "queued",
+  "terminal_states": [
+    "finalized",
+    "closed_no_change",
+    "rejected",
+    "superseded",
+    "failed"
+  ],
+  "transitions": [
+    {
+      "transition_id": "WF01",
+      "from": [
+        "queued"
+      ],
+      "event": "workflow.slot_waiting",
+      "to": "waiting_for_document_slot",
+      "guard": "slot_owned_by_other",
+      "atomic_effects": [
+        "persist_wait"
+      ]
+    },
+    {
+      "transition_id": "WF02",
+      "from": [
+        "queued",
+        "waiting_for_document_slot"
+      ],
+      "event": "workflow.slot_acquired",
+      "to": "retrieving_context",
+      "guard": "oldest_eligible_waiter_and_slot_free",
+      "atomic_effects": [
+        "claim_document_slot",
+        "pin_base",
+        "enqueue_assess_job"
+      ]
+    },
+    {
+      "transition_id": "WF03",
+      "from": [
+        "retrieving_context",
+        "repairing"
+      ],
+      "event": "context.snapshot_pinned",
+      "to": "assessing",
+      "guard": "current_fenced_run_and_snapshot_complete",
+      "atomic_effects": [
+        "pin_context_evidence_harness"
+      ]
+    },
+    {
+      "transition_id": "WF04",
+      "from": [
+        "assessing"
+      ],
+      "event": "assessment.completed",
+      "to": "needs_information",
+      "guard": "outcome_needs_information",
+      "atomic_effects": [
+        "persist_missing_fact_wait",
+        "enqueue_information_request"
+      ]
+    },
+    {
+      "transition_id": "WF05",
+      "from": [
+        "assessing"
+      ],
+      "event": "assessment.completed",
+      "to": "drafting",
+      "guard": "outcome_covered",
+      "atomic_effects": [
+        "persist_assessment",
+        "create_operational_followups"
+      ]
+    },
+    {
+      "transition_id": "WF06",
+      "from": [
+        "assessing"
+      ],
+      "event": "assessment.completed",
+      "to": "closed_no_change",
+      "guard": "outcome_not_covered",
+      "atomic_effects": [
+        "persist_assessment",
+        "release_slot",
+        "wake_next_waiter"
+      ]
+    },
+    {
+      "transition_id": "WF07",
+      "from": [
+        "drafting",
+        "repairing"
+      ],
+      "event": "proposal.created",
+      "to": "validating",
+      "guard": "current_base_and_fenced_run",
+      "atomic_effects": [
+        "persist_immutable_revision_diff",
+        "supersede_previous_proposal",
+        "invalidate_approvals"
+      ]
+    },
+    {
+      "transition_id": "WF08",
+      "from": [
+        "validating"
+      ],
+      "event": "validation.failed",
+      "to": "repairing",
+      "guard": "subject_proposal_and_repairable_and_repair_count_lt_2_and_budget_remaining",
+      "atomic_effects": [
+        "persist_validation",
+        "increment_repair_count",
+        "enqueue_repair_job",
+        "enqueue_adaptation_diagnosis"
+      ]
+    },
+    {
+      "transition_id": "WF09",
+      "from": [
+        "validating"
+      ],
+      "event": "validation.failed",
+      "to": "needs_human_review",
+      "guard": "subject_proposal_and_not_repairable_or_budget_exhausted",
+      "atomic_effects": [
+        "persist_validation",
+        "persist_human_wait",
+        "enqueue_adaptation_diagnosis"
+      ]
+    },
+    {
+      "transition_id": "WF10",
+      "from": [
+        "validating"
+      ],
+      "event": "validation.passed",
+      "to": "awaiting_founder",
+      "guard": "subject_proposal_and_all_required_validators_pass_and_current_bundle",
+      "atomic_effects": [
+        "seal_review_bundle",
+        "persist_founder_wait",
+        "enqueue_founder_review_request"
+      ]
+    },
+    {
+      "transition_id": "WF11",
+      "from": [
+        "awaiting_founder"
+      ],
+      "event": "review.founder_approved",
+      "to": "awaiting_lawyer",
+      "guard": "authorized_founder_and_current_sealed_bundle",
+      "atomic_effects": [
+        "record_founder_approval",
+        "persist_lawyer_wait",
+        "enqueue_lawyer_review_request"
+      ]
+    },
+    {
+      "transition_id": "WF12",
+      "from": [
+        "awaiting_lawyer"
+      ],
+      "event": "review.lawyer_approved",
+      "to": "ready_to_finalize",
+      "guard": "assigned_lawyer_and_matching_active_founder_approval",
+      "atomic_effects": [
+        "record_lawyer_approval",
+        "enqueue_finalization_job"
+      ]
+    },
+    {
+      "transition_id": "WF13",
+      "from": [
+        "ready_to_finalize"
+      ],
+      "event": "document.finalized",
+      "to": "finalized",
+      "guard": "both_approvals_same_bundle_and_current_guards_and_base",
+      "atomic_effects": [
+        "advance_document_head",
+        "release_slot",
+        "enqueue_finalization_notices",
+        "wake_next_waiter"
+      ]
+    },
+    {
+      "transition_id": "WF14",
+      "from": [
+        "awaiting_founder",
+        "awaiting_lawyer"
+      ],
+      "event": "review.changes_requested",
+      "to": "drafting",
+      "guard": "authorized_current_reviewer_and_document_edit",
+      "atomic_effects": [
+        "invalidate_approvals",
+        "supersede_proposal",
+        "enqueue_revised_draft"
+      ]
+    },
+    {
+      "transition_id": "WF15",
+      "from": [
+        "awaiting_founder",
+        "awaiting_lawyer"
+      ],
+      "event": "review.changes_requested",
+      "to": "needs_information",
+      "guard": "authorized_current_reviewer_and_fact_or_legal_basis_change",
+      "atomic_effects": [
+        "invalidate_approvals",
+        "persist_information_wait",
+        "hold_until_context_verified"
+      ]
+    },
+    {
+      "transition_id": "WF16",
+      "from": [
+        "awaiting_founder",
+        "awaiting_lawyer"
+      ],
+      "event": "review.rejected",
+      "to": "rejected",
+      "guard": "authorized_current_reviewer",
+      "atomic_effects": [
+        "persist_rejection",
+        "release_slot",
+        "cancel_pending_review_notifications",
+        "wake_next_waiter"
+      ]
+    },
+    {
+      "transition_id": "WF17",
+      "from": [
+        "needs_information"
+      ],
+      "event": "workflow.information_supplied",
+      "to": "retrieving_context",
+      "guard": "requested_facts_verified_by_authorized_human",
+      "atomic_effects": [
+        "start_new_bounded_run",
+        "enqueue_assess_job"
+      ]
+    },
+    {
+      "transition_id": "WF18",
+      "from": [
+        "needs_human_review"
+      ],
+      "event": "workflow.resumed",
+      "to": "retrieving_context",
+      "guard": "authorized_resolution_and_explicit_new_run_budget",
+      "atomic_effects": [
+        "start_new_bounded_run",
+        "enqueue_assess_job"
+      ]
+    },
+    {
+      "transition_id": "WF19",
+      "from": [
+        "retrieving_context",
+        "assessing",
+        "drafting",
+        "validating",
+        "repairing",
+        "awaiting_founder",
+        "awaiting_lawyer",
+        "ready_to_finalize"
+      ],
+      "event": "approval.invalidated",
+      "to": "retrieving_context",
+      "guard": "material_dependency_or_text_or_base_changed",
+      "atomic_effects": [
+        "invalidate_approvals",
+        "supersede_proposal",
+        "fence_cancel_stale_jobs",
+        "start_revalidation"
+      ]
+    },
+    {
+      "transition_id": "WF20",
+      "from": [
+        "queued",
+        "waiting_for_document_slot",
+        "retrieving_context",
+        "assessing",
+        "needs_information",
+        "drafting",
+        "validating",
+        "repairing",
+        "needs_human_review",
+        "awaiting_founder",
+        "awaiting_lawyer",
+        "ready_to_finalize"
+      ],
+      "event": "workflow.superseded",
+      "to": "superseded",
+      "guard": "authorized_replacement_workflow_exists",
+      "atomic_effects": [
+        "invalidate_approvals",
+        "fence_cancel_jobs",
+        "transfer_or_release_slot",
+        "cancel_pending_notifications"
+      ]
+    },
+    {
+      "transition_id": "WF21",
+      "from": [
+        "queued",
+        "waiting_for_document_slot",
+        "retrieving_context",
+        "assessing",
+        "needs_information",
+        "drafting",
+        "validating",
+        "repairing",
+        "needs_human_review",
+        "awaiting_founder",
+        "awaiting_lawyer",
+        "ready_to_finalize"
+      ],
+      "event": "workflow.failed",
+      "to": "failed",
+      "guard": "nonrecoverable_infrastructure_or_contract_failure",
+      "atomic_effects": [
+        "persist_error",
+        "fence_cancel_jobs",
+        "release_slot",
+        "wake_next_waiter"
+      ]
+    },
+    {
+      "transition_id": "WF22",
+      "from": [
+        "retrieving_context",
+        "assessing",
+        "drafting",
+        "repairing",
+        "validating"
+      ],
+      "event": "workflow.escalated",
+      "to": "needs_human_review",
+      "guard": "run_deadline_budget_or_model_transport_exhausted",
+      "atomic_effects": [
+        "persist_human_wait",
+        "close_agent_run",
+        "fence_cancel_model_attempt"
+      ]
+    },
+    {
+      "transition_id": "WF23",
+      "from": [
+        "assessing"
+      ],
+      "event": "workflow.closed_no_change",
+      "to": "closed_no_change",
+      "guard": "covered_but_no_supported_document_gap",
+      "atomic_effects": [
+        "persist_assessment",
+        "release_slot",
+        "wake_next_waiter"
+      ]
+    },
+    {
+      "transition_id": "WF24",
+      "from": [
+        "retrieving_context",
+        "repairing"
+      ],
+      "event": "validation.failed",
+      "to": "repairing",
+      "guard": "subject_context_readiness_and_repairable_and_repair_count_lt_2_and_budget_remaining",
+      "atomic_effects": [
+        "persist_readiness_validation",
+        "increment_repair_count",
+        "enqueue_evidence_repair",
+        "enqueue_adaptation_diagnosis"
+      ]
+    },
+    {
+      "transition_id": "WF25",
+      "from": [
+        "retrieving_context",
+        "repairing"
+      ],
+      "event": "validation.failed",
+      "to": "needs_human_review",
+      "guard": "subject_context_readiness_and_not_repairable_or_budget_exhausted",
+      "atomic_effects": [
+        "persist_readiness_validation",
+        "persist_human_wait"
+      ]
+    }
+  ],
+  "audit_only_events": [
+    "review.viewed",
+    "review.reviewed",
+    "feedback.recorded",
+    "workflow.information_requested",
+    "workflow.repair_started",
+    "review.founder_requested",
+    "review.lawyer_requested",
+    "proposal.superseded",
+    "job.retry_scheduled",
+    "job.exhausted",
+    "job.late_result_discarded"
+  ],
+  "rule": "One business state transition per committed command. Companion audit events share the transaction and do not recursively reapply state changes. Notification/harness aggregate events do not transition legal workflows."
+}

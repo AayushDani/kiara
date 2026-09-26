@@ -1,0 +1,35 @@
+[
+  {
+    "source_snapshot_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+    "key": "statute",
+    "url": "https://cppa.ca.gov/pdf/20260101_ccpa_statute.pdf",
+    "retrieved_at": "2026-09-26",
+    "effective_from": "2026-01-01",
+    "media_type": "application/pdf",
+    "snapshot_path": "/Users/aayushdani/Documents/ChatGPT/Kiara/kiara-architecture/research/T03/snapshots/ccpa-statute-effective-2026-01-01.pdf",
+    "bytes_sha256": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+    "status": "retrieved_by_T03_read_by_T08"
+  },
+  {
+    "source_snapshot_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+    "key": "regulations",
+    "url": "https://cppa.ca.gov/regulations/pdf/ccpa_statute_eff_20260101.pdf",
+    "retrieved_at": "2026-09-26",
+    "effective_from": "2026-01-01",
+    "media_type": "application/pdf",
+    "snapshot_path": "/Users/aayushdani/Documents/ChatGPT/Kiara/kiara-architecture/research/T03/snapshots/ccpa-regulations-effective-2026-01-01.pdf",
+    "bytes_sha256": "8d57eba97a7fe13346b7827d0131e1ab84dc110c6ff20daa6fa6ec4a4329d0fe",
+    "status": "retrieved_by_T03_read_by_T08"
+  },
+  {
+    "source_snapshot_id": "23513bed-4516-56ad-ab38-84fab4936de3",
+    "key": "threshold",
+    "url": "https://cppa.ca.gov/regulations/cpi_adjustment.html",
+    "retrieved_at": "2026-09-26",
+    "effective_from": "2025-01-01",
+    "media_type": "text/html",
+    "snapshot_path": "/Users/aayushdani/Documents/ChatGPT/Kiara/kiara-architecture/research/T03/snapshots/cpi-adjustment.html",
+    "bytes_sha256": "ea9fd8d88b36a88370b236b4271d13b122bc55289520da7a050d3b7d656c6d5f",
+    "status": "retrieved_by_T03_read_by_T08"
+  }
+]

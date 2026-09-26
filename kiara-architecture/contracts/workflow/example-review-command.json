@@ -1,0 +1,13 @@
+{
+  "workflow_id": "beedb39b-bf5b-5e09-8b6a-35d3c847c4ee",
+  "expected_reset_epoch": 1,
+  "expected_state_version": 8,
+  "proposal_id": "ef28b9a9-1e7a-5f52-b65a-9b5253230a5b",
+  "candidate_revision_id": "72c7ae26-80b8-54ea-8011-92581d79392d",
+  "review_bundle_id": "f660de0e-5a11-5782-ba17-46d096f61d03",
+  "review_bundle_hash": "b6bb1be4cb8042468237df24a4279dfda54c30840f3c46d24ca7ed6feacf1349",
+  "expected_base_revision_id": "76a93b17-2e92-595e-a3c8-c287d24e14aa",
+  "idempotency_key": "founder-approve-fixture-1",
+  "action": "approved",
+  "feedback_id": null
+}

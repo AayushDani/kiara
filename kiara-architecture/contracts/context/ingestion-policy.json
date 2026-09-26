@@ -1,0 +1,29 @@
+{
+  "policy_id": "ING-POLICY-001",
+  "profile_id": "kiara-ingestion-v1",
+  "classification": "protected_design_not_benchmarked",
+  "fetch_timeout_ms": 10000,
+  "fetch_timeout_scope": "entire HTTP fetch including redirect chain",
+  "max_redirects": 3,
+  "max_raw_bytes": 4194304,
+  "max_complete_bson_bytes": 8388608,
+  "max_retained_extracted_text_bytes": 2097152,
+  "max_pdf_pages": 200,
+  "parse_timeout_ms": 30000,
+  "parse_memory_bytes": 268435456,
+  "max_docx_expanded_bytes": 52428800,
+  "network_policy": {
+    "https_only": true,
+    "registered_urls_only": true,
+    "allowlisted_hosts_only": true,
+    "block_private_link_local_loopback": true,
+    "revalidate_dns_and_each_redirect": true,
+    "honor_streamed_byte_limit_without_trusting_content_length": true,
+    "parser_network_allowed": false
+  },
+  "source_size_error": "source_size_exceeded",
+  "parse_capacity_error": "parse_capacity_exceeded",
+  "source_failure_accepts_partial": false,
+  "attestation_reference_field": "source_recheck_attestation_ids",
+  "model_mutable": false
+}

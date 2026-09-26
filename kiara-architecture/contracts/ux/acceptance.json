@@ -1,0 +1,261 @@
+{
+  "schema_version": 1,
+  "execution_status": "planned_not_run_on_application",
+  "checks": [
+    {
+      "check_id": "UX-A01",
+      "key": "positive_flow",
+      "screen_ids": [
+        "UX-01",
+        "UX-03",
+        "UX-04",
+        "UX-06",
+        "UX-10"
+      ],
+      "owners": [
+        "T03",
+        "T09",
+        "T11"
+      ],
+      "expected": "Covered synthetic CA signup reaches validated redline, founder then lawyer approvals on same bundle, internal finalization."
+    },
+    {
+      "check_id": "UX-A02",
+      "key": "unknown_noncovered",
+      "screen_ids": [
+        "UX-03"
+      ],
+      "owners": [
+        "T03",
+        "T11"
+      ],
+      "expected": "Unknown remains explicit and approval is unavailable; below revenue alone never establishes noncoverage; no blanket NY claim."
+    },
+    {
+      "check_id": "UX-A03",
+      "key": "evidence_chain",
+      "screen_ids": [
+        "UX-04",
+        "UX-06",
+        "UX-09"
+      ],
+      "owners": [
+        "T03",
+        "T08",
+        "T11"
+      ],
+      "expected": "Selected clause opens exact fact, provision snapshot/effective date, assessment criterion and rationale in both directions."
+    },
+    {
+      "check_id": "UX-A04",
+      "key": "activity_decision",
+      "screen_ids": [
+        "UX-04",
+        "UX-06"
+      ],
+      "owners": [
+        "T09",
+        "T11"
+      ],
+      "expected": "GET/prefetch/email opens do not approve; viewed/reviewed/decision stored separately; direct approval does not invent reviewed event."
+    },
+    {
+      "check_id": "UX-A05",
+      "key": "stale_packet",
+      "screen_ids": [
+        "UX-04",
+        "UX-06"
+      ],
+      "owners": [
+        "T08",
+        "T09"
+      ],
+      "expected": "Packet change causes atomic stale approval rejection; unsent feedback preserved; new decision intentional."
+    },
+    {
+      "check_id": "UX-A06",
+      "key": "founder_gate",
+      "screen_ids": [
+        "UX-06"
+      ],
+      "owners": [
+        "T09",
+        "T12"
+      ],
+      "expected": "Lawyer approval before current founder approval rejected; model cannot call human decision endpoints."
+    },
+    {
+      "check_id": "UX-A07",
+      "key": "lawyer_edit",
+      "screen_ids": [
+        "UX-04",
+        "UX-06"
+      ],
+      "owners": [
+        "T08",
+        "T09"
+      ],
+      "expected": "Lawyer text edit creates new revision and validation; both gates restart; historical decisions stay visible as superseded."
+    },
+    {
+      "check_id": "UX-A08",
+      "key": "fact_conflict",
+      "screen_ids": [
+        "UX-03",
+        "UX-04"
+      ],
+      "owners": [
+        "T04",
+        "T12"
+      ],
+      "expected": "Lawyer fact proposal cannot overwrite; verifier uses expected fact version; changed material fact invalidates packet."
+    },
+    {
+      "check_id": "UX-A09",
+      "key": "tenant_boundary",
+      "screen_ids": [
+        "UX-03",
+        "UX-04",
+        "UX-06"
+      ],
+      "owners": [
+        "T12"
+      ],
+      "expected": "Cross-tenant/unassigned IDs reveal no private data; role/tenant/actor request fields rejected; CSRF and authenticated POST enforced."
+    },
+    {
+      "check_id": "UX-A10",
+      "key": "email_modes",
+      "screen_ids": [
+        "UX-07"
+      ],
+      "owners": [
+        "T09",
+        "T10",
+        "T11"
+      ],
+      "expected": "Preview is visibly previewed; live adapter creates provider attempts; sent/delivered never imply approved."
+    },
+    {
+      "check_id": "UX-A11",
+      "key": "email_failure",
+      "screen_ids": [
+        "UX-07"
+      ],
+      "owners": [
+        "T09",
+        "T10"
+      ],
+      "expected": "Retry preserves revision and approval; ambiguous send suppresses blind duplicate; obsolete unsent packet email canceled."
+    },
+    {
+      "check_id": "UX-A12",
+      "key": "repair_exhaustion",
+      "screen_ids": [
+        "UX-03",
+        "UX-09"
+      ],
+      "owners": [
+        "T06",
+        "T07",
+        "T11"
+      ],
+      "expected": "Two bounded repair attempts and configured time/cost caps lead to human review; no approval on failed candidate."
+    },
+    {
+      "check_id": "UX-A13",
+      "key": "harness_protection",
+      "screen_ids": [
+        "UX-08",
+        "UX-09"
+      ],
+      "owners": [
+        "T07",
+        "T12"
+      ],
+      "expected": "Feedback is attributed proposal; attempts to weaken protected rules fail; candidate vs champion vs pinned version distinct."
+    },
+    {
+      "check_id": "UX-A14",
+      "key": "later_event",
+      "screen_ids": [
+        "UX-08",
+        "UX-09"
+      ],
+      "owners": [
+        "T07",
+        "T13"
+      ],
+      "expected": "Persisted later event pins promoted config; UI exposes measured results and frozen comparison inputs, labels replay, never hardcodes pass."
+    },
+    {
+      "check_id": "UX-A15",
+      "key": "keyboard_redline",
+      "screen_ids": [
+        "UX-04",
+        "UX-06"
+      ],
+      "owners": [
+        "T11"
+      ],
+      "expected": "Keyboard operates tabs/dialog/actions; Added/Removed text accompanies colors; source links and errors readable at 320px and 200% zoom."
+    },
+    {
+      "check_id": "UX-A16",
+      "key": "reconnect_idempotency",
+      "screen_ids": [
+        "UX-03",
+        "UX-04"
+      ],
+      "owners": [
+        "T09",
+        "T13"
+      ],
+      "expected": "Disconnect after click queries command status before retry; same ID safe, changed payload conflict; history catches up without duplicate decision."
+    },
+    {
+      "check_id": "UX-A17",
+      "key": "operational_scope",
+      "screen_ids": [
+        "UX-03",
+        "UX-10"
+      ],
+      "owners": [
+        "T03",
+        "T08",
+        "T11"
+      ],
+      "expected": "Internal finalized label never claims publication/all privacy duties complete; separate open operational tasks remain visible."
+    },
+    {
+      "check_id": "UX-A18",
+      "key": "simulation_label",
+      "screen_ids": [
+        "UX-01",
+        "UX-02",
+        "UX-04",
+        "UX-06"
+      ],
+      "owners": [
+        "T12",
+        "T14"
+      ],
+      "expected": "Demo sessions server-bound to seeded identities; visible simulation label and actual clicks; no verified distinct-person claim."
+    },
+    {
+      "check_id": "UX-A19",
+      "key": "source_recheck",
+      "screen_ids": [
+        "UX-03",
+        "UX-06",
+        "UX-09"
+      ],
+      "owners": [
+        "T05",
+        "T09",
+        "T12"
+      ],
+      "expected": "Only assigned lawyer with explicit source-review capability may attest a substantiated overdue engineering recheck. New evidence resets gates; expiry checked at each decision/finalization; untrusted or inapplicable authority cannot be overridden."
+    }
+  ]
+}

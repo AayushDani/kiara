@@ -1,0 +1,192 @@
+{
+  "validator": {
+    "$jsonSchema": {
+      "title": "K-JOB-001",
+      "bsonType": "object",
+      "additionalProperties": false,
+      "required": [
+        "_id",
+        "tenant_id",
+        "reset_epoch",
+        "workflow_id",
+        "kind",
+        "dedupe_key",
+        "state",
+        "expected_state_version",
+        "input_refs",
+        "available_at",
+        "attempt_count",
+        "max_attempts",
+        "lease_owner",
+        "lease_epoch",
+        "lease_expires_at",
+        "deadline_at",
+        "run_id",
+        "last_error",
+        "created_at",
+        "schema_version"
+      ],
+      "properties": {
+        "tenant_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "reset_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0
+        },
+        "workflow_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "kind": {
+          "bsonType": "string",
+          "enum": [
+            "acquire_document_slot",
+            "assess_and_draft",
+            "repair_proposal",
+            "finalize_document",
+            "invalidate_stale_bundle",
+            "adapt_harness",
+            "dispatch_notification",
+            "reconcile_delivery"
+          ]
+        },
+        "dedupe_key": {
+          "bsonType": "string",
+          "minLength": 1
+        },
+        "state": {
+          "bsonType": "string",
+          "enum": [
+            "ready",
+            "leased",
+            "retry_wait",
+            "succeeded",
+            "dead_letter",
+            "canceled"
+          ]
+        },
+        "expected_state_version": {
+          "anyOf": [
+            {
+              "bsonType": [
+                "int",
+                "long"
+              ],
+              "minimum": 0
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "input_refs": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "string",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          }
+        },
+        "available_at": {
+          "bsonType": "date"
+        },
+        "attempt_count": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0
+        },
+        "max_attempts": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 1
+        },
+        "lease_owner": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "minLength": 1
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "lease_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0
+        },
+        "lease_expires_at": {
+          "anyOf": [
+            {
+              "bsonType": "date"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "deadline_at": {
+          "bsonType": "date"
+        },
+        "run_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "last_error": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "minLength": 1
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "created_at": {
+          "bsonType": "date"
+        },
+        "_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "schema_version": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "enum": [
+            1
+          ]
+        }
+      }
+    }
+  },
+  "validationLevel": "strict",
+  "validationAction": "error"
+}

@@ -1,0 +1,39 @@
+[
+  {
+    "http_status": 409,
+    "error_code": "STALE_REVIEW_BUNDLE",
+    "retryable": false,
+    "current_state_version": 10,
+    "current_review_bundle_id": null,
+    "message": "This proposal changed. Open the current review packet before deciding.",
+    "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125"
+  },
+  {
+    "http_status": 409,
+    "error_code": "IDEMPOTENCY_KEY_REUSED",
+    "retryable": false,
+    "message": "The idempotency key is already bound to different command content.",
+    "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125"
+  },
+  {
+    "http_status": 409,
+    "error_code": "FOUNDER_APPROVAL_REQUIRED",
+    "retryable": false,
+    "message": "The same review packet needs founder approval first.",
+    "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125"
+  },
+  {
+    "http_status": 404,
+    "error_code": "NOT_FOUND",
+    "retryable": false,
+    "message": "Resource not found.",
+    "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125"
+  },
+  {
+    "http_status": 409,
+    "error_code": "LEASE_LOST",
+    "retryable": false,
+    "message": "This worker attempt can no longer commit results.",
+    "correlation_id": "ff6f9950-5e7d-5aa1-b38a-f96a50d96125"
+  }
+]

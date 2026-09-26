@@ -1,0 +1,272 @@
+{
+  "validator": {
+    "$jsonSchema": {
+      "title": "K-WF-RECORD-001",
+      "bsonType": "object",
+      "additionalProperties": false,
+      "required": [
+        "_id",
+        "tenant_id",
+        "reset_epoch",
+        "company_id",
+        "document_id",
+        "trigger_event_id",
+        "correlation_id",
+        "state",
+        "state_version",
+        "last_event_seq",
+        "intake_seq",
+        "active_run_id",
+        "active_proposal_id",
+        "review_bundle_id",
+        "document_slot_epoch",
+        "pinned_base_revision_id",
+        "founder_approval_id",
+        "lawyer_approval_id",
+        "wait",
+        "last_error",
+        "created_at",
+        "updated_at",
+        "schema_version",
+        "approval_epoch"
+      ],
+      "properties": {
+        "tenant_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "reset_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0
+        },
+        "company_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "document_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "trigger_event_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "correlation_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "state": {
+          "bsonType": "string",
+          "enum": [
+            "queued",
+            "waiting_for_document_slot",
+            "retrieving_context",
+            "assessing",
+            "needs_information",
+            "drafting",
+            "validating",
+            "repairing",
+            "needs_human_review",
+            "awaiting_founder",
+            "awaiting_lawyer",
+            "ready_to_finalize",
+            "finalized",
+            "closed_no_change",
+            "rejected",
+            "superseded",
+            "failed"
+          ]
+        },
+        "state_version": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0
+        },
+        "last_event_seq": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0
+        },
+        "intake_seq": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0
+        },
+        "active_run_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "active_proposal_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "review_bundle_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "document_slot_epoch": {
+          "anyOf": [
+            {
+              "bsonType": [
+                "int",
+                "long"
+              ],
+              "minimum": 0
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "pinned_base_revision_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "founder_approval_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "lawyer_approval_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "wait": {
+          "anyOf": [
+            {
+              "bsonType": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "since",
+                "required_role",
+                "reason_code"
+              ],
+              "properties": {
+                "kind": {
+                  "bsonType": "string",
+                  "enum": [
+                    "information",
+                    "human_review",
+                    "founder",
+                    "lawyer",
+                    "document_slot"
+                  ]
+                },
+                "since": {
+                  "bsonType": "date"
+                },
+                "required_role": {
+                  "bsonType": "string",
+                  "enum": [
+                    "founder",
+                    "lawyer",
+                    "operator",
+                    "workflow_service"
+                  ]
+                },
+                "reason_code": {
+                  "bsonType": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "last_error": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "minLength": 1
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "created_at": {
+          "bsonType": "date"
+        },
+        "updated_at": {
+          "bsonType": "date"
+        },
+        "_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "schema_version": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "enum": [
+            1
+          ]
+        },
+        "approval_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    }
+  },
+  "validationLevel": "strict",
+  "validationAction": "error"
+}

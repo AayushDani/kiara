@@ -1,0 +1,34 @@
+---
+title: Logical ER — durable jobs, run traces and notifications (T04 mapping provisional)
+---
+erDiagram
+  direction LR
+  WORKFLOW ||--o{ JOB : R25_schedules
+  WORKFLOW ||--o{ EVENT : R26_emits
+  WORKFLOW ||--o{ RUN : R27_executes
+  RUN ||--o{ TRACE_REFERENCE : R29_observes
+  WORKFLOW ||--o{ NOTIFICATION : R34_enqueues
+  NOTIFICATION ||--o{ DELIVERY_ATTEMPT : R35_retries
+  WORKFLOW { string id PK
+    string tenant_id FK }
+  JOB { string id PK
+    string workflow_id FK
+    string lease_token
+    string state }
+  EVENT { string id PK
+    string aggregate_id
+    int aggregate_seq }
+  RUN { string id PK
+    string harness_version_id FK }
+  TRACE_REFERENCE { string id PK
+    string trace_id }
+
+
+
+
+  NOTIFICATION { string id PK
+    string dedupe_key
+    string state }
+  DELIVERY_ATTEMPT { string id PK
+    string notification_id FK
+    string provider_message_id }

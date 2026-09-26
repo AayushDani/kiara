@@ -1,0 +1,111 @@
+{
+  "status": "proposed_not_recorded",
+  "total_seconds": 60,
+  "causal_contract": "K-DEMO-CAUSAL-001",
+  "shots": [
+    {
+      "start_second": 0,
+      "end_second": 4,
+      "product_action": "NY-only known-customer baseline and existing privacy policy",
+      "technical_evidence": "Fictional fixture badge, context/baseline/harness IDs; broader compliance unestablished",
+      "event_state": "Baseline seeded",
+      "voiceover": "Kiara gives founders and lawyers their agents\u2019 company context."
+    },
+    {
+      "start_second": 4,
+      "end_second": 8,
+      "product_action": "Submit synthetic signup with declared California residence",
+      "technical_evidence": "`user.signed_up`; residence/address/IP distinct; event/workflow IDs",
+      "event_state": "`queued` \u2192 `retrieving_context`",
+      "voiceover": "California residence triggers assessment, not a compliance verdict."
+    },
+    {
+      "start_second": 8,
+      "end_second": 13,
+      "product_action": "Context-readiness failure; label **synthetic v1 weakness**",
+      "technical_evidence": "**V03 / APPLICABILITY_BUNDLE_MISSING**, before assessment/draft; context output missing required fact/law references",
+      "event_state": "`validation.failed` for context readiness; mandatory floor blocks assessment/draft",
+      "voiceover": "Missing evidence blocks assessment and drafting."
+    },
+    {
+      "start_second": 13,
+      "end_second": 18,
+      "product_action": "Context repair completes; coverage card opens",
+      "technical_evidence": "Same already-approved law/fact bundle; synthetic USD30m revenue and complete T03 condition matrix; exact provisions/hash",
+      "event_state": "Deterministic retrieval repair #1; readiness passes; `assessment.completed` covered",
+      "voiceover": "Retrieval repairs context. Synthetic facts establish California coverage."
+    },
+    {
+      "start_second": 18,
+      "end_second": 23,
+      "product_action": "Draft citation fails; show **seeded citation-span fault** and corrected span",
+      "technical_evidence": "**CITATION_SPAN_MISMATCH**, proposal validation; pinned source and bad/corrected locator pair",
+      "event_state": "`validating` \u2192 `repairing`; draft correction #2; full deterministic/semantic validation passes",
+      "voiceover": "A seeded citation error is caught and corrected."
+    },
+    {
+      "start_second": 23,
+      "end_second": 28,
+      "product_action": "Open adaptation activity tied only to earlier missing bundle",
+      "technical_evidence": "Two CA prefetch flags false\u2192true; diagnosis ID, frozen campaign result and champion generation",
+      "event_state": "Separate candidate/evaluation/promotion events; citation guard unchanged",
+      "voiceover": "Tested prefetch rules target the earlier retrieval failure."
+    },
+    {
+      "start_second": 28,
+      "end_second": 33,
+      "product_action": "Redline; click clause to rationale/source",
+      "technical_evidence": "Clause/base/revision IDs and fact-to-provision mapping; operational follow-ups",
+      "event_state": "`awaiting_founder`; sealed review-bundle hash",
+      "voiceover": "Every proposed clause links to facts and legal evidence."
+    },
+    {
+      "start_second": 33,
+      "end_second": 37,
+      "product_action": "Founder document feedback; revised wording/validation",
+      "technical_evidence": "Typed feedback; new immutable revision/bundle",
+      "event_state": "Revalidate \u2192 `awaiting_founder`",
+      "voiceover": "Founder feedback creates a new review version."
+    },
+    {
+      "start_second": 37,
+      "end_second": 40,
+      "product_action": "Founder approves; lawyer queue/link preview opens",
+      "technical_evidence": "Founder decision exact bundle; lawyer request; actual notification mode",
+      "event_state": "`awaiting_lawyer`",
+      "voiceover": "Founder approval opens lawyer review."
+    },
+    {
+      "start_second": 40,
+      "end_second": 44,
+      "product_action": "Lawyer requests material wording change",
+      "technical_evidence": "Both gates invalidated; new revision/bundle and validation",
+      "event_state": "Changes requested \u2192 `awaiting_founder`",
+      "voiceover": "Lawyer changes reset both approval gates."
+    },
+    {
+      "start_second": 44,
+      "end_second": 49,
+      "product_action": "Labeled time jump: founder approves revised bundle, then lawyer approves",
+      "technical_evidence": "Two actor decisions, same hash, ordered timestamps",
+      "event_state": "`awaiting_lawyer` \u2192 `ready_to_finalize`",
+      "voiceover": "Founder, then lawyer, approve the same final revision."
+    },
+    {
+      "start_second": 49,
+      "end_second": 54,
+      "product_action": "\u201cApproved draft \u2014 founder and lawyer review complete\u201d; email review/document link",
+      "technical_evidence": "`document.finalized`; delivery state separate; operational follow-ups open",
+      "event_state": "`finalized`; no public-policy publication implied",
+      "voiceover": "Delivery and remaining operational work stay visible."
+    },
+    {
+      "start_second": 54,
+      "end_second": 60,
+      "product_action": "New CA event after worker restart, or labeled supporting replay",
+      "technical_evidence": "New run pins stored champion/hash/generation; measured **missing_bundle_repairs**, unchanged safeguards",
+      "event_state": "New run initialization from persisted champion; no mid-run harness switch claimed",
+      "voiceover": "The next event demonstrates persisted improvement, with measured evidence."
+    }
+  ]
+}

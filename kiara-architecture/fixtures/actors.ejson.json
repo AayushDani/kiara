@@ -1,0 +1,60 @@
+[
+  {
+    "_id": "6c6939bf-2453-539f-8f86-6b1e6e61edbe",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "subject": "demo:founder",
+    "display_name": "Ari Demo",
+    "email": "founder@example.test",
+    "roles": [
+      "founder"
+    ],
+    "company_access": "all_in_tenant",
+    "status": "active",
+    "capabilities": [
+      "context_fact_verify"
+    ],
+    "reset_epoch": 1
+  },
+  {
+    "_id": "3a6ef3af-edf4-58c4-8123-03bbcbf09ad1",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "subject": "demo:lawyer",
+    "display_name": "Morgan Demo",
+    "email": "lawyer@example.test",
+    "roles": [
+      "lawyer"
+    ],
+    "company_access": "all_in_tenant",
+    "status": "active",
+    "capabilities": [
+      "source_recheck"
+    ],
+    "reset_epoch": 1
+  },
+  {
+    "_id": "c09e8cf1-b113-542e-902d-bc69877bf369",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "subject": "service:kiara-worker",
+    "display_name": "Kiara Worker",
+    "email": null,
+    "roles": [
+      "service"
+    ],
+    "company_access": "all_in_tenant",
+    "status": "active",
+    "capabilities": [],
+    "reset_epoch": 1
+  }
+]

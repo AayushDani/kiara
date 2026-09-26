@@ -1,0 +1,226 @@
+{
+  "fixture_status": "synthetic_contract_examples_not_executed_workflow_or_legal_evidence",
+  "examples": [
+    {
+      "name": "review_run_input",
+      "schema_def": "RunInput",
+      "value": {
+        "contract_version": "0.1.0",
+        "tenant_id": "10000000-0000-4000-8000-000000000001",
+        "company_id": "10000000-0000-4000-8000-000000000002",
+        "workflow_id": "10000000-0000-4000-8000-000000000003",
+        "run_id": "10000000-0000-4000-8000-000000000004",
+        "job_id": "10000000-0000-4000-8000-000000000005",
+        "trigger_event_id": "10000000-0000-4000-8000-000000000006",
+        "run_kind": "review",
+        "expected_state_version": 3,
+        "fencing_token": 7,
+        "context_revision": {
+          "record_id": "10000000-0000-4000-8000-000000000007",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "base_document_version": {
+          "record_id": "10000000-0000-4000-8000-000000000008",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "legal_snapshot": {
+          "record_id": "10000000-0000-4000-8000-000000000009",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "harness_version": {
+          "record_id": "10000000-0000-4000-8000-000000000010",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "runtime_policy_version": {
+          "record_id": "10000000-0000-4000-8000-000000000011",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "tool_registry_version": "0.1.0",
+        "model": {
+          "provider": "openai",
+          "requested_model": "gpt-6-astra",
+          "reasoning_effort": "medium"
+        },
+        "started_at": "2026-09-26T16:00:00Z",
+        "deadline_at": "2026-09-26T16:05:00Z",
+        "budget": {
+          "logical_model_requests": 0,
+          "physical_model_attempts": 0,
+          "tool_calls": 0,
+          "repair_attempts": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "reserved_cost_micro_usd": 0,
+          "settled_cost_micro_usd": 0,
+          "unknown_cost_micro_usd": 0
+        },
+        "budget_scope_id": "10000000-0000-4000-8000-000000000004",
+        "reset_epoch": 1
+      }
+    },
+    {
+      "name": "unknown_company_fact",
+      "schema_def": "CompanyContextResult",
+      "value": {
+        "context_revision_id": "10000000-0000-4000-8000-000000000007",
+        "facts": [
+          {
+            "status": "unknown",
+            "value_json": null,
+            "provenance_record_ids": [],
+            "observed_at": null,
+            "fact_key": "business.personal_info_volume"
+          }
+        ],
+        "reset_epoch": 1
+      }
+    },
+    {
+      "name": "context_update_candidate",
+      "schema_def": "ProposeCompanyContextUpdateInput",
+      "value": {
+        "expected_context_revision_id": "10000000-0000-4000-8000-000000000007",
+        "proposed_value_json": "30000000",
+        "provenance_record_ids": [
+          "10000000-0000-4000-8000-000000000006"
+        ],
+        "reason": "Synthetic fixture attestation pending deterministic provenance and role validation.",
+        "fact_key": "business.prior_year_gross_revenue_usd"
+      }
+    },
+    {
+      "name": "legal_search",
+      "schema_def": "SearchLegalEvidenceInput",
+      "value": {
+        "question": "Which privacy-policy disclosures follow from the pinned positive California coverage assessment?",
+        "jurisdiction": "US-CA",
+        "provision_ids": [
+          "1798.130(a)(5)"
+        ],
+        "limit": 8
+      }
+    },
+    {
+      "name": "candidate_write_result",
+      "schema_def": "CandidateResult",
+      "value": {
+        "candidate_id": "10000000-0000-4000-8000-000000000017",
+        "status": "pending_validation",
+        "authoritative_state_changed": false,
+        "reset_epoch": 1
+      }
+    },
+    {
+      "name": "completed_review_run",
+      "schema_def": "RunResult",
+      "value": {
+        "run_id": "10000000-0000-4000-8000-000000000004",
+        "status": "completed",
+        "assessment_id": "10000000-0000-4000-8000-000000000016",
+        "draft_candidate_id": "10000000-0000-4000-8000-000000000017",
+        "validation_result_id": "10000000-0000-4000-8000-000000000018",
+        "harness_candidate_id": null,
+        "stop_reason": "validated",
+        "budget": {
+          "logical_model_requests": 3,
+          "physical_model_attempts": 3,
+          "tool_calls": 4,
+          "repair_attempts": 0,
+          "input_tokens": 18000,
+          "output_tokens": 6000,
+          "reserved_cost_micro_usd": 0,
+          "settled_cost_micro_usd": 480000,
+          "unknown_cost_micro_usd": 0
+        },
+        "completed_at": "2026-09-26T16:01:45Z",
+        "reset_epoch": 1
+      }
+    },
+    {
+      "name": "stale_snapshot_error",
+      "schema_def": "ToolError",
+      "value": {
+        "code": "STALE_SNAPSHOT",
+        "message": "The requested context revision does not match the run snapshot.",
+        "retryable": false,
+        "correlation_id": "10000000-0000-4000-8000-000000000004",
+        "reset_epoch": 1
+      }
+    },
+    {
+      "name": "legal_manifest_for_worker_hydration",
+      "schema_def": "LegalEvidenceResult",
+      "value": {
+        "legal_snapshot_id": "10000000-0000-4000-8000-000000000009",
+        "evidence_bundle": {
+          "record_id": "10000000-0000-4000-8000-000000000009",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "batches": [
+          {
+            "batch": {
+              "record_id": "10000000-0000-4000-8000-000000000009",
+              "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "ordinal": 1,
+            "chunk_count": 12,
+            "retrieved_token_ceiling": 18000,
+            "legal_token_ceiling": 12000
+          }
+        ],
+        "coverage": {
+          "coverage_artifact": {
+            "record_id": "10000000-0000-4000-8000-000000000009",
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "status": "complete",
+          "required_key_count": 12,
+          "covered_key_count": 12,
+          "missing_key_count": 0,
+          "missing_keys_preview": [],
+          "missing_keys_preview_complete": true
+        },
+        "retrieval_mode": "exact",
+        "hydration_required": true,
+        "reset_epoch": 1
+      }
+    },
+    {
+      "name": "full_candidate_document_manifest",
+      "schema_def": "CompanyDocumentResult",
+      "value": {
+        "document_version_id": "10000000-0000-4000-8000-000000000008",
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "document_artifact": {
+          "record_id": "10000000-0000-4000-8000-000000000008",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "total_clause_count": 18,
+        "selected_clause_ids": [
+          "clause_1",
+          "clause_2",
+          "clause_3",
+          "clause_4",
+          "clause_5",
+          "clause_6",
+          "clause_7",
+          "clause_8",
+          "clause_9",
+          "clause_10",
+          "clause_11",
+          "clause_12",
+          "clause_13",
+          "clause_14",
+          "clause_15",
+          "clause_16",
+          "clause_17",
+          "clause_18"
+        ],
+        "missing_clause_ids": [],
+        "selection_complete": true,
+        "hydration_required": true,
+        "reset_epoch": 1
+      }
+    }
+  ]
+}

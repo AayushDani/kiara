@@ -1,0 +1,349 @@
+[
+  {
+    "mappingId": "map_applicability",
+    "provisionIds": [
+      "prov_ccpa_business",
+      "prov_ccpa_consumer",
+      "prov_ccpa_pi",
+      "prov_ccpa_exemptions",
+      "prov_ccpa_cpi",
+      "prov_ccpa_cpi_authority"
+    ],
+    "factKeys": [
+      "forProfit",
+      "collectsPersonalInformation",
+      "determinesPurposesAndMeans",
+      "doesBusinessInCalifornia",
+      "annualGrossRevenueUsd",
+      "priorCalendarYear",
+      "declaredLegalResidence",
+      "naturalPerson",
+      "ordinarySignupDataNonexempt",
+      "exemptionScreen"
+    ],
+    "factPointers": [
+      "/facts/forProfit",
+      "/facts/collectsPersonalInformation",
+      "/facts/determinesPurposesAndMeans",
+      "/facts/doesBusinessInCalifornia",
+      "/facts/annualGrossRevenueUsd",
+      "/facts/priorCalendarYear",
+      "/facts/declaredLegalResidence",
+      "/facts/naturalPerson",
+      "/facts/ordinarySignupDataNonexempt",
+      "/facts/exemptionScreen"
+    ],
+    "clauseIds": [],
+    "operationalFollowupIds": [],
+    "interpretation": "Revenue route passes on explicit 2025 USD30m fixture. A CA signup triggers assessment; it does not prove all elements.",
+    "classification": "proposed_design_and_legal_interpretation"
+  },
+  {
+    "mappingId": "map_inventory",
+    "provisionIds": [
+      "prov_ccpa_policy",
+      "prov_regs_policy",
+      "prov_ccpa_pi",
+      "prov_ccpa_sensitive",
+      "prov_regs_sensitive"
+    ],
+    "factKeys": [
+      "dataInventory",
+      "accountCredentialsCollected"
+    ],
+    "factPointers": [
+      "/facts/dataInventory",
+      "/facts/accountCredentialsCollected"
+    ],
+    "clauseIds": [
+      "clause_ca_inventory"
+    ],
+    "operationalFollowupIds": [],
+    "interpretation": "Describe categories, sources, purposes, recipients using actual fixture inventory; include credentials as SPI and do not invent device-precise location from address.",
+    "classification": "proposed_design_and_legal_interpretation"
+  },
+  {
+    "mappingId": "map_disclosures",
+    "provisionIds": [
+      "prov_ccpa_policy",
+      "prov_regs_policy",
+      "prov_ccpa_sale_share"
+    ],
+    "factKeys": [
+      "sellsPersonalInformation",
+      "sharesForCrossContextBehavioralAdvertising",
+      "dataInventory",
+      "vendorContractsStatus"
+    ],
+    "factPointers": [
+      "/facts/sellsPersonalInformation",
+      "/facts/sharesForCrossContextBehavioralAdvertising",
+      "/facts/dataInventory",
+      "/facts/vendorContractsStatus"
+    ],
+    "clauseIds": [
+      "clause_ca_disclosures"
+    ],
+    "operationalFollowupIds": [
+      "op_vendor_contracts"
+    ],
+    "interpretation": "No sale/share conclusion requires service-provider restrictions and actual-purpose evidence, not vendor label alone.",
+    "classification": "proposed_design_and_legal_interpretation"
+  },
+  {
+    "mappingId": "map_rights",
+    "provisionIds": [
+      "prov_ccpa_rights",
+      "prov_ccpa_policy",
+      "prov_regs_policy"
+    ],
+    "factKeys": [
+      "ordinarySignupDataNonexempt"
+    ],
+    "factPointers": [
+      "/facts/ordinarySignupDataNonexempt"
+    ],
+    "clauseIds": [
+      "clause_ca_rights"
+    ],
+    "operationalFollowupIds": [
+      "op_consumer_rights_process"
+    ],
+    "interpretation": "Know/delete/correct and nonretaliation; deletion exceptions remain. Do not state unconditional erase-everything promises.",
+    "classification": "proposed_design_and_legal_interpretation"
+  },
+  {
+    "mappingId": "map_requests",
+    "provisionIds": [
+      "prov_ccpa_request_methods",
+      "prov_regs_request_methods",
+      "prov_regs_policy"
+    ],
+    "factKeys": [
+      "exclusivelyOnline",
+      "directConsumerRelationship",
+      "consumerRequestEmail",
+      "consumerRequestWebPath",
+      "consumerRequestMethodsReadiness"
+    ],
+    "factPointers": [
+      "/facts/exclusivelyOnline",
+      "/facts/directConsumerRelationship",
+      "/facts/consumerRequestEmail",
+      "/facts/consumerRequestWebPath",
+      "/facts/consumerRequestMethodsReadiness"
+    ],
+    "clauseIds": [
+      "clause_ca_requests"
+    ],
+    "operationalFollowupIds": [
+      "op_consumer_rights_process"
+    ],
+    "interpretation": "Email plus website request method chosen; online-direct exception does not justify inventing a working endpoint.",
+    "classification": "proposed_design_and_legal_interpretation"
+  },
+  {
+    "mappingId": "map_sensitive_limit",
+    "provisionIds": [
+      "prov_ccpa_sensitive",
+      "prov_ccpa_limit",
+      "prov_regs_limit",
+      "prov_regs_policy"
+    ],
+    "factKeys": [
+      "accountCredentialsCollected",
+      "spiOnlyPermittedPurposes"
+    ],
+    "factPointers": [
+      "/facts/accountCredentialsCollected",
+      "/facts/spiOnlyPermittedPurposes"
+    ],
+    "clauseIds": [
+      "clause_ca_sensitive"
+    ],
+    "operationalFollowupIds": [
+      "op_spurpose_review"
+    ],
+    "interpretation": "Credentials exist; permitted account/security-only uses do not automatically require a limit link. Unknown use blocks this assertion.",
+    "classification": "proposed_design_and_legal_interpretation"
+  },
+  {
+    "mappingId": "map_optout",
+    "provisionIds": [
+      "prov_ccpa_optout",
+      "prov_regs_optout",
+      "prov_regs_policy"
+    ],
+    "factKeys": [
+      "sellsPersonalInformation",
+      "sharesForCrossContextBehavioralAdvertising",
+      "actualKnowledgeUnder16"
+    ],
+    "factPointers": [
+      "/facts/sellsPersonalInformation",
+      "/facts/sharesForCrossContextBehavioralAdvertising",
+      "/facts/actualKnowledgeUnder16"
+    ],
+    "clauseIds": [
+      "clause_ca_sale_share_signals"
+    ],
+    "operationalFollowupIds": [
+      "op_signal_and_sale_review"
+    ],
+    "interpretation": "Main no-sale/no-share fixture does not claim an implemented universal GPC mechanism. Sale/share variant requires opt-out/signals and under16 review.",
+    "classification": "proposed_design_and_legal_interpretation"
+  },
+  {
+    "mappingId": "map_retention_notice",
+    "provisionIds": [
+      "prov_ccpa_notice",
+      "prov_regs_notice"
+    ],
+    "factKeys": [
+      "dataInventory",
+      "noticeAtCollectionReadiness"
+    ],
+    "factPointers": [
+      "/facts/dataInventory",
+      "/facts/noticeAtCollectionReadiness"
+    ],
+    "clauseIds": [
+      "clause_ca_retention"
+    ],
+    "operationalFollowupIds": [
+      "op_notice_at_collection",
+      "op_retention_enforcement"
+    ],
+    "interpretation": "Draft retention information may support separate direct-linked notice, but approval does not retroactively provide notice.",
+    "classification": "proposed_design_and_legal_interpretation"
+  },
+  {
+    "mappingId": "map_dates_access",
+    "provisionIds": [
+      "prov_ccpa_policy",
+      "prov_regs_policy",
+      "prov_regs_presentation"
+    ],
+    "factKeys": [
+      "baselinePolicyLastUpdated"
+    ],
+    "factPointers": [
+      "/facts/baselinePolicyLastUpdated"
+    ],
+    "clauseIds": [
+      "clause_ca_date_contact"
+    ],
+    "operationalFollowupIds": [
+      "op_accessible_publication"
+    ],
+    "interpretation": "Date and accessibility checks; legal draft finalized only means workflow decisions complete, never published.",
+    "classification": "proposed_design_and_legal_interpretation"
+  },
+  {
+    "mappingId": "map_risk",
+    "provisionIds": [
+      "prov_regs_risk",
+      "prov_regs_sensitive"
+    ],
+    "factKeys": [
+      "accountCredentialsCollected",
+      "caProcessingInitiatedOn",
+      "riskAssessmentCompletion"
+    ],
+    "factPointers": [
+      "/facts/accountCredentialsCollected",
+      "/facts/caProcessingInitiatedOn",
+      "/facts/riskAssessmentCompletion"
+    ],
+    "clauseIds": [],
+    "operationalFollowupIds": [
+      "op_2026_risk_assessment"
+    ],
+    "interpretation": "SPI processing triggers separate risk-assessment inquiry. New CA processing Sept 2026: do not silently use pre2026 legacy deadline.",
+    "classification": "proposed_design_and_legal_interpretation"
+  },
+  {
+    "mappingId": "map_audit",
+    "provisionIds": [
+      "prov_regs_audit"
+    ],
+    "factKeys": [
+      "annualGrossRevenueUsd",
+      "saleShareRevenuePercent",
+      "caConsumersProcessedPriorYear",
+      "caConsumersSpiProcessedPriorYear"
+    ],
+    "factPointers": [
+      "/facts/annualGrossRevenueUsd",
+      "/facts/saleShareRevenuePercent",
+      "/facts/caConsumersProcessedPriorYear",
+      "/facts/caConsumersSpiProcessedPriorYear"
+    ],
+    "clauseIds": [],
+    "operationalFollowupIds": [
+      "op_cyber_audit_scope"
+    ],
+    "interpretation": "Main prior-year California volumes zero and sale/share revenue zero do not trigger stated audit prongs; re-evaluate growth and relevant revenue-year bands.",
+    "classification": "proposed_design_and_legal_interpretation"
+  },
+  {
+    "mappingId": "map_admt",
+    "provisionIds": [
+      "prov_regs_admt",
+      "prov_ccpa_browser_future"
+    ],
+    "factKeys": [
+      "admtSignificantDecision",
+      "operatesBrowser"
+    ],
+    "factPointers": [
+      "/facts/admtSignificantDecision",
+      "/facts/operatesBrowser"
+    ],
+    "clauseIds": [],
+    "operationalFollowupIds": [
+      "op_future_obligations"
+    ],
+    "interpretation": "Event recommendations are stipulated not significant decisions; article11 date Jan2027. Ordinary website is not automatically a browser.",
+    "classification": "proposed_design_and_legal_interpretation"
+  },
+  {
+    "mappingId": "map_records_metrics",
+    "provisionIds": [
+      "prov_regs_records",
+      "prov_regs_policy"
+    ],
+    "factKeys": [
+      "caConsumersCommercialProcessingCurrentYear"
+    ],
+    "factPointers": [
+      "/facts/caConsumersCommercialProcessingCurrentYear"
+    ],
+    "clauseIds": [],
+    "operationalFollowupIds": [
+      "op_request_records_training"
+    ],
+    "interpretation": "24-month request records/training remain operational; 10m reporting threshold not met by main fixture.",
+    "classification": "proposed_design_and_legal_interpretation"
+  },
+  {
+    "mappingId": "map_noncovered_caloppa",
+    "provisionIds": [
+      "prov_caloppa_policy"
+    ],
+    "factKeys": [
+      "declaredLegalResidence",
+      "collectsPersonalInformation"
+    ],
+    "factPointers": [
+      "/facts/declaredLegalResidence",
+      "/facts/collectsPersonalInformation"
+    ],
+    "clauseIds": [],
+    "operationalFollowupIds": [
+      "op_other_law_review"
+    ],
+    "interpretation": "Not-covered means assessed CCPA scope only. CalOPPA may independently apply; not a replacement main demonstration.",
+    "classification": "proposed_design_and_legal_interpretation"
+  }
+]

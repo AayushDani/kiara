@@ -1,0 +1,1049 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:kiara:t08:document-io:1",
+  "title": "Proposed internal document API request/success/error schemas; examples are synthetic",
+  "$defs": {
+    "uuid": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "clause": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "clause_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "heading": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "body": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50000
+        }
+      },
+      "required": [
+        "clause_id",
+        "heading",
+        "body"
+      ]
+    },
+    "document_revision": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "kiara.document_revision.v1"
+        },
+        "_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "tenant_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "company_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "document_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "revision_number": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "parent_revision_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "base_revision_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "language": {
+          "const": "en-US"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "policy_updated_on": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "clauses": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 200,
+          "items": {
+            "$ref": "#/$defs/clause"
+          }
+        },
+        "created_at": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+        },
+        "synthetic": {
+          "type": "boolean"
+        },
+        "content_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "schema_version",
+        "_id",
+        "tenant_id",
+        "company_id",
+        "document_id",
+        "revision_number",
+        "parent_revision_id",
+        "base_revision_id",
+        "language",
+        "title",
+        "policy_updated_on",
+        "clauses",
+        "created_at",
+        "synthetic",
+        "content_hash"
+      ]
+    },
+    "review_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "tenant_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "company_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "workflow_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "proposal_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "document_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "run_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "base_revision_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "base_content_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "candidate_revision_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "candidate_content_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "diff_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "diff_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "legal_map_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "legal_map_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "evidence_bundle_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "evidence_bundle_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "context_snapshot_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "context_snapshot_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "assessment_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "assessment_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "harness_version_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "harness_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "reset_epoch": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "material_context_epoch": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "material_evidence_epoch": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "source_recheck_attestation_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "uniqueItems": true
+        },
+        "freshness_valid_until": {
+          "type": "string",
+          "minLength": 1
+        },
+        "renderer_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "validator_version_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "validator_config_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "schema_version",
+        "tenant_id",
+        "company_id",
+        "workflow_id",
+        "proposal_id",
+        "document_id",
+        "run_id",
+        "base_revision_id",
+        "base_content_hash",
+        "candidate_revision_id",
+        "candidate_content_hash",
+        "diff_id",
+        "diff_hash",
+        "legal_map_id",
+        "legal_map_hash",
+        "evidence_bundle_id",
+        "evidence_bundle_hash",
+        "context_snapshot_id",
+        "context_snapshot_hash",
+        "assessment_id",
+        "assessment_hash",
+        "harness_version_id",
+        "harness_hash",
+        "reset_epoch",
+        "material_context_epoch",
+        "material_evidence_epoch",
+        "source_recheck_attestation_ids",
+        "freshness_valid_until",
+        "renderer_version",
+        "validator_version_id",
+        "validator_config_hash"
+      ]
+    },
+    "review_bundle": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "review_bundle_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "review_input": {
+          "$ref": "#/$defs/review_input"
+        },
+        "review_input_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "validation_run_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "validation_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "validator_version_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "sealed_at": {
+          "type": "string"
+        },
+        "review_bundle_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "review_bundle_id",
+        "review_input",
+        "review_input_hash",
+        "validation_run_id",
+        "validation_hash",
+        "validator_version_id",
+        "sealed_at",
+        "review_bundle_hash"
+      ]
+    },
+    "review_command": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "workflow_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "expected_state_version": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expected_reset_epoch": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "proposal_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "candidate_revision_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "review_bundle_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "review_bundle_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "expected_base_revision_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "action": {
+          "enum": [
+            "viewed",
+            "reviewed",
+            "requested_changes",
+            "rejected",
+            "approved"
+          ]
+        },
+        "feedback_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_key": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 128
+        }
+      },
+      "required": [
+        "workflow_id",
+        "expected_state_version",
+        "expected_reset_epoch",
+        "proposal_id",
+        "candidate_revision_id",
+        "review_bundle_id",
+        "review_bundle_hash",
+        "expected_base_revision_id",
+        "action",
+        "feedback_id",
+        "idempotency_key"
+      ]
+    },
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "error": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "code": {
+              "enum": [
+                "BASE_REVISION_CONFLICT",
+                "PARENT_HASH_CONFLICT",
+                "STATE_VERSION_CONFLICT",
+                "RESET_EPOCH_CONFLICT",
+                "INVALID_CLAUSE_OPERATION",
+                "NOT_FOUND_OR_NOT_AUTHORIZED",
+                "BUNDLE_SUPERSEDED",
+                "VALIDATION_INPUT_MISMATCH",
+                "VALIDATION_NOT_PASSED",
+                "DEPENDENCY_INVALIDATED",
+                "SOURCE_STALE",
+                "STALE_REVIEW_BUNDLE",
+                "WRONG_REVIEW_ROLE",
+                "FOUNDER_GATE_NOT_SATISFIED",
+                "EXPORT_FORMAT_UNSUPPORTED",
+                "DIFF_LIMIT_EXCEEDED",
+                "DOCUMENT_TOO_LARGE"
+              ]
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            },
+            "retryable": {
+              "type": "boolean"
+            },
+            "current_state_version": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "current_reset_epoch": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "code",
+            "message",
+            "retryable",
+            "current_state_version",
+            "current_reset_epoch"
+          ]
+        }
+      },
+      "required": [
+        "error"
+      ]
+    },
+    "edit": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "op": {
+              "const": "add_clause"
+            },
+            "clause_id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "clause": {
+              "$ref": "#/$defs/clause"
+            }
+          },
+          "required": [
+            "op",
+            "clause_id",
+            "clause"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "op": {
+              "const": "remove_clause"
+            },
+            "clause_id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "expected_clause_hash": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "op",
+            "clause_id",
+            "expected_clause_hash"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "op": {
+              "const": "replace_clause"
+            },
+            "clause_id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "expected_clause_hash": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "clause": {
+              "$ref": "#/$defs/clause"
+            }
+          },
+          "required": [
+            "op",
+            "clause_id",
+            "expected_clause_hash",
+            "clause"
+          ]
+        }
+      ]
+    },
+    "diff_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "diff_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "base_revision_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "base_content_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "candidate_revision_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "candidate_content_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "diff_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "artifact_path": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "diff_id",
+        "base_revision_id",
+        "base_content_hash",
+        "candidate_revision_id",
+        "candidate_content_hash",
+        "diff_hash",
+        "artifact_path"
+      ]
+    },
+    "K_DOC_001_request": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "workflow_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "expected_reset_epoch": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expected_state_version": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expected_base_revision_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "expected_parent_revision_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "expected_parent_content_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "edits": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 200,
+          "items": {
+            "$ref": "#/$defs/edit"
+          }
+        },
+        "target_order": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 200,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          }
+        },
+        "target_metadata": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "language": {
+              "const": "en-US"
+            },
+            "title": {
+              "type": "string",
+              "minLength": 1
+            },
+            "policy_updated_on": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "language",
+            "title",
+            "policy_updated_on"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "idempotency_key": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "workflow_id",
+        "expected_reset_epoch",
+        "expected_state_version",
+        "expected_base_revision_id",
+        "expected_parent_revision_id",
+        "expected_parent_content_hash",
+        "edits",
+        "target_order",
+        "target_metadata",
+        "reason",
+        "idempotency_key"
+      ]
+    },
+    "K_DOC_001_success": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "candidate_revision": {
+          "$ref": "#/$defs/document_revision"
+        },
+        "diff": {
+          "$ref": "#/$defs/diff_result"
+        },
+        "state": {
+          "const": "validating"
+        },
+        "review_required": {
+          "const": true
+        }
+      },
+      "required": [
+        "candidate_revision",
+        "diff",
+        "state",
+        "review_required"
+      ]
+    },
+    "K_DOC_002_request": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "workflow_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "review_bundle_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        }
+      },
+      "required": [
+        "workflow_id",
+        "review_bundle_id"
+      ]
+    },
+    "K_DOC_002_success": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "review_bundle": {
+          "$ref": "#/$defs/review_bundle"
+        },
+        "base_revision": {
+          "$ref": "#/$defs/document_revision"
+        },
+        "candidate_revision": {
+          "$ref": "#/$defs/document_revision"
+        },
+        "diff": {
+          "$ref": "#/$defs/diff_result"
+        },
+        "legal_map_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_bundle_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "eligibility": {
+          "enum": [
+            "current",
+            "stale",
+            "superseded"
+          ]
+        }
+      },
+      "required": [
+        "review_bundle",
+        "base_revision",
+        "candidate_revision",
+        "diff",
+        "legal_map_path",
+        "evidence_bundle_path",
+        "eligibility"
+      ]
+    },
+    "K_DOC_003_request": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "review_input": {
+          "$ref": "#/$defs/review_input"
+        },
+        "validation_run_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "expected_reset_epoch": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "review_input",
+        "validation_run_id",
+        "expected_reset_epoch"
+      ]
+    },
+    "K_DOC_003_success": {
+      "$ref": "#/$defs/review_bundle"
+    },
+    "K_DOC_004_request": {
+      "$ref": "#/$defs/review_command"
+    },
+    "K_DOC_004_success": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "action_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "workflow_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "state": {
+          "enum": [
+            "awaiting_founder",
+            "awaiting_lawyer",
+            "ready_to_finalize",
+            "drafting",
+            "rejected",
+            "validating"
+          ]
+        },
+        "state_version": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "notification_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "finalization_job_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "review_bundle_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "correlation_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        }
+      },
+      "required": [
+        "action_id",
+        "workflow_id",
+        "state",
+        "state_version",
+        "notification_id",
+        "finalization_job_id",
+        "review_bundle_id",
+        "correlation_id"
+      ]
+    },
+    "K_DOC_005_request": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "document_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "revision_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "review_bundle_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "format": {
+          "enum": [
+            "clean_html",
+            "redline_html",
+            "markdown",
+            "canonical_json",
+            "evidence_manifest"
+          ]
+        }
+      },
+      "required": [
+        "document_id",
+        "revision_id",
+        "review_bundle_id",
+        "format"
+      ]
+    },
+    "export_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "document_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "revision_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "content_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "review_bundle_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "review_bundle_hash": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "format": {
+          "enum": [
+            "clean_html",
+            "redline_html",
+            "markdown",
+            "canonical_json",
+            "evidence_manifest"
+          ]
+        },
+        "renderer_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "export_bytes_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "generated_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "draft",
+            "superseded",
+            "finalized_for_review_workflow"
+          ]
+        }
+      },
+      "required": [
+        "document_id",
+        "revision_id",
+        "content_hash",
+        "review_bundle_id",
+        "review_bundle_hash",
+        "format",
+        "renderer_version",
+        "export_bytes_sha256",
+        "generated_at",
+        "status"
+      ]
+    },
+    "K_DOC_005_success": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "manifest": {
+          "$ref": "#/$defs/export_manifest"
+        },
+        "download_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "content_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "filename": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "manifest",
+        "download_path",
+        "content_type",
+        "filename"
+      ]
+    },
+    "K_DOC_001_error": {
+      "$ref": "#/$defs/error"
+    },
+    "K_DOC_002_error": {
+      "$ref": "#/$defs/error"
+    },
+    "K_DOC_003_error": {
+      "$ref": "#/$defs/error"
+    },
+    "K_DOC_004_error": {
+      "$ref": "#/$defs/error"
+    },
+    "K_DOC_005_error": {
+      "$ref": "#/$defs/error"
+    }
+  }
+}

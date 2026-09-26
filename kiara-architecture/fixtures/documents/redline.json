@@ -1,0 +1,2309 @@
+{
+  "schema_version": "kiara.clause_diff.v1",
+  "_id": "67996493-1002-57b8-bf99-975557b1d287",
+  "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+  "document_id": "eaaa8632-ac8b-5e3a-a030-1b9c5719473a",
+  "base_revision_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+  "base_content_hash": "0b5a8befd488d45268fce251b85765110c251fae3c1202ae5ed8683da307e2f7",
+  "candidate_revision_id": "6e12d307-1397-5160-8b40-a5e83f02e303",
+  "candidate_content_hash": "c7b5c9989a828e2995eb29b0994f70c552b36a586ca1d7b721b3657ace84fa75",
+  "algorithm": {
+    "library": "diff",
+    "version": "9.0.0",
+    "method": "diffArrays",
+    "tokenizer_version": "kiara-ascii-word-lossless-v1",
+    "max_edit_length": 100000,
+    "equality": "strict",
+    "offset_units": "utf16_code_units"
+  },
+  "target_order": [
+    "2f950064-c9b1-5aa9-bc66-ffa199f1cfa2",
+    "dcac8a94-e1b2-59ec-84c1-7400e5230938",
+    "c021b2da-7670-5bc6-bb35-19c58e8966ce",
+    "4c79b519-e7d5-5182-a92d-e20124237e0d",
+    "016bb052-b08f-5208-884b-3343949680f1",
+    "784f3762-3d89-573e-a0f0-fb3b27e2e430",
+    "d7dc353b-161d-596a-a504-2f3de8d7cfb0",
+    "9689ef85-b969-51cd-8dcc-b423dacbc9ed",
+    "8e2e31f5-41ad-56ae-908f-25f208bfc08b",
+    "d38acbf4-c1cc-5eb2-8650-ce5de03c4eda",
+    "a84b9e93-a656-5e98-9d5a-d7be19e46954",
+    "3618409a-546d-57ed-976d-10114cd85254",
+    "40f65f82-3391-51bb-8941-23311cab54a5",
+    "ce9e8ae5-354d-5597-b08f-a4e530237fb2",
+    "730e1692-f5e1-5960-aa7c-65f297fd36c5",
+    "b7239933-2f36-5fe1-833b-619f1b3b855d",
+    "de59121d-08a5-5e6b-a801-c2899e8ebcb0",
+    "06aee531-095d-531b-bb20-4afc8ceba2e2"
+  ],
+  "target_metadata": {
+    "language": "en-US",
+    "title": "Rippit-inspired DemoCo (fictional) — Privacy Policy",
+    "policy_updated_on": "2026-09-26"
+  },
+  "operations": [
+    {
+      "op": "replace_clause",
+      "clause_id": "dcac8a94-e1b2-59ec-84c1-7400e5230938",
+      "expected_clause_hash": "690ccce908d8543a645c660c12d803d4a8a43035aa4e0fca8cc09e19212e4adc",
+      "clause": {
+        "clause_id": "dcac8a94-e1b2-59ec-84c1-7400e5230938",
+        "heading": "Information practices in the preceding 12 months",
+        "body": "During the 12 months before the proposed policy update, we collected the following categories. The same inventory describes the new California signup. A postal address, declared legal residence, and coarse device-derived location are different information; we do not treat an address or IP location alone as proof of legal residence. We do not collect precise device location. \n\nIdentifiers. Examples: name, email, postal address, account ID, IP address. Sources: consumer directly, device interaction. Purposes: create and service account, deliver selected local event recommendations, security. Business-purpose recipients in that period: hosting service provider, transactional email service provider. Retention: Account life plus 30 days after closure; security IP logs 90 days, subject to documented legal holds.\n\nPersonal information described in California Civil Code section 1798.80(e). Examples: name, postal address. Sources: consumer directly. Purposes: service account and user-selected region. Business-purpose recipients in that period: hosting service provider. Retention: Account life plus 30 days after closure, subject to documented legal holds.\n\nInternet or other electronic network activity information. Examples: event views, search activity. Sources: device interaction. Purposes: operate discovery, diagnose errors, improve first-party recommendations. Business-purpose recipients in that period: hosting service provider, restricted first-party analytics service provider. Retention: 90 days, then deleted or deidentified; retained security incidents subject to documented legal hold.\n\nGeolocation data. Examples: declared city, coarse IP-derived city. Sources: consumer directly, device interaction. Purposes: localize discovery. Business-purpose recipients in that period: hosting service provider. Retention: Declared city for account life plus 30 days; coarse IP-derived location 90 days.\n\nInferences drawn from personal information. Examples: music interests inferred from saved event categories. Sources: derived from first-party interactions. Purposes: first-party event recommendations. Business-purpose recipients in that period: hosting service provider. Retention: Until preferences reset or account closure plus 30 days.\n\nSensitive personal information: account login and access credentials. Examples: account login combined with access credentials. Sources: consumer directly. Purposes: authenticate requested account, protect account security. Business-purpose recipients in that period: authentication service provider. Retention: Until credential rotation or account closure; revocable session credentials expire within 30 days."
+      },
+      "heading_tokens": [
+        {
+          "kind": "equal",
+          "text": "Information ",
+          "base_start_utf16": 0,
+          "base_end_utf16": 12,
+          "candidate_start_utf16": 0,
+          "candidate_end_utf16": 12
+        },
+        {
+          "kind": "delete",
+          "text": "we",
+          "base_start_utf16": 12,
+          "base_end_utf16": 14,
+          "candidate_start_utf16": 12,
+          "candidate_end_utf16": 12
+        },
+        {
+          "kind": "insert",
+          "text": "practices",
+          "base_start_utf16": 14,
+          "base_end_utf16": 14,
+          "candidate_start_utf16": 12,
+          "candidate_end_utf16": 21
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 14,
+          "base_end_utf16": 15,
+          "candidate_start_utf16": 21,
+          "candidate_end_utf16": 22
+        },
+        {
+          "kind": "delete",
+          "text": "collect",
+          "base_start_utf16": 15,
+          "base_end_utf16": 22,
+          "candidate_start_utf16": 22,
+          "candidate_end_utf16": 22
+        },
+        {
+          "kind": "insert",
+          "text": "in the preceding 12 months",
+          "base_start_utf16": 22,
+          "base_end_utf16": 22,
+          "candidate_start_utf16": 22,
+          "candidate_end_utf16": 48
+        }
+      ],
+      "body_tokens": [
+        {
+          "kind": "insert",
+          "text": "During the 12 months before the proposed policy update, we collected the following categories. The same inventory describes the new California signup. A postal address, declared legal residence, and coarse device-derived location are different information; we do not treat an address or IP location alone as proof of legal residence. ",
+          "base_start_utf16": 0,
+          "base_end_utf16": 0,
+          "candidate_start_utf16": 0,
+          "candidate_end_utf16": 334
+        },
+        {
+          "kind": "equal",
+          "text": "We ",
+          "base_start_utf16": 0,
+          "base_end_utf16": 3,
+          "candidate_start_utf16": 334,
+          "candidate_end_utf16": 337
+        },
+        {
+          "kind": "insert",
+          "text": "do not ",
+          "base_start_utf16": 3,
+          "base_end_utf16": 3,
+          "candidate_start_utf16": 337,
+          "candidate_end_utf16": 344
+        },
+        {
+          "kind": "equal",
+          "text": "collect ",
+          "base_start_utf16": 3,
+          "base_end_utf16": 11,
+          "candidate_start_utf16": 344,
+          "candidate_end_utf16": 352
+        },
+        {
+          "kind": "delete",
+          "text": "your",
+          "base_start_utf16": 11,
+          "base_end_utf16": 15,
+          "candidate_start_utf16": 352,
+          "candidate_end_utf16": 352
+        },
+        {
+          "kind": "insert",
+          "text": "precise",
+          "base_start_utf16": 15,
+          "base_end_utf16": 15,
+          "candidate_start_utf16": 352,
+          "candidate_end_utf16": 359
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 15,
+          "base_end_utf16": 16,
+          "candidate_start_utf16": 359,
+          "candidate_end_utf16": 360
+        },
+        {
+          "kind": "insert",
+          "text": "device location. \n\nIdentifiers. Examples: ",
+          "base_start_utf16": 16,
+          "base_end_utf16": 16,
+          "candidate_start_utf16": 360,
+          "candidate_end_utf16": 402
+        },
+        {
+          "kind": "equal",
+          "text": "name, email, ",
+          "base_start_utf16": 16,
+          "base_end_utf16": 29,
+          "candidate_start_utf16": 402,
+          "candidate_end_utf16": 415
+        },
+        {
+          "kind": "insert",
+          "text": "postal address, ",
+          "base_start_utf16": 29,
+          "base_end_utf16": 29,
+          "candidate_start_utf16": 415,
+          "candidate_end_utf16": 431
+        },
+        {
+          "kind": "equal",
+          "text": "account ",
+          "base_start_utf16": 29,
+          "base_end_utf16": 37,
+          "candidate_start_utf16": 431,
+          "candidate_end_utf16": 439
+        },
+        {
+          "kind": "delete",
+          "text": "credentials",
+          "base_start_utf16": 37,
+          "base_end_utf16": 48,
+          "candidate_start_utf16": 439,
+          "candidate_end_utf16": 439
+        },
+        {
+          "kind": "insert",
+          "text": "ID",
+          "base_start_utf16": 48,
+          "base_end_utf16": 48,
+          "candidate_start_utf16": 439,
+          "candidate_end_utf16": 441
+        },
+        {
+          "kind": "equal",
+          "text": ", ",
+          "base_start_utf16": 48,
+          "base_end_utf16": 50,
+          "candidate_start_utf16": 441,
+          "candidate_end_utf16": 443
+        },
+        {
+          "kind": "delete",
+          "text": "postal",
+          "base_start_utf16": 50,
+          "base_end_utf16": 56,
+          "candidate_start_utf16": 443,
+          "candidate_end_utf16": 443
+        },
+        {
+          "kind": "insert",
+          "text": "IP",
+          "base_start_utf16": 56,
+          "base_end_utf16": 56,
+          "candidate_start_utf16": 443,
+          "candidate_end_utf16": 445
+        },
+        {
+          "kind": "equal",
+          "text": " address",
+          "base_start_utf16": 56,
+          "base_end_utf16": 64,
+          "candidate_start_utf16": 445,
+          "candidate_end_utf16": 453
+        },
+        {
+          "kind": "insert",
+          "text": ". Sources: consumer directly",
+          "base_start_utf16": 64,
+          "base_end_utf16": 64,
+          "candidate_start_utf16": 453,
+          "candidate_end_utf16": 481
+        },
+        {
+          "kind": "equal",
+          "text": ", ",
+          "base_start_utf16": 64,
+          "base_end_utf16": 66,
+          "candidate_start_utf16": 481,
+          "candidate_end_utf16": 483
+        },
+        {
+          "kind": "delete",
+          "text": "declared",
+          "base_start_utf16": 66,
+          "base_end_utf16": 74,
+          "candidate_start_utf16": 483,
+          "candidate_end_utf16": 483
+        },
+        {
+          "kind": "insert",
+          "text": "device",
+          "base_start_utf16": 74,
+          "base_end_utf16": 74,
+          "candidate_start_utf16": 483,
+          "candidate_end_utf16": 489
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 74,
+          "base_end_utf16": 75,
+          "candidate_start_utf16": 489,
+          "candidate_end_utf16": 490
+        },
+        {
+          "kind": "delete",
+          "text": "state",
+          "base_start_utf16": 75,
+          "base_end_utf16": 80,
+          "candidate_start_utf16": 490,
+          "candidate_end_utf16": 490
+        },
+        {
+          "kind": "insert",
+          "text": "interaction.",
+          "base_start_utf16": 80,
+          "base_end_utf16": 80,
+          "candidate_start_utf16": 490,
+          "candidate_end_utf16": 502
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 80,
+          "base_end_utf16": 81,
+          "candidate_start_utf16": 502,
+          "candidate_end_utf16": 503
+        },
+        {
+          "kind": "delete",
+          "text": "of",
+          "base_start_utf16": 81,
+          "base_end_utf16": 83,
+          "candidate_start_utf16": 503,
+          "candidate_end_utf16": 503
+        },
+        {
+          "kind": "insert",
+          "text": "Purposes:",
+          "base_start_utf16": 83,
+          "base_end_utf16": 83,
+          "candidate_start_utf16": 503,
+          "candidate_end_utf16": 512
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 83,
+          "base_end_utf16": 84,
+          "candidate_start_utf16": 512,
+          "candidate_end_utf16": 513
+        },
+        {
+          "kind": "delete",
+          "text": "residence",
+          "base_start_utf16": 84,
+          "base_end_utf16": 93,
+          "candidate_start_utf16": 513,
+          "candidate_end_utf16": 513
+        },
+        {
+          "kind": "insert",
+          "text": "create",
+          "base_start_utf16": 93,
+          "base_end_utf16": 93,
+          "candidate_start_utf16": 513,
+          "candidate_end_utf16": 519
+        },
+        {
+          "kind": "equal",
+          "text": " and ",
+          "base_start_utf16": 93,
+          "base_end_utf16": 98,
+          "candidate_start_utf16": 519,
+          "candidate_end_utf16": 524
+        },
+        {
+          "kind": "delete",
+          "text": "saved",
+          "base_start_utf16": 98,
+          "base_end_utf16": 103,
+          "candidate_start_utf16": 524,
+          "candidate_end_utf16": 524
+        },
+        {
+          "kind": "insert",
+          "text": "service",
+          "base_start_utf16": 103,
+          "base_end_utf16": 103,
+          "candidate_start_utf16": 524,
+          "candidate_end_utf16": 531
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 103,
+          "base_end_utf16": 104,
+          "candidate_start_utf16": 531,
+          "candidate_end_utf16": 532
+        },
+        {
+          "kind": "delete",
+          "text": "events",
+          "base_start_utf16": 104,
+          "base_end_utf16": 110,
+          "candidate_start_utf16": 532,
+          "candidate_end_utf16": 532
+        },
+        {
+          "kind": "insert",
+          "text": "account, deliver selected local event recommendations, security",
+          "base_start_utf16": 110,
+          "base_end_utf16": 110,
+          "candidate_start_utf16": 532,
+          "candidate_end_utf16": 595
+        },
+        {
+          "kind": "equal",
+          "text": ". ",
+          "base_start_utf16": 110,
+          "base_end_utf16": 112,
+          "candidate_start_utf16": 595,
+          "candidate_end_utf16": 597
+        },
+        {
+          "kind": "delete",
+          "text": "We",
+          "base_start_utf16": 112,
+          "base_end_utf16": 114,
+          "candidate_start_utf16": 597,
+          "candidate_end_utf16": 597
+        },
+        {
+          "kind": "insert",
+          "text": "Business-purpose",
+          "base_start_utf16": 114,
+          "base_end_utf16": 114,
+          "candidate_start_utf16": 597,
+          "candidate_end_utf16": 613
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 114,
+          "base_end_utf16": 115,
+          "candidate_start_utf16": 613,
+          "candidate_end_utf16": 614
+        },
+        {
+          "kind": "delete",
+          "text": "also",
+          "base_start_utf16": 115,
+          "base_end_utf16": 119,
+          "candidate_start_utf16": 614,
+          "candidate_end_utf16": 614
+        },
+        {
+          "kind": "insert",
+          "text": "recipients",
+          "base_start_utf16": 119,
+          "base_end_utf16": 119,
+          "candidate_start_utf16": 614,
+          "candidate_end_utf16": 624
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 119,
+          "base_end_utf16": 120,
+          "candidate_start_utf16": 624,
+          "candidate_end_utf16": 625
+        },
+        {
+          "kind": "delete",
+          "text": "collect",
+          "base_start_utf16": 120,
+          "base_end_utf16": 127,
+          "candidate_start_utf16": 625,
+          "candidate_end_utf16": 625
+        },
+        {
+          "kind": "insert",
+          "text": "in",
+          "base_start_utf16": 127,
+          "base_end_utf16": 127,
+          "candidate_start_utf16": 625,
+          "candidate_end_utf16": 627
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 127,
+          "base_end_utf16": 128,
+          "candidate_start_utf16": 627,
+          "candidate_end_utf16": 628
+        },
+        {
+          "kind": "insert",
+          "text": "that period: hosting service provider, transactional email service provider. Retention: Account life plus 30 days after closure; security IP logs 90 days, subject to documented legal holds.\n\nPersonal information described in California Civil Code section 1798.80(e). Examples: name, postal address. Sources: consumer directly. Purposes: service account and user-selected region. Business-purpose recipients in that period: hosting service provider. Retention: Account life plus 30 days after closure, subject to documented legal holds.\n\nInternet or other electronic network activity information. Examples: event views, search activity. Sources: ",
+          "base_start_utf16": 128,
+          "base_end_utf16": 128,
+          "candidate_start_utf16": 628,
+          "candidate_end_utf16": 1273
+        },
+        {
+          "kind": "equal",
+          "text": "device ",
+          "base_start_utf16": 128,
+          "base_end_utf16": 135,
+          "candidate_start_utf16": 1273,
+          "candidate_end_utf16": 1280
+        },
+        {
+          "kind": "delete",
+          "text": "identifiers",
+          "base_start_utf16": 135,
+          "base_end_utf16": 146,
+          "candidate_start_utf16": 1280,
+          "candidate_end_utf16": 1280
+        },
+        {
+          "kind": "insert",
+          "text": "interaction. Purposes: operate discovery",
+          "base_start_utf16": 146,
+          "base_end_utf16": 146,
+          "candidate_start_utf16": 1280,
+          "candidate_end_utf16": 1320
+        },
+        {
+          "kind": "equal",
+          "text": ", ",
+          "base_start_utf16": 146,
+          "base_end_utf16": 148,
+          "candidate_start_utf16": 1320,
+          "candidate_end_utf16": 1322
+        },
+        {
+          "kind": "delete",
+          "text": "approximate",
+          "base_start_utf16": 148,
+          "base_end_utf16": 159,
+          "candidate_start_utf16": 1322,
+          "candidate_end_utf16": 1322
+        },
+        {
+          "kind": "insert",
+          "text": "diagnose",
+          "base_start_utf16": 159,
+          "base_end_utf16": 159,
+          "candidate_start_utf16": 1322,
+          "candidate_end_utf16": 1330
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 159,
+          "base_end_utf16": 160,
+          "candidate_start_utf16": 1330,
+          "candidate_end_utf16": 1331
+        },
+        {
+          "kind": "insert",
+          "text": "errors, improve first-party recommendations. Business-purpose recipients in that period: hosting service provider, restricted first-party analytics service provider. Retention: 90 days, then deleted or deidentified; retained security incidents subject to documented legal hold.\n\nGeolocation data. Examples: declared city, coarse IP-derived city. Sources: consumer directly, device interaction. Purposes: localize discovery. Business-purpose recipients in that period: hosting service provider. Retention: Declared city for account life plus 30 days; coarse IP-derived ",
+          "base_start_utf16": 160,
+          "base_end_utf16": 160,
+          "candidate_start_utf16": 1331,
+          "candidate_end_utf16": 1899
+        },
+        {
+          "kind": "equal",
+          "text": "location ",
+          "base_start_utf16": 160,
+          "base_end_utf16": 169,
+          "candidate_start_utf16": 1899,
+          "candidate_end_utf16": 1908
+        },
+        {
+          "kind": "insert",
+          "text": "90 days.\n\nInferences drawn from personal information. Examples: music interests inferred from saved event categories. Sources: derived from first-party interactions. Purposes: first-party event recommendations. Business-purpose recipients in that period: hosting service provider. Retention: Until preferences reset or account closure plus 30 days.\n\nSensitive personal information: account login ",
+          "base_start_utf16": 169,
+          "base_end_utf16": 169,
+          "candidate_start_utf16": 1908,
+          "candidate_end_utf16": 2304
+        },
+        {
+          "kind": "equal",
+          "text": "and ",
+          "base_start_utf16": 169,
+          "base_end_utf16": 173,
+          "candidate_start_utf16": 2304,
+          "candidate_end_utf16": 2308
+        },
+        {
+          "kind": "delete",
+          "text": "activity",
+          "base_start_utf16": 173,
+          "base_end_utf16": 181,
+          "candidate_start_utf16": 2308,
+          "candidate_end_utf16": 2308
+        },
+        {
+          "kind": "insert",
+          "text": "access",
+          "base_start_utf16": 181,
+          "base_end_utf16": 181,
+          "candidate_start_utf16": 2308,
+          "candidate_end_utf16": 2314
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 181,
+          "base_end_utf16": 182,
+          "candidate_start_utf16": 2314,
+          "candidate_end_utf16": 2315
+        },
+        {
+          "kind": "delete",
+          "text": "on",
+          "base_start_utf16": 182,
+          "base_end_utf16": 184,
+          "candidate_start_utf16": 2315,
+          "candidate_end_utf16": 2315
+        },
+        {
+          "kind": "insert",
+          "text": "credentials.",
+          "base_start_utf16": 184,
+          "base_end_utf16": 184,
+          "candidate_start_utf16": 2315,
+          "candidate_end_utf16": 2327
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 184,
+          "base_end_utf16": 185,
+          "candidate_start_utf16": 2327,
+          "candidate_end_utf16": 2328
+        },
+        {
+          "kind": "delete",
+          "text": "our",
+          "base_start_utf16": 185,
+          "base_end_utf16": 188,
+          "candidate_start_utf16": 2328,
+          "candidate_end_utf16": 2328
+        },
+        {
+          "kind": "insert",
+          "text": "Examples:",
+          "base_start_utf16": 188,
+          "base_end_utf16": 188,
+          "candidate_start_utf16": 2328,
+          "candidate_end_utf16": 2337
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 188,
+          "base_end_utf16": 189,
+          "candidate_start_utf16": 2337,
+          "candidate_end_utf16": 2338
+        },
+        {
+          "kind": "delete",
+          "text": "website",
+          "base_start_utf16": 189,
+          "base_end_utf16": 196,
+          "candidate_start_utf16": 2338,
+          "candidate_end_utf16": 2338
+        },
+        {
+          "kind": "insert",
+          "text": "account login combined with access credentials",
+          "base_start_utf16": 196,
+          "base_end_utf16": 196,
+          "candidate_start_utf16": 2338,
+          "candidate_end_utf16": 2384
+        },
+        {
+          "kind": "equal",
+          "text": ".",
+          "base_start_utf16": 196,
+          "base_end_utf16": 197,
+          "candidate_start_utf16": 2384,
+          "candidate_end_utf16": 2385
+        },
+        {
+          "kind": "insert",
+          "text": " Sources: consumer directly. Purposes: authenticate requested account, protect account security. Business-purpose recipients in that period: authentication service provider. Retention: Until credential rotation or account closure; revocable session credentials expire within 30 days.",
+          "base_start_utf16": 197,
+          "base_end_utf16": 197,
+          "candidate_start_utf16": 2385,
+          "candidate_end_utf16": 2668
+        }
+      ]
+    },
+    {
+      "op": "add_clause",
+      "clause_id": "c021b2da-7670-5bc6-bb35-19c58e8966ce",
+      "clause": {
+        "clause_id": "c021b2da-7670-5bc6-bb35-19c58e8966ce",
+        "heading": "Sources of information",
+        "body": "We collect account information, postal address, residence declarations, saved events and support messages directly from you. We collect identifiers, approximate location and usage information from your browser when you use our service. We derive music preferences from first-party interactions. We do not buy consumer information from data brokers."
+      }
+    },
+    {
+      "op": "replace_clause",
+      "clause_id": "4c79b519-e7d5-5182-a92d-e20124237e0d",
+      "expected_clause_hash": "0496775764dc272e121e0e41b756236fc67ee65dab928990dcf29fb6d5149d14",
+      "clause": {
+        "clause_id": "4c79b519-e7d5-5182-a92d-e20124237e0d",
+        "heading": "Purposes for collection and use",
+        "body": "We use information for the category-specific purposes stated above. We also use identifiers to respond to support and assess privacy requirements that may apply to your residence declaration. We do not use event recommendations to make decisions about financial or lending services, housing, insurance, education, employment or healthcare."
+      },
+      "heading_tokens": [
+        {
+          "kind": "delete",
+          "text": "How",
+          "base_start_utf16": 0,
+          "base_end_utf16": 3,
+          "candidate_start_utf16": 0,
+          "candidate_end_utf16": 0
+        },
+        {
+          "kind": "insert",
+          "text": "Purposes",
+          "base_start_utf16": 3,
+          "base_end_utf16": 3,
+          "candidate_start_utf16": 0,
+          "candidate_end_utf16": 8
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 3,
+          "base_end_utf16": 4,
+          "candidate_start_utf16": 8,
+          "candidate_end_utf16": 9
+        },
+        {
+          "kind": "delete",
+          "text": "we",
+          "base_start_utf16": 4,
+          "base_end_utf16": 6,
+          "candidate_start_utf16": 9,
+          "candidate_end_utf16": 9
+        },
+        {
+          "kind": "insert",
+          "text": "for",
+          "base_start_utf16": 6,
+          "base_end_utf16": 6,
+          "candidate_start_utf16": 9,
+          "candidate_end_utf16": 12
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 6,
+          "base_end_utf16": 7,
+          "candidate_start_utf16": 12,
+          "candidate_end_utf16": 13
+        },
+        {
+          "kind": "delete",
+          "text": "use",
+          "base_start_utf16": 7,
+          "base_end_utf16": 10,
+          "candidate_start_utf16": 13,
+          "candidate_end_utf16": 13
+        },
+        {
+          "kind": "insert",
+          "text": "collection",
+          "base_start_utf16": 10,
+          "base_end_utf16": 10,
+          "candidate_start_utf16": 13,
+          "candidate_end_utf16": 23
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 10,
+          "base_end_utf16": 11,
+          "candidate_start_utf16": 23,
+          "candidate_end_utf16": 24
+        },
+        {
+          "kind": "delete",
+          "text": "information",
+          "base_start_utf16": 11,
+          "base_end_utf16": 22,
+          "candidate_start_utf16": 24,
+          "candidate_end_utf16": 24
+        },
+        {
+          "kind": "insert",
+          "text": "and use",
+          "base_start_utf16": 22,
+          "base_end_utf16": 22,
+          "candidate_start_utf16": 24,
+          "candidate_end_utf16": 31
+        }
+      ],
+      "body_tokens": [
+        {
+          "kind": "equal",
+          "text": "We use information ",
+          "base_start_utf16": 0,
+          "base_end_utf16": 19,
+          "candidate_start_utf16": 0,
+          "candidate_end_utf16": 19
+        },
+        {
+          "kind": "delete",
+          "text": "to",
+          "base_start_utf16": 19,
+          "base_end_utf16": 21,
+          "candidate_start_utf16": 19,
+          "candidate_end_utf16": 19
+        },
+        {
+          "kind": "insert",
+          "text": "for",
+          "base_start_utf16": 21,
+          "base_end_utf16": 21,
+          "candidate_start_utf16": 19,
+          "candidate_end_utf16": 22
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 21,
+          "base_end_utf16": 22,
+          "candidate_start_utf16": 22,
+          "candidate_end_utf16": 23
+        },
+        {
+          "kind": "delete",
+          "text": "provide",
+          "base_start_utf16": 22,
+          "base_end_utf16": 29,
+          "candidate_start_utf16": 23,
+          "candidate_end_utf16": 23
+        },
+        {
+          "kind": "insert",
+          "text": "the",
+          "base_start_utf16": 29,
+          "base_end_utf16": 29,
+          "candidate_start_utf16": 23,
+          "candidate_end_utf16": 26
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 29,
+          "base_end_utf16": 30,
+          "candidate_start_utf16": 26,
+          "candidate_end_utf16": 27
+        },
+        {
+          "kind": "delete",
+          "text": "accounts,",
+          "base_start_utf16": 30,
+          "base_end_utf16": 39,
+          "candidate_start_utf16": 27,
+          "candidate_end_utf16": 27
+        },
+        {
+          "kind": "insert",
+          "text": "category-specific",
+          "base_start_utf16": 39,
+          "base_end_utf16": 39,
+          "candidate_start_utf16": 27,
+          "candidate_end_utf16": 44
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 39,
+          "base_end_utf16": 40,
+          "candidate_start_utf16": 44,
+          "candidate_end_utf16": 45
+        },
+        {
+          "kind": "delete",
+          "text": "recommend",
+          "base_start_utf16": 40,
+          "base_end_utf16": 49,
+          "candidate_start_utf16": 45,
+          "candidate_end_utf16": 45
+        },
+        {
+          "kind": "insert",
+          "text": "purposes",
+          "base_start_utf16": 49,
+          "base_end_utf16": 49,
+          "candidate_start_utf16": 45,
+          "candidate_end_utf16": 53
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 49,
+          "base_end_utf16": 50,
+          "candidate_start_utf16": 53,
+          "candidate_end_utf16": 54
+        },
+        {
+          "kind": "delete",
+          "text": "local",
+          "base_start_utf16": 50,
+          "base_end_utf16": 55,
+          "candidate_start_utf16": 54,
+          "candidate_end_utf16": 54
+        },
+        {
+          "kind": "insert",
+          "text": "stated",
+          "base_start_utf16": 55,
+          "base_end_utf16": 55,
+          "candidate_start_utf16": 54,
+          "candidate_end_utf16": 60
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 55,
+          "base_end_utf16": 56,
+          "candidate_start_utf16": 60,
+          "candidate_end_utf16": 61
+        },
+        {
+          "kind": "delete",
+          "text": "events,",
+          "base_start_utf16": 56,
+          "base_end_utf16": 63,
+          "candidate_start_utf16": 61,
+          "candidate_end_utf16": 61
+        },
+        {
+          "kind": "insert",
+          "text": "above.",
+          "base_start_utf16": 63,
+          "base_end_utf16": 63,
+          "candidate_start_utf16": 61,
+          "candidate_end_utf16": 67
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 63,
+          "base_end_utf16": 64,
+          "candidate_start_utf16": 67,
+          "candidate_end_utf16": 68
+        },
+        {
+          "kind": "insert",
+          "text": "We also use identifiers to ",
+          "base_start_utf16": 64,
+          "base_end_utf16": 64,
+          "candidate_start_utf16": 68,
+          "candidate_end_utf16": 95
+        },
+        {
+          "kind": "equal",
+          "text": "respond to support ",
+          "base_start_utf16": 64,
+          "base_end_utf16": 83,
+          "candidate_start_utf16": 95,
+          "candidate_end_utf16": 114
+        },
+        {
+          "kind": "delete",
+          "text": "requests",
+          "base_start_utf16": 83,
+          "base_end_utf16": 91,
+          "candidate_start_utf16": 114,
+          "candidate_end_utf16": 114
+        },
+        {
+          "kind": "insert",
+          "text": "and assess privacy requirements that may apply to your residence declaration. We do not use event recommendations to make decisions about financial or lending services",
+          "base_start_utf16": 91,
+          "base_end_utf16": 91,
+          "candidate_start_utf16": 114,
+          "candidate_end_utf16": 281
+        },
+        {
+          "kind": "equal",
+          "text": ", ",
+          "base_start_utf16": 91,
+          "base_end_utf16": 93,
+          "candidate_start_utf16": 281,
+          "candidate_end_utf16": 283
+        },
+        {
+          "kind": "delete",
+          "text": "and",
+          "base_start_utf16": 93,
+          "base_end_utf16": 96,
+          "candidate_start_utf16": 283,
+          "candidate_end_utf16": 283
+        },
+        {
+          "kind": "insert",
+          "text": "housing,",
+          "base_start_utf16": 96,
+          "base_end_utf16": 96,
+          "candidate_start_utf16": 283,
+          "candidate_end_utf16": 291
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 96,
+          "base_end_utf16": 97,
+          "candidate_start_utf16": 291,
+          "candidate_end_utf16": 292
+        },
+        {
+          "kind": "delete",
+          "text": "keep",
+          "base_start_utf16": 97,
+          "base_end_utf16": 101,
+          "candidate_start_utf16": 292,
+          "candidate_end_utf16": 292
+        },
+        {
+          "kind": "insert",
+          "text": "insurance,",
+          "base_start_utf16": 101,
+          "base_end_utf16": 101,
+          "candidate_start_utf16": 292,
+          "candidate_end_utf16": 302
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 101,
+          "base_end_utf16": 102,
+          "candidate_start_utf16": 302,
+          "candidate_end_utf16": 303
+        },
+        {
+          "kind": "delete",
+          "text": "the",
+          "base_start_utf16": 102,
+          "base_end_utf16": 105,
+          "candidate_start_utf16": 303,
+          "candidate_end_utf16": 303
+        },
+        {
+          "kind": "insert",
+          "text": "education,",
+          "base_start_utf16": 105,
+          "base_end_utf16": 105,
+          "candidate_start_utf16": 303,
+          "candidate_end_utf16": 313
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 105,
+          "base_end_utf16": 106,
+          "candidate_start_utf16": 313,
+          "candidate_end_utf16": 314
+        },
+        {
+          "kind": "delete",
+          "text": "service",
+          "base_start_utf16": 106,
+          "base_end_utf16": 113,
+          "candidate_start_utf16": 314,
+          "candidate_end_utf16": 314
+        },
+        {
+          "kind": "insert",
+          "text": "employment",
+          "base_start_utf16": 113,
+          "base_end_utf16": 113,
+          "candidate_start_utf16": 314,
+          "candidate_end_utf16": 324
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 113,
+          "base_end_utf16": 114,
+          "candidate_start_utf16": 324,
+          "candidate_end_utf16": 325
+        },
+        {
+          "kind": "delete",
+          "text": "secure",
+          "base_start_utf16": 114,
+          "base_end_utf16": 120,
+          "candidate_start_utf16": 325,
+          "candidate_end_utf16": 325
+        },
+        {
+          "kind": "insert",
+          "text": "or healthcare",
+          "base_start_utf16": 120,
+          "base_end_utf16": 120,
+          "candidate_start_utf16": 325,
+          "candidate_end_utf16": 338
+        },
+        {
+          "kind": "equal",
+          "text": ".",
+          "base_start_utf16": 120,
+          "base_end_utf16": 121,
+          "candidate_start_utf16": 338,
+          "candidate_end_utf16": 339
+        }
+      ]
+    },
+    {
+      "op": "replace_clause",
+      "clause_id": "016bb052-b08f-5208-884b-3343949680f1",
+      "expected_clause_hash": "c48fcccd5f66b1c4c853fe937cb1116cc18df599e98dadd42f619749a7d297fa",
+      "clause": {
+        "clause_id": "016bb052-b08f-5208-884b-3343949680f1",
+        "heading": "Disclosures for business purposes in the preceding 12 months",
+        "body": "We disclosed each category listed in the information-practices section to its listed service-provider categories for the purposes stated there. These hosting, authentication, transactional email and restricted first-party analytics providers operate under contracts restricting their use to the permitted service. We have not otherwise disclosed these categories to third parties during the preceding 12 months."
+      },
+      "heading_tokens": [
+        {
+          "kind": "delete",
+          "text": "How",
+          "base_start_utf16": 0,
+          "base_end_utf16": 3,
+          "candidate_start_utf16": 0,
+          "candidate_end_utf16": 0
+        },
+        {
+          "kind": "insert",
+          "text": "Disclosures",
+          "base_start_utf16": 3,
+          "base_end_utf16": 3,
+          "candidate_start_utf16": 0,
+          "candidate_end_utf16": 11
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 3,
+          "base_end_utf16": 4,
+          "candidate_start_utf16": 11,
+          "candidate_end_utf16": 12
+        },
+        {
+          "kind": "delete",
+          "text": "we",
+          "base_start_utf16": 4,
+          "base_end_utf16": 6,
+          "candidate_start_utf16": 12,
+          "candidate_end_utf16": 12
+        },
+        {
+          "kind": "insert",
+          "text": "for",
+          "base_start_utf16": 6,
+          "base_end_utf16": 6,
+          "candidate_start_utf16": 12,
+          "candidate_end_utf16": 15
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 6,
+          "base_end_utf16": 7,
+          "candidate_start_utf16": 15,
+          "candidate_end_utf16": 16
+        },
+        {
+          "kind": "delete",
+          "text": "disclose",
+          "base_start_utf16": 7,
+          "base_end_utf16": 15,
+          "candidate_start_utf16": 16,
+          "candidate_end_utf16": 16
+        },
+        {
+          "kind": "insert",
+          "text": "business",
+          "base_start_utf16": 15,
+          "base_end_utf16": 15,
+          "candidate_start_utf16": 16,
+          "candidate_end_utf16": 24
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 15,
+          "base_end_utf16": 16,
+          "candidate_start_utf16": 24,
+          "candidate_end_utf16": 25
+        },
+        {
+          "kind": "delete",
+          "text": "information",
+          "base_start_utf16": 16,
+          "base_end_utf16": 27,
+          "candidate_start_utf16": 25,
+          "candidate_end_utf16": 25
+        },
+        {
+          "kind": "insert",
+          "text": "purposes in the preceding 12 months",
+          "base_start_utf16": 27,
+          "base_end_utf16": 27,
+          "candidate_start_utf16": 25,
+          "candidate_end_utf16": 60
+        }
+      ],
+      "body_tokens": [
+        {
+          "kind": "equal",
+          "text": "We ",
+          "base_start_utf16": 0,
+          "base_end_utf16": 3,
+          "candidate_start_utf16": 0,
+          "candidate_end_utf16": 3
+        },
+        {
+          "kind": "delete",
+          "text": "use",
+          "base_start_utf16": 3,
+          "base_end_utf16": 6,
+          "candidate_start_utf16": 3,
+          "candidate_end_utf16": 3
+        },
+        {
+          "kind": "insert",
+          "text": "disclosed",
+          "base_start_utf16": 6,
+          "base_end_utf16": 6,
+          "candidate_start_utf16": 3,
+          "candidate_end_utf16": 12
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 6,
+          "base_end_utf16": 7,
+          "candidate_start_utf16": 12,
+          "candidate_end_utf16": 13
+        },
+        {
+          "kind": "delete",
+          "text": "providers",
+          "base_start_utf16": 7,
+          "base_end_utf16": 16,
+          "candidate_start_utf16": 13,
+          "candidate_end_utf16": 13
+        },
+        {
+          "kind": "insert",
+          "text": "each",
+          "base_start_utf16": 16,
+          "base_end_utf16": 16,
+          "candidate_start_utf16": 13,
+          "candidate_end_utf16": 17
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 16,
+          "base_end_utf16": 17,
+          "candidate_start_utf16": 17,
+          "candidate_end_utf16": 18
+        },
+        {
+          "kind": "delete",
+          "text": "to",
+          "base_start_utf16": 17,
+          "base_end_utf16": 19,
+          "candidate_start_utf16": 18,
+          "candidate_end_utf16": 18
+        },
+        {
+          "kind": "insert",
+          "text": "category",
+          "base_start_utf16": 19,
+          "base_end_utf16": 19,
+          "candidate_start_utf16": 18,
+          "candidate_end_utf16": 26
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 19,
+          "base_end_utf16": 20,
+          "candidate_start_utf16": 26,
+          "candidate_end_utf16": 27
+        },
+        {
+          "kind": "delete",
+          "text": "host",
+          "base_start_utf16": 20,
+          "base_end_utf16": 24,
+          "candidate_start_utf16": 27,
+          "candidate_end_utf16": 27
+        },
+        {
+          "kind": "insert",
+          "text": "listed",
+          "base_start_utf16": 24,
+          "base_end_utf16": 24,
+          "candidate_start_utf16": 27,
+          "candidate_end_utf16": 33
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 24,
+          "base_end_utf16": 25,
+          "candidate_start_utf16": 33,
+          "candidate_end_utf16": 34
+        },
+        {
+          "kind": "insert",
+          "text": "in ",
+          "base_start_utf16": 25,
+          "base_end_utf16": 25,
+          "candidate_start_utf16": 34,
+          "candidate_end_utf16": 37
+        },
+        {
+          "kind": "equal",
+          "text": "the ",
+          "base_start_utf16": 25,
+          "base_end_utf16": 29,
+          "candidate_start_utf16": 37,
+          "candidate_end_utf16": 41
+        },
+        {
+          "kind": "insert",
+          "text": "information-practices section to its listed ",
+          "base_start_utf16": 29,
+          "base_end_utf16": 29,
+          "candidate_start_utf16": 41,
+          "candidate_end_utf16": 85
+        },
+        {
+          "kind": "equal",
+          "text": "service",
+          "base_start_utf16": 29,
+          "base_end_utf16": 36,
+          "candidate_start_utf16": 85,
+          "candidate_end_utf16": 92
+        },
+        {
+          "kind": "insert",
+          "text": "-provider categories for the purposes stated there. These hosting",
+          "base_start_utf16": 36,
+          "base_end_utf16": 36,
+          "candidate_start_utf16": 92,
+          "candidate_end_utf16": 157
+        },
+        {
+          "kind": "equal",
+          "text": ", ",
+          "base_start_utf16": 36,
+          "base_end_utf16": 38,
+          "candidate_start_utf16": 157,
+          "candidate_end_utf16": 159
+        },
+        {
+          "kind": "delete",
+          "text": "deliver",
+          "base_start_utf16": 38,
+          "base_end_utf16": 45,
+          "candidate_start_utf16": 159,
+          "candidate_end_utf16": 159
+        },
+        {
+          "kind": "insert",
+          "text": "authentication,",
+          "base_start_utf16": 45,
+          "base_end_utf16": 45,
+          "candidate_start_utf16": 159,
+          "candidate_end_utf16": 174
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 45,
+          "base_end_utf16": 46,
+          "candidate_start_utf16": 174,
+          "candidate_end_utf16": 175
+        },
+        {
+          "kind": "insert",
+          "text": "transactional ",
+          "base_start_utf16": 46,
+          "base_end_utf16": 46,
+          "candidate_start_utf16": 175,
+          "candidate_end_utf16": 189
+        },
+        {
+          "kind": "equal",
+          "text": "email and ",
+          "base_start_utf16": 46,
+          "base_end_utf16": 56,
+          "candidate_start_utf16": 189,
+          "candidate_end_utf16": 199
+        },
+        {
+          "kind": "delete",
+          "text": "help",
+          "base_start_utf16": 56,
+          "base_end_utf16": 60,
+          "candidate_start_utf16": 199,
+          "candidate_end_utf16": 199
+        },
+        {
+          "kind": "insert",
+          "text": "restricted",
+          "base_start_utf16": 60,
+          "base_end_utf16": 60,
+          "candidate_start_utf16": 199,
+          "candidate_end_utf16": 209
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 60,
+          "base_end_utf16": 61,
+          "candidate_start_utf16": 209,
+          "candidate_end_utf16": 210
+        },
+        {
+          "kind": "delete",
+          "text": "us understand ",
+          "base_start_utf16": 61,
+          "base_end_utf16": 75,
+          "candidate_start_utf16": 210,
+          "candidate_end_utf16": 210
+        },
+        {
+          "kind": "equal",
+          "text": "first-party ",
+          "base_start_utf16": 75,
+          "base_end_utf16": 87,
+          "candidate_start_utf16": 210,
+          "candidate_end_utf16": 222
+        },
+        {
+          "kind": "delete",
+          "text": "activity",
+          "base_start_utf16": 87,
+          "base_end_utf16": 95,
+          "candidate_start_utf16": 222,
+          "candidate_end_utf16": 222
+        },
+        {
+          "kind": "insert",
+          "text": "analytics providers operate under contracts restricting their use to the permitted service",
+          "base_start_utf16": 95,
+          "base_end_utf16": 95,
+          "candidate_start_utf16": 222,
+          "candidate_end_utf16": 312
+        },
+        {
+          "kind": "equal",
+          "text": ". We ",
+          "base_start_utf16": 95,
+          "base_end_utf16": 100,
+          "candidate_start_utf16": 312,
+          "candidate_end_utf16": 317
+        },
+        {
+          "kind": "delete",
+          "text": "do",
+          "base_start_utf16": 100,
+          "base_end_utf16": 102,
+          "candidate_start_utf16": 317,
+          "candidate_end_utf16": 317
+        },
+        {
+          "kind": "insert",
+          "text": "have",
+          "base_start_utf16": 102,
+          "base_end_utf16": 102,
+          "candidate_start_utf16": 317,
+          "candidate_end_utf16": 321
+        },
+        {
+          "kind": "equal",
+          "text": " not ",
+          "base_start_utf16": 102,
+          "base_end_utf16": 107,
+          "candidate_start_utf16": 321,
+          "candidate_end_utf16": 326
+        },
+        {
+          "kind": "delete",
+          "text": "sell",
+          "base_start_utf16": 107,
+          "base_end_utf16": 111,
+          "candidate_start_utf16": 326,
+          "candidate_end_utf16": 326
+        },
+        {
+          "kind": "insert",
+          "text": "otherwise",
+          "base_start_utf16": 111,
+          "base_end_utf16": 111,
+          "candidate_start_utf16": 326,
+          "candidate_end_utf16": 335
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 111,
+          "base_end_utf16": 112,
+          "candidate_start_utf16": 335,
+          "candidate_end_utf16": 336
+        },
+        {
+          "kind": "delete",
+          "text": "personal",
+          "base_start_utf16": 112,
+          "base_end_utf16": 120,
+          "candidate_start_utf16": 336,
+          "candidate_end_utf16": 336
+        },
+        {
+          "kind": "insert",
+          "text": "disclosed",
+          "base_start_utf16": 120,
+          "base_end_utf16": 120,
+          "candidate_start_utf16": 336,
+          "candidate_end_utf16": 345
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 120,
+          "base_end_utf16": 121,
+          "candidate_start_utf16": 345,
+          "candidate_end_utf16": 346
+        },
+        {
+          "kind": "delete",
+          "text": "information",
+          "base_start_utf16": 121,
+          "base_end_utf16": 132,
+          "candidate_start_utf16": 346,
+          "candidate_end_utf16": 346
+        },
+        {
+          "kind": "insert",
+          "text": "these categories to third parties during the preceding 12 months",
+          "base_start_utf16": 132,
+          "base_end_utf16": 132,
+          "candidate_start_utf16": 346,
+          "candidate_end_utf16": 410
+        },
+        {
+          "kind": "equal",
+          "text": ".",
+          "base_start_utf16": 132,
+          "base_end_utf16": 133,
+          "candidate_start_utf16": 410,
+          "candidate_end_utf16": 411
+        }
+      ]
+    },
+    {
+      "op": "add_clause",
+      "clause_id": "784f3762-3d89-573e-a0f0-fb3b27e2e430",
+      "clause": {
+        "clause_id": "784f3762-3d89-573e-a0f0-fb3b27e2e430",
+        "heading": "Sale or sharing of personal information",
+        "body": "We have not sold personal information or shared it for cross-context behavioral advertising during the preceding 12 months, and we do not currently do either. We do not have actual knowledge that we sell or share personal information of consumers under 16. We do not use third-party advertising trackers or allow our providers to use consumer information for their own advertising."
+      }
+    },
+    {
+      "op": "add_clause",
+      "clause_id": "d7dc353b-161d-596a-a504-2f3de8d7cfb0",
+      "clause": {
+        "clause_id": "d7dc353b-161d-596a-a504-2f3de8d7cfb0",
+        "heading": "Sensitive personal information",
+        "body": "We use and disclose account login credentials only as reasonably necessary to provide and secure the account service you request. We do not use or disclose sensitive personal information for purposes beyond those permitted by section 7027(m) of the California privacy regulations, and we do not use it to infer characteristics about you."
+      }
+    },
+    {
+      "op": "replace_clause",
+      "clause_id": "9689ef85-b969-51cd-8dcc-b423dacbc9ed",
+      "expected_clause_hash": "fcd742abc12084ce0156d39f6ddf4ad534ed9bcdeea9bf173f0e6d870173fe67",
+      "clause": {
+        "clause_id": "9689ef85-b969-51cd-8dcc-b423dacbc9ed",
+        "heading": "Retention",
+        "body": "The information-practices section states a period or criterion for each category. We keep support correspondence for 12 months after a request closes and records of privacy requests and our responses for at least 24 months. Documented legal holds may require limited information to be retained longer to meet a legal obligation, establish or defend a claim, or investigate a security incident. We restrict that information to the hold purpose and do not keep personal information longer than reasonably necessary for the disclosed purpose."
+      },
+      "heading_tokens": [
+        {
+          "kind": "delete",
+          "text": "How long we keep information",
+          "base_start_utf16": 0,
+          "base_end_utf16": 28,
+          "candidate_start_utf16": 0,
+          "candidate_end_utf16": 0
+        },
+        {
+          "kind": "insert",
+          "text": "Retention",
+          "base_start_utf16": 28,
+          "base_end_utf16": 28,
+          "candidate_start_utf16": 0,
+          "candidate_end_utf16": 9
+        }
+      ],
+      "body_tokens": [
+        {
+          "kind": "insert",
+          "text": "The information-practices section states a period or criterion for each category. ",
+          "base_start_utf16": 0,
+          "base_end_utf16": 0,
+          "candidate_start_utf16": 0,
+          "candidate_end_utf16": 82
+        },
+        {
+          "kind": "equal",
+          "text": "We keep ",
+          "base_start_utf16": 0,
+          "base_end_utf16": 8,
+          "candidate_start_utf16": 82,
+          "candidate_end_utf16": 90
+        },
+        {
+          "kind": "delete",
+          "text": "information",
+          "base_start_utf16": 8,
+          "base_end_utf16": 19,
+          "candidate_start_utf16": 90,
+          "candidate_end_utf16": 90
+        },
+        {
+          "kind": "insert",
+          "text": "support",
+          "base_start_utf16": 19,
+          "base_end_utf16": 19,
+          "candidate_start_utf16": 90,
+          "candidate_end_utf16": 97
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 19,
+          "base_end_utf16": 20,
+          "candidate_start_utf16": 97,
+          "candidate_end_utf16": 98
+        },
+        {
+          "kind": "insert",
+          "text": "correspondence ",
+          "base_start_utf16": 20,
+          "base_end_utf16": 20,
+          "candidate_start_utf16": 98,
+          "candidate_end_utf16": 113
+        },
+        {
+          "kind": "equal",
+          "text": "for ",
+          "base_start_utf16": 20,
+          "base_end_utf16": 24,
+          "candidate_start_utf16": 113,
+          "candidate_end_utf16": 117
+        },
+        {
+          "kind": "delete",
+          "text": "as",
+          "base_start_utf16": 24,
+          "base_end_utf16": 26,
+          "candidate_start_utf16": 117,
+          "candidate_end_utf16": 117
+        },
+        {
+          "kind": "insert",
+          "text": "12",
+          "base_start_utf16": 26,
+          "base_end_utf16": 26,
+          "candidate_start_utf16": 117,
+          "candidate_end_utf16": 119
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 26,
+          "base_end_utf16": 27,
+          "candidate_start_utf16": 119,
+          "candidate_end_utf16": 120
+        },
+        {
+          "kind": "delete",
+          "text": "long",
+          "base_start_utf16": 27,
+          "base_end_utf16": 31,
+          "candidate_start_utf16": 120,
+          "candidate_end_utf16": 120
+        },
+        {
+          "kind": "insert",
+          "text": "months",
+          "base_start_utf16": 31,
+          "base_end_utf16": 31,
+          "candidate_start_utf16": 120,
+          "candidate_end_utf16": 126
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 31,
+          "base_end_utf16": 32,
+          "candidate_start_utf16": 126,
+          "candidate_end_utf16": 127
+        },
+        {
+          "kind": "delete",
+          "text": "as",
+          "base_start_utf16": 32,
+          "base_end_utf16": 34,
+          "candidate_start_utf16": 127,
+          "candidate_end_utf16": 127
+        },
+        {
+          "kind": "insert",
+          "text": "after",
+          "base_start_utf16": 34,
+          "base_end_utf16": 34,
+          "candidate_start_utf16": 127,
+          "candidate_end_utf16": 132
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 34,
+          "base_end_utf16": 35,
+          "candidate_start_utf16": 132,
+          "candidate_end_utf16": 133
+        },
+        {
+          "kind": "delete",
+          "text": "we",
+          "base_start_utf16": 35,
+          "base_end_utf16": 37,
+          "candidate_start_utf16": 133,
+          "candidate_end_utf16": 133
+        },
+        {
+          "kind": "insert",
+          "text": "a",
+          "base_start_utf16": 37,
+          "base_end_utf16": 37,
+          "candidate_start_utf16": 133,
+          "candidate_end_utf16": 134
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 37,
+          "base_end_utf16": 38,
+          "candidate_start_utf16": 134,
+          "candidate_end_utf16": 135
+        },
+        {
+          "kind": "delete",
+          "text": "need",
+          "base_start_utf16": 38,
+          "base_end_utf16": 42,
+          "candidate_start_utf16": 135,
+          "candidate_end_utf16": 135
+        },
+        {
+          "kind": "insert",
+          "text": "request",
+          "base_start_utf16": 42,
+          "base_end_utf16": 42,
+          "candidate_start_utf16": 135,
+          "candidate_end_utf16": 142
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 42,
+          "base_end_utf16": 43,
+          "candidate_start_utf16": 142,
+          "candidate_end_utf16": 143
+        },
+        {
+          "kind": "delete",
+          "text": "it",
+          "base_start_utf16": 43,
+          "base_end_utf16": 45,
+          "candidate_start_utf16": 143,
+          "candidate_end_utf16": 143
+        },
+        {
+          "kind": "insert",
+          "text": "closes",
+          "base_start_utf16": 45,
+          "base_end_utf16": 45,
+          "candidate_start_utf16": 143,
+          "candidate_end_utf16": 149
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 45,
+          "base_end_utf16": 46,
+          "candidate_start_utf16": 149,
+          "candidate_end_utf16": 150
+        },
+        {
+          "kind": "delete",
+          "text": "to",
+          "base_start_utf16": 46,
+          "base_end_utf16": 48,
+          "candidate_start_utf16": 150,
+          "candidate_end_utf16": 150
+        },
+        {
+          "kind": "insert",
+          "text": "and",
+          "base_start_utf16": 48,
+          "base_end_utf16": 48,
+          "candidate_start_utf16": 150,
+          "candidate_end_utf16": 153
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 48,
+          "base_end_utf16": 49,
+          "candidate_start_utf16": 153,
+          "candidate_end_utf16": 154
+        },
+        {
+          "kind": "delete",
+          "text": "provide",
+          "base_start_utf16": 49,
+          "base_end_utf16": 56,
+          "candidate_start_utf16": 154,
+          "candidate_end_utf16": 154
+        },
+        {
+          "kind": "insert",
+          "text": "records",
+          "base_start_utf16": 56,
+          "base_end_utf16": 56,
+          "candidate_start_utf16": 154,
+          "candidate_end_utf16": 161
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 56,
+          "base_end_utf16": 57,
+          "candidate_start_utf16": 161,
+          "candidate_end_utf16": 162
+        },
+        {
+          "kind": "delete",
+          "text": "our",
+          "base_start_utf16": 57,
+          "base_end_utf16": 60,
+          "candidate_start_utf16": 162,
+          "candidate_end_utf16": 162
+        },
+        {
+          "kind": "insert",
+          "text": "of",
+          "base_start_utf16": 60,
+          "base_end_utf16": 60,
+          "candidate_start_utf16": 162,
+          "candidate_end_utf16": 164
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 60,
+          "base_end_utf16": 61,
+          "candidate_start_utf16": 164,
+          "candidate_end_utf16": 165
+        },
+        {
+          "kind": "delete",
+          "text": "service",
+          "base_start_utf16": 61,
+          "base_end_utf16": 68,
+          "candidate_start_utf16": 165,
+          "candidate_end_utf16": 165
+        },
+        {
+          "kind": "insert",
+          "text": "privacy",
+          "base_start_utf16": 68,
+          "base_end_utf16": 68,
+          "candidate_start_utf16": 165,
+          "candidate_end_utf16": 172
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 68,
+          "base_end_utf16": 69,
+          "candidate_start_utf16": 172,
+          "candidate_end_utf16": 173
+        },
+        {
+          "kind": "insert",
+          "text": "requests ",
+          "base_start_utf16": 69,
+          "base_end_utf16": 69,
+          "candidate_start_utf16": 173,
+          "candidate_end_utf16": 182
+        },
+        {
+          "kind": "equal",
+          "text": "and ",
+          "base_start_utf16": 69,
+          "base_end_utf16": 73,
+          "candidate_start_utf16": 182,
+          "candidate_end_utf16": 186
+        },
+        {
+          "kind": "insert",
+          "text": "our responses for at least 24 months. Documented legal holds may require limited information to be retained longer to ",
+          "base_start_utf16": 73,
+          "base_end_utf16": 73,
+          "candidate_start_utf16": 186,
+          "candidate_end_utf16": 304
+        },
+        {
+          "kind": "equal",
+          "text": "meet ",
+          "base_start_utf16": 73,
+          "base_end_utf16": 78,
+          "candidate_start_utf16": 304,
+          "candidate_end_utf16": 309
+        },
+        {
+          "kind": "delete",
+          "text": "our",
+          "base_start_utf16": 78,
+          "base_end_utf16": 81,
+          "candidate_start_utf16": 309,
+          "candidate_end_utf16": 309
+        },
+        {
+          "kind": "insert",
+          "text": "a",
+          "base_start_utf16": 81,
+          "base_end_utf16": 81,
+          "candidate_start_utf16": 309,
+          "candidate_end_utf16": 310
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 81,
+          "base_end_utf16": 82,
+          "candidate_start_utf16": 310,
+          "candidate_end_utf16": 311
+        },
+        {
+          "kind": "delete",
+          "text": "obligations",
+          "base_start_utf16": 82,
+          "base_end_utf16": 93,
+          "candidate_start_utf16": 311,
+          "candidate_end_utf16": 311
+        },
+        {
+          "kind": "insert",
+          "text": "legal obligation, establish or defend a claim, or investigate a security incident",
+          "base_start_utf16": 93,
+          "base_end_utf16": 93,
+          "candidate_start_utf16": 311,
+          "candidate_end_utf16": 392
+        },
+        {
+          "kind": "equal",
+          "text": ".",
+          "base_start_utf16": 93,
+          "base_end_utf16": 94,
+          "candidate_start_utf16": 392,
+          "candidate_end_utf16": 393
+        },
+        {
+          "kind": "insert",
+          "text": " We restrict that information to the hold purpose and do not keep personal information longer than reasonably necessary for the disclosed purpose.",
+          "base_start_utf16": 94,
+          "base_end_utf16": 94,
+          "candidate_start_utf16": 393,
+          "candidate_end_utf16": 539
+        }
+      ]
+    },
+    {
+      "op": "add_clause",
+      "clause_id": "d38acbf4-c1cc-5eb2-8650-ce5de03c4eda",
+      "clause": {
+        "clause_id": "d38acbf4-c1cc-5eb2-8650-ce5de03c4eda",
+        "heading": "California privacy rights",
+        "body": "California residents may ask us to know the personal information we have collected about them, including categories and specific pieces, sources, purposes, and categories of recipients; to delete personal information, subject to legal exceptions; and to correct inaccurate personal information. Where applicable, consumers may opt out of sale or sharing and limit certain uses or disclosures of sensitive personal information. Our current no-sale/no-sharing practices and limited account-security uses of sensitive information are described above. You have the right not to be retaliated against for exercising your privacy rights. We do not offer financial incentives or price or service differences in exchange for personal information."
+      }
+    },
+    {
+      "op": "add_clause",
+      "clause_id": "a84b9e93-a656-5e98-9d5a-d7be19e46954",
+      "clause": {
+        "clause_id": "a84b9e93-a656-5e98-9d5a-d7be19e46954",
+        "heading": "How to submit a privacy request",
+        "body": "To request access, deletion or correction, email privacy@democo.example or visit https://democo.example/privacy/requests. Tell us your request type and the email associated with your account; please do not send your password. You may submit a request without creating an account. We will acknowledge a request to know, delete or correct within 10 business days and ordinarily respond within 45 calendar days after receipt. If reasonably necessary, we may extend that period by up to 45 additional days and explain the reason within the first 45 days. If we cannot fulfill a request in whole or in part, we will explain the applicable basis and respond as the law requires."
+      }
+    },
+    {
+      "op": "add_clause",
+      "clause_id": "3618409a-546d-57ed-976d-10114cd85254",
+      "clause": {
+        "clause_id": "3618409a-546d-57ed-976d-10114cd85254",
+        "heading": "How we verify requests",
+        "body": "For an existing account, we generally ask you to authenticate using the account and may ask you to confirm the request through the account email. For a person who cannot access an account, we compare information you provide with records we already hold. We request only information reasonably necessary for verification in light of the request and information involved. We do not require you to create an account. If we cannot verify a request, we explain this and any available alternatives. We use information collected for verification only for verification, security or fraud prevention. We delete any new personal information collected for verification as soon as practical after processing your request, except records required by the applicable privacy-request recordkeeping rules."
+      }
+    },
+    {
+      "op": "add_clause",
+      "clause_id": "40f65f82-3391-51bb-8941-23311cab54a5",
+      "clause": {
+        "clause_id": "40f65f82-3391-51bb-8941-23311cab54a5",
+        "heading": "Authorized agents",
+        "body": "You may authorize an agent to make a request to know, delete or correct on your behalf through the same email address or request form. We may ask the agent for your signed permission, ask you to verify your identity directly with us, or ask you to confirm directly that you authorized the agent. We do not require you to resubmit the same request in your own name, and we do not require a power of attorney as the only way to use an agent. We do not require those additional authorization steps when an agent provides a valid power of attorney under California Probate Code sections 4121 through 4130."
+      }
+    },
+    {
+      "op": "add_clause",
+      "clause_id": "ce9e8ae5-354d-5597-b08f-a4e530237fb2",
+      "clause": {
+        "clause_id": "ce9e8ae5-354d-5597-b08f-a4e530237fb2",
+        "heading": "Browser privacy signals",
+        "body": "You can enable an opt-out preference signal such as Global Privacy Control in a supporting browser or extension. We do not sell or share personal information, including for accounts, devices, browser activity or offline activity, so receiving such a signal does not change a sale or sharing activity in our current service. We do not claim to provide a separate opt-out processing mechanism that we have not implemented. If our practices change, we will assess applicable opt-out and signal obligations before making that change."
+      }
+    },
+    {
+      "op": "replace_clause",
+      "clause_id": "de59121d-08a5-5e6b-a801-c2899e8ebcb0",
+      "expected_clause_hash": "f237fb3fadd07ce343b231577fe7e4a10fa91a5422734bf4760b4c97cc4e07ca",
+      "clause": {
+        "clause_id": "de59121d-08a5-5e6b-a801-c2899e8ebcb0",
+        "heading": "Policy updates",
+        "body": "We review this policy at least annually and update it when our practices require a change. The last-updated date appears at the top of this policy. We post the current policy through a conspicuous Privacy link on the website and provide a printable version. We notify account holders by email before material changes to our information practices take effect."
+      },
+      "heading_tokens": [
+        {
+          "kind": "equal",
+          "text": "Policy updates",
+          "base_start_utf16": 0,
+          "base_end_utf16": 14,
+          "candidate_start_utf16": 0,
+          "candidate_end_utf16": 14
+        }
+      ],
+      "body_tokens": [
+        {
+          "kind": "equal",
+          "text": "We ",
+          "base_start_utf16": 0,
+          "base_end_utf16": 3,
+          "candidate_start_utf16": 0,
+          "candidate_end_utf16": 3
+        },
+        {
+          "kind": "delete",
+          "text": "may",
+          "base_start_utf16": 3,
+          "base_end_utf16": 6,
+          "candidate_start_utf16": 3,
+          "candidate_end_utf16": 3
+        },
+        {
+          "kind": "insert",
+          "text": "review",
+          "base_start_utf16": 6,
+          "base_end_utf16": 6,
+          "candidate_start_utf16": 3,
+          "candidate_end_utf16": 9
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 6,
+          "base_end_utf16": 7,
+          "candidate_start_utf16": 9,
+          "candidate_end_utf16": 10
+        },
+        {
+          "kind": "delete",
+          "text": "update ",
+          "base_start_utf16": 7,
+          "base_end_utf16": 14,
+          "candidate_start_utf16": 10,
+          "candidate_end_utf16": 10
+        },
+        {
+          "kind": "equal",
+          "text": "this policy ",
+          "base_start_utf16": 14,
+          "base_end_utf16": 26,
+          "candidate_start_utf16": 10,
+          "candidate_end_utf16": 22
+        },
+        {
+          "kind": "delete",
+          "text": "as",
+          "base_start_utf16": 26,
+          "base_end_utf16": 28,
+          "candidate_start_utf16": 22,
+          "candidate_end_utf16": 22
+        },
+        {
+          "kind": "insert",
+          "text": "at",
+          "base_start_utf16": 28,
+          "base_end_utf16": 28,
+          "candidate_start_utf16": 22,
+          "candidate_end_utf16": 24
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 28,
+          "base_end_utf16": 29,
+          "candidate_start_utf16": 24,
+          "candidate_end_utf16": 25
+        },
+        {
+          "kind": "insert",
+          "text": "least annually and update it when ",
+          "base_start_utf16": 29,
+          "base_end_utf16": 29,
+          "candidate_start_utf16": 25,
+          "candidate_end_utf16": 59
+        },
+        {
+          "kind": "equal",
+          "text": "our ",
+          "base_start_utf16": 29,
+          "base_end_utf16": 33,
+          "candidate_start_utf16": 59,
+          "candidate_end_utf16": 63
+        },
+        {
+          "kind": "delete",
+          "text": "service",
+          "base_start_utf16": 33,
+          "base_end_utf16": 40,
+          "candidate_start_utf16": 63,
+          "candidate_end_utf16": 63
+        },
+        {
+          "kind": "insert",
+          "text": "practices",
+          "base_start_utf16": 40,
+          "base_end_utf16": 40,
+          "candidate_start_utf16": 63,
+          "candidate_end_utf16": 72
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 40,
+          "base_end_utf16": 41,
+          "candidate_start_utf16": 72,
+          "candidate_end_utf16": 73
+        },
+        {
+          "kind": "delete",
+          "text": "changes",
+          "base_start_utf16": 41,
+          "base_end_utf16": 48,
+          "candidate_start_utf16": 73,
+          "candidate_end_utf16": 73
+        },
+        {
+          "kind": "insert",
+          "text": "require a change",
+          "base_start_utf16": 48,
+          "base_end_utf16": 48,
+          "candidate_start_utf16": 73,
+          "candidate_end_utf16": 89
+        },
+        {
+          "kind": "equal",
+          "text": ". ",
+          "base_start_utf16": 48,
+          "base_end_utf16": 50,
+          "candidate_start_utf16": 89,
+          "candidate_end_utf16": 91
+        },
+        {
+          "kind": "delete",
+          "text": "We",
+          "base_start_utf16": 50,
+          "base_end_utf16": 52,
+          "candidate_start_utf16": 91,
+          "candidate_end_utf16": 91
+        },
+        {
+          "kind": "insert",
+          "text": "The",
+          "base_start_utf16": 52,
+          "base_end_utf16": 52,
+          "candidate_start_utf16": 91,
+          "candidate_end_utf16": 94
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 52,
+          "base_end_utf16": 53,
+          "candidate_start_utf16": 94,
+          "candidate_end_utf16": 95
+        },
+        {
+          "kind": "delete",
+          "text": "will",
+          "base_start_utf16": 53,
+          "base_end_utf16": 57,
+          "candidate_start_utf16": 95,
+          "candidate_end_utf16": 95
+        },
+        {
+          "kind": "insert",
+          "text": "last-updated",
+          "base_start_utf16": 57,
+          "base_end_utf16": 57,
+          "candidate_start_utf16": 95,
+          "candidate_end_utf16": 107
+        },
+        {
+          "kind": "equal",
+          "text": " ",
+          "base_start_utf16": 57,
+          "base_end_utf16": 58,
+          "candidate_start_utf16": 107,
+          "candidate_end_utf16": 108
+        },
+        {
+          "kind": "insert",
+          "text": "date appears at the top of this policy. We ",
+          "base_start_utf16": 58,
+          "base_end_utf16": 58,
+          "candidate_start_utf16": 108,
+          "candidate_end_utf16": 151
+        },
+        {
+          "kind": "equal",
+          "text": "post the ",
+          "base_start_utf16": 58,
+          "base_end_utf16": 67,
+          "candidate_start_utf16": 151,
+          "candidate_end_utf16": 160
+        },
+        {
+          "kind": "delete",
+          "text": "updated",
+          "base_start_utf16": 67,
+          "base_end_utf16": 74,
+          "candidate_start_utf16": 160,
+          "candidate_end_utf16": 160
+        },
+        {
+          "kind": "insert",
+          "text": "current",
+          "base_start_utf16": 74,
+          "base_end_utf16": 74,
+          "candidate_start_utf16": 160,
+          "candidate_end_utf16": 167
+        },
+        {
+          "kind": "equal",
+          "text": " policy ",
+          "base_start_utf16": 74,
+          "base_end_utf16": 82,
+          "candidate_start_utf16": 167,
+          "candidate_end_utf16": 175
+        },
+        {
+          "kind": "delete",
+          "text": "here",
+          "base_start_utf16": 82,
+          "base_end_utf16": 86,
+          "candidate_start_utf16": 175,
+          "candidate_end_utf16": 175
+        },
+        {
+          "kind": "insert",
+          "text": "through a conspicuous Privacy link on the website and provide a printable version",
+          "base_start_utf16": 86,
+          "base_end_utf16": 86,
+          "candidate_start_utf16": 175,
+          "candidate_end_utf16": 256
+        },
+        {
+          "kind": "equal",
+          "text": ".",
+          "base_start_utf16": 86,
+          "base_end_utf16": 87,
+          "candidate_start_utf16": 256,
+          "candidate_end_utf16": 257
+        },
+        {
+          "kind": "insert",
+          "text": " We notify account holders by email before material changes to our information practices take effect.",
+          "base_start_utf16": 87,
+          "base_end_utf16": 87,
+          "candidate_start_utf16": 257,
+          "candidate_end_utf16": 358
+        }
+      ]
+    }
+  ],
+  "diff_hash": "024425e02b4f8d16dd66ea2b1e3b65b5855bc832f29be17f627ae7b317b3954b"
+}

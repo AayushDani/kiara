@@ -1,0 +1,203 @@
+{
+  "classification": "explicit_synthetic_company_assertions_for_complete_policy_not_operational_verification",
+  "integration_rule": "T04 append these facts to canonical context and evidence selected_fact_ids, remove clause_ids before persisting a fact; add clause_refs to legal map. Do not silently infer these from law.",
+  "facts": [
+    {
+      "fact_id": "2f3d136a-c11a-5132-9a83-2e3106d7e049",
+      "fact_key": "support_correspondence_retention_months",
+      "knowledge": "known",
+      "value": 12,
+      "unit": null,
+      "period": null,
+      "provenance": {
+        "origin": "synthetic_fixture",
+        "author_id": "6c6939bf-2453-539f-8f86-6b1e6e61edbe",
+        "verification_status": "asserted",
+        "observed_at": {
+          "$date": "2026-09-26T16:00:00.000Z"
+        },
+        "effective_from": {
+          "$date": "2026-09-26T16:00:00.000Z"
+        },
+        "effective_to": null,
+        "references": []
+      },
+      "supersedes_fact_id": null,
+      "clause_ids": [
+        "9689ef85-b969-51cd-8dcc-b423dacbc9ed"
+      ]
+    },
+    {
+      "fact_id": "20afa1d4-e9ac-5af1-80d7-bad694387d28",
+      "fact_key": "material_policy_change_notice",
+      "knowledge": "known",
+      "value": {
+        "method": "account_email",
+        "timing": "before_material_information_practice_change_effective",
+        "readiness": "synthetic_fixture_only"
+      },
+      "unit": null,
+      "period": null,
+      "provenance": {
+        "origin": "synthetic_fixture",
+        "author_id": "6c6939bf-2453-539f-8f86-6b1e6e61edbe",
+        "verification_status": "asserted",
+        "observed_at": {
+          "$date": "2026-09-26T16:00:00.000Z"
+        },
+        "effective_from": {
+          "$date": "2026-09-26T16:00:00.000Z"
+        },
+        "effective_to": null,
+        "references": []
+      },
+      "supersedes_fact_id": null,
+      "clause_ids": [
+        "de59121d-08a5-5e6b-a801-c2899e8ebcb0"
+      ]
+    },
+    {
+      "fact_id": "073dda8b-efe7-51bd-829f-abbbcd4fb92c",
+      "fact_key": "privacy_request_verification_process",
+      "knowledge": "known",
+      "value": {
+        "existing_account": "authenticate_and_confirm_account_email",
+        "no_account_access": "match_existing_records_proportionate_to_request",
+        "require_new_account": false,
+        "new_verification_pi_deleted": "as_soon_as_practical_after_request_except_required_records",
+        "agent_permission": "signed_permission_plus_identity_verification_or_direct_confirmation",
+        "consumer_resubmission_required": false,
+        "power_of_attorney_mandatory": false
+      },
+      "unit": null,
+      "period": null,
+      "provenance": {
+        "origin": "synthetic_fixture",
+        "author_id": "6c6939bf-2453-539f-8f86-6b1e6e61edbe",
+        "verification_status": "asserted",
+        "observed_at": {
+          "$date": "2026-09-26T16:00:00.000Z"
+        },
+        "effective_from": {
+          "$date": "2026-09-26T16:00:00.000Z"
+        },
+        "effective_to": null,
+        "references": []
+      },
+      "supersedes_fact_id": null,
+      "clause_ids": [
+        "3618409a-546d-57ed-976d-10114cd85254",
+        "40f65f82-3391-51bb-8941-23311cab54a5"
+      ]
+    },
+    {
+      "fact_id": "391046a4-1120-5178-b3c9-824aa2385181",
+      "fact_key": "account_self_service_controls",
+      "knowledge": "known",
+      "value": {
+        "edit_profile": true,
+        "remove_saved_events": true,
+        "promotional_email_unsubscribe": "account_settings",
+        "account_closure": "contact_support"
+      },
+      "unit": null,
+      "period": null,
+      "provenance": {
+        "origin": "synthetic_fixture",
+        "author_id": "6c6939bf-2453-539f-8f86-6b1e6e61edbe",
+        "verification_status": "asserted",
+        "observed_at": {
+          "$date": "2026-09-26T16:00:00.000Z"
+        },
+        "effective_from": {
+          "$date": "2026-09-26T16:00:00.000Z"
+        },
+        "effective_to": null,
+        "references": []
+      },
+      "supersedes_fact_id": null,
+      "clause_ids": [
+        "8e2e31f5-41ad-56ae-908f-25f208bfc08b"
+      ]
+    },
+    {
+      "fact_id": "3b974557-ecec-5bac-bb87-1728e283c368",
+      "fact_key": "security_controls",
+      "knowledge": "known",
+      "value": {
+        "access_controls": true,
+        "safeguards": true,
+        "guarantee_complete_security": false
+      },
+      "unit": null,
+      "period": null,
+      "provenance": {
+        "origin": "synthetic_fixture",
+        "author_id": "6c6939bf-2453-539f-8f86-6b1e6e61edbe",
+        "verification_status": "asserted",
+        "observed_at": {
+          "$date": "2026-09-26T16:00:00.000Z"
+        },
+        "effective_from": {
+          "$date": "2026-09-26T16:00:00.000Z"
+        },
+        "effective_to": null,
+        "references": []
+      },
+      "supersedes_fact_id": null,
+      "clause_ids": [
+        "730e1692-f5e1-5960-aa7c-65f297fd36c5"
+      ]
+    },
+    {
+      "fact_id": "b815741a-3de0-5b2a-bb33-c2a082a0d26c",
+      "fact_key": "third_party_advertising_trackers",
+      "knowledge": "known",
+      "value": false,
+      "unit": null,
+      "period": null,
+      "provenance": {
+        "origin": "synthetic_fixture",
+        "author_id": "6c6939bf-2453-539f-8f86-6b1e6e61edbe",
+        "verification_status": "asserted",
+        "observed_at": {
+          "$date": "2026-09-26T16:00:00.000Z"
+        },
+        "effective_from": {
+          "$date": "2026-09-26T16:00:00.000Z"
+        },
+        "effective_to": null,
+        "references": []
+      },
+      "supersedes_fact_id": null,
+      "clause_ids": [
+        "784f3762-3d89-573e-a0f0-fb3b27e2e430"
+      ]
+    },
+    {
+      "fact_id": "f90b8cbf-989f-519f-a191-05d4e7422d59",
+      "fact_key": "intended_age_minimum",
+      "knowledge": "known",
+      "value": 18,
+      "unit": null,
+      "period": null,
+      "provenance": {
+        "origin": "synthetic_fixture",
+        "author_id": "6c6939bf-2453-539f-8f86-6b1e6e61edbe",
+        "verification_status": "asserted",
+        "observed_at": {
+          "$date": "2026-09-26T16:00:00.000Z"
+        },
+        "effective_from": {
+          "$date": "2026-09-26T16:00:00.000Z"
+        },
+        "effective_to": null,
+        "references": []
+      },
+      "supersedes_fact_id": null,
+      "clause_ids": [
+        "b7239933-2f36-5fe1-833b-619f1b3b855d"
+      ]
+    }
+  ]
+}

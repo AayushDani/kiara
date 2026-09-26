@@ -1,0 +1,88 @@
+{
+  "workflow_id": "13000000-0000-4000-8000-000000000004",
+  "state": "repairing",
+  "state_version": 8,
+  "as_of": "2026-09-26T16:00:15.000Z",
+  "aggregate_seq_high_water": 12,
+  "events": [
+    {
+      "event_id": "13000000-0000-4000-8000-000000000007",
+      "event_type": "validation.failed",
+      "aggregate_type": "workflow",
+      "aggregate_id": "13000000-0000-4000-8000-000000000004",
+      "aggregate_seq": 12,
+      "occurred_at": "2026-09-26T16:00:15.000Z",
+      "received_at": "2026-09-26T16:00:15.000Z",
+      "correlation_id": "13000000-0000-4000-8000-000000000003",
+      "causation_id": "13000000-0000-4000-8000-000000000011",
+      "workflow_id": "13000000-0000-4000-8000-000000000004",
+      "run_id": "13000000-0000-4000-8000-000000000005",
+      "payload_hash": "20f23de02b628efe7602cd520543928d18e992395db4b0ca37bb6dfed2a5dcbd",
+      "actor_role": "workflow_service",
+      "artifact_refs": {
+        "context_version_id": null,
+        "evidence_bundle_id": null,
+        "assessment_id": null,
+        "proposal_id": null,
+        "revision_id": "13000000-0000-4000-8000-000000000013",
+        "review_bundle_id": null,
+        "validation_run_id": "13000000-0000-4000-8000-000000000012",
+        "evaluation_run_id": null,
+        "harness_version_id": null,
+        "harness_candidate_id": null,
+        "notification_id": null,
+        "feedback_id": null,
+        "operational_followup_id": null
+      },
+      "summary": {
+        "code": "validation.failed",
+        "failed_rule_count": 1,
+        "repair_count": null,
+        "gate": null
+      }
+    }
+  ],
+  "next_cursor": {
+    "aggregate_type": "workflow",
+    "aggregate_id": "13000000-0000-4000-8000-000000000004",
+    "after_seq": 12
+  },
+  "has_more": false,
+  "run_summaries": [
+    {
+      "run_id": "13000000-0000-4000-8000-000000000005",
+      "harness_version": {
+        "record_id": "13000000-0000-4000-8000-000000000008",
+        "sha256": "b26fafa31fc5b91f376966e0a7992b60a50f76fe1076ff845b7117826d75762e"
+      },
+      "runtime_policy_version": {
+        "record_id": "13000000-0000-4000-8000-000000000040",
+        "sha256": "e20811274a3bc5419e730cf79dba82fe9354e819add4a68013d75f157506cec4"
+      },
+      "budget": {
+        "logical_model_requests": 1,
+        "physical_model_attempts": 1,
+        "tool_calls": 0,
+        "repair_attempts": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "reserved_cost_micro_usd": 100000,
+        "settled_cost_micro_usd": 0,
+        "unknown_cost_micro_usd": 100000
+      },
+      "trace_id": "13000000-0000-4000-8000-000000000100"
+    }
+  ],
+  "notifications": [],
+  "trace_completeness": "partial",
+  "telemetry_export_status": "pending",
+  "cost_summary": {
+    "currency": "USD",
+    "known_estimated_cost_micro_usd": null,
+    "reserved_cost_micro_usd": 100000,
+    "unknown_cost_micro_usd": 100000,
+    "unreconciled_attempts": 1,
+    "completeness": "unknown",
+    "pricing_version": null
+  }
+}

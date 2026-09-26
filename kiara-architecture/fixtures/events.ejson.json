@@ -1,0 +1,324 @@
+[
+  {
+    "schema_version": "1.0",
+    "event_type": "user.signed_up",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "reset_epoch": 1,
+    "aggregate_type": "customer",
+    "aggregate_id": "604fb63a-da83-53a8-8bc3-3581530a41c4",
+    "aggregate_seq": 1,
+    "occurred_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "received_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "actor": {
+      "actor_type": "service",
+      "actor_id": "c09e8cf1-b113-542e-902d-bc69877bf369",
+      "role": "signup_integration"
+    },
+    "source": {
+      "kind": "seed",
+      "system": "kiara_synthetic_contract_fixture",
+      "source_event_id": null
+    },
+    "correlation_id": "13c42ae4-6073-51b0-ab47-93f05ebb214a",
+    "causation_id": null,
+    "idempotency_key": "fixture/user.signed_up",
+    "payload_hash": "e64d3b5053d1551ec962d0f07079e48e1360f561fc7f64e84e366e3a1ba027a0",
+    "workflow_id": null,
+    "run_id": null,
+    "trace_id": null,
+    "payload": {
+      "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "customer_id": "604fb63a-da83-53a8-8bc3-3581530a41c4",
+      "customer_context_version": 2,
+      "residence_evidence": {
+        "kind": "declared_legal_residence",
+        "country": "US",
+        "region": "CA",
+        "asserted_at": {
+          "$date": "2026-09-26T16:59:00.000Z"
+        },
+        "provenance_ref": "604fb63a-da83-53a8-8bc3-3581530a41c4"
+      },
+      "is_synthetic": true
+    },
+    "_id": "4fbd9f2e-d458-5a31-99c6-e333fe338b64",
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "event_type": "validation.passed",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "reset_epoch": 1,
+    "aggregate_type": "workflow",
+    "aggregate_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "aggregate_seq": 1,
+    "occurred_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "received_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "actor": {
+      "actor_type": "service",
+      "actor_id": "c09e8cf1-b113-542e-902d-bc69877bf369",
+      "role": "workflow_service"
+    },
+    "source": {
+      "kind": "worker",
+      "system": "kiara_synthetic_contract_fixture",
+      "source_event_id": null
+    },
+    "correlation_id": "13c42ae4-6073-51b0-ab47-93f05ebb214a",
+    "causation_id": "4fbd9f2e-d458-5a31-99c6-e333fe338b64",
+    "idempotency_key": "fixture/validation.passed",
+    "payload_hash": "8831c0e4a924ef52a43bbda24d048184af6cd5f2315dda673d7760f9494c8e12",
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+    "trace_id": null,
+    "payload": {
+      "validation_run_id": "7687ca3b-5d93-512f-b088-9a2bcce10c64",
+      "validator_version_id": "1245e521-68b7-515a-b515-55b0f298fabd",
+      "subject_kind": "proposal",
+      "context_selection_id": null,
+      "review_input_hash": "8c45d68b6a7e3a9c8ffebaa54bcc51c8e84cc10b412b4289571ff3cb1455164a",
+      "review_bundle_id": "73669cc9-9746-5d1c-a40b-fa274647af0d",
+      "review_bundle_hash": "007f154103b1e5c4799fc2c73f57181a33119f8c541e083853af8ad2af40c370",
+      "proposal_id": "5895124e-72a8-51b4-a698-76baf5df7709"
+    },
+    "_id": "9074f20c-69ea-56b6-aff7-cd83a7946a34",
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "event_type": "review.founder_approved",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "reset_epoch": 1,
+    "aggregate_type": "workflow",
+    "aggregate_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "aggregate_seq": 2,
+    "occurred_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "received_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "actor": {
+      "actor_type": "human",
+      "actor_id": "6c6939bf-2453-539f-8f86-6b1e6e61edbe",
+      "role": "founder"
+    },
+    "source": {
+      "kind": "api",
+      "system": "kiara_synthetic_contract_fixture",
+      "source_event_id": null
+    },
+    "correlation_id": "13c42ae4-6073-51b0-ab47-93f05ebb214a",
+    "causation_id": "4fbd9f2e-d458-5a31-99c6-e333fe338b64",
+    "idempotency_key": "fixture/review.founder_approved",
+    "payload_hash": "7b9d701fc89f72c19dc159ee6ce05694dfbdc48321535ea7723f8d96c0360105",
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+    "trace_id": null,
+    "payload": {
+      "approval_id": "4f6f009e-c7f3-5e86-b464-592339d20c19",
+      "review_bundle_id": "73669cc9-9746-5d1c-a40b-fa274647af0d",
+      "review_bundle_hash": "007f154103b1e5c4799fc2c73f57181a33119f8c541e083853af8ad2af40c370",
+      "candidate_revision_id": "6e12d307-1397-5160-8b40-a5e83f02e303",
+      "predecessor_approval_id": null
+    },
+    "_id": "e5a9d0bc-e0e9-591e-84a4-70160e9a7f34",
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "event_type": "review.lawyer_approved",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "reset_epoch": 1,
+    "aggregate_type": "workflow",
+    "aggregate_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "aggregate_seq": 3,
+    "occurred_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "received_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "actor": {
+      "actor_type": "human",
+      "actor_id": "3a6ef3af-edf4-58c4-8123-03bbcbf09ad1",
+      "role": "lawyer"
+    },
+    "source": {
+      "kind": "api",
+      "system": "kiara_synthetic_contract_fixture",
+      "source_event_id": null
+    },
+    "correlation_id": "13c42ae4-6073-51b0-ab47-93f05ebb214a",
+    "causation_id": "4fbd9f2e-d458-5a31-99c6-e333fe338b64",
+    "idempotency_key": "fixture/review.lawyer_approved",
+    "payload_hash": "2e059efdc7f0535ef04b44379f643f3365660f83addbf8c94000f38638a4f024",
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+    "trace_id": null,
+    "payload": {
+      "approval_id": "fd96e69d-be83-5851-9b4e-bc48f3aa8509",
+      "review_bundle_id": "73669cc9-9746-5d1c-a40b-fa274647af0d",
+      "review_bundle_hash": "007f154103b1e5c4799fc2c73f57181a33119f8c541e083853af8ad2af40c370",
+      "candidate_revision_id": "6e12d307-1397-5160-8b40-a5e83f02e303",
+      "predecessor_approval_id": "4f6f009e-c7f3-5e86-b464-592339d20c19"
+    },
+    "_id": "24275dfb-080f-57cd-8dff-efa8106899fb",
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "event_type": "document.finalized",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "reset_epoch": 1,
+    "aggregate_type": "workflow",
+    "aggregate_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "aggregate_seq": 4,
+    "occurred_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "received_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "actor": {
+      "actor_type": "service",
+      "actor_id": "c09e8cf1-b113-542e-902d-bc69877bf369",
+      "role": "workflow_service"
+    },
+    "source": {
+      "kind": "worker",
+      "system": "kiara_synthetic_contract_fixture",
+      "source_event_id": null
+    },
+    "correlation_id": "13c42ae4-6073-51b0-ab47-93f05ebb214a",
+    "causation_id": "4fbd9f2e-d458-5a31-99c6-e333fe338b64",
+    "idempotency_key": "fixture/document.finalized",
+    "payload_hash": "808fa417d665b215465bbc9125493b9651c9a9b5b15eea48dc207454ee6390e6",
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+    "trace_id": null,
+    "payload": {
+      "document_id": "eaaa8632-ac8b-5e3a-a030-1b9c5719473a",
+      "previous_revision_id": "7a835b86-f8a7-5055-9b4c-51a3afd28d9c",
+      "revision_id": "ad29f77d-f994-5ce3-9f88-eedb2e3f7c78",
+      "review_bundle_id": "73669cc9-9746-5d1c-a40b-fa274647af0d",
+      "founder_approval_id": "4f6f009e-c7f3-5e86-b464-592339d20c19",
+      "lawyer_approval_id": "fd96e69d-be83-5851-9b4e-bc48f3aa8509",
+      "publication_status": "not_published"
+    },
+    "_id": "eca6cbba-4ab1-517c-8eb4-eb3f976faec4",
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "event_type": "harness.promoted",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "reset_epoch": 1,
+    "aggregate_type": "harness",
+    "aggregate_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+    "aggregate_seq": 1,
+    "occurred_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "received_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "actor": {
+      "actor_type": "service",
+      "actor_id": "c09e8cf1-b113-542e-902d-bc69877bf369",
+      "role": "workflow_service"
+    },
+    "source": {
+      "kind": "worker",
+      "system": "kiara_synthetic_contract_fixture",
+      "source_event_id": null
+    },
+    "correlation_id": "13c42ae4-6073-51b0-ab47-93f05ebb214a",
+    "causation_id": "4fbd9f2e-d458-5a31-99c6-e333fe338b64",
+    "idempotency_key": "fixture/harness.promoted",
+    "payload_hash": "0974fc4d23b6c4ac786d8a13fc5662b9a1a76fc4ce1f3268c9c400cbfa0d4286",
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "run_id": "c6f5d2e1-ae52-57f2-8b09-44e5534c20fc",
+    "trace_id": null,
+    "payload": {
+      "candidate_id": "72cea827-a276-519e-b076-2f86e992eb5c",
+      "harness_version_id": "e084aa8e-40c1-5c94-abac-a701cb08022b",
+      "previous_harness_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+      "evaluation_run_id": "cd3acd36-7e86-5737-80b6-330bbf11e7fa",
+      "promotion_mode": "automatic_allowlisted"
+    },
+    "_id": "41d7362f-92cc-55f4-923d-4a6b02eeb456",
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "event_type": "user.signed_up",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "reset_epoch": 1,
+    "aggregate_type": "customer",
+    "aggregate_id": "060fe730-06b4-523e-a8a3-1b1fce76771a",
+    "aggregate_seq": 1,
+    "occurred_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "received_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "actor": {
+      "actor_type": "service",
+      "actor_id": "c09e8cf1-b113-542e-902d-bc69877bf369",
+      "role": "signup_integration"
+    },
+    "source": {
+      "kind": "seed",
+      "system": "kiara_synthetic_contract_fixture",
+      "source_event_id": null
+    },
+    "correlation_id": "13c42ae4-6073-51b0-ab47-93f05ebb214a",
+    "causation_id": null,
+    "idempotency_key": "fixture/user.signed_up/ny",
+    "payload_hash": "08c8d24314ea416a30ec7375eba02ceadfa0cbdbe84b9aeb11db883be97777cf",
+    "workflow_id": null,
+    "run_id": null,
+    "trace_id": null,
+    "payload": {
+      "company_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "customer_id": "060fe730-06b4-523e-a8a3-1b1fce76771a",
+      "customer_context_version": 2,
+      "residence_evidence": {
+        "kind": "declared_legal_residence",
+        "country": "US",
+        "region": "NY",
+        "asserted_at": {
+          "$date": "2026-09-26T16:59:00.000Z"
+        },
+        "provenance_ref": "060fe730-06b4-523e-a8a3-1b1fce76771a"
+      },
+      "is_synthetic": true
+    },
+    "_id": "370a4b27-cf34-5acf-af57-ec054534d97d",
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    }
+  }
+]

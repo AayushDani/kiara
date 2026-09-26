@@ -1,0 +1,2656 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:kiara:read-models:1.1.0",
+  "title": "K-OBS-001 strict read endpoint contracts",
+  "description": "Authenticated query projections; data integrity/tenant auth and cross-field causal joins remain handler invariants.",
+  "$defs": {
+    "Uuid": {
+      "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+    },
+    "ClauseId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "SnapshotRef": {
+      "$ref": "urn:kiara:runtime-contracts:0.1.0#/$defs/SnapshotRef"
+    },
+    "Empty": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {},
+      "required": []
+    },
+    "EventType": {
+      "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_type"
+    },
+    "WorkflowState": {
+      "$ref": "https://kiara.example/contracts/K-WF-RECORD-001#/properties/state"
+    },
+    "BudgetCounters": {
+      "$ref": "urn:kiara:runtime-contracts:0.1.0#/$defs/BudgetCounters"
+    },
+    "FactKnowledge": {
+      "enum": [
+        "known",
+        "unknown",
+        "conflicted"
+      ],
+      "type": "string"
+    },
+    "FactProvenanceRef": {
+      "required": [
+        "collection",
+        "id",
+        "locator"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "collection": {
+          "enum": [
+            "company_context_versions",
+            "customers",
+            "events",
+            "document_revisions",
+            "legal_source_versions",
+            "legal_chunks",
+            "feedback"
+          ],
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "type": "string"
+        },
+        "locator": {
+          "maxLength": 512,
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "FactOrigin": {
+      "enum": [
+        "synthetic_fixture",
+        "founder_assertion",
+        "lawyer_verified",
+        "imported_record",
+        "derived"
+      ],
+      "type": "string"
+    },
+    "FactVerification": {
+      "enum": [
+        "unverified",
+        "asserted",
+        "verified",
+        "disputed"
+      ],
+      "type": "string"
+    },
+    "Patch": {
+      "items": {
+        "required": [
+          "op",
+          "path",
+          "value"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "op": {
+            "enum": [
+              "test",
+              "replace"
+            ],
+            "type": "string"
+          },
+          "path": {
+            "enum": [
+              "/retrieval/prefetch/declared_ca_resident_ccpa_bundle",
+              "/retrieval/prefetch/declared_ca_resident_company_facts"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "maxItems": 4,
+      "minItems": 4,
+      "type": "array"
+    },
+    "CandidateStatus": {
+      "enum": [
+        "proposed",
+        "evaluating",
+        "accepted",
+        "rejected",
+        "promoted",
+        "rolled_back"
+      ],
+      "type": "string"
+    },
+    "PromotionClass": {
+      "enum": [
+        "automatic_allowlisted",
+        "human_review_required"
+      ],
+      "type": "string"
+    },
+    "EvaluationStatus": {
+      "enum": [
+        "passed",
+        "failed",
+        "inconclusive"
+      ],
+      "type": "string"
+    },
+    "EvaluationMetrics": {
+      "required": [
+        "baseline_pass_count",
+        "candidate_pass_count",
+        "case_count",
+        "critical_regressions"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "baseline_pass_count": {
+          "minimum": 0,
+          "maximum": 9007199254740991,
+          "type": "integer"
+        },
+        "candidate_pass_count": {
+          "minimum": 0,
+          "maximum": 9007199254740991,
+          "type": "integer"
+        },
+        "case_count": {
+          "minimum": 0,
+          "maximum": 9007199254740991,
+          "type": "integer"
+        },
+        "critical_regressions": {
+          "minimum": 0,
+          "maximum": 9007199254740991,
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "MeasurementStatus": {
+      "enum": [
+        "planned_fixture",
+        "executed"
+      ],
+      "type": "string"
+    },
+    "SourceStatus": {
+      "enum": [
+        "operative",
+        "future",
+        "historical",
+        "unverified"
+      ],
+      "type": "string"
+    },
+    "AssessmentOutcome": {
+      "enum": [
+        "covered",
+        "not_covered",
+        "needs_information"
+      ],
+      "type": "string"
+    },
+    "ValidationStatus": {
+      "enum": [
+        "passed",
+        "failed",
+        "needs_human_review"
+      ],
+      "type": "string"
+    },
+    "ArtifactRefs": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "context_version_id": {
+          "anyOf": [
+            {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evidence_bundle_id": {
+          "anyOf": [
+            {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "assessment_id": {
+          "anyOf": [
+            {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "proposal_id": {
+          "anyOf": [
+            {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "revision_id": {
+          "anyOf": [
+            {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "review_bundle_id": {
+          "anyOf": [
+            {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "validation_run_id": {
+          "anyOf": [
+            {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evaluation_run_id": {
+          "anyOf": [
+            {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "harness_version_id": {
+          "anyOf": [
+            {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "harness_candidate_id": {
+          "anyOf": [
+            {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "notification_id": {
+          "anyOf": [
+            {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "feedback_id": {
+          "anyOf": [
+            {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "operational_followup_id": {
+          "anyOf": [
+            {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "context_version_id",
+        "evidence_bundle_id",
+        "assessment_id",
+        "proposal_id",
+        "revision_id",
+        "review_bundle_id",
+        "validation_run_id",
+        "evaluation_run_id",
+        "harness_version_id",
+        "harness_candidate_id",
+        "notification_id",
+        "feedback_id",
+        "operational_followup_id"
+      ]
+    },
+    "TimelineEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+        },
+        "event_type": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_type"
+        },
+        "aggregate_type": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/aggregate_type"
+        },
+        "aggregate_id": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/aggregate_id"
+        },
+        "aggregate_seq": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/aggregate_seq"
+        },
+        "occurred_at": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/occurred_at"
+        },
+        "received_at": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/received_at"
+        },
+        "correlation_id": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/correlation_id"
+        },
+        "causation_id": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/causation_id"
+        },
+        "workflow_id": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/workflow_id"
+        },
+        "run_id": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/run_id"
+        },
+        "payload_hash": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/payload_hash"
+        },
+        "actor_role": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/actor/properties/role"
+        },
+        "artifact_refs": {
+          "$ref": "#/$defs/ArtifactRefs"
+        },
+        "summary": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "code": {
+              "$ref": "#/$defs/EventType"
+            },
+            "failed_rule_count": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "repair_count": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "gate": {
+              "enum": [
+                "founder",
+                "lawyer",
+                null
+              ]
+            }
+          },
+          "required": [
+            "code",
+            "failed_rule_count",
+            "repair_count",
+            "gate"
+          ]
+        }
+      },
+      "required": [
+        "event_id",
+        "event_type",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_seq",
+        "occurred_at",
+        "received_at",
+        "correlation_id",
+        "causation_id",
+        "workflow_id",
+        "run_id",
+        "payload_hash",
+        "actor_role",
+        "artifact_refs",
+        "summary"
+      ]
+    },
+    "TimelineCursor": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "aggregate_type": {
+          "const": "workflow"
+        },
+        "aggregate_id": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+        },
+        "after_seq": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "aggregate_type",
+        "aggregate_id",
+        "after_seq"
+      ]
+    },
+    "CostSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "currency": {
+          "const": "USD"
+        },
+        "known_estimated_cost_micro_usd": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reserved_cost_micro_usd": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "unknown_cost_micro_usd": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "unreconciled_attempts": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "completeness": {
+          "enum": [
+            "complete",
+            "partial",
+            "unknown"
+          ]
+        },
+        "pricing_version": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "currency",
+        "known_estimated_cost_micro_usd",
+        "reserved_cost_micro_usd",
+        "unknown_cost_micro_usd",
+        "unreconciled_attempts",
+        "completeness",
+        "pricing_version"
+      ]
+    },
+    "NotificationSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "notification_id": {
+          "$ref": "https://kiara.example/contracts/K-NOTIFY-001#/properties/notification_id"
+        },
+        "kind": {
+          "$ref": "https://kiara.example/contracts/K-NOTIFY-001#/properties/kind"
+        },
+        "mode": {
+          "$ref": "https://kiara.example/contracts/K-NOTIFY-001#/properties/mode"
+        },
+        "state": {
+          "$ref": "https://kiara.example/contracts/K-NOTIFY-001#/properties/state"
+        },
+        "review_bundle_id": {
+          "$ref": "https://kiara.example/contracts/K-NOTIFY-001#/properties/review_bundle_id"
+        },
+        "revision_id": {
+          "$ref": "https://kiara.example/contracts/K-NOTIFY-001#/properties/revision_id"
+        },
+        "attempt_count": {
+          "$ref": "https://kiara.example/contracts/K-NOTIFY-001#/properties/attempt_count"
+        },
+        "created_at": {
+          "$ref": "https://kiara.example/contracts/K-NOTIFY-001#/properties/created_at"
+        }
+      },
+      "required": [
+        "notification_id",
+        "kind",
+        "mode",
+        "state",
+        "review_bundle_id",
+        "revision_id",
+        "attempt_count",
+        "created_at"
+      ]
+    },
+    "RunSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+        },
+        "harness_version": {
+          "$ref": "#/$defs/SnapshotRef"
+        },
+        "runtime_policy_version": {
+          "$ref": "#/$defs/SnapshotRef"
+        },
+        "budget": {
+          "$ref": "#/$defs/BudgetCounters"
+        },
+        "trace_id": {
+          "anyOf": [
+            {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "run_id",
+        "harness_version",
+        "runtime_policy_version",
+        "budget",
+        "trace_id"
+      ]
+    },
+    "ObservabilityBody": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "workflow_id": {
+          "$ref": "https://kiara.example/contracts/K-WF-RECORD-001#/properties/workflow_id"
+        },
+        "state": {
+          "$ref": "#/$defs/WorkflowState"
+        },
+        "state_version": {
+          "$ref": "https://kiara.example/contracts/K-WF-RECORD-001#/properties/state_version"
+        },
+        "as_of": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "aggregate_seq_high_water": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/TimelineEvent"
+          },
+          "maxItems": 100,
+          "minItems": 0
+        },
+        "next_cursor": {
+          "$ref": "#/$defs/TimelineCursor"
+        },
+        "has_more": {
+          "type": "boolean"
+        },
+        "run_summaries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RunSummary"
+          },
+          "maxItems": 100,
+          "minItems": 0
+        },
+        "notifications": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/NotificationSummary"
+          },
+          "maxItems": 100,
+          "minItems": 0
+        },
+        "trace_completeness": {
+          "enum": [
+            "complete",
+            "partial",
+            "none",
+            "expired"
+          ]
+        },
+        "telemetry_export_status": {
+          "enum": [
+            "disabled",
+            "pending",
+            "submitted",
+            "confirmed",
+            "retry_wait",
+            "failed",
+            "sampled_out",
+            "expired"
+          ]
+        },
+        "cost_summary": {
+          "$ref": "#/$defs/CostSummary"
+        }
+      },
+      "required": [
+        "workflow_id",
+        "state",
+        "state_version",
+        "as_of",
+        "aggregate_seq_high_water",
+        "events",
+        "next_cursor",
+        "has_more",
+        "run_summaries",
+        "notifications",
+        "trace_completeness",
+        "telemetry_export_status",
+        "cost_summary"
+      ]
+    },
+    "LegalReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source_version_id": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+        },
+        "source_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "chunk_id": {
+          "anyOf": [
+            {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "provision_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "provision_locator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "retrieved_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "effective_from": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "effective_to": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "effective_date_status": {
+          "enum": [
+            "known",
+            "unknown",
+            "mixed"
+          ],
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/SourceStatus"
+        },
+        "freshness": {
+          "enum": [
+            "current",
+            "stale",
+            "not_checked"
+          ]
+        },
+        "source_recheck_attestation_id": {
+          "anyOf": [
+            {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "source_version_id",
+        "source_sha256",
+        "chunk_id",
+        "provision_key",
+        "provision_locator",
+        "retrieved_at",
+        "effective_from",
+        "effective_to",
+        "effective_date_status",
+        "status",
+        "freshness",
+        "source_recheck_attestation_id"
+      ]
+    },
+    "ValidationReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "validation_run_id": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+        },
+        "check_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "result": {
+          "enum": [
+            "pass",
+            "fail",
+            "not_run"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "validation_run_id",
+        "check_id",
+        "result"
+      ]
+    },
+    "EvidenceMapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mapping_id": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+        },
+        "fact": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "context_version_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "fact_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "fact_key": {
+              "minLength": 1,
+              "maxLength": 160,
+              "pattern": "^[a-z0-9][a-z0-9_.:-]*$",
+              "type": "string"
+            },
+            "knowledge": {
+              "$ref": "#/$defs/FactKnowledge"
+            },
+            "origin": {
+              "$ref": "#/$defs/FactOrigin"
+            },
+            "verification_status": {
+              "$ref": "#/$defs/FactVerification"
+            },
+            "provenance_refs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/FactProvenanceRef"
+              },
+              "maxItems": 20,
+              "minItems": 0
+            }
+          },
+          "required": [
+            "context_version_id",
+            "fact_id",
+            "fact_key",
+            "knowledge",
+            "origin",
+            "verification_status",
+            "provenance_refs"
+          ]
+        },
+        "legal_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LegalReference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "clause_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ClauseId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mapping_kind": {
+          "enum": [
+            "applicability",
+            "draft_support",
+            "validation_requirement",
+            "operational_followup"
+          ]
+        },
+        "validation_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ValidationReference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "operational_followup_id": {
+          "anyOf": [
+            {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "mapping_id",
+        "fact",
+        "legal_ref",
+        "clause_id",
+        "mapping_kind",
+        "validation_ref",
+        "operational_followup_id"
+      ]
+    },
+    "EvidenceMapCursor": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "after_mapping_id": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+        }
+      },
+      "required": [
+        "after_mapping_id"
+      ]
+    },
+    "EvidenceMapBody": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "workflow_id": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+        },
+        "as_of": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "context_version_id": {
+          "anyOf": [
+            {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "assessment_id": {
+          "anyOf": [
+            {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "assessment_outcome": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AssessmentOutcome"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evidence_bundle_id": {
+          "anyOf": [
+            {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "review_bundle_id": {
+          "anyOf": [
+            {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "revision_id": {
+          "anyOf": [
+            {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mappings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EvidenceMapping"
+          },
+          "maxItems": 200,
+          "minItems": 0
+        },
+        "next_cursor": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EvidenceMapCursor"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "completeness": {
+          "enum": [
+            "complete",
+            "partial",
+            "not_available"
+          ]
+        }
+      },
+      "required": [
+        "workflow_id",
+        "as_of",
+        "context_version_id",
+        "assessment_id",
+        "assessment_outcome",
+        "evidence_bundle_id",
+        "review_bundle_id",
+        "revision_id",
+        "mappings",
+        "next_cursor",
+        "completeness"
+      ]
+    },
+    "HarnessRunRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+        },
+        "harness_version": {
+          "$ref": "#/$defs/SnapshotRef"
+        }
+      },
+      "required": [
+        "run_id",
+        "harness_version"
+      ]
+    },
+    "HarnessEventRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+        },
+        "event_type": {
+          "enum": [
+            "harness.candidate_created",
+            "harness.evaluation_completed",
+            "harness.promoted",
+            "harness.rejected",
+            "harness.rolled_back"
+          ]
+        },
+        "aggregate_seq": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/aggregate_seq"
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "event_id",
+        "event_type",
+        "aggregate_seq",
+        "occurred_at"
+      ]
+    },
+    "EvaluationSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "evaluation_run_id": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+        },
+        "status": {
+          "$ref": "#/$defs/EvaluationStatus"
+        },
+        "measurement_status": {
+          "$ref": "#/$defs/MeasurementStatus"
+        },
+        "fixture_set_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "metrics": {
+          "$ref": "#/$defs/EvaluationMetrics"
+        }
+      },
+      "required": [
+        "evaluation_run_id",
+        "status",
+        "measurement_status",
+        "fixture_set_hash",
+        "metrics"
+      ]
+    },
+    "HarnessHistoryEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "candidate_id": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "base_harness_version": {
+          "$ref": "#/$defs/SnapshotRef"
+        },
+        "proposed_harness_version": {
+          "$ref": "#/$defs/SnapshotRef"
+        },
+        "patch": {
+          "$ref": "#/$defs/Patch"
+        },
+        "patch_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "protected_policy_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "promotion_class": {
+          "$ref": "#/$defs/PromotionClass"
+        },
+        "status": {
+          "$ref": "#/$defs/CandidateStatus"
+        },
+        "trigger_validation_run_id": {
+          "anyOf": [
+            {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "trigger_feedback_id": {
+          "anyOf": [
+            {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evaluations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EvaluationSummary"
+          },
+          "maxItems": 20,
+          "minItems": 0
+        },
+        "decision_event_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/HarnessEventRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "rollback_event_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/HarnessEventRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "subsequent_runs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/HarnessRunRef"
+          },
+          "maxItems": 50,
+          "minItems": 0
+        }
+      },
+      "required": [
+        "candidate_id",
+        "created_at",
+        "base_harness_version",
+        "proposed_harness_version",
+        "patch",
+        "patch_hash",
+        "protected_policy_hash",
+        "promotion_class",
+        "status",
+        "trigger_validation_run_id",
+        "trigger_feedback_id",
+        "evaluations",
+        "decision_event_ref",
+        "rollback_event_ref",
+        "subsequent_runs"
+      ]
+    },
+    "HarnessHistoryCursor": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "before_candidate_id": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+        }
+      },
+      "required": [
+        "before_candidate_id"
+      ]
+    },
+    "HarnessHistoryBody": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "workflow_id": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+        },
+        "as_of": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "run_bindings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/HarnessRunRef"
+          },
+          "maxItems": 100,
+          "minItems": 0
+        },
+        "active_champion": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SnapshotRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "active_harness_epoch": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "history": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/HarnessHistoryEntry"
+          },
+          "maxItems": 50,
+          "minItems": 0
+        },
+        "next_cursor": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/HarnessHistoryCursor"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "workflow_id",
+        "as_of",
+        "run_bindings",
+        "active_champion",
+        "active_harness_epoch",
+        "history",
+        "next_cursor"
+      ]
+    },
+    "ReadinessCode": {
+      "enum": [
+        "RUNTIME_NOT_VERIFIED",
+        "ATLAS_NOT_VERIFIED",
+        "WORKER_NOT_READY",
+        "AUTH_NOT_READY",
+        "SANDBOX_NOT_VERIFIED",
+        "SEED_NOT_VERIFIED",
+        "MODEL_NOT_VERIFIED",
+        "RETRIEVAL_NOT_VERIFIED",
+        "EMAIL_NOT_VERIFIED",
+        "LANGSMITH_DISABLED",
+        "LANGSMITH_NOT_VERIFIED",
+        "CHECK_FAILED"
+      ]
+    },
+    "ReadinessComponent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "enum": [
+            "runtime",
+            "atlas",
+            "worker",
+            "auth",
+            "sandbox",
+            "seed_sources",
+            "model",
+            "retrieval",
+            "email",
+            "langsmith"
+          ]
+        },
+        "status": {
+          "enum": [
+            "pass",
+            "fail",
+            "unknown",
+            "disabled"
+          ]
+        },
+        "required_for": {
+          "enum": [
+            "app",
+            "demo",
+            "delivery",
+            "eligibility",
+            "optional_diagnostics"
+          ]
+        },
+        "check_id": {
+          "enum": [
+            "runtime_lockfile",
+            "atlas_auth_indexes_transaction",
+            "worker_lease_heartbeat",
+            "auth_role_binding",
+            "sandbox_invite_match",
+            "seed_source_manifest",
+            "model_entitlement_schema",
+            "retrieval_index_status",
+            "email_sender_webhook_delivery",
+            "langsmith_safe_trace_readback"
+          ]
+        },
+        "checked_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "code": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReadinessCode"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "status",
+        "required_for",
+        "check_id",
+        "checked_at",
+        "code"
+      ]
+    },
+    "SandboxAttestation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "actor_id": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+        },
+        "attested_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "invite_project_match": {
+          "const": true
+        }
+      },
+      "required": [
+        "actor_id",
+        "attested_at",
+        "invite_project_match"
+      ]
+    },
+    "ReadinessBody": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "as_of": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "app_ready": {
+          "type": "boolean"
+        },
+        "demo_ready": {
+          "type": "boolean"
+        },
+        "sandbox_eligibility": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "verified",
+                "unknown",
+                "rejected"
+              ]
+            },
+            "attestation": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/SandboxAttestation"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "attestation"
+          ]
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ReadinessComponent"
+          },
+          "maxItems": 10,
+          "minItems": 10
+        },
+        "blocking_codes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ReadinessCode"
+          },
+          "maxItems": 20,
+          "minItems": 0
+        },
+        "degraded_codes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ReadinessCode"
+          },
+          "maxItems": 20,
+          "minItems": 0
+        }
+      },
+      "required": [
+        "as_of",
+        "app_ready",
+        "demo_ready",
+        "sandbox_eligibility",
+        "components",
+        "blocking_codes",
+        "degraded_codes"
+      ]
+    },
+    "LivenessBody": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "alive": {
+          "const": true
+        }
+      },
+      "required": [
+        "alive"
+      ]
+    },
+    "ReadError": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 400
+            },
+            "error_code": {
+              "const": "INVALID_QUERY"
+            },
+            "retryable": {
+              "const": false
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 401
+            },
+            "error_code": {
+              "const": "AUTHENTICATION_REQUIRED"
+            },
+            "retryable": {
+              "const": false
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 403
+            },
+            "error_code": {
+              "const": "FORBIDDEN"
+            },
+            "retryable": {
+              "const": false
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 404
+            },
+            "error_code": {
+              "const": "NOT_FOUND"
+            },
+            "retryable": {
+              "const": false
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 409
+            },
+            "error_code": {
+              "const": "CURSOR_INVALID_FOR_AGGREGATE"
+            },
+            "retryable": {
+              "const": false
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 503
+            },
+            "error_code": {
+              "const": "AUTHORITATIVE_STORE_UNAVAILABLE"
+            },
+            "retryable": {
+              "const": true
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30000
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        }
+      ]
+    },
+    "LivenessError": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "http_status": {
+          "const": 503
+        },
+        "error_code": {
+          "const": "PROCESS_NOT_LIVE"
+        },
+        "retryable": {
+          "const": true
+        },
+        "request_id": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+        },
+        "retry_after_ms": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 30000
+        }
+      },
+      "required": [
+        "http_status",
+        "error_code",
+        "retryable",
+        "request_id",
+        "retry_after_ms"
+      ]
+    },
+    "PageQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "after_seq": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991,
+          "default": 0
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 50
+        }
+      },
+      "required": []
+    },
+    "EvidenceQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "after_mapping_id": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200,
+          "default": 100
+        }
+      },
+      "required": []
+    },
+    "HistoryQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "before_candidate_id": {
+          "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50,
+          "default": 20
+        }
+      },
+      "required": []
+    },
+    "ObservabilityRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "const": "GET"
+        },
+        "route": {
+          "const": "/api/workflows/{workflow_id}/observability"
+        },
+        "path": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "workflow_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            }
+          },
+          "required": [
+            "workflow_id"
+          ]
+        },
+        "query": {
+          "$ref": "#/$defs/PageQuery"
+        }
+      },
+      "required": [
+        "method",
+        "route",
+        "path",
+        "query"
+      ]
+    },
+    "ObservabilitySuccess": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "http_status": {
+          "const": 200
+        },
+        "body": {
+          "$ref": "#/$defs/ObservabilityBody"
+        }
+      },
+      "required": [
+        "http_status",
+        "body"
+      ]
+    },
+    "ObservabilityError": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 400
+            },
+            "error_code": {
+              "const": "INVALID_QUERY"
+            },
+            "retryable": {
+              "const": false
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 401
+            },
+            "error_code": {
+              "const": "AUTHENTICATION_REQUIRED"
+            },
+            "retryable": {
+              "const": false
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 403
+            },
+            "error_code": {
+              "const": "FORBIDDEN"
+            },
+            "retryable": {
+              "const": false
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 404
+            },
+            "error_code": {
+              "const": "NOT_FOUND"
+            },
+            "retryable": {
+              "const": false
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 409
+            },
+            "error_code": {
+              "const": "CURSOR_INVALID_FOR_AGGREGATE"
+            },
+            "retryable": {
+              "const": false
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 503
+            },
+            "error_code": {
+              "const": "AUTHORITATIVE_STORE_UNAVAILABLE"
+            },
+            "retryable": {
+              "const": true
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30000
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        }
+      ]
+    },
+    "EvidenceMapRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "const": "GET"
+        },
+        "route": {
+          "const": "/api/workflows/{workflow_id}/evidence-map"
+        },
+        "path": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "workflow_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            }
+          },
+          "required": [
+            "workflow_id"
+          ]
+        },
+        "query": {
+          "$ref": "#/$defs/EvidenceQuery"
+        }
+      },
+      "required": [
+        "method",
+        "route",
+        "path",
+        "query"
+      ]
+    },
+    "EvidenceMapSuccess": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "http_status": {
+          "const": 200
+        },
+        "body": {
+          "$ref": "#/$defs/EvidenceMapBody"
+        }
+      },
+      "required": [
+        "http_status",
+        "body"
+      ]
+    },
+    "EvidenceMapError": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 400
+            },
+            "error_code": {
+              "const": "INVALID_QUERY"
+            },
+            "retryable": {
+              "const": false
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 401
+            },
+            "error_code": {
+              "const": "AUTHENTICATION_REQUIRED"
+            },
+            "retryable": {
+              "const": false
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 403
+            },
+            "error_code": {
+              "const": "FORBIDDEN"
+            },
+            "retryable": {
+              "const": false
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 404
+            },
+            "error_code": {
+              "const": "NOT_FOUND"
+            },
+            "retryable": {
+              "const": false
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 503
+            },
+            "error_code": {
+              "const": "AUTHORITATIVE_STORE_UNAVAILABLE"
+            },
+            "retryable": {
+              "const": true
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30000
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        }
+      ]
+    },
+    "HarnessHistoryRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "const": "GET"
+        },
+        "route": {
+          "const": "/api/workflows/{workflow_id}/harness-history"
+        },
+        "path": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "workflow_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            }
+          },
+          "required": [
+            "workflow_id"
+          ]
+        },
+        "query": {
+          "$ref": "#/$defs/HistoryQuery"
+        }
+      },
+      "required": [
+        "method",
+        "route",
+        "path",
+        "query"
+      ]
+    },
+    "HarnessHistorySuccess": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "http_status": {
+          "const": 200
+        },
+        "body": {
+          "$ref": "#/$defs/HarnessHistoryBody"
+        }
+      },
+      "required": [
+        "http_status",
+        "body"
+      ]
+    },
+    "HarnessHistoryError": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 400
+            },
+            "error_code": {
+              "const": "INVALID_QUERY"
+            },
+            "retryable": {
+              "const": false
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 401
+            },
+            "error_code": {
+              "const": "AUTHENTICATION_REQUIRED"
+            },
+            "retryable": {
+              "const": false
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 403
+            },
+            "error_code": {
+              "const": "FORBIDDEN"
+            },
+            "retryable": {
+              "const": false
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 404
+            },
+            "error_code": {
+              "const": "NOT_FOUND"
+            },
+            "retryable": {
+              "const": false
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 409
+            },
+            "error_code": {
+              "const": "CURSOR_INVALID_FOR_AGGREGATE"
+            },
+            "retryable": {
+              "const": false
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 503
+            },
+            "error_code": {
+              "const": "AUTHORITATIVE_STORE_UNAVAILABLE"
+            },
+            "retryable": {
+              "const": true
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30000
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        }
+      ]
+    },
+    "ReadinessRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "const": "GET"
+        },
+        "route": {
+          "const": "/api/ops/readiness"
+        },
+        "path": {
+          "$ref": "#/$defs/Empty"
+        },
+        "query": {
+          "$ref": "#/$defs/Empty"
+        }
+      },
+      "required": [
+        "method",
+        "route",
+        "path",
+        "query"
+      ]
+    },
+    "ReadinessSuccess": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "http_status": {
+          "const": 200
+        },
+        "body": {
+          "$ref": "#/$defs/ReadinessBody"
+        }
+      },
+      "required": [
+        "http_status",
+        "body"
+      ]
+    },
+    "ReadinessError": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 400
+            },
+            "error_code": {
+              "const": "INVALID_QUERY"
+            },
+            "retryable": {
+              "const": false
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 401
+            },
+            "error_code": {
+              "const": "AUTHENTICATION_REQUIRED"
+            },
+            "retryable": {
+              "const": false
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 403
+            },
+            "error_code": {
+              "const": "FORBIDDEN"
+            },
+            "retryable": {
+              "const": false
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "http_status": {
+              "const": 503
+            },
+            "error_code": {
+              "const": "AUTHORITATIVE_STORE_UNAVAILABLE"
+            },
+            "retryable": {
+              "const": true
+            },
+            "request_id": {
+              "$ref": "https://kiara.example/contracts/K-EVT-001#/properties/event_id"
+            },
+            "retry_after_ms": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30000
+            }
+          },
+          "required": [
+            "http_status",
+            "error_code",
+            "retryable",
+            "request_id",
+            "retry_after_ms"
+          ]
+        }
+      ]
+    },
+    "LivenessRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "const": "GET"
+        },
+        "route": {
+          "const": "/health/live"
+        },
+        "path": {
+          "$ref": "#/$defs/Empty"
+        },
+        "query": {
+          "$ref": "#/$defs/Empty"
+        }
+      },
+      "required": [
+        "method",
+        "route",
+        "path",
+        "query"
+      ]
+    },
+    "LivenessSuccess": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "http_status": {
+          "const": 200
+        },
+        "body": {
+          "$ref": "#/$defs/LivenessBody"
+        }
+      },
+      "required": [
+        "http_status",
+        "body"
+      ]
+    }
+  }
+}

@@ -1,0 +1,522 @@
+{
+  "schema_version": 1,
+  "artifact_version": "0.2.0",
+  "status": "phase_one_provisional",
+  "edges": [
+    {
+      "edge_id": "D01",
+      "from": "C01",
+      "to": "C05",
+      "interaction": "async",
+      "operation": "ingest_event",
+      "event_or_internal": "user.signed_up",
+      "owner": "T09",
+      "invariant": "Authenticated source; idempotency key; legal_residence evidence distinct from address",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "K-EVT-001"
+      ],
+      "owner_artifact": "../T09/event.schema.json"
+    },
+    {
+      "edge_id": "D02",
+      "from": "C02",
+      "to": "C04",
+      "interaction": "human",
+      "operation": "founder_review_action",
+      "event_or_internal": "review.founder_approved",
+      "owner": "T11",
+      "invariant": "Viewed/reviewed/requested_changes/rejected/approved are separate",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "K-REVIEW-002"
+      ],
+      "owner_artifact": "../T09/review-command.schema.json"
+    },
+    {
+      "edge_id": "D03",
+      "from": "C03",
+      "to": "C04",
+      "interaction": "human",
+      "operation": "lawyer_review_action",
+      "event_or_internal": "review.lawyer_approved",
+      "owner": "T11",
+      "invariant": "Founder gate and exact review_bundle binding required",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "K-REVIEW-002"
+      ],
+      "owner_artifact": "../T09/review-command.schema.json"
+    },
+    {
+      "edge_id": "D04",
+      "from": "C04",
+      "to": "C05",
+      "interaction": "sync",
+      "operation": "review_command",
+      "event_or_internal": "feedback.recorded",
+      "owner": "T09",
+      "invariant": "Trusted server auth; expected state_version and review_bundle_id/hash",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "K-REVIEW-002",
+        "K-REVIEW-003"
+      ],
+      "owner_artifact": "../T09/review-command.schema.json"
+    },
+    {
+      "edge_id": "D05",
+      "from": "C05",
+      "to": "C12",
+      "interaction": "data",
+      "operation": "persist_ingress_and_commands",
+      "event_or_internal": "workflow.created",
+      "owner": "T09",
+      "invariant": "Atomic event dedupe, state mutation and job/outbox enqueue",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "K-EVT-001",
+        "K-WF-002"
+      ],
+      "owner_artifact": "../T09/transitions.json"
+    },
+    {
+      "edge_id": "D06",
+      "from": "C12",
+      "to": "C06",
+      "interaction": "async",
+      "operation": "claim_durable_job",
+      "event_or_internal": "workflow.resumed",
+      "owner": "T09",
+      "invariant": "Conditional lease and fencing; polling authoritative, optional wakeups",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "K-JOB-001"
+      ],
+      "owner_artifact": "../T09/job.schema.json"
+    },
+    {
+      "edge_id": "D07",
+      "from": "C06",
+      "to": "C07",
+      "interaction": "sync",
+      "operation": "get_company_context_and_legal_evidence",
+      "event_or_internal": "context.snapshot_pinned",
+      "owner": "T05",
+      "invariant": "Versioned company facts plus effective-dated authoritative evidence",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "RET-01",
+        "RET-03"
+      ],
+      "owner_artifact": "../T05/contracts.md"
+    },
+    {
+      "edge_id": "D08",
+      "from": "C07",
+      "to": "C12",
+      "interaction": "data",
+      "operation": "read_and_pin_context",
+      "event_or_internal": "context.snapshot_pinned",
+      "owner": "T05",
+      "invariant": "Tenant scope derived from trusted execution context; deterministic retrieval",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "RET-01",
+        "RET-03"
+      ],
+      "owner_artifact": "../T05/contracts.md"
+    },
+    {
+      "edge_id": "D09",
+      "from": "C06",
+      "to": "C08",
+      "interaction": "sync",
+      "operation": "assess_or_generate",
+      "event_or_internal": "assessment.completed",
+      "owner": "T06",
+      "invariant": "Pinned harness and model settings; structured output; fixed budgets",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "K-RUN-001"
+      ],
+      "owner_artifact": "../T06/runtime-contracts.schema.json"
+    },
+    {
+      "edge_id": "D10",
+      "from": "C08",
+      "to": "C17",
+      "interaction": "sync",
+      "operation": "official Responses adapter call; proposed Kiara wrapper governed by K-RUN-POLICY-001, not an invented vendor method",
+      "event_or_internal": "internal.provider_response",
+      "owner": "T06",
+      "invariant": "Official Responses adapter; no direct mutation/approval/promotion authority",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "K-RUN-POLICY-001"
+      ],
+      "owner_artifact": "../T06/runtime-policy.json"
+    },
+    {
+      "edge_id": "D11",
+      "from": "C08",
+      "to": "C10",
+      "interaction": "sync",
+      "operation": "create_change_proposal",
+      "event_or_internal": "proposal.created",
+      "owner": "T08",
+      "invariant": "Stable clauses; immutable base/candidate; evidence-linked edits",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "urn:kiara:t08:document-contracts:1"
+      ],
+      "owner_artifact": "../T08/document-contracts.schema.json"
+    },
+    {
+      "edge_id": "D12",
+      "from": "C06",
+      "to": "C09",
+      "interaction": "sync",
+      "operation": "validate_proposal",
+      "event_or_internal": "validation.failed",
+      "owner": "T07",
+      "invariant": "Deterministic reference/structure/state checks plus bounded semantic review",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "K-EVAL-01"
+      ],
+      "owner_artifact": "../T07/contracts/interface-contracts.md"
+    },
+    {
+      "edge_id": "D13",
+      "from": "C09",
+      "to": "C08",
+      "interaction": "sync",
+      "operation": "repair_current_output",
+      "event_or_internal": "workflow.repair_started",
+      "owner": "T07",
+      "invariant": "At most two repairs; same pinned harness unless explicit switch recorded",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "K-EVAL-02"
+      ],
+      "owner_artifact": "../T07/contracts/interface-contracts.md"
+    },
+    {
+      "edge_id": "D14",
+      "from": "C09",
+      "to": "C10",
+      "interaction": "sync",
+      "operation": "create_validated_review_bundle",
+      "event_or_internal": "validation.passed",
+      "owner": "T08",
+      "invariant": "Bundle includes candidate/base/context/evidence/assessment/validation/harness",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "K-REVIEW-001"
+      ],
+      "owner_artifact": "../T09/review-bundle.schema.json"
+    },
+    {
+      "edge_id": "D15",
+      "from": "C05",
+      "to": "C10",
+      "interaction": "sync",
+      "operation": "record_feedback_or_decision",
+      "event_or_internal": "review.founder_approved",
+      "owner": "T08",
+      "invariant": "Only authorized humans approve; CAS rejects stale review bundle",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "K-REVIEW-002",
+        "K-REVIEW-003"
+      ],
+      "owner_artifact": "../T09/review-command.schema.json"
+    },
+    {
+      "edge_id": "D16",
+      "from": "C10",
+      "to": "C12",
+      "interaction": "data",
+      "operation": "persist_revision_review_and_finalization",
+      "event_or_internal": "document.finalized",
+      "owner": "T08",
+      "invariant": "Both gates bound to exact material; no automatic public publishing",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "K-REVIEW-001",
+        "K-WF-002"
+      ],
+      "owner_artifact": "../T09/transitions.json"
+    },
+    {
+      "edge_id": "D17",
+      "from": "C06",
+      "to": "C13",
+      "interaction": "async",
+      "operation": "enqueue_notification",
+      "event_or_internal": "notification.enqueued",
+      "owner": "T09",
+      "invariant": "Persisted intent for founder review, lawyer review or final status",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "K-NOTIFY-001"
+      ],
+      "owner_artifact": "../T09/notification.schema.json"
+    },
+    {
+      "edge_id": "D18",
+      "from": "C13",
+      "to": "C14",
+      "interaction": "sync",
+      "operation": "deliver_notification",
+      "event_or_internal": "notification.sent",
+      "owner": "T10",
+      "invariant": "Provider acceptance distinct from delivery; dedupe and retry",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "K-NOTIFY-001",
+        "K-NOTIFY-002"
+      ],
+      "owner_artifact": "../T09/notification-transitions.json"
+    },
+    {
+      "edge_id": "D19",
+      "from": "C14",
+      "to": "C05",
+      "interaction": "async",
+      "operation": "notification_delivery_webhook",
+      "event_or_internal": "notification.delivered",
+      "owner": "T10",
+      "invariant": "Verify provider signature; dedupe status event; never grants approval",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "K-NOTIFY-002"
+      ],
+      "owner_artifact": "../T09/notification-transitions.json"
+    },
+    {
+      "edge_id": "D20",
+      "from": "C06",
+      "to": "C15",
+      "interaction": "data",
+      "operation": "append_safe_timeline",
+      "event_or_internal": "internal.timeline_append",
+      "owner": "T13",
+      "invariant": "Correlate event/workflow/run/revision/source/harness/evaluation IDs",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "K-OBS-001"
+      ],
+      "owner_artifact": "../T13/ui-contracts.json"
+    },
+    {
+      "edge_id": "D21",
+      "from": "C15",
+      "to": "C12",
+      "interaction": "data",
+      "operation": "read_workflow_and_config_history",
+      "event_or_internal": "internal.timeline_read",
+      "owner": "T13",
+      "invariant": "Atlas is source of truth; role-based redaction",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "K-OBS-001"
+      ],
+      "owner_artifact": "../T13/ui-contracts.json",
+      "diagram_direction_note": "Registry records read request C15\u2192C12; overview shows response/data flow C12\u2192C15."
+    },
+    {
+      "edge_id": "D22",
+      "from": "C15",
+      "to": "C18",
+      "interaction": "async",
+      "operation": "export_sanitized_trace",
+      "event_or_internal": "internal.trace_export",
+      "owner": "T13",
+      "invariant": "Diagnostic best effort; external outage cannot block approval",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "K-OBS-001"
+      ],
+      "owner_artifact": "../T13/ui-contracts.json"
+    },
+    {
+      "edge_id": "D23",
+      "from": "C09",
+      "to": "C11",
+      "interaction": "async",
+      "operation": "diagnose_failure",
+      "event_or_internal": "harness.candidate_created",
+      "owner": "T07",
+      "invariant": "A repair result can seed a future-run candidate; separate loops",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "K-EVAL-03"
+      ],
+      "owner_artifact": "../T07/contracts/interface-contracts.md"
+    },
+    {
+      "edge_id": "D24",
+      "from": "C10",
+      "to": "C11",
+      "interaction": "async",
+      "operation": "route_reviewed_harness_feedback",
+      "event_or_internal": "feedback.recorded",
+      "owner": "T07",
+      "invariant": "Facts/document edits/legal notes are separate from harness proposals",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "K-REVIEW-003",
+        "K-EVAL-03"
+      ],
+      "owner_artifact": "../T07/contracts/interface-contracts.md"
+    },
+    {
+      "edge_id": "D25",
+      "from": "C11",
+      "to": "C12",
+      "interaction": "data",
+      "operation": "evaluate_and_promote_harness",
+      "event_or_internal": "harness.promoted",
+      "owner": "T07",
+      "invariant": "Frozen baseline/holdout; protected exact Boolean allowlist; expected champion version + monotone generation CAS; rollback uses the same guard",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "K-EVAL-04",
+        "K-EVAL-05",
+        "K-EVAL-06"
+      ],
+      "owner_artifact": "../T07/contracts/interface-contracts.md"
+    },
+    {
+      "edge_id": "D26",
+      "from": "C12",
+      "to": "C08",
+      "interaction": "data",
+      "operation": "pin_active_harness_for_next_run",
+      "event_or_internal": "internal.harness_pin",
+      "owner": "T06",
+      "invariant": "Global champion switch does not invalidate an in-flight approved bundle",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "K-EVAL-07"
+      ],
+      "owner_artifact": "../T07/contracts/interface-contracts.md"
+    },
+    {
+      "edge_id": "D27",
+      "from": "C16",
+      "to": "C12",
+      "interaction": "data",
+      "operation": "store_source_snapshot",
+      "event_or_internal": "internal.source_snapshot",
+      "owner": "T05",
+      "invariant": "Content hash, source URL, retrieved/effective dates and exact provisions",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "ING-01"
+      ],
+      "owner_artifact": "../T05/contracts.md"
+    },
+    {
+      "edge_id": "D28",
+      "from": "C06",
+      "to": "C10",
+      "interaction": "sync",
+      "operation": "finalize_approved_document",
+      "event_or_internal": "document.finalized",
+      "owner": "T09",
+      "invariant": "Atomic both-gate/base/version check then current pointer update",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "K-WF-002"
+      ],
+      "owner_artifact": "../T09/transitions.json"
+    },
+    {
+      "edge_id": "D29",
+      "from": "C06",
+      "to": "C12",
+      "interaction": "data",
+      "operation": "commit_workflow_transition",
+      "event_or_internal": "internal.workflow_transition",
+      "owner": "T09",
+      "invariant": "Expected state_version plus worker fence; append authoritative event",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "component-registry.json",
+      "canonical_contract_ids": [
+        "K-WF-002"
+      ],
+      "owner_artifact": "../T09/transitions.json"
+    },
+    {
+      "edge_id": "D30",
+      "from": "C08",
+      "to": "C07",
+      "interaction": "sync",
+      "operation": "propose_company_context_update",
+      "event_or_internal": "internal.context_update_proposed",
+      "owner": "T06",
+      "invariant": "Model stages typed allowlisted fact proposal with provenance; never overwrites verified context",
+      "canonical_contract_ids": [
+        "K-RUN-TOOLS-001",
+        "RET-05"
+      ],
+      "owner_artifact": "../T06/tool-catalog.json",
+      "contract_status": "mapped_to_owner_draft_pending_T17_freeze",
+      "input_output_source": "../T05/contracts.md"
+    },
+    {
+      "edge_id": "D31",
+      "from": "C05",
+      "to": "C12",
+      "interaction": "data",
+      "operation": "apply_company_context_update",
+      "event_or_internal": "company.context_updated",
+      "owner": "T04",
+      "invariant": "Authorized fact verifier; expected context version CAS; immutable fact/provenance append; material update invalidates review bundle",
+      "canonical_contract_ids": [
+        "K-RUN-TOOLS-001",
+        "K-WF-002"
+      ],
+      "owner_artifact": "../T06/report.md",
+      "contract_status": "named_deterministic_handler_pending_final_T04_API_binding",
+      "input_output_source": "../T05/contracts.md"
+    }
+  ],
+  "notes": [
+    "Dxx IDs identify custom Kiara interactions; canonical owner IDs identify schemas/policies, never SDK method names.",
+    "D12/14 and other slash labels compose multiple crosswalk edges across grouped overview nodes; C06 remains deterministic orchestrator.",
+    "Event and state diagrams use exact event names or WFxx transition IDs; Rxx denotes logical schema relation, not a runtime call.",
+    "K-OBS-001 read-model contract is a design anchor for D20/D22; span/export payload details remain owned by T13."
+  ]
+}

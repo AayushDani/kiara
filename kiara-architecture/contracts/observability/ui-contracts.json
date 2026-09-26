@@ -1,0 +1,178 @@
+{
+  "contract_id": "K-OBS-001",
+  "contract_version": "1.1.0",
+  "status": "proposed_design",
+  "wire": {
+    "fields": "snake_case",
+    "record_ids": "uuid",
+    "timestamps": "RFC3339 UTC",
+    "tenant": "trusted authenticated server context"
+  },
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/api/workflows/{workflow_id}/observability",
+      "query": {
+        "after_seq": "nonnegative integer; default 0",
+        "limit": "integer 1..100; default 50"
+      },
+      "auth": "authorized founder or assigned lawyer with current bundle visibility allowed by T12; operator only with explicit audited content access grant",
+      "response_fields": [
+        "workflow_id",
+        "state",
+        "state_version",
+        "as_of",
+        "aggregate_seq_high_water",
+        "events",
+        "next_cursor",
+        "has_more",
+        "run_summaries",
+        "notifications",
+        "trace_completeness",
+        "telemetry_export_status",
+        "cost_summary"
+      ],
+      "reads": [
+        "workflows",
+        "events",
+        "agent_runs",
+        "telemetry_spans",
+        "notification_outbox"
+      ],
+      "consistency": "snapshot read for state and high-water event page; events ordered by aggregate_seq, scoped to aggregate_type=workflow and aggregate_id=workflow_id; other aggregate links resolved explicitly",
+      "semantics": "events are committed domain facts; spans may be missing or sampled; events include no raw feedback or customer PII; lawyer visibility follows founder gate and review-bundle grants, never mere tenant membership",
+      "endpoint_id": "OBS-OBSERVABILITY",
+      "request_schema": "#/$defs/ObservabilityRequest",
+      "query_schema": "#/$defs/PageQuery",
+      "success_schema": "#/$defs/ObservabilitySuccess",
+      "error_schema": "#/$defs/ObservabilityError"
+    },
+    {
+      "method": "GET",
+      "path": "/api/workflows/{workflow_id}/evidence-map",
+      "query": {
+        "after_mapping_id": "optional UUID cursor; stable mapping order within pinned evidence/revision",
+        "limit": "integer 1..200; default 100"
+      },
+      "auth": "same access as workflow; return only referenced authorized evidence",
+      "response_fields": [
+        "workflow_id",
+        "as_of",
+        "context_version_id",
+        "assessment_id",
+        "assessment_outcome",
+        "evidence_bundle_id",
+        "review_bundle_id",
+        "revision_id",
+        "mappings",
+        "next_cursor",
+        "completeness"
+      ],
+      "mapping_fields": [
+        "mapping_id",
+        "fact",
+        "legal_ref",
+        "clause_id",
+        "mapping_kind",
+        "validation_ref",
+        "operational_followup_id"
+      ],
+      "endpoint_id": "OBS-EVIDENCEMAP",
+      "request_schema": "#/$defs/EvidenceMapRequest",
+      "query_schema": "#/$defs/EvidenceQuery",
+      "success_schema": "#/$defs/EvidenceMapSuccess",
+      "error_schema": "#/$defs/EvidenceMapError"
+    },
+    {
+      "method": "GET",
+      "path": "/api/workflows/{workflow_id}/harness-history",
+      "query": {
+        "before_candidate_id": "optional UUID cursor; resolve timestamp + ID ordering in tenant",
+        "limit": "integer 1..50; default 20"
+      },
+      "auth": "same access as workflow; edit actions absent from this read endpoint",
+      "response_fields": [
+        "workflow_id",
+        "as_of",
+        "run_bindings",
+        "active_champion",
+        "active_harness_epoch",
+        "history",
+        "next_cursor"
+      ],
+      "semantics": "run-pinned version and active champion are separate; historic approvals never mutate merely because champion changes",
+      "endpoint_id": "OBS-HARNESSHISTORY",
+      "request_schema": "#/$defs/HarnessHistoryRequest",
+      "query_schema": "#/$defs/HistoryQuery",
+      "success_schema": "#/$defs/HarnessHistorySuccess",
+      "error_schema": "#/$defs/HarnessHistoryError"
+    },
+    {
+      "method": "GET",
+      "path": "/api/ops/readiness",
+      "query": {},
+      "auth": "operator/admin; public health is separately redacted",
+      "response_fields": [
+        "as_of",
+        "app_ready",
+        "demo_ready",
+        "sandbox_eligibility",
+        "components",
+        "blocking_codes",
+        "degraded_codes"
+      ],
+      "semantics": "per-component pass/fail/unknown/disabled; eligibility attestation is not inferred from connectivity",
+      "endpoint_id": "OBS-READINESS",
+      "request_schema": "#/$defs/ReadinessRequest",
+      "query_schema": "#/$defs/Empty",
+      "success_schema": "#/$defs/ReadinessSuccess",
+      "error_schema": "#/$defs/ReadinessError"
+    },
+    {
+      "method": "GET",
+      "path": "/health/live",
+      "query": {},
+      "auth": "public",
+      "response_fields": [
+        "alive"
+      ],
+      "semantics": "process liveness only; never expose credentials or cluster address",
+      "endpoint_id": "OBS-LIVENESS",
+      "request_schema": "#/$defs/LivenessRequest",
+      "query_schema": "#/$defs/Empty",
+      "success_schema": "#/$defs/LivenessSuccess",
+      "error_schema": "#/$defs/LivenessError"
+    }
+  ],
+  "http_errors": {
+    "400": "INVALID_QUERY",
+    "401": "AUTHENTICATION_REQUIRED",
+    "403": "FORBIDDEN",
+    "404": "NOT_FOUND",
+    "409": "CURSOR_INVALID_FOR_AGGREGATE",
+    "503": "AUTHORITATIVE_STORE_UNAVAILABLE"
+  },
+  "polling": {
+    "active_ms": 1000,
+    "human_wait_ms": 5000,
+    "background_tab_ms": 15000,
+    "failure_backoff_max_ms": 30000,
+    "cursor_reset": "refetch snapshot; never synthesize events"
+  },
+  "acceptance_ids": [
+    "OBS-01",
+    "OBS-02",
+    "OBS-03",
+    "OBS-04",
+    "OBS-05",
+    "OBS-06",
+    "OBS-07",
+    "OBS-08",
+    "OBS-09",
+    "OBS-10",
+    "OBS-11",
+    "OBS-12"
+  ],
+  "machine_contract": "read-models.schema.json",
+  "bindings": "read-models-bindings.json"
+}

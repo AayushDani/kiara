@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:kiara:harness-config:1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "retrieval"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "retrieval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "prefetch"
+      ],
+      "properties": {
+        "prefetch": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "declared_ca_resident_ccpa_bundle",
+            "declared_ca_resident_company_facts"
+          ],
+          "properties": {
+            "declared_ca_resident_ccpa_bundle": {
+              "type": "boolean"
+            },
+            "declared_ca_resident_company_facts": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "reset_epoch": 1,
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "kind": "finalize_document",
+    "dedupe_key": "synthetic_dedupe_key",
+    "state": "succeeded",
+    "expected_state_version": 11,
+    "input_refs": [
+      "73669cc9-9746-5d1c-a40b-fa274647af0d"
+    ],
+    "available_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "attempt_count": 1,
+    "max_attempts": 3,
+    "lease_owner": null,
+    "lease_epoch": 1,
+    "lease_expires_at": null,
+    "deadline_at": {
+      "$date": "2026-09-26T18:05:00.000Z"
+    },
+    "run_id": null,
+    "last_error": null,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "_id": "3d6975b8-4dfb-5eaf-8b1a-136f01c05dd7",
+    "schema_version": 1
+  }
+]

@@ -1,0 +1,82 @@
+{
+  "classification": "Proposed integration readiness checklist; not a live environment report",
+  "checks": [
+    {
+      "id": "ATLAS_SANDBOX",
+      "required": true,
+      "status": "dependency_blocked",
+      "observed": "No invite/account/cluster inspected",
+      "prerequisites": [
+        "Organizer emailed sandbox invitation",
+        "Project+cluster created through invite",
+        "DB credentials, IP/network access and driver connection"
+      ],
+      "acceptance": "Record sandbox project identity; run authorized ping, transaction, index and seed/reset checks."
+    },
+    {
+      "id": "OPENAI_API",
+      "required": true,
+      "status": "dependency_blocked",
+      "observed": "SDK metadata/declarations verified; no API key/model entitlement checked",
+      "prerequisites": [
+        "Project API key",
+        "gpt-6-astra model access",
+        "Budget and quota"
+      ],
+      "acceptance": "Strict output and function-call/result smoke test; fail closed on schema/refusal/401/403; bounded transport retries."
+    },
+    {
+      "id": "RESEND_LIVE",
+      "required": true,
+      "status": "dependency_blocked",
+      "observed": "Docs and release declarations verified; no emails sent",
+      "prerequisites": [
+        "API key",
+        "Verified sending domain/DNS",
+        "Authorized test recipient",
+        "Webhook secret + HTTPS receipt endpoint"
+      ],
+      "acceptance": "Controlled send+delivery receipt; repeat identical idempotent send; invalid-signature rejection; duplicate webhook no-op; unknown timeout then recovery; no blind resend after23h."
+    },
+    {
+      "id": "EMAIL_PREVIEW",
+      "required": true,
+      "status": "designed",
+      "observed": "Schema and synthetic payload fixtures staged; UI/runtime not built",
+      "prerequisites": [
+        "Shared template renderer",
+        "Atlas outbox+preview UI"
+      ],
+      "acceptance": "Same rendered content as live payload; previewed without provider ID; never reported delivered."
+    },
+    {
+      "id": "LANGSMITH",
+      "required": false,
+      "status": "dependency_blocked",
+      "observed": "T13 declaration verification; no live tracing",
+      "prerequisites": [
+        "Account/API key/project",
+        "Sanitization policy"
+      ],
+      "acceptance": "Only allowlisted telemetry exported; exporter failure leaves mandatory Atlas product views and gates working."
+    },
+    {
+      "id": "OPTIONAL_EMBEDDINGS",
+      "required": false,
+      "status": "designed",
+      "observed": "Detailed source and availability audit owned by T05",
+      "prerequisites": [
+        "Chosen provider key/model dimensions",
+        "Model-specific quota",
+        "Ready vector index if enabled"
+      ],
+      "acceptance": "Exact+lexical path remains functional; record provider/model/dimension/index readiness and retrieval receipts."
+    }
+  ],
+  "promotions": {
+    "redeemed": false,
+    "private_email_inspected": false,
+    "forms_submitted": false,
+    "note": "Organizer claims recorded; no account balance or eligibility established."
+  }
+}

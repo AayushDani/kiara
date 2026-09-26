@@ -1,0 +1,551 @@
+{
+  "fixture_kind": "independent_synthetic_endpoint_contract_fixtures_not_live_records_or_a_causal_replay",
+  "exchanges": [
+    {
+      "endpoint_id": "OBS-OBSERVABILITY",
+      "request": {
+        "method": "GET",
+        "route": "/api/workflows/{workflow_id}/observability",
+        "path": {
+          "workflow_id": "13000000-0000-4000-8000-000000000004"
+        },
+        "query": {
+          "after_seq": 0,
+          "limit": 50
+        }
+      },
+      "success": {
+        "http_status": 200,
+        "body": {
+          "workflow_id": "13000000-0000-4000-8000-000000000004",
+          "state": "repairing",
+          "state_version": 8,
+          "as_of": "2026-09-26T16:00:15.000Z",
+          "aggregate_seq_high_water": 12,
+          "events": [
+            {
+              "event_id": "13000000-0000-4000-8000-000000000007",
+              "event_type": "validation.failed",
+              "aggregate_type": "workflow",
+              "aggregate_id": "13000000-0000-4000-8000-000000000004",
+              "aggregate_seq": 12,
+              "occurred_at": "2026-09-26T16:00:15.000Z",
+              "received_at": "2026-09-26T16:00:15.000Z",
+              "correlation_id": "13000000-0000-4000-8000-000000000003",
+              "causation_id": "13000000-0000-4000-8000-000000000011",
+              "workflow_id": "13000000-0000-4000-8000-000000000004",
+              "run_id": "13000000-0000-4000-8000-000000000005",
+              "payload_hash": "20f23de02b628efe7602cd520543928d18e992395db4b0ca37bb6dfed2a5dcbd",
+              "actor_role": "workflow_service",
+              "artifact_refs": {
+                "context_version_id": null,
+                "evidence_bundle_id": null,
+                "assessment_id": null,
+                "proposal_id": null,
+                "revision_id": "13000000-0000-4000-8000-000000000013",
+                "review_bundle_id": null,
+                "validation_run_id": "13000000-0000-4000-8000-000000000012",
+                "evaluation_run_id": null,
+                "harness_version_id": null,
+                "harness_candidate_id": null,
+                "notification_id": null,
+                "feedback_id": null,
+                "operational_followup_id": null
+              },
+              "summary": {
+                "code": "validation.failed",
+                "failed_rule_count": 1,
+                "repair_count": null,
+                "gate": null
+              }
+            }
+          ],
+          "next_cursor": {
+            "aggregate_type": "workflow",
+            "aggregate_id": "13000000-0000-4000-8000-000000000004",
+            "after_seq": 12
+          },
+          "has_more": false,
+          "run_summaries": [
+            {
+              "run_id": "13000000-0000-4000-8000-000000000005",
+              "harness_version": {
+                "record_id": "13000000-0000-4000-8000-000000000008",
+                "sha256": "b26fafa31fc5b91f376966e0a7992b60a50f76fe1076ff845b7117826d75762e"
+              },
+              "runtime_policy_version": {
+                "record_id": "13000000-0000-4000-8000-000000000040",
+                "sha256": "e20811274a3bc5419e730cf79dba82fe9354e819add4a68013d75f157506cec4"
+              },
+              "budget": {
+                "logical_model_requests": 1,
+                "physical_model_attempts": 1,
+                "tool_calls": 0,
+                "repair_attempts": 0,
+                "input_tokens": 0,
+                "output_tokens": 0,
+                "reserved_cost_micro_usd": 100000,
+                "settled_cost_micro_usd": 0,
+                "unknown_cost_micro_usd": 100000
+              },
+              "trace_id": "13000000-0000-4000-8000-000000000100"
+            }
+          ],
+          "notifications": [],
+          "trace_completeness": "partial",
+          "telemetry_export_status": "pending",
+          "cost_summary": {
+            "currency": "USD",
+            "known_estimated_cost_micro_usd": null,
+            "reserved_cost_micro_usd": 100000,
+            "unknown_cost_micro_usd": 100000,
+            "unreconciled_attempts": 1,
+            "completeness": "unknown",
+            "pricing_version": null
+          }
+        }
+      },
+      "errors": [
+        {
+          "http_status": 400,
+          "error_code": "INVALID_QUERY",
+          "retryable": false,
+          "request_id": "13000000-0000-4000-8000-000000000200",
+          "retry_after_ms": null
+        },
+        {
+          "http_status": 401,
+          "error_code": "AUTHENTICATION_REQUIRED",
+          "retryable": false,
+          "request_id": "13000000-0000-4000-8000-000000000200",
+          "retry_after_ms": null
+        },
+        {
+          "http_status": 403,
+          "error_code": "FORBIDDEN",
+          "retryable": false,
+          "request_id": "13000000-0000-4000-8000-000000000200",
+          "retry_after_ms": null
+        },
+        {
+          "http_status": 404,
+          "error_code": "NOT_FOUND",
+          "retryable": false,
+          "request_id": "13000000-0000-4000-8000-000000000200",
+          "retry_after_ms": null
+        },
+        {
+          "http_status": 409,
+          "error_code": "CURSOR_INVALID_FOR_AGGREGATE",
+          "retryable": false,
+          "request_id": "13000000-0000-4000-8000-000000000200",
+          "retry_after_ms": null
+        },
+        {
+          "http_status": 503,
+          "error_code": "AUTHORITATIVE_STORE_UNAVAILABLE",
+          "retryable": true,
+          "request_id": "13000000-0000-4000-8000-000000000200",
+          "retry_after_ms": 1000
+        }
+      ]
+    },
+    {
+      "endpoint_id": "OBS-EVIDENCEMAP",
+      "request": {
+        "method": "GET",
+        "route": "/api/workflows/{workflow_id}/evidence-map",
+        "path": {
+          "workflow_id": "13000000-0000-4000-8000-000000000004"
+        },
+        "query": {}
+      },
+      "success": {
+        "http_status": 200,
+        "body": {
+          "workflow_id": "13000000-0000-4000-8000-000000000004",
+          "as_of": "2026-09-26T16:00:15.000Z",
+          "context_version_id": "13000000-0000-4000-8000-000000000009",
+          "assessment_id": "13000000-0000-4000-8000-000000000014",
+          "assessment_outcome": "needs_information",
+          "evidence_bundle_id": "13000000-0000-4000-8000-000000000010",
+          "review_bundle_id": null,
+          "revision_id": null,
+          "completeness": "partial",
+          "next_cursor": null,
+          "mappings": [
+            {
+              "mapping_id": "13000000-0000-4000-8000-000000000030",
+              "fact": {
+                "context_version_id": "13000000-0000-4000-8000-000000000009",
+                "fact_id": "13000000-0000-4000-8000-000000000031",
+                "fact_key": "business.annual_gross_revenue",
+                "knowledge": "unknown",
+                "origin": "synthetic_fixture",
+                "verification_status": "unverified",
+                "provenance_refs": [
+                  {
+                    "collection": "events",
+                    "id": "13000000-0000-4000-8000-000000000007",
+                    "locator": "payload.context_version_id"
+                  }
+                ]
+              },
+              "legal_ref": {
+                "source_version_id": "13000000-0000-4000-8000-000000000032",
+                "source_sha256": "270c0d536da1e328c882cda409fc95a131d86851b817f538836313cad3b9ed03",
+                "chunk_id": "13000000-0000-4000-8000-000000000033",
+                "provision_key": "ccpa.1798_140.d.1.a",
+                "provision_locator": "Civil Code 1798.140(d)(1)(A)",
+                "retrieved_at": "2026-09-26T15:00:00.000Z",
+                "effective_from": "2026-01-01T00:00:00.000Z",
+                "effective_to": null,
+                "effective_date_status": "known",
+                "status": "operative",
+                "freshness": "not_checked",
+                "source_recheck_attestation_id": null
+              },
+              "clause_id": null,
+              "mapping_kind": "applicability",
+              "validation_ref": null,
+              "operational_followup_id": null
+            }
+          ]
+        }
+      },
+      "errors": [
+        {
+          "http_status": 400,
+          "error_code": "INVALID_QUERY",
+          "retryable": false,
+          "request_id": "13000000-0000-4000-8000-000000000201",
+          "retry_after_ms": null
+        },
+        {
+          "http_status": 401,
+          "error_code": "AUTHENTICATION_REQUIRED",
+          "retryable": false,
+          "request_id": "13000000-0000-4000-8000-000000000201",
+          "retry_after_ms": null
+        },
+        {
+          "http_status": 403,
+          "error_code": "FORBIDDEN",
+          "retryable": false,
+          "request_id": "13000000-0000-4000-8000-000000000201",
+          "retry_after_ms": null
+        },
+        {
+          "http_status": 404,
+          "error_code": "NOT_FOUND",
+          "retryable": false,
+          "request_id": "13000000-0000-4000-8000-000000000201",
+          "retry_after_ms": null
+        },
+        {
+          "http_status": 503,
+          "error_code": "AUTHORITATIVE_STORE_UNAVAILABLE",
+          "retryable": true,
+          "request_id": "13000000-0000-4000-8000-000000000201",
+          "retry_after_ms": 1000
+        }
+      ]
+    },
+    {
+      "endpoint_id": "OBS-HARNESSHISTORY",
+      "request": {
+        "method": "GET",
+        "route": "/api/workflows/{workflow_id}/harness-history",
+        "path": {
+          "workflow_id": "13000000-0000-4000-8000-000000000004"
+        },
+        "query": {
+          "limit": 20
+        }
+      },
+      "success": {
+        "http_status": 200,
+        "body": {
+          "workflow_id": "13000000-0000-4000-8000-000000000004",
+          "as_of": "2026-09-26T16:00:15.000Z",
+          "run_bindings": [
+            {
+              "run_id": "13000000-0000-4000-8000-000000000005",
+              "harness_version": {
+                "record_id": "13000000-0000-4000-8000-000000000008",
+                "sha256": "b26fafa31fc5b91f376966e0a7992b60a50f76fe1076ff845b7117826d75762e"
+              }
+            }
+          ],
+          "active_champion": {
+            "record_id": "13000000-0000-4000-8000-000000000008",
+            "sha256": "b26fafa31fc5b91f376966e0a7992b60a50f76fe1076ff845b7117826d75762e"
+          },
+          "active_harness_epoch": 1,
+          "next_cursor": null,
+          "history": [
+            {
+              "candidate_id": "13000000-0000-4000-8000-000000000050",
+              "created_at": "2026-09-26T16:00:15.000Z",
+              "base_harness_version": {
+                "record_id": "13000000-0000-4000-8000-000000000008",
+                "sha256": "b26fafa31fc5b91f376966e0a7992b60a50f76fe1076ff845b7117826d75762e"
+              },
+              "proposed_harness_version": {
+                "record_id": "13000000-0000-4000-8000-000000000051",
+                "sha256": "6407363f1b92f04bc601b5d1e5eecf0ade3fb9f94f8a378f73611870812d6cea"
+              },
+              "patch": [
+                {
+                  "op": "test",
+                  "path": "/retrieval/prefetch/declared_ca_resident_ccpa_bundle",
+                  "value": false
+                },
+                {
+                  "op": "test",
+                  "path": "/retrieval/prefetch/declared_ca_resident_company_facts",
+                  "value": false
+                },
+                {
+                  "op": "replace",
+                  "path": "/retrieval/prefetch/declared_ca_resident_ccpa_bundle",
+                  "value": true
+                },
+                {
+                  "op": "replace",
+                  "path": "/retrieval/prefetch/declared_ca_resident_company_facts",
+                  "value": true
+                }
+              ],
+              "patch_hash": "eedb6246dd70c072411b90efbcf84641346732b98dd4cda2031e54564024afbe",
+              "protected_policy_hash": "d768b5980d4b31ab35f894be6ddf593940698c43f7046360bbdd2f0f939c526f",
+              "promotion_class": "automatic_allowlisted",
+              "status": "proposed",
+              "trigger_validation_run_id": "13000000-0000-4000-8000-000000000012",
+              "trigger_feedback_id": null,
+              "evaluations": [],
+              "decision_event_ref": null,
+              "rollback_event_ref": null,
+              "subsequent_runs": []
+            }
+          ]
+        }
+      },
+      "errors": [
+        {
+          "http_status": 400,
+          "error_code": "INVALID_QUERY",
+          "retryable": false,
+          "request_id": "13000000-0000-4000-8000-000000000202",
+          "retry_after_ms": null
+        },
+        {
+          "http_status": 401,
+          "error_code": "AUTHENTICATION_REQUIRED",
+          "retryable": false,
+          "request_id": "13000000-0000-4000-8000-000000000202",
+          "retry_after_ms": null
+        },
+        {
+          "http_status": 403,
+          "error_code": "FORBIDDEN",
+          "retryable": false,
+          "request_id": "13000000-0000-4000-8000-000000000202",
+          "retry_after_ms": null
+        },
+        {
+          "http_status": 404,
+          "error_code": "NOT_FOUND",
+          "retryable": false,
+          "request_id": "13000000-0000-4000-8000-000000000202",
+          "retry_after_ms": null
+        },
+        {
+          "http_status": 409,
+          "error_code": "CURSOR_INVALID_FOR_AGGREGATE",
+          "retryable": false,
+          "request_id": "13000000-0000-4000-8000-000000000202",
+          "retry_after_ms": null
+        },
+        {
+          "http_status": 503,
+          "error_code": "AUTHORITATIVE_STORE_UNAVAILABLE",
+          "retryable": true,
+          "request_id": "13000000-0000-4000-8000-000000000202",
+          "retry_after_ms": 1000
+        }
+      ]
+    },
+    {
+      "endpoint_id": "OBS-READINESS",
+      "request": {
+        "method": "GET",
+        "route": "/api/ops/readiness",
+        "path": {},
+        "query": {}
+      },
+      "success": {
+        "http_status": 200,
+        "body": {
+          "as_of": "2026-09-26T16:00:15.000Z",
+          "app_ready": false,
+          "demo_ready": false,
+          "sandbox_eligibility": {
+            "status": "unknown",
+            "attestation": null
+          },
+          "components": [
+            {
+              "name": "runtime",
+              "status": "unknown",
+              "required_for": "app",
+              "check_id": "runtime_lockfile",
+              "checked_at": null,
+              "code": "RUNTIME_NOT_VERIFIED"
+            },
+            {
+              "name": "atlas",
+              "status": "unknown",
+              "required_for": "app",
+              "check_id": "atlas_auth_indexes_transaction",
+              "checked_at": null,
+              "code": "ATLAS_NOT_VERIFIED"
+            },
+            {
+              "name": "worker",
+              "status": "unknown",
+              "required_for": "app",
+              "check_id": "worker_lease_heartbeat",
+              "checked_at": null,
+              "code": "WORKER_NOT_READY"
+            },
+            {
+              "name": "auth",
+              "status": "unknown",
+              "required_for": "app",
+              "check_id": "auth_role_binding",
+              "checked_at": null,
+              "code": "AUTH_NOT_READY"
+            },
+            {
+              "name": "sandbox",
+              "status": "unknown",
+              "required_for": "eligibility",
+              "check_id": "sandbox_invite_match",
+              "checked_at": null,
+              "code": "SANDBOX_NOT_VERIFIED"
+            },
+            {
+              "name": "seed_sources",
+              "status": "unknown",
+              "required_for": "demo",
+              "check_id": "seed_source_manifest",
+              "checked_at": null,
+              "code": "SEED_NOT_VERIFIED"
+            },
+            {
+              "name": "model",
+              "status": "unknown",
+              "required_for": "demo",
+              "check_id": "model_entitlement_schema",
+              "checked_at": null,
+              "code": "MODEL_NOT_VERIFIED"
+            },
+            {
+              "name": "retrieval",
+              "status": "unknown",
+              "required_for": "demo",
+              "check_id": "retrieval_index_status",
+              "checked_at": null,
+              "code": "RETRIEVAL_NOT_VERIFIED"
+            },
+            {
+              "name": "email",
+              "status": "unknown",
+              "required_for": "delivery",
+              "check_id": "email_sender_webhook_delivery",
+              "checked_at": null,
+              "code": "EMAIL_NOT_VERIFIED"
+            },
+            {
+              "name": "langsmith",
+              "status": "disabled",
+              "required_for": "optional_diagnostics",
+              "check_id": "langsmith_safe_trace_readback",
+              "checked_at": null,
+              "code": "LANGSMITH_DISABLED"
+            }
+          ],
+          "blocking_codes": [
+            "RUNTIME_NOT_VERIFIED",
+            "ATLAS_NOT_VERIFIED",
+            "WORKER_NOT_READY",
+            "AUTH_NOT_READY",
+            "SANDBOX_NOT_VERIFIED",
+            "SEED_NOT_VERIFIED",
+            "MODEL_NOT_VERIFIED",
+            "RETRIEVAL_NOT_VERIFIED"
+          ],
+          "degraded_codes": [
+            "EMAIL_NOT_VERIFIED",
+            "LANGSMITH_DISABLED"
+          ]
+        }
+      },
+      "errors": [
+        {
+          "http_status": 400,
+          "error_code": "INVALID_QUERY",
+          "retryable": false,
+          "request_id": "13000000-0000-4000-8000-000000000203",
+          "retry_after_ms": null
+        },
+        {
+          "http_status": 401,
+          "error_code": "AUTHENTICATION_REQUIRED",
+          "retryable": false,
+          "request_id": "13000000-0000-4000-8000-000000000203",
+          "retry_after_ms": null
+        },
+        {
+          "http_status": 403,
+          "error_code": "FORBIDDEN",
+          "retryable": false,
+          "request_id": "13000000-0000-4000-8000-000000000203",
+          "retry_after_ms": null
+        },
+        {
+          "http_status": 503,
+          "error_code": "AUTHORITATIVE_STORE_UNAVAILABLE",
+          "retryable": true,
+          "request_id": "13000000-0000-4000-8000-000000000203",
+          "retry_after_ms": 1000
+        }
+      ]
+    },
+    {
+      "endpoint_id": "OBS-LIVENESS",
+      "request": {
+        "method": "GET",
+        "route": "/health/live",
+        "path": {},
+        "query": {}
+      },
+      "success": {
+        "http_status": 200,
+        "body": {
+          "alive": true
+        }
+      },
+      "errors": [
+        {
+          "http_status": 503,
+          "error_code": "PROCESS_NOT_LIVE",
+          "retryable": true,
+          "request_id": "13000000-0000-4000-8000-000000000204",
+          "retry_after_ms": 1000
+        }
+      ]
+    }
+  ]
+}

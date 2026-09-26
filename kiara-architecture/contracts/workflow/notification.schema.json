@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kiara.example/contracts/K-NOTIFY-001",
+  "title": "K-NOTIFY-001",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "notification_id",
+    "tenant_id",
+    "reset_epoch",
+    "workflow_id",
+    "kind",
+    "recipient_actor_id",
+    "channel",
+    "mode",
+    "state",
+    "review_bundle_id",
+    "revision_id",
+    "template_version",
+    "rendered_payload_ref",
+    "payload_hash",
+    "provider",
+    "provider_idempotency_key",
+    "first_attempt_at",
+    "retry_until",
+    "provider_message_id",
+    "attempt_count",
+    "available_at",
+    "lease_epoch",
+    "lease_owner",
+    "lease_expires_at",
+    "created_at"
+  ],
+  "properties": {
+    "notification_id": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "tenant_id": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "reset_epoch": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "workflow_id": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "founder_review_request",
+        "lawyer_review_request",
+        "information_request",
+        "finalization_notice",
+        "operational_followup"
+      ]
+    },
+    "recipient_actor_id": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "channel": {
+      "const": "email"
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "preview",
+        "live"
+      ]
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "sending",
+        "retry_wait",
+        "sent",
+        "delivered",
+        "bounced",
+        "failed",
+        "unknown_delivery",
+        "previewed",
+        "canceled"
+      ]
+    },
+    "review_bundle_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "revision_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "template_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rendered_payload_ref": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "payload_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "provider": {
+      "type": "string",
+      "enum": [
+        "resend",
+        "local_preview"
+      ]
+    },
+    "provider_idempotency_key": {
+      "type": "string",
+      "maxLength": 256,
+      "minLength": 1
+    },
+    "first_attempt_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "retry_until": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "provider_message_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "attempt_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "available_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "lease_epoch": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "lease_owner": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "lease_expires_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

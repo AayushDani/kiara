@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kiara.example/contracts/K-REVIEW-003",
+  "title": "K-REVIEW-003",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "workflow_id",
+    "expected_reset_epoch",
+    "expected_state_version",
+    "review_bundle_id",
+    "proposal_id",
+    "feedback_type",
+    "body",
+    "requested_change",
+    "clause_ids",
+    "idempotency_key"
+  ],
+  "properties": {
+    "workflow_id": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "expected_reset_epoch": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "expected_state_version": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "review_bundle_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "proposal_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "feedback_type": {
+      "type": "string",
+      "enum": [
+        "fact_correction",
+        "document_edit",
+        "legal_interpretation_note",
+        "harness_improvement"
+      ]
+    },
+    "body": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 8000
+    },
+    "requested_change": {
+      "type": "boolean"
+    },
+    "clause_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "idempotency_key": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

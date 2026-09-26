@@ -1,0 +1,85 @@
+{
+  "assessmentId": "assessment_demo_ca_001",
+  "companyIdAlias": "company_demo",
+  "eventIdAlias": "event_signup_ca_001",
+  "fixtureId": "demo_ccpa_positive",
+  "jurisdiction": "US-CA",
+  "law": "CCPA_as_amended",
+  "asOf": "2026-09-26",
+  "status": "covered",
+  "assessmentScope": "CCPA business definition and ordinary California consumer signup processing",
+  "interpretationStatus": "proposed_for_human_review",
+  "matchedRoute": "1798.140(d)(1)(A)",
+  "rulePackVersion": "legal_ca_20260926_v1",
+  "factSnapshotVersion": "context_demo_v1",
+  "evidenceSourceIds": [
+    "src_ca_ccpa_statute_20260101",
+    "src_ca_ccpa_regs_20260101",
+    "src_ca_ccpa_cpi_20250101"
+  ],
+  "evidenceSourceHashes": {
+    "src_ca_ccpa_statute_20260101": "d1bb2a12e84d754c87a94d11984d2dbc5613bc47766d0a23bdc4e3a70b876ae1",
+    "src_ca_ccpa_regs_20260101": "8d57eba97a7fe13346b7827d0131e1ab84dc110c6ff20daa6fa6ec4a4329d0fe",
+    "src_ca_ccpa_cpi_20250101": "ea9fd8d88b36a88370b236b4271d13b122bc55289520da7a050d3b7d656c6d5f"
+  },
+  "reasoningEdges": [
+    "map_applicability",
+    "map_inventory",
+    "map_rights",
+    "map_requests"
+  ],
+  "thresholdComparison": {
+    "currency": "USD",
+    "measuredYear": 2025,
+    "observed": 30000000,
+    "operator": ">",
+    "threshold": 26625000,
+    "result": true
+  },
+  "missingFactKeys": [],
+  "findings": [
+    {
+      "findingId": "finding_ca_rights_gap",
+      "status": "potential_gap",
+      "baselineClauseIdAlias": "privacy_general_contact",
+      "requiredClauseIds": [
+        "clause_ca_rights",
+        "clause_ca_requests"
+      ],
+      "basis": "Baseline synthetic policy omits specific California rights and request process; absence of a CCPA acronym is not the test."
+    }
+  ],
+  "proposedClauseIds": [
+    "clause_ca_inventory",
+    "clause_ca_disclosures",
+    "clause_ca_rights",
+    "clause_ca_requests",
+    "clause_ca_sensitive",
+    "clause_ca_sale_share_signals",
+    "clause_ca_retention",
+    "clause_ca_date_contact"
+  ],
+  "operationalFollowupIds": [
+    "op_notice_at_collection",
+    "op_2026_risk_assessment",
+    "op_consumer_rights_process",
+    "op_vendor_contracts",
+    "op_spurpose_review",
+    "op_signal_and_sale_review",
+    "op_retention_enforcement",
+    "op_data_minimization",
+    "op_accessible_publication",
+    "op_cyber_audit_scope",
+    "op_future_obligations",
+    "op_request_records_training"
+  ],
+  "allowedNext": "prepare_versioned_draft_for_validation_and_founder_then_lawyer_review",
+  "prohibitedClaims": [
+    "all NY policies current",
+    "California address proves coverage",
+    "policy is out of compliance because CCPA is absent",
+    "approved text cures prior notice omission",
+    "finalized equals published",
+    "all privacy obligations satisfied"
+  ]
+}

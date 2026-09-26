@@ -1,0 +1,134 @@
+{
+  "contract_id": "K-CMD-001",
+  "status": "proposed_design",
+  "common": {
+    "wire_field_style": "snake_case",
+    "record_id_type": "UUID",
+    "tenant_and_actor": "server authentication context; never accepted from model/public body",
+    "correlation": "event_id/workflow_id/run_id/correlation_id/causation_id; trace_id optional",
+    "database_timeout": "proposed maxCommitTimeMS5000, total command transaction retry budget10000ms; unknown commit reconciles receipt",
+    "transport": "HTTP paths are implementation-local; operation names are Kiara contracts, not vendor API methods"
+  },
+  "commands": [
+    {
+      "contract_id": "K-CMD-INGEST",
+      "operation": "ingest_event",
+      "caller_and_kind": "authenticated signup integration; deterministic API",
+      "input": "trusted source signup fields only; tenant/actor derived",
+      "output": "accepted event_id/workflow_id/state=queued; duplicate returns original IDs",
+      "reads_writes_and_effects": "customers/context; events; workflow; document queue ticket; jobs; command receipt",
+      "idempotency": "source_event_id and caller-scoped command key",
+      "preconditions": "customer_context_version must not downgrade",
+      "timeout_retry": "short DB transaction, no model call; retry only same command hash",
+      "errors": "400 BAD_EVENT; 409 IDEMPOTENCY_KEY_REUSED; stale source version auditable no-op"
+    },
+    {
+      "contract_id": "K-CMD-CLAIM",
+      "operation": "claim_job",
+      "caller_and_kind": "workflow worker; internal DB adapter",
+      "input": "due state/time; eligible workflow; worker identity",
+      "output": "job + incremented lease_epoch + owner/expiry",
+      "reads_writes_and_effects": "job claim and attempt receipt",
+      "idempotency": "atomic claim / fenced epoch",
+      "preconditions": "expected workflow state_version and server lease deadline",
+      "timeout_retry": "120s lease; 30s heartbeat; no blind completion after expiry",
+      "errors": "LEASE_LOST; WORKFLOW_CHANGED; DEADLINE_EXCEEDED"
+    },
+    {
+      "contract_id": "K-CMD-COMMIT",
+      "operation": "commit_workflow_step",
+      "caller_and_kind": "trusted workflow service; not model-callable",
+      "input": "job/lease_epoch; expected state_version; typed candidate output refs",
+      "output": "new state_version and event IDs",
+      "reads_writes_and_effects": "workflow; job expected version; immutable artifacts; events; next jobs; outbox",
+      "idempotency": "job+step+input-hash stable receipt",
+      "preconditions": "state, lease, active proposal slot and relevant material guard epochs",
+      "timeout_retry": "all database effects in one transaction; model/network outside callback",
+      "errors": "LEASE_LOST; INVALID_TRANSITION; MATERIAL_DEPENDENCY_CHANGED; BASE_REVISION_CONFLICT"
+    },
+    {
+      "contract_id": "K-CMD-FEEDBACK",
+      "operation": "record_feedback",
+      "caller_and_kind": "authenticated founder/lawyer; deterministic API",
+      "input": "feedback-command.schema.json plus server auth context",
+      "output": "feedback_id; routing_status=recorded; current state_version",
+      "reads_writes_and_effects": "feedback + event + command receipt; optional separately typed candidate context/harness task",
+      "idempotency": "caller-scoped command key + immutable request hash",
+      "preconditions": "expected state_version; packet match when supplied",
+      "timeout_retry": "no model call in transaction; text is untrusted data",
+      "errors": "404 NOT_FOUND; 409 STALE_REVIEW_BUNDLE; 422 INVALID_FEEDBACK_TYPE"
+    },
+    {
+      "contract_id": "K-CMD-REVIEW",
+      "operation": "record_review_action",
+      "caller_and_kind": "authenticated assigned founder/lawyer; human-only API",
+      "input": "review-command.schema.json; actor role from auth",
+      "output": "action_id; workflow state/state_version; event IDs; queued notification ID if approval",
+      "reads_writes_and_effects": "review activity/decision; guard/head touches; workflow; events; jobs/outbox; receipt",
+      "idempotency": "same key/hash returns original response after rechecking actor access",
+      "preconditions": "action-specific state; exact bundle/base; fresh epochs+source deadline; founder predecessor for lawyer",
+      "timeout_retry": "single short transaction; 409 does not auto-approve a refreshed packet",
+      "errors": "STALE_REVIEW_BUNDLE; FOUNDER_APPROVAL_REQUIRED; SOURCE_REVIEW_EXPIRED; NOT_FOUND"
+    },
+    {
+      "contract_id": "K-CMD-FINALIZE",
+      "operation": "finalize_document",
+      "caller_and_kind": "trusted worker only; no human/model endpoint",
+      "input": "workflow_id; expected_state_version; review_bundle_id/hash; job fence",
+      "output": "finalized revision_id; state=finalized; publication_status=not_published",
+      "reads_writes_and_effects": "tenant/head guard; workflow; finalized event; slot release; finalization outbox; job success",
+      "idempotency": "one finalization per workflow/bundle; stable job receipt",
+      "preconditions": "both active approvals same bundle; source deadline; base and slot current",
+      "timeout_retry": "DB transaction only; notification send separate",
+      "errors": "BASE_REVISION_CONFLICT; STALE_REVIEW_BUNDLE; APPROVALS_REQUIRED; SOURCE_REVIEW_EXPIRED"
+    },
+    {
+      "contract_id": "K-CMD-SUPERSEDE",
+      "operation": "supersede_workflow",
+      "caller_and_kind": "authorized founder/operator; deterministic API",
+      "input": "old workflow_id/state_version; existing replacement workflow_id; reason; idempotency_key",
+      "output": "superseded state; replacement link",
+      "reads_writes_and_effects": "workflow; proposal supersession; historical approval invalidation; fenced jobs; pending outbox cancellation; slot transfer/release",
+      "idempotency": "caller-scoped command key",
+      "preconditions": "old workflow nonterminal; replacement same tenant/document and retains trigger provenance",
+      "timeout_retry": "single transaction; never silently merges business events",
+      "errors": "INVALID_TRANSITION; REPLACEMENT_NOT_FOUND; TENANT_MISMATCH"
+    },
+    {
+      "contract_id": "K-CMD-NOTIFY",
+      "operation": "enqueue_notification",
+      "caller_and_kind": "trusted workflow service; internal operation",
+      "input": "kind; authorized recipient; immutable bundle/revision; mode; template/payload hash",
+      "output": "notification_id/state=pending",
+      "reads_writes_and_effects": "notification_outbox + event in originating state transition transaction",
+      "idempotency": "unique intent tuple; stable provider key",
+      "preconditions": "lawyer request requires founder gate; final notice requires finalized workflow",
+      "timeout_retry": "no provider call here",
+      "errors": "RECIPIENT_NOT_ASSIGNED; DUPLICATE_INTENT; INVALID_NOTIFICATION_STATE"
+    },
+    {
+      "contract_id": "K-CMD-SEND",
+      "operation": "dispatch_notification",
+      "caller_and_kind": "notification worker adapter; never model-callable",
+      "input": "fenced outbox row with immutable key/payload",
+      "output": "sent/provider ID or retry_wait/unknown_delivery/failed/previewed",
+      "reads_writes_and_effects": "outbox projection; immutable attempt/event receipts",
+      "idempotency": "Resend identical key+payload within bounded24h provider window; local23h cutoff",
+      "preconditions": "mode; due time; lease; active review bundle; attempts/deadline",
+      "timeout_retry": "15s HTTP; max5 attempts; no blind replay after23h",
+      "errors": "UNKNOWN_DELIVERY; PAYLOAD_CHANGED; PROVIDER_AUTH_FAILED; DELIVERY_RETRY_EXHAUSTED"
+    },
+    {
+      "contract_id": "K-CMD-WEBHOOK",
+      "operation": "record_delivery_webhook",
+      "caller_and_kind": "Resend verified webhook endpoint",
+      "input": "raw body plus svix signature headers; no user-selected tenant",
+      "output": "200 receipt accepted/already recorded",
+      "reads_writes_and_effects": "webhook_receipts; outbox projection; notification event",
+      "idempotency": "provider + svix-id unique",
+      "preconditions": "valid signature; provider mapping or signed prebound notification tag; timestamp projection rules",
+      "timeout_retry": "persist before ack; retry-safe receipt; no model/draft regeneration",
+      "errors": "400 INVALID_SIGNATURE; unmapped valid event quarantined with200 only after durable quarantine"
+    }
+  ]
+}

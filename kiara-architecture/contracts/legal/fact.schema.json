@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kiara.example/schemas/legal-fact-v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "factId",
+    "knowledgeState",
+    "value",
+    "provenance",
+    "effectiveFrom",
+    "recordedOn"
+  ],
+  "properties": {
+    "factId": {
+      "type": "string"
+    },
+    "knowledgeState": {
+      "enum": [
+        "known",
+        "unknown",
+        "conflicted"
+      ]
+    },
+    "value": {},
+    "provenance": {
+      "type": "object",
+      "required": [
+        "kind",
+        "sourceId",
+        "synthetic"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "demo_fixture",
+            "document",
+            "human_attestation",
+            "event",
+            "derived"
+          ]
+        },
+        "sourceId": {
+          "type": "string"
+        },
+        "synthetic": {
+          "type": "boolean"
+        }
+      }
+    },
+    "effectiveFrom": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "recordedOn": {
+      "type": "string"
+    },
+    "competingValues": {
+      "type": "array",
+      "minItems": 2
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "knowledgeState": {
+            "const": "unknown"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "value": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "knowledgeState": {
+            "const": "known"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "value": {
+            "not": {
+              "type": "null"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "knowledgeState": {
+            "const": "conflicted"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "competingValues"
+        ]
+      }
+    }
+  ]
+}

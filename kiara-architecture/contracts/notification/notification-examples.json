@@ -1,0 +1,80 @@
+{
+  "classification": "Synthetic contract fixtures, never sent. All .test addresses are intentionally non-deliverable.",
+  "preview_request": {
+    "contract_id": "NotificationDispatchV1",
+    "notification_id": "10000000-0000-4000-8000-000000000001",
+    "tenant_id": "10000000-0000-4000-8000-000000000002",
+    "workflow_id": "10000000-0000-4000-8000-000000000003",
+    "review_bundle_id": "10000000-0000-4000-8000-000000000004",
+    "recipient_actor_id": "10000000-0000-4000-8000-000000000005",
+    "notification_kind": "founder_review_requested",
+    "transport": "preview",
+    "dedupe_key": "kiara/10000000-0000-4000-8000-000000000001",
+    "payload_hash": "0aa004f22f51710e2faafe6ca0e8023b4892625f92a28ac040f6c8717b48c24e",
+    "review_url": "https://kiara.example.test/reviews/10000000-0000-4000-8000-000000000004",
+    "payload": {
+      "from": "kiara@example.test",
+      "to": [
+        "founder@example.test"
+      ],
+      "subject": "Kiara: proposed privacy change awaiting your review",
+      "html": "<p>A declared California signup triggered an assessment. Proposed privacy changes await your review.</p><p><a href=\"https://kiara.example.test/reviews/10000000-0000-4000-8000-000000000004\">Review the proposed changes</a></p>",
+      "text": "A declared California signup triggered an assessment. Proposed privacy changes await your review. Review: https://kiara.example.test/reviews/10000000-0000-4000-8000-000000000004"
+    },
+    "first_attempt_at": null,
+    "retry_until": null,
+    "attempt_count": 0
+  },
+  "preview_result": {
+    "contract_id": "NotificationDispatchResultV1",
+    "notification_id": "10000000-0000-4000-8000-000000000001",
+    "transport": "preview",
+    "notification_state": "previewed",
+    "provider_message_id": null,
+    "error_code": null,
+    "recorded_at": "2026-09-26T17:00:00Z"
+  },
+  "resend_request_shape_only": {
+    "contract_id": "NotificationDispatchV1",
+    "notification_id": "10000000-0000-4000-8000-000000000001",
+    "tenant_id": "10000000-0000-4000-8000-000000000002",
+    "workflow_id": "10000000-0000-4000-8000-000000000003",
+    "review_bundle_id": "10000000-0000-4000-8000-000000000004",
+    "recipient_actor_id": "10000000-0000-4000-8000-000000000005",
+    "notification_kind": "founder_review_requested",
+    "transport": "resend",
+    "dedupe_key": "kiara/10000000-0000-4000-8000-000000000001",
+    "payload_hash": "0aa004f22f51710e2faafe6ca0e8023b4892625f92a28ac040f6c8717b48c24e",
+    "review_url": "https://kiara.example.test/reviews/10000000-0000-4000-8000-000000000004",
+    "payload": {
+      "from": "kiara@example.test",
+      "to": [
+        "founder@example.test"
+      ],
+      "subject": "Kiara: proposed privacy change awaiting your review",
+      "html": "<p>A declared California signup triggered an assessment. Proposed privacy changes await your review.</p><p><a href=\"https://kiara.example.test/reviews/10000000-0000-4000-8000-000000000004\">Review the proposed changes</a></p>",
+      "text": "A declared California signup triggered an assessment. Proposed privacy changes await your review. Review: https://kiara.example.test/reviews/10000000-0000-4000-8000-000000000004"
+    },
+    "first_attempt_at": "2026-09-26T17:00:00Z",
+    "retry_until": "2026-09-27T16:00:00Z",
+    "attempt_count": 1
+  },
+  "resend_accepted_shape_only": {
+    "contract_id": "NotificationDispatchResultV1",
+    "notification_id": "10000000-0000-4000-8000-000000000001",
+    "transport": "resend",
+    "notification_state": "sent",
+    "provider_message_id": "20000000-0000-4000-8000-000000000001",
+    "error_code": null,
+    "recorded_at": "2026-09-26T17:00:01Z"
+  },
+  "unknown_delivery_shape_only": {
+    "contract_id": "NotificationDispatchResultV1",
+    "notification_id": "10000000-0000-4000-8000-000000000001",
+    "transport": "resend",
+    "notification_state": "unknown_delivery",
+    "provider_message_id": null,
+    "error_code": "IDEMPOTENCY_WINDOW_EXPIRED",
+    "recorded_at": "2026-09-27T16:00:01Z"
+  }
+}

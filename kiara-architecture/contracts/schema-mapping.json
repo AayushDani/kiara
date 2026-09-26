@@ -1,0 +1,503 @@
+{
+  "artifact_version": "0.2.0",
+  "status": "logical_ER_with_provisional_T04_mapping",
+  "notes": [
+    "No entity-per-noun collection requirement. Embedded structures inherit tenant scope from their parent.",
+    "T04 snapshots were evolving during this pass; final exact field names, cardinalities and champion placement require T17 freeze.",
+    "Logical id maps to UUID-string BSON _id for collection records. Embedded structures use owner-defined keys, not the illustrative top-level id in logical ER.",
+    "All imported public legal sources are tenant-owned immutable copies under T05/T04 current design; public origin does not bypass tenant checks."
+  ],
+  "entities": [
+    {
+      "logical_entity": "TENANT",
+      "physical_collection": "tenants",
+      "embedded_path_or_note": null,
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "ACTOR",
+      "physical_collection": "actors",
+      "embedded_path_or_note": null,
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "COMPANY_FACT_VERSION",
+      "physical_collection": "company_context_versions",
+      "embedded_path_or_note": "facts[]",
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "RESIDENCY_EVIDENCE",
+      "physical_collection": "customers",
+      "embedded_path_or_note": "residency_evidence[]",
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "EVENT",
+      "physical_collection": "events",
+      "embedded_path_or_note": null,
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "WORKFLOW",
+      "physical_collection": "workflows",
+      "embedded_path_or_note": null,
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "CONTEXT_SNAPSHOT",
+      "physical_collection": "company_context_versions",
+      "embedded_path_or_note": null,
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "ASSESSMENT",
+      "physical_collection": "assessments",
+      "embedded_path_or_note": null,
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "LEGAL_SOURCE_VERSION",
+      "physical_collection": "legal_source_versions",
+      "embedded_path_or_note": null,
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "LEGAL_PROVISION",
+      "physical_collection": "legal_chunks",
+      "embedded_path_or_note": null,
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "DOCUMENT",
+      "physical_collection": "documents",
+      "embedded_path_or_note": null,
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "REVISION",
+      "physical_collection": "document_revisions",
+      "embedded_path_or_note": null,
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "CLAUSE",
+      "physical_collection": "document_revisions",
+      "embedded_path_or_note": "clauses[]",
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "CHANGE_PROPOSAL",
+      "physical_collection": "change_proposals",
+      "embedded_path_or_note": null,
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "VALIDATION_RESULT",
+      "physical_collection": "validation_runs",
+      "embedded_path_or_note": null,
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "REVIEW_BUNDLE",
+      "physical_collection": "review_bundles",
+      "embedded_path_or_note": null,
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "EVIDENCE_BUNDLE",
+      "physical_collection": "evidence_bundles",
+      "embedded_path_or_note": null,
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "REVIEW_DECISION",
+      "physical_collection": "review_actions",
+      "embedded_path_or_note": null,
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "FEEDBACK",
+      "physical_collection": "feedback",
+      "embedded_path_or_note": null,
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "OPERATIONAL_FOLLOWUP",
+      "physical_collection": "operational_followups",
+      "embedded_path_or_note": null,
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "JOB",
+      "physical_collection": "jobs",
+      "embedded_path_or_note": null,
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "RUN",
+      "physical_collection": "agent_runs",
+      "embedded_path_or_note": null,
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "TRACE_REFERENCE",
+      "physical_collection": "agent_runs",
+      "embedded_path_or_note": "trace_id; related telemetry_spans per T13",
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "HARNESS_VERSION",
+      "physical_collection": "harness_versions",
+      "embedded_path_or_note": null,
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "HARNESS_CANDIDATE",
+      "physical_collection": "harness_candidates",
+      "embedded_path_or_note": null,
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "EVALUATION_RUN",
+      "physical_collection": "evaluation_runs",
+      "embedded_path_or_note": null,
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "CHAMPION_POINTER",
+      "physical_collection": null,
+      "embedded_path_or_note": "T04 tenants.harness_head_id+harness_epoch versus T07 harness_champions: unresolved",
+      "mapping_status": "unresolved"
+    },
+    {
+      "logical_entity": "NOTIFICATION",
+      "physical_collection": "notifications",
+      "embedded_path_or_note": null,
+      "mapping_status": "owner_draft_mapping"
+    },
+    {
+      "logical_entity": "DELIVERY_ATTEMPT",
+      "physical_collection": "notifications",
+      "embedded_path_or_note": "attempts[]",
+      "mapping_status": "owner_draft_mapping"
+    }
+  ],
+  "relationships": [
+    {
+      "relation_id": "R01",
+      "from_entity": "TENANT",
+      "cardinality_notation": "||--o{",
+      "to_entity": "ACTOR",
+      "meaning": "authorizes",
+      "view": "04a-schema-context.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R02",
+      "from_entity": "TENANT",
+      "cardinality_notation": "||--o{",
+      "to_entity": "COMPANY_FACT_VERSION",
+      "meaning": "owns",
+      "view": "04a-schema-context.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R03",
+      "from_entity": "TENANT",
+      "cardinality_notation": "||--o{",
+      "to_entity": "RESIDENCY_EVIDENCE",
+      "meaning": "records",
+      "view": "04a-schema-context.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R04",
+      "from_entity": "TENANT",
+      "cardinality_notation": "||--o{",
+      "to_entity": "EVENT",
+      "meaning": "scopes",
+      "view": "04a-schema-context.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R05",
+      "from_entity": "EVENT",
+      "cardinality_notation": "||--o{",
+      "to_entity": "WORKFLOW",
+      "meaning": "starts",
+      "view": "04a-schema-context.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R06",
+      "from_entity": "WORKFLOW",
+      "cardinality_notation": "||--o{",
+      "to_entity": "CONTEXT_SNAPSHOT",
+      "meaning": "pins",
+      "view": "04a-schema-context.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R07",
+      "from_entity": "CONTEXT_SNAPSHOT",
+      "cardinality_notation": "}o--o{",
+      "to_entity": "COMPANY_FACT_VERSION",
+      "meaning": "selects",
+      "view": "04a-schema-context.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R08",
+      "from_entity": "CONTEXT_SNAPSHOT",
+      "cardinality_notation": "}o--o{",
+      "to_entity": "RESIDENCY_EVIDENCE",
+      "meaning": "cites",
+      "view": "04a-schema-context.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R09",
+      "from_entity": "WORKFLOW",
+      "cardinality_notation": "||--o{",
+      "to_entity": "ASSESSMENT",
+      "meaning": "versions",
+      "view": "04a-schema-context.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R10",
+      "from_entity": "ASSESSMENT",
+      "cardinality_notation": "}o--||",
+      "to_entity": "CONTEXT_SNAPSHOT",
+      "meaning": "binds",
+      "view": "04a-schema-context.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R13",
+      "from_entity": "WORKFLOW",
+      "cardinality_notation": "||--o{",
+      "to_entity": "CHANGE_PROPOSAL",
+      "meaning": "creates",
+      "view": "04b-schema-documents.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R14",
+      "from_entity": "DOCUMENT",
+      "cardinality_notation": "||--|{",
+      "to_entity": "REVISION",
+      "meaning": "versions",
+      "view": "04b-schema-documents.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R15",
+      "from_entity": "REVISION",
+      "cardinality_notation": "||--o{",
+      "to_entity": "CLAUSE",
+      "meaning": "embeds",
+      "view": "04b-schema-documents.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R16",
+      "from_entity": "CHANGE_PROPOSAL",
+      "cardinality_notation": "}o--||",
+      "to_entity": "REVISION",
+      "meaning": "base",
+      "view": "04b-schema-documents.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R17",
+      "from_entity": "CHANGE_PROPOSAL",
+      "cardinality_notation": "}o--||",
+      "to_entity": "REVISION",
+      "meaning": "candidate",
+      "view": "04b-schema-documents.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R18",
+      "from_entity": "CHANGE_PROPOSAL",
+      "cardinality_notation": "||--o{",
+      "to_entity": "VALIDATION_RESULT",
+      "meaning": "checks",
+      "view": "04b-schema-documents.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R19",
+      "from_entity": "CHANGE_PROPOSAL",
+      "cardinality_notation": "||--o{",
+      "to_entity": "REVIEW_BUNDLE",
+      "meaning": "freezes",
+      "view": "04b-schema-documents.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R20",
+      "from_entity": "REVIEW_BUNDLE",
+      "cardinality_notation": "}o--||",
+      "to_entity": "ASSESSMENT",
+      "meaning": "binds",
+      "view": "04b-schema-documents.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R21",
+      "from_entity": "REVIEW_BUNDLE",
+      "cardinality_notation": "}o--||",
+      "to_entity": "EVIDENCE_BUNDLE",
+      "meaning": "binds",
+      "view": "04b-schema-documents.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R22",
+      "from_entity": "REVIEW_BUNDLE",
+      "cardinality_notation": "||--o{",
+      "to_entity": "REVIEW_DECISION",
+      "meaning": "requires_two_roles",
+      "view": "04b-schema-documents.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R23",
+      "from_entity": "REVIEW_BUNDLE",
+      "cardinality_notation": "||--o{",
+      "to_entity": "FEEDBACK",
+      "meaning": "receives",
+      "view": "04b-schema-documents.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R24",
+      "from_entity": "REVIEW_BUNDLE",
+      "cardinality_notation": "||--o{",
+      "to_entity": "OPERATIONAL_FOLLOWUP",
+      "meaning": "tracks_separately",
+      "view": "04b-schema-documents.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R25",
+      "from_entity": "WORKFLOW",
+      "cardinality_notation": "||--o{",
+      "to_entity": "JOB",
+      "meaning": "schedules",
+      "view": "04c-schema-learning-operations.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R26",
+      "from_entity": "WORKFLOW",
+      "cardinality_notation": "||--o{",
+      "to_entity": "EVENT",
+      "meaning": "emits",
+      "view": "04c-schema-learning-operations.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R27",
+      "from_entity": "WORKFLOW",
+      "cardinality_notation": "||--o{",
+      "to_entity": "RUN",
+      "meaning": "executes",
+      "view": "04c-schema-learning-operations.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R29",
+      "from_entity": "RUN",
+      "cardinality_notation": "||--o{",
+      "to_entity": "TRACE_REFERENCE",
+      "meaning": "observes",
+      "view": "04c-schema-learning-operations.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R34",
+      "from_entity": "WORKFLOW",
+      "cardinality_notation": "||--o{",
+      "to_entity": "NOTIFICATION",
+      "meaning": "enqueues",
+      "view": "04c-schema-learning-operations.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R35",
+      "from_entity": "NOTIFICATION",
+      "cardinality_notation": "||--o{",
+      "to_entity": "DELIVERY_ATTEMPT",
+      "meaning": "retries",
+      "view": "04c-schema-learning-operations.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R28",
+      "from_entity": "RUN",
+      "cardinality_notation": "}o--||",
+      "to_entity": "HARNESS_VERSION",
+      "meaning": "pins",
+      "view": "04d-schema-harness.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R30",
+      "from_entity": "RUN",
+      "cardinality_notation": "||--o{",
+      "to_entity": "HARNESS_CANDIDATE",
+      "meaning": "diagnoses",
+      "view": "04d-schema-harness.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R31",
+      "from_entity": "HARNESS_CANDIDATE",
+      "cardinality_notation": "||--o{",
+      "to_entity": "EVALUATION_RUN",
+      "meaning": "evaluates",
+      "view": "04d-schema-harness.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R32",
+      "from_entity": "HARNESS_CANDIDATE",
+      "cardinality_notation": "||--o|",
+      "to_entity": "HARNESS_VERSION",
+      "meaning": "promotes",
+      "view": "04d-schema-harness.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R33",
+      "from_entity": "CHAMPION_POINTER",
+      "cardinality_notation": "}o--||",
+      "to_entity": "HARNESS_VERSION",
+      "meaning": "points",
+      "view": "04d-schema-harness.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R11",
+      "from_entity": "ASSESSMENT",
+      "cardinality_notation": "}o--o{",
+      "to_entity": "LEGAL_PROVISION",
+      "meaning": "supports",
+      "view": "04e-schema-legal-sources.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    },
+    {
+      "relation_id": "R12",
+      "from_entity": "LEGAL_SOURCE_VERSION",
+      "cardinality_notation": "||--|{",
+      "to_entity": "LEGAL_PROVISION",
+      "meaning": "contains",
+      "view": "04e-schema-legal-sources.mmd",
+      "status": "logical_reference_or_embed_not_database_foreign_key"
+    }
+  ]
+}

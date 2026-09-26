@@ -1,0 +1,22 @@
+[
+  {
+    "op": "test",
+    "path": "/retrieval/prefetch/declared_ca_resident_ccpa_bundle",
+    "value": false
+  },
+  {
+    "op": "test",
+    "path": "/retrieval/prefetch/declared_ca_resident_company_facts",
+    "value": false
+  },
+  {
+    "op": "replace",
+    "path": "/retrieval/prefetch/declared_ca_resident_ccpa_bundle",
+    "value": true
+  },
+  {
+    "op": "replace",
+    "path": "/retrieval/prefetch/declared_ca_resident_company_facts",
+    "value": true
+  }
+]

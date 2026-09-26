@@ -1,0 +1,16 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {mkdtemp,rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {signup,tick,review,feedback} from '../src/workflow/engine';
+import {readState,transaction} from '../src/data/store';
+import {dispatchNotification,recoverNotifications,retryNotification,webhook} from '../src/server/notifications';
+import {id} from '../src/server/hash';
+const dir=await mkdtemp(join(tmpdir(),'kiara-email-'));process.env.KIARA_DATA_DIR=dir;delete process.env.MONGODB_URI;process.env.KIARA_MODEL_MODE='scripted';process.env.KIARA_EMAIL_MODE='preview';
+async function start(){const s=await readState();const result=await signup({customer_name:'Email Test',residence:'US-CA',scenario:'covered',expected_reset_epoch:s.reset_epoch},id());for(let i=0;i<12;i++)await tick();return (await readState()).workflows.find(w=>w.workflow_id===result.workflow_id)!;}
+test('preview is durable and never grants lawyer approval',async()=>{const w=await start();await review(w.workflow_id,'founder',{action:'approved',expected_state_version:w.state_version,expected_reset_epoch:w.reset_epoch,bundle_hash:w.bundle_hash!,note:''},id());await dispatchNotification();const s=await readState();assert.equal(s.notifications[0].status,'previewed');assert.equal(s.workflows[0].state,'awaiting_lawyer');assert.equal(s.workflows[0].approvals.some(a=>a.role==='lawyer'),false);await dispatchNotification();assert.equal((await readState()).notifications.length,1);});
+test('a changed review bundle cancels its old queued notification',async()=>{let s=await readState();await transaction(state=>{state.notifications[0].status='pending';});const w=s.workflows[0],r=s.revisions.find(r=>r.revision_id===w.candidate_revision_id)!,clause=r.clauses.find(c=>c.heading==='California privacy rights')!;await feedback(w.workflow_id,'lawyer',{type:'document_edit',text:clause.body+' Please contact us with questions.',clause_id:clause.clause_id,expected_state_version:w.state_version,expected_candidate_revision_id:w.candidate_revision_id!,expected_reset_epoch:s.reset_epoch},id());await tick();await dispatchNotification();s=await readState();assert.equal(s.notifications[0].status,'canceled');assert.equal(s.workflows[0].state,'awaiting_founder');});
+test('expired send is unknown, blocks blind retry and preserves the provider key',async()=>{await transaction(s=>{s.notifications[0].mode='delivery';s.notifications[0].status='sending';s.notifications[0].lease_until='2000-01-01T00:00:00Z';});const before=(await readState()).notifications[0];assert.equal(await recoverNotifications(),1);const after=(await readState()).notifications[0];assert.equal(after.status,'unknown_delivery');assert.equal(after.dedupe_key,before.dedupe_key);await assert.rejects(retryNotification(after.notification_id,after.reset_epoch),/reconciled/);});
+test('webhook rejects requests when signature configuration is absent',async()=>{delete process.env.RESEND_WEBHOOK_SECRET;await assert.rejects(webhook(new Request('http://localhost/api/webhooks/resend',{method:'POST',body:'{}'})),/not configured/);});
+test.after(async()=>{await rm(dir,{recursive:true,force:true});});

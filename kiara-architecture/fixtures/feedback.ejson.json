@@ -1,0 +1,30 @@
+[
+  {
+    "_id": "d9557c99-101f-5ba4-9f87-a11fd6237805",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "workflow_id": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+    "review_bundle_id": "73669cc9-9746-5d1c-a40b-fa274647af0d",
+    "actor_id": "3a6ef3af-edf4-58c4-8123-03bbcbf09ad1",
+    "actor_role": "lawyer",
+    "feedback_type": "harness_improvement",
+    "body": "Always retrieve the California applicability bundle when a new declared legal residence is CA.",
+    "clause_id": null,
+    "fact_key": null,
+    "proposed_fact": null,
+    "proposed_patch": [],
+    "status": "applied",
+    "resolved_by": "c09e8cf1-b113-542e-902d-bc69877bf369",
+    "resolved_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "result_context_version_id": null,
+    "result_proposal_id": null,
+    "result_harness_candidate_id": "72cea827-a276-519e-b076-2f86e992eb5c",
+    "state_version": 1,
+    "reset_epoch": 1
+  }
+]

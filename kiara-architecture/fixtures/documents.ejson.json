@@ -1,0 +1,19 @@
+[
+  {
+    "_id": "eaaa8632-ac8b-5e3a-a030-1b9c5719473a",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "kind": "privacy_policy",
+    "title": "Riff Demo synthetic privacy policy",
+    "current_revision_id": "6e12d307-1397-5160-8b40-a5e83f02e303",
+    "current_revision_number": 2,
+    "state_version": 2,
+    "active_workflow_id": null,
+    "slot_epoch": 1,
+    "queue_counter": 1,
+    "reset_epoch": 1
+  }
+]

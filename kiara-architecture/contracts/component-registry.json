@@ -1,0 +1,410 @@
+{
+  "schema_version": 1,
+  "artifact_version": "0.2.0",
+  "status": "phase_one_provisional",
+  "components": [
+    {
+      "component_id": "C01",
+      "label": "Signup source",
+      "process_boundary": "external_app",
+      "design_owner": "T09",
+      "design_chat_id": "01a0de6f-f87e-72c1-a88b-cd79736ea3dd",
+      "inputs": "Declared-residence signup facts",
+      "outputs": "user.signed_up",
+      "backing_logical_data": "customer residency evidence",
+      "acceptance_check": "Ingest duplicate produces one workflow",
+      "status": "proposed_design",
+      "physical_collection_mapping": "dependency_T04",
+      "implementation_packages": [
+        "I04"
+      ],
+      "implementation_locations": [
+        "src/events/",
+        "src/workflow/",
+        "src/reviews/"
+      ],
+      "implementation_chat_status": "planned_not_created; T14 manifest is schedule, not evidence of launched build chats"
+    },
+    {
+      "component_id": "C02",
+      "label": "Founder",
+      "process_boundary": "human",
+      "design_owner": "T11",
+      "design_chat_id": "01a0de71-46b6-7231-8e13-a08f3b3d0c00",
+      "inputs": "Version-bound review bundle",
+      "outputs": "Attributed feedback or explicit decision",
+      "backing_logical_data": "actors; review activity; decisions",
+      "acceptance_check": "Viewed is not approved; founder precedes lawyer",
+      "status": "proposed_design",
+      "physical_collection_mapping": "dependency_T04",
+      "implementation_packages": [
+        "I07"
+      ],
+      "implementation_locations": [
+        "src/ui/founder/",
+        "src/ui/lawyer/",
+        "src/routes/product/"
+      ],
+      "implementation_chat_status": "planned_not_created; T14 manifest is schedule, not evidence of launched build chats"
+    },
+    {
+      "component_id": "C03",
+      "label": "Lawyer",
+      "process_boundary": "human",
+      "design_owner": "T11",
+      "design_chat_id": "01a0de71-46b6-7231-8e13-a08f3b3d0c00",
+      "inputs": "Founder-approved review bundle",
+      "outputs": "Attributed legal feedback or explicit decision",
+      "backing_logical_data": "actors; review activity; decisions",
+      "acceptance_check": "Stale or premature lawyer approval is rejected",
+      "status": "proposed_design",
+      "physical_collection_mapping": "dependency_T04",
+      "implementation_packages": [
+        "I07"
+      ],
+      "implementation_locations": [
+        "src/ui/founder/",
+        "src/ui/lawyer/",
+        "src/routes/product/"
+      ],
+      "implementation_chat_status": "planned_not_created; T14 manifest is schedule, not evidence of launched build chats"
+    },
+    {
+      "component_id": "C04",
+      "label": "Review workspace",
+      "process_boundary": "web_browser",
+      "design_owner": "T11",
+      "design_chat_id": "01a0de71-46b6-7231-8e13-a08f3b3d0c00",
+      "inputs": "Authorized read models; user actions",
+      "outputs": "HTTP commands with expected versions",
+      "backing_logical_data": "Atlas read projections via API only",
+      "acceptance_check": "Shows facts, citations, redline, repair and future config changes",
+      "status": "proposed_design",
+      "physical_collection_mapping": "dependency_T04",
+      "implementation_packages": [
+        "I07"
+      ],
+      "implementation_locations": [
+        "src/ui/founder/",
+        "src/ui/lawyer/",
+        "src/routes/product/"
+      ],
+      "implementation_chat_status": "planned_not_created; T14 manifest is schedule, not evidence of launched build chats"
+    },
+    {
+      "component_id": "C05",
+      "label": "Authenticated API",
+      "process_boundary": "web_api_process",
+      "design_owner": "T09",
+      "design_chat_id": "01a0de6f-f87e-72c1-a88b-cd79736ea3dd",
+      "inputs": "Authenticated commands, webhook events",
+      "outputs": "Validated command result or structured error",
+      "backing_logical_data": "events; workflows; review decisions",
+      "acceptance_check": "Trusted tenant/actor; roles and compare-and-set enforced",
+      "status": "proposed_design",
+      "physical_collection_mapping": "dependency_T04",
+      "implementation_packages": [
+        "I00",
+        "I04"
+      ],
+      "implementation_locations": [
+        "src/server/",
+        "src/worker/",
+        "src/events/",
+        "src/workflow/",
+        "src/reviews/"
+      ],
+      "implementation_chat_status": "planned_not_created; T14 manifest is schedule, not evidence of launched build chats"
+    },
+    {
+      "component_id": "C06",
+      "label": "Durable workflow worker",
+      "process_boundary": "worker_process",
+      "design_owner": "T09",
+      "design_chat_id": "01a0de6f-f87e-72c1-a88b-cd79736ea3dd",
+      "inputs": "Leased jobs and pinned versions",
+      "outputs": "Deterministic transitions and persisted waits",
+      "backing_logical_data": "workflows; jobs; events; notification outbox",
+      "acceptance_check": "Restart preserves human waits; fenced stale worker cannot commit",
+      "status": "proposed_design",
+      "physical_collection_mapping": "dependency_T04",
+      "implementation_packages": [
+        "I04",
+        "I00"
+      ],
+      "implementation_locations": [
+        "src/events/",
+        "src/workflow/",
+        "src/reviews/",
+        "src/server/",
+        "src/worker/"
+      ],
+      "implementation_chat_status": "planned_not_created; T14 manifest is schedule, not evidence of launched build chats"
+    },
+    {
+      "component_id": "C07",
+      "label": "Context and legal retrieval",
+      "process_boundary": "worker_module",
+      "design_owner": "T05",
+      "design_chat_id": "01a0de70-86a4-7bb2-a393-47f085d953f9",
+      "inputs": "Event, trusted tenant, as-of date, context request",
+      "outputs": "Immutable context/evidence snapshots",
+      "backing_logical_data": "company facts; legal sources; provisions; snapshots",
+      "acceptance_check": "Unknown stays unknown; citations resolve to pinned sources",
+      "status": "proposed_design",
+      "physical_collection_mapping": "dependency_T04",
+      "implementation_packages": [
+        "I02"
+      ],
+      "implementation_locations": [
+        "src/ingestion/",
+        "src/retrieval/"
+      ],
+      "implementation_chat_status": "planned_not_created; T14 manifest is schedule, not evidence of launched build chats"
+    },
+    {
+      "component_id": "C08",
+      "label": "Bounded model harness",
+      "process_boundary": "worker_module",
+      "design_owner": "T06",
+      "design_chat_id": "01a0de6f-eaed-70a3-a3bb-dc20b148e485",
+      "inputs": "Pinned harness, context, task and budget",
+      "outputs": "Structured assessment or proposed clauses",
+      "backing_logical_data": "run records; tool calls; harness version",
+      "acceptance_check": "Typed permission-aware tools; bounded retries; no human decisions",
+      "status": "proposed_design",
+      "physical_collection_mapping": "dependency_T04",
+      "implementation_packages": [
+        "I03"
+      ],
+      "implementation_locations": [
+        "src/runtime/",
+        "src/tools/"
+      ],
+      "implementation_chat_status": "planned_not_created; T14 manifest is schedule, not evidence of launched build chats"
+    },
+    {
+      "component_id": "C09",
+      "label": "Validation and repair controller",
+      "process_boundary": "worker_module",
+      "design_owner": "T07",
+      "design_chat_id": "01a0de70-9240-75f1-90cb-b7f5a644206e",
+      "inputs": "Candidate plus evidence/base/review bindings",
+      "outputs": "Validation result; repair route or escalation",
+      "backing_logical_data": "validation results; repair attempts",
+      "acceptance_check": "At most two repairs; exhausted route needs_human_review",
+      "status": "proposed_design",
+      "physical_collection_mapping": "dependency_T04",
+      "implementation_packages": [
+        "I06"
+      ],
+      "implementation_locations": [
+        "src/validation/",
+        "src/adaptation/",
+        "evals/"
+      ],
+      "implementation_chat_status": "planned_not_created; T14 manifest is schedule, not evidence of launched build chats"
+    },
+    {
+      "component_id": "C10",
+      "label": "Document and review service",
+      "process_boundary": "shared_server_module",
+      "design_owner": "T08",
+      "design_chat_id": "01a0de70-a21b-7dd1-b451-caff676245ee",
+      "inputs": "Immutable base/candidate, evidence bundle, decisions",
+      "outputs": "Canonical clause revision, redline and review bundle",
+      "backing_logical_data": "documents; revisions; proposals; review bundles; decisions",
+      "acceptance_check": "Material changes invalidate both gates; finalization is internal",
+      "status": "proposed_design",
+      "physical_collection_mapping": "dependency_T04",
+      "implementation_packages": [
+        "I05",
+        "I04"
+      ],
+      "implementation_locations": [
+        "src/documents/",
+        "src/ui/redline/",
+        "src/events/",
+        "src/workflow/",
+        "src/reviews/"
+      ],
+      "implementation_chat_status": "planned_not_created; T14 manifest is schedule, not evidence of launched build chats"
+    },
+    {
+      "component_id": "C11",
+      "label": "Harness adaptation controller",
+      "process_boundary": "worker_module",
+      "design_owner": "T07",
+      "design_chat_id": "01a0de70-9240-75f1-90cb-b7f5a644206e",
+      "inputs": "Structured failures/reviewed feedback; frozen cases",
+      "outputs": "Candidate patch, evaluation, promotion or rollback",
+      "backing_logical_data": "harness configs; candidates; eval runs; champion history",
+      "acceptance_check": "Protected rules cannot self-promote; expected champion CAS",
+      "status": "proposed_design",
+      "physical_collection_mapping": "dependency_T04",
+      "implementation_packages": [
+        "I06"
+      ],
+      "implementation_locations": [
+        "src/validation/",
+        "src/adaptation/",
+        "evals/"
+      ],
+      "implementation_chat_status": "planned_not_created; T14 manifest is schedule, not evidence of launched build chats"
+    },
+    {
+      "component_id": "C12",
+      "label": "MongoDB Atlas",
+      "process_boundary": "managed_database",
+      "design_owner": "T04",
+      "design_chat_id": "01a0de70-7a80-7010-8274-47e00e2cb855",
+      "inputs": "Tenant-scoped writes; public-source imports",
+      "outputs": "Authoritative state and immutable records",
+      "backing_logical_data": "All physical collections assigned by T04",
+      "acceptance_check": "Indexes and validators preserve unique active proposal and versioning",
+      "status": "proposed_design",
+      "physical_collection_mapping": "dependency_T04",
+      "implementation_packages": [
+        "I01"
+      ],
+      "implementation_locations": [
+        "src/data/",
+        "scripts/seed.ts",
+        "scripts/reset.ts"
+      ],
+      "implementation_chat_status": "planned_not_created; T14 manifest is schedule, not evidence of launched build chats"
+    },
+    {
+      "component_id": "C13",
+      "label": "Notification dispatcher",
+      "process_boundary": "worker_module",
+      "design_owner": "T09",
+      "design_chat_id": "01a0de6f-f87e-72c1-a88b-cd79736ea3dd",
+      "inputs": "Durable outbox intent and idempotency key",
+      "outputs": "Provider request; delivery attempt or preview",
+      "backing_logical_data": "notification outbox; delivery attempts",
+      "acceptance_check": "Retry delivery without rerunning draft or granting approval",
+      "status": "proposed_design",
+      "physical_collection_mapping": "dependency_T04",
+      "implementation_packages": [
+        "I08"
+      ],
+      "implementation_locations": [
+        "src/notifications/",
+        "src/routes/notification-webhooks/"
+      ],
+      "implementation_chat_status": "planned_not_created; T14 manifest is schedule, not evidence of launched build chats"
+    },
+    {
+      "component_id": "C14",
+      "label": "Email provider",
+      "process_boundary": "external_service",
+      "design_owner": "T10",
+      "design_chat_id": "01a0de70-0aac-7ae1-8cef-3e18e0e1fac2",
+      "inputs": "Authorized review/document link message",
+      "outputs": "Provider acceptance and delivery webhooks",
+      "backing_logical_data": "Provider message IDs; delivery status",
+      "acceptance_check": "Real provider adapter and preview are distinct modes",
+      "status": "proposed_design",
+      "physical_collection_mapping": "dependency_T04",
+      "implementation_packages": [
+        "I08"
+      ],
+      "implementation_locations": [
+        "src/notifications/",
+        "src/routes/notification-webhooks/"
+      ],
+      "implementation_chat_status": "planned_not_created; T14 manifest is schedule, not evidence of launched build chats"
+    },
+    {
+      "component_id": "C15",
+      "label": "Timeline and config read models",
+      "process_boundary": "web_api_read_models_and_worker_exporter_modules",
+      "design_owner": "T13",
+      "design_chat_id": "01a0de71-5bab-7630-a36b-389b221141d4",
+      "inputs": "Correlated events, versions, tool summaries",
+      "outputs": "Atlas read models plus sanitized spans exported by a worker module to optional LangSmith diagnostic sink",
+      "backing_logical_data": "Atlas authoritative trace refs; sanitized telemetry",
+      "acceptance_check": "Shows failure/correction/config diff without hidden chain-of-thought",
+      "status": "proposed_design",
+      "physical_collection_mapping": "dependency_T04",
+      "implementation_packages": [
+        "I09"
+      ],
+      "implementation_locations": [
+        "src/observability/",
+        "src/ui/technical/"
+      ],
+      "implementation_chat_status": "planned_not_created; T14 manifest is schedule, not evidence of launched build chats"
+    },
+    {
+      "component_id": "C16",
+      "label": "Source ingestion",
+      "process_boundary": "worker_module",
+      "design_owner": "T05",
+      "design_chat_id": "01a0de70-86a4-7bb2-a393-47f085d953f9",
+      "inputs": "Authorized company files and authoritative legal URLs",
+      "outputs": "Content-hashed source versions and exact locators",
+      "backing_logical_data": "company documents; public legal snapshots/provisions",
+      "acceptance_check": "Untrusted content cannot change tools or fetch arbitrary destinations",
+      "status": "proposed_design",
+      "physical_collection_mapping": "dependency_T04",
+      "implementation_packages": [
+        "I02"
+      ],
+      "implementation_locations": [
+        "src/ingestion/",
+        "src/retrieval/"
+      ],
+      "implementation_chat_status": "planned_not_created; T14 manifest is schedule, not evidence of launched build chats"
+    },
+    {
+      "component_id": "C17",
+      "label": "OpenAI Responses provider",
+      "process_boundary": "external_service",
+      "design_owner": "T06",
+      "design_chat_id": "01a0de6f-eaed-70a3-a3bb-dc20b148e485",
+      "inputs": "Minimized context and typed response schema",
+      "outputs": "Model response or provider error",
+      "backing_logical_data": "Provider request ID; safe cost/latency metrics",
+      "acceptance_check": "Timeout and invalid output route to bounded retry/escalation",
+      "status": "proposed_design",
+      "physical_collection_mapping": "dependency_T04",
+      "implementation_packages": [
+        "I03"
+      ],
+      "implementation_locations": [
+        "src/runtime/",
+        "src/tools/"
+      ],
+      "implementation_chat_status": "planned_not_created; T14 manifest is schedule, not evidence of launched build chats"
+    },
+    {
+      "component_id": "C18",
+      "label": "LangSmith trace sink",
+      "process_boundary": "external_service",
+      "design_owner": "T13",
+      "design_chat_id": "01a0de71-5bab-7630-a36b-389b221141d4",
+      "inputs": "Sanitized trace metadata",
+      "outputs": "Optional diagnostic trace reference",
+      "backing_logical_data": "External diagnostic copy only",
+      "acceptance_check": "Outage does not lose Atlas workflow state",
+      "status": "proposed_design",
+      "physical_collection_mapping": "dependency_T04",
+      "implementation_packages": [
+        "I09"
+      ],
+      "implementation_locations": [
+        "src/observability/",
+        "src/ui/technical/"
+      ],
+      "implementation_chat_status": "planned_not_created; T14 manifest is schedule, not evidence of launched build chats"
+    }
+  ],
+  "notes": [
+    "Implementation packages map to actual T14 I00\u2013I09; build chats are not yet created.",
+    "C10 is shared server code used by API and worker, not a third deployed process.",
+    "C15 spans web read models and a worker trace exporter; LangSmith has no reverse control path.",
+    "The compact overview groups several modules; all 18 component IDs remain visible in its labels."
+  ]
+}

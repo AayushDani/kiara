@@ -1,0 +1,137 @@
+{
+  "manifestVersion": "1.0.0",
+  "status": "selected_design_not_installed",
+  "owner": "T10",
+  "retrievedAt": "2026-09-26T16:17:28.519415+00:00",
+  "node": {
+    "selected": "24.19.0",
+    "engineRange": ">=24.0.0 <25",
+    "observedLocalVersion": "24.19.0",
+    "check": "bundled Node --version executed"
+  },
+  "dependencies": {
+    "openai": {
+      "version": "7.23.0",
+      "role": "Model API adapter",
+      "required": true,
+      "license": "Apache-2.0",
+      "nodeRange": {
+        "node": ">=22.0.0"
+      },
+      "publishedAt": "2026-09-23T07:19:25.720Z",
+      "registryUrl": "https://registry.npmjs.org/openai",
+      "checkStatus": "registry_metadata_verified; openai/resend declarations and tarball SRI checked; not installed or executed"
+    },
+    "mongodb": {
+      "version": "7.6.0",
+      "role": "Atlas data and workflow driver",
+      "required": true,
+      "license": "Apache-2.0",
+      "nodeRange": {
+        "node": ">=20.19.0"
+      },
+      "publishedAt": "2026-08-24T17:35:26.113Z",
+      "registryUrl": "https://registry.npmjs.org/mongodb",
+      "checkStatus": "registry_metadata_verified; openai/resend declarations and tarball SRI checked; not installed or executed"
+    },
+    "resend": {
+      "version": "6.30.0",
+      "role": "Actual email delivery adapter",
+      "required": true,
+      "license": "MIT",
+      "nodeRange": {
+        "node": ">=20"
+      },
+      "publishedAt": "2026-09-25T16:13:30.060Z",
+      "registryUrl": "https://registry.npmjs.org/resend",
+      "checkStatus": "registry_metadata_verified; openai/resend declarations and tarball SRI checked; not installed or executed"
+    },
+    "zod": {
+      "version": "4.6.5",
+      "role": "Runtime type/schema helper",
+      "required": true,
+      "license": "MIT",
+      "nodeRange": null,
+      "publishedAt": "2026-09-13T23:25:14.644Z",
+      "registryUrl": "https://registry.npmjs.org/zod",
+      "checkStatus": "registry_metadata_verified; openai/resend declarations and tarball SRI checked; not installed or executed"
+    },
+    "langsmith": {
+      "version": "0.10.5",
+      "role": "Sanitized external trace export",
+      "required": false,
+      "license": "MIT",
+      "nodeRange": null,
+      "publishedAt": "2026-09-21T19:57:57.926Z",
+      "registryUrl": "https://registry.npmjs.org/langsmith",
+      "checkStatus": "registry_metadata_verified; openai/resend declarations and tarball SRI checked; not installed or executed"
+    },
+    "next": {
+      "version": "16.3.6",
+      "role": "Selected web/API framework",
+      "required": true,
+      "license": "MIT",
+      "nodeRange": {
+        "node": ">=20.9.0"
+      },
+      "publishedAt": "2026-09-22T16:19:00.458Z",
+      "registryUrl": "https://registry.npmjs.org/next",
+      "checkStatus": "registry_metadata_verified; openai/resend declarations and tarball SRI checked; not installed or executed"
+    },
+    "react": {
+      "version": "19.3.0",
+      "role": "Selected UI runtime",
+      "required": true,
+      "license": "MIT",
+      "nodeRange": {
+        "node": ">=0.10.0"
+      },
+      "publishedAt": "2026-09-09T17:21:30.071Z",
+      "registryUrl": "https://registry.npmjs.org/react",
+      "checkStatus": "registry_metadata_verified; openai/resend declarations and tarball SRI checked; not installed or executed"
+    },
+    "react-dom": {
+      "version": "19.3.0",
+      "role": "Selected UI DOM renderer",
+      "required": true,
+      "license": "MIT",
+      "nodeRange": null,
+      "publishedAt": "2026-09-09T17:17:39.744Z",
+      "registryUrl": "https://registry.npmjs.org/react-dom",
+      "checkStatus": "registry_metadata_verified; openai/resend declarations and tarball SRI checked; not installed or executed"
+    }
+  },
+  "buildDependencies": {
+    "typescript": {
+      "version": "7.0.2",
+      "source": "https://registry.npmjs.org/typescript",
+      "status": "version_verified_not_installed"
+    },
+    "tsx": {
+      "version": "4.23.15",
+      "source": "https://registry.npmjs.org/tsx",
+      "status": "version_verified_not_installed"
+    }
+  },
+  "notSelected": [
+    "strands-agents",
+    "strands-harness",
+    "strands-harness-optimizer",
+    "@strands-agents/sdk",
+    "@langchain/langgraph",
+    "deepagents",
+    "ai",
+    "@ai-sdk/openai",
+    "MongoDB runtime MCP",
+    "OpenRouter",
+    "Vercel AI Gateway"
+  ],
+  "lockfilePolicy": "At build kickoff resolve this exact selected package set, include required transitive packages, retain licenses and commit lockfile. Install/typecheck and security audit are not claimed by this manifest.",
+  "notes": [
+    "Next16.3.6 Node>=20.9 and React^19 peer accepts selected React19.3.0; react-dom19.3.0 peer requires react^19.3.0. Node24 selected for all processes.",
+    "Resend @react-email/render peer is optional; use fixed escaped HTML/text template, no React Email required.",
+    "OpenAI zod peer ^3.25 or ^4.0 accepts selected4.6.5; remaining OpenAI peers are optional for unused transports/providers.",
+    "Strands TS1.19.0 advertises openai^6.45.0 peer; do not graft it into OpenAI7 stack without separate compatibility work.",
+    "No provider API key, account quota or entitlement checked."
+  ]
+}

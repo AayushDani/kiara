@@ -1,0 +1,205 @@
+{
+  "schema_version": 1,
+  "sources": [
+    "research/T04/fixtures/id-map.json",
+    "research/T08/fixtures/ui-anchor.json"
+  ],
+  "aliases": [
+    {
+      "semantic_key": "tenant",
+      "former_t11_uuid": "a12887cf-304f-5b9c-82cb-960729350be6",
+      "canonical_t04_key": "tenant",
+      "canonical_uuid": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "status": "adopted"
+    },
+    {
+      "semantic_key": "founder",
+      "former_t11_uuid": "95e6178b-a15a-5cd3-8153-cd9250f2d71a",
+      "canonical_t04_key": "founder",
+      "canonical_uuid": "6c6939bf-2453-539f-8f86-6b1e6e61edbe",
+      "status": "adopted"
+    },
+    {
+      "semantic_key": "lawyer",
+      "former_t11_uuid": "7b1a19e7-4ede-594f-9ae1-8e9007ba3bfc",
+      "canonical_t04_key": "lawyer",
+      "canonical_uuid": "3a6ef3af-edf4-58c4-8123-03bbcbf09ad1",
+      "status": "adopted"
+    },
+    {
+      "semantic_key": "workflow",
+      "former_t11_uuid": "cd7fe656-ed8b-56c4-b7c5-bf44e3163784",
+      "canonical_t04_key": "workflow",
+      "canonical_uuid": "b91239c2-2368-5a97-912f-b6cc9b3124ae",
+      "status": "adopted"
+    },
+    {
+      "semantic_key": "event",
+      "former_t11_uuid": "95d19658-2101-576c-adf4-dad2df16d22d",
+      "canonical_t04_key": "signup-ca",
+      "canonical_uuid": "4fbd9f2e-d458-5a31-99c6-e333fe338b64",
+      "status": "adopted"
+    },
+    {
+      "semantic_key": "review_bundle",
+      "former_t11_uuid": "8a456e71-512d-550a-aec1-d11130c8d3fe",
+      "canonical_t04_key": "review-bundle",
+      "canonical_uuid": "73669cc9-9746-5d1c-a40b-fa274647af0d",
+      "status": "adopted"
+    },
+    {
+      "semantic_key": "document",
+      "former_t11_uuid": "bf57f67e-a623-567b-a4f7-b91c9cb85bbb",
+      "canonical_t04_key": "document",
+      "canonical_uuid": "eaaa8632-ac8b-5e3a-a030-1b9c5719473a",
+      "status": "adopted"
+    },
+    {
+      "semantic_key": "proposal",
+      "former_t11_uuid": "65aec53e-c77e-5057-9d33-172c2b842340",
+      "canonical_t04_key": "proposal",
+      "canonical_uuid": "5895124e-72a8-51b4-a698-76baf5df7709",
+      "status": "adopted"
+    },
+    {
+      "semantic_key": "base_revision",
+      "former_t11_uuid": "1d0e2b44-3dd4-5084-94df-5d7c1bc3074d",
+      "canonical_t04_key": "revision-v1",
+      "canonical_uuid": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+      "status": "adopted"
+    },
+    {
+      "semantic_key": "candidate_revision",
+      "former_t11_uuid": "a78532d5-ad73-54a2-9c40-87459b7348f5",
+      "canonical_t04_key": "revision-v2",
+      "canonical_uuid": "6e12d307-1397-5160-8b40-a5e83f02e303",
+      "status": "adopted"
+    },
+    {
+      "semantic_key": "context_snapshot",
+      "former_t11_uuid": "1194b916-db9f-58fd-9d7e-9fd06d764f4e",
+      "canonical_t04_key": "context-v1",
+      "canonical_uuid": "450ccf54-f2ab-547d-b79b-c9badb798f4a",
+      "status": "adopted"
+    },
+    {
+      "semantic_key": "evidence_bundle",
+      "former_t11_uuid": "7733cdd4-78af-5ef9-9452-07f4d077df74",
+      "canonical_t04_key": "evidence",
+      "canonical_uuid": "a1e7ef80-f977-5165-b650-ec65c7efc1bf",
+      "status": "adopted"
+    },
+    {
+      "semantic_key": "assessment",
+      "former_t11_uuid": "f3068df3-3eaa-5248-9c6c-e402a068776f",
+      "canonical_t04_key": "assessment",
+      "canonical_uuid": "aa9d34f4-2739-5ba9-a960-253102f31a64",
+      "status": "adopted"
+    },
+    {
+      "semantic_key": "validation",
+      "former_t11_uuid": "00eb4782-d64a-58c3-b117-23e998a7e224",
+      "canonical_t04_key": "validation-passed",
+      "canonical_uuid": "7687ca3b-5d93-512f-b088-9a2bcce10c64",
+      "status": "adopted"
+    },
+    {
+      "semantic_key": "source",
+      "former_t11_uuid": "cf223d2e-854b-5921-bc10-87f68776fe78",
+      "canonical_t04_key": "src_ca_ccpa_statute_20260101",
+      "canonical_uuid": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+      "status": "adopted"
+    },
+    {
+      "semantic_key": "provision",
+      "former_t11_uuid": "e3a847f8-4d9b-5cd2-9220-9043721889bd",
+      "canonical_t04_key": "prov_ccpa_request_methods",
+      "canonical_uuid": "bc0e0529-0acd-5a30-bedc-508fdb3651f6",
+      "status": "adopted"
+    },
+    {
+      "semantic_key": "harness_version",
+      "former_t11_uuid": "171f54db-9e29-5248-8b67-64f9a5ba00a9",
+      "canonical_t04_key": "harness-v1",
+      "canonical_uuid": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+      "status": "adopted"
+    },
+    {
+      "semantic_key": "harness_candidate",
+      "former_t11_uuid": "035492f7-ea99-5200-bd45-8bc23fa3fb10",
+      "canonical_t04_key": "harness-candidate",
+      "canonical_uuid": "72cea827-a276-519e-b076-2f86e992eb5c",
+      "status": "adopted"
+    },
+    {
+      "semantic_key": "eval",
+      "former_t11_uuid": "9169dae9-b70d-51ee-8941-fbc663ac6a76",
+      "canonical_t04_key": "evaluation",
+      "canonical_uuid": "cd3acd36-7e86-5737-80b6-330bbf11e7fa",
+      "status": "adopted"
+    },
+    {
+      "semantic_key": "notification",
+      "former_t11_uuid": "e3c56a5d-6882-5c17-8beb-5af553063eb9",
+      "canonical_t04_key": "notification",
+      "canonical_uuid": "f6722949-1d0e-5d05-82d1-20739f4ed339",
+      "status": "adopted"
+    },
+    {
+      "semantic_key": "clause",
+      "former_t11_uuid": "3d3342ac-0003-5560-896d-7aad6548cb4d",
+      "canonical_t08_artifact": "research/T08/fixtures/ui-anchor.json",
+      "canonical_uuid": "d38acbf4-c1cc-5eb2-8650-ce5de03c4eda",
+      "status": "adopted"
+    },
+    {
+      "semantic_key": "fact_version",
+      "t11_uuid": "c05d826a-9e32-5de1-b218-de531ccdeafb",
+      "canonical_uuid": null,
+      "status": "supplemental_example_record_pending_T04_seed_mapping",
+      "main_trace_dependency": false
+    },
+    {
+      "semantic_key": "feedback_fact",
+      "t11_uuid": "cbe12ea3-8c2a-5697-b472-8cc3a8c6671e",
+      "canonical_uuid": null,
+      "status": "supplemental_example_record_pending_T04_seed_mapping",
+      "main_trace_dependency": false
+    },
+    {
+      "semantic_key": "correlation",
+      "t11_uuid": "72fe5669-8439-563c-8102-8ae8f38c58fc",
+      "canonical_uuid": null,
+      "status": "supplemental_example_record_pending_T04_seed_mapping",
+      "main_trace_dependency": false
+    },
+    {
+      "semantic_key": "feedback_legal",
+      "t11_uuid": "60078a54-6227-5013-85a9-842a02c31cd6",
+      "canonical_uuid": null,
+      "status": "supplemental_example_record_pending_T04_seed_mapping",
+      "main_trace_dependency": false
+    },
+    {
+      "semantic_key": "feedback_harness",
+      "t11_uuid": "aece738b-b1af-5d16-a886-32bbb8506229",
+      "canonical_uuid": null,
+      "status": "supplemental_example_record_pending_T04_seed_mapping",
+      "main_trace_dependency": false
+    },
+    {
+      "semantic_key": "new_review_bundle",
+      "t11_uuid": "b2b4e8b2-41e4-5875-8569-2edf4be9fe84",
+      "canonical_uuid": null,
+      "status": "supplemental_example_record_pending_T04_seed_mapping",
+      "main_trace_dependency": false
+    },
+    {
+      "semantic_key": "feedback_edit",
+      "t11_uuid": "048d5c70-0a42-5cdd-86a3-b7e575d0242e",
+      "canonical_uuid": null,
+      "status": "supplemental_example_record_pending_T04_seed_mapping",
+      "main_trace_dependency": false
+    }
+  ]
+}

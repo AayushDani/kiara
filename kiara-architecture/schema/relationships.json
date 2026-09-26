@@ -1,0 +1,163 @@
+[
+  {
+    "from": "tenants",
+    "to": "actors",
+    "cardinality": "1:N",
+    "reference": "actors.tenant_id",
+    "tenant_join_required": true
+  },
+  {
+    "from": "tenants",
+    "to": "company_context_versions",
+    "cardinality": "1:N",
+    "reference": "company_context_versions.tenant_id; tenants.context_head_id",
+    "tenant_join_required": true
+  },
+  {
+    "from": "tenants",
+    "to": "legal_source_versions",
+    "cardinality": "1:N",
+    "reference": "tenants.active_source_version_ids",
+    "tenant_join_required": true
+  },
+  {
+    "from": "legal_source_versions",
+    "to": "legal_chunks",
+    "cardinality": "1:N",
+    "reference": "legal_chunks.source_version_id",
+    "tenant_join_required": true
+  },
+  {
+    "from": "company_context_versions",
+    "to": "assessments",
+    "cardinality": "1:N",
+    "reference": "assessments.context_version_id",
+    "tenant_join_required": true
+  },
+  {
+    "from": "events",
+    "to": "workflows",
+    "cardinality": "1:N",
+    "reference": "workflows.trigger_event_id",
+    "tenant_join_required": true
+  },
+  {
+    "from": "documents",
+    "to": "document_revisions",
+    "cardinality": "1:N",
+    "reference": "document_revisions.document_id",
+    "tenant_join_required": true
+  },
+  {
+    "from": "documents",
+    "to": "workflows",
+    "cardinality": "1:N; at most one active slot",
+    "reference": "documents.active_workflow_id",
+    "tenant_join_required": true
+  },
+  {
+    "from": "workflows",
+    "to": "agent_runs",
+    "cardinality": "1:N",
+    "reference": "agent_runs.workflow_id",
+    "tenant_join_required": true
+  },
+  {
+    "from": "workflows",
+    "to": "jobs",
+    "cardinality": "1:N",
+    "reference": "jobs.workflow_id",
+    "tenant_join_required": true
+  },
+  {
+    "from": "agent_runs",
+    "to": "tool_receipts",
+    "cardinality": "1:N",
+    "reference": "tool_receipts.run_id",
+    "tenant_join_required": true
+  },
+  {
+    "from": "assessments",
+    "to": "evidence_bundles",
+    "cardinality": "1:N",
+    "reference": "evidence_bundles.assessment_id",
+    "tenant_join_required": true
+  },
+  {
+    "from": "evidence_bundles",
+    "to": "change_proposals",
+    "cardinality": "1:N",
+    "reference": "change_proposals.evidence_bundle_id",
+    "tenant_join_required": true
+  },
+  {
+    "from": "change_proposals",
+    "to": "validation_runs",
+    "cardinality": "1:N",
+    "reference": "validation_runs.proposal_id nullable for readiness",
+    "tenant_join_required": true
+  },
+  {
+    "from": "change_proposals",
+    "to": "review_bundles",
+    "cardinality": "1:N",
+    "reference": "review_bundles.review_input.proposal_id",
+    "tenant_join_required": true
+  },
+  {
+    "from": "review_bundles",
+    "to": "review_actions",
+    "cardinality": "1:N",
+    "reference": "review_actions.review_bundle_id",
+    "tenant_join_required": true
+  },
+  {
+    "from": "workflows",
+    "to": "feedback",
+    "cardinality": "1:N",
+    "reference": "feedback.workflow_id",
+    "tenant_join_required": true
+  },
+  {
+    "from": "workflows",
+    "to": "notification_outbox",
+    "cardinality": "1:N",
+    "reference": "notification_outbox.workflow_id",
+    "tenant_join_required": true
+  },
+  {
+    "from": "workflows",
+    "to": "operational_followups",
+    "cardinality": "1:N",
+    "reference": "operational_followups.workflow_id",
+    "tenant_join_required": true
+  },
+  {
+    "from": "harness_versions",
+    "to": "agent_runs",
+    "cardinality": "1:N",
+    "reference": "agent_runs.harness_version_id",
+    "tenant_join_required": true
+  },
+  {
+    "from": "harness_candidates",
+    "to": "evaluation_runs",
+    "cardinality": "1:N",
+    "reference": "evaluation_runs.candidate_id",
+    "tenant_join_required": true
+  },
+  {
+    "from": "harness_versions",
+    "to": "harness_candidates",
+    "cardinality": "1:N",
+    "reference": "harness_candidates.base_harness_version_id",
+    "tenant_join_required": true
+  },
+  {
+    "from": "legal_source_versions",
+    "to": "source_recheck_attestations",
+    "cardinality": "1:N",
+    "reference": "source_recheck_attestations.source_version_id",
+    "tenant_join_required": true
+  }
+]

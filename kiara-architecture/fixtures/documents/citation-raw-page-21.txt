@@ -1,0 +1,39 @@
+CPPA 
+   
+ 
+Page 21 of 103 
+(f)  A business that uses or discloses a consumer’s sensitive personal information for purposes 
+other than those specified in section 7027, subsection (m), shall provide a Notice of Right 
+to Limit or the Alternative Opt-out Link in accordance with the CCPA and sections 7014 
+and 7015. 
+(g)  A business that offers a financial incentive or price or service difference shall provide a 
+Notice of Financial Incentive in accordance with the CCPA and section 7016.  
+Note: Authority cited: Section 1798.185, Civil Code. Reference: Sections 1798.100, 1798.105, 
+1798.106, 1798.110, 1798.115, 1798.120, 1798.121, 1798.125, 1798.130, 1798.135, and 
+1798.185, Civil Code. 
+§ 7011.  Privacy Policy.  
+(a) The purpose of the privacy policy is to provide consumers with a comprehensive 
+description of a business’s online and offline information practices. It shall also inform 
+consumers about the rights they have regarding their personal information and provide 
+any information necessary for them to exercise those rights.  
+(b) The privacy policy shall comply with section 7003, subsections (a) and (b).  
+(c) The privacy policy shall be available in a format that allows a consumer to print it out as a 
+document.  
+(d) The privacy policy shall be posted online and accessible through a conspicuous link that 
+complies with section 7003, subsections (c) and (d), using the word “privacy” on the 
+business’s website homepage(s) or on the download or landing page of a mobile 
+application. If the business has a California-specific description of consumers’ privacy 
+rights on its website, then the privacy policy shall be included in that description. A 
+business that does not operate a website shall make the privacy policy conspicuously 
+available to consumers. A mobile application must also include a link to the privacy policy 
+in the application’s settings menu.  
+(e) The privacy policy shall include the following information: 
+(1) A comprehensive description of the business’s online and offline information 
+practices, which includes the following: 
+(A) Identification of the categories of personal information the business has 
+collected about consumers in the preceding 12 months. The categories shall be 
+described using the specific terms set forth in Civil Code section 1798.140, 
+subdivisions (v)(1)(A) – (K) and (ae)(1) – (2). To the extent that the business has 
+discretion in its description, the business shall describe the category in a 
+manner that provides consumers a meaningful understanding of the 
+information being collected.  

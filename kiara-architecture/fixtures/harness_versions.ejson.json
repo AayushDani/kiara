@@ -1,0 +1,102 @@
+[
+  {
+    "_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "version": 1,
+    "parent_version_id": null,
+    "config": {
+      "schema_version": 1,
+      "retrieval": {
+        "prefetch": {
+          "declared_ca_resident_ccpa_bundle": false,
+          "declared_ca_resident_company_facts": false
+        }
+      }
+    },
+    "config_hash": "6c54874e3b5b5b7c586bd019e206b89372568a5fcd7e6b42eb33a64c02726db5",
+    "protected_policy_hash": "352de86787f8501502b4f286b48dd86de966353244665f47bcf643075446e510",
+    "created_by": "c09e8cf1-b113-542e-902d-bc69877bf369",
+    "candidate_id": null,
+    "runtime_policy": {
+      "_id": "97f8a45d-50e4-5451-9f0c-6ff965d38c32",
+      "version": "0.1.0",
+      "limits": {
+        "max_logical_model_requests": 9,
+        "max_physical_model_attempts": 12,
+        "max_transport_retries_per_logical_request": 2,
+        "max_tool_calls": 16,
+        "max_repairs": 2,
+        "absolute_run_deadline_ms": 300000,
+        "max_input_tokens_per_request": 24000,
+        "max_cumulative_input_tokens": 120000,
+        "max_cumulative_output_tokens": 24000,
+        "max_cost_micro_usd": 3000000,
+        "max_inflight_model_requests_per_worker": 2,
+        "max_active_review_runs_per_company_document": 1,
+        "max_identical_tool_execution_per_snapshot": 1,
+        "max_tool_result_chars": 12000
+      },
+      "sha256": "a37d42173c5ba81dd0e1ced53c66adb0bc747e4e4cf858e0acb92847a2119454"
+    },
+    "validator_policy": {
+      "_id": "1245e521-68b7-515a-b515-55b0f298fabd",
+      "version": "validator.v1",
+      "sha256": "5c1c9bfca13fa871589482f1d065e8bf75be3b12ed96882b9c227f062550ea1f"
+    },
+    "reset_epoch": 1
+  },
+  {
+    "_id": "e084aa8e-40c1-5c94-abac-a701cb08022b",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "version": 2,
+    "parent_version_id": "de7eeb80-697c-573a-8c76-9e837127a6c9",
+    "config": {
+      "schema_version": 1,
+      "retrieval": {
+        "prefetch": {
+          "declared_ca_resident_ccpa_bundle": true,
+          "declared_ca_resident_company_facts": true
+        }
+      }
+    },
+    "config_hash": "3e5ac9cc65b817cdf27fad9c3db62a07f91eb300275cd8ee165b8cbbff9554e0",
+    "protected_policy_hash": "352de86787f8501502b4f286b48dd86de966353244665f47bcf643075446e510",
+    "created_by": "c09e8cf1-b113-542e-902d-bc69877bf369",
+    "candidate_id": "72cea827-a276-519e-b076-2f86e992eb5c",
+    "runtime_policy": {
+      "_id": "97f8a45d-50e4-5451-9f0c-6ff965d38c32",
+      "version": "0.1.0",
+      "limits": {
+        "max_logical_model_requests": 9,
+        "max_physical_model_attempts": 12,
+        "max_transport_retries_per_logical_request": 2,
+        "max_tool_calls": 16,
+        "max_repairs": 2,
+        "absolute_run_deadline_ms": 300000,
+        "max_input_tokens_per_request": 24000,
+        "max_cumulative_input_tokens": 120000,
+        "max_cumulative_output_tokens": 24000,
+        "max_cost_micro_usd": 3000000,
+        "max_inflight_model_requests_per_worker": 2,
+        "max_active_review_runs_per_company_document": 1,
+        "max_identical_tool_execution_per_snapshot": 1,
+        "max_tool_result_chars": 12000
+      },
+      "sha256": "a37d42173c5ba81dd0e1ced53c66adb0bc747e4e4cf858e0acb92847a2119454"
+    },
+    "validator_policy": {
+      "_id": "1245e521-68b7-515a-b515-55b0f298fabd",
+      "version": "validator.v1",
+      "sha256": "5c1c9bfca13fa871589482f1d065e8bf75be3b12ed96882b9c227f062550ea1f"
+    },
+    "reset_epoch": 1
+  }
+]

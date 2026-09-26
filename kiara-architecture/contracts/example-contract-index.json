@@ -1,0 +1,50 @@
+{
+  "status": "existing_owner_examples_not_a_new_competing_fixture",
+  "examples": [
+    {
+      "name": "signup/event envelopes",
+      "path": "../T09/example-events.json",
+      "exists": true
+    },
+    {
+      "name": "review command",
+      "path": "../T09/example-review-command.json",
+      "exists": true
+    },
+    {
+      "name": "feedback command",
+      "path": "../T09/example-feedback-command.json",
+      "exists": true
+    },
+    {
+      "name": "review bundle",
+      "path": "../T09/example-review-bundle.json",
+      "exists": true
+    },
+    {
+      "name": "errors",
+      "path": "../T09/example-errors.json",
+      "exists": true
+    },
+    {
+      "name": "retrieval request and response",
+      "path": "../T05/examples.json",
+      "exists": true
+    },
+    {
+      "name": "exact automatic patch",
+      "path": "../T07/fixtures/auto-patch.json",
+      "exists": true
+    },
+    {
+      "name": "document redline",
+      "path": "../T08/fixtures/redline.json",
+      "exists": true
+    },
+    {
+      "name": "observability view",
+      "path": "../T13/ui-example.json",
+      "exists": true
+    }
+  ]
+}

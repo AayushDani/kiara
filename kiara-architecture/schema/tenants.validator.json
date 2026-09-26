@@ -1,0 +1,205 @@
+{
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "required": [
+        "_id",
+        "tenant_id",
+        "schema_version",
+        "created_at",
+        "name",
+        "fictional_demo",
+        "scenario_date",
+        "company_profile",
+        "context_head_id",
+        "context_epoch",
+        "harness_head_id",
+        "harness_epoch",
+        "reset_epoch",
+        "state_version",
+        "material_context_epoch",
+        "material_evidence_epoch",
+        "review_fence",
+        "policy_epoch",
+        "active_source_version_ids",
+        "maintenance_state",
+        "active_source_recheck_attestation_ids"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "tenant_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "schema_version": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "enum": [
+            1
+          ]
+        },
+        "created_at": {
+          "bsonType": "date"
+        },
+        "name": {
+          "bsonType": "string",
+          "maxLength": 160
+        },
+        "fictional_demo": {
+          "bsonType": "bool"
+        },
+        "scenario_date": {
+          "bsonType": "date"
+        },
+        "company_profile": {
+          "bsonType": "object",
+          "required": [
+            "legal_name",
+            "description",
+            "known_customer_regions"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "legal_name": {
+              "bsonType": "string",
+              "maxLength": 160
+            },
+            "description": {
+              "bsonType": "string",
+              "maxLength": 1000
+            },
+            "known_customer_regions": {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string",
+                "maxLength": 2
+              },
+              "maxItems": 60,
+              "minItems": 0
+            }
+          }
+        },
+        "context_head_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "context_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "harness_head_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "harness_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "reset_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "state_version": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "material_context_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "material_evidence_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "review_fence": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "policy_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "active_source_version_ids": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "string",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "maxItems": 100,
+          "minItems": 0
+        },
+        "maintenance_state": {
+          "bsonType": "string",
+          "enum": [
+            "ready",
+            "resetting",
+            "loading"
+          ]
+        },
+        "active_source_recheck_attestation_ids": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "string",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "maxItems": 100,
+          "minItems": 0
+        }
+      }
+    }
+  },
+  "validationLevel": "strict",
+  "validationAction": "error"
+}

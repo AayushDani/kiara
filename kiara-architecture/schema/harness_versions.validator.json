@@ -1,0 +1,319 @@
+{
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "required": [
+        "_id",
+        "tenant_id",
+        "schema_version",
+        "created_at",
+        "version",
+        "parent_version_id",
+        "config",
+        "config_hash",
+        "protected_policy_hash",
+        "created_by",
+        "candidate_id",
+        "runtime_policy",
+        "validator_policy",
+        "reset_epoch"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "tenant_id": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "schema_version": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "enum": [
+            1
+          ]
+        },
+        "created_at": {
+          "bsonType": "date"
+        },
+        "version": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "parent_version_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "config": {
+          "bsonType": "object",
+          "additionalProperties": false,
+          "required": [
+            "schema_version",
+            "retrieval"
+          ],
+          "properties": {
+            "schema_version": {
+              "enum": [
+                1
+              ]
+            },
+            "retrieval": {
+              "bsonType": "object",
+              "additionalProperties": false,
+              "required": [
+                "prefetch"
+              ],
+              "properties": {
+                "prefetch": {
+                  "bsonType": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "declared_ca_resident_ccpa_bundle",
+                    "declared_ca_resident_company_facts"
+                  ],
+                  "properties": {
+                    "declared_ca_resident_ccpa_bundle": {
+                      "bsonType": "bool"
+                    },
+                    "declared_ca_resident_company_facts": {
+                      "bsonType": "bool"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "config_hash": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "protected_policy_hash": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "created_by": {
+          "bsonType": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "candidate_id": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "bsonType": "null"
+            }
+          ]
+        },
+        "runtime_policy": {
+          "bsonType": "object",
+          "required": [
+            "_id",
+            "version",
+            "limits",
+            "sha256"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "_id": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "version": {
+              "bsonType": "string",
+              "maxLength": 40
+            },
+            "limits": {
+              "bsonType": "object",
+              "required": [
+                "max_logical_model_requests",
+                "max_physical_model_attempts",
+                "max_transport_retries_per_logical_request",
+                "max_tool_calls",
+                "max_repairs",
+                "absolute_run_deadline_ms",
+                "max_input_tokens_per_request",
+                "max_cumulative_input_tokens",
+                "max_cumulative_output_tokens",
+                "max_cost_micro_usd",
+                "max_inflight_model_requests_per_worker",
+                "max_active_review_runs_per_company_document",
+                "max_identical_tool_execution_per_snapshot",
+                "max_tool_result_chars"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "max_logical_model_requests": {
+                  "bsonType": [
+                    "int",
+                    "long"
+                  ],
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "max_physical_model_attempts": {
+                  "bsonType": [
+                    "int",
+                    "long"
+                  ],
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "max_transport_retries_per_logical_request": {
+                  "bsonType": [
+                    "int",
+                    "long"
+                  ],
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "max_tool_calls": {
+                  "bsonType": [
+                    "int",
+                    "long"
+                  ],
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "max_repairs": {
+                  "bsonType": [
+                    "int",
+                    "long"
+                  ],
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "absolute_run_deadline_ms": {
+                  "bsonType": [
+                    "int",
+                    "long"
+                  ],
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "max_input_tokens_per_request": {
+                  "bsonType": [
+                    "int",
+                    "long"
+                  ],
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "max_cumulative_input_tokens": {
+                  "bsonType": [
+                    "int",
+                    "long"
+                  ],
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "max_cumulative_output_tokens": {
+                  "bsonType": [
+                    "int",
+                    "long"
+                  ],
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "max_cost_micro_usd": {
+                  "bsonType": [
+                    "int",
+                    "long"
+                  ],
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "max_inflight_model_requests_per_worker": {
+                  "bsonType": [
+                    "int",
+                    "long"
+                  ],
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "max_active_review_runs_per_company_document": {
+                  "bsonType": [
+                    "int",
+                    "long"
+                  ],
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "max_identical_tool_execution_per_snapshot": {
+                  "bsonType": [
+                    "int",
+                    "long"
+                  ],
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "max_tool_result_chars": {
+                  "bsonType": [
+                    "int",
+                    "long"
+                  ],
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              }
+            },
+            "sha256": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          }
+        },
+        "validator_policy": {
+          "bsonType": "object",
+          "required": [
+            "_id",
+            "version",
+            "sha256"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "_id": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "version": {
+              "bsonType": "string",
+              "maxLength": 40
+            },
+            "sha256": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          }
+        },
+        "reset_epoch": {
+          "bsonType": [
+            "int",
+            "long"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    }
+  },
+  "validationLevel": "strict",
+  "validationAction": "error"
+}

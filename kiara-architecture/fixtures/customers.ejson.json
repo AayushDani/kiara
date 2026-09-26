@@ -1,0 +1,54 @@
+[
+  {
+    "_id": "060fe730-06b4-523e-a8a3-1b1fce76771a",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "external_key": "customer-ny",
+    "display_name": "Taylor NY Demo",
+    "email": "customer-ny@example.test",
+    "synthetic": true,
+    "residency_evidence": [
+      {
+        "evidence_type": "declared_legal_residence",
+        "country": "US",
+        "region": "NY",
+        "declared_at": {
+          "$date": "2026-09-26T18:00:00.000Z"
+        },
+        "verification_status": "self_declared",
+        "source_event_id": "370a4b27-cf34-5acf-af57-ec054534d97d"
+      }
+    ],
+    "state_version": 1,
+    "reset_epoch": 1
+  },
+  {
+    "_id": "604fb63a-da83-53a8-8bc3-3581530a41c4",
+    "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+    "schema_version": 1,
+    "created_at": {
+      "$date": "2026-09-26T18:00:00.000Z"
+    },
+    "external_key": "customer-ca",
+    "display_name": "Taylor CA Demo",
+    "email": "customer-ca@example.test",
+    "synthetic": true,
+    "residency_evidence": [
+      {
+        "evidence_type": "declared_legal_residence",
+        "country": "US",
+        "region": "CA",
+        "declared_at": {
+          "$date": "2026-09-26T18:00:00.000Z"
+        },
+        "verification_status": "self_declared",
+        "source_event_id": "4fbd9f2e-d458-5a31-99c6-e333fe338b64"
+      }
+    ],
+    "state_version": 1,
+    "reset_epoch": 1
+  }
+]

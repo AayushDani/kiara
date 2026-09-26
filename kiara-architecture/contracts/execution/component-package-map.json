@@ -1,0 +1,275 @@
+{
+  "status": "proposed_T14_execution_mapping_for_T15_T17_adoption",
+  "components": [
+    {
+      "component_id": "C01",
+      "label": "Signup source",
+      "primary_implementation_package": "I04",
+      "supporting_packages": [],
+      "proposed_application_paths": [
+        "src/events/"
+      ],
+      "observed_T15_package_mapping": [
+        "I04"
+      ],
+      "note": "T17/T15 normalize final implementation locations to this single src layout; I00 owns thin Next src/app routes, I07 owns imported screens."
+    },
+    {
+      "component_id": "C02",
+      "label": "Founder",
+      "primary_implementation_package": "I07",
+      "supporting_packages": [],
+      "proposed_application_paths": [
+        "src/ui/founder/"
+      ],
+      "observed_T15_package_mapping": [
+        "I07"
+      ],
+      "note": "T17/T15 normalize final implementation locations to this single src layout; I00 owns thin Next src/app routes, I07 owns imported screens."
+    },
+    {
+      "component_id": "C03",
+      "label": "Lawyer",
+      "primary_implementation_package": "I07",
+      "supporting_packages": [],
+      "proposed_application_paths": [
+        "src/ui/lawyer/"
+      ],
+      "observed_T15_package_mapping": [
+        "I07"
+      ],
+      "note": "T17/T15 normalize final implementation locations to this single src layout; I00 owns thin Next src/app routes, I07 owns imported screens."
+    },
+    {
+      "component_id": "C04",
+      "label": "Review workspace",
+      "primary_implementation_package": "I07",
+      "supporting_packages": [
+        "I12"
+      ],
+      "proposed_application_paths": [
+        "src/ui/shared/",
+        "src/ui/pages/"
+      ],
+      "observed_T15_package_mapping": [
+        "I07"
+      ],
+      "note": "T17/T15 normalize final implementation locations to this single src layout; I00 owns thin Next src/app routes, I07 owns imported screens."
+    },
+    {
+      "component_id": "C05",
+      "label": "Authenticated API",
+      "primary_implementation_package": "I04",
+      "supporting_packages": [
+        "I00",
+        "I10"
+      ],
+      "proposed_application_paths": [
+        "src/app/api/",
+        "src/server/",
+        "src/reviews/"
+      ],
+      "observed_T15_package_mapping": [
+        "I00",
+        "I04"
+      ],
+      "note": "T17/T15 normalize final implementation locations to this single src layout; I00 owns thin Next src/app routes, I07 owns imported screens."
+    },
+    {
+      "component_id": "C06",
+      "label": "Durable workflow worker",
+      "primary_implementation_package": "I04",
+      "supporting_packages": [
+        "I00"
+      ],
+      "proposed_application_paths": [
+        "src/worker/",
+        "src/workflow/"
+      ],
+      "observed_T15_package_mapping": [
+        "I04",
+        "I00"
+      ],
+      "note": "T17/T15 normalize final implementation locations to this single src layout; I00 owns thin Next src/app routes, I07 owns imported screens."
+    },
+    {
+      "component_id": "C07",
+      "label": "Context and legal retrieval",
+      "primary_implementation_package": "I02",
+      "supporting_packages": [
+        "I03"
+      ],
+      "proposed_application_paths": [
+        "src/retrieval/",
+        "src/tools/"
+      ],
+      "observed_T15_package_mapping": [
+        "I02"
+      ],
+      "note": "T17/T15 normalize final implementation locations to this single src layout; I00 owns thin Next src/app routes, I07 owns imported screens."
+    },
+    {
+      "component_id": "C08",
+      "label": "Bounded model harness",
+      "primary_implementation_package": "I03",
+      "supporting_packages": [],
+      "proposed_application_paths": [
+        "src/runtime/"
+      ],
+      "observed_T15_package_mapping": [
+        "I03"
+      ],
+      "note": "T17/T15 normalize final implementation locations to this single src layout; I00 owns thin Next src/app routes, I07 owns imported screens."
+    },
+    {
+      "component_id": "C09",
+      "label": "Validation and repair controller",
+      "primary_implementation_package": "I06",
+      "supporting_packages": [],
+      "proposed_application_paths": [
+        "src/validation/"
+      ],
+      "observed_T15_package_mapping": [
+        "I06"
+      ],
+      "note": "T17/T15 normalize final implementation locations to this single src layout; I00 owns thin Next src/app routes, I07 owns imported screens."
+    },
+    {
+      "component_id": "C10",
+      "label": "Document and review service",
+      "primary_implementation_package": "I05",
+      "supporting_packages": [
+        "I04"
+      ],
+      "proposed_application_paths": [
+        "src/documents/",
+        "src/reviews/"
+      ],
+      "observed_T15_package_mapping": [
+        "I05",
+        "I04"
+      ],
+      "note": "T17/T15 normalize final implementation locations to this single src layout; I00 owns thin Next src/app routes, I07 owns imported screens."
+    },
+    {
+      "component_id": "C11",
+      "label": "Harness adaptation controller",
+      "primary_implementation_package": "I06",
+      "supporting_packages": [],
+      "proposed_application_paths": [
+        "src/adaptation/",
+        "evals/"
+      ],
+      "observed_T15_package_mapping": [
+        "I06"
+      ],
+      "note": "T17/T15 normalize final implementation locations to this single src layout; I00 owns thin Next src/app routes, I07 owns imported screens."
+    },
+    {
+      "component_id": "C12",
+      "label": "MongoDB Atlas",
+      "primary_implementation_package": "I01",
+      "supporting_packages": [],
+      "proposed_application_paths": [
+        "src/data/",
+        "fixtures/"
+      ],
+      "observed_T15_package_mapping": [
+        "I01"
+      ],
+      "note": "T17/T15 normalize final implementation locations to this single src layout; I00 owns thin Next src/app routes, I07 owns imported screens."
+    },
+    {
+      "component_id": "C13",
+      "label": "Notification dispatcher",
+      "primary_implementation_package": "I08",
+      "supporting_packages": [
+        "I04"
+      ],
+      "proposed_application_paths": [
+        "src/notifications/"
+      ],
+      "observed_T15_package_mapping": [
+        "I08"
+      ],
+      "note": "T17/T15 normalize final implementation locations to this single src layout; I00 owns thin Next src/app routes, I07 owns imported screens."
+    },
+    {
+      "component_id": "C14",
+      "label": "Email provider",
+      "primary_implementation_package": "I08",
+      "supporting_packages": [],
+      "proposed_application_paths": [
+        "src/notifications/provider.ts"
+      ],
+      "observed_T15_package_mapping": [
+        "I08"
+      ],
+      "note": "T17/T15 normalize final implementation locations to this single src layout; I00 owns thin Next src/app routes, I07 owns imported screens."
+    },
+    {
+      "component_id": "C15",
+      "label": "Timeline and config read models",
+      "primary_implementation_package": "I09",
+      "supporting_packages": [
+        "I07",
+        "I12"
+      ],
+      "proposed_application_paths": [
+        "src/observability/",
+        "src/ui/technical/"
+      ],
+      "observed_T15_package_mapping": [
+        "I09"
+      ],
+      "note": "T17/T15 normalize final implementation locations to this single src layout; I00 owns thin Next src/app routes, I07 owns imported screens."
+    },
+    {
+      "component_id": "C16",
+      "label": "Source ingestion",
+      "primary_implementation_package": "I02",
+      "supporting_packages": [
+        "I01"
+      ],
+      "proposed_application_paths": [
+        "src/ingestion/"
+      ],
+      "observed_T15_package_mapping": [
+        "I02"
+      ],
+      "note": "T17/T15 normalize final implementation locations to this single src layout; I00 owns thin Next src/app routes, I07 owns imported screens."
+    },
+    {
+      "component_id": "C17",
+      "label": "OpenAI Responses provider",
+      "primary_implementation_package": "I03",
+      "supporting_packages": [],
+      "proposed_application_paths": [
+        "src/runtime/provider.ts"
+      ],
+      "observed_T15_package_mapping": [
+        "I03"
+      ],
+      "note": "T17/T15 normalize final implementation locations to this single src layout; I00 owns thin Next src/app routes, I07 owns imported screens."
+    },
+    {
+      "component_id": "C18",
+      "label": "LangSmith trace sink",
+      "primary_implementation_package": "I09",
+      "supporting_packages": [],
+      "proposed_application_paths": [
+        "src/observability/langsmith.ts"
+      ],
+      "observed_T15_package_mapping": [
+        "I09"
+      ],
+      "note": "T17/T15 normalize final implementation locations to this single src layout; I00 owns thin Next src/app routes, I07 owns imported screens."
+    }
+  ],
+  "cross_cutting": {
+    "I00": "integration/contract release",
+    "I10": "security and contracts across all components",
+    "I11": "independent whole-product acceptance",
+    "I12": "capture/repository/submission controls"
+  }
+}
