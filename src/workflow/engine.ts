@@ -1,6 +1,7 @@
 import {publicDemo,demoScope} from '../server/demo-context';
 import type {State, Workflow, WorkflowState, Role, Json, Feedback, Approval, PostalAddress} from '../server/contracts';
 import {AppError} from '../server/contracts';
+import {validateProposedFactValue} from '../server/fact-values';
 import {transaction} from '../data/store';
 import {provisions,bindings,fixture,seed,ACTORS} from '../data/fixtures';
 import {now,id,hash} from '../server/hash';
@@ -102,7 +103,25 @@ function applyEventFacts(facts:Workflow['facts'],residence:string,scenario:strin
   for(const [name,value] of Object.entries(values)){const fact=facts.find(f=>f.fact_key===name);if(fact){fact.value=value;fact.knowledge=value===null?'unknown':'known';fact.provenance=scenario==='supplied'?`Customer declaration in registered event · ${created_at}`:'Explicit synthetic signup scenario';}}
 }
 
-function activateFact(s:State,fact_key:string,proposed_value:Json){if(s.workflows.some(w=>w.model_status==='running'||w.unknown_charge))throw new AppError('MODEL_RECONCILIATION_REQUIRED','Settle active or unknown model attempts before changing verified context.');const fact=s.facts.find(x=>x.fact_key===fact_key);if(!fact)throw new AppError('FACT_NOT_FOUND','Unknown company fact.',400);const baseline=fixture<any[]>('company_context_versions.ejson.json')[0].facts.find((x:any)=>x.fact_key===fact_key);const shape=fact.value===null?baseline?.value:fact.value;if(shape===undefined||!validFactShape(shape,proposed_value))throw new AppError('INVALID_FACT_VALUE','The proposed value must match the documented fact type.',400);fact.value=proposed_value;fact.knowledge='known';fact.provenance=`Founder verified · ${now()}`;s.context_epoch++;for(const w of s.workflows.filter(x=>!terminal.has(x.state))){w.facts=structuredClone(s.facts);applyEventFacts(w.facts,w.residence,w.scenario,w.created_at);w.context_epoch=s.context_epoch;invalidatePacket(s,w);w.candidate_revision_id=null;w.repair_count=0;w.citation_offset=null;transition(s,w,'queued','approval.invalidated','Company fact verified','Material input changed; assessment and both approval gates restart.');}}
+function activateFact(s:State,fact_key:string,proposed_value:Json){
+  if(s.workflows.some(w=>w.model_status==='running'||w.unknown_charge))throw new AppError('MODEL_RECONCILIATION_REQUIRED','Settle active or unknown model attempts before changing verified context.');
+  validateProposedFactValue(fact_key,proposed_value,s.facts);
+  let fact=s.facts.find(x=>x.fact_key===fact_key);
+  const previous=fact?structuredClone(fact):null;
+  if(fact){
+    const baseline=fixture<any[]>('company_context_versions.ejson.json')[0].facts.find((x:any)=>x.fact_key===fact_key);
+    const shape=fact.value===null?(baseline?.value??null):fact.value;
+    if(!validFactShape(shape,proposed_value))throw new AppError('INVALID_FACT_VALUE','The proposed value must match the documented fact type.',400);
+  }else{
+    fact={fact_id:id(),fact_key,knowledge:'unknown',value:null,provenance:'Pending founder verification'};
+    s.facts.push(fact);
+  }
+  fact.value=structuredClone(proposed_value);fact.knowledge=proposed_value===null?'unknown':'known';fact.provenance=`Founder verified · ${now()}`;
+  const change={kind:'verified_fact_context_change',fact_key,previous,next:structuredClone(fact),previous_context_epoch:s.context_epoch,context_epoch:s.context_epoch+1,actor_id:ACTORS.founder,role:'founder',verified_at:now()};
+  s.receipts[`${s.reset_epoch}:fact_context_change:${id()}`]={hash:hash(change),result:change as unknown as Json};
+  s.context_epoch++;
+  for(const w of s.workflows.filter(x=>!terminal.has(x.state))){w.facts=structuredClone(s.facts);applyEventFacts(w.facts,w.residence,w.scenario,w.created_at);w.context_epoch=s.context_epoch;invalidatePacket(s,w);w.candidate_revision_id=null;w.repair_count=0;w.citation_offset=null;transition(s,w,'queued','approval.invalidated','Company fact verified','Material input changed; assessment and both approval gates restart.');}
+}
 
 export function modelProposals(s:State):Record<string,Json>[]{return Object.values(s.receipts).flatMap(r=>{const p=r.result;if(!p||typeof p!=='object'||Array.isArray(p)||!['model_fact_proposal','model_harness_proposal'].includes(String(p.kind)))return [];const resolution=s.receipts[`${s.reset_epoch}:model_proposal_resolution:${p.proposal_id}`]?.result;return [{...p,resolution:resolution??null}];});}
 export async function verifyModelFact(proposal_id:string,role:Role,epoch:number,expected_context_epoch:number){if(role!=='founder')throw new AppError('FORBIDDEN','Only the founder can verify company facts.',403);return transaction(s=>{if(s.reset_epoch!==epoch)throw new AppError('RESET_EPOCH_MISMATCH','Refresh the workspace.');if(s.context_epoch!==expected_context_epoch)throw new AppError('MATERIAL_INPUT_CHANGED','Company facts changed. Review the proposal against the current facts.');const p=s.receipts[`${epoch}:model_fact_proposal:${proposal_id}`]?.result as any;if(!p||p.kind!=='model_fact_proposal'||p.tenant_id!==s.tenant_id||p.reset_epoch!==epoch)throw new AppError('FACT_PROPOSAL_REQUIRED','A current attributed model fact proposal is required.',400);const resolution_key=`${epoch}:model_proposal_resolution:${proposal_id}`;if(s.receipts[resolution_key])throw new AppError('PROPOSAL_RESOLVED','This proposal has already been resolved.');const w=scoped(s,p.workflow_id,epoch);activateFact(s,p.fact_key,p.proposed_value);const resolution={kind:'model_proposal_resolution',proposal_id,actor_id:ACTORS[role],role,status:'founder_verified',created_at:now(),context_epoch:s.context_epoch};s.receipts[resolution_key]={hash:hash(resolution),result:resolution};event(s,w,'feedback.model_fact_verified','Founder verified a model fact proposal','Original model attribution is retained separately from this human verification.');return {verified:true};});}

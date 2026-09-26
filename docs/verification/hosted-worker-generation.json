@@ -1,0 +1,178 @@
+{
+  "verified_at": "2026-09-26T20:47:40Z",
+  "source": "Installed @workflow/world-vercel SDK, project-scoped authenticated read of Workflow run metadata and decrypted routing arguments only",
+  "finding": "Two runs on different deployments had the same epoch and demo scope. Both completed naturally before any cancellation. Future hosted work is protected by persisted deployment/generation/token/run ownership and a step lease.",
+  "cancellations": [],
+  "runs": [
+    {
+      "runId": "wrun_01M3FQ6ZD56ZRSEYW63QSWSZPE",
+      "deploymentId": "dpl_9QPnFzmhoLUewDafbKmCtW7D87a1",
+      "status": "completed",
+      "args": [
+        3,
+        {
+          "id": "8296d77f9cff3521ecc72e6d89810258",
+          "expires_at": 1790462328459
+        }
+      ],
+      "steps": [
+        {
+          "stepId": "step_01M3FQ70H1ADTHFCV1Q859V1P0",
+          "stepName": "step//./src/workflows/process-jobs//advance",
+          "status": "completed",
+          "startedAt": "2026-09-26T20:47:30.775Z",
+          "completedAt": "2026-09-26T20:47:32.938Z",
+          "updatedAt": "2026-09-26T20:47:34.303Z"
+        },
+        {
+          "stepId": "step_01M3FQ70H1ADTHFCV1Q859V1NY",
+          "stepName": "step//./src/workflows/process-jobs//advance",
+          "status": "completed",
+          "startedAt": "2026-09-26T20:47:25.096Z",
+          "completedAt": "2026-09-26T20:47:27.097Z",
+          "updatedAt": "2026-09-26T20:47:34.303Z"
+        },
+        {
+          "stepId": "step_01M3FQ70H1ADTHFCV1Q859V1NW",
+          "stepName": "step//./src/workflows/process-jobs//advance",
+          "status": "completed",
+          "startedAt": "2026-09-26T20:47:19.433Z",
+          "completedAt": "2026-09-26T20:47:21.336Z",
+          "updatedAt": "2026-09-26T20:47:34.238Z"
+        },
+        {
+          "stepId": "step_01M3FQ70H1ADTHFCV1Q859V1NT",
+          "stepName": "step//./src/workflows/process-jobs//advance",
+          "status": "completed",
+          "startedAt": "2026-09-26T20:47:13.998Z",
+          "completedAt": "2026-09-26T20:47:16.046Z",
+          "updatedAt": "2026-09-26T20:47:34.237Z"
+        },
+        {
+          "stepId": "step_01M3FQ70H1ADTHFCV1Q859V1NR",
+          "stepName": "step//./src/workflows/process-jobs//advance",
+          "status": "completed",
+          "startedAt": "2026-09-26T20:47:08.465Z",
+          "completedAt": "2026-09-26T20:47:10.570Z",
+          "updatedAt": "2026-09-26T20:47:34.237Z"
+        },
+        {
+          "stepId": "step_01M3FQ70H1ADTHFCV1Q859V1NP",
+          "stepName": "step//./src/workflows/process-jobs//advance",
+          "status": "completed",
+          "startedAt": "2026-09-26T20:47:02.306Z",
+          "completedAt": "2026-09-26T20:47:04.938Z",
+          "updatedAt": "2026-09-26T20:47:34.166Z"
+        },
+        {
+          "stepId": "step_01M3FQ70H1ADTHFCV1Q859V1NM",
+          "stepName": "step//./src/workflows/process-jobs//advance",
+          "status": "completed",
+          "startedAt": "2026-09-26T20:41:25.774Z",
+          "completedAt": "2026-09-26T20:41:52.775Z",
+          "updatedAt": "2026-09-26T20:47:34.166Z"
+        }
+      ]
+    },
+    {
+      "runId": "wrun_01M3FPR2NGFQBQ9G5FVBSZ7G4D",
+      "deploymentId": "dpl_A1FFGX2QQ1MpWiY4irvQekmWbR4w",
+      "status": "completed",
+      "args": [
+        3,
+        {
+          "id": "8296d77f9cff3521ecc72e6d89810258",
+          "expires_at": 1790462328459
+        }
+      ],
+      "steps": [
+        {
+          "stepId": "step_01M3FPR3YVY9QC6D5W1HCGE1M6",
+          "stepName": "step//./src/workflows/process-jobs//advance",
+          "status": "completed",
+          "startedAt": "2026-09-26T20:47:33.056Z",
+          "completedAt": "2026-09-26T20:47:34.852Z",
+          "updatedAt": "2026-09-26T20:47:36.609Z"
+        },
+        {
+          "stepId": "step_01M3FPR3YVY9QC6D5W1HCGE1M4",
+          "stepName": "step//./src/workflows/process-jobs//advance",
+          "status": "completed",
+          "startedAt": "2026-09-26T20:46:16.590Z",
+          "completedAt": "2026-09-26T20:47:29.378Z",
+          "updatedAt": "2026-09-26T20:47:36.544Z"
+        },
+        {
+          "stepId": "step_01M3FPR3YVY9QC6D5W1HCGE1M2",
+          "stepName": "step//./src/workflows/process-jobs//advance",
+          "status": "completed",
+          "startedAt": "2026-09-26T20:44:50.096Z",
+          "completedAt": "2026-09-26T20:46:12.578Z",
+          "updatedAt": "2026-09-26T20:47:36.544Z"
+        },
+        {
+          "stepId": "step_01M3FPR3YVY9QC6D5W1HCGE1M0",
+          "stepName": "step//./src/workflows/process-jobs//advance",
+          "status": "completed",
+          "startedAt": "2026-09-26T20:44:39.820Z",
+          "completedAt": "2026-09-26T20:44:45.735Z",
+          "updatedAt": "2026-09-26T20:47:36.543Z"
+        },
+        {
+          "stepId": "step_01M3FPR3YVY9QC6D5W1HCGE1KY",
+          "stepName": "step//./src/workflows/process-jobs//advance",
+          "status": "completed",
+          "startedAt": "2026-09-26T20:44:22.319Z",
+          "completedAt": "2026-09-26T20:44:27.292Z",
+          "updatedAt": "2026-09-26T20:47:36.478Z"
+        },
+        {
+          "stepId": "step_01M3FPR3YVY9QC6D5W1HCGE1KW",
+          "stepName": "step//./src/workflows/process-jobs//advance",
+          "status": "completed",
+          "startedAt": "2026-09-26T20:42:53.513Z",
+          "completedAt": "2026-09-26T20:44:18.574Z",
+          "updatedAt": "2026-09-26T20:47:36.478Z"
+        },
+        {
+          "stepId": "step_01M3FPR3YVY9QC6D5W1HCGE1KT",
+          "stepName": "step//./src/workflows/process-jobs//advance",
+          "status": "completed",
+          "startedAt": "2026-09-26T20:42:15.547Z",
+          "completedAt": "2026-09-26T20:42:49.407Z",
+          "updatedAt": "2026-09-26T20:47:36.478Z"
+        },
+        {
+          "stepId": "step_01M3FPR3YVY9QC6D5W1HCGE1KR",
+          "stepName": "step//./src/workflows/process-jobs//advance",
+          "status": "completed",
+          "startedAt": "2026-09-26T20:42:10.856Z",
+          "completedAt": "2026-09-26T20:42:11.907Z",
+          "updatedAt": "2026-09-26T20:47:36.413Z"
+        },
+        {
+          "stepId": "step_01M3FPR3YVY9QC6D5W1HCGE1KP",
+          "stepName": "step//./src/workflows/process-jobs//advance",
+          "status": "completed",
+          "startedAt": "2026-09-26T20:40:13.576Z",
+          "completedAt": "2026-09-26T20:42:07.131Z",
+          "updatedAt": "2026-09-26T20:47:36.413Z"
+        },
+        {
+          "stepId": "step_01M3FPR3YVY9QC6D5W1HCGE1KM",
+          "stepName": "step//./src/workflows/process-jobs//advance",
+          "status": "completed",
+          "startedAt": "2026-09-26T20:38:44.942Z",
+          "completedAt": "2026-09-26T20:40:09.794Z",
+          "updatedAt": "2026-09-26T20:47:36.412Z"
+        }
+      ]
+    }
+  ],
+  "tests": {
+    "command": "node --import tsx --test tests/hosted-worker-generation.test.ts tests/hosting.test.ts",
+    "passed": 9,
+    "failed": 0
+  },
+  "limitation": "New code cannot retrofit guards into pre-existing deployments; these identified legacy runs were verified completed."
+}

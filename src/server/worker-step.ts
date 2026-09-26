@@ -21,7 +21,7 @@ export async function processWorkerStep(resetEpoch:number,ticket?:WorkerTicket){
   if(claim?.kind==='busy')return true;
   let more=false;
   const current=async()=>{const state=await readState();return state.reset_epoch===resetEpoch&&(!ticket||ownsWorker(state,ticket));};
-  try{
+  const advance=async()=>{
   if((await readState()).reset_epoch!==resetEpoch)return false;
   await runtime.recoverModelRuns();
   await recoverNotifications();
@@ -44,5 +44,14 @@ export async function processWorkerStep(resetEpoch:number,ticket?:WorkerTicket){
   state=await readState();
   more=state.reset_epoch===resetEpoch&&(!ticket||ownsWorker(state,ticket))&&hasPendingWorkerWork(state);
   return more;
-  }finally{if(ticket&&claim?.kind==='claimed')await transaction(s=>{if(s.reset_epoch===resetEpoch)releaseWorkerStep(s,ticket,claim.step_id,more);});}
+  };
+  try{more=await advance();}
+  finally{if(ticket&&claim?.kind==='claimed')more=await transaction(s=>{
+    if(s.reset_epoch!==resetEpoch)return false;
+    // Decide idle vs. continued work atomically with releasing ownership, so an enqueue
+    // cannot be lost between the final read and scheduleWorker's deduplication check.
+    const pending=ownsWorker(s,ticket)&&hasPendingWorkerWork(s);
+    releaseWorkerStep(s,ticket,claim.step_id,pending);return pending;
+  });}
+  return more;
 }

@@ -6,7 +6,7 @@ import {transaction,readState,closeStore} from '../src/data/store';
 import {signup,tick,review,feedback,verifyFact} from '../src/workflow/engine';
 import {executeModel,runModel,validateRevisionModel,repairModel,retryBlockedModel} from '../src/runtime';
 import {scanAutomaticTriggers,processAutomaticImprovementStep,automaticImprovementStatus} from '../src/adaptation';
-import {revision} from '../src/data/fixtures';
+import {revision,fixture} from '../src/data/fixtures';
 import {operationalEvidence} from '../src/server/operations';
 import {globalSpendStatus} from '../src/server/global-spend';
 import {dispatchNotification} from '../src/server/notifications';
@@ -48,6 +48,12 @@ try{await withDemoScope(saved.scope,async()=>{
   else if(step==='founder-feedback'){
     const s=await readState(),w=s.workflows.find(w=>w.workflow_id===saved.workflow_id)!;
     const f=await feedback(w.workflow_id,'founder',{type:'fact_correction',text:'Synthetic founder correction: use the dedicated rights inbox from the acceptance company record.',fact_key:'consumer_request_email',proposed_value:'rights@harbor-meridian.example',expected_reset_epoch:s.reset_epoch},'acceptance-founder-correction');await verifyFact(f.feedback_id,'founder',s.reset_epoch);await foreground();
+  }else if(step==='synthetic-complete'){
+    const source=fixture<any[]>('company_context_versions.ejson.json')[0].facts;
+    const key='business_purpose_disclosures_preceding_12_months';
+    await transaction(s=>{if(!s.facts.some(f=>f.fact_key===key)){const f=source.find((f:any)=>f.fact_key===key);s.facts.push({fact_id:f.fact_id,fact_key:key,knowledge:'unknown',value:null,provenance:'New synthetic acceptance input awaits explicit founder verification.'});}});
+    for(const factKey of [key,'data_inventory']){const s=await readState();const value=source.find((f:any)=>f.fact_key===factKey).value;const ack=await feedback(saved.workflow_id!,'founder',{type:'fact_correction',text:'Synthetic founder attestation for fictional Harbor Meridian acceptance only: the supplied inventory and preceding-12-month business-purpose disclosure history are explicitly specified test inputs, never inferred real company facts. Preserve the documented baseline collection examples.',fact_key:factKey,proposed_value:value,expected_reset_epoch:s.reset_epoch},'acceptance-complete-'+factKey);await verifyFact(ack.feedback_id,'founder',s.reset_epoch);}
+    await foreground();
   }else if(step==='lawyer-correction'){
     const s=await readState(),w=s.workflows.find(w=>w.workflow_id===saved.workflow_id)!;
     await feedback(w.workflow_id,'lawyer',{type:'legal_interpretation_note',text:'Synthetic acceptance reviewer correction: this is an internal unapproved document proposal, not publication. Keep unverified request channels and implementation processes explicitly conditional as proposed methods awaiting operational confirmation; do not invite consumers to use them as currently active. Retain unresolved Notice at Collection and other operational duties for human followup according to their actual flags. Keep the policy metadata date consistent with the visible Policy updates clause, using the existing date unless both are explicitly revised. Preserve verified rights inbox facts and unrelated clauses.',expected_reset_epoch:s.reset_epoch},'acceptance-lawyer-correction-v3');await foreground();
