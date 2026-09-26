@@ -30,6 +30,8 @@ Live model evaluation campaigns still require a dedicated worker; hosted API req
 
 ## Network and deployment
 
+GitHub integration: `AayushDani/kiara` → `main` → Vercel production. No manual Vercel upload is needed for ordinary code changes. Failed builds do not replace the last successful production deployment.
+
 The owner explicitly approved the Atlas `0.0.0.0/0` network entry for Vercel's dynamic egress. Credentials and TLS remain required. Replace this entry with restricted egress if migrating to fixed-IP infrastructure.
 
 Push commits to the connected GitHub repository’s `main` branch to trigger production deployment. `vercel deploy --prod` remains a manual fallback. The linked project is `aayushdani01-5976/kiara`. Do not upload `.env*`, `.kiara`, or research files; `.vercelignore` excludes them. `next.config.ts` explicitly bundles runtime fixtures and excludes private files from function traces. Vercel environment secrets must be configured before deployment.

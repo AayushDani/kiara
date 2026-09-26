@@ -10,7 +10,7 @@ Open [Kiara](https://kiara-khaki-kappa.vercel.app). No login is required. Each v
 
 ## Deploy updates
 
-The production branch is `main`. With the Vercel GitHub connection configured, committing and pushing to `main` triggers a build and updates the same live URL after a successful deployment:
+Vercel is connected to `AayushDani/kiara`. Committing and pushing to the production branch, `main`, automatically triggers a build and updates the same live URL after a successful deployment:
 
 ```sh
 npm run check
