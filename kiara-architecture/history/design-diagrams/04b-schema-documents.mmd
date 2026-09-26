@@ -1,0 +1,48 @@
+---
+title: Logical ER — immutable review target (physical mapping pending T04)
+---
+erDiagram
+  WORKFLOW ||--o{ CHANGE_PROPOSAL : R13_creates
+  DOCUMENT ||--|{ REVISION : R14_versions
+  REVISION ||--o{ CLAUSE : R15_embeds
+  CHANGE_PROPOSAL }o--|| REVISION : R16_base
+  CHANGE_PROPOSAL }o--|| REVISION : R17_candidate
+  CHANGE_PROPOSAL ||--o{ VALIDATION_RESULT : R18_checks
+  CHANGE_PROPOSAL ||--o{ REVIEW_BUNDLE : R19_freezes
+  REVIEW_BUNDLE }o--|| ASSESSMENT : R20_binds
+  REVIEW_BUNDLE }o--|| EVIDENCE_BUNDLE : R21_binds
+  REVIEW_BUNDLE ||--o{ REVIEW_DECISION : R22_requires_two_roles
+  REVIEW_BUNDLE ||--o{ FEEDBACK : R23_receives
+  REVIEW_BUNDLE ||--o{ OPERATIONAL_FOLLOWUP : R24_tracks_separately
+  WORKFLOW { string id PK
+    string tenant_id FK }
+  DOCUMENT { string id PK
+    string tenant_id FK
+    string current_revision_id FK }
+  REVISION { string id PK
+    string document_id FK
+    string parent_revision_id FK
+    string content_hash }
+  CLAUSE { string clause_id PK
+    string text }
+  CHANGE_PROPOSAL { string id PK
+    string base_revision_id FK
+    string candidate_revision_id FK }
+  VALIDATION_RESULT { string id PK
+    string proposal_id FK
+    string outcome }
+  REVIEW_BUNDLE { string id PK
+    string bundle_hash
+    string validation_result_id FK
+    string harness_version_id FK }
+  ASSESSMENT { string id PK }
+  EVIDENCE_BUNDLE { string id PK
+    string content_hash }
+  REVIEW_DECISION { string id PK
+    string review_bundle_id FK
+    string role
+    string action }
+  FEEDBACK { string id PK
+    string feedback_type }
+  OPERATIONAL_FOLLOWUP { string id PK
+    string status }

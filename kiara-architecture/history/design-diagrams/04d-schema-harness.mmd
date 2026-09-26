@@ -1,0 +1,24 @@
+---
+title: Logical ER — harness versions and evaluation (storage reconciliation pending)
+---
+erDiagram
+  direction LR
+  RUN }o--|| HARNESS_VERSION : R28_pins
+  RUN ||--o{ HARNESS_CANDIDATE : R30_diagnoses
+  HARNESS_CANDIDATE ||--o{ EVALUATION_RUN : R31_evaluates
+  HARNESS_CANDIDATE ||--o| HARNESS_VERSION : R32_promotes
+  CHAMPION_POINTER }o--|| HARNESS_VERSION : R33_points
+  RUN { string id PK
+    string harness_version_id FK }
+  HARNESS_VERSION { string id PK
+    string tenant_id FK
+    string content_hash }
+  HARNESS_CANDIDATE { string id PK
+    string parent_version_id FK
+    string patch_hash }
+  EVALUATION_RUN { string id PK
+    string frozen_fixture_hash
+    string result }
+  CHAMPION_POINTER { string tenant_id PK
+    string harness_version_id FK
+    int version }

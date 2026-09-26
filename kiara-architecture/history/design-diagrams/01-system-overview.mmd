@@ -1,0 +1,40 @@
+---
+title: Kiara — ownership and execution map
+---
+%% S = synchronous call; A = durable async event/job; D = data read/write; H = human decision.
+%% Web/API and worker are deployment processes; C10 is a shared code module, not another service.
+%% C07/C16 and C13/C14 are grouped only on this overview; registry preserves each contract.
+flowchart LR
+  C01["C01 · Signup<br/>I04 · external source"]
+  C05["C05 · Authenticated API<br/>I00 / I04 · web/API"]
+  C06["C06 · Durable workflow<br/>I04 · worker"]
+  C08["C08 + C09 · Draft / validate<br/>I03 / I06 · bounded worker<br/>Responses; at most two repairs"]
+  C10["C10 · Revision + review gates<br/>I05 / I04 · shared module<br/>Founder → lawyer → finalize"]
+  C02(["C02 · Founder<br/>I07 · human"])
+  C03(["C03 · Lawyer<br/>I07 · human"])
+  C04["C04 · Review workspace<br/>I07 · browser"]
+  C07["C07 + C16 · Evidence<br/>I02 · ingestion / retrieval"]
+  C11["C11 · Future-run adaptation<br/>I06 · worker + frozen evals"]
+  C12[("C12 · MongoDB Atlas<br/>I01 · state, versions, memory")]
+  C13["C13 + C14 · Email<br/>I08 · outbox + external provider"]
+  C17["C17 · Responses API<br/>I03 · external model provider"]
+  C15["C15 + C18 · Observability<br/>I09 · Atlas views + external traces"]
+  C01 -.->|"D01 A"| C05
+  C05 -.->|"D05/06 A"| C06
+  C06 -->|"D09 S"| C08
+  C08 -->|"D10 S"| C17
+  C08 -->|"D12/14 S"| C10
+  C02 ==>|"D02 H"| C04
+  C03 ==>|"D03 H"| C04
+  C04 -->|"D04/15 S"| C10
+  C06 -->|"D07 S"| C07
+  C06 ==>|"D29 D"| C12
+  C08 -.->|"D23 A"| C11
+  C06 -.->|"D17/18 A/S"| C13
+  C12 ==>|"D21 D"| C15
+  classDef human fill:#fff1cc,stroke:#755c17,stroke-width:2px,color:#30290c;
+  classDef data fill:#e3f2ea,stroke:#256b49,stroke-width:2px,color:#143424;
+  classDef module fill:#eef4fb,stroke:#527398,color:#142a43;
+  class C02,C03 human;
+  class C12 data;
+  class C05,C06,C08,C09,C10,C07,C11,C15 module;

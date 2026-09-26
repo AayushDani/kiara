@@ -1,0 +1,31 @@
+flowchart TB
+  B["Browser<br/>Signed visitor session; simulated role<br/>Commands + polling"]
+  subgraph V["ONE VERCEL PROJECT · Next.js on Node 24"]
+    A["Web UI + API<br/>Session, origin, CSRF, role and version checks"]
+    W["Vercel Workflow<br/>Durable steps + deployment / generation ownership"]
+    M["In-process modules<br/>Workflow · models · validation · documents<br/>Adaptation · notifications"]
+    L["Bundled legal catalog<br/>Retained original bytes and exact chunks<br/>No embeddings or vector index"]
+    A -->|"Save, then schedule"| W --> M
+    A -->|"Review, feedback and finalization"| M
+    L --> M
+  end
+  subgraph D["MONGODB ATLAS · CURRENT PUBLIC PATH"]
+    S[("demo_workspaces<br/>One CAS-protected document per visitor<br/>Facts, revisions, events, learning, receipts")]
+    G[("provider_spend_authorization<br/>Shared across visitors and evaluations<br/>Reservations + conservative accounting")]
+  end
+  O["OpenAI Responses API<br/>Draft, separate review,<br/>strategy proposal and evaluation trials"]
+  N["Notification previews<br/>No external delivery in public mode"]
+  P["Alternate storage adapters<br/>Private Mongo: 29-collection projection<br/>Local development: atomic JSON files"]
+  B <-->|"HTTPS"| A
+  A <-->|"Scoped state"| S
+  M <-->|"Scoped state"| S
+  M <-->|"Reserve and settle paid calls"| G
+  M <-->|"Server-side credential"| O
+  M --> N
+  M -.->|"Alternate configuration only"| P
+  classDef data fill:#e8f4ed,stroke:#39744d,color:#214d31;
+  classDef service fill:#eaf2ff,stroke:#3266a3,color:#183650;
+  classDef external fill:#eee9ff,stroke:#6551ad,color:#302451;
+  class S,G data;
+  class A,W,M service;
+  class O external;

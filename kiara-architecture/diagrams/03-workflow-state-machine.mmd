@@ -1,35 +1,33 @@
----
-title: Workflow 1 of 2 — processing and bounded repair
----
 stateDiagram-v2
   direction TB
-  [*] --> queued: D01 · signup
-  queued --> waiting_for_document_slot: WF01
-  queued --> retrieving_context: WF02
-  waiting_for_document_slot --> retrieving_context: WF02
-  retrieving_context --> assessing: WF03 · complete context
-  retrieving_context --> repairing: WF24 · missing bundle
-  retrieving_context --> needs_human_review: WF25 · readiness exhausted
-  repairing --> assessing: WF03 · context repaired
-  assessing --> needs_information: WF04 · missing facts
-  needs_information --> retrieving_context: WF17 · verified facts
-  assessing --> closed_no_change: WF06 / WF23
-  assessing --> drafting: WF05 · covered
-  drafting --> validating: WF07
-  repairing --> validating: WF07 · output repaired
-  validating --> repairing: WF08 · budget remains
-  validating --> needs_human_review: WF09 · unsafe or cap
-  needs_human_review --> retrieving_context: WF18 · authorized resume
-  validating --> awaiting_founder: WF10 · sealed bundle
-  state "awaiting_founder — continue in 03c" as awaiting_founder
-  note right of repairing
-    Two total repair actions across readiness and output.
-    Missing facts never become invented facts.
-    WF24 validation subject is context_readiness.
-    WF25 escalates failed readiness if budget exhausted.
-  end note
+  [*] --> queued: event saved
+  queued --> waiting_for_document_slot: another review holds policy
+  queued --> retrieving_context: acquire slot and pin inputs
+  waiting_for_document_slot --> retrieving_context: slot available
+  retrieving_context --> assessing: complete and trusted evidence
+  retrieving_context --> needs_human_review: incomplete or untrusted source pack
+  assessing --> needs_information: missing facts or unsupported scope
+  assessing --> closed_no_change: assessed not covered or identical valid baseline
+  assessing --> drafting: update required
+  drafting --> validating: candidate saved
+  validating --> repairing: check fails, runtime checks allowance
+  repairing --> validating: new candidate
+  validating --> awaiting_founder: all checks pass; packet sealed
+  drafting --> needs_human_review: runtime blocked
+  validating --> needs_human_review: exhausted or unrecoverable failure
+  repairing --> needs_human_review: exhausted or unrecoverable failure
+  needs_information --> queued: founder verifies facts
+  needs_human_review --> queued: verified context changes
+  needs_human_review --> validating: safe retry of saved valid draft
+  needs_human_review --> drafting: safe retry requiring generation
+  state "awaiting_founder — see human review diagram" as awaiting_founder
   note right of needs_human_review
-    WF22 escalates any executable stage here.
-    WF19 invalidated material returns to retrieving_context.
-    Full guards and universal exits: K-WF-002 and 03c.
+    Retry requires eligible failure and settled own ledger.
+    Unknown charges never permit duplicate calls.
+    Missing scope is not repaired by inventing law.
+  end note
+  note right of repairing
+    Two automatic repairs per run.
+    Attributed human changes may open a linked run
+    after accounting settles; old usage is retained.
   end note

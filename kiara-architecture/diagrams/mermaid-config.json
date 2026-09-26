@@ -1,0 +1,21 @@
+{
+  "theme": "base",
+  "securityLevel": "strict",
+  "deterministicIds": true,
+  "deterministicIDSeed": "kiara-current-74823e4",
+  "themeVariables": {
+    "fontFamily": "Arial, Helvetica, sans-serif",
+    "fontSize": "16px",
+    "primaryColor": "#eef2fb",
+    "primaryTextColor": "#1c2b40",
+    "primaryBorderColor": "#627da6",
+    "lineColor": "#617086",
+    "secondaryColor": "#f3effc",
+    "tertiaryColor": "#f7f8fa",
+    "noteBkgColor": "#fff5df",
+    "noteTextColor": "#513c17",
+    "noteBorderColor": "#c8a970"
+  },
+  "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 36, "rankSpacing": 52, "padding": 18},
+  "sequence": {"mirrorActors": false, "actorMargin": 35, "messageMargin": 28, "useMaxWidth": true}
+}

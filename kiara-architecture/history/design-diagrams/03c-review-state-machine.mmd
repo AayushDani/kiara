@@ -1,0 +1,34 @@
+---
+title: Workflow 2 of 2 — human gates, invalidation and terminal exits
+---
+stateDiagram-v2
+  direction TB
+  state "awaiting_founder — from 03 processing" as awaiting_founder
+  awaiting_founder --> awaiting_lawyer: WF11 · founder approved exact bundle
+  awaiting_lawyer --> ready_to_finalize: WF12 · lawyer approved same bundle
+  ready_to_finalize --> finalized: WF13 · current guards + base pass
+  awaiting_founder --> drafting: WF14 · document changes
+  awaiting_lawyer --> drafting: WF14 · document changes
+  awaiting_founder --> needs_information: WF15 · fact changes
+  awaiting_lawyer --> needs_information: WF15 · fact changes
+  awaiting_founder --> rejected: WF16
+  awaiting_lawyer --> rejected: WF16
+  awaiting_founder --> retrieving_context: WF19 · material invalidation
+  awaiting_lawyer --> retrieving_context: WF19 · material invalidation
+  ready_to_finalize --> retrieving_context: WF19 · material invalidation
+  state "drafting — return to 03" as drafting
+  state "needs_information — return to 03" as needs_information
+  state "retrieving_context — return to 03" as retrieving_context
+  state "Any nonterminal state (summary across both pages)" as active
+  active --> superseded: WF20
+  active --> failed: WF21
+  note right of active
+    Summary box is not a stored state.
+    Terminal workflows are immutable.
+    Retryable system failure retains state and job fence.
+  end note
+  note right of finalized
+    Internal finalization only, no public publication.
+    Email retries follow independent delivery state (03b).
+    Viewed / reviewed activity does not approve.
+  end note

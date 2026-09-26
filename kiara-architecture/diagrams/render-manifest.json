@@ -1,0 +1,77 @@
+{
+  "implementation_revision": "74823e4",
+  "renderer": "@mermaid-js/mermaid-cli",
+  "renderer_version": "11.12.0",
+  "artifacts": [
+    {
+      "file": "01-system-overview.svg",
+      "source_sha256": "6b7e4c1975341f0c6fb81fe08625d8e3a5c2d6a6570eb834f14ee647450ab3f7",
+      "output_sha256": "079e205c4575ecd354a306cbf5cf444abd3648b2fd77c2e34a65298734ad41bc"
+    },
+    {
+      "file": "01-system-overview.png",
+      "source_sha256": "6b7e4c1975341f0c6fb81fe08625d8e3a5c2d6a6570eb834f14ee647450ab3f7",
+      "output_sha256": "b22e974f7892e03c8faf21b6455687499020b14de6e68c649b63636fc83d229c"
+    },
+    {
+      "file": "02-event-approval-sequence.svg",
+      "source_sha256": "b5c49a54e4fa6dadc14cd94b577a07ac1b0c70e3813808e73b1755a4c38a3f12",
+      "output_sha256": "2781b14becee2508425ff96f16143a0adc70cdcb97268368cce7b8de305b3ba8"
+    },
+    {
+      "file": "02-event-approval-sequence.png",
+      "source_sha256": "b5c49a54e4fa6dadc14cd94b577a07ac1b0c70e3813808e73b1755a4c38a3f12",
+      "output_sha256": "c5d539eba0fb2e73fb56f6cf379a3a08bd1db3ab2eadbf7a8aee7290ed27f691"
+    },
+    {
+      "file": "03-workflow-state-machine.svg",
+      "source_sha256": "bb66b8318ac941edb56b66d13217399885381ea96c63a183dc9820c04ee0a7e4",
+      "output_sha256": "020311c00ceffcb0e30a8fabc90774ad1e9581a6b5a87ab0efb639c4d73ddaad"
+    },
+    {
+      "file": "03-workflow-state-machine.png",
+      "source_sha256": "bb66b8318ac941edb56b66d13217399885381ea96c63a183dc9820c04ee0a7e4",
+      "output_sha256": "43cd85288e2b06bfce6b533958d4f137a45405e999458c17d72a37dd1f875fdc"
+    },
+    {
+      "file": "03b-notification-state-machine.svg",
+      "source_sha256": "b32a51b17c0bfc7efc9b225a1248cbb56a10d25b17596ec72e86b0c65f995043",
+      "output_sha256": "08ab35a63f46b9345999cc8f734a0f92d313bfa18df8dd339abcdfca4dd35874"
+    },
+    {
+      "file": "03b-notification-state-machine.png",
+      "source_sha256": "b32a51b17c0bfc7efc9b225a1248cbb56a10d25b17596ec72e86b0c65f995043",
+      "output_sha256": "104e80cd0bd6dcd4ce0118d8d796ca34fae3ef6cee904a0e2210562bc2729253"
+    },
+    {
+      "file": "03c-review-state-machine.svg",
+      "source_sha256": "76047ac2c58aa2735104e1482aa88857f781f01c312f37c64a50ecc4067bcb32",
+      "output_sha256": "bae2475a9c6450ed443eb3817b01c5373abd0031384b74e224107915bfb56ab9"
+    },
+    {
+      "file": "03c-review-state-machine.png",
+      "source_sha256": "76047ac2c58aa2735104e1482aa88857f781f01c312f37c64a50ecc4067bcb32",
+      "output_sha256": "2f96af0eef01aa8564b19bd7f4c9e808b499dc4b40277e02813f01f455380cf0"
+    },
+    {
+      "file": "05-harness-adaptation.svg",
+      "source_sha256": "ebd1cf126a8d8a017264fb2446dd9adc9208ff075a736f45d60873cce903a866",
+      "output_sha256": "c02222769d1e4d0dee21b26c3aa69020df01e67c91d286ec222f8e197a2e1ea7"
+    },
+    {
+      "file": "05-harness-adaptation.png",
+      "source_sha256": "ebd1cf126a8d8a017264fb2446dd9adc9208ff075a736f45d60873cce903a866",
+      "output_sha256": "7420af027c0d9cf53bbe5f09a5e5f36aa8f423e32075d793b27305a88b7b0766"
+    },
+    {
+      "file": "06-deployment-and-storage.svg",
+      "source_sha256": "01ae16e98ec78ed82b3881a2b157a7c3c430f241fbcf98615358e7ec37cda97e",
+      "output_sha256": "0ddfb2f4e57a95d179e3e15d98648e23fdc56ab57e2b240fe2a69488e007de9e"
+    },
+    {
+      "file": "06-deployment-and-storage.png",
+      "source_sha256": "01ae16e98ec78ed82b3881a2b157a7c3c430f241fbcf98615358e7ec37cda97e",
+      "output_sha256": "0c8d0f4f70d2c0b4d8440fad2bd0bb0018f09d477bfb428cde91a6f2343c0966"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+---
+title: Workflow 1 of 2 — processing and bounded repair
+---
+stateDiagram-v2
+  direction TB
+  [*] --> queued: D01 · signup
+  queued --> waiting_for_document_slot: WF01
+  queued --> retrieving_context: WF02
+  waiting_for_document_slot --> retrieving_context: WF02
+  retrieving_context --> assessing: WF03 · complete context
+  retrieving_context --> repairing: WF24 · missing bundle
+  retrieving_context --> needs_human_review: WF25 · readiness exhausted
+  repairing --> assessing: WF03 · context repaired
+  assessing --> needs_information: WF04 · missing facts
+  needs_information --> retrieving_context: WF17 · verified facts
+  assessing --> closed_no_change: WF06 / WF23
+  assessing --> drafting: WF05 · covered
+  drafting --> validating: WF07
+  repairing --> validating: WF07 · output repaired
+  validating --> repairing: WF08 · budget remains
+  validating --> needs_human_review: WF09 · unsafe or cap
+  needs_human_review --> retrieving_context: WF18 · authorized resume
+  validating --> awaiting_founder: WF10 · sealed bundle
+  state "awaiting_founder — continue in 03c" as awaiting_founder
+  note right of repairing
+    Two total repair actions across readiness and output.
+    Missing facts never become invented facts.
+    WF24 validation subject is context_readiness.
+    WF25 escalates failed readiness if budget exhausted.
+  end note
+  note right of needs_human_review
+    WF22 escalates any executable stage here.
+    WF19 invalidated material returns to retrieving_context.
+    Full guards and universal exits: K-WF-002 and 03c.
+  end note
