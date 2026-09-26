@@ -1,0 +1,59 @@
+{
+  "verified_at": "2026-09-26T19:17:09Z",
+  "application_commit": "19e209497f46a8517cdd1015b0c8a9ed91b29d08",
+  "production_url": "https://kiara-khaki-kappa.vercel.app/",
+  "deployment_id": "dpl_7dM8RCHP6XH19C66Mn3ru7rqUfs8",
+  "deployment_status": "Ready",
+  "prototype": {
+    "archive": "Legal Context Layer Prototype (1).zip",
+    "rendered_locally": true,
+    "signup_interaction_observed": true,
+    "visual_direction": "Warm light company workspace alongside a dark execution harness; indigo controls and readable policy comparison."
+  },
+  "automated": {
+    "node": "24.19.0",
+    "typecheck": "passed",
+    "tests_passed": 84,
+    "tests_failed": 0,
+    "new_harness_tests": 10,
+    "production_build": "passed"
+  },
+  "live_readiness": {
+    "http_status": 200,
+    "auth_mode": "public_demo",
+    "persistence": "mongodb",
+    "worker_mode": "vercel_workflow",
+    "model": "scripted",
+    "email": "preview"
+  },
+  "browser_checks": {
+    "one_click_signup": "passed",
+    "persisted_harness_progress": "passed",
+    "recorded_repairs": 2,
+    "recorded_proposal_checks": 2,
+    "state_snapshot_matches_review": "passed",
+    "early_lawyer_requires_founder": "passed",
+    "founder_approval": "passed",
+    "email_preview_labeled_unsent": "passed",
+    "lawyer_role_transition": "passed",
+    "final_approval_automatic_reset": "passed",
+    "manual_reset_during_run_as_lawyer": "passed",
+    "reset_restores_policy_v1_and_founder": "passed",
+    "reset_snapshot_has_no_evidence_repairs_or_approvals": "passed",
+    "independent_anonymous_visitor_has_zero_workflows": "passed",
+    "production_console_errors_or_warnings": 0
+  },
+  "visual_review": {
+    "desktop": "1440 x 940",
+    "mobile": "390 x 844",
+    "mobile_horizontal_overflow": false,
+    "independent_review": "passed",
+    "screenshots": "Stored locally under ignored .kiara/redesign-verification/; no credentials included in this record."
+  },
+  "boundaries": [
+    "Company data and both review roles are synthetic.",
+    "Model output is scripted and legal sources are retained fixtures.",
+    "Email is preview-only; no policy is publicly published by approving.",
+    "No backend security or isolation code changed."
+  ]
+}
