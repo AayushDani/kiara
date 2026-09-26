@@ -1,0 +1,2104 @@
+{
+  "checked_at": "2026-09-26T20:21:40.827Z",
+  "kind": "real_provider_isolated_atlas_acceptance",
+  "test_scope_id": "803253f5ab3b112f5b75dcce8edf3d6e",
+  "email_mode": "preview",
+  "human_roles": "synthetic acceptance assertions, not actual founder/lawyer approval",
+  "fault_injection": "See local test-only fault receipt and original provider hash",
+  "step": "evaluate",
+  "workflows": [
+    {
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "state": "needs_human_review",
+      "state_version": 14,
+      "created_at": "2026-09-26T19:46:05.956Z",
+      "updated_at": "2026-09-26T20:03:34.810Z",
+      "customer_name": "Acceptance California event",
+      "residence": "US-CA",
+      "scenario": "covered",
+      "event_id": "b712d300-1123-4e0b-b89c-88e77eb7d847",
+      "base_revision_id": "f3729194-c27e-43c7-8ee0-76bad8feaa0c",
+      "candidate_revision_id": null,
+      "harness_version": 1,
+      "context_epoch": 2,
+      "facts": [
+        {
+          "fact_id": "286b1546-e0a9-5097-87ea-62c1db70a886",
+          "fact_key": "for_profit",
+          "knowledge": "known",
+          "value": true,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "ab5b5336-e7ab-5cb6-b1dd-b242a307ee97",
+          "fact_key": "collects_personal_information",
+          "knowledge": "known",
+          "value": true,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "5165d721-4db8-568a-b983-026abdca586c",
+          "fact_key": "determines_purposes_and_means",
+          "knowledge": "known",
+          "value": true,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "435478f3-3926-5090-a0cf-a9a1183f76b7",
+          "fact_key": "does_business_in_california",
+          "knowledge": "known",
+          "value": true,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "f8d26045-3f56-512b-ab1c-3117b6e3bbb0",
+          "fact_key": "prior_calendar_year",
+          "knowledge": "known",
+          "value": 2025,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "04a9b32e-8d01-5ce2-b464-d32fa5c90203",
+          "fact_key": "annual_gross_revenue_usd",
+          "knowledge": "known",
+          "value": 30000000,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "6ead7862-0a0f-5577-ba72-3c5d5ddd1486",
+          "fact_key": "annual_buy_sell_share_ca_consumers_or_households",
+          "knowledge": "known",
+          "value": 0,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "10fa4249-f835-5ee6-9a58-ca85f207f6da",
+          "fact_key": "sale_share_revenue_percent",
+          "knowledge": "known",
+          "value": 0,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "f6b206d5-b490-5e01-beaa-a3a90bde5356",
+          "fact_key": "related_entity_business_route",
+          "knowledge": "known",
+          "value": false,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "85b06ed1-63f6-5526-8b93-07388a8d4144",
+          "fact_key": "joint_venture_business_route",
+          "knowledge": "known",
+          "value": false,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "f2abf6ee-0ed0-523a-8e13-76aa5ae4c6d6",
+          "fact_key": "voluntary_cppa_certification",
+          "knowledge": "known",
+          "value": false,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "5cb3f07d-32b2-5b91-891d-8700729615c1",
+          "fact_key": "natural_person",
+          "knowledge": "known",
+          "value": true,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "8efdf173-cc82-5a54-8af5-67ea323a7348",
+          "fact_key": "declared_legal_residence",
+          "knowledge": "known",
+          "value": "US-CA",
+          "provenance": "Explicit synthetic signup scenario"
+        },
+        {
+          "fact_id": "a6722f0c-fb38-5f72-bcd7-1d9206faca56",
+          "fact_key": "residency_declaration_accepted_for_demo",
+          "knowledge": "known",
+          "value": true,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "42c22c7c-62cb-5bb5-b83e-ed8d5bac2ad9",
+          "fact_key": "physical_state_at_collection",
+          "knowledge": "known",
+          "value": "US-CA",
+          "provenance": "Explicit synthetic signup scenario"
+        },
+        {
+          "fact_id": "ea4792ed-c755-582c-81dd-934188018892",
+          "fact_key": "ordinary_signup_data_nonexempt",
+          "knowledge": "known",
+          "value": true,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "8d157b60-0d60-544c-b9af-2ac24e0f0185",
+          "fact_key": "wholly_outside_california_exception",
+          "knowledge": "known",
+          "value": false,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "e6b0b2c3-8d4f-54c3-8a07-e1bfaf6ce8d3",
+          "fact_key": "buys_personal_information",
+          "knowledge": "known",
+          "value": false,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "63681525-a950-5027-b92a-e4ab1ed3e487",
+          "fact_key": "sells_personal_information",
+          "knowledge": "known",
+          "value": false,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "a502faee-cd98-5e25-8e39-e154e708c129",
+          "fact_key": "shares_for_cross_context_behavioral_advertising",
+          "knowledge": "known",
+          "value": false,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "1db64ec6-99a4-53e1-b7dc-48e1df8ab6a8",
+          "fact_key": "account_credentials_collected",
+          "knowledge": "known",
+          "value": true,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "06691f45-4d13-5b88-af0e-b5aa240125cb",
+          "fact_key": "spi_only_permitted_purposes",
+          "knowledge": "known",
+          "value": true,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "83608a22-0cd5-55a3-a8ed-ca2de94dbfcd",
+          "fact_key": "actual_knowledge_under16",
+          "knowledge": "known",
+          "value": false,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "35ac3f43-ee34-591b-a779-065533a026c3",
+          "fact_key": "signup_consumer_age_years",
+          "knowledge": "known",
+          "value": 28,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "b6fa3eeb-c57e-5d73-8e4b-49f2ed4a09e1",
+          "fact_key": "intended_audience",
+          "knowledge": "known",
+          "value": "adults",
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "988e421e-5650-5446-8702-8c81ade16008",
+          "fact_key": "exclusively_online",
+          "knowledge": "known",
+          "value": true,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "0abfc43a-270b-5de1-940d-7992b2f79699",
+          "fact_key": "direct_consumer_relationship",
+          "knowledge": "known",
+          "value": true,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "3a8f734d-a173-506e-97b0-89cc30c259a1",
+          "fact_key": "operates_browser",
+          "knowledge": "known",
+          "value": false,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "d3e800db-4319-52fb-a73f-9a4c02f994d8",
+          "fact_key": "admt_significant_decision",
+          "knowledge": "known",
+          "value": false,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "bba94b9e-bbae-5fb7-bbdc-a8c8ce804e64",
+          "fact_key": "financial_incentives",
+          "knowledge": "known",
+          "value": false,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "272dcbc9-cdc3-59ed-89c7-cc4320cd2937",
+          "fact_key": "ca_consumers_processed_prior_year",
+          "knowledge": "known",
+          "value": 0,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "69aa74e8-3f4f-5427-aef5-11f2e1ebdf5d",
+          "fact_key": "ca_consumers_spi_processed_prior_year",
+          "knowledge": "known",
+          "value": 0,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "13c04086-1f38-52a7-815a-19815596e008",
+          "fact_key": "ca_consumers_commercial_processing_current_year",
+          "knowledge": "known",
+          "value": 1,
+          "provenance": "Explicit synthetic signup scenario"
+        },
+        {
+          "fact_id": "f00c962a-9e15-5bd5-ac14-a5ed03811600",
+          "fact_key": "consumer_request_email",
+          "knowledge": "known",
+          "value": "rights@harbor-meridian.example",
+          "provenance": "Founder verified · 2026-09-26T20:01:29.195Z"
+        },
+        {
+          "fact_id": "79094e64-fc4e-590c-ae62-ffee89cf8f3a",
+          "fact_key": "consumer_request_web_path",
+          "knowledge": "known",
+          "value": "/privacy/requests",
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "e8fb76ec-ed0a-53de-a11d-0d038365d9d9",
+          "fact_key": "consumer_request_methods_readiness",
+          "knowledge": "known",
+          "value": "synthetic_fixture_only",
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "855708b2-e5cc-51c8-a9bc-372551ccc910",
+          "fact_key": "notice_at_collection_readiness",
+          "knowledge": "known",
+          "value": "needs_information",
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "9002fb7f-a9cc-59c7-b45e-61e9395f2d17",
+          "fact_key": "risk_assessment_completion",
+          "knowledge": "known",
+          "value": "needs_information",
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "998d6e5c-ac8f-5925-960b-bc22cd8aa489",
+          "fact_key": "ca_processing_initiated_on",
+          "knowledge": "known",
+          "value": "2026-09-26",
+          "provenance": "Explicit synthetic signup scenario"
+        },
+        {
+          "fact_id": "9b5d7589-6063-5bc6-ba8d-1d19aeb5f18e",
+          "fact_key": "baseline_policy_version",
+          "knowledge": "known",
+          "value": "privacy_v1",
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "23b883ff-1575-5a61-8ee3-b90360eb0b5e",
+          "fact_key": "baseline_policy_last_updated",
+          "knowledge": "known",
+          "value": "2026-09-01",
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "02a83fea-71f4-5753-b33e-637c5755756f",
+          "fact_key": "baseline_known_customer_states",
+          "knowledge": "known",
+          "value": [
+            "US-NY"
+          ],
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "61f93875-5234-5e3a-8c2c-639229827733",
+          "fact_key": "data_inventory",
+          "knowledge": "known",
+          "value": [
+            {
+              "categoryId": "identifiers",
+              "examples": [
+                "name",
+                "email",
+                "postal address",
+                "account ID",
+                "IP address"
+              ],
+              "statuteCategory": "1798.140(v)(1)(A)",
+              "sourceCategories": [
+                "consumer directly",
+                "device interaction"
+              ],
+              "purposes": [
+                "create and service account",
+                "deliver selected local event recommendations",
+                "security"
+              ],
+              "recipientCategories": [
+                "hosting service provider",
+                "transactional email service provider"
+              ],
+              "retention": "Account life plus 30 days after closure; security IP logs 90 days, subject to documented legal holds."
+            },
+            {
+              "categoryId": "customer_records",
+              "examples": [
+                "name",
+                "postal address"
+              ],
+              "statuteCategory": "1798.140(v)(1)(B)",
+              "sourceCategories": [
+                "consumer directly"
+              ],
+              "purposes": [
+                "service account and user-selected region"
+              ],
+              "recipientCategories": [
+                "hosting service provider"
+              ],
+              "retention": "Account life plus 30 days after closure, subject to documented legal holds."
+            },
+            {
+              "categoryId": "internet_activity",
+              "examples": [
+                "event views",
+                "search activity"
+              ],
+              "statuteCategory": "1798.140(v)(1)(F)",
+              "sourceCategories": [
+                "device interaction"
+              ],
+              "purposes": [
+                "operate discovery",
+                "diagnose errors",
+                "improve first-party recommendations"
+              ],
+              "recipientCategories": [
+                "hosting service provider",
+                "restricted first-party analytics service provider"
+              ],
+              "retention": "90 days, then deleted or deidentified; retained security incidents subject to documented legal hold."
+            },
+            {
+              "categoryId": "geolocation",
+              "examples": [
+                "declared city",
+                "coarse IP-derived city"
+              ],
+              "statuteCategory": "1798.140(v)(1)(G)",
+              "sourceCategories": [
+                "consumer directly",
+                "device interaction"
+              ],
+              "purposes": [
+                "localize discovery"
+              ],
+              "recipientCategories": [
+                "hosting service provider"
+              ],
+              "retention": "Declared city for account life plus 30 days; coarse IP-derived location 90 days."
+            },
+            {
+              "categoryId": "inferences",
+              "examples": [
+                "music interests inferred from saved event categories"
+              ],
+              "statuteCategory": "1798.140(v)(1)(K)",
+              "sourceCategories": [
+                "derived from first-party interactions"
+              ],
+              "purposes": [
+                "first-party event recommendations"
+              ],
+              "recipientCategories": [
+                "hosting service provider"
+              ],
+              "retention": "Until preferences reset or account closure plus 30 days."
+            },
+            {
+              "categoryId": "sensitive_login",
+              "examples": [
+                "account login combined with access credentials"
+              ],
+              "statuteCategory": "1798.140(ae)(1)(B)",
+              "sourceCategories": [
+                "consumer directly"
+              ],
+              "purposes": [
+                "authenticate requested account",
+                "protect account security"
+              ],
+              "recipientCategories": [
+                "authentication service provider"
+              ],
+              "retention": "Until credential rotation or account closure; revocable session credentials expire within 30 days."
+            }
+          ],
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "2d6be8b0-c4ef-5be5-a0eb-177c27c8fef7",
+          "fact_key": "vendor_contracts_status",
+          "knowledge": "known",
+          "value": "synthetic_service_provider_restrictions_stipulated",
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "24819f60-a842-5dc7-9131-90358c10cad9",
+          "fact_key": "exemption_screen",
+          "knowledge": "known",
+          "value": {
+            "scope": "ordinary consumer entertainment discovery signup",
+            "healthAndClinicalResearch": false,
+            "regulatedFinancialInformation": false,
+            "fcraRegulatedActivity": false,
+            "dppaData": false,
+            "vehicleOrVesselRecall": false,
+            "educationalAssessment": false,
+            "commercialCreditReporting": false,
+            "publicOrDeidentifiedOnly": false,
+            "privilegedCommunication": false,
+            "lawEnforcementHold": false,
+            "otherSpecializedClaim": false
+          },
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "e61448a2-b983-558d-b143-4532b5239ca6",
+          "fact_key": "synthetic_business_activity_basis",
+          "knowledge": "known",
+          "value": "For-profit DemoCo operates an online music discovery service, affirmatively launched service for California residents on 2026-09-26, accepts the California account while the consumer is in California, and controls signup processing. The business-in-California conclusion is stipulated in the fixture, not inferred from the address.",
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "2f3d136a-c11a-5132-9a83-2e3106d7e049",
+          "fact_key": "support_correspondence_retention_months",
+          "knowledge": "known",
+          "value": 12,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "20afa1d4-e9ac-5af1-80d7-bad694387d28",
+          "fact_key": "material_policy_change_notice",
+          "knowledge": "known",
+          "value": {
+            "method": "account_email",
+            "timing": "before_material_information_practice_change_effective",
+            "readiness": "synthetic_fixture_only"
+          },
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "073dda8b-efe7-51bd-829f-abbbcd4fb92c",
+          "fact_key": "privacy_request_verification_process",
+          "knowledge": "known",
+          "value": {
+            "existing_account": "authenticate_and_confirm_account_email",
+            "no_account_access": "match_existing_records_proportionate_to_request",
+            "require_new_account": false,
+            "new_verification_pi_deleted": "as_soon_as_practical_after_request_except_required_records",
+            "agent_permission": "signed_permission_plus_identity_verification_or_direct_confirmation",
+            "consumer_resubmission_required": false,
+            "power_of_attorney_mandatory": false
+          },
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "391046a4-1120-5178-b3c9-824aa2385181",
+          "fact_key": "account_self_service_controls",
+          "knowledge": "known",
+          "value": {
+            "edit_profile": true,
+            "remove_saved_events": true,
+            "promotional_email_unsubscribe": "account_settings",
+            "account_closure": "contact_support"
+          },
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "3b974557-ecec-5bac-bb87-1728e283c368",
+          "fact_key": "security_controls",
+          "knowledge": "known",
+          "value": {
+            "access_controls": true,
+            "safeguards": true,
+            "guarantee_complete_security": false
+          },
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "b815741a-3de0-5b2a-bb33-c2a082a0d26c",
+          "fact_key": "third_party_advertising_trackers",
+          "knowledge": "known",
+          "value": false,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "f90b8cbf-989f-519f-a191-05d4e7422d59",
+          "fact_key": "intended_age_minimum",
+          "knowledge": "known",
+          "value": 18,
+          "provenance": "Synthetic unseen acceptance input"
+        }
+      ],
+      "assessment": {
+        "outcome": "covered",
+        "summary": "The pinned company facts support the assessed California applicability criteria. Proposed policy changes require founder and lawyer review.",
+        "missing_facts": [],
+        "basis": [
+          "Revenue prong: explicit 2025 gross revenue exceeds the operative $26,625,000 threshold."
+        ],
+        "criteria": [
+          {
+            "label": "for profit",
+            "result": "pass",
+            "evidence": "Pinned company fact: for_profit"
+          },
+          {
+            "label": "collects personal information",
+            "result": "pass",
+            "evidence": "Pinned company fact: collects_personal_information"
+          },
+          {
+            "label": "determines purposes and means",
+            "result": "pass",
+            "evidence": "Pinned company fact: determines_purposes_and_means"
+          },
+          {
+            "label": "does business in california",
+            "result": "pass",
+            "evidence": "Pinned company fact: does_business_in_california"
+          },
+          {
+            "label": "natural person",
+            "result": "pass",
+            "evidence": "Pinned company fact: natural_person"
+          },
+          {
+            "label": "ordinary signup data nonexempt",
+            "result": "pass",
+            "evidence": "Pinned company fact: ordinary_signup_data_nonexempt"
+          },
+          {
+            "label": "2025 gross revenue exceeds $26,625,000",
+            "result": "pass",
+            "evidence": "Civil Code §1798.140(d)(1)(A) · CPPA 2025 CPI adjustment"
+          }
+        ]
+      },
+      "validations": [
+        {
+          "validation_id": "ca73692f-c1e7-4694-a876-2b155176d783",
+          "created_at": "2026-09-26T19:46:07.851Z",
+          "stage": "context_readiness",
+          "passed": true,
+          "codes": [],
+          "explanation": "Mandatory applicability facts and retained legal provisions loaded from the pinned snapshot.",
+          "repaired": false
+        },
+        {
+          "validation_id": "090512d7-fede-435a-a230-84d91ec6b70b",
+          "created_at": "2026-09-26T19:55:56.594Z",
+          "stage": "proposal",
+          "passed": false,
+          "codes": [
+            "REQUIRED_DISCLOSURE_MISSING"
+          ],
+          "explanation": "The generated output failed protected deterministic validation. Failure bytes/hash and provider identity are retained.",
+          "repaired": false
+        },
+        {
+          "validation_id": "e79522ce-1bba-4ec8-bd37-415f1e2bc954",
+          "created_at": "2026-09-26T20:01:34.103Z",
+          "stage": "context_readiness",
+          "passed": true,
+          "codes": [],
+          "explanation": "Mandatory applicability facts and retained legal provisions loaded from the pinned snapshot.",
+          "repaired": false
+        }
+      ],
+      "repair_count": 0,
+      "missing_bundle_repairs": 0,
+      "approvals": [],
+      "bundle_hash": null,
+      "review_input_hash": null,
+      "freshness_valid_until": "2026-10-26T19:46:04.046Z",
+      "model_mode": "openai",
+      "model_status": "blocked",
+      "model_attempts": 19,
+      "input_tokens": 169370,
+      "output_tokens": 2622,
+      "reserved_cost": 0,
+      "cost_usd": 0.633648,
+      "unknown_charge": false,
+      "lease_owner": null,
+      "lease_epoch": 4,
+      "lease_until": null,
+      "failure": "MODEL_REQUEST_LIMIT",
+      "evidence_keys": [
+        "prov_ccpa_business",
+        "prov_ccpa_consumer",
+        "prov_ccpa_pi",
+        "prov_ccpa_sensitive",
+        "prov_ccpa_sale_share",
+        "prov_ccpa_exemptions",
+        "prov_ccpa_cpi_authority",
+        "prov_ccpa_policy",
+        "prov_regs_policy",
+        "prov_ccpa_notice",
+        "prov_regs_notice",
+        "prov_ccpa_rights",
+        "prov_ccpa_request_methods",
+        "prov_regs_request_methods",
+        "prov_ccpa_optout",
+        "prov_regs_optout",
+        "prov_ccpa_limit",
+        "prov_regs_limit",
+        "prov_regs_presentation",
+        "prov_regs_records",
+        "prov_regs_audit",
+        "prov_regs_risk",
+        "prov_regs_admt",
+        "prov_regs_sensitive",
+        "prov_ccpa_browser_future",
+        "prov_ccpa_exemption_outside",
+        "prov_ccpa_exemption_health",
+        "prov_ccpa_exemption_financial",
+        "prov_ccpa_exemption_expired",
+        "prov_ccpa_public_deidentified",
+        "prov_ccpa_service_provider",
+        "prov_ccpa_cpi"
+      ],
+      "citation_offset": null
+    }
+  ],
+  "events": [
+    {
+      "event_id": "b712d300-1123-4e0b-b89c-88e77eb7d847",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 1,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "user.signed_up",
+      "title": "Acceptance California event signed up",
+      "detail": "US-CA declared legal residence. Explicit synthetic demonstration input. This is a signal to assess; it is not proof of coverage.",
+      "created_at": "2026-09-26T19:46:05.956Z"
+    },
+    {
+      "event_id": "0a643e92-4038-4499-9959-4ce57b013985",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 2,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "workflow.slot_acquired",
+      "title": "Review started",
+      "detail": "Harness v1 pinned. Company facts and current policy loaded.",
+      "created_at": "2026-09-26T19:46:06.417Z"
+    },
+    {
+      "event_id": "9f5a90e3-7eb2-420a-9a44-6a4ec1a90029",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 3,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "context.snapshot_pinned",
+      "title": "Evidence ready",
+      "detail": "32 retained legal provisions pinned to source hashes; this is not a claim of fresh retrieval.",
+      "created_at": "2026-09-26T19:46:07.851Z"
+    },
+    {
+      "event_id": "8b1920f8-db1a-462b-8bd3-bce736fffb99",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 4,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "assessment.completed",
+      "title": "CCPA applicability supported",
+      "detail": "Revenue prong: explicit 2025 gross revenue exceeds the operative $26,625,000 threshold.",
+      "created_at": "2026-09-26T19:46:09.046Z"
+    },
+    {
+      "event_id": "ea9628c2-9dba-42d2-9834-ac0b28d90ac4",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 5,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.started",
+      "title": "Live model run started",
+      "detail": "Responses adapter; immutable facts, policy and evidence references pinned.",
+      "created_at": "2026-09-26T19:46:10.436Z"
+    },
+    {
+      "event_id": "35d4a7b2-56e6-4728-90c5-cfcc624fb008",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 6,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.blocked",
+      "title": "Model run requires attention",
+      "detail": "MODEL_REQUEST_FAILED",
+      "created_at": "2026-09-26T19:46:15.170Z"
+    },
+    {
+      "event_id": "ded24ca2-0a6d-4549-8be9-92980d4a34fe",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 7,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.retry_authorized",
+      "title": "Founder authorized an operational retry",
+      "detail": "A new linked run retains prior provider attempts and cumulative costs. Validation, spending limits and both human approvals still apply.",
+      "created_at": "2026-09-26T19:52:38.219Z"
+    },
+    {
+      "event_id": "097232e2-316c-4795-8d16-e4516e30972a",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 8,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.started",
+      "title": "Live model run started",
+      "detail": "Responses adapter; immutable facts, policy and evidence references pinned.",
+      "created_at": "2026-09-26T19:52:39.791Z"
+    },
+    {
+      "event_id": "6572a840-1709-4672-806a-8f6905ae8407",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 9,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "draft: resp_0bb14aa7f22878c5016ab8228ad62487d2b2981982d6aad5cb; 8145 input / 62 output tokens; conservative cost $0.0846.",
+      "created_at": "2026-09-26T19:52:46.479Z"
+    },
+    {
+      "event_id": "ed9d085f-01d4-4deb-b7ae-61832bb8e1b1",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 10,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "tool.completed",
+      "title": "Scoped retrieval completed",
+      "detail": "read_legal_evidence_batch",
+      "created_at": "2026-09-26T19:52:47.097Z"
+    },
+    {
+      "event_id": "5a519b63-dd7c-4a66-b346-d44e568581e1",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 11,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "draft: resp_0bb14aa7f22878c5016ab822915d5887d283391b1a3c3e384f; 10911 input / 231 output tokens; conservative cost $0.1207.",
+      "created_at": "2026-09-26T19:52:57.151Z"
+    },
+    {
+      "event_id": "e68d321a-ac66-4138-b37b-0d330a5ff7bd",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 12,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "tool.completed",
+      "title": "Scoped retrieval completed",
+      "detail": "read_company_facts",
+      "created_at": "2026-09-26T19:52:57.801Z"
+    },
+    {
+      "event_id": "93df6574-db72-4472-bab0-e7db8fbb427f",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 13,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "draft: resp_0bb14aa7f22878c5016ab8229cb0e487d2bdffccb2020066e0; 12645 input / 84 output tokens; conservative cost $0.1306.",
+      "created_at": "2026-09-26T19:53:04.486Z"
+    },
+    {
+      "event_id": "84d88e32-a7c2-4577-9b2a-5300686b8df8",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 14,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "tool.completed",
+      "title": "Scoped retrieval completed",
+      "detail": "read_legal_evidence_batch",
+      "created_at": "2026-09-26T19:53:05.424Z"
+    },
+    {
+      "event_id": "6b25bc9c-1c88-43e8-8853-ea69a6c496b9",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 15,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.provider_error",
+      "title": "Provider request requires attention",
+      "detail": "PROVIDER_429 / rate_limit_exceeded / tokens",
+      "created_at": "2026-09-26T19:53:09.181Z"
+    },
+    {
+      "event_id": "1ff4e5ee-4531-4ad5-a60e-c300e1f18e7e",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 16,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.blocked",
+      "title": "Model run requires attention",
+      "detail": "MODEL_REQUEST_FAILED",
+      "created_at": "2026-09-26T19:53:09.652Z"
+    },
+    {
+      "event_id": "c89ebfcf-c716-48df-ad1d-591835a7db86",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 17,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.retry_authorized",
+      "title": "Founder authorized an operational retry",
+      "detail": "A new linked run retains prior provider attempts and cumulative costs. Validation, spending limits and both human approvals still apply.",
+      "created_at": "2026-09-26T19:55:10.105Z"
+    },
+    {
+      "event_id": "c2da1cca-b4fa-4fd5-801b-0cd05fe9ed31",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 18,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.started",
+      "title": "Live model run started",
+      "detail": "Responses adapter; immutable facts, policy and evidence references pinned.",
+      "created_at": "2026-09-26T19:55:11.712Z"
+    },
+    {
+      "event_id": "76f2a693-a029-4c82-b0ab-42cbfef11752",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 19,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "draft: resp_077adc38fba3a9d7016ab82321dc1487d2867a9f94afc613e5; 8145 input / 57 output tokens; conservative cost $0.0169.",
+      "created_at": "2026-09-26T19:55:16.736Z"
+    },
+    {
+      "event_id": "c71c80eb-6f24-401e-b053-7a2f5c1c8876",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 20,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "tool.completed",
+      "title": "Scoped retrieval completed",
+      "detail": "read_company_facts",
+      "created_at": "2026-09-26T19:55:17.543Z"
+    },
+    {
+      "event_id": "8094fea6-0bce-43b4-8c72-f9efd8b66ca5",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 21,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "draft: resp_077adc38fba3a9d7016ab823282c0087d2a46f953cb7a86569; 9042 input / 102 output tokens; conservative cost $0.0191.",
+      "created_at": "2026-09-26T19:55:23.805Z"
+    },
+    {
+      "event_id": "f73c65dd-02d2-4dff-9de4-622203c6ad51",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 22,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "tool.completed",
+      "title": "Scoped retrieval completed",
+      "detail": "read_legal_evidence_batch",
+      "created_at": "2026-09-26T19:55:24.798Z"
+    },
+    {
+      "event_id": "0ef301b6-9bab-44de-a24d-05d7178f0a9f",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 23,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "draft: resp_077adc38fba3a9d7016ab8232f8cc487d2ab5eb182f688eae3; 11843 input / 178 output tokens; conservative cost $0.0255.",
+      "created_at": "2026-09-26T19:55:31.101Z"
+    },
+    {
+      "event_id": "038efd1d-9408-4e81-a4d7-549926918b7c",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 24,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "tool.completed",
+      "title": "Scoped retrieval completed",
+      "detail": "read_legal_evidence_batch",
+      "created_at": "2026-09-26T19:55:32.134Z"
+    },
+    {
+      "event_id": "73325b7d-880c-44e6-aaf1-f69731b5dac0",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 25,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "draft: resp_077adc38fba3a9d7016ab82336fa9887d2853e341bf9e7bc94; 13934 input / 78 output tokens; conservative cost $0.0286.",
+      "created_at": "2026-09-26T19:55:39.064Z"
+    },
+    {
+      "event_id": "825ffd07-5386-4dc4-8be7-4a8132959075",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 26,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "tool.completed",
+      "title": "Scoped retrieval completed",
+      "detail": "read_company_facts",
+      "created_at": "2026-09-26T19:55:39.923Z"
+    },
+    {
+      "event_id": "937decbb-829b-4be7-b196-c6660abcaa02",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 27,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "draft: resp_077adc38fba3a9d7016ab8233e830087d29dd4a59c8e640d7b; 14190 input / 1302 output tokens; conservative cost $0.0414.",
+      "created_at": "2026-09-26T19:55:54.363Z"
+    },
+    {
+      "event_id": "30d2428f-8395-4467-9373-c2a1ed8f1899",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 28,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "test.output_fault",
+      "title": "Acceptance-only output fault injected",
+      "detail": "A genuine provider response was altered locally to test validation and repair; original and transformed hashes are retained.",
+      "created_at": "2026-09-26T19:55:55.384Z"
+    },
+    {
+      "event_id": "cba43161-fc0e-48b4-bfde-ea503dffa41d",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 29,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.output_rejected",
+      "title": "Generated output rejected",
+      "detail": "REQUIRED_DISCLOSURE_MISSING; provider resp_077adc38fba3a9d7016ab8233e830087d29dd4a59c8e640d7b.",
+      "created_at": "2026-09-26T19:55:56.594Z"
+    },
+    {
+      "event_id": "a7dc8745-ee94-426e-b7c9-f0e414ea2b38",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 30,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.repair_started",
+      "title": "Bounded model repair started",
+      "detail": "Repair 1/2; same pinned context, strategy and spend scope.",
+      "created_at": "2026-09-26T19:55:56.594Z"
+    },
+    {
+      "event_id": "f3b1c0b1-d026-4396-87c0-6a1638b5e498",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 31,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "repair: resp_077adc38fba3a9d7016ab8234fea7487d29c33abdb3ecefd58; 15562 input / 78 output tokens; conservative cost $0.0319.",
+      "created_at": "2026-09-26T19:56:02.216Z"
+    },
+    {
+      "event_id": "d7bd1679-89d4-4af3-b4f0-f51d0622b43d",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 32,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "tool.completed",
+      "title": "Scoped retrieval completed",
+      "detail": "read_company_facts",
+      "created_at": "2026-09-26T19:56:03.576Z"
+    },
+    {
+      "event_id": "c7c6efde-e251-4888-baf2-c30f26508618",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 33,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "repair: resp_077adc38fba3a9d7016ab82356a8a487d2972eb41c114228cd; 16575 input / 124 output tokens; conservative cost $0.0344.",
+      "created_at": "2026-09-26T19:56:09.386Z"
+    },
+    {
+      "event_id": "29937730-c446-4b0b-825e-c9e4877299a3",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 34,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "tool.rejected",
+      "title": "Scoped tool rejected a request",
+      "detail": "read_legal_evidence_batch: TOOL_RESULT_CAPACITY.",
+      "created_at": "2026-09-26T19:56:10.847Z"
+    },
+    {
+      "event_id": "6c94e505-0066-45f3-99b8-c578d29b06c1",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 35,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.blocked",
+      "title": "Model run requires attention",
+      "detail": "MODEL_REQUEST_LIMIT",
+      "created_at": "2026-09-26T19:56:12.320Z"
+    },
+    {
+      "event_id": "a572aa28-8474-4afc-b701-cc6e5df1e80f",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 36,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "harness.improvement_proposed",
+      "title": "Improvement diagnosis queued",
+      "detail": "validation; a provider proposal is required before selecting the candidate strategy. Frozen diagnosis plus two independent synthetic cases, six provider trials, maximum $18.25 including the proposal inside the shared authorization.",
+      "created_at": "2026-09-26T19:56:13.043Z"
+    },
+    {
+      "event_id": "7f58d0c6-18a5-413a-9a45-a980fe328b1a",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 37,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "feedback.recorded",
+      "title": "founder feedback recorded",
+      "detail": "fact_correction: Synthetic founder correction: use the dedicated rights inbox from the acceptance company record.",
+      "created_at": "2026-09-26T20:01:28.259Z"
+    },
+    {
+      "event_id": "6c11bb3b-e13e-423a-a8ff-27e71e019748",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 38,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "approval.invalidated",
+      "title": "Company fact verified",
+      "detail": "Material input changed; assessment and both approval gates restart.",
+      "created_at": "2026-09-26T20:01:29.195Z"
+    },
+    {
+      "event_id": "390e66a0-8ae3-45a2-8a1f-01880461b713",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 39,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "workflow.slot_acquired",
+      "title": "Review started",
+      "detail": "Harness v1 pinned. Company facts and current policy loaded.",
+      "created_at": "2026-09-26T20:01:30.133Z"
+    },
+    {
+      "event_id": "d721670c-0727-402e-8623-0115d9ff4b3f",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 40,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "harness.improvement_not_admitted",
+      "title": "Harness trigger recorded",
+      "detail": "AUTOMATIC_CONCURRENCY_LIMIT",
+      "created_at": "2026-09-26T20:01:31.128Z"
+    },
+    {
+      "event_id": "687d9ca3-ccd6-4644-a7ba-69a9efc1dffc",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 41,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "context.snapshot_pinned",
+      "title": "Evidence ready",
+      "detail": "32 retained legal provisions pinned to source hashes; this is not a claim of fresh retrieval.",
+      "created_at": "2026-09-26T20:01:34.103Z"
+    },
+    {
+      "event_id": "c8d509fe-cab5-4ea8-9080-842527853935",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 42,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "assessment.completed",
+      "title": "CCPA applicability supported",
+      "detail": "Revenue prong: explicit 2025 gross revenue exceeds the operative $26,625,000 threshold.",
+      "created_at": "2026-09-26T20:01:36.865Z"
+    },
+    {
+      "event_id": "d20001f3-e077-4c10-9407-2b02f6671763",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 43,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.human_resolution_started",
+      "title": "Authorized human resolution started a new run",
+      "detail": "Prior charges are settled. The linked immutable parent ledger and cumulative workflow usage remain retained.",
+      "created_at": "2026-09-26T20:01:42.339Z"
+    },
+    {
+      "event_id": "de2d2166-1e2d-452c-9a23-9952e047ab9a",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 44,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.started",
+      "title": "Live model run started",
+      "detail": "Responses adapter; immutable facts, policy and evidence references pinned.",
+      "created_at": "2026-09-26T20:01:42.339Z"
+    },
+    {
+      "event_id": "30758105-499f-47d9-8075-cadd016c459c",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 45,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "draft: resp_0758f2005155a951016ab824aa85dc87d2abe38df0400834c8; 8547 input / 62 output tokens; conservative cost $0.0177.",
+      "created_at": "2026-09-26T20:01:49.260Z"
+    },
+    {
+      "event_id": "d146caaa-6381-4c3e-b588-8caea0366b45",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 46,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "tool.completed",
+      "title": "Scoped retrieval completed",
+      "detail": "read_legal_evidence_batch",
+      "created_at": "2026-09-26T20:01:50.790Z"
+    },
+    {
+      "event_id": "293242eb-dcc3-47db-befa-4a5ae126c6b7",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 47,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.provider_error",
+      "title": "Provider request requires attention",
+      "detail": "PROVIDER_429 / rate_limit_exceeded / tokens",
+      "created_at": "2026-09-26T20:01:59.795Z"
+    },
+    {
+      "event_id": "bae0d2c7-f3c1-4a31-9718-54e6e9cfa7e7",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 48,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.rate_limit_wait",
+      "title": "Provider rate limit: bounded retry scheduled",
+      "detail": "Retry 1/2 in 15000ms; the original deadline and nine-request total remain unchanged.",
+      "created_at": "2026-09-26T20:02:00.814Z"
+    },
+    {
+      "event_id": "7bc5f187-49e1-45ef-ab49-ff21f9a32830",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 49,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "draft: resp_0758f2005155a951016ab824cb25a887d29a70fdbed92ab075; 11181 input / 122 output tokens; conservative cost $0.0236.",
+      "created_at": "2026-09-26T20:02:22.646Z"
+    },
+    {
+      "event_id": "8d5a8685-4f57-40ed-b880-04b4f214b5e1",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 50,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "tool.completed",
+      "title": "Scoped retrieval completed",
+      "detail": "read_legal_evidence_batch",
+      "created_at": "2026-09-26T20:02:24.915Z"
+    },
+    {
+      "event_id": "f20a95b4-09eb-4d27-8b4a-e887df538714",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 51,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.provider_error",
+      "title": "Provider request requires attention",
+      "detail": "PROVIDER_429 / rate_limit_exceeded / tokens",
+      "created_at": "2026-09-26T20:02:30.734Z"
+    },
+    {
+      "event_id": "b4ed185b-e3ad-4eea-91d0-b51802819862",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 52,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.rate_limit_wait",
+      "title": "Provider rate limit: bounded retry scheduled",
+      "detail": "Retry 1/2 in 15000ms; the original deadline and nine-request total remain unchanged.",
+      "created_at": "2026-09-26T20:02:31.746Z"
+    },
+    {
+      "event_id": "340a328a-9ecc-4473-878b-12133a48934b",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 53,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "draft: resp_0758f2005155a951016ab824ea505087d28c15785aea228471; 14215 input / 52 output tokens; conservative cost $0.0290.",
+      "created_at": "2026-09-26T20:02:55.824Z"
+    },
+    {
+      "event_id": "07cf3178-804b-4a8e-abe8-8cd16c4cf891",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 54,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "tool.completed",
+      "title": "Scoped retrieval completed",
+      "detail": "find_legal_evidence",
+      "created_at": "2026-09-26T20:02:57.136Z"
+    },
+    {
+      "event_id": "7e7c8c37-cb73-4b8c-b6ee-328e4cf7adea",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 55,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.provider_error",
+      "title": "Provider request requires attention",
+      "detail": "PROVIDER_429 / rate_limit_exceeded / tokens",
+      "created_at": "2026-09-26T20:03:04.581Z"
+    },
+    {
+      "event_id": "8f5a094c-b0e4-4d9b-9648-565ba5626d27",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 56,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.rate_limit_wait",
+      "title": "Provider rate limit: bounded retry scheduled",
+      "detail": "Retry 1/2 in 15000ms; the original deadline and nine-request total remain unchanged.",
+      "created_at": "2026-09-26T20:03:05.462Z"
+    },
+    {
+      "event_id": "d776a29f-7ad6-4b1c-aab9-eec35471a841",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 57,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "draft: resp_0758f2005155a951016ab8250fd4c087d2a29da82b2e98d4a2; 14435 input / 90 output tokens; conservative cost $0.0298.",
+      "created_at": "2026-09-26T20:03:30.886Z"
+    },
+    {
+      "event_id": "96a60ad6-9a73-46af-9c7e-da0758624874",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 58,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "tool.completed",
+      "title": "Scoped retrieval completed",
+      "detail": "find_legal_evidence",
+      "created_at": "2026-09-26T20:03:32.475Z"
+    },
+    {
+      "event_id": "cb8632e2-e344-4175-af59-11a8af13e0f5",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 59,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "model.blocked",
+      "title": "Model run requires attention",
+      "detail": "MODEL_REQUEST_LIMIT",
+      "created_at": "2026-09-26T20:03:34.810Z"
+    },
+    {
+      "event_id": "7f87ad20-1dfa-410f-a4e3-799d43c98707",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 60,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "harness.proposal_agent_started",
+      "title": "Improvement proposal agent dispatched",
+      "detail": "One bounded model call selects a permitted strategy from observed failure evidence. Frozen unseen evaluation cases remain hidden from the proposal agent.",
+      "created_at": "2026-09-26T20:21:34.451Z"
+    },
+    {
+      "event_id": "220cb845-bc9a-4952-84f1-cff93281e3d0",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 61,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "harness.proposal_agent_completed",
+      "title": "Improvement proposal agent completed",
+      "detail": "resp_096841d4def20a88016ab82950348c87d2885c39e32f8a736e; 0.002366 USD; queued; strategy remains unpromoted.",
+      "created_at": "2026-09-26T20:21:40.199Z"
+    }
+  ],
+  "feedback": [
+    {
+      "feedback_id": "9048ec2a-9749-49e5-8826-884d83437f1c",
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "role": "founder",
+      "type": "fact_correction",
+      "text": "Synthetic founder correction: use the dedicated rights inbox from the acceptance company record.",
+      "created_at": "2026-09-26T20:01:28.258Z",
+      "status": "applied",
+      "fact_key": "consumer_request_email",
+      "proposed_value": "rights@harbor-meridian.example"
+    }
+  ],
+  "documents": [
+    {
+      "revision_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+      "document_id": "eaaa8632-ac8b-5e3a-a030-1b9c5719473a",
+      "revision_number": 1,
+      "base_revision_id": null,
+      "title": "Rippit-inspired DemoCo (fictional) — Privacy Policy",
+      "policy_updated_on": "2026-09-01",
+      "clauses": [
+        {
+          "clause_id": "2f950064-c9b1-5aa9-bc66-ffa199f1cfa2",
+          "heading": "About this policy",
+          "body": "Rippit-inspired DemoCo (fictional) operates an online music discovery service for adults. This policy explains how we handle information when you create an account, discover events, read reviews, save favorites, or contact us."
+        },
+        {
+          "clause_id": "dcac8a94-e1b2-59ec-84c1-7400e5230938",
+          "heading": "Information we collect",
+          "body": "We collect your name, email, account credentials, postal address, declared state of residence and saved events. We also collect device identifiers, approximate location and activity on our website."
+        },
+        {
+          "clause_id": "4c79b519-e7d5-5182-a92d-e20124237e0d",
+          "heading": "How we use information",
+          "body": "We use information to provide accounts, recommend local events, respond to support requests, and keep the service secure."
+        },
+        {
+          "clause_id": "016bb052-b08f-5208-884b-3343949680f1",
+          "heading": "How we disclose information",
+          "body": "We use providers to host the service, deliver email and help us understand first-party activity. We do not sell personal information."
+        },
+        {
+          "clause_id": "9689ef85-b969-51cd-8dcc-b423dacbc9ed",
+          "heading": "How long we keep information",
+          "body": "We keep information for as long as we need it to provide our service and meet our obligations."
+        },
+        {
+          "clause_id": "8e2e31f5-41ad-56ae-908f-25f208bfc08b",
+          "heading": "Your choices",
+          "body": "You can edit your profile, remove saved events and unsubscribe from promotional email in account settings. Contact support if you want to close your account."
+        },
+        {
+          "clause_id": "730e1692-f5e1-5960-aa7c-65f297fd36c5",
+          "heading": "Security",
+          "body": "We use access controls and other safeguards to protect information. No online service can guarantee complete security."
+        },
+        {
+          "clause_id": "b7239933-2f36-5fe1-833b-619f1b3b855d",
+          "heading": "Age restriction",
+          "body": "Our service is intended for adults aged 18 and older."
+        },
+        {
+          "clause_id": "de59121d-08a5-5e6b-a801-c2899e8ebcb0",
+          "heading": "Policy updates",
+          "body": "We may update this policy as our service changes. We will post the updated policy here."
+        },
+        {
+          "clause_id": "06aee531-095d-531b-bb20-4afc8ceba2e2",
+          "heading": "Contact",
+          "body": "For privacy questions, contact privacy@democo.example."
+        }
+      ],
+      "created_at": "2026-09-26T18:00:00.000Z",
+      "content_hash": "2b81e48a59337ed6aeeea4ab9258ef1093ff13432652989fb0b4f143dd0b39af"
+    },
+    {
+      "revision_id": "f3729194-c27e-43c7-8ee0-76bad8feaa0c",
+      "document_id": "eaaa8632-ac8b-5e3a-a030-1b9c5719473a",
+      "revision_number": 2,
+      "base_revision_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+      "title": "Harbor Meridian privacy policy",
+      "policy_updated_on": "2026-09-01",
+      "clauses": [
+        {
+          "clause_id": "2f950064-c9b1-5aa9-bc66-ffa199f1cfa2",
+          "heading": "About this policy",
+          "body": "Rippit-inspired Harbor Meridian (fictional) operates an online music discovery service for adults. This policy explains how we handle information when you create an account, discover events, read reviews, save favorites, or contact us."
+        },
+        {
+          "clause_id": "dcac8a94-e1b2-59ec-84c1-7400e5230938",
+          "heading": "Information we collect",
+          "body": "We collect your name, email, account credentials, postal address, declared state of residence and saved events. We also collect device identifiers, approximate location and activity on our website."
+        },
+        {
+          "clause_id": "4c79b519-e7d5-5182-a92d-e20124237e0d",
+          "heading": "How we use information",
+          "body": "We use information to provide accounts, recommend local events, respond to support requests, and keep the service secure."
+        },
+        {
+          "clause_id": "016bb052-b08f-5208-884b-3343949680f1",
+          "heading": "How we disclose information",
+          "body": "We use providers to host the service, deliver email and help us understand first-party activity. We do not sell personal information."
+        },
+        {
+          "clause_id": "9689ef85-b969-51cd-8dcc-b423dacbc9ed",
+          "heading": "How long we keep information",
+          "body": "We keep information for as long as we need it to provide our service and meet our obligations."
+        },
+        {
+          "clause_id": "8e2e31f5-41ad-56ae-908f-25f208bfc08b",
+          "heading": "Your choices",
+          "body": "You can edit your profile, remove saved events and unsubscribe from promotional email in account settings. Contact support if you want to close your account."
+        },
+        {
+          "clause_id": "730e1692-f5e1-5960-aa7c-65f297fd36c5",
+          "heading": "Security",
+          "body": "We use access controls and other safeguards to protect information. No online service can guarantee complete security."
+        },
+        {
+          "clause_id": "b7239933-2f36-5fe1-833b-619f1b3b855d",
+          "heading": "Age restriction",
+          "body": "Our service is intended for adults aged 18 and older."
+        },
+        {
+          "clause_id": "de59121d-08a5-5e6b-a801-c2899e8ebcb0",
+          "heading": "Policy updates",
+          "body": "We may update this policy as our service changes. We will post the updated policy here."
+        },
+        {
+          "clause_id": "06aee531-095d-531b-bb20-4afc8ceba2e2",
+          "heading": "Contact",
+          "body": "For privacy questions, contact privacy@harbor-meridian.example."
+        },
+        {
+          "clause_id": "acceptance-unrelated",
+          "heading": "Contract continuity",
+          "body": "Existing signed customer contracts remain unchanged. Acceptance reference HM-726."
+        }
+      ],
+      "created_at": "2026-09-26T19:46:05.544Z",
+      "content_hash": "e57f55eeeef6e2df88a56b01a186373466c3354344fbb8fe6175142877b49587"
+    }
+  ],
+  "operations": {
+    "inference_evidence": {
+      "completed_requests": 15,
+      "provider_response_ids": [
+        "resp_0758f2005155a951016ab824aa85dc87d2abe38df0400834c8",
+        "resp_0758f2005155a951016ab824cb25a887d29a70fdbed92ab075",
+        "resp_0758f2005155a951016ab824ea505087d28c15785aea228471",
+        "resp_0758f2005155a951016ab8250fd4c087d2a29da82b2e98d4a2",
+        "resp_0bb14aa7f22878c5016ab8228ad62487d2b2981982d6aad5cb",
+        "resp_0bb14aa7f22878c5016ab822915d5887d283391b1a3c3e384f",
+        "resp_0bb14aa7f22878c5016ab8229cb0e487d2bdffccb2020066e0",
+        "resp_077adc38fba3a9d7016ab82321dc1487d2867a9f94afc613e5",
+        "resp_077adc38fba3a9d7016ab823282c0087d2a46f953cb7a86569",
+        "resp_077adc38fba3a9d7016ab8232f8cc487d2ab5eb182f688eae3",
+        "resp_077adc38fba3a9d7016ab82336fa9887d2853e341bf9e7bc94",
+        "resp_077adc38fba3a9d7016ab8233e830087d29dd4a59c8e640d7b",
+        "resp_077adc38fba3a9d7016ab8234fea7487d29c33abdb3ecefd58",
+        "resp_077adc38fba3a9d7016ab82356a8a487d2972eb41c114228cd",
+        "resp_096841d4def20a88016ab82950348c87d2885c39e32f8a736e"
+      ],
+      "input_tokens": 169868,
+      "output_tokens": 2759,
+      "cost_usd": 0.636014,
+      "reserved_usd": 0,
+      "unknown_charge": false
+    },
+    "runs": [
+      {
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "run_id": "87c704eb-1d9b-467c-84d5-e2cc34bc5194",
+        "model": "gpt-6-sol",
+        "config_hash": "be1ae19386de8bf821c18eaeab76d931f78f69ec6f1a86b2b7d3e2714dabc6c2",
+        "attempts": [
+          {
+            "attempt_id": "2010e369-2e42-4728-9e6b-fe3db34d943c",
+            "phase": "draft",
+            "status": "complete",
+            "response_id": "resp_0758f2005155a951016ab824aa85dc87d2abe38df0400834c8",
+            "input_tokens": 8547,
+            "output_tokens": 62,
+            "cost_usd": 0.017714,
+            "error_code": null
+          },
+          {
+            "attempt_id": "5d598b8a-2758-4158-99d5-b0bf5d4b9b87",
+            "phase": "draft",
+            "status": "rejected",
+            "response_id": null,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "cost_usd": 0,
+            "error_code": "rate_limit_exceeded"
+          },
+          {
+            "attempt_id": "59a9ab5a-22dc-4e8e-84a7-cfbd53233a10",
+            "phase": "draft",
+            "status": "complete",
+            "response_id": "resp_0758f2005155a951016ab824cb25a887d29a70fdbed92ab075",
+            "input_tokens": 11181,
+            "output_tokens": 122,
+            "cost_usd": 0.023582,
+            "error_code": null
+          },
+          {
+            "attempt_id": "b7980587-c3bb-42dd-ae08-b6b55649c6e1",
+            "phase": "draft",
+            "status": "rejected",
+            "response_id": null,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "cost_usd": 0,
+            "error_code": "rate_limit_exceeded"
+          },
+          {
+            "attempt_id": "ec279e52-0655-48c3-be98-6f3210fa942a",
+            "phase": "draft",
+            "status": "complete",
+            "response_id": "resp_0758f2005155a951016ab824ea505087d28c15785aea228471",
+            "input_tokens": 14215,
+            "output_tokens": 52,
+            "cost_usd": 0.02895,
+            "error_code": null
+          },
+          {
+            "attempt_id": "a5aaa796-8ee8-457b-a7bf-6ba2674698ca",
+            "phase": "draft",
+            "status": "rejected",
+            "response_id": null,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "cost_usd": 0,
+            "error_code": "rate_limit_exceeded"
+          },
+          {
+            "attempt_id": "92af3840-04f2-4c3d-ae70-c3693b565d31",
+            "phase": "draft",
+            "status": "complete",
+            "response_id": "resp_0758f2005155a951016ab8250fd4c087d2a29da82b2e98d4a2",
+            "input_tokens": 14435,
+            "output_tokens": 90,
+            "cost_usd": 0.02977,
+            "error_code": null
+          }
+        ],
+        "tools": [
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_RWtHf1G5uqa7JxGnXaJynjtQ",
+            "arguments_hash": "eb7c2feefafe818dd1a32f4ae11b47862a1cbce63b7d8143b5ec71a66996ebaa",
+            "result_hash": "d3b48abfd0a96fb1add59c9439c6b1d2bb71c03b9e2c2689569cf5e05da6149e"
+          },
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_OIjUpBroAoQykdv9YuqdXaRf",
+            "arguments_hash": "71a645f2b3fa7fcb47597f9c5dc775c120b2a6597013d0099f5be8ca2516c47c",
+            "result_hash": "f050c6c9193ef73e878654d91eaeb0b3254216a7656a155606c5073d4cc25864"
+          },
+          {
+            "name": "find_legal_evidence",
+            "call_id": "call_Gkx03hSXQj9btExRhkRyZdmB",
+            "arguments_hash": "169d6d039300dd2450c372c7f014fd01eb34d50dc796bca974d8d60bcdf8ecbb",
+            "result_hash": "9a65a5b4864c1119f260c763598f7101109c7546d0d292e0545cee8ef4bbee4f"
+          },
+          {
+            "name": "find_legal_evidence",
+            "call_id": "call_oZ2YmpIIe74G52bDDBpMDo6T",
+            "arguments_hash": "fbc6ffa4d0720b128833453a1c3608d80a9a85bb06b6e8b8ccf16d57e5ce92f9",
+            "result_hash": "ea9b62fae37fb934f0b66c49eee16e0c62b3437a6043ee31025ac9549630cfda"
+          }
+        ]
+      },
+      {
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "run_id": "29bbb385-6ce4-4fe6-a44f-21c153f00019",
+        "model": "gpt-6-astra",
+        "config_hash": "9022579bc700d99f7aed95e0d2e115fc787c2d9cfc29fec6b889fdf43812d213",
+        "attempts": [
+          {
+            "attempt_id": "ea863a50-2662-40b8-9f55-8ac508aed274",
+            "phase": "draft",
+            "status": "rejected",
+            "response_id": null,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "cost_usd": 0,
+            "error_code": "PROVIDER_429"
+          }
+        ],
+        "tools": []
+      },
+      {
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "run_id": "2a7d0ba6-a538-4318-a481-692ea3bcefcc",
+        "model": "gpt-6-astra",
+        "config_hash": "9022579bc700d99f7aed95e0d2e115fc787c2d9cfc29fec6b889fdf43812d213",
+        "attempts": [
+          {
+            "attempt_id": "df501648-8661-4266-bde4-aaec0ae1b652",
+            "phase": "draft",
+            "status": "complete",
+            "response_id": "resp_0bb14aa7f22878c5016ab8228ad62487d2b2981982d6aad5cb",
+            "input_tokens": 8145,
+            "output_tokens": 62,
+            "cost_usd": 0.08455,
+            "error_code": null
+          },
+          {
+            "attempt_id": "691da9f1-0c6c-4ff3-8730-a6bdfa74f0f8",
+            "phase": "draft",
+            "status": "complete",
+            "response_id": "resp_0bb14aa7f22878c5016ab822915d5887d283391b1a3c3e384f",
+            "input_tokens": 10911,
+            "output_tokens": 231,
+            "cost_usd": 0.12066,
+            "error_code": null
+          },
+          {
+            "attempt_id": "7c4d865c-16c8-4740-b42a-cc9c8b1844bf",
+            "phase": "draft",
+            "status": "complete",
+            "response_id": "resp_0bb14aa7f22878c5016ab8229cb0e487d2bdffccb2020066e0",
+            "input_tokens": 12645,
+            "output_tokens": 84,
+            "cost_usd": 0.13065,
+            "error_code": null
+          },
+          {
+            "attempt_id": "a40f7496-e158-4e13-aa4f-9f542b894304",
+            "phase": "draft",
+            "status": "rejected",
+            "response_id": null,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "cost_usd": 0,
+            "error_code": "rate_limit_exceeded"
+          }
+        ],
+        "tools": [
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_W2sF3sGVooNRdw1QHK0M1srx",
+            "arguments_hash": "fddd9ec7a6763e3d0c9edbb9337e32da2d3842d6ba0612dc8855f4a3f0943147",
+            "result_hash": "b5d55b2deb2dbe13a0f32f6c5c3868a08874b8a0bc2ac227fd4781715139ab5d"
+          },
+          {
+            "name": "read_company_facts",
+            "call_id": "call_px8uH8YNGUeWJbBsMnDwMSBz",
+            "arguments_hash": "4d9bc1ac5c8b76b8dcb40f224d902c59c33a3803def016510fe18bee1f239b8c",
+            "result_hash": "f0c6f80f0dc47fed948cd0a892b343db6ad0fe0f032b11cb280db51275c79685"
+          },
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_JLp5KOfoXR00jCMX4OZy9nWG",
+            "arguments_hash": "62d205dfbe8cb2933a89fa2cc203d213a819e44da0d3e1d9f6b2a6c835793fee",
+            "result_hash": "1be075f6202f990c4e39ad35dec66d1052d32845f07c1b21f6aba261f57a91ce"
+          }
+        ]
+      },
+      {
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "run_id": "76f3cdfb-56f2-48a3-ad70-a9dc62134244",
+        "model": "gpt-6-sol",
+        "config_hash": "be1ae19386de8bf821c18eaeab76d931f78f69ec6f1a86b2b7d3e2714dabc6c2",
+        "attempts": [
+          {
+            "attempt_id": "0a4a7819-cf2b-4629-be22-7baa847eeca4",
+            "phase": "draft",
+            "status": "complete",
+            "response_id": "resp_077adc38fba3a9d7016ab82321dc1487d2867a9f94afc613e5",
+            "input_tokens": 8145,
+            "output_tokens": 57,
+            "cost_usd": 0.01686,
+            "error_code": null
+          },
+          {
+            "attempt_id": "f99dba30-61db-409f-9e14-372ce55e090a",
+            "phase": "draft",
+            "status": "complete",
+            "response_id": "resp_077adc38fba3a9d7016ab823282c0087d2a46f953cb7a86569",
+            "input_tokens": 9042,
+            "output_tokens": 102,
+            "cost_usd": 0.019104,
+            "error_code": null
+          },
+          {
+            "attempt_id": "38e8b59a-4b06-44ef-99ec-0ac8b4d2dbf3",
+            "phase": "draft",
+            "status": "complete",
+            "response_id": "resp_077adc38fba3a9d7016ab8232f8cc487d2ab5eb182f688eae3",
+            "input_tokens": 11843,
+            "output_tokens": 178,
+            "cost_usd": 0.025466,
+            "error_code": null
+          },
+          {
+            "attempt_id": "15577d1c-3c4d-4faa-b205-90b90e3b7ac7",
+            "phase": "draft",
+            "status": "complete",
+            "response_id": "resp_077adc38fba3a9d7016ab82336fa9887d2853e341bf9e7bc94",
+            "input_tokens": 13934,
+            "output_tokens": 78,
+            "cost_usd": 0.028648,
+            "error_code": null
+          },
+          {
+            "attempt_id": "0c3e0acb-5600-49c9-8bd9-2858ffdbe503",
+            "phase": "draft",
+            "status": "complete",
+            "response_id": "resp_077adc38fba3a9d7016ab8233e830087d29dd4a59c8e640d7b",
+            "input_tokens": 14190,
+            "output_tokens": 1302,
+            "cost_usd": 0.0414,
+            "error_code": null
+          },
+          {
+            "attempt_id": "798e8562-ec1e-4648-a3cb-531411dda70d",
+            "phase": "repair",
+            "status": "complete",
+            "response_id": "resp_077adc38fba3a9d7016ab8234fea7487d29c33abdb3ecefd58",
+            "input_tokens": 15562,
+            "output_tokens": 78,
+            "cost_usd": 0.031904,
+            "error_code": null
+          },
+          {
+            "attempt_id": "d1566623-1cd7-4ed8-8902-61d794f89e5c",
+            "phase": "repair",
+            "status": "complete",
+            "response_id": "resp_077adc38fba3a9d7016ab82356a8a487d2972eb41c114228cd",
+            "input_tokens": 16575,
+            "output_tokens": 124,
+            "cost_usd": 0.03439,
+            "error_code": null
+          }
+        ],
+        "tools": [
+          {
+            "name": "read_company_facts",
+            "call_id": "call_aK41b9Q5nhMjzkHaAdsb1XTU",
+            "arguments_hash": "1db44607cd97906e89f17d7bfc9ed4e9284140c27827c36732e6c4d620412e4b",
+            "result_hash": "639cbd6329b71fb323af523a5b70f885b0dbd1f1a3ee86bd1c3e0e36cb790c3d"
+          },
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_T2QaaGwVKh27YbsHeURiscgJ",
+            "arguments_hash": "6abb79aa7f69d9d270b9c135a0d748e955ae06d76867092ae7d463e7b766103d",
+            "result_hash": "88f3f7a902fb7cab7e78d440015fe288362bb7600011c8c93aa6515885d51387"
+          },
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_kluyHEOG6xiRHopZdEEqoZYM",
+            "arguments_hash": "69e7bd6866db62799a82ec63787a076def082ac4b5b73f58b9274005e9aeb30f",
+            "result_hash": "c90d74ff328b226886166f89fcb0b43773007144de83f9ac1ffc893056e10fec"
+          },
+          {
+            "name": "read_company_facts",
+            "call_id": "call_MUw5F7wMS6WVMFdFPpxaEJBk",
+            "arguments_hash": "6533d225f296953cf125e97de94234d4821cb57ab189bc56529f63195d52a5c0",
+            "result_hash": "8a1593668395744b55a7fa4b175eae230beae4c18cc8c49a8e1b1ba5996def51"
+          },
+          {
+            "name": "read_company_facts",
+            "call_id": "call_tgDCQcY4qvXOWqf7VPbwsXgT",
+            "arguments_hash": "7c70b6355e988896a629c8254ac0f27ff37c4893a74fb8b06535e05881f37eab",
+            "result_hash": "af9d068a16d32ccee286d9acdca7c557f6f63174b998d6917f900a6e219f505f"
+          }
+        ]
+      },
+      {
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "run_id": "proposal:a4f2fb2f-f426-4e3b-8f15-82edf18f1145",
+        "model": "gpt-6-sol",
+        "config_hash": "be1ae19386de8bf821c18eaeab76d931f78f69ec6f1a86b2b7d3e2714dabc6c2",
+        "attempts": [
+          {
+            "attempt_id": "a8ef2391-8752-4e43-b752-462805a69340",
+            "phase": "strategy_proposal",
+            "status": "complete",
+            "response_id": "resp_096841d4def20a88016ab82950348c87d2885c39e32f8a736e",
+            "input_tokens": 498,
+            "output_tokens": 137,
+            "cost_usd": 0.002366,
+            "error_code": null
+          }
+        ],
+        "tools": []
+      }
+    ],
+    "improvements": [
+      {
+        "kind": "automatic_improvement",
+        "proposal_id": "a4f2fb2f-f426-4e3b-8f15-82edf18f1145",
+        "trigger": {
+          "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+          "trigger_id": "090512d7-fede-435a-a230-84d91ec6b70b",
+          "origin": "validation",
+          "codes": [
+            "REQUIRED_DISCLOSURE_MISSING"
+          ]
+        },
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "status": "queued",
+        "reason": "Provider-generated constrained strategy awaits six frozen independent trials.",
+        "depth": 1,
+        "baseline_version": 1,
+        "candidate_version": 2,
+        "dataset_hash": "3d6a0f173b03771a5d203217262a84e433ceb0644bd0154b60e1b7651d8b2d70",
+        "created_at": "2026-09-26T19:56:13.035Z",
+        "actual_cost_usd": 0.002366,
+        "candidate_strategy": {
+          "schema_version": 1,
+          "prompt_modules": [
+            "legal_grounding"
+          ],
+          "retrieval_order": "agent_selected"
+        },
+        "evaluation_id": null
+      }
+    ],
+    "receipts": [
+      {
+        "key": "1:context_snapshot:6f390585-f231-48c4-9f54-4777aed464af:1",
+        "kind": "context_snapshot",
+        "hash": "3fee82f8233c628b24a3e1495bbc519e2d680729e4aaf834050a78a44079ad46",
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "created_at": "2026-09-26T19:46:06.416Z"
+      },
+      {
+        "key": "1:runtime:6f390585-f231-48c4-9f54-4777aed464af",
+        "kind": "runtime_ledger",
+        "hash": "29daabe082ca30e37768ad7eff7ca7f279f1e1bdae17fd8fcb325793c10c69d0",
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "created_at": null
+      },
+      {
+        "key": "runtime:spend_authorization",
+        "kind": "runtime_spend_authorization",
+        "hash": "5041e4355f81f19b315487606f2983281736cd30006a51b76a7fb66a2087f90b",
+        "workflow_id": null,
+        "created_at": null
+      },
+      {
+        "key": "1:model_retry:1f9131ef-64a9-4fc8-a57c-6f46e7cec25c",
+        "kind": "model_retry_authorization",
+        "hash": "99fd414d793c6f7a86bfe9a3fa15fcb43eeacfb15d193d39e9f145cc5f942ddb",
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "created_at": "2026-09-26T19:52:38.216Z"
+      },
+      {
+        "key": "1:runtime_history:6f390585-f231-48c4-9f54-4777aed464af:29bbb385-6ce4-4fe6-a44f-21c153f00019",
+        "kind": "runtime_history",
+        "hash": "2f497ab485f0934509025a70704c52c1da18972dacc92bbde634cf5de5c974a9",
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "created_at": null
+      },
+      {
+        "key": "1:model_retry:af4eb5de-8265-4bb6-b876-e3373b617119",
+        "kind": "model_retry_authorization",
+        "hash": "1daa946a706aebb9defe3d608ba3935317d661b4559a3b2c83124bd3d577ab2b",
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "created_at": "2026-09-26T19:55:10.103Z"
+      },
+      {
+        "key": "1:runtime_history:6f390585-f231-48c4-9f54-4777aed464af:2a7d0ba6-a538-4318-a481-692ea3bcefcc",
+        "kind": "runtime_history",
+        "hash": "d37699d8ee3009d37704ea58d4ecde1115891cb549f26fd8481545b47d437c69",
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "created_at": null
+      },
+      {
+        "key": "1:test_fault:cd36cc86-0ea8-4b35-aca5-b69ac849fd9d",
+        "kind": "test_only_fault_injected",
+        "hash": "2aaf797e9bb36f4f53cb0bfa8ddfc2ce69520969bf34e36e6ff4189165a5ceed",
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "created_at": "2026-09-26T19:55:55.384Z"
+      },
+      {
+        "key": "1:model_output_failure:090512d7-fede-435a-a230-84d91ec6b70b",
+        "kind": "model_output_failure",
+        "hash": "1e7c3c70874080291fdcad71468e6118a53e8d13e23591b384ba72a0cf6acc00",
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "created_at": "2026-09-26T19:55:56.593Z"
+      },
+      {
+        "key": "1:model_tool_failure:9f0a4535-e39c-44ff-9241-76e1c23cae9e",
+        "kind": "model_tool_failure",
+        "hash": "f2b5ee056fb2acc7331ececd605d13b7606893f0f1351a5c71527841adb85e11",
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "created_at": "2026-09-26T19:56:10.847Z"
+      },
+      {
+        "key": "adaptation:trigger:validation:090512d7-fede-435a-a230-84d91ec6b70b",
+        "kind": "adaptation_trigger",
+        "hash": "f75eb7afaf668e1b2f67a584c15626bddf47e4fa2ebb8cb68d56989fad909eed",
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "created_at": "2026-09-26T19:56:13.033Z"
+      },
+      {
+        "key": "adaptation:automatic:a4f2fb2f-f426-4e3b-8f15-82edf18f1145",
+        "kind": "automatic_improvement",
+        "hash": "0e3bd07e57bbfea45419b6c8b95f33904af78a6f2ebf79d63e7d6c6978dbd0f9",
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "created_at": "2026-09-26T19:56:13.035Z"
+      },
+      {
+        "key": "1:human_feedback:9048ec2a-9749-49e5-8826-884d83437f1c",
+        "kind": "human_feedback",
+        "hash": "59f823456a8e584c579aff769743f0e3b023377d2594607c81b02b4213125e6f",
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "created_at": "2026-09-26T20:01:28.258Z"
+      },
+      {
+        "key": "1:fact_verification:9048ec2a-9749-49e5-8826-884d83437f1c",
+        "kind": "fact_verification",
+        "hash": "c1d3cb09a5b878b88c81d46f140eac0dd1a30169788f2f6498ec899895fcb7e4",
+        "workflow_id": null,
+        "created_at": null
+      },
+      {
+        "key": "1:context_snapshot:6f390585-f231-48c4-9f54-4777aed464af:2",
+        "kind": "context_snapshot",
+        "hash": "bedc2f97413d7ed86a6d61733d06e869f43a018d049f0ea07cb211444993df23",
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "created_at": "2026-09-26T20:01:30.131Z"
+      },
+      {
+        "key": "adaptation:trigger:founder_feedback:9048ec2a-9749-49e5-8826-884d83437f1c",
+        "kind": "adaptation_trigger",
+        "hash": "64ad776d044d65a7b2dc330f25af570fb97ca2da6ca2e30bdd81a33909b3500c",
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "created_at": "2026-09-26T20:21:32.884Z"
+      },
+      {
+        "key": "1:runtime_history:6f390585-f231-48c4-9f54-4777aed464af:76f3cdfb-56f2-48a3-ad70-a9dc62134244",
+        "kind": "runtime_history",
+        "hash": "41f255ed973f053c0381333e0fd34f1e418ae62c857d3ea25822625bde283b7e",
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "created_at": null
+      },
+      {
+        "key": "1:rate_limit_retry:5d598b8a-2758-4158-99d5-b0bf5d4b9b87",
+        "kind": "model_rate_limit_retry",
+        "hash": "7376c8cbc4b4cf4c492dc032e92bb1e8ee6aa3a10f554b4459ad1213840b62e5",
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "created_at": null
+      },
+      {
+        "key": "1:rate_limit_retry:b7980587-c3bb-42dd-ae08-b6b55649c6e1",
+        "kind": "model_rate_limit_retry",
+        "hash": "6b80d7ed96910f8977e8001e763e03cb7bd1aff5e6eba356c9747505a8f135ac",
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "created_at": null
+      },
+      {
+        "key": "1:rate_limit_retry:a5aaa796-8ee8-457b-a7bf-6ba2674698ca",
+        "kind": "model_rate_limit_retry",
+        "hash": "55e8c5e11a598093ab3057dee3b76d22da49150f4c2934a829caa66660a2dd1d",
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "created_at": null
+      },
+      {
+        "key": "harness:strategy:2",
+        "kind": "harness_strategy",
+        "hash": "bbb8274ec6824e26aaaf3773e9789041c2ba48279f26a01ee7eea9fe00df4df7",
+        "workflow_id": null,
+        "created_at": null
+      }
+    ],
+    "scope": {
+      "context_epoch": 2,
+      "source": "synthetic_fixture",
+      "supported_jurisdictions": [
+        "US-CA"
+      ],
+      "source_policy": "Retained demonstration sources, not a claim of current law. Human review roles are simulated; AI execution is independently recorded."
+    }
+  },
+  "improvements": [
+    {
+      "proposal_id": "a4f2fb2f-f426-4e3b-8f15-82edf18f1145",
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "origin": "validation",
+      "status": "queued",
+      "reason": "Provider-generated constrained strategy awaits six frozen independent trials.",
+      "baseline_version": 1,
+      "candidate_version": 2,
+      "dataset_hash": "3d6a0f173b03771a5d203217262a84e433ceb0644bd0154b60e1b7651d8b2d70",
+      "depth": 1,
+      "completed_trials": 0,
+      "total_trials": 6,
+      "cost_usd": 0.002366,
+      "unknown_charge": false,
+      "execution_mode": "provider",
+      "evaluation_id": null
+    }
+  ],
+  "global_budget": {
+    "budget_usd": 50,
+    "spent_usd": 0.86599,
+    "reserved_usd": 0,
+    "unknown_charges": 0,
+    "inflight": 0,
+    "request_count": 30,
+    "scope": "all_visitors_and_evaluations"
+  },
+  "receipts": [
+    {
+      "key": "1:test_fault:cd36cc86-0ea8-4b35-aca5-b69ac849fd9d",
+      "hash": "2aaf797e9bb36f4f53cb0bfa8ddfc2ce69520969bf34e36e6ff4189165a5ceed",
+      "result": {
+        "kind": "test_only_fault_injected",
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "event_id": "b712d300-1123-4e0b-b89c-88e77eb7d847",
+        "run_id": "76f3cdfb-56f2-48a3-ad70-a9dc62134244",
+        "response_id": "resp_077adc38fba3a9d7016ab8233e830087d29dd4a59c8e640d7b",
+        "original_output_hash": "49b2c14067d7562126afcbff63b73d20256435e57484e49f224d4e2b80cbe074",
+        "transformed_output_hash": "25f29c91200c454151f0c7162a74c534a98c502ed637f79ec7f0ce33008ae8a0",
+        "test_only": true,
+        "created_at": "2026-09-26T19:55:55.384Z"
+      }
+    },
+    {
+      "key": "1:model_output_failure:090512d7-fede-435a-a230-84d91ec6b70b",
+      "hash": "1e7c3c70874080291fdcad71468e6118a53e8d13e23591b384ba72a0cf6acc00",
+      "result": {
+        "kind": "model_output_failure",
+        "failure_id": "090512d7-fede-435a-a230-84d91ec6b70b",
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "event_id": "b712d300-1123-4e0b-b89c-88e77eb7d847",
+        "run_id": "76f3cdfb-56f2-48a3-ad70-a9dc62134244",
+        "response_id": "resp_077adc38fba3a9d7016ab8233e830087d29dd4a59c8e640d7b",
+        "output_hash": "25f29c91200c454151f0c7162a74c534a98c502ed637f79ec7f0ce33008ae8a0",
+        "output_json": "{\"changes\":[{\"clause_id\":\"dcac8a94-e1b2-59ec-84c1-7400e5230938\",\"heading\":\"Information we collect\",\"body\":\"We collect identifiers such as name, email, postal address, account ID and IP address; customer-record information such as name and postal address; internet activity such as event views and searches; location information such as a declared city and coarse IP-derived city; inferences about music interests drawn from saved event categories; and account login information combined with access credentials. We obtain information directly from you, through your interactions with our service, and by deriving interests from those interactions. Account login information combined with access credentials is sensitive personal information. Send privacy requests to privacy@deliberate-test-fault.example.\",\"fact_keys\":[\"data_inventory\",\"account_credentials_collected\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":1750,\"end_utf16\":2850,\"quote_text\":\"vacy policy conspicuously \\navailable to consumers. A mobile application must also include a link to the privacy policy \\nin the application’s settings menu.  \\n(e) The privacy policy shall include the following information: \\n(1) A comprehensive description of the business’s online and offline information \\npractices, which includes the following: \\n(A) Identification of the categories of personal information the business has \\ncollected about consumers in the preceding 12 months. The categories shall be \\ndescribed using the specific terms set forth in Civil Code section 1798.140, \\nsubdivisions (v)(1)(A) – (K) and (ae)(1) – (2). To the extent that the business has \\ndiscretion in its description, the business shall describe the category in a \\nmanner that provides consumers a meaningful understanding of the \\ninformation being collected.  \\nPDF page 22\\nCPPA \\n   \\n \\nPage 22 of 103 \\n(B) Identification of the categories of sources from which the personal information \\nis collected. The categories shall be described in a manner that provides \\nconsumers a meaningful understanding of where the informa\"},{\"provision_key\":\"prov_ccpa_sensitive\",\"source_version_id\":\"a9ca10a1-7b79-585a-aade-7768033f21c7\",\"start_utf16\":450,\"end_utf16\":1030,\"quote_text\":\" and Professions Code). \\n(ae)\\n “Sensitive personal information” means: \\n(1) Personal information that reveals: \\n(A) A consumer’s social security, driver’s license, state identification card, or \\npassport number. \\n(B) A consumer’s account log-in, financial account, debit card, or credit card \\nnumber in combination with any required security or access code, password, or \\ncredentials allowing access to an account. \\n(C) A consumer’s precise geolocation. \\n(D) A consumer’s racial or ethnic origin, citizenship or immigration status, religious \\nor philosophical beliefs, or union me\"}],\"rationale\":\"Adds inventory-backed categories and sources and identifies the credential category as sensitive. Human review should reconcile the baseline’s additional references to declared state and device identifiers with the pinned inventory; this proposal does not assert that a collection notice has been deployed.\"},{\"clause_id\":\"016bb052-b08f-5208-884b-3343949680f1\",\"heading\":\"How we disclose information\",\"body\":\"We disclose information to providers that host the service, deliver transactional email, provide authentication, and perform restricted first-party analytics. The categories disclosed for these purposes include identifiers, customer-record information, internet activity, location information, inferences, and account login information combined with access credentials, as applicable to each provider’s function. We do not sell or share personal information for cross-context behavioral advertising.\",\"fact_keys\":[\"data_inventory\",\"sells_personal_information\",\"shares_for_cross_context_behavioral_advertising\",\"vendor_contracts_status\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":3000,\"end_utf16\":4700,\"quote_text\":\"e shall be described in a \\nmanner that provides consumers a meaningful understanding of why the \\ninformation is collected. \\n(D) Identification of the categories of personal information, if any, that the \\nbusiness has sold or shared to third parties in the preceding 12 months. If the \\nbusiness has not sold or shared consumers’ personal information in the \\npreceding 12 months, the business shall disclose that fact. \\n(E) For each category of personal information identified in subsection (e)(1)(D), \\nthe categories of third parties to whom the information was sold or shared. \\nThe categories of third parties shall be described in a manner that provides \\nconsumers a meaningful understanding of the parties to whom the \\ninformation is sold or shared. \\n(F) Identification of the specific business or commercial purpose for selling or \\nsharing consumers’ personal information. The purpose shall be described in a \\nmanner that provides consumers a meaningful understanding of why the \\ninformation is sold or shared. \\n(G) A statement regarding whether the business has actual knowledge that it sells \\nor shares the personal information of consumers under 16 years of age.  \\n(H) Identification of the categories of personal information, if any, that the \\nbusiness has disclosed to a service provider or contractor for a business \\npurpose in the preceding 12 months. If the business has not disclosed \\nconsumers’ personal information for a business purpose in the preceding 12 \\nmonths, the business shall disclose that fact. \\n(I) Identification of the specific business or commercial purpose for disclosing the \\nconsumer’s personal information. The purpose shall be described in a manner \\nthat provides co\"}],\"rationale\":\"Uses pinned disclosure and sale/share facts without claiming that policy wording establishes provider compliance. Counsel should verify the preceding-12-month disclosure history before publication.\"}]}",
+        "codes": [
+          "REQUIRED_DISCLOSURE_MISSING"
+        ],
+        "harness_version": 1,
+        "test_only_fault_injected": true,
+        "created_at": "2026-09-26T19:55:56.593Z"
+      }
+    }
+  ]
+}

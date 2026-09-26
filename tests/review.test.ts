@@ -87,12 +87,13 @@ test('review regression: verified company facts preserve signup-specific provena
  assert.equal(value('declared_legal_residence'),'US-CA');
  assert.equal(value('physical_state_at_collection'),'US-CA');
  assert.equal(value('ca_consumers_commercial_processing_current_year'),1);
- assert.equal(value('ca_processing_initiated_on'),'2026-09-26');
+ assert.equal(value('ca_processing_initiated_on'),w.created_at.slice(0,10));
 }));
 
 test('review regression: changed input can start a new settled model ledger',()=>isolated(async()=>{
  process.env.KIARA_MODEL_MODE='openai';
- const s=await readState(),created=await signup({customer_name:'New snapshot',residence:'US-CA',scenario:'covered',expected_reset_epoch:s.reset_epoch},id());
+ const s=await readState(),created=await signup({customer_name:'New snapshot',residence:'US-CA',scenario:'supplied',expected_context_epoch:s.context_epoch,expected_reset_epoch:s.reset_epoch},id());
+ await transaction(state=>{state.workflows[0].freshness_valid_until=new Date(Date.now()+86400000).toISOString();});
  for(let i=0;i<20;i++)if(await tick())break;
  const first=(await readState()).workflows[0];
  await executeModel(first.workflow_id,first.reset_epoch,{count:async()=>1000,create:async()=>{throw Object.assign(new Error('Explicit test rejection'),{status:400});}});
@@ -151,14 +152,14 @@ test('review: a later unchanged event closes only against a current sealed final
  assert.equal(laterWorkflow.approvals.length,0,'No new approvals are fabricated for a no-change assessment');
 }));
 
-test('review: exhausted automatic repairs escalate without hiding the failing output',()=>isolated(async()=>{
- const w=await start();assert.equal(w.repair_count,2);
+test('review: scripted validation failure escalates without claiming AI repair or hiding the output',()=>isolated(async()=>{
+ const w=await start();assert.equal(w.repair_count,0);
  const state=await readState(),draft=state.revisions.find(r=>r.revision_id===w.candidate_revision_id)!;
  const clause=draft.clauses.find(c=>c.heading==='California privacy rights')!;
  await feedback(w.workflow_id,'founder',{type:'document_edit',text:clause.body+' This makes us fully compliant.',clause_id:clause.clause_id,expected_reset_epoch:w.reset_epoch,...editGuard(w)},id());
  for(let i=0;i<10;i++)await tick();
  const after=await readState(),current=after.workflows[0];
- assert.equal(current.state,'needs_human_review');assert.equal(current.repair_count,2);
+ assert.equal(current.state,'needs_human_review');assert.equal(current.repair_count,0);
  assert.ok(current.validations.at(-1)?.codes.includes('UNSUPPORTED_COMPLIANCE_CLAIM'));
  assert.notEqual(current.candidate_revision_id,null);
  assert.equal(current.bundle_hash,null);

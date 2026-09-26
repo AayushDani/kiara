@@ -1,3 +1,7 @@
+# Current AI flow
+
+See [runtime architecture](runtime.md) and [current acceptance](ai-e2e-verification.md). The historical deployment below describes the earlier scripted release. Current public AI configuration adds OPENAI_API_KEY, KIARA_PUBLIC_LIVE_ENABLED=true, KIARA_OPENAI_BUDGET_USD=50 and KIARA_MODEL_MODE=openai; paid visitor data has no TTL, finalization retains history, and six-trial evaluations run as durable Workflow steps. Email remains preview-only. Never use a separate budget database for acceptance and production under a shared spending authorization.
+
 # Vercel deployment
 
 Kiara uses Vercel Functions and Workflow SDK for hosted processing, and MongoDB Atlas for durable application data. Node 24 is required. The first deployment uses the scripted model and email previews; it does not call paid models or send email.

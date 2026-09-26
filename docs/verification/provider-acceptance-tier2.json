@@ -1,0 +1,1111 @@
+{
+  "checked_at": "2026-09-26T20:11:55.731Z",
+  "kind": "real_provider_isolated_atlas_acceptance",
+  "test_scope_id": "68e1d1ea345309a4c49add76ca10f74c",
+  "email_mode": "preview",
+  "human_roles": "synthetic acceptance assertions, not actual founder/lawyer approval",
+  "fault_injection": "See test-only fault receipts, if any; never enabled on Vercel",
+  "step": "initial-clean",
+  "workflows": [
+    {
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "state": "needs_human_review",
+      "state_version": 5,
+      "created_at": "2026-09-26T20:10:18.418Z",
+      "updated_at": "2026-09-26T20:11:55.017Z",
+      "customer_name": "Acceptance California event",
+      "residence": "US-CA",
+      "scenario": "covered",
+      "event_id": "a8e8ec90-047e-4266-b7cd-b640108f4b7b",
+      "base_revision_id": "b549ad34-4c35-4f18-beab-d4fa15aff3ae",
+      "candidate_revision_id": null,
+      "harness_version": 1,
+      "context_epoch": 1,
+      "facts": [
+        {
+          "fact_id": "286b1546-e0a9-5097-87ea-62c1db70a886",
+          "fact_key": "for_profit",
+          "knowledge": "known",
+          "value": true,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "ab5b5336-e7ab-5cb6-b1dd-b242a307ee97",
+          "fact_key": "collects_personal_information",
+          "knowledge": "known",
+          "value": true,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "5165d721-4db8-568a-b983-026abdca586c",
+          "fact_key": "determines_purposes_and_means",
+          "knowledge": "known",
+          "value": true,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "435478f3-3926-5090-a0cf-a9a1183f76b7",
+          "fact_key": "does_business_in_california",
+          "knowledge": "known",
+          "value": true,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "f8d26045-3f56-512b-ab1c-3117b6e3bbb0",
+          "fact_key": "prior_calendar_year",
+          "knowledge": "known",
+          "value": 2025,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "04a9b32e-8d01-5ce2-b464-d32fa5c90203",
+          "fact_key": "annual_gross_revenue_usd",
+          "knowledge": "known",
+          "value": 30000000,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "6ead7862-0a0f-5577-ba72-3c5d5ddd1486",
+          "fact_key": "annual_buy_sell_share_ca_consumers_or_households",
+          "knowledge": "known",
+          "value": 0,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "10fa4249-f835-5ee6-9a58-ca85f207f6da",
+          "fact_key": "sale_share_revenue_percent",
+          "knowledge": "known",
+          "value": 0,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "f6b206d5-b490-5e01-beaa-a3a90bde5356",
+          "fact_key": "related_entity_business_route",
+          "knowledge": "known",
+          "value": false,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "85b06ed1-63f6-5526-8b93-07388a8d4144",
+          "fact_key": "joint_venture_business_route",
+          "knowledge": "known",
+          "value": false,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "f2abf6ee-0ed0-523a-8e13-76aa5ae4c6d6",
+          "fact_key": "voluntary_cppa_certification",
+          "knowledge": "known",
+          "value": false,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "5cb3f07d-32b2-5b91-891d-8700729615c1",
+          "fact_key": "natural_person",
+          "knowledge": "known",
+          "value": true,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "8efdf173-cc82-5a54-8af5-67ea323a7348",
+          "fact_key": "declared_legal_residence",
+          "knowledge": "known",
+          "value": "US-CA",
+          "provenance": "Explicit synthetic signup scenario"
+        },
+        {
+          "fact_id": "a6722f0c-fb38-5f72-bcd7-1d9206faca56",
+          "fact_key": "residency_declaration_accepted_for_demo",
+          "knowledge": "known",
+          "value": true,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "42c22c7c-62cb-5bb5-b83e-ed8d5bac2ad9",
+          "fact_key": "physical_state_at_collection",
+          "knowledge": "known",
+          "value": "US-CA",
+          "provenance": "Explicit synthetic signup scenario"
+        },
+        {
+          "fact_id": "ea4792ed-c755-582c-81dd-934188018892",
+          "fact_key": "ordinary_signup_data_nonexempt",
+          "knowledge": "known",
+          "value": true,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "8d157b60-0d60-544c-b9af-2ac24e0f0185",
+          "fact_key": "wholly_outside_california_exception",
+          "knowledge": "known",
+          "value": false,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "e6b0b2c3-8d4f-54c3-8a07-e1bfaf6ce8d3",
+          "fact_key": "buys_personal_information",
+          "knowledge": "known",
+          "value": false,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "63681525-a950-5027-b92a-e4ab1ed3e487",
+          "fact_key": "sells_personal_information",
+          "knowledge": "known",
+          "value": false,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "a502faee-cd98-5e25-8e39-e154e708c129",
+          "fact_key": "shares_for_cross_context_behavioral_advertising",
+          "knowledge": "known",
+          "value": false,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "1db64ec6-99a4-53e1-b7dc-48e1df8ab6a8",
+          "fact_key": "account_credentials_collected",
+          "knowledge": "known",
+          "value": true,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "06691f45-4d13-5b88-af0e-b5aa240125cb",
+          "fact_key": "spi_only_permitted_purposes",
+          "knowledge": "known",
+          "value": true,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "83608a22-0cd5-55a3-a8ed-ca2de94dbfcd",
+          "fact_key": "actual_knowledge_under16",
+          "knowledge": "known",
+          "value": false,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "35ac3f43-ee34-591b-a779-065533a026c3",
+          "fact_key": "signup_consumer_age_years",
+          "knowledge": "known",
+          "value": 28,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "b6fa3eeb-c57e-5d73-8e4b-49f2ed4a09e1",
+          "fact_key": "intended_audience",
+          "knowledge": "known",
+          "value": "adults",
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "988e421e-5650-5446-8702-8c81ade16008",
+          "fact_key": "exclusively_online",
+          "knowledge": "known",
+          "value": true,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "0abfc43a-270b-5de1-940d-7992b2f79699",
+          "fact_key": "direct_consumer_relationship",
+          "knowledge": "known",
+          "value": true,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "3a8f734d-a173-506e-97b0-89cc30c259a1",
+          "fact_key": "operates_browser",
+          "knowledge": "known",
+          "value": false,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "d3e800db-4319-52fb-a73f-9a4c02f994d8",
+          "fact_key": "admt_significant_decision",
+          "knowledge": "known",
+          "value": false,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "bba94b9e-bbae-5fb7-bbdc-a8c8ce804e64",
+          "fact_key": "financial_incentives",
+          "knowledge": "known",
+          "value": false,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "272dcbc9-cdc3-59ed-89c7-cc4320cd2937",
+          "fact_key": "ca_consumers_processed_prior_year",
+          "knowledge": "known",
+          "value": 0,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "69aa74e8-3f4f-5427-aef5-11f2e1ebdf5d",
+          "fact_key": "ca_consumers_spi_processed_prior_year",
+          "knowledge": "known",
+          "value": 0,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "13c04086-1f38-52a7-815a-19815596e008",
+          "fact_key": "ca_consumers_commercial_processing_current_year",
+          "knowledge": "known",
+          "value": 1,
+          "provenance": "Explicit synthetic signup scenario"
+        },
+        {
+          "fact_id": "f00c962a-9e15-5bd5-ac14-a5ed03811600",
+          "fact_key": "consumer_request_email",
+          "knowledge": "known",
+          "value": "privacy@harbor-meridian.example",
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "79094e64-fc4e-590c-ae62-ffee89cf8f3a",
+          "fact_key": "consumer_request_web_path",
+          "knowledge": "known",
+          "value": "/privacy/requests",
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "e8fb76ec-ed0a-53de-a11d-0d038365d9d9",
+          "fact_key": "consumer_request_methods_readiness",
+          "knowledge": "known",
+          "value": "synthetic_fixture_only",
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "855708b2-e5cc-51c8-a9bc-372551ccc910",
+          "fact_key": "notice_at_collection_readiness",
+          "knowledge": "known",
+          "value": "needs_information",
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "9002fb7f-a9cc-59c7-b45e-61e9395f2d17",
+          "fact_key": "risk_assessment_completion",
+          "knowledge": "known",
+          "value": "needs_information",
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "998d6e5c-ac8f-5925-960b-bc22cd8aa489",
+          "fact_key": "ca_processing_initiated_on",
+          "knowledge": "known",
+          "value": "2026-09-26",
+          "provenance": "Explicit synthetic signup scenario"
+        },
+        {
+          "fact_id": "9b5d7589-6063-5bc6-ba8d-1d19aeb5f18e",
+          "fact_key": "baseline_policy_version",
+          "knowledge": "known",
+          "value": "privacy_v1",
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "23b883ff-1575-5a61-8ee3-b90360eb0b5e",
+          "fact_key": "baseline_policy_last_updated",
+          "knowledge": "known",
+          "value": "2026-09-01",
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "02a83fea-71f4-5753-b33e-637c5755756f",
+          "fact_key": "baseline_known_customer_states",
+          "knowledge": "known",
+          "value": [
+            "US-NY"
+          ],
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "61f93875-5234-5e3a-8c2c-639229827733",
+          "fact_key": "data_inventory",
+          "knowledge": "known",
+          "value": [
+            {
+              "categoryId": "identifiers",
+              "examples": [
+                "name",
+                "email",
+                "postal address",
+                "account ID",
+                "IP address"
+              ],
+              "statuteCategory": "1798.140(v)(1)(A)",
+              "sourceCategories": [
+                "consumer directly",
+                "device interaction"
+              ],
+              "purposes": [
+                "create and service account",
+                "deliver selected local event recommendations",
+                "security"
+              ],
+              "recipientCategories": [
+                "hosting service provider",
+                "transactional email service provider"
+              ],
+              "retention": "Account life plus 30 days after closure; security IP logs 90 days, subject to documented legal holds."
+            },
+            {
+              "categoryId": "customer_records",
+              "examples": [
+                "name",
+                "postal address"
+              ],
+              "statuteCategory": "1798.140(v)(1)(B)",
+              "sourceCategories": [
+                "consumer directly"
+              ],
+              "purposes": [
+                "service account and user-selected region"
+              ],
+              "recipientCategories": [
+                "hosting service provider"
+              ],
+              "retention": "Account life plus 30 days after closure, subject to documented legal holds."
+            },
+            {
+              "categoryId": "internet_activity",
+              "examples": [
+                "event views",
+                "search activity"
+              ],
+              "statuteCategory": "1798.140(v)(1)(F)",
+              "sourceCategories": [
+                "device interaction"
+              ],
+              "purposes": [
+                "operate discovery",
+                "diagnose errors",
+                "improve first-party recommendations"
+              ],
+              "recipientCategories": [
+                "hosting service provider",
+                "restricted first-party analytics service provider"
+              ],
+              "retention": "90 days, then deleted or deidentified; retained security incidents subject to documented legal hold."
+            },
+            {
+              "categoryId": "geolocation",
+              "examples": [
+                "declared city",
+                "coarse IP-derived city"
+              ],
+              "statuteCategory": "1798.140(v)(1)(G)",
+              "sourceCategories": [
+                "consumer directly",
+                "device interaction"
+              ],
+              "purposes": [
+                "localize discovery"
+              ],
+              "recipientCategories": [
+                "hosting service provider"
+              ],
+              "retention": "Declared city for account life plus 30 days; coarse IP-derived location 90 days."
+            },
+            {
+              "categoryId": "inferences",
+              "examples": [
+                "music interests inferred from saved event categories"
+              ],
+              "statuteCategory": "1798.140(v)(1)(K)",
+              "sourceCategories": [
+                "derived from first-party interactions"
+              ],
+              "purposes": [
+                "first-party event recommendations"
+              ],
+              "recipientCategories": [
+                "hosting service provider"
+              ],
+              "retention": "Until preferences reset or account closure plus 30 days."
+            },
+            {
+              "categoryId": "sensitive_login",
+              "examples": [
+                "account login combined with access credentials"
+              ],
+              "statuteCategory": "1798.140(ae)(1)(B)",
+              "sourceCategories": [
+                "consumer directly"
+              ],
+              "purposes": [
+                "authenticate requested account",
+                "protect account security"
+              ],
+              "recipientCategories": [
+                "authentication service provider"
+              ],
+              "retention": "Until credential rotation or account closure; revocable session credentials expire within 30 days."
+            }
+          ],
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "2d6be8b0-c4ef-5be5-a0eb-177c27c8fef7",
+          "fact_key": "vendor_contracts_status",
+          "knowledge": "known",
+          "value": "synthetic_service_provider_restrictions_stipulated",
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "24819f60-a842-5dc7-9131-90358c10cad9",
+          "fact_key": "exemption_screen",
+          "knowledge": "known",
+          "value": {
+            "scope": "ordinary consumer entertainment discovery signup",
+            "healthAndClinicalResearch": false,
+            "regulatedFinancialInformation": false,
+            "fcraRegulatedActivity": false,
+            "dppaData": false,
+            "vehicleOrVesselRecall": false,
+            "educationalAssessment": false,
+            "commercialCreditReporting": false,
+            "publicOrDeidentifiedOnly": false,
+            "privilegedCommunication": false,
+            "lawEnforcementHold": false,
+            "otherSpecializedClaim": false
+          },
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "e61448a2-b983-558d-b143-4532b5239ca6",
+          "fact_key": "synthetic_business_activity_basis",
+          "knowledge": "known",
+          "value": "For-profit DemoCo operates an online music discovery service, affirmatively launched service for California residents on 2026-09-26, accepts the California account while the consumer is in California, and controls signup processing. The business-in-California conclusion is stipulated in the fixture, not inferred from the address.",
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "2f3d136a-c11a-5132-9a83-2e3106d7e049",
+          "fact_key": "support_correspondence_retention_months",
+          "knowledge": "known",
+          "value": 12,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "20afa1d4-e9ac-5af1-80d7-bad694387d28",
+          "fact_key": "material_policy_change_notice",
+          "knowledge": "known",
+          "value": {
+            "method": "account_email",
+            "timing": "before_material_information_practice_change_effective",
+            "readiness": "synthetic_fixture_only"
+          },
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "073dda8b-efe7-51bd-829f-abbbcd4fb92c",
+          "fact_key": "privacy_request_verification_process",
+          "knowledge": "known",
+          "value": {
+            "existing_account": "authenticate_and_confirm_account_email",
+            "no_account_access": "match_existing_records_proportionate_to_request",
+            "require_new_account": false,
+            "new_verification_pi_deleted": "as_soon_as_practical_after_request_except_required_records",
+            "agent_permission": "signed_permission_plus_identity_verification_or_direct_confirmation",
+            "consumer_resubmission_required": false,
+            "power_of_attorney_mandatory": false
+          },
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "391046a4-1120-5178-b3c9-824aa2385181",
+          "fact_key": "account_self_service_controls",
+          "knowledge": "known",
+          "value": {
+            "edit_profile": true,
+            "remove_saved_events": true,
+            "promotional_email_unsubscribe": "account_settings",
+            "account_closure": "contact_support"
+          },
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "3b974557-ecec-5bac-bb87-1728e283c368",
+          "fact_key": "security_controls",
+          "knowledge": "known",
+          "value": {
+            "access_controls": true,
+            "safeguards": true,
+            "guarantee_complete_security": false
+          },
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "b815741a-3de0-5b2a-bb33-c2a082a0d26c",
+          "fact_key": "third_party_advertising_trackers",
+          "knowledge": "known",
+          "value": false,
+          "provenance": "Synthetic unseen acceptance input"
+        },
+        {
+          "fact_id": "f90b8cbf-989f-519f-a191-05d4e7422d59",
+          "fact_key": "intended_age_minimum",
+          "knowledge": "known",
+          "value": 18,
+          "provenance": "Synthetic unseen acceptance input"
+        }
+      ],
+      "assessment": {
+        "outcome": "covered",
+        "summary": "The pinned company facts support the assessed California applicability criteria. Proposed policy changes require founder and lawyer review.",
+        "missing_facts": [],
+        "basis": [
+          "Revenue prong: explicit 2025 gross revenue exceeds the operative $26,625,000 threshold."
+        ],
+        "criteria": [
+          {
+            "label": "for profit",
+            "result": "pass",
+            "evidence": "Pinned company fact: for_profit"
+          },
+          {
+            "label": "collects personal information",
+            "result": "pass",
+            "evidence": "Pinned company fact: collects_personal_information"
+          },
+          {
+            "label": "determines purposes and means",
+            "result": "pass",
+            "evidence": "Pinned company fact: determines_purposes_and_means"
+          },
+          {
+            "label": "does business in california",
+            "result": "pass",
+            "evidence": "Pinned company fact: does_business_in_california"
+          },
+          {
+            "label": "natural person",
+            "result": "pass",
+            "evidence": "Pinned company fact: natural_person"
+          },
+          {
+            "label": "ordinary signup data nonexempt",
+            "result": "pass",
+            "evidence": "Pinned company fact: ordinary_signup_data_nonexempt"
+          },
+          {
+            "label": "2025 gross revenue exceeds $26,625,000",
+            "result": "pass",
+            "evidence": "Civil Code §1798.140(d)(1)(A) · CPPA 2025 CPI adjustment"
+          }
+        ]
+      },
+      "validations": [
+        {
+          "validation_id": "e83b615c-16a1-408c-912d-55085c76d75e",
+          "created_at": "2026-09-26T20:10:20.218Z",
+          "stage": "context_readiness",
+          "passed": true,
+          "codes": [],
+          "explanation": "Mandatory applicability facts and retained legal provisions loaded from the pinned snapshot.",
+          "repaired": false
+        }
+      ],
+      "repair_count": 1,
+      "missing_bundle_repairs": 0,
+      "approvals": [],
+      "bundle_hash": null,
+      "review_input_hash": null,
+      "freshness_valid_until": "2026-10-26T20:10:16.622Z",
+      "model_mode": "openai",
+      "model_status": "blocked",
+      "model_attempts": 5,
+      "input_tokens": 46103,
+      "output_tokens": 6374,
+      "reserved_cost": 0,
+      "cost_usd": 0.155946,
+      "unknown_charge": false,
+      "lease_owner": null,
+      "lease_epoch": 1,
+      "lease_until": null,
+      "failure": "MODEL_OUTPUT_INCOMPLETE",
+      "evidence_keys": [
+        "prov_ccpa_business",
+        "prov_ccpa_consumer",
+        "prov_ccpa_pi",
+        "prov_ccpa_sensitive",
+        "prov_ccpa_sale_share",
+        "prov_ccpa_exemptions",
+        "prov_ccpa_cpi_authority",
+        "prov_ccpa_policy",
+        "prov_regs_policy",
+        "prov_ccpa_notice",
+        "prov_regs_notice",
+        "prov_ccpa_rights",
+        "prov_ccpa_request_methods",
+        "prov_regs_request_methods",
+        "prov_ccpa_optout",
+        "prov_regs_optout",
+        "prov_ccpa_limit",
+        "prov_regs_limit",
+        "prov_regs_presentation",
+        "prov_regs_records",
+        "prov_regs_audit",
+        "prov_regs_risk",
+        "prov_regs_admt",
+        "prov_regs_sensitive",
+        "prov_ccpa_browser_future",
+        "prov_ccpa_exemption_outside",
+        "prov_ccpa_exemption_health",
+        "prov_ccpa_exemption_financial",
+        "prov_ccpa_exemption_expired",
+        "prov_ccpa_public_deidentified",
+        "prov_ccpa_service_provider",
+        "prov_ccpa_cpi"
+      ],
+      "citation_offset": null
+    }
+  ],
+  "events": [
+    {
+      "event_id": "a8e8ec90-047e-4266-b7cd-b640108f4b7b",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 1,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "user.signed_up",
+      "title": "Acceptance California event signed up",
+      "detail": "US-CA declared legal residence. Explicit synthetic demonstration input. This is a signal to assess; it is not proof of coverage.",
+      "created_at": "2026-09-26T20:10:18.418Z"
+    },
+    {
+      "event_id": "10eea923-b42c-4f55-bebc-a14708c7dca1",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 2,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "workflow.slot_acquired",
+      "title": "Review started",
+      "detail": "Harness v1 pinned. Company facts and current policy loaded.",
+      "created_at": "2026-09-26T20:10:18.804Z"
+    },
+    {
+      "event_id": "8d140905-668e-4733-b3c4-b168e34b185f",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 3,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "context.snapshot_pinned",
+      "title": "Evidence ready",
+      "detail": "32 retained legal provisions pinned to source hashes; this is not a claim of fresh retrieval.",
+      "created_at": "2026-09-26T20:10:20.218Z"
+    },
+    {
+      "event_id": "a0e5d1e6-8eac-4f1c-818a-433d077af43c",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 4,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "assessment.completed",
+      "title": "CCPA applicability supported",
+      "detail": "Revenue prong: explicit 2025 gross revenue exceeds the operative $26,625,000 threshold.",
+      "created_at": "2026-09-26T20:10:21.641Z"
+    },
+    {
+      "event_id": "f2310134-19da-4891-8d99-d4fe6a05f3c8",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 5,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.started",
+      "title": "Live model run started",
+      "detail": "Responses adapter; immutable facts, policy and evidence references pinned.",
+      "created_at": "2026-09-26T20:10:22.608Z"
+    },
+    {
+      "event_id": "84d571e7-69a4-491c-80b6-fdb69aabb9d4",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 6,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "draft: resp_0583b933197344ec016ab826b0805487d2af3e6e64bc3cb568; 8515 input / 119 output tokens; conservative cost $0.0182.",
+      "created_at": "2026-09-26T20:10:27.412Z"
+    },
+    {
+      "event_id": "69b72ba4-bc5c-4fed-8c63-6a5d5d9b5c1f",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 7,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "tool.completed",
+      "title": "Scoped retrieval completed",
+      "detail": "read_legal_evidence_batch",
+      "created_at": "2026-09-26T20:10:27.718Z"
+    },
+    {
+      "event_id": "c0740d85-a9ee-4640-8b0f-22cd06cc8b53",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 8,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "draft: resp_0583b933197344ec016ab826b561d887d29df8f17ec9a26ac7; 11793 input / 154 output tokens; conservative cost $0.0251.",
+      "created_at": "2026-09-26T20:10:32.421Z"
+    },
+    {
+      "event_id": "d563a256-202c-4f1b-86f4-44c18e32493f",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 9,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "tool.rejected",
+      "title": "Scoped tool rejected a request",
+      "detail": "read_legal_evidence_batch: TOOL_RESULT_CAPACITY.",
+      "created_at": "2026-09-26T20:10:32.983Z"
+    },
+    {
+      "event_id": "a877d577-e6a9-45ca-8d14-baf838fa83e3",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 10,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "draft: resp_0583b933197344ec016ab826baada887d2a75766c13e29fe54; 12013 input / 101 output tokens; conservative cost $0.0250.",
+      "created_at": "2026-09-26T20:10:37.003Z"
+    },
+    {
+      "event_id": "bf5740d6-0b62-4ce7-8f53-bc8e03eb366c",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 11,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "tool.completed",
+      "title": "Scoped retrieval completed",
+      "detail": "read_legal_evidence_batch",
+      "created_at": "2026-09-26T20:10:37.625Z"
+    },
+    {
+      "event_id": "a06dd209-9400-4940-96c7-3d2c361a1c16",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 12,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.provider_error",
+      "title": "Provider request requires attention",
+      "detail": "PROVIDER_429 / rate_limit_exceeded / tokens",
+      "created_at": "2026-09-26T20:10:43.791Z"
+    },
+    {
+      "event_id": "a5797b38-aa9d-4cdd-a71a-e19b3110f3e4",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 13,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.rate_limit_wait",
+      "title": "Provider rate limit: bounded retry scheduled",
+      "detail": "Retry 1/2 in 15000ms; the original deadline and nine-request total remain unchanged.",
+      "created_at": "2026-09-26T20:10:44.729Z"
+    },
+    {
+      "event_id": "347ab22e-4bf8-43ad-9f54-bffa45b81d1c",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 14,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "draft: resp_0583b933197344ec016ab826d6342887d2b0cbdf80f56538b3; 13782 input / 6000 output tokens; conservative cost $0.0876.",
+      "created_at": "2026-09-26T20:11:54.548Z"
+    },
+    {
+      "event_id": "9edc88da-ebcc-4c77-8e5e-1d12ca6525ac",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 15,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.blocked",
+      "title": "Model run requires attention",
+      "detail": "MODEL_OUTPUT_INCOMPLETE",
+      "created_at": "2026-09-26T20:11:55.018Z"
+    }
+  ],
+  "feedback": [],
+  "documents": [
+    {
+      "revision_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+      "document_id": "eaaa8632-ac8b-5e3a-a030-1b9c5719473a",
+      "revision_number": 1,
+      "base_revision_id": null,
+      "title": "Rippit-inspired DemoCo (fictional) — Privacy Policy",
+      "policy_updated_on": "2026-09-01",
+      "clauses": [
+        {
+          "clause_id": "2f950064-c9b1-5aa9-bc66-ffa199f1cfa2",
+          "heading": "About this policy",
+          "body": "Rippit-inspired DemoCo (fictional) operates an online music discovery service for adults. This policy explains how we handle information when you create an account, discover events, read reviews, save favorites, or contact us."
+        },
+        {
+          "clause_id": "dcac8a94-e1b2-59ec-84c1-7400e5230938",
+          "heading": "Information we collect",
+          "body": "We collect your name, email, account credentials, postal address, declared state of residence and saved events. We also collect device identifiers, approximate location and activity on our website."
+        },
+        {
+          "clause_id": "4c79b519-e7d5-5182-a92d-e20124237e0d",
+          "heading": "How we use information",
+          "body": "We use information to provide accounts, recommend local events, respond to support requests, and keep the service secure."
+        },
+        {
+          "clause_id": "016bb052-b08f-5208-884b-3343949680f1",
+          "heading": "How we disclose information",
+          "body": "We use providers to host the service, deliver email and help us understand first-party activity. We do not sell personal information."
+        },
+        {
+          "clause_id": "9689ef85-b969-51cd-8dcc-b423dacbc9ed",
+          "heading": "How long we keep information",
+          "body": "We keep information for as long as we need it to provide our service and meet our obligations."
+        },
+        {
+          "clause_id": "8e2e31f5-41ad-56ae-908f-25f208bfc08b",
+          "heading": "Your choices",
+          "body": "You can edit your profile, remove saved events and unsubscribe from promotional email in account settings. Contact support if you want to close your account."
+        },
+        {
+          "clause_id": "730e1692-f5e1-5960-aa7c-65f297fd36c5",
+          "heading": "Security",
+          "body": "We use access controls and other safeguards to protect information. No online service can guarantee complete security."
+        },
+        {
+          "clause_id": "b7239933-2f36-5fe1-833b-619f1b3b855d",
+          "heading": "Age restriction",
+          "body": "Our service is intended for adults aged 18 and older."
+        },
+        {
+          "clause_id": "de59121d-08a5-5e6b-a801-c2899e8ebcb0",
+          "heading": "Policy updates",
+          "body": "We may update this policy as our service changes. We will post the updated policy here."
+        },
+        {
+          "clause_id": "06aee531-095d-531b-bb20-4afc8ceba2e2",
+          "heading": "Contact",
+          "body": "For privacy questions, contact privacy@democo.example."
+        }
+      ],
+      "created_at": "2026-09-26T18:00:00.000Z",
+      "content_hash": "2b81e48a59337ed6aeeea4ab9258ef1093ff13432652989fb0b4f143dd0b39af"
+    },
+    {
+      "revision_id": "b549ad34-4c35-4f18-beab-d4fa15aff3ae",
+      "document_id": "eaaa8632-ac8b-5e3a-a030-1b9c5719473a",
+      "revision_number": 2,
+      "base_revision_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+      "title": "Harbor Meridian privacy policy",
+      "policy_updated_on": "2026-09-01",
+      "clauses": [
+        {
+          "clause_id": "2f950064-c9b1-5aa9-bc66-ffa199f1cfa2",
+          "heading": "About this policy",
+          "body": "Rippit-inspired Harbor Meridian (fictional) operates an online music discovery service for adults. This policy explains how we handle information when you create an account, discover events, read reviews, save favorites, or contact us."
+        },
+        {
+          "clause_id": "dcac8a94-e1b2-59ec-84c1-7400e5230938",
+          "heading": "Information we collect",
+          "body": "We collect your name, email, account credentials, postal address, declared state of residence and saved events. We also collect device identifiers, approximate location and activity on our website."
+        },
+        {
+          "clause_id": "4c79b519-e7d5-5182-a92d-e20124237e0d",
+          "heading": "How we use information",
+          "body": "We use information to provide accounts, recommend local events, respond to support requests, and keep the service secure."
+        },
+        {
+          "clause_id": "016bb052-b08f-5208-884b-3343949680f1",
+          "heading": "How we disclose information",
+          "body": "We use providers to host the service, deliver email and help us understand first-party activity. We do not sell personal information."
+        },
+        {
+          "clause_id": "9689ef85-b969-51cd-8dcc-b423dacbc9ed",
+          "heading": "How long we keep information",
+          "body": "We keep information for as long as we need it to provide our service and meet our obligations."
+        },
+        {
+          "clause_id": "8e2e31f5-41ad-56ae-908f-25f208bfc08b",
+          "heading": "Your choices",
+          "body": "You can edit your profile, remove saved events and unsubscribe from promotional email in account settings. Contact support if you want to close your account."
+        },
+        {
+          "clause_id": "730e1692-f5e1-5960-aa7c-65f297fd36c5",
+          "heading": "Security",
+          "body": "We use access controls and other safeguards to protect information. No online service can guarantee complete security."
+        },
+        {
+          "clause_id": "b7239933-2f36-5fe1-833b-619f1b3b855d",
+          "heading": "Age restriction",
+          "body": "Our service is intended for adults aged 18 and older."
+        },
+        {
+          "clause_id": "de59121d-08a5-5e6b-a801-c2899e8ebcb0",
+          "heading": "Policy updates",
+          "body": "We may update this policy as our service changes. We will post the updated policy here."
+        },
+        {
+          "clause_id": "06aee531-095d-531b-bb20-4afc8ceba2e2",
+          "heading": "Contact",
+          "body": "For privacy questions, contact privacy@harbor-meridian.example."
+        },
+        {
+          "clause_id": "acceptance-unrelated",
+          "heading": "Contract continuity",
+          "body": "Existing signed customer contracts remain unchanged. Acceptance reference HM-726."
+        }
+      ],
+      "created_at": "2026-09-26T20:10:17.938Z",
+      "content_hash": "e57f55eeeef6e2df88a56b01a186373466c3354344fbb8fe6175142877b49587"
+    }
+  ],
+  "operations": {
+    "inference_evidence": {
+      "completed_requests": 4,
+      "provider_response_ids": [
+        "resp_0583b933197344ec016ab826b0805487d2af3e6e64bc3cb568",
+        "resp_0583b933197344ec016ab826b561d887d29df8f17ec9a26ac7",
+        "resp_0583b933197344ec016ab826baada887d2a75766c13e29fe54",
+        "resp_0583b933197344ec016ab826d6342887d2b0cbdf80f56538b3"
+      ],
+      "input_tokens": 46103,
+      "output_tokens": 6374,
+      "cost_usd": 0.155946,
+      "reserved_usd": 0,
+      "unknown_charge": false
+    },
+    "runs": [
+      {
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "run_id": "75e2b10b-8cef-4348-9f4e-a5ff5d79f410",
+        "model": "gpt-6-sol",
+        "config_hash": "be1ae19386de8bf821c18eaeab76d931f78f69ec6f1a86b2b7d3e2714dabc6c2",
+        "attempts": [
+          {
+            "attempt_id": "542137b5-aef7-45bc-93ab-784e637d11cd",
+            "phase": "draft",
+            "status": "complete",
+            "response_id": "resp_0583b933197344ec016ab826b0805487d2af3e6e64bc3cb568",
+            "input_tokens": 8515,
+            "output_tokens": 119,
+            "cost_usd": 0.01822,
+            "error_code": null
+          },
+          {
+            "attempt_id": "afb75eca-a606-4bde-b97b-4264188a1f67",
+            "phase": "draft",
+            "status": "complete",
+            "response_id": "resp_0583b933197344ec016ab826b561d887d29df8f17ec9a26ac7",
+            "input_tokens": 11793,
+            "output_tokens": 154,
+            "cost_usd": 0.025126,
+            "error_code": null
+          },
+          {
+            "attempt_id": "f7581cfe-feee-401a-8961-1a6c5f4013d5",
+            "phase": "draft",
+            "status": "complete",
+            "response_id": "resp_0583b933197344ec016ab826baada887d2a75766c13e29fe54",
+            "input_tokens": 12013,
+            "output_tokens": 101,
+            "cost_usd": 0.025036,
+            "error_code": null
+          },
+          {
+            "attempt_id": "54ed9058-8760-4bdc-8fa7-ff62e3c76be3",
+            "phase": "draft",
+            "status": "rejected",
+            "response_id": null,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "cost_usd": 0,
+            "error_code": "rate_limit_exceeded"
+          },
+          {
+            "attempt_id": "2db689f1-61a0-4aec-abe6-3dfec39f37b4",
+            "phase": "draft",
+            "status": "complete",
+            "response_id": "resp_0583b933197344ec016ab826d6342887d2b0cbdf80f56538b3",
+            "input_tokens": 13782,
+            "output_tokens": 6000,
+            "cost_usd": 0.087564,
+            "error_code": null
+          }
+        ],
+        "tools": [
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_jZ6keA96R2ii262tTYIvM41G",
+            "arguments_hash": "414e332d638392f99ec74086a33c183d1359a5bd1cc7b7a9eea0f758e1c1047b",
+            "result_hash": "94e7a0612ddbec39d49e4652f2c506063b381b0af76795393ac78fb9059dfaab"
+          },
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_L7YE9bPXS8uB5lEFHGl6nFwb",
+            "arguments_hash": "e9114ec163d66f0a9a939da22ae0f38b31e2874a95708d6c6db82f2fd4935924",
+            "result_hash": "495e90937dcc381d4268fce712a01161bea59af3066637871bb58952a3973add"
+          }
+        ]
+      }
+    ],
+    "improvements": [],
+    "receipts": [
+      {
+        "key": "1:context_snapshot:0d3469bf-b119-42b0-9950-0fe383ebd201:1",
+        "kind": "context_snapshot",
+        "hash": "1ca5bde25b64dcf39dd60db37b6e4137277ba0c1d495f553d6e0a74b65cca61e",
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "created_at": "2026-09-26T20:10:18.802Z"
+      },
+      {
+        "key": "1:runtime:0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "kind": "runtime_ledger",
+        "hash": "136f2878fa998a86680c4913e9ce9a9ec5f59f41262046232cbbea1a4afa2898",
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "created_at": null
+      },
+      {
+        "key": "runtime:spend_authorization",
+        "kind": "runtime_spend_authorization",
+        "hash": "a7f41d1b2fabae5eca9ffc1495d2c1a1a43c3077d4dba7aed1ed1e7e727dd07b",
+        "workflow_id": null,
+        "created_at": null
+      },
+      {
+        "key": "1:model_tool_failure:8d3161dd-2013-4c7b-b9ac-e733d08c48f4",
+        "kind": "model_tool_failure",
+        "hash": "1bce8fe3385d943fcc8b1b00df848e6a3aecc53de8f331f7ed93f12af6221fa7",
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "created_at": "2026-09-26T20:10:32.983Z"
+      },
+      {
+        "key": "1:rate_limit_retry:54ed9058-8760-4bdc-8fa7-ff62e3c76be3",
+        "kind": "model_rate_limit_retry",
+        "hash": "d4be1531a9554aca713f0e7563e515b7e1cb4d240d3e6b18e020a33c8312df70",
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "created_at": null
+      }
+    ],
+    "scope": {
+      "context_epoch": 1,
+      "source": "synthetic_fixture",
+      "supported_jurisdictions": [
+        "US-CA"
+      ],
+      "source_policy": "Retained demonstration sources, not a claim of current law. Human review roles are simulated; AI execution is independently recorded."
+    }
+  },
+  "improvements": [],
+  "global_budget": {
+    "budget_usd": 50,
+    "spent_usd": 0.789672,
+    "reserved_usd": 0,
+    "unknown_charges": 0,
+    "inflight": 0,
+    "request_count": 26,
+    "scope": "all_visitors_and_evaluations"
+  },
+  "receipts": []
+}

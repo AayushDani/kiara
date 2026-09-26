@@ -45,7 +45,7 @@ test('hosted login and durable worker preserve protected review gates',async t=>
     assert.ok(['queued','waiting_for_document_slot'].includes(s.workflows.find(w=>w.workflow_id===second.workflow_id)!.state));
     await review(w.workflow_id,'founder',{action:'rejected',expected_state_version:w.state_version,expected_reset_epoch:epoch,bundle_hash:w.bundle_hash!,note:'Release queue in hosting regression'},'reject');
     steps=0;while(await processWorkerStep(epoch)){assert.ok(++steps<30);}
-    assert.equal((await readState()).workflows.find(w=>w.workflow_id===second.workflow_id)!.state,'closed_no_change');
+    assert.equal((await readState()).workflows.find(w=>w.workflow_id===second.workflow_id)!.state,'needs_information');
     await resetStore(epoch);const before=await readState();assert.equal(await processWorkerStep(epoch),false);assert.deepEqual(await readState(),before);
     const refreshed=await get(cookie);assert.equal(refreshed.status,200);assert.equal((await refreshed.json()).session.role,'founder');
     assert.equal((await post('events',{customer_name:'Stale',residence:'US-CA',scenario:'covered',expected_reset_epoch:epoch},headers)).status,409);

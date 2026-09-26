@@ -1,3 +1,7 @@
+# Current status
+
+[AI end-to-end acceptance status](ai-e2e-verification.md) supersedes the historical scripted verification below.
+
 # Kiara implementation verification
 
 Verified locally on 26 September 2026. The application is implemented in `src/`; the retained architecture is engineering input, not a record of live execution.

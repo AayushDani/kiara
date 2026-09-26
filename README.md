@@ -6,7 +6,7 @@ This repository contains the actual application and the retained engineering inp
 
 ## Live hackathon demo
 
-Open [Kiara](https://kiara-khaki-kappa.vercel.app). No login is required. Each visitor has an isolated Atlas-backed workspace and can switch between simulated founder and lawyer roles. Final lawyer approval automatically restores the original data; **Reset demo** is also available anytime. Hosted processing uses Vercel Workflow. The demo uses scripted generation and email previews, not paid model calls or email delivery.
+Open [Kiara](https://kiara-khaki-kappa.vercel.app). Public sessions use synthetic company/event inputs and simulated founder/lawyer roles. The live OpenAI path is protected by a shared $50 operator budget across all visitors and evaluations; credentials stay server-side. Completed runs retain history. Email is preview-only. Configuration is distinct from verified inference: see [current acceptance status](docs/ai-e2e-verification.md).
 
 ## Deploy updates
 
@@ -47,20 +47,21 @@ Copy `.env.example` to `.env.local` and configure only the modes you intend to u
 
 - **Local development:** atomic JSON persistence in `.kiara/`, an explicitly scripted model, simulated founder/lawyer identities, and email previews. No API credentials are needed. This is not Atlas, live-model, email-delivery or organizer-sandbox proof.
 - **MongoDB:** supply `MONGODB_URI` and `MONGODB_DB`; the adapter uses MongoDB transactions and tenant/reset guards. Use a replica set or Atlas. An organizer-invited sandbox must be configured separately for any eligibility requirement.
-- **OpenAI:** supply `OPENAI_API_KEY`, set `KIARA_MODEL_MODE=openai`; the default runtime model is `gpt-6-astra`, reasoning `medium`. The adapter uses bounded Responses requests, explicit budgets and scoped evidence tools. The chat's reasoning configuration is separate from the application model.
+- **OpenAI:** supply `OPENAI_API_KEY`, set `KIARA_MODEL_MODE=openai` and an explicitly authorized `KIARA_OPENAI_BUDGET_USD`; public live also requires `KIARA_PUBLIC_LIVE_ENABLED=true`; the default runtime model is `gpt-6-astra`, reasoning `medium`. The adapter uses bounded Responses requests, explicit budgets and scoped evidence tools. The chat's reasoning configuration is separate from the application model.
 - **Resend:** supply provider key, verified sender, webhook secret, approved recipient addresses, and `KIARA_EMAIL_MODE=delivery`. Real sending also requires `KIARA_ALLOW_LIVE_EMAIL=true` after explicit authorization. Preview messages never count as deliveries. Unknown provider outcomes require reconciliation.
 
 Local simulated identities are restricted to loopback. The public hackathon mode provides isolated synthetic demo sessions with simulated roles; it is not authentication for a real legal-service deployment. No real policy is publicly published or email sent by the demo.
 
 ## Working flow
 
-1. Start from the synthetic New York customer baseline and simulate a declared California signup.
-2. Watch the harness show context retrieval, applicability, scripted drafting, and the seeded validation/repair steps.
-3. Inspect the full original and proposed policy clauses, retained legal sources, company facts, and recorded events.
-4. Approve as founder, inspect the email preview, then switch to the simulated lawyer and approve the exact sealed bundle.
-5. Final lawyer approval in the public demo restores the original workspace. Start again, or use **Reset demo** at any time. Optional signup scenarios demonstrate missing facts and no-change outcomes.
+1. Register an event; the harness pins the company context, prior policy and legal evidence.
+2. The real agent retrieves scoped facts/clauses/evidence and returns a structured candidate output event.
+3. Deterministic and independent model checks validate it; failures retain evidence and enter bounded repair.
+4. Genuine failure and review-feedback patterns trigger a model strategy proposal and frozen baseline/candidate evaluation. Only demonstrated improvements promote.
+5. Review the immutable redline, give attributed factual/document/legal feedback, and approve the exact packet as founder then lawyer. Changed packets invalidate stale approvals.
+6. Retain completed history and run the next event against the current harness version.
 
-The underlying adaptation and feedback APIs remain available for engineering experiments; the public UI focuses on the concise judge walkthrough. See [UI design and behavior](docs/ui.md).
+Private mode also accepts founder-supplied context and prior documents. Unsupported legal scope escalates. [Runtime architecture and limits](docs/runtime.md) explains the application agents, event contracts, evaluation gates and protected controls.
 
 ## Verification and handoff
 
@@ -71,6 +72,6 @@ npm run build
 npm run doctor
 ```
 
-Actual results and unresolved limitations are recorded in `docs/verification.md` as verification progresses. `implementation-registry.json` accounts for all 130 retained requirements without treating design artifacts as executed application evidence. Provider-dependent checks remain blocked until credentials and the relevant authorization exist.
+Actual results and unresolved limitations are recorded in `docs/verification.md` as verification progresses. `implementation-registry.json` accounts for all 130 retained requirements without treating design artifacts as executed application evidence. The latest provider-backed acceptance and any external blockers are recorded separately from injected tests.
 
 Repository: https://github.com/AayushDani/kiara. Existing remote history is preserved.

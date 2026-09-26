@@ -1,10 +1,11 @@
 import {createHash,createHmac,randomBytes,timingSafeEqual} from 'node:crypto';
 import {mkdir,readFile,writeFile} from 'node:fs/promises';
-import {join} from 'node:path';
+import {join,resolve} from 'node:path';
 import type {Session,Role} from './contracts';
 import {AppError} from './contracts';
 import {publicDemo,demoScope} from './demo-context';
 import {TENANT,ACTORS} from '../data/fixtures';
+import {authorizedBudget} from '../runtime/config';
 
 export const hostedAuth=()=>process.env.KIARA_AUTH_MODE==='hosted_password';
 let localSecret:Promise<string>|undefined;
@@ -29,12 +30,14 @@ export function requireLocalDemo(request:Request){
 export function requireAuthMode(request:Request){
   if(publicDemo()){
     if((process.env.KIARA_SESSION_SECRET?.length||0)<32)throw new AppError('AUTH_NOT_CONFIGURED','Demo sessions are not configured.',503);
-    if(process.env.KIARA_MODEL_MODE!=='scripted'||process.env.KIARA_EMAIL_MODE!=='preview'||process.env.KIARA_ALLOW_LIVE_EMAIL==='true')throw new AppError('DEMO_CONFIG_INVALID','The public demo requires scripted generation and email previews.',503);
+    if(process.env.KIARA_EMAIL_MODE!=='preview'||process.env.KIARA_ALLOW_LIVE_EMAIL==='true')throw new AppError('DEMO_CONFIG_INVALID','Public workspaces require email previews.',503);
+    if(process.env.KIARA_MODEL_MODE==='openai'){if(process.env.KIARA_PUBLIC_LIVE_ENABLED!=='true'||!process.env.OPENAI_API_KEY)throw new AppError('DEMO_CONFIG_INVALID','Public AI execution requires explicit operator enablement and a server-side API key.',503);authorizedBudget();}else if(process.env.KIARA_MODEL_MODE!=='scripted')throw new AppError('DEMO_CONFIG_INVALID','Choose a configured model adapter.',503);
     if(new URL(request.url).protocol!=='https:')throw new AppError('HTTPS_REQUIRED','Use the secure demo URL.',403);
     return;
   }
   if(!hostedAuth())return requireLocalDemo(request);
   if((process.env.KIARA_SESSION_SECRET?.length||0)<32||!['FOUNDER','LAWYER'].every(role=>/^[a-f0-9]{64}$/.test(process.env[`KIARA_${role}_PASSWORD_HASH`]||'')))throw new AppError('AUTH_NOT_CONFIGURED','Hosted authentication is not configured.',503);
+  if(process.env.KIARA_FOUNDER_PASSWORD_HASH===process.env.KIARA_LAWYER_PASSWORD_HASH)throw new AppError('AUTH_NOT_CONFIGURED','Founder and lawyer credentials must be distinct.',503);
   if(new URL(request.url).protocol!=='https:')throw new AppError('HTTPS_REQUIRED','Use the secure application URL.',403);
 }
 export function sameOrigin(request:Request){
@@ -49,7 +52,9 @@ export function checkLogin(request:Request,role:unknown,password:unknown):Role{
   if(!timingSafeEqual(expected,supplied)||!validRole)throw new AppError('INVALID_CREDENTIALS','The account or password is incorrect.',401);
   return role as Role;
 }
-const cookieName=()=>publicDemo()?'kiara_demo_session':'kiara_session';
+// Cookies are shared across localhost ports. Isolate local stores that use different
+// signing keys, so polling a second development server cannot replace this session.
+const cookieName=()=>publicDemo()?'kiara_demo_session':hostedAuth()?'kiara_session':`kiara_local_${createHash('sha256').update(resolve(process.env.KIARA_DATA_DIR||join(process.cwd(),'.kiara'))).digest('hex').slice(0,16)}`;
 export const clearSessionCookie=()=>`${cookieName()}=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0${hostedAuth()||publicDemo()?'; Secure':''}`;
 export async function issueSession(role:Role,epoch:number):Promise<{session:Session;cookie:string}>{
   const scope=publicDemo()?demoScope():undefined;

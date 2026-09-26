@@ -45,21 +45,21 @@ test('public visitors have isolated, repeatable demos without passwords',async t
   assert.equal((await a.post('workflows/'+workflowId+'/review',approve(w))).status,200);
   w=(await a.get()).workflows.find(w=>w.workflow_id===workflowId)!;assert.equal(w.state,'awaiting_lawyer');assert.equal(w.approvals.length,1);
  });
- await t.test('final lawyer approval restores the entire original seed only for that visitor',async()=>{
+ await t.test('final lawyer approval retains the completed run and isolates visitor history',async()=>{
   const other=await b.post('events',signup('Visitor B',1));assert.equal(other.status,201);
   const beforeB=await b.get();
   const w=(await a.get()).workflows.find(w=>w.workflow_id===workflowId)!;
   await a.post('session',{role:'lawyer'});await a.get();
-  const result=await a.post('workflows/'+workflowId+'/review',approve(w));assert.equal(result.status,200);assert.equal(result.payload.demo_reset,true);assert.equal(result.payload.state,'finalized');
-  const after=await a.get();baseline(after);assert.equal(after.reset_epoch,2);assert.equal(a.session().role,'founder');assert.deepEqual(await b.get(),beforeB);
-  await withDemoScope(a.scope(),async()=>{const before=await readState();assert.equal(await processWorkerStep(1),false);assert.deepEqual(await readState(),before);});
-  const again=await a.post('events',signup('Second complete run',2));assert.equal(again.status,201);
+  const result=await a.post('workflows/'+workflowId+'/review',approve(w));assert.equal(result.status,200);assert.equal(result.payload.demo_reset,undefined);assert.equal(result.payload.state,'finalized');
+  const after=await a.get();assert.equal(after.workflows[0].state,'finalized');assert.equal(after.workflows[0].approvals.length,2);assert.ok(after.events.length>0);assert.equal(after.reset_epoch,1);assert.equal(a.session().role,'lawyer');assert.deepEqual(await b.get(),beforeB);
+  await withDemoScope(a.scope(),async()=>{const before=await readState();assert.equal(await processWorkerStep(0),false);assert.deepEqual(await readState(),before);});
+  await a.post('session',{role:'founder'});await a.get();const again=await a.post('events',signup('Second complete run',1));assert.equal(again.status,201);
  });
  await t.test('manual reset works in lawyer role and old requests cannot revive cleared data',async()=>{
   await a.post('session',{role:'lawyer'});await a.get();
-  const result=await a.post('reset',{expected_reset_epoch:2});assert.equal(result.status,200);
-  const after=await a.get();baseline(after);assert.equal(after.reset_epoch,3);assert.equal(a.session().role,'founder');
-  assert.equal((await a.post('events',signup('Old epoch',2))).status,409);
+  const result=await a.post('reset',{expected_reset_epoch:1});assert.equal(result.status,200);
+  const after=await a.get();baseline(after);assert.equal(after.reset_epoch,2);assert.equal(a.session().role,'founder');
+  assert.equal((await a.post('events',signup('Old epoch',1))).status,409);
   assert.equal((await b.get()).workflows.length,1);
  });
  await t.test('public mode fails closed if paid generation or delivery is enabled',async()=>{
