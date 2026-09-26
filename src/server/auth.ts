@@ -54,7 +54,7 @@ export function checkLogin(request:Request,role:unknown,password:unknown):Role{
 }
 // Cookies are shared across localhost ports. Isolate local stores that use different
 // signing keys, so polling a second development server cannot replace this session.
-const cookieName=()=>publicDemo()?'kiara_demo_session':hostedAuth()?'kiara_session':`kiara_local_${createHash('sha256').update(resolve(process.env.KIARA_DATA_DIR||join(process.cwd(),'.kiara'))).digest('hex').slice(0,16)}`;
+const cookieName=()=>publicDemo()?'kiara_demo_session':hostedAuth()?'kiara_session':`kiara_local_${createHash('sha256').update(resolve(/* turbopackIgnore: true */ process.env.KIARA_DATA_DIR||join(process.cwd(),'.kiara'))).digest('hex').slice(0,16)}`;
 export const clearSessionCookie=()=>`${cookieName()}=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0${hostedAuth()||publicDemo()?'; Secure':''}`;
 export async function issueSession(role:Role,epoch:number):Promise<{session:Session;cookie:string}>{
   const scope=publicDemo()?demoScope():undefined;

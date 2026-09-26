@@ -1,4 +1,6 @@
 import {transaction,readState} from '../data/store';
+import {readFileSync} from 'node:fs';
+import {join} from 'node:path';
 import {provisions} from '../data/fixtures';
 import {AppError,type Json,type State,type Workflow,type Revision,type Provision,type Evaluation} from '../server/contracts';
 import {hash,id,now} from '../server/hash';
@@ -10,7 +12,14 @@ export {resolveHarnessStrategy,strategyInstructions} from './strategy';
 
 // These limits and evaluator criteria are code-owned, never included in mutable proposals.
 export const AUTOMATIC_LIMITS=Object.freeze({depth:3,candidates_per_day:3,concurrency:1,cases:3,trials:6,proposal_cost_usd:.25,trial_cost_usd:3,campaign_cost_usd:18.25,trial_attempts:9,lease_ms:360000,deadline_ms:3600000,cost_regression_ratio:1.25,latency_regression_ratio:1.25});
-const KERNEL_VERSION='automatic-harness-evaluator-v1';
+const KERNEL_VERSION='automatic-harness-evaluator-v2';
+export const EVALUATION_IMPLEMENTATION_FILES=Object.freeze(['src/runtime/index.ts','src/runtime/config.ts','src/runtime/budget.ts','src/runtime/backoff.ts','src/runtime/evidence.ts','src/runtime/semantic.ts','src/validation/proposal.ts','src/workflow/engine.ts','src/workflow/legal.ts','src/workflow/documents.ts','src/adaptation/automatic.ts','src/adaptation/strategy.ts','src/adaptation/proposer.ts']);
+/** Local acceptance is bound to actual working-tree code, not merely a possibly stale git HEAD. */
+export function evaluationImplementationIdentity(root=process.cwd()):{kind:'deployment_commit'|'local_sources';identity:string}{
+  const deployment=process.env.VERCEL_GIT_COMMIT_SHA||process.env.KIARA_BUILD_ID;
+  if(process.env.VERCEL){if(!deployment)throw new AppError('EVALUATOR_BUILD_ID_REQUIRED','Hosted evaluation requires an immutable deployment identity.');return {kind:'deployment_commit',identity:deployment};}
+  return {kind:'local_sources',identity:hash(EVALUATION_IMPLEMENTATION_FILES.map(path=>[path,hash(readFileSync(join(/* turbopackIgnore: true */ root,path),'utf8'))]))};
+}
 export interface ImprovementTrigger {workflow_id:string;trigger_id:string;origin:'validation'|'founder_feedback'|'lawyer_feedback';codes:string[];feedback_type?:string;depth?:number}
 export interface FrozenCase {case_id:string;split:'diagnosis'|'unseen';label:string;workflow:Workflow;base:Revision;input_hash:string}
 export interface AutomaticTrialResult {passed:boolean;validation_codes:string[];provider_response_ids:string[];model_attempts:number;input_tokens:number;output_tokens:number;cost_usd:number;duration_ms:number;unknown_charge:boolean;output_hash:string|null;repair_count:number;error?:string|null;audit?:unknown}
@@ -22,6 +31,7 @@ export interface AutomaticImprovement {
   context_epoch:number;source_hash:string;model_config_hash:string;kernel_hash:string;dataset_hash:string;frozen_cases:FrozenCase[];frozen_sources:Provision[];
   trials:Trial[];actual_cost_usd:number;unknown_charge:boolean;evaluation_id:string|null;execution_mode:'provider'|'injected_test';
   proposal?:{status:'pending'|'dispatched'|'completed'|'inconclusive';charge_id:string;lease_owner:string|null;lease_until:string|null;result:StrategyProposalResult|null};
+  implementation_identity?:{kind:'deployment_commit'|'local_sources';identity:string};
 }
 type EvaluationRunner=(input:{state:State;workflow_id:string;max_cost_usd:number;max_attempts:number;provisions:Provision[];authorization_charge_id?:string})=>Promise<AutomaticTrialResult>;
 const keyOf=(proposal:string)=>`adaptation:automatic:${proposal}`;
@@ -34,7 +44,7 @@ const readRecords=(s:State)=>Object.values(s.receipts).filter(receipt=>{
 const save=(s:State,r:AutomaticImprovement)=>{s.receipts[keyOf(r.proposal_id)]={hash:hash(r),result:r as unknown as Json};};
 const sourceHash=()=>hash(provisions().map(p=>[p.provision_key,p.source_version_id,p.content_hash,p.source_hash]));
 const configHash=()=>runtimeConfig().config_version;
-const kernelHash=()=>hash({version:KERNEL_VERSION,build:process.env.VERCEL_GIT_COMMIT_SHA||process.env.KIARA_BUILD_ID||'local',limits:AUTOMATIC_LIMITS,base:BASE_STRATEGY});
+const kernelHash=()=>hash({version:KERNEL_VERSION,implementation:evaluationImplementationIdentity(),limits:AUTOMATIC_LIMITS,base:BASE_STRATEGY});
 function emit(s:State,wid:string,type:string,title:string,detail:string){s.events.push({event_id:id(),tenant_id:s.tenant_id,reset_epoch:s.reset_epoch,aggregate_seq:s.events.length+1,workflow_id:wid,type,title,detail,created_at:now()});}
 
 /** Uses failure categories, never reviewer free text, as executable prompt instructions. */
@@ -89,7 +99,7 @@ export function enqueueAutomaticImprovementInState(s:State,trigger:ImprovementTr
   s.receipts[triggerKey]={hash:hash(trigger),result:{kind:'adaptation_trigger',...trigger,depth,status:reason?'not_admitted':'admitted',reason,created_at:now()} as unknown as Json};
   if(reason){if(prior?.reason!==reason)emit(s,w.workflow_id,'harness.improvement_not_admitted','Harness trigger recorded',reason);return null;}
   const version=Math.max(...s.harnesses.map(h=>h.version))+1,proposal_id=id(),frozen_cases=freezeCases(s,w),frozen_sources=structuredClone(provisions());
-  const record:AutomaticImprovement={kind:'automatic_improvement',proposal_id,workflow_id:w.workflow_id,tenant_id:s.tenant_id,reset_epoch:s.reset_epoch,created_at:now(),deadline_at:new Date(Date.now()+AUTOMATIC_LIMITS.deadline_ms).toISOString(),trigger:structuredClone(trigger),depth,status:'queued',reason:'Observed failure or attributed review feedback; awaiting real paired provider evaluation.',baseline_version:s.champion_version,candidate_version:version,expected_generation:s.champion_generation,baseline_strategy:base,candidate_strategy:candidate!,context_epoch:s.context_epoch,source_hash:sourceHash(),model_config_hash:configHash(),kernel_hash:kernelHash(),dataset_hash:hash({cases:frozen_cases,sources:frozen_sources}),frozen_cases,frozen_sources,trials:frozen_cases.flatMap(c=>(['baseline','candidate'] as const).map(arm=>({trial_id:id(),case_id:c.case_id,arm,status:'pending' as const,lease_owner:null,lease_until:null,charge_id:id(),result:null,input_hash:c.input_hash}))),actual_cost_usd:0,unknown_charge:false,evaluation_id:null,execution_mode:'provider',proposal:{status:'pending',charge_id:id(),lease_owner:null,lease_until:null,result:null}};
+  const record:AutomaticImprovement={kind:'automatic_improvement',proposal_id,workflow_id:w.workflow_id,tenant_id:s.tenant_id,reset_epoch:s.reset_epoch,created_at:now(),deadline_at:new Date(Date.now()+AUTOMATIC_LIMITS.deadline_ms).toISOString(),trigger:structuredClone(trigger),depth,status:'queued',reason:'Observed failure or attributed review feedback; awaiting real paired provider evaluation.',baseline_version:s.champion_version,candidate_version:version,expected_generation:s.champion_generation,baseline_strategy:base,candidate_strategy:candidate!,context_epoch:s.context_epoch,source_hash:sourceHash(),model_config_hash:configHash(),kernel_hash:kernelHash(),dataset_hash:hash({cases:frozen_cases,sources:frozen_sources}),frozen_cases,frozen_sources,trials:frozen_cases.flatMap(c=>(['baseline','candidate'] as const).map(arm=>({trial_id:id(),case_id:c.case_id,arm,status:'pending' as const,lease_owner:null,lease_until:null,charge_id:id(),result:null,input_hash:c.input_hash}))),actual_cost_usd:0,unknown_charge:false,evaluation_id:null,execution_mode:'provider',proposal:{status:'pending',charge_id:id(),lease_owner:null,lease_until:null,result:null},implementation_identity:evaluationImplementationIdentity()};
   save(s,record);
   s.harnesses.push({version,harness_id:proposal_id,prefetch:true,created_at:now(),status:'candidate',reason:record.reason});
   emit(s,w.workflow_id,'harness.improvement_proposed','Improvement diagnosis queued',`${trigger.origin}; a provider proposal is required before selecting the candidate strategy. Frozen diagnosis plus two independent synthetic cases, six provider trials, maximum $18.25 including the proposal inside the shared authorization.`);

@@ -3,6 +3,7 @@ import {hash} from '../server/hash';
 
 /** Protected operator configuration. Strategies and model output cannot change these values. */
 export const AUTHORIZED_SPEND_CEILING_USD = 50;
+export const RUNTIME_PROTOCOL_VERSION = 'full-law-text-projection-v2';
 export const PRICING_VERSION = 'openai-standard-short-context-2026-09-26';
 export const MODEL_PRICES = Object.freeze({
   'gpt-6-astra': {input: 10, cached_input: 1, output: 50},
@@ -26,7 +27,7 @@ export function runtimeConfig(): RuntimeConfig {
     throw new AppError('MODEL_POLICY_MISMATCH','The configured model or reasoning effort is outside the reviewed provider policy.');
   }
   const config = {model: model as SupportedModel, review_model: review_model as SupportedModel, reasoning_effort: reasoning_effort as ReasoningEffort, pricing_version: PRICING_VERSION, service_tier: 'default' as const};
-  return {...config, config_version: hash(config)};
+  return {...config, config_version: hash({...config,runtime_protocol_version:RUNTIME_PROTOCOL_VERSION})};
 }
 export function authorizedBudget(): number {
   const budget = Number(process.env.KIARA_OPENAI_BUDGET_USD);

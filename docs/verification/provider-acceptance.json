@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-09-26T20:21:40.827Z",
+  "checked_at": "2026-09-26T20:27:50.668Z",
   "kind": "real_provider_isolated_atlas_acceptance",
   "test_scope_id": "803253f5ab3b112f5b75dcce8edf3d6e",
   "email_mode": "preview",
@@ -1353,6 +1353,138 @@
       "title": "Improvement proposal agent completed",
       "detail": "resp_096841d4def20a88016ab82950348c87d2885c39e32f8a736e; 0.002366 USD; queued; strategy remains unpromoted.",
       "created_at": "2026-09-26T20:21:40.199Z"
+    },
+    {
+      "event_id": "808585dc-4635-4a17-ac8e-8554c5fa21e7",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 62,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "harness.evaluation_trial_started",
+      "title": "Frozen provider trial dispatched",
+      "detail": "baseline; diagnosis; reserved up to $3 inside the shared authorization.",
+      "created_at": "2026-09-26T20:21:42.709Z"
+    },
+    {
+      "event_id": "ec717b0f-91ad-446b-9864-91917859fc14",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 63,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "harness.evaluation_trial_completed",
+      "title": "Frozen provider trial completed",
+      "detail": "baseline; passed=false; 6 model calls; 0.250904 USD; provider.",
+      "created_at": "2026-09-26T20:23:06.199Z"
+    },
+    {
+      "event_id": "09db11c6-d334-4368-8f3d-95f30e54a067",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 64,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "harness.evaluation_trial_started",
+      "title": "Frozen provider trial dispatched",
+      "detail": "candidate; diagnosis; reserved up to $3 inside the shared authorization.",
+      "created_at": "2026-09-26T20:23:09.957Z"
+    },
+    {
+      "event_id": "cea0727a-4579-4a72-81eb-e3aae434729a",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 65,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "harness.evaluation_trial_completed",
+      "title": "Frozen provider trial completed",
+      "detail": "candidate; passed=false; 5 model calls; 0.156776 USD; provider.",
+      "created_at": "2026-09-26T20:23:57.356Z"
+    },
+    {
+      "event_id": "5766435b-6df3-4ab9-a941-cfadb669d5e7",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 66,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "harness.evaluation_trial_started",
+      "title": "Frozen provider trial dispatched",
+      "detail": "baseline; unseen; reserved up to $3 inside the shared authorization.",
+      "created_at": "2026-09-26T20:24:03.215Z"
+    },
+    {
+      "event_id": "7368b06f-aafc-439c-a529-77a23280cd21",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 67,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "harness.evaluation_trial_completed",
+      "title": "Frozen provider trial completed",
+      "detail": "baseline; passed=false; 5 model calls; 0.16368 USD; provider.",
+      "created_at": "2026-09-26T20:25:00.559Z"
+    },
+    {
+      "event_id": "3cbbfb1b-949c-448b-951b-6b0f41921849",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 68,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "harness.evaluation_trial_started",
+      "title": "Frozen provider trial dispatched",
+      "detail": "candidate; unseen; reserved up to $3 inside the shared authorization.",
+      "created_at": "2026-09-26T20:25:11.828Z"
+    },
+    {
+      "event_id": "9fa40b55-6ba1-4c53-a966-9420b2f4d734",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 69,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "harness.evaluation_trial_completed",
+      "title": "Frozen provider trial completed",
+      "detail": "candidate; passed=false; 6 model calls; 0.22937800000000003 USD; provider.",
+      "created_at": "2026-09-26T20:26:08.428Z"
+    },
+    {
+      "event_id": "43053044-180e-47ef-bb14-53fd03b4c4ed",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 70,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "harness.evaluation_trial_started",
+      "title": "Frozen provider trial dispatched",
+      "detail": "baseline; unseen; reserved up to $3 inside the shared authorization.",
+      "created_at": "2026-09-26T20:26:15.329Z"
+    },
+    {
+      "event_id": "738b4384-b861-4ebf-bbe0-ff445c305f35",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 71,
+      "workflow_id": null,
+      "type": "harness.evaluator_revision_changed",
+      "title": "Old-runtime acceptance campaign fenced",
+      "detail": "Paired trials execute the already loaded runtime at tested revision 21df116. Runtime implementation changed during acceptance; champion generation advanced to prevent promotion into the changed implementation. Frozen inputs and actual trial outcomes retained.",
+      "created_at": "2026-09-26T20:26:37.988Z"
+    },
+    {
+      "event_id": "9db3bf33-1ca8-47f3-9afe-d0edc0bd5b11",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 72,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "harness.evaluation_trial_completed",
+      "title": "Frozen provider trial completed",
+      "detail": "baseline; passed=false; 6 model calls; 0.26508200000000004 USD; provider.",
+      "created_at": "2026-09-26T20:27:37.787Z"
+    },
+    {
+      "event_id": "a6d3787b-f3ad-45a7-8ec6-efca64c03156",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 73,
+      "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+      "type": "harness.evaluation_completed",
+      "title": "Harness comparison completed",
+      "detail": "inconclusive; 6/10 gates; 1.0682 USD; provider.",
+      "created_at": "2026-09-26T20:27:45.640Z"
     }
   ],
   "feedback": [
@@ -1501,7 +1633,7 @@
   ],
   "operations": {
     "inference_evidence": {
-      "completed_requests": 15,
+      "completed_requests": 43,
       "provider_response_ids": [
         "resp_0758f2005155a951016ab824aa85dc87d2abe38df0400834c8",
         "resp_0758f2005155a951016ab824cb25a887d29a70fdbed92ab075",
@@ -1517,11 +1649,39 @@
         "resp_077adc38fba3a9d7016ab8233e830087d29dd4a59c8e640d7b",
         "resp_077adc38fba3a9d7016ab8234fea7487d29c33abdb3ecefd58",
         "resp_077adc38fba3a9d7016ab82356a8a487d2972eb41c114228cd",
+        "resp_09082c6457e3aba3016ab82957dee087d2a190700a11e60898",
+        "resp_09082c6457e3aba3016ab8295baa6c87d294ba5f3bd66507fa",
+        "resp_09082c6457e3aba3016ab8295eb2dc87d2ac89fa7fe35ebbcb",
+        "resp_09082c6457e3aba3016ab82962e5dc87d29f469355b0daf126",
+        "resp_09082c6457e3aba3016ab8298819e887d286e8cd0a5f1e6fe4",
+        "resp_09082c6457e3aba3016ab8298b794087d2a331bfec54c1a52e",
+        "resp_0f2832ed68a51cb6016ab829b263b487d2880c0c5e6776cea4",
+        "resp_0f2832ed68a51cb6016ab829b8503487d2bf571b80e5e2a1db",
+        "resp_0f2832ed68a51cb6016ab829bb4d0087d29e81374508aa1da2",
+        "resp_0f2832ed68a51cb6016ab829bdb0a487d2919b235b13e9b8dd",
+        "resp_0f2832ed68a51cb6016ab829da799c87d2981cd4b923026957",
+        "resp_01cd7c4341c3955f016ab829e49d9487d29d76d5a7a42d9dcb",
+        "resp_01cd7c4341c3955f016ab829e74e4c87d2b01937cd6a350977",
+        "resp_01cd7c4341c3955f016ab829e9bcc087d298dc17653e12c5ab",
+        "resp_01cd7c4341c3955f016ab829ed4bec87d28f6113c48d25a02f",
+        "resp_01cd7c4341c3955f016ab82a1463c087d2bcc23e40357be49f",
+        "resp_0c1419e7ec23a772016ab82a2d5ba087d29c39701a7ecb6de3",
+        "resp_0c1419e7ec23a772016ab82a2faef487d2aff2495b720d3520",
+        "resp_0c1419e7ec23a772016ab82a33bf6487d291290bd97ca7cae7",
+        "resp_0c1419e7ec23a772016ab82a36f9dc87d29685f63e039dc6bb",
+        "resp_0c1419e7ec23a772016ab82a5a439c87d28edd3a51fbe648c9",
+        "resp_0c1419e7ec23a772016ab82a5d3e4087d2b360bbb5e7109200",
+        "resp_084ba0aefc3ca354016ab82a69770c87d2be8fa80f80409bba",
+        "resp_084ba0aefc3ca354016ab82a6b8e6887d28140376fe6d8b646",
+        "resp_084ba0aefc3ca354016ab82a6e66f487d2b0ef7ba99fa2f4fd",
+        "resp_084ba0aefc3ca354016ab82a71dea887d2b43d890ec28136d1",
+        "resp_084ba0aefc3ca354016ab82a955c3087d29dbc19ef0630b7c5",
+        "resp_084ba0aefc3ca354016ab82a9baf4087d298a6060d40de0e1a",
         "resp_096841d4def20a88016ab82950348c87d2885c39e32f8a736e"
       ],
-      "input_tokens": 169868,
-      "output_tokens": 2759,
-      "cost_usd": 0.636014,
+      "input_tokens": 563018,
+      "output_tokens": 30711,
+      "cost_usd": 1.7018340000000005,
       "reserved_usd": 0,
       "unknown_charge": false
     },
@@ -1829,6 +1989,414 @@
       },
       {
         "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "run_id": "7fb5846f-11b7-49a9-996a-02e9e8b354f8",
+        "model": "gpt-6-sol",
+        "config_hash": "be1ae19386de8bf821c18eaeab76d931f78f69ec6f1a86b2b7d3e2714dabc6c2",
+        "attempts": [
+          {
+            "attempt_id": "5dee70c7-1361-45f1-848f-580cb499928f",
+            "phase": "evaluation_baseline:draft",
+            "status": "complete",
+            "response_id": "resp_09082c6457e3aba3016ab82957dee087d2a190700a11e60898",
+            "input_tokens": 8565,
+            "output_tokens": 82,
+            "cost_usd": 0.01795,
+            "error_code": null
+          },
+          {
+            "attempt_id": "e4d4c472-6da5-4c0b-b257-c6fb822efa27",
+            "phase": "evaluation_baseline:draft",
+            "status": "complete",
+            "response_id": "resp_09082c6457e3aba3016ab8295baa6c87d294ba5f3bd66507fa",
+            "input_tokens": 11775,
+            "output_tokens": 119,
+            "cost_usd": 0.02474,
+            "error_code": null
+          },
+          {
+            "attempt_id": "133024e9-8334-4569-97c9-9896a1d8653b",
+            "phase": "evaluation_baseline:draft",
+            "status": "complete",
+            "response_id": "resp_09082c6457e3aba3016ab8295eb2dc87d2ac89fa7fe35ebbcb",
+            "input_tokens": 14200,
+            "output_tokens": 113,
+            "cost_usd": 0.02953,
+            "error_code": null
+          },
+          {
+            "attempt_id": "244ae843-d9e3-41ec-a70b-b395e0646e3a",
+            "phase": "evaluation_baseline:draft",
+            "status": "complete",
+            "response_id": "resp_09082c6457e3aba3016ab82962e5dc87d29f469355b0daf126",
+            "input_tokens": 15265,
+            "output_tokens": 3698,
+            "cost_usd": 0.06751,
+            "error_code": null
+          },
+          {
+            "attempt_id": "ac4feba8-5140-46b3-a6ff-12dca5218e5c",
+            "phase": "evaluation_baseline:repair",
+            "status": "complete",
+            "response_id": "resp_09082c6457e3aba3016ab8298819e887d286e8cd0a5f1e6fe4",
+            "input_tokens": 19025,
+            "output_tokens": 91,
+            "cost_usd": 0.03896,
+            "error_code": null
+          },
+          {
+            "attempt_id": "57126559-4da5-476c-9148-c3f3518b2eb8",
+            "phase": "evaluation_baseline:repair",
+            "status": "complete",
+            "response_id": "resp_09082c6457e3aba3016ab8298b794087d2a331bfec54c1a52e",
+            "input_tokens": 19172,
+            "output_tokens": 3387,
+            "cost_usd": 0.072214,
+            "error_code": null
+          }
+        ],
+        "tools": [
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_BwxIOYgRC6ORnQnQbLfp1NEr",
+            "arguments_hash": "00cddbea6bcb843b690e9157aa84894c515cfe3d59b3e9aa416ce1c442da425c",
+            "result_hash": "985849e76455d085cdb6a461a78e8389905a205355c0a04c36d33db3dddd23b3"
+          },
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_hkTkn9zn4wLx97hencPRpoEQ",
+            "arguments_hash": "f34bbd1ffdcb9ea0f83ca4dd43effa7f4868686f26ed01438b1fd46d097a72af",
+            "result_hash": "7e2d6a0380a3d6ee7b9d239821296659a8c6298911b7cb2a86be9602c57d6f00"
+          },
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_S3ui6DocCPaBBXbUN2mdCL2a",
+            "arguments_hash": "1b7c8750d9d63b85326a3b0a8b3d3e49e216c05d78067418957f865278330058",
+            "result_hash": "458adbc1d35391512ab7be8315ebe5977552c5e7c016f79ebf1d7da2087c871f"
+          }
+        ]
+      },
+      {
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "run_id": "97a636de-28d9-41ec-9d67-458c6aed2c47",
+        "model": "gpt-6-sol",
+        "config_hash": "be1ae19386de8bf821c18eaeab76d931f78f69ec6f1a86b2b7d3e2714dabc6c2",
+        "attempts": [
+          {
+            "attempt_id": "3f06b4a3-9e02-4a93-8254-4a00979f8387",
+            "phase": "evaluation_candidate:draft",
+            "status": "complete",
+            "response_id": "resp_0f2832ed68a51cb6016ab829b263b487d2880c0c5e6776cea4",
+            "input_tokens": 8606,
+            "output_tokens": 101,
+            "cost_usd": 0.018222,
+            "error_code": null
+          },
+          {
+            "attempt_id": "b975938e-a9cf-4b37-89de-f78b69487ed4",
+            "phase": "evaluation_candidate:draft",
+            "status": "complete",
+            "response_id": "resp_0f2832ed68a51cb6016ab829b8503487d2bf571b80e5e2a1db",
+            "input_tokens": 8781,
+            "output_tokens": 62,
+            "cost_usd": 0.018182,
+            "error_code": null
+          },
+          {
+            "attempt_id": "56d2ca24-a314-4b1f-ab10-05c92a770865",
+            "phase": "evaluation_candidate:draft",
+            "status": "complete",
+            "response_id": "resp_0f2832ed68a51cb6016ab829bb4d0087d29e81374508aa1da2",
+            "input_tokens": 11544,
+            "output_tokens": 83,
+            "cost_usd": 0.023918,
+            "error_code": null
+          },
+          {
+            "attempt_id": "5c508b7c-5a84-4661-8b12-cc804032d870",
+            "phase": "evaluation_candidate:draft",
+            "status": "complete",
+            "response_id": "resp_0f2832ed68a51cb6016ab829bdb0a487d2919b235b13e9b8dd",
+            "input_tokens": 14153,
+            "output_tokens": 3254,
+            "cost_usd": 0.060846,
+            "error_code": null
+          },
+          {
+            "attempt_id": "09a297dc-c798-43bb-b9f2-94b3558994e0",
+            "phase": "evaluation_candidate:repair",
+            "status": "complete",
+            "response_id": "resp_0f2832ed68a51cb6016ab829da799c87d2981cd4b923026957",
+            "input_tokens": 17469,
+            "output_tokens": 67,
+            "cost_usd": 0.035608,
+            "error_code": null
+          }
+        ],
+        "tools": [
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_KGzo8X6PtRfSeitW46K5OVth",
+            "arguments_hash": "db496327b4681b132103b914c770fdee54d89ed228b3dbd49401cf8cd65e24d6",
+            "result_hash": "f6021fb62ed285afece70bf3078ba9774cc4f0be333fe2b021b53c31363f87dd"
+          },
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_eE8P3z1s0K6sWPv0nQBkGbTh",
+            "arguments_hash": "847a292bb8f1d4da33eca8e86529ce2c323ab45af7f6023d00201e2bcb0ac3a3",
+            "result_hash": "970ce0ebeca18d0b10c5606714ae2e7a45f556c79225e731aa8ed00a061c5964"
+          }
+        ]
+      },
+      {
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "run_id": "8fcd12bc-4604-47c7-aed3-3953bccd7726",
+        "model": "gpt-6-sol",
+        "config_hash": "be1ae19386de8bf821c18eaeab76d931f78f69ec6f1a86b2b7d3e2714dabc6c2",
+        "attempts": [
+          {
+            "attempt_id": "5028b62e-d72e-459c-94c9-4ffb5e059fb6",
+            "phase": "evaluation_baseline:draft",
+            "status": "complete",
+            "response_id": "resp_01cd7c4341c3955f016ab829e49d9487d29d76d5a7a42d9dcb",
+            "input_tokens": 8642,
+            "output_tokens": 100,
+            "cost_usd": 0.018284,
+            "error_code": null
+          },
+          {
+            "attempt_id": "44137604-4b86-460e-8ffb-bb2d2c2a117a",
+            "phase": "evaluation_baseline:draft",
+            "status": "complete",
+            "response_id": "resp_01cd7c4341c3955f016ab829e74e4c87d2b01937cd6a350977",
+            "input_tokens": 8816,
+            "output_tokens": 80,
+            "cost_usd": 0.018432,
+            "error_code": null
+          },
+          {
+            "attempt_id": "b56819d5-30bc-435a-bc74-b7e63814c307",
+            "phase": "evaluation_baseline:draft",
+            "status": "complete",
+            "response_id": "resp_01cd7c4341c3955f016ab829e9bcc087d298dc17653e12c5ab",
+            "input_tokens": 11128,
+            "output_tokens": 102,
+            "cost_usd": 0.023276,
+            "error_code": null
+          },
+          {
+            "attempt_id": "043dd0c0-b0b3-4b31-8c9e-37937e1c6929",
+            "phase": "evaluation_baseline:draft",
+            "status": "complete",
+            "response_id": "resp_01cd7c4341c3955f016ab829ed4bec87d28f6113c48d25a02f",
+            "input_tokens": 13513,
+            "output_tokens": 3891,
+            "cost_usd": 0.065936,
+            "error_code": null
+          },
+          {
+            "attempt_id": "5fbb1d4d-03c2-44f2-8cce-6b0214552e4d",
+            "phase": "evaluation_baseline:repair",
+            "status": "complete",
+            "response_id": "resp_01cd7c4341c3955f016ab82a1463c087d2bcc23e40357be49f",
+            "input_tokens": 17466,
+            "output_tokens": 282,
+            "cost_usd": 0.037752,
+            "error_code": null
+          }
+        ],
+        "tools": [
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_jlNSSHPfvU1jI9E9zHbdJDW7",
+            "arguments_hash": "0201e54d4fc90f5f758766a736e23b37d494b6385ed482ed9383f0401dfd2edf",
+            "result_hash": "35cef824d5d5423d8f708872ff419844ae390edcae60f5512318d823d07abb8e"
+          },
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_IZUGkUf9n42I3i2dCOaZkD5z",
+            "arguments_hash": "010ea31bb993adcc3569e481cc690443a3618001e9badb4206f92f63ff4a79de",
+            "result_hash": "27feeafef3461cbee671505855f95bf1c9d6e0f7ab77e497cba1915d6274c199"
+          }
+        ]
+      },
+      {
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "run_id": "3a9b38c2-113f-468d-94de-5a97c3307294",
+        "model": "gpt-6-sol",
+        "config_hash": "be1ae19386de8bf821c18eaeab76d931f78f69ec6f1a86b2b7d3e2714dabc6c2",
+        "attempts": [
+          {
+            "attempt_id": "dbaf69d9-8e24-4564-8451-cba3b1690ba6",
+            "phase": "evaluation_candidate:draft",
+            "status": "complete",
+            "response_id": "resp_0c1419e7ec23a772016ab82a2d5ba087d29c39701a7ecb6de3",
+            "input_tokens": 8683,
+            "output_tokens": 62,
+            "cost_usd": 0.017986,
+            "error_code": null
+          },
+          {
+            "attempt_id": "e3c4f358-6e6c-4530-a632-14e8c3d6b01c",
+            "phase": "evaluation_candidate:draft",
+            "status": "complete",
+            "response_id": "resp_0c1419e7ec23a772016ab82a2faef487d2aff2495b720d3520",
+            "input_tokens": 11744,
+            "output_tokens": 158,
+            "cost_usd": 0.025068,
+            "error_code": null
+          },
+          {
+            "attempt_id": "bd0f088d-bc22-4be8-bebb-292eb0a4f0f5",
+            "phase": "evaluation_candidate:draft",
+            "status": "complete",
+            "response_id": "resp_0c1419e7ec23a772016ab82a33bf6487d291290bd97ca7cae7",
+            "input_tokens": 15169,
+            "output_tokens": 100,
+            "cost_usd": 0.031338,
+            "error_code": null
+          },
+          {
+            "attempt_id": "f9280853-23cf-495e-8f2f-9d61bb4b1f6c",
+            "phase": "evaluation_candidate:draft",
+            "status": "complete",
+            "response_id": "resp_0c1419e7ec23a772016ab82a36f9dc87d29685f63e039dc6bb",
+            "input_tokens": 15949,
+            "output_tokens": 4114,
+            "cost_usd": 0.073038,
+            "error_code": null
+          },
+          {
+            "attempt_id": "b2b3bf5f-56f2-4a2a-8c44-b03f7c7ce26c",
+            "phase": "evaluation_candidate:repair",
+            "status": "complete",
+            "response_id": "resp_0c1419e7ec23a772016ab82a5a439c87d28edd3a51fbe648c9",
+            "input_tokens": 20125,
+            "output_tokens": 83,
+            "cost_usd": 0.04108,
+            "error_code": null
+          },
+          {
+            "attempt_id": "3fe99e12-cde4-456f-aec1-b3772f259207",
+            "phase": "evaluation_candidate:repair",
+            "status": "complete",
+            "response_id": "resp_0c1419e7ec23a772016ab82a5d3e4087d2b360bbb5e7109200",
+            "input_tokens": 20264,
+            "output_tokens": 34,
+            "cost_usd": 0.040868,
+            "error_code": null
+          }
+        ],
+        "tools": [
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_RSOx6yNHAWNwJmItmAuDiCYk",
+            "arguments_hash": "c3a4a071c2df0e541552df55843c94fe44973c6343d08a4d3caabce55ffa5a61",
+            "result_hash": "d862fc2debf6963726a83a69695cd4ae9ad9368414d55449d14f44c2a467ff5b"
+          },
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_QxHk59VrNGHEptyKj9mOpkKR",
+            "arguments_hash": "f7f2a4abcbc533a7a02ed8c4e873a5ef25ce951e33bdc56795f361c724468dad",
+            "result_hash": "86a4555c6dd635cecc1fdeab2d0f5926cff66871186f0ab824803c782a556d37"
+          },
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_DYt9hHTTQJSaTMVMgKXITyxp",
+            "arguments_hash": "c65e2ec3c511d4c8fb80a99c7a99779766382f7fc2d664820e2536b17e5911cf",
+            "result_hash": "5c7cf952799702ed57deb16f2d29e55aef70b3b1133ccbc24ae0be74dc3c6b88"
+          }
+        ]
+      },
+      {
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
+        "run_id": "66f275c4-c6c6-4b79-bafa-79e2b92b95cc",
+        "model": "gpt-6-sol",
+        "config_hash": "be1ae19386de8bf821c18eaeab76d931f78f69ec6f1a86b2b7d3e2714dabc6c2",
+        "attempts": [
+          {
+            "attempt_id": "55d00c29-41c5-4b38-8d50-d0eb8e52260a",
+            "phase": "evaluation_baseline:draft",
+            "status": "complete",
+            "response_id": "resp_084ba0aefc3ca354016ab82a69770c87d2be8fa80f80409bba",
+            "input_tokens": 8645,
+            "output_tokens": 62,
+            "cost_usd": 0.01791,
+            "error_code": null
+          },
+          {
+            "attempt_id": "80fa2d04-daf9-40f6-a986-5d1774b36bcb",
+            "phase": "evaluation_baseline:draft",
+            "status": "complete",
+            "response_id": "resp_084ba0aefc3ca354016ab82a6b8e6887d28140376fe6d8b646",
+            "input_tokens": 11685,
+            "output_tokens": 139,
+            "cost_usd": 0.02476,
+            "error_code": null
+          },
+          {
+            "attempt_id": "875bb4e9-7aa9-46d3-8eff-71330a1df30c",
+            "phase": "evaluation_baseline:draft",
+            "status": "complete",
+            "response_id": "resp_084ba0aefc3ca354016ab82a6e66f487d2b0ef7ba99fa2f4fd",
+            "input_tokens": 14785,
+            "output_tokens": 142,
+            "cost_usd": 0.03099,
+            "error_code": null
+          },
+          {
+            "attempt_id": "89ae6c9f-e918-401a-8bf1-df0487323200",
+            "phase": "evaluation_baseline:draft",
+            "status": "complete",
+            "response_id": "resp_084ba0aefc3ca354016ab82a71dea887d2b43d890ec28136d1",
+            "input_tokens": 16650,
+            "output_tokens": 3802,
+            "cost_usd": 0.07132,
+            "error_code": null
+          },
+          {
+            "attempt_id": "f56c842b-9164-460b-b51a-4d7297499aef",
+            "phase": "evaluation_baseline:repair",
+            "status": "complete",
+            "response_id": "resp_084ba0aefc3ca354016ab82a955c3087d29dbc19ef0630b7c5",
+            "input_tokens": 20514,
+            "output_tokens": 247,
+            "cost_usd": 0.043498,
+            "error_code": null
+          },
+          {
+            "attempt_id": "d6fbc12b-48a3-4134-ad4d-cc4ffcd69d15",
+            "phase": "evaluation_baseline:repair",
+            "status": "complete",
+            "response_id": "resp_084ba0aefc3ca354016ab82a9baf4087d298a6060d40de0e1a",
+            "input_tokens": 20817,
+            "output_tokens": 3497,
+            "cost_usd": 0.076604,
+            "error_code": null
+          }
+        ],
+        "tools": [
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_EToVES0flgPn0VMz6jvFYlnc",
+            "arguments_hash": "eb7c2feefafe818dd1a32f4ae11b47862a1cbce63b7d8143b5ec71a66996ebaa",
+            "result_hash": "4f0144bc9346dd3085357d42c69f416cebcb0a0d474990da7bfe50e64a1a924e"
+          },
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_IwlD9TuB6mKJAY6ykckAK4MI",
+            "arguments_hash": "724cb9d1a6d4326de268e23361471fa4d094f7b027bf07b8aeff021c65295830",
+            "result_hash": "2566237bae9c3ea2221430bcb604fe2557087f784ca66dda48a759163ac45ea8"
+          },
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_5fR2CB61nNJ1MtjLWA9VPTWX",
+            "arguments_hash": "04db36f0678db134c96fd78e26de10363461692d61a3f514cd3da5bd4835cf0f",
+            "result_hash": "478f894d162d3294984a128075980afee8f7b43b6b0da01599d8492641f89df6"
+          }
+        ]
+      },
+      {
+        "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
         "run_id": "proposal:a4f2fb2f-f426-4e3b-8f15-82edf18f1145",
         "model": "gpt-6-sol",
         "config_hash": "be1ae19386de8bf821c18eaeab76d931f78f69ec6f1a86b2b7d3e2714dabc6c2",
@@ -1860,14 +2428,14 @@
           ]
         },
         "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
-        "status": "queued",
-        "reason": "Provider-generated constrained strategy awaits six frozen independent trials.",
+        "status": "inconclusive",
+        "reason": "six completed provider trials with attributable usage; candidate passes diagnosis and both independent unseen cases with no regression; measured success or repair improvement; champion version and generation compare-and-swap",
         "depth": 1,
         "baseline_version": 1,
         "candidate_version": 2,
         "dataset_hash": "3d6a0f173b03771a5d203217262a84e433ceb0644bd0154b60e1b7651d8b2d70",
         "created_at": "2026-09-26T19:56:13.035Z",
-        "actual_cost_usd": 0.002366,
+        "actual_cost_usd": 1.0681860000000003,
         "candidate_strategy": {
           "schema_version": 1,
           "prompt_modules": [
@@ -1875,7 +2443,7 @@
           ],
           "retrieval_order": "agent_selected"
         },
-        "evaluation_id": null
+        "evaluation_id": "a6f59aa2-d0f0-47bb-a448-e629cf282272"
       }
     ],
     "receipts": [
@@ -1896,7 +2464,7 @@
       {
         "key": "runtime:spend_authorization",
         "kind": "runtime_spend_authorization",
-        "hash": "5041e4355f81f19b315487606f2983281736cd30006a51b76a7fb66a2087f90b",
+        "hash": "1acba67a78443a688f42a85ff0a01d29ac7d6b0225e483b8096692dd6f5c68d4",
         "workflow_id": null,
         "created_at": null
       },
@@ -1959,7 +2527,7 @@
       {
         "key": "adaptation:automatic:a4f2fb2f-f426-4e3b-8f15-82edf18f1145",
         "kind": "automatic_improvement",
-        "hash": "0e3bd07e57bbfea45419b6c8b95f33904af78a6f2ebf79d63e7d6c6978dbd0f9",
+        "hash": "ec74cb16213abc5d4d3b8174b69128a54a4a9e89a9be81990294cf7a395395d3",
         "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
         "created_at": "2026-09-26T19:56:13.035Z"
       },
@@ -1989,7 +2557,7 @@
         "kind": "adaptation_trigger",
         "hash": "64ad776d044d65a7b2dc330f25af570fb97ca2da6ca2e30bdd81a33909b3500c",
         "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
-        "created_at": "2026-09-26T20:21:32.884Z"
+        "created_at": "2026-09-26T20:27:43.747Z"
       },
       {
         "key": "1:runtime_history:6f390585-f231-48c4-9f54-4777aed464af:76f3cdfb-56f2-48a3-ad70-a9dc62134244",
@@ -2041,27 +2609,27 @@
       "proposal_id": "a4f2fb2f-f426-4e3b-8f15-82edf18f1145",
       "workflow_id": "6f390585-f231-48c4-9f54-4777aed464af",
       "origin": "validation",
-      "status": "queued",
-      "reason": "Provider-generated constrained strategy awaits six frozen independent trials.",
+      "status": "inconclusive",
+      "reason": "six completed provider trials with attributable usage; candidate passes diagnosis and both independent unseen cases with no regression; measured success or repair improvement; champion version and generation compare-and-swap",
       "baseline_version": 1,
       "candidate_version": 2,
       "dataset_hash": "3d6a0f173b03771a5d203217262a84e433ceb0644bd0154b60e1b7651d8b2d70",
       "depth": 1,
-      "completed_trials": 0,
+      "completed_trials": 5,
       "total_trials": 6,
-      "cost_usd": 0.002366,
+      "cost_usd": 1.0681860000000003,
       "unknown_charge": false,
       "execution_mode": "provider",
-      "evaluation_id": null
+      "evaluation_id": "a6f59aa2-d0f0-47bb-a448-e629cf282272"
     }
   ],
   "global_budget": {
     "budget_usd": 50,
-    "spent_usd": 0.86599,
-    "reserved_usd": 0,
+    "spent_usd": 2.132502,
+    "reserved_usd": 0.117952,
     "unknown_charges": 0,
-    "inflight": 0,
-    "request_count": 30,
+    "inflight": 1,
+    "request_count": 62,
     "scope": "all_visitors_and_evaluations"
   },
   "receipts": [

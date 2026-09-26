@@ -151,3 +151,15 @@ test('proposal agent uses constrained provider output, hides heldouts, and rejec
     assert.equal(invalid.strategy,null);assert.equal(invalid.error,'PROTECTED_HARNESS_PATH');assert.equal(invalid.unknown_charge,false,'known provider usage remains settled even when strategy is invalid');
   }finally{await rm(dir,{recursive:true,force:true});}
 });
+
+test('local evaluator identity changes with runtime source and hosted identity requires a deployment commit',async()=>{
+  const {evaluationImplementationIdentity,EVALUATION_IMPLEMENTATION_FILES}=await import('../src/adaptation/automatic');
+  const {mkdir,writeFile}=await import('node:fs/promises');const {dirname}=await import('node:path');
+  const root=await mkdtemp(join(tmpdir(),'kiara-code-identity-'));const originalVercel=process.env.VERCEL,originalSha=process.env.VERCEL_GIT_COMMIT_SHA,originalBuild=process.env.KIARA_BUILD_ID;
+  try{
+    delete process.env.VERCEL;delete process.env.VERCEL_GIT_COMMIT_SHA;delete process.env.KIARA_BUILD_ID;
+    for(const file of EVALUATION_IMPLEMENTATION_FILES){await mkdir(dirname(join(root,file)),{recursive:true});await writeFile(join(root,file),'test source version one');}
+    const first=evaluationImplementationIdentity(root);assert.equal(first.kind,'local_sources');await writeFile(join(root,'src/runtime/semantic.ts'),'test source version two');assert.notEqual(evaluationImplementationIdentity(root).identity,first.identity);
+    process.env.VERCEL='1';assert.throws(()=>evaluationImplementationIdentity(root),/immutable deployment identity/);process.env.VERCEL_GIT_COMMIT_SHA='verified-build-sha';assert.deepEqual(evaluationImplementationIdentity(root),{kind:'deployment_commit',identity:'verified-build-sha'});
+  }finally{for(const [key,value] of Object.entries({VERCEL:originalVercel,VERCEL_GIT_COMMIT_SHA:originalSha,KIARA_BUILD_ID:originalBuild})){if(value===undefined)delete process.env[key];else process.env[key]=value;}await rm(root,{recursive:true,force:true});}
+});

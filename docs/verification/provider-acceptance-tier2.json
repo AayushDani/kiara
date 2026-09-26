@@ -1,28 +1,28 @@
 {
-  "checked_at": "2026-09-26T20:11:55.731Z",
+  "checked_at": "2026-09-26T20:30:39.632Z",
   "kind": "real_provider_isolated_atlas_acceptance",
   "test_scope_id": "68e1d1ea345309a4c49add76ca10f74c",
   "email_mode": "preview",
   "human_roles": "synthetic acceptance assertions, not actual founder/lawyer approval",
   "fault_injection": "See test-only fault receipts, if any; never enabled on Vercel",
-  "step": "initial-clean",
+  "step": "founder-feedback",
   "workflows": [
     {
       "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
       "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
       "reset_epoch": 1,
       "state": "needs_human_review",
-      "state_version": 5,
+      "state_version": 12,
       "created_at": "2026-09-26T20:10:18.418Z",
-      "updated_at": "2026-09-26T20:11:55.017Z",
+      "updated_at": "2026-09-26T20:30:36.481Z",
       "customer_name": "Acceptance California event",
       "residence": "US-CA",
       "scenario": "covered",
       "event_id": "a8e8ec90-047e-4266-b7cd-b640108f4b7b",
       "base_revision_id": "b549ad34-4c35-4f18-beab-d4fa15aff3ae",
-      "candidate_revision_id": null,
+      "candidate_revision_id": "9e3b22c4-2518-4292-8beb-0fb0c8fae347",
       "harness_version": 1,
-      "context_epoch": 1,
+      "context_epoch": 2,
       "facts": [
         {
           "fact_id": "286b1546-e0a9-5097-87ea-62c1db70a886",
@@ -259,8 +259,8 @@
           "fact_id": "f00c962a-9e15-5bd5-ac14-a5ed03811600",
           "fact_key": "consumer_request_email",
           "knowledge": "known",
-          "value": "privacy@harbor-meridian.example",
-          "provenance": "Synthetic unseen acceptance input"
+          "value": "rights@harbor-meridian.example",
+          "provenance": "Founder verified · 2026-09-26T20:27:13.986Z"
         },
         {
           "fact_id": "79094e64-fc4e-590c-ae62-ffee89cf8f3a",
@@ -605,9 +605,62 @@
           "codes": [],
           "explanation": "Mandatory applicability facts and retained legal provisions loaded from the pinned snapshot.",
           "repaired": false
+        },
+        {
+          "validation_id": "01f6b778-66ee-4695-82b7-b976b0506d6e",
+          "created_at": "2026-09-26T20:22:34.190Z",
+          "stage": "proposal",
+          "passed": false,
+          "codes": [
+            "CITATION_SPAN_MISMATCH"
+          ],
+          "explanation": "The generated output failed protected deterministic validation. Failure bytes/hash and provider identity are retained.",
+          "repaired": false
+        },
+        {
+          "validation_id": "3fc932d2-262a-42fd-bb44-ea30da99bb7e",
+          "created_at": "2026-09-26T20:22:42.466Z",
+          "stage": "proposal",
+          "passed": false,
+          "codes": [
+            "PROPOSAL_REQUIRED"
+          ],
+          "explanation": "The generated output failed protected deterministic validation. Failure bytes/hash and provider identity are retained.",
+          "repaired": false
+        },
+        {
+          "validation_id": "96262f15-0bb2-4938-a300-171ef3b4c797",
+          "created_at": "2026-09-26T20:27:25.009Z",
+          "stage": "context_readiness",
+          "passed": true,
+          "codes": [],
+          "explanation": "Mandatory applicability facts and retained legal provisions loaded from the pinned snapshot.",
+          "repaired": false
+        },
+        {
+          "validation_id": "b40d0731-e64f-43d8-9a4f-934fc0218cf9",
+          "created_at": "2026-09-26T20:29:12.543Z",
+          "stage": "proposal",
+          "passed": false,
+          "codes": [
+            "CITATION_SPAN_MISMATCH"
+          ],
+          "explanation": "The generated output failed protected deterministic validation. Failure bytes/hash and provider identity are retained.",
+          "repaired": false
+        },
+        {
+          "validation_id": "4b530b73-7597-43f6-bec1-e526bbb9321d",
+          "created_at": "2026-09-26T20:29:53.384Z",
+          "stage": "proposal",
+          "passed": false,
+          "codes": [
+            "CONTACT_FACT_MISMATCH"
+          ],
+          "explanation": "The generated output failed protected deterministic validation. Failure bytes/hash and provider identity are retained.",
+          "repaired": false
         }
       ],
-      "repair_count": 1,
+      "repair_count": 2,
       "missing_bundle_repairs": 0,
       "approvals": [],
       "bundle_hash": null,
@@ -615,16 +668,16 @@
       "freshness_valid_until": "2026-10-26T20:10:16.622Z",
       "model_mode": "openai",
       "model_status": "blocked",
-      "model_attempts": 5,
-      "input_tokens": 46103,
-      "output_tokens": 6374,
+      "model_attempts": 17,
+      "input_tokens": 237029,
+      "output_tokens": 27030,
       "reserved_cost": 0,
-      "cost_usd": 0.155946,
+      "cost_usd": 0.7443580000000001,
       "unknown_charge": false,
       "lease_owner": null,
-      "lease_epoch": 1,
+      "lease_epoch": 3,
       "lease_until": null,
-      "failure": "MODEL_OUTPUT_INCOMPLETE",
+      "failure": "MODEL_BUDGET_EXHAUSTED",
       "evidence_keys": [
         "prov_ccpa_business",
         "prov_ccpa_consumer",
@@ -827,9 +880,483 @@
       "title": "Model run requires attention",
       "detail": "MODEL_OUTPUT_INCOMPLETE",
       "created_at": "2026-09-26T20:11:55.018Z"
+    },
+    {
+      "event_id": "c1065a5b-7b72-47aa-a582-97462d64af02",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 16,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.retry_authorized",
+      "title": "Founder authorized an operational retry",
+      "detail": "A new linked run retains prior provider attempts and cumulative costs. Validation, spending limits and both human approvals still apply.",
+      "created_at": "2026-09-26T20:21:18.189Z"
+    },
+    {
+      "event_id": "aea5ed0b-a888-4a2c-9cda-fd0d738148be",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 17,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.started",
+      "title": "Live model run started",
+      "detail": "Responses adapter; immutable facts, policy and evidence references pinned.",
+      "created_at": "2026-09-26T20:21:19.546Z"
+    },
+    {
+      "event_id": "393db5a6-e19b-42c0-baf9-a3e7f6f61304",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 18,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "draft: resp_0c477805d738edb8016ab82942977087d2be770ddbb1099423; 8563 input / 101 output tokens; conservative cost $0.0181.",
+      "created_at": "2026-09-26T20:21:26.111Z"
+    },
+    {
+      "event_id": "5e4100e6-8a57-4150-b88f-f37576c70e1d",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 19,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "tool.completed",
+      "title": "Scoped retrieval completed",
+      "detail": "read_legal_evidence_batch",
+      "created_at": "2026-09-26T20:21:26.646Z"
+    },
+    {
+      "event_id": "9ab0c6e5-94c4-4962-a8e5-8b4928b32d96",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 20,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "draft: resp_0c477805d738edb8016ab82949240c87d2b02ad9e71adbe248; 11843 input / 117 output tokens; conservative cost $0.0249.",
+      "created_at": "2026-09-26T20:21:33.182Z"
+    },
+    {
+      "event_id": "899ee92d-38c8-4505-abef-5543657f51e3",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 21,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "tool.completed",
+      "title": "Scoped retrieval completed",
+      "detail": "read_legal_evidence_batch",
+      "created_at": "2026-09-26T20:21:33.897Z"
+    },
+    {
+      "event_id": "9ea4912f-11ba-4192-8c53-6282d4bf3969",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 22,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "draft: resp_0c477805d738edb8016ab8295055d887d2ae3b16a4de430faf; 14990 input / 98 output tokens; conservative cost $0.0310.",
+      "created_at": "2026-09-26T20:21:39.463Z"
+    },
+    {
+      "event_id": "66dd4459-50b3-418c-a3e5-f3c85a3d1bbf",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 23,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "tool.completed",
+      "title": "Scoped retrieval completed",
+      "detail": "read_legal_evidence_batch",
+      "created_at": "2026-09-26T20:21:40.375Z"
+    },
+    {
+      "event_id": "aaf8d7ad-535b-4e78-9ed3-9b83b9f13b31",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 24,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "draft: resp_0c477805d738edb8016ab82959da8c87d2b3c4967439c0e7ae; 16152 input / 4950 output tokens; conservative cost $0.0818.",
+      "created_at": "2026-09-26T20:22:32.944Z"
+    },
+    {
+      "event_id": "7add72d3-3b43-4b51-9766-00e0b110b248",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 25,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.output_rejected",
+      "title": "Generated output rejected",
+      "detail": "CITATION_SPAN_MISMATCH; provider resp_0c477805d738edb8016ab82959da8c87d2b3c4967439c0e7ae.",
+      "created_at": "2026-09-26T20:22:34.190Z"
+    },
+    {
+      "event_id": "835b42ba-32ac-4be1-aa17-1e8b746f36e8",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 26,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.repair_started",
+      "title": "Bounded model repair started",
+      "detail": "Repair 1/2; same pinned context, strategy and spend scope.",
+      "created_at": "2026-09-26T20:22:34.190Z"
+    },
+    {
+      "event_id": "9b2e7724-6d15-4709-bb68-65a45c8cc7da",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 27,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "repair: resp_0c477805d738edb8016ab8298d1a8c87d2beec038dae99c666; 21164 input / 120 output tokens; conservative cost $0.0435.",
+      "created_at": "2026-09-26T20:22:41.178Z"
+    },
+    {
+      "event_id": "bdfadac7-f4f5-4dcf-83fe-1a5b5e074bc5",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 28,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.output_rejected",
+      "title": "Generated output rejected",
+      "detail": "PROPOSAL_REQUIRED; provider resp_0c477805d738edb8016ab8298d1a8c87d2beec038dae99c666.",
+      "created_at": "2026-09-26T20:22:42.466Z"
+    },
+    {
+      "event_id": "c334c0b3-ddc3-4245-bcc6-0870ccf43643",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 29,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.repair_started",
+      "title": "Bounded model repair started",
+      "detail": "Repair 2/2; same pinned context, strategy and spend scope.",
+      "created_at": "2026-09-26T20:22:42.466Z"
+    },
+    {
+      "event_id": "d5506b5b-01fe-4508-b9e9-d4f679187819",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 30,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "repair: resp_0c477805d738edb8016ab82995248c87d290d6f852bb541534; 21340 input / 3268 output tokens; conservative cost $0.0754.",
+      "created_at": "2026-09-26T20:23:15.191Z"
+    },
+    {
+      "event_id": "9e1d005a-589f-4b6b-bead-0bb7be3c957f",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 31,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.blocked",
+      "title": "Model run requires attention",
+      "detail": "SEMANTIC_CONTEXT_CAPACITY",
+      "created_at": "2026-09-26T20:23:22.311Z"
+    },
+    {
+      "event_id": "2506c8a4-0084-4de6-a0dd-2cba6f5d4746",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 32,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "harness.improvement_proposed",
+      "title": "Improvement diagnosis queued",
+      "detail": "validation; a provider proposal is required before selecting the candidate strategy. Frozen diagnosis plus two independent synthetic cases, six provider trials, maximum $18.25 including the proposal inside the shared authorization.",
+      "created_at": "2026-09-26T20:23:23.035Z"
+    },
+    {
+      "event_id": "695573b6-5183-456f-9a6a-6bfcdf578ef0",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 33,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "harness.improvement_not_admitted",
+      "title": "Harness trigger recorded",
+      "detail": "AUTOMATIC_CONCURRENCY_LIMIT",
+      "created_at": "2026-09-26T20:23:23.044Z"
+    },
+    {
+      "event_id": "f6217611-605c-4465-8605-7f848c55132e",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 34,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "feedback.recorded",
+      "title": "founder feedback recorded",
+      "detail": "fact_correction: Synthetic founder correction: use the dedicated rights inbox from the acceptance company record.",
+      "created_at": "2026-09-26T20:27:12.816Z"
+    },
+    {
+      "event_id": "0ca37993-4c30-4946-b532-8de261468f80",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 35,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "approval.invalidated",
+      "title": "Company fact verified",
+      "detail": "Material input changed; assessment and both approval gates restart.",
+      "created_at": "2026-09-26T20:27:13.986Z"
+    },
+    {
+      "event_id": "cd37dbd7-4210-4f3e-8a1d-5f50b4d2a4dc",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 36,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "workflow.slot_acquired",
+      "title": "Review started",
+      "detail": "Harness v1 pinned. Company facts and current policy loaded.",
+      "created_at": "2026-09-26T20:27:16.272Z"
+    },
+    {
+      "event_id": "43b7ec57-a181-4023-b38c-9f032d095f67",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 37,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "harness.improvement_not_admitted",
+      "title": "Harness trigger recorded",
+      "detail": "AUTOMATIC_CONCURRENCY_LIMIT",
+      "created_at": "2026-09-26T20:27:20.107Z"
+    },
+    {
+      "event_id": "a1cc4ef4-06e3-4d49-a2e7-32e1eb596426",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 38,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "context.snapshot_pinned",
+      "title": "Evidence ready",
+      "detail": "32 retained legal provisions pinned to source hashes; this is not a claim of fresh retrieval.",
+      "created_at": "2026-09-26T20:27:25.009Z"
+    },
+    {
+      "event_id": "b11748d9-a44e-429a-97a8-aafddddc30da",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 39,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "assessment.completed",
+      "title": "CCPA applicability supported",
+      "detail": "Revenue prong: explicit 2025 gross revenue exceeds the operative $26,625,000 threshold.",
+      "created_at": "2026-09-26T20:27:33.676Z"
+    },
+    {
+      "event_id": "413fca77-b45f-4e7a-a07a-58dc9c23ae60",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 40,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.human_resolution_started",
+      "title": "Authorized human resolution started a new run",
+      "detail": "Prior charges are settled. The linked immutable parent ledger and cumulative workflow usage remain retained.",
+      "created_at": "2026-09-26T20:27:45.709Z"
+    },
+    {
+      "event_id": "b0b77a4d-fa6b-4461-8a4d-f1f0b4414b42",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 41,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.started",
+      "title": "Live model run started",
+      "detail": "Responses adapter; immutable facts, policy and evidence references pinned.",
+      "created_at": "2026-09-26T20:27:45.709Z"
+    },
+    {
+      "event_id": "49d82719-d4a7-4f57-82f0-1c10be903eae",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 42,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "draft: resp_09c97106c12107cd016ab82ac649c887d28a8722a4f7e9a85d; 8720 input / 119 output tokens; conservative cost $0.0186.",
+      "created_at": "2026-09-26T20:27:53.142Z"
+    },
+    {
+      "event_id": "b0a651b4-d9cf-4818-9dfe-60394f2107c7",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 43,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "tool.completed",
+      "title": "Scoped retrieval completed",
+      "detail": "read_legal_evidence_batch",
+      "created_at": "2026-09-26T20:27:54.709Z"
+    },
+    {
+      "event_id": "e81d551a-aa1c-4611-af90-a697cbcb7943",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 44,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "draft: resp_09c97106c12107cd016ab82ad0900887d29eb170ba86ec32fe; 12094 input / 116 output tokens; conservative cost $0.0253.",
+      "created_at": "2026-09-26T20:28:03.651Z"
+    },
+    {
+      "event_id": "8cffd829-b282-439b-b5d4-35fceded7f4e",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 45,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "tool.completed",
+      "title": "Scoped retrieval completed",
+      "detail": "read_legal_evidence_batch",
+      "created_at": "2026-09-26T20:28:07.122Z"
+    },
+    {
+      "event_id": "fa1e95d0-490e-45bb-a993-ffe9fd45991a",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 46,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "draft: resp_09c97106c12107cd016ab82ae1619487d2931903db76a22218; 15153 input / 82 output tokens; conservative cost $0.0311.",
+      "created_at": "2026-09-26T20:28:20.638Z"
+    },
+    {
+      "event_id": "b1451402-d821-4c3a-a3c8-26894cca76b4",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 47,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "tool.completed",
+      "title": "Scoped retrieval completed",
+      "detail": "read_legal_evidence_batch",
+      "created_at": "2026-09-26T20:28:22.907Z"
+    },
+    {
+      "event_id": "861c3dd6-bee4-4d5d-a184-7d03baa2d20e",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 48,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "draft: resp_09c97106c12107cd016ab82aeef64087d2ae2f9addbb130edc; 16087 input / 4114 output tokens; conservative cost $0.0733.",
+      "created_at": "2026-09-26T20:29:09.394Z"
+    },
+    {
+      "event_id": "d2fa52d7-211b-4813-843a-3e02099481d5",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 49,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.output_rejected",
+      "title": "Generated output rejected",
+      "detail": "CITATION_SPAN_MISMATCH; provider resp_09c97106c12107cd016ab82aeef64087d2ae2f9addbb130edc.",
+      "created_at": "2026-09-26T20:29:12.543Z"
+    },
+    {
+      "event_id": "d7d4adc5-8886-4036-8708-7f97ed7a7dcb",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 50,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.repair_started",
+      "title": "Bounded model repair started",
+      "detail": "Repair 1/2; same pinned context, strategy and spend scope.",
+      "created_at": "2026-09-26T20:29:12.543Z"
+    },
+    {
+      "event_id": "d25d84a9-5744-4ce9-9a89-574bc8d4fecd",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 51,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "repair: resp_09c97106c12107cd016ab82b1ddc0487d2b326ca33becefedd; 20466 input / 3835 output tokens; conservative cost $0.0793.",
+      "created_at": "2026-09-26T20:29:50.896Z"
+    },
+    {
+      "event_id": "b0ad1340-0234-4cdb-9f83-91dada86751b",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 52,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.output_rejected",
+      "title": "Generated output rejected",
+      "detail": "CONTACT_FACT_MISMATCH; provider resp_09c97106c12107cd016ab82b1ddc0487d2b326ca33becefedd.",
+      "created_at": "2026-09-26T20:29:53.384Z"
+    },
+    {
+      "event_id": "513d5f2b-9934-4a19-857b-90cddb1f6051",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 53,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.repair_started",
+      "title": "Bounded model repair started",
+      "detail": "Repair 2/2; same pinned context, strategy and spend scope.",
+      "created_at": "2026-09-26T20:29:53.384Z"
+    },
+    {
+      "event_id": "d0adf8be-f41b-40a2-bb8a-4dd5a6a761f2",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 54,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.response",
+      "title": "Provider response recorded",
+      "detail": "repair: resp_09c97106c12107cd016ab82b474b0087d2bbfe476da0203acc; 24354 input / 3736 output tokens; conservative cost $0.0861.",
+      "created_at": "2026-09-26T20:30:29.621Z"
+    },
+    {
+      "event_id": "622ea5d3-50ab-4041-bf3b-d0326d898509",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 55,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "model.blocked",
+      "title": "Model run requires attention",
+      "detail": "MODEL_BUDGET_EXHAUSTED",
+      "created_at": "2026-09-26T20:30:36.481Z"
+    },
+    {
+      "event_id": "cd671e04-1842-42f1-b5df-590dafe4e49a",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 56,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "harness.improvement_not_admitted",
+      "title": "Harness trigger recorded",
+      "detail": "AUTOMATIC_CONCURRENCY_LIMIT",
+      "created_at": "2026-09-26T20:30:37.244Z"
+    },
+    {
+      "event_id": "9a1e1d2c-5723-4f07-aff1-c5a76a7db772",
+      "tenant_id": "23c3e609-b6fc-52b5-ad3b-5731feb09323",
+      "reset_epoch": 1,
+      "aggregate_seq": 57,
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "type": "harness.improvement_not_admitted",
+      "title": "Harness trigger recorded",
+      "detail": "AUTOMATIC_CONCURRENCY_LIMIT",
+      "created_at": "2026-09-26T20:30:37.252Z"
     }
   ],
-  "feedback": [],
+  "feedback": [
+    {
+      "feedback_id": "b7025f2c-0f90-49ea-a63a-0de77eb4b8ce",
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "role": "founder",
+      "type": "fact_correction",
+      "text": "Synthetic founder correction: use the dedicated rights inbox from the acceptance company record.",
+      "created_at": "2026-09-26T20:27:12.816Z",
+      "status": "applied",
+      "fact_key": "consumer_request_email",
+      "proposed_value": "rights@harbor-meridian.example"
+    }
+  ],
   "documents": [
     {
       "revision_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
@@ -959,24 +1486,563 @@
       ],
       "created_at": "2026-09-26T20:10:17.938Z",
       "content_hash": "e57f55eeeef6e2df88a56b01a186373466c3354344fbb8fe6175142877b49587"
+    },
+    {
+      "revision_id": "9e3b22c4-2518-4292-8beb-0fb0c8fae347",
+      "document_id": "eaaa8632-ac8b-5e3a-a030-1b9c5719473a",
+      "revision_number": 3,
+      "base_revision_id": "b549ad34-4c35-4f18-beab-d4fa15aff3ae",
+      "title": "Harbor Meridian privacy policy",
+      "policy_updated_on": "2026-09-26",
+      "clauses": [
+        {
+          "clause_id": "2f950064-c9b1-5aa9-bc66-ffa199f1cfa2",
+          "heading": "About this policy",
+          "body": "Rippit-inspired Harbor Meridian (fictional) operates an online music discovery service for adults. This policy explains how we handle information when you create an account, discover events, read reviews, save favorites, or contact us."
+        },
+        {
+          "clause_id": "dcac8a94-e1b2-59ec-84c1-7400e5230938",
+          "heading": "Information we collect and its sources",
+          "body": "We collect identifiers (name, email, postal address, account ID and IP address) directly from you and through device interaction; customer records information (name and postal address) directly from you; internet or other electronic network activity (event views and searches) through device interaction; geolocation information (declared city and coarse IP-derived city) directly from you and through device interaction; inferences (music interests inferred from saved event categories) from first-party interactions; and sensitive personal information (account login combined with access credentials) directly from you."
+        },
+        {
+          "clause_id": "4c79b519-e7d5-5182-a92d-e20124237e0d",
+          "heading": "How we use information",
+          "body": "We use identifiers to create and service accounts, deliver selected local event recommendations and protect security; customer records information to service accounts and user-selected regions; activity information to operate discovery, diagnose errors and improve first-party recommendations; declared or coarse city information to localize discovery; inferences for first-party event recommendations; and login credentials to authenticate requested accounts and protect account security."
+        },
+        {
+          "clause_id": "016bb052-b08f-5208-884b-3343949680f1",
+          "heading": "Disclosures, sales and sharing",
+          "body": "For the business purposes described above, we disclose identifiers to hosting and transactional email service providers; customer records information, geolocation information and inferences to hosting service providers; activity information to hosting and restricted first-party analytics service providers; and login credentials to an authentication service provider. We do not sell personal information or share it for cross-context behavioral advertising. We have no categories of personal information sold or shared, or corresponding third-party recipients, to list for the preceding 12 months. We do not have actual knowledge that we sell or share the personal information of consumers under 16."
+        },
+        {
+          "clause_id": "9689ef85-b969-51cd-8dcc-b423dacbc9ed",
+          "heading": "How long we keep information",
+          "body": "We retain identifiers and customer records information for the account’s life plus 30 days after closure; security IP logs for 90 days; activity information for 90 days, after which it is deleted or deidentified; declared city for the account’s life plus 30 days and coarse IP-derived location for 90 days; and inferred interests until preferences are reset or account closure plus 30 days. We retain login credentials until credential rotation or account closure; revocable session credentials expire within 30 days. Documented legal holds can extend the stated periods for identifiers, customer records and retained security incidents. Support correspondence is retained for 12 months."
+        },
+        {
+          "clause_id": "8e2e31f5-41ad-56ae-908f-25f208bfc08b",
+          "heading": "Your choices",
+          "body": "You can edit your profile, remove saved events and unsubscribe from promotional email in account settings. Contact support if you want to close your account."
+        },
+        {
+          "clause_id": "730e1692-f5e1-5960-aa7c-65f297fd36c5",
+          "heading": "Security",
+          "body": "We use access controls and other safeguards to protect information. No online service can guarantee complete security."
+        },
+        {
+          "clause_id": "b7239933-2f36-5fe1-833b-619f1b3b855d",
+          "heading": "Age restriction",
+          "body": "Our service is intended for adults aged 18 and older."
+        },
+        {
+          "clause_id": "de59121d-08a5-5e6b-a801-c2899e8ebcb0",
+          "heading": "Policy updates",
+          "body": "Last updated: September 1, 2026. We may update this policy as our service changes and will post an updated version here. Our stated plan is to notify account holders by email before a material change to information practices takes effect; that notification mechanism is marked synthetic-fixture-only and must be confirmed before publication."
+        },
+        {
+          "clause_id": "06aee531-095d-531b-bb20-4afc8ceba2e2",
+          "heading": "Contact",
+          "body": "For privacy questions or concerns, and to submit a California consumer privacy request, email rights@harbor-meridian.example. You can also submit a request at /privacy/requests. The request channels need operational confirmation before publication."
+        },
+        {
+          "clause_id": "acceptance-unrelated",
+          "heading": "Contract continuity",
+          "body": "Existing signed customer contracts remain unchanged. Acceptance reference HM-726."
+        },
+        {
+          "clause_id": "d7dc353b-161d-596a-a504-2f3de8d7cfb0",
+          "heading": "Sensitive personal information",
+          "body": "Account login combined with access credentials is sensitive personal information. We use it to authenticate your requested account and protect account security. We do not use or disclose sensitive personal information for purposes beyond the permitted purposes described in the California regulations; on these stated practices, a right to limit additional uses does not apply."
+        },
+        {
+          "clause_id": "d38acbf4-c1cc-5eb2-8650-ce5de03c4eda",
+          "heading": "California privacy rights",
+          "body": "California consumers may request to know the categories and specific pieces of personal information collected about them, its sources and purposes, and recipient categories; request deletion, subject to applicable exceptions; and request correction of inaccurate personal information. They may exercise applicable privacy rights without retaliation. A right to opt out of sale or cross-context behavioral advertising sharing applies if those practices occur; we currently do neither."
+        },
+        {
+          "clause_id": "a84b9e93-a656-5e98-9d5a-d7be19e46954",
+          "heading": "Submitting and verifying California requests",
+          "body": "To submit a request to know, delete or correct, email rights@harbor-meridian.example or use /privacy/requests. For an existing account, our stated verification process is to authenticate you and confirm the account email. If you cannot access an account, it is to match information against existing records in proportion to the request; you need not create a new account. Information newly collected for verification is deleted as soon as practical after the request, except records that must be retained. The request channels are marked synthetic-fixture-only in the company record; their operational readiness needs review before publication."
+        },
+        {
+          "clause_id": "3618409a-546d-57ed-976d-10114cd85254",
+          "heading": "Authorized agents",
+          "body": "An authorized agent may submit a California privacy request on your behalf through rights@harbor-meridian.example or /privacy/requests. Our stated process asks for signed permission and verification of your identity or direct confirmation from you. It does not require you to resubmit the request or require a power of attorney in every case. The request channels and process need operational confirmation before publication."
+        },
+        {
+          "clause_id": "784f3762-3d89-573e-a0f0-fb3b27e2e430",
+          "heading": "Opt-out preference signals",
+          "body": "We do not currently sell personal information or share it for cross-context behavioral advertising. Consequently, an opt-out preference signal does not currently change our handling of information, whether associated with a device, browser or account; we have no offline sales to which it would apply. We will revisit this description if these practices change."
+        }
+      ],
+      "created_at": "2026-09-26T20:30:31.321Z",
+      "content_hash": "d60c45282bd7e64218a16dfdad3bee66024b458ac0ef526407e05290eb3d01cc",
+      "generation": "openai",
+      "evidence_bindings": [
+        {
+          "clause_ids": [
+            "dcac8a94-e1b2-59ec-84c1-7400e5230938"
+          ],
+          "fact_refs": [
+            {
+              "fact_key": "data_inventory",
+              "fact_id": "61f93875-5234-5e3a-8c2c-639229827733"
+            },
+            {
+              "fact_key": "account_credentials_collected",
+              "fact_id": "1db64ec6-99a4-53e1-b7dc-48e1df8ab6a8"
+            }
+          ],
+          "legal_refs": [
+            {
+              "provision_key": "prov_regs_policy",
+              "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+              "start_utf16": 2176,
+              "end_utf16": 2562,
+              "quote_text": "collected about consumers in the preceding 12 months. The categories shall be \ndescribed using the specific terms set forth in Civil Code section 1798.140, \nsubdivisions (v)(1)(A) – (K) and (ae)(1) – (2). To the extent that the business has \ndiscretion in its description, the business shall describe the category in a \nmanner that provides consumers a meaningful understanding of the \n"
+            }
+          ],
+          "rationale": "Uses the known inventory for categories and sources."
+        },
+        {
+          "clause_ids": [
+            "4c79b519-e7d5-5182-a92d-e20124237e0d"
+          ],
+          "fact_refs": [
+            {
+              "fact_key": "data_inventory",
+              "fact_id": "61f93875-5234-5e3a-8c2c-639229827733"
+            }
+          ],
+          "legal_refs": [
+            {
+              "provision_key": "prov_regs_policy",
+              "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+              "start_utf16": 2953,
+              "end_utf16": 3285,
+              "quote_text": "personal information from consumers. The purpose shall be described in a \nmanner that provides consumers a meaningful understanding of why the \ninformation is collected. \n(D) Identification of the categories of personal information, if any, that the \nbusiness has sold or shared to third parties in the preceding 12 months. If the \n"
+            }
+          ],
+          "rationale": "States the recorded purposes for each category."
+        },
+        {
+          "clause_ids": [
+            "016bb052-b08f-5208-884b-3343949680f1"
+          ],
+          "fact_refs": [
+            {
+              "fact_key": "data_inventory",
+              "fact_id": "61f93875-5234-5e3a-8c2c-639229827733"
+            },
+            {
+              "fact_key": "vendor_contracts_status",
+              "fact_id": "2d6be8b0-c4ef-5be5-a0eb-177c27c8fef7"
+            },
+            {
+              "fact_key": "sells_personal_information",
+              "fact_id": "63681525-a950-5027-b92a-e4ab1ed3e487"
+            },
+            {
+              "fact_key": "shares_for_cross_context_behavioral_advertising",
+              "fact_id": "a502faee-cd98-5e25-8e39-e154e708c129"
+            },
+            {
+              "fact_key": "actual_knowledge_under16",
+              "fact_id": "83608a22-0cd5-55a3-a8ed-ca2de94dbfcd"
+            }
+          ],
+          "legal_refs": [
+            {
+              "provision_key": "prov_regs_policy",
+              "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+              "start_utf16": 4015,
+              "end_utf16": 4397,
+              "quote_text": "(G) A statement regarding whether the business has actual knowledge that it sells \nor shares the personal information of consumers under 16 years of age.  \n(H) Identification of the categories of personal information, if any, that the \nbusiness has disclosed to a service provider or contractor for a business \npurpose in the preceding 12 months. If the business has not disclosed \n"
+            },
+            {
+              "provision_key": "prov_regs_policy",
+              "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+              "start_utf16": 3285,
+              "end_utf16": 3656,
+              "quote_text": "business has not sold or shared consumers’ personal information in the \npreceding 12 months, the business shall disclose that fact. \n(E) For each category of personal information identified in subsection (e)(1)(D), \nthe categories of third parties to whom the information was sold or shared. \nThe categories of third parties shall be described in a manner that provides \n"
+            }
+          ],
+          "rationale": "Distinguishes business-purpose recipients from sales and advertising sharing."
+        },
+        {
+          "clause_ids": [
+            "d7dc353b-161d-596a-a504-2f3de8d7cfb0"
+          ],
+          "fact_refs": [
+            {
+              "fact_key": "account_credentials_collected",
+              "fact_id": "1db64ec6-99a4-53e1-b7dc-48e1df8ab6a8"
+            },
+            {
+              "fact_key": "data_inventory",
+              "fact_id": "61f93875-5234-5e3a-8c2c-639229827733"
+            },
+            {
+              "fact_key": "spi_only_permitted_purposes",
+              "fact_id": "06691f45-4d13-5b88-af0e-b5aa240125cb"
+            }
+          ],
+          "legal_refs": [
+            {
+              "provision_key": "prov_regs_policy",
+              "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+              "start_utf16": 4774,
+              "end_utf16": 5133,
+              "quote_text": "(J) A statement regarding whether the business uses or discloses sensitive \npersonal information for purposes other than those specified in section 7027, \nsubsection (m).  \n(2) An explanation of the rights that the CCPA confers on consumers regarding their \npersonal information, which includes all of the following:  \nPDF page 23\nCPPA \n   \n \nPage 23 of 103 \n"
+            }
+          ],
+          "rationale": "Describes the known sensitive category and stipulated purposes."
+        },
+        {
+          "clause_ids": [
+            "9689ef85-b969-51cd-8dcc-b423dacbc9ed"
+          ],
+          "fact_refs": [
+            {
+              "fact_key": "data_inventory",
+              "fact_id": "61f93875-5234-5e3a-8c2c-639229827733"
+            },
+            {
+              "fact_key": "support_correspondence_retention_months",
+              "fact_id": "2f3d136a-c11a-5132-9a83-2e3106d7e049"
+            }
+          ],
+          "legal_refs": [
+            {
+              "provision_key": "prov_ccpa_notice",
+              "source_version_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+              "start_utf16": 1290,
+              "end_utf16": 1550,
+              "quote_text": "information was collected without providing the consumer with notice consistent \nwith this section. \n(3) The length of time the business intends to retain each category of personal \ninformation, including sensitive personal information, or if that is not possi"
+            }
+          ],
+          "rationale": "States recorded retention periods; does not assert that the separate notice at collection is ready."
+        },
+        {
+          "clause_ids": [
+            "d38acbf4-c1cc-5eb2-8650-ce5de03c4eda"
+          ],
+          "fact_refs": [
+            {
+              "fact_key": "ordinary_signup_data_nonexempt",
+              "fact_id": "ea4792ed-c755-582c-81dd-934188018892"
+            },
+            {
+              "fact_key": "sells_personal_information",
+              "fact_id": "63681525-a950-5027-b92a-e4ab1ed3e487"
+            },
+            {
+              "fact_key": "shares_for_cross_context_behavioral_advertising",
+              "fact_id": "a502faee-cd98-5e25-8e39-e154e708c129"
+            }
+          ],
+          "legal_refs": [
+            {
+              "provision_key": "prov_regs_policy",
+              "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+              "start_utf16": 5524,
+              "end_utf16": 5867,
+              "quote_text": "information, and the specific pieces of personal information the business has \ncollected about the consumer. \n(B) The right to delete personal information that the business has collected from \nthe consumer, subject to certain exceptions. \n(C) The right to correct inaccurate personal information that a business maintains \nabout a consumer.  \n"
+            },
+            {
+              "provision_key": "prov_regs_policy",
+              "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+              "start_utf16": 5867,
+              "end_utf16": 6254,
+              "quote_text": "(D) If the business sells or shares personal information, the right to opt-out of the \nsale or sharing of their personal information by the business. \n(E) If the business uses or discloses sensitive personal information for reasons \nother than those set forth in section 7027, subsection (m), the right to limit the \nuse or disclosure of sensitive personal information by the business. \n"
+            }
+          ],
+          "rationale": "Explains rights and the conditional nature of the sale-or-sharing opt-out."
+        },
+        {
+          "clause_ids": [
+            "a84b9e93-a656-5e98-9d5a-d7be19e46954"
+          ],
+          "fact_refs": [
+            {
+              "fact_key": "exclusively_online",
+              "fact_id": "988e421e-5650-5446-8702-8c81ade16008"
+            },
+            {
+              "fact_key": "direct_consumer_relationship",
+              "fact_id": "0abfc43a-270b-5de1-940d-7992b2f79699"
+            },
+            {
+              "fact_key": "consumer_request_email",
+              "fact_id": "f00c962a-9e15-5bd5-ac14-a5ed03811600"
+            },
+            {
+              "fact_key": "consumer_request_web_path",
+              "fact_id": "79094e64-fc4e-590c-ae62-ffee89cf8f3a"
+            },
+            {
+              "fact_key": "consumer_request_methods_readiness",
+              "fact_id": "e8fb76ec-ed0a-53de-a11d-0d038365d9d9"
+            },
+            {
+              "fact_key": "privacy_request_verification_process",
+              "fact_id": "073dda8b-efe7-51bd-829f-abbbcd4fb92c"
+            }
+          ],
+          "legal_refs": [
+            {
+              "provision_key": "prov_regs_policy",
+              "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+              "start_utf16": 7005,
+              "end_utf16": 7346,
+              "quote_text": "(B) Instructions for submitting a request under the CCPA, including any links to an \nonline request form or portal for making such a request, if offered by the \nbusiness. \n(C) If the business sells or shares personal information, and is required to provide a \nNotice of Right to Opt-out of Sale/Sharing, the contents of the Notice of Right \n"
+            },
+            {
+              "provision_key": "prov_regs_policy",
+              "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+              "start_utf16": 7734,
+              "end_utf16": 8126,
+              "quote_text": "or a link to that notice in accordance with section 7014, subsection (f). \n(E) A general description of the process the business uses to verify a consumer \nrequest to know, request to delete, request to correct, and request to access \nADMT, when applicable, including any information the consumer must \nprovide. \n(F) Explanation of how an opt-out preference signal will be processed for the \n"
+            }
+          ],
+          "rationale": "Uses the pinned rights inbox and verification process while flagging the readiness limitation."
+        },
+        {
+          "clause_ids": [
+            "3618409a-546d-57ed-976d-10114cd85254"
+          ],
+          "fact_refs": [
+            {
+              "fact_key": "privacy_request_verification_process",
+              "fact_id": "073dda8b-efe7-51bd-829f-abbbcd4fb92c"
+            },
+            {
+              "fact_key": "consumer_request_email",
+              "fact_id": "f00c962a-9e15-5bd5-ac14-a5ed03811600"
+            },
+            {
+              "fact_key": "consumer_request_web_path",
+              "fact_id": "79094e64-fc4e-590c-ae62-ffee89cf8f3a"
+            },
+            {
+              "fact_key": "consumer_request_methods_readiness",
+              "fact_id": "e8fb76ec-ed0a-53de-a11d-0d038365d9d9"
+            }
+          ],
+          "legal_refs": [
+            {
+              "provision_key": "prov_regs_policy",
+              "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+              "start_utf16": 8315,
+              "end_utf16": 8638,
+              "quote_text": "gnal. \n(G) If the business processes opt-out preference signals in a frictionless manner, \ninformation on how consumers can implement opt-out preference signals for \nthe business to process in a frictionless manner. \n(H) Instructions on how an authorized agent can make a request under the CCPA \non the consumer’s behalf. \n"
+            }
+          ],
+          "rationale": "Gives agents a route and the recorded permission requirements."
+        },
+        {
+          "clause_ids": [
+            "784f3762-3d89-573e-a0f0-fb3b27e2e430"
+          ],
+          "fact_refs": [
+            {
+              "fact_key": "sells_personal_information",
+              "fact_id": "63681525-a950-5027-b92a-e4ab1ed3e487"
+            },
+            {
+              "fact_key": "shares_for_cross_context_behavioral_advertising",
+              "fact_id": "a502faee-cd98-5e25-8e39-e154e708c129"
+            },
+            {
+              "fact_key": "exclusively_online",
+              "fact_id": "988e421e-5650-5446-8702-8c81ade16008"
+            }
+          ],
+          "legal_refs": [
+            {
+              "provision_key": "prov_regs_policy",
+              "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+              "start_utf16": 7734,
+              "end_utf16": 8126,
+              "quote_text": "or a link to that notice in accordance with section 7014, subsection (f). \n(E) A general description of the process the business uses to verify a consumer \nrequest to know, request to delete, request to correct, and request to access \nADMT, when applicable, including any information the consumer must \nprovide. \n(F) Explanation of how an opt-out preference signal will be processed for the \n"
+            }
+          ],
+          "rationale": "Explains the current applicability of signals without asserting tested processing."
+        },
+        {
+          "clause_ids": [
+            "de59121d-08a5-5e6b-a801-c2899e8ebcb0"
+          ],
+          "fact_refs": [
+            {
+              "fact_key": "baseline_policy_last_updated",
+              "fact_id": "23b883ff-1575-5a61-8ee3-b90360eb0b5e"
+            },
+            {
+              "fact_key": "material_policy_change_notice",
+              "fact_id": "20afa1d4-e9ac-5af1-80d7-bad694387d28"
+            }
+          ],
+          "legal_refs": [
+            {
+              "provision_key": "prov_ccpa_policy",
+              "source_version_id": "a9ca10a1-7b79-585a-aade-7768033f21c7",
+              "start_utf16": 370,
+              "end_utf16": 722,
+              "quote_text": "(5) Disclose the following information in its online privacy policy or policies if the \nbusiness has an online privacy policy or policies and in any California-specific \ndescription of consumers’ privacy rights, or if the business does not maintain those \npolicies, on its internet website, and update that information at least once every 12 \nmonths: \n"
+            }
+          ],
+          "rationale": "Retains the pinned baseline date, without inventing a date of approval or publication."
+        },
+        {
+          "clause_ids": [
+            "06aee531-095d-531b-bb20-4afc8ceba2e2"
+          ],
+          "fact_refs": [
+            {
+              "fact_key": "consumer_request_email",
+              "fact_id": "f00c962a-9e15-5bd5-ac14-a5ed03811600"
+            },
+            {
+              "fact_key": "consumer_request_web_path",
+              "fact_id": "79094e64-fc4e-590c-ae62-ffee89cf8f3a"
+            },
+            {
+              "fact_key": "consumer_request_methods_readiness",
+              "fact_id": "e8fb76ec-ed0a-53de-a11d-0d038365d9d9"
+            }
+          ],
+          "legal_refs": [
+            {
+              "provision_key": "prov_regs_policy",
+              "source_version_id": "98a9f500-1333-5897-82e0-4d870f9aa15f",
+              "start_utf16": 8638,
+              "end_utf16": 9030,
+              "quote_text": "(I) If the business has actual knowledge that it sells the personal information of \nconsumers under 16 years of age, a description of the processes required by \nsections 7070 and 7071. \n(J) A contact for questions or concerns about the business’s privacy policies and \ninformation practices using a method reflecting the manner in which the \nbusiness primarily interacts with the consumer.  \n"
+            }
+          ],
+          "rationale": "Replaces the baseline contact address with the pinned dedicated rights inbox; does not rely on an unverified address."
+        }
+      ]
     }
   ],
   "operations": {
     "inference_evidence": {
-      "completed_requests": 4,
+      "completed_requests": 16,
       "provider_response_ids": [
+        "resp_09c97106c12107cd016ab82ac649c887d28a8722a4f7e9a85d",
+        "resp_09c97106c12107cd016ab82ad0900887d29eb170ba86ec32fe",
+        "resp_09c97106c12107cd016ab82ae1619487d2931903db76a22218",
+        "resp_09c97106c12107cd016ab82aeef64087d2ae2f9addbb130edc",
+        "resp_09c97106c12107cd016ab82b1ddc0487d2b326ca33becefedd",
+        "resp_09c97106c12107cd016ab82b474b0087d2bbfe476da0203acc",
         "resp_0583b933197344ec016ab826b0805487d2af3e6e64bc3cb568",
         "resp_0583b933197344ec016ab826b561d887d29df8f17ec9a26ac7",
         "resp_0583b933197344ec016ab826baada887d2a75766c13e29fe54",
-        "resp_0583b933197344ec016ab826d6342887d2b0cbdf80f56538b3"
+        "resp_0583b933197344ec016ab826d6342887d2b0cbdf80f56538b3",
+        "resp_0c477805d738edb8016ab82942977087d2be770ddbb1099423",
+        "resp_0c477805d738edb8016ab82949240c87d2b02ad9e71adbe248",
+        "resp_0c477805d738edb8016ab8295055d887d2ae3b16a4de430faf",
+        "resp_0c477805d738edb8016ab82959da8c87d2b3c4967439c0e7ae",
+        "resp_0c477805d738edb8016ab8298d1a8c87d2beec038dae99c666",
+        "resp_0c477805d738edb8016ab82995248c87d290d6f852bb541534"
       ],
-      "input_tokens": 46103,
-      "output_tokens": 6374,
-      "cost_usd": 0.155946,
+      "input_tokens": 237029,
+      "output_tokens": 27030,
+      "cost_usd": 0.7443580000000001,
       "reserved_usd": 0,
       "unknown_charge": false
     },
     "runs": [
+      {
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "run_id": "4b518489-5071-4388-af04-62f4cc6d78ed",
+        "model": "gpt-6-sol",
+        "config_hash": "f4e70ce6b87f8f5e6f43616e0321603a8e66010a64d904018462aa475aa21bdd",
+        "attempts": [
+          {
+            "attempt_id": "e2849219-3cf9-41cb-ac00-e121305e94b5",
+            "phase": "draft",
+            "status": "complete",
+            "response_id": "resp_09c97106c12107cd016ab82ac649c887d28a8722a4f7e9a85d",
+            "input_tokens": 8720,
+            "output_tokens": 119,
+            "cost_usd": 0.01863,
+            "error_code": null
+          },
+          {
+            "attempt_id": "db105e63-5f9e-4d88-801d-a9676c710fa1",
+            "phase": "draft",
+            "status": "complete",
+            "response_id": "resp_09c97106c12107cd016ab82ad0900887d29eb170ba86ec32fe",
+            "input_tokens": 12094,
+            "output_tokens": 116,
+            "cost_usd": 0.025348,
+            "error_code": null
+          },
+          {
+            "attempt_id": "449b39e0-fbc4-46e6-a27f-6a39a369361c",
+            "phase": "draft",
+            "status": "complete",
+            "response_id": "resp_09c97106c12107cd016ab82ae1619487d2931903db76a22218",
+            "input_tokens": 15153,
+            "output_tokens": 82,
+            "cost_usd": 0.031126,
+            "error_code": null
+          },
+          {
+            "attempt_id": "88cef775-2d0a-4e86-afdc-dcc8b99ced7f",
+            "phase": "draft",
+            "status": "complete",
+            "response_id": "resp_09c97106c12107cd016ab82aeef64087d2ae2f9addbb130edc",
+            "input_tokens": 16087,
+            "output_tokens": 4114,
+            "cost_usd": 0.073314,
+            "error_code": null
+          },
+          {
+            "attempt_id": "5fbec55c-1234-48a1-a807-2aa358a66a48",
+            "phase": "repair",
+            "status": "complete",
+            "response_id": "resp_09c97106c12107cd016ab82b1ddc0487d2b326ca33becefedd",
+            "input_tokens": 20466,
+            "output_tokens": 3835,
+            "cost_usd": 0.079282,
+            "error_code": null
+          },
+          {
+            "attempt_id": "f35dc4e6-6956-4a30-a887-d1b5cd89b3d6",
+            "phase": "repair",
+            "status": "complete",
+            "response_id": "resp_09c97106c12107cd016ab82b474b0087d2bbfe476da0203acc",
+            "input_tokens": 24354,
+            "output_tokens": 3736,
+            "cost_usd": 0.086068,
+            "error_code": null
+          }
+        ],
+        "tools": [
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_AXnxO4eu78l4qKf4bvsbH8jA",
+            "arguments_hash": "240ccf543117023763f555dbdcf4d6bd1f1a47ee8775d5e040972f3d903e2de7",
+            "result_hash": "e03bce1c5a06c59260d6fc1d882a67b534c7b51feb364d4461aa13d9c6db26b7"
+          },
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_BATAnZURLrZ3p5E2JnTYuF7w",
+            "arguments_hash": "817224bcd31d8afa79d0762e67e35181714266d5b1c48b0c35ff407fd358f478",
+            "result_hash": "9ff354dc6938b8532aa9834242eaab75af4dc96e5b99a5eb6a76d7539e073389"
+          },
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_wTmuFKLOj29rgrbmVfWynJlI",
+            "arguments_hash": "067829ee04381eaf887363a6046cb7aae0e6827e44155cd0e05a72e435c468ef",
+            "result_hash": "12e356914160130253beeec5f3e96de3635a9943a362b6d77405c89cf20f23e9"
+          }
+        ]
+      },
       {
         "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
         "run_id": "75e2b10b-8cef-4348-9f4e-a5ff5d79f410",
@@ -1048,9 +2114,127 @@
             "result_hash": "495e90937dcc381d4268fce712a01161bea59af3066637871bb58952a3973add"
           }
         ]
+      },
+      {
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "run_id": "b0797bca-f29c-4e99-973a-419f675561c7",
+        "model": "gpt-6-sol",
+        "config_hash": "be1ae19386de8bf821c18eaeab76d931f78f69ec6f1a86b2b7d3e2714dabc6c2",
+        "attempts": [
+          {
+            "attempt_id": "ffd1bdb7-887a-432f-ad29-03cef38cd97b",
+            "phase": "draft",
+            "status": "complete",
+            "response_id": "resp_0c477805d738edb8016ab82942977087d2be770ddbb1099423",
+            "input_tokens": 8563,
+            "output_tokens": 101,
+            "cost_usd": 0.018136,
+            "error_code": null
+          },
+          {
+            "attempt_id": "a7458acf-e96f-4368-9819-fd9fec653da6",
+            "phase": "draft",
+            "status": "complete",
+            "response_id": "resp_0c477805d738edb8016ab82949240c87d2b02ad9e71adbe248",
+            "input_tokens": 11843,
+            "output_tokens": 117,
+            "cost_usd": 0.024856,
+            "error_code": null
+          },
+          {
+            "attempt_id": "e4824659-de4a-4832-8127-9c51c60b5a1b",
+            "phase": "draft",
+            "status": "complete",
+            "response_id": "resp_0c477805d738edb8016ab8295055d887d2ae3b16a4de430faf",
+            "input_tokens": 14990,
+            "output_tokens": 98,
+            "cost_usd": 0.03096,
+            "error_code": null
+          },
+          {
+            "attempt_id": "f1231731-1091-4402-87ea-88d54ee82053",
+            "phase": "draft",
+            "status": "complete",
+            "response_id": "resp_0c477805d738edb8016ab82959da8c87d2b3c4967439c0e7ae",
+            "input_tokens": 16152,
+            "output_tokens": 4950,
+            "cost_usd": 0.081804,
+            "error_code": null
+          },
+          {
+            "attempt_id": "2337d3b3-9a2d-447b-832a-39f105491447",
+            "phase": "repair",
+            "status": "complete",
+            "response_id": "resp_0c477805d738edb8016ab8298d1a8c87d2beec038dae99c666",
+            "input_tokens": 21164,
+            "output_tokens": 120,
+            "cost_usd": 0.043528,
+            "error_code": null
+          },
+          {
+            "attempt_id": "908c3219-754a-4f39-9452-5a446e9bbdb6",
+            "phase": "repair",
+            "status": "complete",
+            "response_id": "resp_0c477805d738edb8016ab82995248c87d290d6f852bb541534",
+            "input_tokens": 21340,
+            "output_tokens": 3268,
+            "cost_usd": 0.07536,
+            "error_code": null
+          }
+        ],
+        "tools": [
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_rvFrek1GtTfczr0PLd9DpeGO",
+            "arguments_hash": "9ddf632ad9c25b789a90bb8bc84ce74dc35d6c89425e06ea23b694a379e49347",
+            "result_hash": "899bb557624e810c9a848f698feeda3302c48c5ba9c6a4264c2c85ede8a5846c"
+          },
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_8oSnYcaS13sBDSc2MtHLqNJd",
+            "arguments_hash": "7be0d194fc3fab2f7bc302eb2560ad98c8cd7706b8092ea2dd0746983d564d2e",
+            "result_hash": "16ed7aa15c1ca81128a015e7b1c3f4883b9269890c5f56e7789cf310417f19d4"
+          },
+          {
+            "name": "read_legal_evidence_batch",
+            "call_id": "call_AfflAL4nu3ED1342FXMP3GMn",
+            "arguments_hash": "6c62d7ae17e4d799fb1685f696dbbbac0ab49937f5a29714f83a7ce3a6c055ff",
+            "result_hash": "3a60e5ced97ff8f680e24828dc9e026c6ca3acfa4ef3cd1e83a188e8d8a16bea"
+          }
+        ]
       }
     ],
-    "improvements": [],
+    "improvements": [
+      {
+        "kind": "automatic_improvement",
+        "proposal_id": "fe9744d8-7d5c-49ab-bbf9-c77842438ca9",
+        "trigger": {
+          "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+          "trigger_id": "01f6b778-66ee-4695-82b7-b976b0506d6e",
+          "origin": "validation",
+          "codes": [
+            "CITATION_SPAN_MISMATCH"
+          ]
+        },
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "status": "queued",
+        "reason": "Observed failure or attributed review feedback; awaiting real paired provider evaluation.",
+        "depth": 1,
+        "baseline_version": 1,
+        "candidate_version": 2,
+        "dataset_hash": "3f591594912eb5906aea86813d1fac9a73ae913c1df5b510b301782e8b26d0e2",
+        "created_at": "2026-09-26T20:23:23.031Z",
+        "actual_cost_usd": 0,
+        "candidate_strategy": {
+          "schema_version": 1,
+          "prompt_modules": [
+            "legal_grounding"
+          ],
+          "retrieval_order": "evidence_first"
+        },
+        "evaluation_id": null
+      }
+    ],
     "receipts": [
       {
         "key": "1:context_snapshot:0d3469bf-b119-42b0-9950-0fe383ebd201:1",
@@ -1062,14 +2246,14 @@
       {
         "key": "1:runtime:0d3469bf-b119-42b0-9950-0fe383ebd201",
         "kind": "runtime_ledger",
-        "hash": "136f2878fa998a86680c4913e9ce9a9ec5f59f41262046232cbbea1a4afa2898",
+        "hash": "4286787f8533b55e7e07b87644027c989b93f65bdb63845c0e45879795bc32be",
         "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
         "created_at": null
       },
       {
         "key": "runtime:spend_authorization",
         "kind": "runtime_spend_authorization",
-        "hash": "a7f41d1b2fabae5eca9ffc1495d2c1a1a43c3077d4dba7aed1ed1e7e727dd07b",
+        "hash": "f5a4db892ec4d280073d3e384dfe4f960b0c85fab6a513b337bd80c5ea8a0cb1",
         "workflow_id": null,
         "created_at": null
       },
@@ -1086,10 +2270,129 @@
         "hash": "d4be1531a9554aca713f0e7563e515b7e1cb4d240d3e6b18e020a33c8312df70",
         "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
         "created_at": null
+      },
+      {
+        "key": "1:model_retry:8be26f7e-a3f5-4085-b9a0-593373d4479a",
+        "kind": "model_retry_authorization",
+        "hash": "e98e6fe7ffa3f2834ef92117770fc0317b02d669f77b047a5e74c83560bc0918",
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "created_at": "2026-09-26T20:21:18.188Z"
+      },
+      {
+        "key": "1:runtime_history:0d3469bf-b119-42b0-9950-0fe383ebd201:75e2b10b-8cef-4348-9f4e-a5ff5d79f410",
+        "kind": "runtime_history",
+        "hash": "b8c55aa27a179ec62cd5f59b551b8dbda55a2246e2f8afd433666bd7e9f791e9",
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "created_at": null
+      },
+      {
+        "key": "1:model_output_failure:01f6b778-66ee-4695-82b7-b976b0506d6e",
+        "kind": "model_output_failure",
+        "hash": "f6d164f11bb0d2ee90fc3858c94a82b5167341782a506051b2e43e9068c0ee36",
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "created_at": "2026-09-26T20:22:34.189Z"
+      },
+      {
+        "key": "1:model_output_failure:3fc932d2-262a-42fd-bb44-ea30da99bb7e",
+        "kind": "model_output_failure",
+        "hash": "7417861d2a2b109c68d98d26ee68c681423994cd7ecf186469b5a55c67f3a7c5",
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "created_at": "2026-09-26T20:22:42.466Z"
+      },
+      {
+        "key": "adaptation:trigger:validation:01f6b778-66ee-4695-82b7-b976b0506d6e",
+        "kind": "adaptation_trigger",
+        "hash": "d3a19987dffd4729c41a4251b374024fc917279b2c1c05c2ac2372f2f57fa04d",
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "created_at": "2026-09-26T20:23:23.031Z"
+      },
+      {
+        "key": "adaptation:automatic:fe9744d8-7d5c-49ab-bbf9-c77842438ca9",
+        "kind": "automatic_improvement",
+        "hash": "03dae4a31d9844146f1e34a23c5fc4f328e15b2fd26520b3cc412515535d1f86",
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "created_at": "2026-09-26T20:23:23.031Z"
+      },
+      {
+        "key": "adaptation:trigger:validation:3fc932d2-262a-42fd-bb44-ea30da99bb7e",
+        "kind": "adaptation_trigger",
+        "hash": "2df0e44348a0d10c50be5e355d6efa3e1a3a5018fa85033e1ff244d6877f1330",
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "created_at": "2026-09-26T20:30:37.235Z"
+      },
+      {
+        "key": "1:human_feedback:b7025f2c-0f90-49ea-a63a-0de77eb4b8ce",
+        "kind": "human_feedback",
+        "hash": "f3fd93f9a1083a2bc854af1ac5969ef26b003b02064ab0f14cfb0c084786f80b",
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "created_at": "2026-09-26T20:27:12.816Z"
+      },
+      {
+        "key": "1:fact_verification:b7025f2c-0f90-49ea-a63a-0de77eb4b8ce",
+        "kind": "fact_verification",
+        "hash": "c7f706a83e693c7aa51f94ae351f867c612899779e73461418bb5905be347c35",
+        "workflow_id": null,
+        "created_at": null
+      },
+      {
+        "key": "1:context_snapshot:0d3469bf-b119-42b0-9950-0fe383ebd201:2",
+        "kind": "context_snapshot",
+        "hash": "034095a648f76e55098adbe6397f571524e4ec5d76ef770eaa982f3e18da51e3",
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "created_at": "2026-09-26T20:27:16.271Z"
+      },
+      {
+        "key": "adaptation:trigger:founder_feedback:b7025f2c-0f90-49ea-a63a-0de77eb4b8ce",
+        "kind": "adaptation_trigger",
+        "hash": "14856ca19cd5c405a9eada9afbe17420771836e38cae5ef45983b6c622e1a8cc",
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "created_at": "2026-09-26T20:30:37.260Z"
+      },
+      {
+        "key": "1:runtime_history:0d3469bf-b119-42b0-9950-0fe383ebd201:b0797bca-f29c-4e99-973a-419f675561c7",
+        "kind": "runtime_history",
+        "hash": "01032c9f8012010efe3149c03bc8cee508ad84046993d6f9e795e69d2cc1a84f",
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "created_at": null
+      },
+      {
+        "key": "1:model_output_failure:b40d0731-e64f-43d8-9a4f-934fc0218cf9",
+        "kind": "model_output_failure",
+        "hash": "278cfed7b14ea41b5e62f8f3b9b71822de60c4ccbc11f9df2e1d62268b5cb49a",
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "created_at": "2026-09-26T20:29:12.543Z"
+      },
+      {
+        "key": "1:model_output_failure:4b530b73-7597-43f6-bec1-e526bbb9321d",
+        "kind": "model_output_failure",
+        "hash": "cd9a8d72da5a5ccc10a75a5b73a5fd4f833a65da2593127532aa63f190afcab7",
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "created_at": "2026-09-26T20:29:53.384Z"
+      },
+      {
+        "key": "1:pending_semantic:9e3b22c4-2518-4292-8beb-0fb0c8fae347",
+        "kind": "model_proposal_pending_semantic",
+        "hash": "c67ee6b444bd5b7bdcab808d31e2aa1ff79d041f6a3196b31f891235223c761c",
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "created_at": "2026-09-26T20:30:31.970Z"
+      },
+      {
+        "key": "adaptation:trigger:validation:b40d0731-e64f-43d8-9a4f-934fc0218cf9",
+        "kind": "adaptation_trigger",
+        "hash": "8855c45062caea84a52ff3822389b3740ed29f7f7bbd43282da932db6e8c4e47",
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "created_at": "2026-09-26T20:30:37.244Z"
+      },
+      {
+        "key": "adaptation:trigger:validation:4b530b73-7597-43f6-bec1-e526bbb9321d",
+        "kind": "adaptation_trigger",
+        "hash": "fe11854223f6ccc86454634c68900223b68a24fe2adefd5d49cf605ba80a7a02",
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "created_at": "2026-09-26T20:30:37.252Z"
       }
     ],
     "scope": {
-      "context_epoch": 1,
+      "context_epoch": 2,
       "source": "synthetic_fixture",
       "supported_jurisdictions": [
         "US-CA"
@@ -1097,15 +2400,114 @@
       "source_policy": "Retained demonstration sources, not a claim of current law. Human review roles are simulated; AI execution is independently recorded."
     }
   },
-  "improvements": [],
+  "improvements": [
+    {
+      "proposal_id": "fe9744d8-7d5c-49ab-bbf9-c77842438ca9",
+      "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+      "origin": "validation",
+      "status": "queued",
+      "reason": "Observed failure or attributed review feedback; awaiting real paired provider evaluation.",
+      "baseline_version": 1,
+      "candidate_version": 2,
+      "dataset_hash": "3f591594912eb5906aea86813d1fac9a73ae913c1df5b510b301782e8b26d0e2",
+      "depth": 1,
+      "completed_trials": 0,
+      "total_trials": 6,
+      "cost_usd": 0,
+      "unknown_charge": false,
+      "execution_mode": "provider",
+      "evaluation_id": null
+    }
+  ],
   "global_budget": {
     "budget_usd": 50,
-    "spent_usd": 0.789672,
+    "spent_usd": 2.564618,
     "reserved_usd": 0,
     "unknown_charges": 0,
     "inflight": 0,
-    "request_count": 26,
+    "request_count": 70,
     "scope": "all_visitors_and_evaluations"
   },
-  "receipts": []
+  "receipts": [
+    {
+      "key": "1:model_output_failure:01f6b778-66ee-4695-82b7-b976b0506d6e",
+      "hash": "f6d164f11bb0d2ee90fc3858c94a82b5167341782a506051b2e43e9068c0ee36",
+      "result": {
+        "kind": "model_output_failure",
+        "failure_id": "01f6b778-66ee-4695-82b7-b976b0506d6e",
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "event_id": "a8e8ec90-047e-4266-b7cd-b640108f4b7b",
+        "run_id": "b0797bca-f29c-4e99-973a-419f675561c7",
+        "response_id": "resp_0c477805d738edb8016ab82959da8c87d2b3c4967439c0e7ae",
+        "output_hash": "c4d8645e6c1464fdb2b84189ca39afe08577619cfdf849e99c1823e448375aed",
+        "output_json": "{\"changes\":[{\"clause_id\":\"dcac8a94-e1b2-59ec-84c1-7400e5230938\",\"heading\":\"Information we collect and where it comes from\",\"body\":\"For our California consumer service, the categories of personal information in our inventory are identifiers (name, email, postal address, account ID and IP address); customer records (name and postal address); internet activity (event views and searches); geolocation (declared city and coarse IP-derived city); inferences (music interests inferred from saved event categories); and sensitive personal information (account login combined with access credentials). We obtain information directly from you and from your device interactions, and derive music-interest inferences from your interactions with our service. Coarse IP-derived location is not a determination of legal residence.\",\"fact_keys\":[\"data_inventory\",\"account_credentials_collected\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":2176,\"end_utf16\":2562,\"quote_text\":\"collected about consumers in the preceding 12 months. The categories shall be \\ndescribed using the specific terms set forth in Civil Code section 1798.140, \\nsubdivisions (v)(1)(A) – (K) and (ae)(1) – (2). To the extent that the business has \\ndiscretion in its description, the business shall describe the category in a \\nmanner that provides consumers a meaningful understanding of the \\n\"},{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":2562,\"end_utf16\":2953,\"quote_text\":\"information being collected.  \\nPDF page 22\\nCPPA \\n   \\n \\nPage 22 of 103 \\n(B) Identification of the categories of sources from which the personal information \\nis collected. The categories shall be described in a manner that provides \\nconsumers a meaningful understanding of where the information is collected. \\n(C)  Identification of the specific business or commercial purpose for collecting \\n\"}],\"rationale\":\"Replace the general list with the pinned category inventory and source categories; the preceding-12-month characterization requires human review before publication.\"},{\"clause_id\":\"4c79b519-e7d5-5182-a92d-e20124237e0d\",\"heading\":\"How we use information\",\"body\":\"We use identifiers to create and service accounts, deliver selected local event recommendations and protect security; customer records to service accounts and the user-selected region; event views and search activity to operate discovery, diagnose errors and improve first-party recommendations; declared city and coarse IP-derived city to localize discovery; inferred music interests for first-party event recommendations; and account login with access credentials to authenticate requested accounts and protect account security. We use support correspondence to respond to requests.\",\"fact_keys\":[\"data_inventory\",\"account_credentials_collected\",\"spi_only_permitted_purposes\",\"support_correspondence_retention_months\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":2953,\"end_utf16\":3285,\"quote_text\":\"personal information from consumers. The purpose shall be described in a \\nmanner that provides consumers a meaningful understanding of why the \\ninformation is collected. \\n(D) Identification of the categories of personal information, if any, that the \\nbusiness has sold or shared to third parties in the preceding 12 months. If the \\n\"}],\"rationale\":\"Specify the purposes pinned to each inventory category.\"},{\"clause_id\":\"016bb052-b08f-5208-884b-3343949680f1\",\"heading\":\"How we disclose information\",\"body\":\"We disclose identifiers to hosting and transactional email service providers; customer records, geolocation and inferred interests to our hosting service provider; internet activity to hosting and restricted first-party analytics service providers; and account login with access credentials to an authentication service provider. These disclosures support the account, recommendations, localization, authentication, email delivery, first-party analytics and security purposes described above. Our vendor restrictions are stipulated for this proposed policy. We do not sell personal information or share it for cross-context behavioral advertising; we do not have actual knowledge of selling or sharing personal information of consumers under 16.\",\"fact_keys\":[\"data_inventory\",\"vendor_contracts_status\",\"sells_personal_information\",\"shares_for_cross_context_behavioral_advertising\",\"actual_knowledge_under16\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":3285,\"end_utf16\":3656,\"quote_text\":\"business has not sold or shared consumers’ personal information in the \\npreceding 12 months, the business shall disclose that fact. \\n(E) For each category of personal information identified in subsection (e)(1)(D), \\nthe categories of third parties to whom the information was sold or shared. \\nThe categories of third parties shall be described in a manner that provides \\n\"},{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":4015,\"end_utf16\":4397,\"quote_text\":\"(G) A statement regarding whether the business has actual knowledge that it sells \\nor shares the personal information of consumers under 16 years of age.  \\n(H) Identification of the categories of personal information, if any, that the \\nbusiness has disclosed to a service provider or contractor for a business \\npurpose in the preceding 12 months. If the business has not disclosed \\n\"},{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":4397,\"end_utf16\":4774,\"quote_text\":\"consumers’ personal information for a business purpose in the preceding 12 \\nmonths, the business shall disclose that fact. \\n(I) Identification of the specific business or commercial purpose for disclosing the \\nconsumer’s personal information. The purpose shall be described in a manner \\nthat provides consumers a meaningful understanding of why the information is \\ndisclosed. \\n\"}],\"rationale\":\"Identify recipient categories and distinguish provider disclosures from sale and cross-context advertising sharing; review the historical reporting window before publication.\"},{\"clause_id\":\"d7dc353b-161d-596a-a504-2f3de8d7cfb0\",\"heading\":\"Sensitive personal information\",\"body\":\"Account login combined with access credentials is sensitive personal information. We use it to authenticate your requested account and protect account security. We do not use or disclose sensitive personal information for purposes outside the stipulated permitted purposes; accordingly, a right to limit such additional uses is not currently applicable to these practices.\",\"fact_keys\":[\"account_credentials_collected\",\"data_inventory\",\"spi_only_permitted_purposes\"],\"legal_refs\":[{\"provision_key\":\"prov_ccpa_sensitive\",\"source_version_id\":\"a9ca10a1-7b79-585a-aade-7768033f21c7\",\"start_utf16\":600,\"end_utf16\":993,\"quote_text\":\"er’s license, state identification card, or \\npassport number. \\n(B) A consumer’s account log-in, financial account, debit card, or credit card \\nnumber in combination with any required security or access code, password, or \\ncredentials allowing access to an account. \\n(C) A consumer’s precise geolocation. \\n(D) A consumer’s racial or ethnic origin, citizenship or immigration status, religious \\n\"},{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":4774,\"end_utf16\":5133,\"quote_text\":\"(J) A statement regarding whether the business uses or discloses sensitive \\npersonal information for purposes other than those specified in section 7027, \\nsubsection (m).  \\n(2) An explanation of the rights that the CCPA confers on consumers regarding their \\npersonal information, which includes all of the following:  \\nPDF page 23\\nCPPA \\n   \\n \\nPage 23 of 103 \\n\"}],\"rationale\":\"Disclose the sensitive credential category and the stipulated limitation on its uses without claiming an implemented operational control.\"},{\"clause_id\":\"9689ef85-b969-51cd-8dcc-b423dacbc9ed\",\"heading\":\"How long we keep information\",\"body\":\"Identifiers and customer records are retained for the account life plus 30 days after closure, except security IP logs, which are kept for 90 days; documented legal holds may extend those periods. Internet activity is kept for 90 days, then deleted or deidentified, with retained security incidents subject to documented legal hold. Declared city is retained for the account life plus 30 days; coarse IP-derived location for 90 days. Inferred music interests are retained until preferences are reset or until 30 days after account closure. Account credentials are retained until rotation or account closure; revocable session credentials expire within 30 days. Support correspondence is retained for 12 months.\",\"fact_keys\":[\"data_inventory\",\"support_correspondence_retention_months\",\"notice_at_collection_readiness\"],\"legal_refs\":[{\"provision_key\":\"prov_ccpa_notice\",\"source_version_id\":\"a9ca10a1-7b79-585a-aade-7768033f21c7\",\"start_utf16\":0,\"end_utf16\":349,\"quote_text\":\"PDF page 3\\nPage 3 of 66 \\n1798.100. General Duties of Businesses that Collect Personal Information \\n(a) A business that controls the collection of a consumer’s personal information shall, at or \\nbefore the point of collection, inform consumers of the following: \\n(1) The categories of personal information to be collected and the purposes for which \\n\"},{\"provision_key\":\"prov_regs_notice\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":2836,\"end_utf16\":3203,\"quote_text\":\"(b) The Notice at Collection shall comply with section 7003, subsections (a) and (b).  \\n(c) The Notice at Collection shall be made readily available where consumers will encounter it \\nat or before the point of collection of any personal information. Illustrative examples \\nfollow. \\n(1)  When a business collects consumers’ personal information online, it may post a \\n\"}],\"rationale\":\"Replace the indefinite baseline with pinned periods. These policy words do not establish that a separate notice at collection has been implemented; its readiness remains unresolved.\"},{\"clause_id\":\"d38acbf4-c1cc-5eb2-8650-ce5de03c4eda\",\"heading\":\"California privacy rights\",\"body\":\"California consumers may request to know the categories and specific pieces of personal information collected about them, the categories of sources, purposes and disclosure recipients; request deletion, subject to exceptions; and request correction of inaccurate information. They may exercise applicable rights without discriminatory or retaliatory treatment. Because we do not sell or share personal information for cross-context behavioral advertising, a sale/sharing opt-out does not currently apply to our stated practices. Because our sensitive-information uses are limited to the stipulated permitted purposes, a right to limit additional sensitive-information uses does not currently apply.\",\"fact_keys\":[\"does_business_in_california\",\"ordinary_signup_data_nonexempt\",\"sells_personal_information\",\"shares_for_cross_context_behavioral_advertising\",\"spi_only_permitted_purposes\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":5133,\"end_utf16\":5524,\"quote_text\":\"(A) The right to know what personal information the business has collected about \\nthe consumer, including the categories of personal information, the categories \\nof sources from which the personal information is collected, the business or \\ncommercial purpose for collecting, selling, or sharing personal information, the \\ncategories of third parties to whom the business discloses personal \\n\"},{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":5524,\"end_utf16\":5867,\"quote_text\":\"information, and the specific pieces of personal information the business has \\ncollected about the consumer. \\n(B) The right to delete personal information that the business has collected from \\nthe consumer, subject to certain exceptions. \\n(C) The right to correct inaccurate personal information that a business maintains \\nabout a consumer.  \\n\"},{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":5867,\"end_utf16\":6254,\"quote_text\":\"(D) If the business sells or shares personal information, the right to opt-out of the \\nsale or sharing of their personal information by the business. \\n(E) If the business uses or discloses sensitive personal information for reasons \\nother than those set forth in section 7027, subsection (m), the right to limit the \\nuse or disclosure of sensitive personal information by the business. \\n\"},{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":6606,\"end_utf16\":7005,\"quote_text\":\"the CCPA, including when a consumer is an applicant to an educational \\nprogram, a job applicant, a student, an employee, or an independent \\ncontractor. \\n(3) An explanation of how consumers can exercise their CCPA rights and what \\nconsumers can expect from that process, which includes all of the following:  \\n(A) An explanation of the methods by which the consumer can exercise their CCPA \\n\"}],\"rationale\":\"Explain applicable California rights and distinguish conditional rights from the company's pinned practices.\"},{\"clause_id\":\"a84b9e93-a656-5e98-9d5a-d7be19e46954\",\"heading\":\"Submitting and verifying California requests\",\"body\":\"To submit a California privacy request, email privacy@harbor-meridian.example or use /privacy/requests. For an existing account, our stated verification process is to authenticate the account and confirm its email address. If you cannot access an account, the stated process is to match existing records in a manner proportionate to the request. We do not require you to create a new account to make a request. We delete new personal information collected for verification as soon as practical after the request, except records we must retain. These request channels and procedures are specified in a synthetic fixture; their operational readiness must be confirmed before publication.\",\"fact_keys\":[\"exclusively_online\",\"direct_consumer_relationship\",\"consumer_request_email\",\"consumer_request_web_path\",\"consumer_request_methods_readiness\",\"privacy_request_verification_process\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_request_methods\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":0,\"end_utf16\":382,\"quote_text\":\"PDF page 34\\nCPPA \\n   \\n \\nPage 34 of 103 \\nARTICLE 3.  BUSINESS PRACTICES FOR HANDLING CONSUMER REQUESTS \\n§ 7020.  Methods for Submitting Requests to Delete, Requests to Correct, and Requests to \\nKnow. \\n(a) A business that operates exclusively online and has a direct relationship with a consumer \\nfrom whom it collects personal information shall only be required to provide an email \\n\"},{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":7734,\"end_utf16\":8126,\"quote_text\":\"or a link to that notice in accordance with section 7014, subsection (f). \\n(E) A general description of the process the business uses to verify a consumer \\nrequest to know, request to delete, request to correct, and request to access \\nADMT, when applicable, including any information the consumer must \\nprovide. \\n(F) Explanation of how an opt-out preference signal will be processed for the \\n\"}],\"rationale\":\"Supply the pinned contact channels and verification description while explicitly flagging fixture-only operational readiness for human review.\"},{\"clause_id\":\"40f65f82-3391-51bb-8941-23311cab54a5\",\"heading\":\"Authorized agents\",\"body\":\"An authorized agent may submit a California privacy request on your behalf through the request channels above. Our stated process accepts signed permission together with identity verification or direct confirmation from you. We do not require a power of attorney or require you to resubmit the agent's request yourself.\",\"fact_keys\":[\"privacy_request_verification_process\",\"consumer_request_email\",\"consumer_request_web_path\",\"consumer_request_methods_readiness\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":8481,\"end_utf16\":8824,\"quote_text\":\"the business to process in a frictionless manner. \\n(H) Instructions on how an authorized agent can make a request under the CCPA \\non the consumer’s behalf. \\n(I) If the business has actual knowledge that it sells the personal information of \\nconsumers under 16 years of age, a description of the processes required by \\nsections 7070 and 7071. \\n\"}],\"rationale\":\"Provide agent instructions grounded in the stipulated request process; verify channel operation before publication.\"},{\"clause_id\":\"784f3762-3d89-573e-a0f0-fb3b27e2e430\",\"heading\":\"Opt-out preference signals\",\"body\":\"We do not sell personal information or share it for cross-context behavioral advertising. An opt-out preference signal therefore has no current sale or sharing to stop for a device, browser, account or offline activity. If these practices change, this disclosure and applicable signal processing must be reviewed before the change takes effect. This statement does not claim that a particular signal-processing mechanism has been tested or deployed.\",\"fact_keys\":[\"sells_personal_information\",\"shares_for_cross_context_behavioral_advertising\",\"third_party_advertising_trackers\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":7734,\"end_utf16\":8126,\"quote_text\":\"or a link to that notice in accordance with section 7014, subsection (f). \\n(E) A general description of the process the business uses to verify a consumer \\nrequest to know, request to delete, request to correct, and request to access \\nADMT, when applicable, including any information the consumer must \\nprovide. \\n(F) Explanation of how an opt-out preference signal will be processed for the \\n\"},{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":8126,\"end_utf16\":8481,\"quote_text\":\"consumer (i.e., whether the signal applies to the device, browser, consumer \\naccount, and/or offline sales, and in what circumstances) and how the \\nconsumer can use an opt-out preference signal. \\n(G) If the business processes opt-out preference signals in a frictionless manner, \\ninformation on how consumers can implement opt-out preference signals for \\n\"}],\"rationale\":\"Describe present applicability without asserting unverified signal-processing compliance.\"},{\"clause_id\":\"de59121d-08a5-5e6b-a801-c2899e8ebcb0\",\"heading\":\"Policy updates\",\"body\":\"Last updated: September 1, 2026 (existing published policy; replace with the actual approval and publication date when this revision is issued). We may update this policy and will post the updated version here. For material changes to information practices, the stated notice method is an account email before the change takes effect. That email-notice procedure is specified only in a synthetic fixture and must be operationally confirmed before publication.\",\"fact_keys\":[\"baseline_policy_last_updated\",\"material_policy_change_notice\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":8824,\"end_utf16\":9160,\"quote_text\":\"(J) A contact for questions or concerns about the business’s privacy policies and \\ninformation practices using a method reflecting the manner in which the \\nbusiness primarily interacts with the consumer.  \\n(4) Date the privacy policy was last updated.  \\n(5) If subject to the data reporting requirements set forth in section 7102, the \\n\"}],\"rationale\":\"Retain the only verified last-update date rather than inventing a publication date; flag proposed change-notice readiness.\"},{\"clause_id\":\"06aee531-095d-531b-bb20-4afc8ceba2e2\",\"heading\":\"Contact\",\"body\":\"For questions or concerns about this policy or our information practices, email privacy@harbor-meridian.example. California privacy requests may also be submitted at /privacy/requests, subject to confirmation that the fixture-specified channel is operational before this revision is published.\",\"fact_keys\":[\"consumer_request_email\",\"consumer_request_web_path\",\"consumer_request_methods_readiness\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":8824,\"end_utf16\":9160,\"quote_text\":\"(J) A contact for questions or concerns about the business’s privacy policies and \\ninformation practices using a method reflecting the manner in which the \\nbusiness primarily interacts with the consumer.  \\n(4) Date the privacy policy was last updated.  \\n(5) If subject to the data reporting requirements set forth in section 7102, the \\n\"}],\"rationale\":\"Retain the known privacy email and distinguish a proposed request path from an operationally verified channel.\"}]}",
+        "codes": [
+          "CITATION_SPAN_MISMATCH"
+        ],
+        "harness_version": 1,
+        "test_only_fault_injected": false,
+        "created_at": "2026-09-26T20:22:34.189Z"
+      }
+    },
+    {
+      "key": "1:model_output_failure:3fc932d2-262a-42fd-bb44-ea30da99bb7e",
+      "hash": "7417861d2a2b109c68d98d26ee68c681423994cd7ecf186469b5a55c67f3a7c5",
+      "result": {
+        "kind": "model_output_failure",
+        "failure_id": "3fc932d2-262a-42fd-bb44-ea30da99bb7e",
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "event_id": "a8e8ec90-047e-4266-b7cd-b640108f4b7b",
+        "run_id": "b0797bca-f29c-4e99-973a-419f675561c7",
+        "response_id": "resp_0c477805d738edb8016ab8298d1a8c87d2beec038dae99c666",
+        "output_hash": "e967926c2d46a07e04123564cf7ae135ee207941b7efa676d80eb9caaeb5c350",
+        "output_json": "{\"changes\":[]}",
+        "codes": [
+          "PROPOSAL_REQUIRED"
+        ],
+        "harness_version": 1,
+        "test_only_fault_injected": false,
+        "created_at": "2026-09-26T20:22:42.466Z"
+      }
+    },
+    {
+      "key": "1:model_output_failure:b40d0731-e64f-43d8-9a4f-934fc0218cf9",
+      "hash": "278cfed7b14ea41b5e62f8f3b9b71822de60c4ccbc11f9df2e1d62268b5cb49a",
+      "result": {
+        "kind": "model_output_failure",
+        "failure_id": "b40d0731-e64f-43d8-9a4f-934fc0218cf9",
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "event_id": "a8e8ec90-047e-4266-b7cd-b640108f4b7b",
+        "run_id": "4b518489-5071-4388-af04-62f4cc6d78ed",
+        "response_id": "resp_09c97106c12107cd016ab82aeef64087d2ae2f9addbb130edc",
+        "output_hash": "5d4c5e783c21eb389600c51c65e2547ea348f344c6ad62674efaa49f2921bd65",
+        "output_json": "{\"changes\":[{\"clause_id\":\"dcac8a94-e1b2-59ec-84c1-7400e5230938\",\"heading\":\"Information we collect and where it comes from\",\"body\":\"We collect these categories of personal information: identifiers (name, email, postal address, account ID and IP address) directly from you and through device interaction; customer records information (name and postal address) directly from you; internet or other electronic network activity (event views and searches) through device interaction; geolocation information (declared city and coarse IP-derived city) directly from you and through device interaction; inferences (music interests inferred from saved event categories) from your first-party interactions; and sensitive personal information (account login combined with access credentials) directly from you.\",\"fact_keys\":[\"data_inventory\",\"account_credentials_collected\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":2176,\"end_utf16\":2562,\"quote_text\":\"collected about consumers in the preceding 12 months. The categories shall be \\ndescribed using the specific terms set forth in Civil Code section 1798.140, \\nsubdivisions (v)(1)(A) – (K) and (ae)(1) – (2). To the extent that the business has \\ndiscretion in its description, the business shall describe the category in a \\nmanner that provides consumers a meaningful understanding of the \\n\"},{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":2562,\"end_utf16\":2953,\"quote_text\":\"information being collected.  \\nPDF page 22\\nCPPA \\n   \\n \\nPage 22 of 103 \\n(B) Identification of the categories of sources from which the personal information \\nis collected. The categories shall be described in a manner that provides \\nconsumers a meaningful understanding of where the information is collected. \\n(C)  Identification of the specific business or commercial purpose for collecting \\n\"}],\"rationale\":\"Replaces the incomplete category list with the known inventory and sources; does not assert collection for a full preceding 12 months.\"},{\"clause_id\":\"4c79b519-e7d5-5182-a92d-e20124237e0d\",\"heading\":\"How we use information\",\"body\":\"We use identifiers to create and service accounts, deliver selected local event recommendations and protect security; customer records information to service accounts and user-selected regions; activity information to operate discovery, diagnose errors and improve first-party recommendations; declared or coarse city information to localize discovery; inferences for first-party event recommendations; and login credentials to authenticate requested accounts and protect account security.\",\"fact_keys\":[\"data_inventory\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":2953,\"end_utf16\":3285,\"quote_text\":\"personal information from consumers. The purpose shall be described in a \\nmanner that provides consumers a meaningful understanding of why the \\ninformation is collected. \\n(D) Identification of the categories of personal information, if any, that the \\nbusiness has sold or shared to third parties in the preceding 12 months. If the \\n\"}],\"rationale\":\"States the specific uses supplied in the inventory.\"},{\"clause_id\":\"016bb052-b08f-5208-884b-3343949680f1\",\"heading\":\"Disclosures, sales and sharing\",\"body\":\"For the business purposes described above, we disclose identifiers to hosting and transactional email service providers; customer records information, geolocation information and inferences to hosting service providers; activity information to hosting and restricted first-party analytics service providers; and account login credentials to an authentication service provider. We do not sell personal information or share it for cross-context behavioral advertising. Accordingly, we have no categories of personal information sold or shared, or corresponding third-party recipients, to list for the preceding 12 months. We do not have actual knowledge that we sell or share the personal information of consumers under 16.\",\"fact_keys\":[\"data_inventory\",\"vendor_contracts_status\",\"sells_personal_information\",\"shares_for_cross_context_behavioral_advertising\",\"actual_knowledge_under16\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":4015,\"end_utf16\":4397,\"quote_text\":\"(G) A statement regarding whether the business has actual knowledge that it sells \\nor shares the personal information of consumers under 16 years of age.  \\n(H) Identification of the categories of personal information, if any, that the \\nbusiness has disclosed to a service provider or contractor for a business \\npurpose in the preceding 12 months. If the business has not disclosed \\n\"},{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":3285,\"end_utf16\":3656,\"quote_text\":\"business has not sold or shared consumers’ personal information in the \\npreceding 12 months, the business shall disclose that fact. \\n(E) For each category of personal information identified in subsection (e)(1)(D), \\nthe categories of third parties to whom the information was sold or shared. \\nThe categories of third parties shall be described in a manner that provides \\n\"}],\"rationale\":\"Identifies inventory-based business-purpose recipients and distinguishes those disclosures from sale or advertising sharing.\"},{\"clause_id\":\"d7dc353b-161d-596a-a504-2f3de8d7cfb0\",\"heading\":\"Sensitive personal information\",\"body\":\"Account login combined with access credentials is sensitive personal information. We use it to authenticate your requested account and protect account security. We do not use or disclose sensitive personal information for purposes beyond the permitted purposes described in the California regulations; on these stated practices, a right to limit such additional uses does not apply.\",\"fact_keys\":[\"account_credentials_collected\",\"data_inventory\",\"spi_only_permitted_purposes\"],\"legal_refs\":[{\"provision_key\":\"prov_ccpa_sensitive\",\"source_version_id\":\"a9ca10a1-7b79-585a-aade-7768033f21c7\",\"start_utf16\":743,\"end_utf16\":1100,\"quote_text\":\"number in combination with any required security or access code, password, or \\ncredentials allowing access to an account. \\n(C) A consumer’s precise geolocation. \\n(D) A consumer’s racial or ethnic origin, citizenship or immigration status, religious \\nor philosophical beliefs, or union membership. \\n(E) The contents of a consumer’s mail, email, and text mess\"},{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":4774,\"end_utf16\":5133,\"quote_text\":\"(J) A statement regarding whether the business uses or discloses sensitive \\npersonal information for purposes other than those specified in section 7027, \\nsubsection (m).  \\n(2) An explanation of the rights that the CCPA confers on consumers regarding their \\npersonal information, which includes all of the following:  \\nPDF page 23\\nCPPA \\n   \\n \\nPage 23 of 103 \\n\"}],\"rationale\":\"Discloses the known credential category and stipulated limits on its use.\"},{\"clause_id\":\"9689ef85-b969-51cd-8dcc-b423dacbc9ed\",\"heading\":\"How long we keep information\",\"body\":\"We retain identifiers and customer records information for the account's life plus 30 days after closure; security IP logs for 90 days; activity information for 90 days, after which it is deleted or deidentified; declared city for the account's life plus 30 days and coarse IP-derived location for 90 days; and inferred interests until preferences are reset or account closure plus 30 days. We retain login credentials until credential rotation or account closure; revocable session credentials expire within 30 days. Documented legal holds can extend the stated periods for identifiers, customer records and retained security incidents. Support correspondence is retained for 12 months.\",\"fact_keys\":[\"data_inventory\",\"support_correspondence_retention_months\"],\"legal_refs\":[{\"provision_key\":\"prov_ccpa_notice\",\"source_version_id\":\"a9ca10a1-7b79-585a-aade-7768033f21c7\",\"start_utf16\":1290,\"end_utf16\":1550,\"quote_text\":\"information was collected without providing the consumer with notice consistent \\nwith this section. \\n(3) The length of time the business intends to retain each category of personal \\ninformation, including sensitive personal information, or if that is not possi\"}],\"rationale\":\"Sets out known category-specific retention periods; the separate notice-at-collection readiness remains unresolved and is not represented as complete.\"},{\"clause_id\":\"d38acbf4-c1cc-5eb2-8650-ce5de03c4eda\",\"heading\":\"California privacy rights\",\"body\":\"California consumers may request to know the categories and specific pieces of personal information collected about them, the sources, purposes and recipient categories; request deletion of personal information, subject to applicable exceptions; and request correction of inaccurate personal information. They may exercise applicable rights without retaliation. A right to opt out of sale or cross-context behavioral advertising sharing applies if those practices occur; we currently do neither.\",\"fact_keys\":[\"ordinary_signup_data_nonexempt\",\"sells_personal_information\",\"shares_for_cross_context_behavioral_advertising\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":5524,\"end_utf16\":5867,\"quote_text\":\"information, and the specific pieces of personal information the business has \\ncollected about the consumer. \\n(B) The right to delete personal information that the business has collected from \\nthe consumer, subject to certain exceptions. \\n(C) The right to correct inaccurate personal information that a business maintains \\nabout a consumer.  \\n\"},{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":5867,\"end_utf16\":6254,\"quote_text\":\"(D) If the business sells or shares personal information, the right to opt-out of the \\nsale or sharing of their personal information by the business. \\n(E) If the business uses or discloses sensitive personal information for reasons \\nother than those set forth in section 7027, subsection (m), the right to limit the \\nuse or disclosure of sensitive personal information by the business. \\n\"}],\"rationale\":\"Explains the applicable consumer rights without suggesting an opt-out from a practice that the known facts say does not occur.\"},{\"clause_id\":\"a84b9e93-a656-5e98-9d5a-d7be19e46954\",\"heading\":\"Submitting and verifying California requests\",\"body\":\"To submit a request to know, delete or correct, email rights@harbor-meridian.example or use /privacy/requests. For an existing account, our stated verification process is to authenticate you and confirm the account email. If you cannot access an account, it is to match information against existing records in proportion to the request; you need not create a new account. Information newly collected for verification is deleted as soon as practical after the request, except records that must be retained. These request channels and processes are identified in the company record as synthetic-fixture-only; their operational readiness requires review before publication.\",\"fact_keys\":[\"exclusively_online\",\"direct_consumer_relationship\",\"consumer_request_email\",\"consumer_request_web_path\",\"consumer_request_methods_readiness\",\"privacy_request_verification_process\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_request_methods\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":382,\"end_utf16\":700,\"quote_text\":\"address for submitting requests to delete, requests to correct, and requests to know.  \\n(b) A business that does not fit the description in subsection (a) shall provide two or more \\ndesignated methods for submitting requests to delete, requests to correct, and requests \\nto know. One of those methods must be a toll-fr\"},{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":7734,\"end_utf16\":8126,\"quote_text\":\"or a link to that notice in accordance with section 7014, subsection (f). \\n(E) A general description of the process the business uses to verify a consumer \\nrequest to know, request to delete, request to correct, and request to access \\nADMT, when applicable, including any information the consumer must \\nprovide. \\n(F) Explanation of how an opt-out preference signal will be processed for the \\n\"}],\"rationale\":\"Provides the stipulated channels and verification description while explicitly flagging that policy text cannot establish operational readiness.\"},{\"clause_id\":\"3618409a-546d-57ed-976d-10114cd85254\",\"heading\":\"Authorized agents\",\"body\":\"An authorized agent may submit a California privacy request on your behalf through rights@harbor-meridian.example or /privacy/requests. Our stated process asks for signed permission and verification of your identity or direct confirmation from you. It does not require you to resubmit the request or require a power of attorney in every case. The request channels and process require operational confirmation before publication.\",\"fact_keys\":[\"privacy_request_verification_process\",\"consumer_request_email\",\"consumer_request_web_path\",\"consumer_request_methods_readiness\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":8315,\"end_utf16\":8638,\"quote_text\":\"gnal. \\n(G) If the business processes opt-out preference signals in a frictionless manner, \\ninformation on how consumers can implement opt-out preference signals for \\nthe business to process in a frictionless manner. \\n(H) Instructions on how an authorized agent can make a request under the CCPA \\non the consumer’s behalf. \\n\"}],\"rationale\":\"Gives agents a submission route and describes only the stipulated permission and verification steps.\"},{\"clause_id\":\"784f3762-3d89-573e-a0f0-fb3b27e2e430\",\"heading\":\"Opt-out preference signals\",\"body\":\"We do not currently sell personal information or share it for cross-context behavioral advertising. Consequently, an opt-out preference signal does not currently change our handling of information, whether associated with a device, browser or account; we have no offline sales to which it would apply. This description must be revisited if these practices change.\",\"fact_keys\":[\"sells_personal_information\",\"shares_for_cross_context_behavioral_advertising\",\"exclusively_online\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":7734,\"end_utf16\":8126,\"quote_text\":\"or a link to that notice in accordance with section 7014, subsection (f). \\n(E) A general description of the process the business uses to verify a consumer \\nrequest to know, request to delete, request to correct, and request to access \\nADMT, when applicable, including any information the consumer must \\nprovide. \\n(F) Explanation of how an opt-out preference signal will be processed for the \\n\"}],\"rationale\":\"Explains current applicability without claiming to have tested signal-processing behavior.\"},{\"clause_id\":\"de59121d-08a5-5e6b-a801-c2899e8ebcb0\",\"heading\":\"Policy updates\",\"body\":\"Last updated: September 1, 2026. We may update this policy as our service changes and will post an updated version here. Our stated plan is to notify account holders by email before a material change to information practices takes effect; that notification mechanism is marked synthetic-fixture-only and must be confirmed before publication.\",\"fact_keys\":[\"baseline_policy_last_updated\",\"material_policy_change_notice\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":9030,\"end_utf16\":9412,\"quote_text\":\"(4) Date the privacy policy was last updated.  \\n(5) If subject to the data reporting requirements set forth in section 7102, the \\ninformation required under section 7102, or a link to that information. \\nNote: Authority cited: Section 1798.185, Civil Code. Reference: Sections 1798.100, 1798.105, 1798.106, 1798.110, 1798.115, 1798.120, 1798.121, 1798.125, 1798.130, 1798.135, and \\n\"}],\"rationale\":\"Retains the verified baseline update date rather than inventing an approval or publication date.\"},{\"clause_id\":\"06aee531-095d-531b-bb20-4afc8ceba2e2\",\"heading\":\"Contact\",\"body\":\"For privacy questions or concerns, contact privacy@harbor-meridian.example. To submit a California consumer privacy request, use the dedicated rights inbox at rights@harbor-meridian.example or /privacy/requests. The request channels are synthetic-fixture-only and need operational confirmation before publication.\",\"fact_keys\":[\"consumer_request_email\",\"consumer_request_web_path\",\"consumer_request_methods_readiness\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":8638,\"end_utf16\":9030,\"quote_text\":\"(I) If the business has actual knowledge that it sells the personal information of \\nconsumers under 16 years of age, a description of the processes required by \\nsections 7070 and 7071. \\n(J) A contact for questions or concerns about the business’s privacy policies and \\ninformation practices using a method reflecting the manner in which the \\nbusiness primarily interacts with the consumer.  \\n\"}],\"rationale\":\"Preserves the baseline privacy contact and distinguishes it from the verified dedicated rights inbox.\"}]}",
+        "codes": [
+          "CITATION_SPAN_MISMATCH"
+        ],
+        "harness_version": 1,
+        "test_only_fault_injected": false,
+        "created_at": "2026-09-26T20:29:12.543Z"
+      }
+    },
+    {
+      "key": "1:model_output_failure:4b530b73-7597-43f6-bec1-e526bbb9321d",
+      "hash": "cd9a8d72da5a5ccc10a75a5b73a5fd4f833a65da2593127532aa63f190afcab7",
+      "result": {
+        "kind": "model_output_failure",
+        "failure_id": "4b530b73-7597-43f6-bec1-e526bbb9321d",
+        "workflow_id": "0d3469bf-b119-42b0-9950-0fe383ebd201",
+        "event_id": "a8e8ec90-047e-4266-b7cd-b640108f4b7b",
+        "run_id": "4b518489-5071-4388-af04-62f4cc6d78ed",
+        "response_id": "resp_09c97106c12107cd016ab82b1ddc0487d2b326ca33becefedd",
+        "output_hash": "7b598775746e4f5c3c1eb18296567f94504355133580fc1cb427cfd910d9826f",
+        "output_json": "{\"changes\":[{\"clause_id\":\"dcac8a94-e1b2-59ec-84c1-7400e5230938\",\"heading\":\"Information we collect and its sources\",\"body\":\"We collect identifiers (name, email, postal address, account ID and IP address) directly from you and through device interaction; customer records information (name and postal address) directly from you; internet or other electronic network activity (event views and searches) through device interaction; geolocation information (declared city and coarse IP-derived city) directly from you and through device interaction; inferences (music interests inferred from saved event categories) from first-party interactions; and sensitive personal information (account login combined with access credentials) directly from you.\",\"fact_keys\":[\"data_inventory\",\"account_credentials_collected\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":2176,\"end_utf16\":2562,\"quote_text\":\"collected about consumers in the preceding 12 months. The categories shall be \\ndescribed using the specific terms set forth in Civil Code section 1798.140, \\nsubdivisions (v)(1)(A) – (K) and (ae)(1) – (2). To the extent that the business has \\ndiscretion in its description, the business shall describe the category in a \\nmanner that provides consumers a meaningful understanding of the \\n\"}],\"rationale\":\"Uses the known inventory to identify categories, examples and sources.\"},{\"clause_id\":\"4c79b519-e7d5-5182-a92d-e20124237e0d\",\"heading\":\"How we use information\",\"body\":\"We use identifiers to create and service accounts, deliver selected local event recommendations and protect security; customer records information to service accounts and user-selected regions; activity information to operate discovery, diagnose errors and improve first-party recommendations; declared or coarse city information to localize discovery; inferences for first-party event recommendations; and login credentials to authenticate requested accounts and protect account security.\",\"fact_keys\":[\"data_inventory\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":2953,\"end_utf16\":3285,\"quote_text\":\"personal information from consumers. The purpose shall be described in a \\nmanner that provides consumers a meaningful understanding of why the \\ninformation is collected. \\n(D) Identification of the categories of personal information, if any, that the \\nbusiness has sold or shared to third parties in the preceding 12 months. If the \\n\"}],\"rationale\":\"Identifies the recorded purposes for each category.\"},{\"clause_id\":\"016bb052-b08f-5208-884b-3343949680f1\",\"heading\":\"Disclosures, sales and sharing\",\"body\":\"For the business purposes described above, we disclose identifiers to hosting and transactional email service providers; customer records information, geolocation information and inferences to hosting service providers; activity information to hosting and restricted first-party analytics service providers; and login credentials to an authentication service provider. We do not sell personal information or share it for cross-context behavioral advertising. We have no categories of personal information sold or shared, or corresponding third-party recipients, to list for the preceding 12 months. We do not have actual knowledge that we sell or share the personal information of consumers under 16.\",\"fact_keys\":[\"data_inventory\",\"vendor_contracts_status\",\"sells_personal_information\",\"shares_for_cross_context_behavioral_advertising\",\"actual_knowledge_under16\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":4015,\"end_utf16\":4397,\"quote_text\":\"(G) A statement regarding whether the business has actual knowledge that it sells \\nor shares the personal information of consumers under 16 years of age.  \\n(H) Identification of the categories of personal information, if any, that the \\nbusiness has disclosed to a service provider or contractor for a business \\npurpose in the preceding 12 months. If the business has not disclosed \\n\"},{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":3285,\"end_utf16\":3656,\"quote_text\":\"business has not sold or shared consumers’ personal information in the \\npreceding 12 months, the business shall disclose that fact. \\n(E) For each category of personal information identified in subsection (e)(1)(D), \\nthe categories of third parties to whom the information was sold or shared. \\nThe categories of third parties shall be described in a manner that provides \\n\"}],\"rationale\":\"Distinguishes the inventory’s business-purpose recipients from the stipulated absence of sales and advertising sharing.\"},{\"clause_id\":\"d7dc353b-161d-596a-a504-2f3de8d7cfb0\",\"heading\":\"Sensitive personal information\",\"body\":\"Account login combined with access credentials is sensitive personal information. We use it to authenticate your requested account and protect account security. We do not use or disclose sensitive personal information for purposes beyond the permitted purposes described in the California regulations; on these stated practices, a right to limit additional uses does not apply.\",\"fact_keys\":[\"account_credentials_collected\",\"data_inventory\",\"spi_only_permitted_purposes\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":4774,\"end_utf16\":5133,\"quote_text\":\"(J) A statement regarding whether the business uses or discloses sensitive \\npersonal information for purposes other than those specified in section 7027, \\nsubsection (m).  \\n(2) An explanation of the rights that the CCPA confers on consumers regarding their \\npersonal information, which includes all of the following:  \\nPDF page 23\\nCPPA \\n   \\n \\nPage 23 of 103 \\n\"}],\"rationale\":\"Describes the known credential category and stipulated purposes without claiming operational verification.\"},{\"clause_id\":\"9689ef85-b969-51cd-8dcc-b423dacbc9ed\",\"heading\":\"How long we keep information\",\"body\":\"We retain identifiers and customer records information for the account’s life plus 30 days after closure; security IP logs for 90 days; activity information for 90 days, after which it is deleted or deidentified; declared city for the account’s life plus 30 days and coarse IP-derived location for 90 days; and inferred interests until preferences are reset or account closure plus 30 days. We retain login credentials until credential rotation or account closure; revocable session credentials expire within 30 days. Documented legal holds can extend the stated periods for identifiers, customer records and retained security incidents. Support correspondence is retained for 12 months.\",\"fact_keys\":[\"data_inventory\",\"support_correspondence_retention_months\"],\"legal_refs\":[{\"provision_key\":\"prov_ccpa_notice\",\"source_version_id\":\"a9ca10a1-7b79-585a-aade-7768033f21c7\",\"start_utf16\":1290,\"end_utf16\":1550,\"quote_text\":\"information was collected without providing the consumer with notice consistent \\nwith this section. \\n(3) The length of time the business intends to retain each category of personal \\ninformation, including sensitive personal information, or if that is not possi\"}],\"rationale\":\"States the recorded category-specific periods and qualifications; it does not assert that a separate notice at collection is ready.\"},{\"clause_id\":\"d38acbf4-c1cc-5eb2-8650-ce5de03c4eda\",\"heading\":\"California privacy rights\",\"body\":\"California consumers may request to know the categories and specific pieces of personal information collected about them, its sources and purposes, and recipient categories; request deletion, subject to applicable exceptions; and request correction of inaccurate personal information. They may exercise applicable privacy rights without retaliation. A right to opt out of sale or cross-context behavioral advertising sharing applies if those practices occur; we currently do neither.\",\"fact_keys\":[\"ordinary_signup_data_nonexempt\",\"sells_personal_information\",\"shares_for_cross_context_behavioral_advertising\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":5524,\"end_utf16\":5867,\"quote_text\":\"information, and the specific pieces of personal information the business has \\ncollected about the consumer. \\n(B) The right to delete personal information that the business has collected from \\nthe consumer, subject to certain exceptions. \\n(C) The right to correct inaccurate personal information that a business maintains \\nabout a consumer.  \\n\"},{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":5867,\"end_utf16\":6254,\"quote_text\":\"(D) If the business sells or shares personal information, the right to opt-out of the \\nsale or sharing of their personal information by the business. \\n(E) If the business uses or discloses sensitive personal information for reasons \\nother than those set forth in section 7027, subsection (m), the right to limit the \\nuse or disclosure of sensitive personal information by the business. \\n\"}],\"rationale\":\"Describes rights while distinguishing conditional opt-out rights from current practices.\"},{\"clause_id\":\"a84b9e93-a656-5e98-9d5a-d7be19e46954\",\"heading\":\"Submitting and verifying California requests\",\"body\":\"To submit a request to know, delete or correct, email rights@harbor-meridian.example or use /privacy/requests. For an existing account, our stated verification process is to authenticate you and confirm the account email. If you cannot access an account, it is to match information against existing records in proportion to the request; you need not create a new account. Information newly collected for verification is deleted as soon as practical after the request, except records that must be retained. The request channels are marked synthetic-fixture-only in the company record; their operational readiness needs review before publication.\",\"fact_keys\":[\"exclusively_online\",\"direct_consumer_relationship\",\"consumer_request_email\",\"consumer_request_web_path\",\"consumer_request_methods_readiness\",\"privacy_request_verification_process\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":7005,\"end_utf16\":7346,\"quote_text\":\"(B) Instructions for submitting a request under the CCPA, including any links to an \\nonline request form or portal for making such a request, if offered by the \\nbusiness. \\n(C) If the business sells or shares personal information, and is required to provide a \\nNotice of Right to Opt-out of Sale/Sharing, the contents of the Notice of Right \\n\"},{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":7734,\"end_utf16\":8126,\"quote_text\":\"or a link to that notice in accordance with section 7014, subsection (f). \\n(E) A general description of the process the business uses to verify a consumer \\nrequest to know, request to delete, request to correct, and request to access \\nADMT, when applicable, including any information the consumer must \\nprovide. \\n(F) Explanation of how an opt-out preference signal will be processed for the \\n\"}],\"rationale\":\"Uses the corrected dedicated rights inbox and recorded verification process without asserting operational readiness.\"},{\"clause_id\":\"3618409a-546d-57ed-976d-10114cd85254\",\"heading\":\"Authorized agents\",\"body\":\"An authorized agent may submit a California privacy request on your behalf through rights@harbor-meridian.example or /privacy/requests. Our stated process asks for signed permission and verification of your identity or direct confirmation from you. It does not require you to resubmit the request or require a power of attorney in every case. The request channels and process need operational confirmation before publication.\",\"fact_keys\":[\"privacy_request_verification_process\",\"consumer_request_email\",\"consumer_request_web_path\",\"consumer_request_methods_readiness\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":8315,\"end_utf16\":8638,\"quote_text\":\"gnal. \\n(G) If the business processes opt-out preference signals in a frictionless manner, \\ninformation on how consumers can implement opt-out preference signals for \\nthe business to process in a frictionless manner. \\n(H) Instructions on how an authorized agent can make a request under the CCPA \\non the consumer’s behalf. \\n\"}],\"rationale\":\"Provides agent instructions using the recorded permission and verification requirements.\"},{\"clause_id\":\"784f3762-3d89-573e-a0f0-fb3b27e2e430\",\"heading\":\"Opt-out preference signals\",\"body\":\"We do not currently sell personal information or share it for cross-context behavioral advertising. Consequently, an opt-out preference signal does not currently change our handling of information, whether associated with a device, browser or account; we have no offline sales to which it would apply. We will revisit this description if these practices change.\",\"fact_keys\":[\"sells_personal_information\",\"shares_for_cross_context_behavioral_advertising\",\"exclusively_online\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":7734,\"end_utf16\":8126,\"quote_text\":\"or a link to that notice in accordance with section 7014, subsection (f). \\n(E) A general description of the process the business uses to verify a consumer \\nrequest to know, request to delete, request to correct, and request to access \\nADMT, when applicable, including any information the consumer must \\nprovide. \\n(F) Explanation of how an opt-out preference signal will be processed for the \\n\"}],\"rationale\":\"Explains present applicability without claiming that signal-processing operations have been tested.\"},{\"clause_id\":\"de59121d-08a5-5e6b-a801-c2899e8ebcb0\",\"heading\":\"Policy updates\",\"body\":\"Last updated: September 1, 2026. We may update this policy as our service changes and will post an updated version here. Our stated plan is to notify account holders by email before a material change to information practices takes effect; that notification mechanism is marked synthetic-fixture-only and must be confirmed before publication.\",\"fact_keys\":[\"baseline_policy_last_updated\",\"material_policy_change_notice\"],\"legal_refs\":[{\"provision_key\":\"prov_ccpa_policy\",\"source_version_id\":\"a9ca10a1-7b79-585a-aade-7768033f21c7\",\"start_utf16\":370,\"end_utf16\":722,\"quote_text\":\"(5) Disclose the following information in its online privacy policy or policies if the \\nbusiness has an online privacy policy or policies and in any California-specific \\ndescription of consumers’ privacy rights, or if the business does not maintain those \\npolicies, on its internet website, and update that information at least once every 12 \\nmonths: \\n\"}],\"rationale\":\"Replaces the rejected citation with an unchanged retrieved chunk. Retains the verified baseline update date rather than inventing a publication date.\"},{\"clause_id\":\"06aee531-095d-531b-bb20-4afc8ceba2e2\",\"heading\":\"Contact\",\"body\":\"For privacy questions or concerns, contact privacy@harbor-meridian.example. To submit a California consumer privacy request, use the dedicated rights inbox at rights@harbor-meridian.example or /privacy/requests. The request channels need operational confirmation before publication.\",\"fact_keys\":[\"consumer_request_email\",\"consumer_request_web_path\",\"consumer_request_methods_readiness\"],\"legal_refs\":[{\"provision_key\":\"prov_regs_policy\",\"source_version_id\":\"98a9f500-1333-5897-82e0-4d870f9aa15f\",\"start_utf16\":8638,\"end_utf16\":9030,\"quote_text\":\"(I) If the business has actual knowledge that it sells the personal information of \\nconsumers under 16 years of age, a description of the processes required by \\nsections 7070 and 7071. \\n(J) A contact for questions or concerns about the business’s privacy policies and \\ninformation practices using a method reflecting the manner in which the \\nbusiness primarily interacts with the consumer.  \\n\"}],\"rationale\":\"Preserves the baseline privacy-question contact and uses the corrected, verified rights inbox for requests.\"}]}",
+        "codes": [
+          "CONTACT_FACT_MISMATCH"
+        ],
+        "harness_version": 1,
+        "test_only_fault_injected": false,
+        "created_at": "2026-09-26T20:29:53.384Z"
+      }
+    }
+  ]
 }

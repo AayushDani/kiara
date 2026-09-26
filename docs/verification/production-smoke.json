@@ -1,0 +1,129 @@
+{
+  "checked_at": "2026-09-26T20:26:33.114Z",
+  "url": "https://kiara-khaki-kappa.vercel.app",
+  "deployed_commit_reported_by_release": "21df116",
+  "deployment_reported_by_release": "dcwwzaqkp",
+  "kind": "public_session_configuration_and_role_smoke",
+  "provider_calls_triggered": 0,
+  "events_submitted": 0,
+  "requests": [
+    {
+      "path": "health",
+      "method": "GET",
+      "status": 200,
+      "error_code": null,
+      "cache_control": "no-store",
+      "vercel_request_id": "iad1::sfo1::k8v5h-1790454393438-46299b0eb433"
+    },
+    {
+      "path": "workspace",
+      "method": "GET",
+      "status": 200,
+      "error_code": null,
+      "cache_control": "no-store",
+      "vercel_request_id": "iad1::sfo1::bvndx-1790454393640-723af1877566"
+    },
+    {
+      "path": "readiness",
+      "method": "GET",
+      "status": 200,
+      "error_code": null,
+      "cache_control": "no-store",
+      "vercel_request_id": "iad1::sfo1::twbsq-1790454393850-b57cd2c1ec5b"
+    },
+    {
+      "path": "operations",
+      "method": "GET",
+      "status": 200,
+      "error_code": null,
+      "cache_control": "no-store",
+      "vercel_request_id": "iad1::sfo1::v6q46-1790454393970-519f251d0a19"
+    },
+    {
+      "path": "session",
+      "method": "POST",
+      "status": 200,
+      "error_code": null,
+      "cache_control": "no-store",
+      "vercel_request_id": "iad1::sfo1::mnk9g-1790454394164-7cf025b2b478"
+    },
+    {
+      "path": "workspace",
+      "method": "GET",
+      "status": 200,
+      "error_code": null,
+      "cache_control": "no-store",
+      "vercel_request_id": "iad1::sfo1::fmn64-1790454394360-fa5b59960904"
+    },
+    {
+      "path": "session",
+      "method": "POST",
+      "status": 200,
+      "error_code": null,
+      "cache_control": "no-store",
+      "vercel_request_id": "iad1::sfo1::n8brw-1790454394534-2578d44d23de"
+    },
+    {
+      "path": "workspace",
+      "method": "GET",
+      "status": 200,
+      "error_code": null,
+      "cache_control": "no-store",
+      "vercel_request_id": "iad1::sfo1::znrbj-1790454394702-9cad136f36be"
+    },
+    {
+      "path": "workspace",
+      "method": "GET",
+      "status": 200,
+      "purpose": "cookie_attribute_verification"
+    }
+  ],
+  "passed": true,
+  "health": "ok",
+  "configuration": {
+    "auth_mode": "public_demo",
+    "worker_mode": "vercel_workflow",
+    "persistence": "mongodb",
+    "model_adapter": "openai",
+    "model": "gpt-6-sol",
+    "reasoning_effort": "low",
+    "email": "preview",
+    "provider_ready": true,
+    "credential_configured": true,
+    "review_model": "gpt-6-sol",
+    "configured_budget_usd": 50,
+    "shared_budget": {
+      "budget_usd": 50,
+      "spent_usd": 1.94108,
+      "reserved_usd": 0.133812,
+      "unknown_charges": 0,
+      "inflight": 1,
+      "request_count": 59,
+      "scope": "all_visitors_and_evaluations"
+    }
+  },
+  "fresh_workspace": {
+    "workflow_count": 0,
+    "completed_provider_requests": 0,
+    "provider_execution_verified": false
+  },
+  "role_switches": [
+    {
+      "requested": "lawyer",
+      "observed": "lawyer",
+      "same_visitor_workspace": true
+    },
+    {
+      "requested": "founder",
+      "observed": "founder",
+      "same_visitor_workspace": true
+    }
+  ],
+  "provider_key_like_values_exposed": 0,
+  "session_cookie_flags": {
+    "http_only": true,
+    "secure": true,
+    "same_site_strict": true,
+    "root_path": true
+  }
+}

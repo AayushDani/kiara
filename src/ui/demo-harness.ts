@@ -4,12 +4,12 @@ export type StepStatus = 'waiting' | 'active' | 'complete' | 'blocked' | 'skippe
 export interface HarnessStep { id: string; title: string; detail: string; status: StepStatus }
 
 /** A projection of the current persisted generation, never a playback timer. */
-export function harnessSteps(workflow?: Workflow): HarnessStep[] {
+export function harnessSteps(workflow?: Workflow, configuredModel: 'scripted' | 'openai' = 'scripted'): HarnessStep[] {
   const steps: HarnessStep[] = [
     { id: 'signal', title: 'Notice the change', detail: 'A synthetic signup starts the review.', status: 'waiting' },
     { id: 'context', title: 'Gather the context', detail: 'Company facts, current policy, and retained legal sources.', status: 'waiting' },
     { id: 'assessment', title: 'Check applicability', detail: 'Assess the explicit company facts against legal criteria.', status: 'waiting' },
-    { id: 'draft', title: 'Prepare a policy update', detail: 'Scripted wording with clause-level evidence.', status: 'waiting' },
+    { id: 'draft', title: 'Prepare a policy update', detail: (workflow?.model_mode || configuredModel) === 'openai' ? 'AI-generated wording with clause-level evidence.' : 'Scripted wording with clause-level evidence.', status: 'waiting' },
     { id: 'validation', title: 'Validate & repair', detail: 'Check evidence and citations before human review.', status: 'waiting' },
     { id: 'approval', title: 'Put people in control', detail: 'Founder approval, then lawyer approval of the same packet.', status: 'waiting' },
   ];

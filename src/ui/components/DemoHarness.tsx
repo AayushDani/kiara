@@ -17,7 +17,7 @@ interface Props {
 
 export default function DemoHarness({ state, workflow, readiness, completed, operations }: Props) {
   const [view, setView] = useState<'execution' | 'snapshot'>('execution');
-  const steps = harnessSteps(workflow);
+  const steps = harnessSteps(workflow, readiness.model);
   const events = state.events.filter(e => workflow && e.workflow_id === workflow.workflow_id);
   const running = !!workflow && processingStates.has(workflow.state);
   const snapshot = JSON.stringify(harnessSnapshot(state, workflow), null, 2).split('\n');

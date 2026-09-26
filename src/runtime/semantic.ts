@@ -5,8 +5,9 @@ import {hash} from '../server/hash';
 
 /** Full prior text plus an exact candidate delta: no unchanged clause is sent twice. */
 export function semanticDocumentPacket(base:Revision,candidate:Revision){
-  const {clauses,...metadata}=candidate;
-  return {baseline:base,candidate_delta:{metadata,clause_order:clauses.map(c=>c.clause_id),clause_patches:clauses.filter(c=>{const before=base.clauses.find(b=>b.clause_id===c.clause_id);return !before||hash(before)!==hash(c);}),removed_clause_ids:base.clauses.filter(b=>!clauses.some(c=>c.clause_id===b.clause_id)).map(c=>c.clause_id)},reconstruction:'Start with baseline clauses, replace/add every candidate_delta.clause_patches entry, remove removed_clause_ids, then order by clause_order. Candidate metadata supplies the other revision fields. This reconstructs the complete candidate without altering any text.'};
+  const {clauses}=candidate;
+  const document=(r:Revision)=>({document_id:r.document_id,title:r.title,policy_updated_on:r.policy_updated_on});
+  return {baseline:{...document(base),clauses:base.clauses},candidate_delta:{metadata:document(candidate),clause_order:clauses.map(c=>c.clause_id),clause_patches:clauses.filter(c=>{const before=base.clauses.find(b=>b.clause_id===c.clause_id);return !before||hash(before)!==hash(c);}),removed_clause_ids:base.clauses.filter(b=>!clauses.some(c=>c.clause_id===b.clause_id)).map(c=>c.clause_id)},reconstruction:'Start with baseline clauses, replace/add every candidate_delta.clause_patches entry, remove removed_clause_ids, then order by clause_order. Metadata supplies document title and date. This reconstructs all document business/legal text exactly. Citation proof bindings and internal IDs remain in the separate deterministic validator and immutable audit, and are not repeated in this semantic text projection.'};
 }
 export interface SemanticBatch {authorities:Provision[];request:ResponseCreateParamsNonStreaming;input_tokens:number;request_hash:string}
 /** Byte weights only choose batches. Exact provider counts are mandatory and reused for dispatch. */
