@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-09-26T20:35:01.580Z",
+  "checked_at": "2026-09-26T20:45:02.374Z",
   "url": "https://kiara-khaki-kappa.vercel.app",
   "evidence_source": "Read-only Atlas aggregation scoped to the exact workflow ID before projecting records",
   "workflow": {
@@ -10,37 +10,203 @@
     "model_mode": "openai",
     "scenario": "covered",
     "created_at": "2026-09-26T20:29:15.544Z",
-    "updated_at": "2026-09-26T20:34:39.187Z",
+    "updated_at": "2026-09-26T20:42:48.789Z",
     "harness_version": 1,
     "context_epoch": 1,
     "base_revision_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
-    "candidate_revision_id": "98ea9c12-61c9-49f1-962b-ddd19b107a92",
+    "candidate_revision_id": "bb595b31-97e3-48d2-b55a-fed566533bfe",
     "bundle_hash": null,
-    "failure": "MODEL_BUDGET_EXHAUSTED",
-    "model_attempts": 9,
+    "failure": "REPAIR_LIMIT_REACHED",
+    "model_attempts": 14,
     "repair_count": 2,
-    "input_tokens": 128622,
-    "output_tokens": 12748,
-    "cost_usd": 0.384724,
-    "reserved_usd": 0,
-    "unknown_charge": false
+    "input_tokens": 220981,
+    "output_tokens": 17468,
+    "cost_usd": 0.616642,
+    "unknown_charge": false,
+    "reserved_usd": 0
   },
   "runs": [
+    {
+      "run_id": "ad56669f-6a1f-435c-b9aa-ca38e35784e7",
+      "parent_run_id": "c0cdcee9-d380-4858-af6d-667c4845df52",
+      "model": "gpt-6-sol",
+      "reasoning_effort": "low",
+      "started_at": "2026-09-26T20:41:22.447Z",
+      "deadline_at": "2026-09-26T20:45:22.447Z",
+      "config_version": "50039d676bba9f8afa369940271a66b980b6fa4131ccb84d65612cbd09588c02",
+      "attempts": [
+        {
+          "attempt_id": "74cf662c-2e49-429a-8c92-9ecae22b201a",
+          "phase": "semantic_validation",
+          "status": "complete",
+          "execution_mode": "provider",
+          "provider_request_id": "req_f380402f763b46959352019e67d4ceae",
+          "model": "gpt-6-sol",
+          "input_tokens": 19726,
+          "output_tokens": 413,
+          "cost_usd": 0.043582,
+          "duration_ms": 7020,
+          "error_code": null,
+          "request_hash": "e7e00a46aa59aeaf215227bda6bd8f6b0c5f528f5f228848bcd02fd131eae783",
+          "output_hash": "fa93c6c3fd3fbfa738063e94a478aa58eccdeb6122851bf32850bc2fca9dd1f1",
+          "provider_response_id": "resp_0a0a30bd3c633b27016ab82df8fd8887d0ad3850c756a2189c"
+        },
+        {
+          "attempt_id": "b80ac87a-1097-4ee4-b6e8-9e6efcb32331",
+          "phase": "semantic_validation",
+          "status": "complete",
+          "execution_mode": "provider",
+          "provider_request_id": "req_fe98d97f07b24129af34d0a622b488ca",
+          "model": "gpt-6-sol",
+          "input_tokens": 20351,
+          "output_tokens": 375,
+          "cost_usd": 0.044452,
+          "duration_ms": 7712,
+          "error_code": null,
+          "request_hash": "8ae96245ae5db42662be11a99a37f4c98e32e8917d485a3ca79d882c6799ea4f",
+          "output_hash": "2dc6e3e0de4682abf5d51412c07b91439a38d9bd1d8b656108065a1186c5b3b5",
+          "provider_response_id": "resp_06fb58f8ed75aecf016ab82e00bb9087d0afa54778933db967"
+        },
+        {
+          "attempt_id": "64324fdb-baa9-46e5-a038-f18ef634193f",
+          "phase": "semantic_validation",
+          "status": "complete",
+          "execution_mode": "provider",
+          "provider_request_id": "req_895a8ed2c5e744bf94f8a5f3177353f8",
+          "model": "gpt-6-sol",
+          "input_tokens": 19934,
+          "output_tokens": 365,
+          "cost_usd": 0.043518,
+          "duration_ms": 6814,
+          "error_code": null,
+          "request_hash": "e0c674084562f53271064f0a0cf3036bcac346427c3115812085dc450e0926f9",
+          "output_hash": "4b072da63c2911b1a4d0994a564b7d1ad2a2a0ebc789aafb246d2ca979e77129",
+          "provider_response_id": "resp_0e3006f1770994c0016ab82e092ea487d08b12c3e5a65deec2"
+        },
+        {
+          "attempt_id": "45a351c5-d22f-46ad-847b-917aa8f11e53",
+          "phase": "repair",
+          "status": "complete",
+          "execution_mode": "provider",
+          "provider_request_id": "req_cc7d798cd0164a22a65a12edddfad00b",
+          "model": "gpt-6-sol",
+          "input_tokens": 14296,
+          "output_tokens": 3528,
+          "cost_usd": 0.063872,
+          "duration_ms": 29012,
+          "error_code": null,
+          "request_hash": "69ea9a266cafe857acc4d7abfd762e918c5d5f0ef8274fe11f27c012abbc5ba2",
+          "output_hash": "cacf1359db404bc575219e9076d53ef699e8d3d46b83dfcb01b969b2883cdff6",
+          "provider_response_id": "resp_0393fd8df9b15f67016ab82e28ec5087d098dfe01697977779"
+        },
+        {
+          "attempt_id": "d2d05781-011b-48c9-b8a4-f4b30148bdf5",
+          "phase": "repair",
+          "status": "complete",
+          "execution_mode": "provider",
+          "provider_request_id": "req_adae26f49f074dbbbddcc2ea681375fc",
+          "model": "gpt-6-sol",
+          "input_tokens": 18052,
+          "output_tokens": 39,
+          "cost_usd": 0.036494,
+          "duration_ms": 1618,
+          "error_code": null,
+          "request_hash": "ec0fd4cb7f04624382d2c6af7ef34b1e01756bee2a04c246773550ef1a8e4d1c",
+          "output_hash": "6d722447c4995dbfd388cca20f93667000a1230cebae88aa32b35877dd61769b",
+          "provider_response_id": "resp_0393fd8df9b15f67016ab82e46dbd087d090e1e200aa63d1f1"
+        }
+      ],
+      "tools": []
+    },
+    {
+      "run_id": "baafacfd-8e14-40b8-a056-6ad55fcc7d09",
+      "parent_run_id": null,
+      "model": "gpt-6-sol",
+      "reasoning_effort": "low",
+      "started_at": "2026-09-26T20:29:32.766Z",
+      "deadline_at": "2026-09-26T20:33:32.766Z",
+      "config_version": "be1ae19386de8bf821c18eaeab76d931f78f69ec6f1a86b2b7d3e2714dabc6c2",
+      "attempts": [
+        {
+          "attempt_id": "6988da0d-521b-4379-b578-374fa303fbf9",
+          "phase": "draft",
+          "status": "complete",
+          "execution_mode": "provider",
+          "provider_request_id": "req_f9423fdaf4ee4f2eaff4c67d29a439f2",
+          "model": "gpt-6-sol",
+          "input_tokens": 8813,
+          "output_tokens": 62,
+          "cost_usd": 0.018246,
+          "duration_ms": 5507,
+          "error_code": null,
+          "request_hash": "170c1c095b914fda7192a5f5a52c8175d84390a66df091b3a5c6a84fbabeca91",
+          "output_hash": "5732ccce11c2856165e99574130271f99b4ad51a8aa07a6052402e40d7a8237f",
+          "provider_response_id": "resp_0b053e0ecdc283ed016ab82b2de11887d0a04aa627e171caf3"
+        },
+        {
+          "attempt_id": "23a28da2-a772-46de-9948-d51ea19e0b5d",
+          "phase": "draft",
+          "status": "complete",
+          "execution_mode": "provider",
+          "provider_request_id": "req_14035e9addb947209553f2942b04505a",
+          "model": "gpt-6-sol",
+          "input_tokens": 11814,
+          "output_tokens": 122,
+          "cost_usd": 0.024848,
+          "duration_ms": 2077,
+          "error_code": null,
+          "request_hash": "2208d13ddfe85a34be7742d8cf7b533294315a2387270cc250bc117cab87fa46",
+          "output_hash": "1ec5465f27c4b426f8711643dba8a292a44178d3c469839eb0e93577a530baf6",
+          "provider_response_id": "resp_0b053e0ecdc283ed016ab82b33c9c887d0bb618c7e66aefd9f"
+        },
+        {
+          "attempt_id": "6df5e026-f08f-4589-a5d8-3223a26ca1bd",
+          "phase": "draft",
+          "status": "complete",
+          "execution_mode": "provider",
+          "provider_request_id": "req_78b4f199508d41929c68a75c8ec82bc2",
+          "model": "gpt-6-sol",
+          "input_tokens": 14982,
+          "output_tokens": 4529,
+          "cost_usd": 0.075254,
+          "duration_ms": 42024,
+          "error_code": null,
+          "request_hash": "249e9de6804cb771ee65f572d1a23b7a761d74bd5b8f9a5b2620000a643ebb88",
+          "output_hash": "f038cddabd35f713f43ddce636c894ad464eab3151b23ee82cafac6355fd2032",
+          "provider_response_id": "resp_0b053e0ecdc283ed016ab82b368ef887d0ada4911a6cbc5fd0"
+        }
+      ],
+      "tools": [
+        {
+          "name": "read_legal_evidence_batch",
+          "call_id": "call_AzUXycwKZVNjhHe5mvYamP30",
+          "response_id": "resp_0b053e0ecdc283ed016ab82b2de11887d0a04aa627e171caf3",
+          "arguments_hash": "94d217fbc572784eeb6c398f737152c123e076e7bfb87b1f6be1e860bbfd3ef9",
+          "result_hash": "15fb75be3a86641d0fbc57c703440ff7d5da6769bfe9af01705a13aeb8bcff50"
+        },
+        {
+          "name": "read_legal_evidence_batch",
+          "call_id": "call_delqPoODqRtFr6gEJDsLdO3e",
+          "response_id": "resp_0b053e0ecdc283ed016ab82b33c9c887d0bb618c7e66aefd9f",
+          "arguments_hash": "997bd53845b82553892180afeef9e0c8cee25275fa66916240d3970aa69be447",
+          "result_hash": "7154956466f07e2b3ed848005b6747d2ea58eafb7917f434c88b5cc8f0d9f45e"
+        }
+      ]
+    },
     {
       "run_id": "c0cdcee9-d380-4858-af6d-667c4845df52",
       "parent_run_id": "baafacfd-8e14-40b8-a056-6ad55fcc7d09",
       "model": "gpt-6-sol",
       "reasoning_effort": "low",
-      "config_version": "f4e70ce6b87f8f5e6f43616e0321603a8e66010a64d904018462aa475aa21bdd",
       "started_at": "2026-09-26T20:33:14.567Z",
       "deadline_at": "2026-09-26T20:37:14.567Z",
+      "config_version": "f4e70ce6b87f8f5e6f43616e0321603a8e66010a64d904018462aa475aa21bdd",
       "attempts": [
         {
           "attempt_id": "95b593c4-54f6-4561-a912-492436c5dabe",
           "phase": "draft",
           "status": "complete",
           "execution_mode": "provider",
-          "provider_response_id": "resp_05b25c2d23b1158e016ab82c0f73a487d098a15446c942d7f7",
           "provider_request_id": "req_af142e7e457f424ba14508478546e5dd",
           "model": "gpt-6-sol",
           "input_tokens": 8813,
@@ -48,16 +214,15 @@
           "cost_usd": 0.018236,
           "duration_ms": 1649,
           "error_code": null,
-          "provider_error_code": null,
           "request_hash": "170c1c095b914fda7192a5f5a52c8175d84390a66df091b3a5c6a84fbabeca91",
-          "output_hash": "5234c2dedc41895cba74cce0575f6c34b5bf535c5502dd3210cdec163f213df7"
+          "output_hash": "5234c2dedc41895cba74cce0575f6c34b5bf535c5502dd3210cdec163f213df7",
+          "provider_response_id": "resp_05b25c2d23b1158e016ab82c0f73a487d098a15446c942d7f7"
         },
         {
           "attempt_id": "29b9afe3-6771-4412-bb94-d820bb44a2bf",
           "phase": "draft",
           "status": "complete",
           "execution_mode": "provider",
-          "provider_response_id": "resp_05b25c2d23b1158e016ab82c119a6487d0b4fbf10c8e955153",
           "provider_request_id": "req_a27f3820c6934e4fa072bb2aa9e63468",
           "model": "gpt-6-sol",
           "input_tokens": 11816,
@@ -65,16 +230,15 @@
           "cost_usd": 0.024862,
           "duration_ms": 3353,
           "error_code": null,
-          "provider_error_code": null,
           "request_hash": "48aa7c19b7fd382facfa0814a70a8090614e007f6d0c17a47196ce89722e7c1f",
-          "output_hash": "caa9ff61c7aeb07e725b3fdbb38160fafc1b2898466a83efad3f1e67bb3cf36b"
+          "output_hash": "caa9ff61c7aeb07e725b3fdbb38160fafc1b2898466a83efad3f1e67bb3cf36b",
+          "provider_response_id": "resp_05b25c2d23b1158e016ab82c119a6487d0b4fbf10c8e955153"
         },
         {
           "attempt_id": "2c586a6b-13ae-4296-82bd-8b4fd15f0b8e",
           "phase": "draft",
           "status": "complete",
           "execution_mode": "provider",
-          "provider_response_id": "resp_05b25c2d23b1158e016ab82c1561e087d0ba6366864fc23fb0",
           "provider_request_id": "req_e2704a543f364d6d8ac4f8635cbb3ed7",
           "model": "gpt-6-sol",
           "input_tokens": 14967,
@@ -82,16 +246,15 @@
           "cost_usd": 0.030884,
           "duration_ms": 2683,
           "error_code": null,
-          "provider_error_code": null,
           "request_hash": "19b12e671984c542d52eb16077cd241f9832d9cef5b15a49331ea5de53bb4fc5",
-          "output_hash": "0c6a3c19725e46fba40481c954395f256da701aa9e5c46f767a0d5f9844584e9"
+          "output_hash": "0c6a3c19725e46fba40481c954395f256da701aa9e5c46f767a0d5f9844584e9",
+          "provider_response_id": "resp_05b25c2d23b1158e016ab82c1561e087d0ba6366864fc23fb0"
         },
         {
           "attempt_id": "86a18c08-cf7f-4672-90b9-448727a72703",
           "phase": "draft",
           "status": "complete",
           "execution_mode": "provider",
-          "provider_response_id": "resp_05b25c2d23b1158e016ab82c18951887d08dbd10b3cffe6a30",
           "provider_request_id": "req_574d317d48ed42f5a0c08fba812691cd",
           "model": "gpt-6-sol",
           "input_tokens": 16447,
@@ -99,16 +262,15 @@
           "cost_usd": 0.070224,
           "duration_ms": 32140,
           "error_code": null,
-          "provider_error_code": null,
           "request_hash": "6de9be48fd1a3f090e18cf81ecc25c9d840260da344ddbe04370c9695f08e337",
-          "output_hash": "4369560d28f39c17e37010cd71b548885050ab9a93b4e7a225a7fbae1e4ae776"
+          "output_hash": "4369560d28f39c17e37010cd71b548885050ab9a93b4e7a225a7fbae1e4ae776",
+          "provider_response_id": "resp_05b25c2d23b1158e016ab82c18951887d08dbd10b3cffe6a30"
         },
         {
           "attempt_id": "069a66c7-0d3b-4b39-8485-4596fb2c12ec",
           "phase": "repair",
           "status": "complete",
           "execution_mode": "provider",
-          "provider_response_id": "resp_05b25c2d23b1158e016ab82c3949ac87d0823370c2831db855",
           "provider_request_id": "req_6a71625025204025ba5e33ba0f033e42",
           "model": "gpt-6-sol",
           "input_tokens": 20399,
@@ -116,16 +278,15 @@
           "cost_usd": 0.041958,
           "duration_ms": 3966,
           "error_code": null,
-          "provider_error_code": null,
           "request_hash": "8a56edaf3aebac5e5ebecf51a3eb21810c507b5ab1ec8ec0992b4b92729f7fc2",
-          "output_hash": "e3f46de36831743d5286613455f75e4a77bdf48e0410f0c07ccf15cd3167c693"
+          "output_hash": "e3f46de36831743d5286613455f75e4a77bdf48e0410f0c07ccf15cd3167c693",
+          "provider_response_id": "resp_05b25c2d23b1158e016ab82c3949ac87d0823370c2831db855"
         },
         {
           "attempt_id": "d103562b-7a15-40c1-b97e-921dec08d6f5",
           "phase": "repair",
           "status": "complete",
           "execution_mode": "provider",
-          "provider_response_id": "resp_05b25c2d23b1158e016ab82c3dde7887d083d8ec19ce15e16f",
           "provider_request_id": "req_cb58400231f74255b48585e6594e83ea",
           "model": "gpt-6-sol",
           "input_tokens": 20571,
@@ -133,9 +294,9 @@
           "cost_usd": 0.080212,
           "duration_ms": 32168,
           "error_code": null,
-          "provider_error_code": null,
           "request_hash": "0280a935a8bfcf0d21fd233e453a7e6596cad1f8ea679778e6a1dddbeed4563b",
-          "output_hash": "fc87aede64585e2b996ffbb0f493ef430258997c4b0f952a20c3d7c93d99122c"
+          "output_hash": "fc87aede64585e2b996ffbb0f493ef430258997c4b0f952a20c3d7c93d99122c",
+          "provider_response_id": "resp_05b25c2d23b1158e016ab82c3dde7887d083d8ec19ce15e16f"
         }
       ],
       "tools": [
@@ -159,84 +320,6 @@
           "response_id": "resp_05b25c2d23b1158e016ab82c1561e087d0ba6366864fc23fb0",
           "arguments_hash": "7869c6dd935916ad9dba8dbaf602471891be38192ff8097dfa51b4683aaa87a9",
           "result_hash": "a84fbb8d3ed51244a95993fb9ee1f6d0b849f033cafa84ec2562a311f1d40072"
-        }
-      ]
-    },
-    {
-      "run_id": "baafacfd-8e14-40b8-a056-6ad55fcc7d09",
-      "parent_run_id": null,
-      "model": "gpt-6-sol",
-      "reasoning_effort": "low",
-      "config_version": "be1ae19386de8bf821c18eaeab76d931f78f69ec6f1a86b2b7d3e2714dabc6c2",
-      "started_at": "2026-09-26T20:29:32.766Z",
-      "deadline_at": "2026-09-26T20:33:32.766Z",
-      "attempts": [
-        {
-          "attempt_id": "6988da0d-521b-4379-b578-374fa303fbf9",
-          "phase": "draft",
-          "status": "complete",
-          "execution_mode": "provider",
-          "provider_response_id": "resp_0b053e0ecdc283ed016ab82b2de11887d0a04aa627e171caf3",
-          "provider_request_id": "req_f9423fdaf4ee4f2eaff4c67d29a439f2",
-          "model": "gpt-6-sol",
-          "input_tokens": 8813,
-          "output_tokens": 62,
-          "cost_usd": 0.018246,
-          "duration_ms": 5507,
-          "error_code": null,
-          "provider_error_code": null,
-          "request_hash": "170c1c095b914fda7192a5f5a52c8175d84390a66df091b3a5c6a84fbabeca91",
-          "output_hash": "5732ccce11c2856165e99574130271f99b4ad51a8aa07a6052402e40d7a8237f"
-        },
-        {
-          "attempt_id": "23a28da2-a772-46de-9948-d51ea19e0b5d",
-          "phase": "draft",
-          "status": "complete",
-          "execution_mode": "provider",
-          "provider_response_id": "resp_0b053e0ecdc283ed016ab82b33c9c887d0bb618c7e66aefd9f",
-          "provider_request_id": "req_14035e9addb947209553f2942b04505a",
-          "model": "gpt-6-sol",
-          "input_tokens": 11814,
-          "output_tokens": 122,
-          "cost_usd": 0.024848,
-          "duration_ms": 2077,
-          "error_code": null,
-          "provider_error_code": null,
-          "request_hash": "2208d13ddfe85a34be7742d8cf7b533294315a2387270cc250bc117cab87fa46",
-          "output_hash": "1ec5465f27c4b426f8711643dba8a292a44178d3c469839eb0e93577a530baf6"
-        },
-        {
-          "attempt_id": "6df5e026-f08f-4589-a5d8-3223a26ca1bd",
-          "phase": "draft",
-          "status": "complete",
-          "execution_mode": "provider",
-          "provider_response_id": "resp_0b053e0ecdc283ed016ab82b368ef887d0ada4911a6cbc5fd0",
-          "provider_request_id": "req_78b4f199508d41929c68a75c8ec82bc2",
-          "model": "gpt-6-sol",
-          "input_tokens": 14982,
-          "output_tokens": 4529,
-          "cost_usd": 0.075254,
-          "duration_ms": 42024,
-          "error_code": null,
-          "provider_error_code": null,
-          "request_hash": "249e9de6804cb771ee65f572d1a23b7a761d74bd5b8f9a5b2620000a643ebb88",
-          "output_hash": "f038cddabd35f713f43ddce636c894ad464eab3151b23ee82cafac6355fd2032"
-        }
-      ],
-      "tools": [
-        {
-          "name": "read_legal_evidence_batch",
-          "call_id": "call_AzUXycwKZVNjhHe5mvYamP30",
-          "response_id": "resp_0b053e0ecdc283ed016ab82b2de11887d0a04aa627e171caf3",
-          "arguments_hash": "94d217fbc572784eeb6c398f737152c123e076e7bfb87b1f6be1e860bbfd3ef9",
-          "result_hash": "15fb75be3a86641d0fbc57c703440ff7d5da6769bfe9af01705a13aeb8bcff50"
-        },
-        {
-          "name": "read_legal_evidence_batch",
-          "call_id": "call_delqPoODqRtFr6gEJDsLdO3e",
-          "response_id": "resp_0b053e0ecdc283ed016ab82b33c9c887d0bb618c7e66aefd9f",
-          "arguments_hash": "997bd53845b82553892180afeef9e0c8cee25275fa66916240d3970aa69be447",
-          "result_hash": "7154956466f07e2b3ed848005b6747d2ea58eafb7917f434c88b5cc8f0d9f45e"
         }
       ]
     }
@@ -272,17 +355,167 @@
       ],
       "explanation": "The generated output failed protected deterministic validation. Failure bytes/hash and provider identity are retained.",
       "repaired": false
+    },
+    {
+      "validation_id": "a22a6a95-d0db-4267-b339-eed1bc19e75f",
+      "created_at": "2026-09-26T20:42:11.314Z",
+      "stage": "proposal",
+      "passed": false,
+      "codes": [
+        "POLICY_DATE_MISMATCH",
+        "UNVERIFIED_REQUEST_CHANNEL_CLAIM",
+        "LEGAL_DISCLOSURE_INCOMPLETE",
+        "UNVERIFIED_CHANNEL_CLAIM",
+        "LEGAL_DISCLOSURE_OMISSION",
+        "UNVERIFIED_PROCESS_CLAIM"
+      ],
+      "explanation": "The proposal is blocked until all required checks pass.",
+      "repaired": false
+    },
+    {
+      "validation_id": "c61438ac-5624-492c-87fd-298bc6ab6181",
+      "created_at": "2026-09-26T20:42:46.126Z",
+      "stage": "proposal",
+      "passed": false,
+      "codes": [
+        "CITATION_SPAN_MISMATCH"
+      ],
+      "explanation": "The generated output failed protected deterministic validation. Failure bytes/hash and provider identity are retained.",
+      "repaired": false
+    },
+    {
+      "validation_id": "0830fe8a-fe4d-4a29-b11d-d4c0ab398f6b",
+      "created_at": "2026-09-26T20:42:48.669Z",
+      "stage": "proposal",
+      "passed": false,
+      "codes": [
+        "PROPOSAL_REQUIRED"
+      ],
+      "explanation": "The generated output failed protected deterministic validation. Failure bytes/hash and provider identity are retained.",
+      "repaired": false
     }
   ],
-  "semantic_reviews": [],
-  "output_events": [],
+  "semantic_reviews": [
+    {
+      "receipt_hash": "37f0dc6f63345d81baa839bb7631ece9b58e06c9ee677f1a94f60a41825457d9",
+      "run_id": "ad56669f-6a1f-435c-b9aa-ca38e35784e7",
+      "candidate_content_hash": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f",
+      "provider_response_id": "resp_0a0a30bd3c633b27016ab82df8fd8887d0ad3850c756a2189c",
+      "model": "gpt-6-sol",
+      "authority_hash": "d29770407b2496ae1bfae5b8f12344f1c9eacd43a0918cdfc864bcf6371eda80",
+      "facts_hash": "7d3778ae18232fd4495ed913fb633976981bb7c7532af358d542fd041beb5c5c",
+      "verdict": {
+        "passed": false,
+        "codes": [
+          "POLICY_DATE_MISMATCH",
+          "UNVERIFIED_REQUEST_CHANNEL_CLAIM",
+          "LEGAL_DISCLOSURE_INCOMPLETE"
+        ],
+        "explanation": "The reconstructed proposal says “Last updated: September 1, 2026,” but its metadata says September 26, 2026. It also unconditionally tells consumers they may submit requests through the email address and web path, although both are synthetic fixtures and their usability is unverified. Finally, the provider-disclosure list does not say which categories were disclosed for a business purpose in the preceding 12 months, as required by Civil Code §1798.130(a)(5)(C)(ii). The other changed clauses are related to the California signup and its disclosure obligations; no unrelated-clause modification was identified. This review concerns an unapproved proposal, not publication or operational compliance.",
+        "operational_requirements": [
+          "Founder: assess whether collecting a full postal address is necessary and proportionate; change the signup fields only through a separately approved factual/product decision.",
+          "Founder: verify and implement notice at or before collection for actual signup categories, purposes and retention.",
+          "Lawyer: review the sensitive-information risk assessment, its applicability and the September 26, 2026 processing start date.",
+          "Founder: confirm a monitored request email, usable web form, identity and agent handling, and trained request operations before claiming the channels work or publishing them.",
+          "Founder: authorize publication separately, only after operational facts match the policy.",
+          "Lawyer: verify processor contracts, no sale or sharing, retention, credential practices, absence of significant-decision ADMT, and reporting thresholds before real-world reuse."
+        ]
+      },
+      "created_at": "2026-09-26T20:41:36.205Z"
+    },
+    {
+      "receipt_hash": "97e007ba86ce6a722910f19f9b713c1d9b1faab4fb51fdb6f4b07a4b113801aa",
+      "run_id": "ad56669f-6a1f-435c-b9aa-ca38e35784e7",
+      "candidate_content_hash": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f",
+      "provider_response_id": "resp_06fb58f8ed75aecf016ab82e00bb9087d0afa54778933db967",
+      "model": "gpt-6-sol",
+      "authority_hash": "6aedf940c9e36dc3eb8e7487f300f5ace5ffb7a1f2f8dcba48a0c852ef16cb1d",
+      "facts_hash": "7d3778ae18232fd4495ed913fb633976981bb7c7532af358d542fd041beb5c5c",
+      "verdict": {
+        "passed": false,
+        "codes": [
+          "POLICY_DATE_MISMATCH",
+          "UNVERIFIED_CHANNEL_CLAIM",
+          "LEGAL_DISCLOSURE_OMISSION"
+        ],
+        "explanation": "The reconstructed proposal says “Last updated: September 1, 2026,” but its metadata says September 26, 2026. It unconditionally tells consumers they may submit requests through a synthetic .example email address and /privacy/requests path, although neither channel is verified as usable. It also omits the required statement about whether the business has actual knowledge that it sells or shares personal information of consumers under 16. The changed inventory, purposes, disclosures, retention, rights, and signal language otherwise relate to the California launch and supplied facts; no unrelated baseline change was identified. This review does not certify operational compliance.",
+        "operational_requirements": [
+          "Assess whether collecting a full postal address is necessary and proportionate.",
+          "Verify and implement a notice at or before signup collection; later policy approval cannot cure an earlier omission.",
+          "Have counsel assess whether the new sensitive-information processing requires a risk assessment and determine the applicable timing.",
+          "Verify a monitored request email, usable form if offered, identity and agent procedures, and trained request handling before claiming those methods are active or publishing them.",
+          "Verify processor contracts, sale/sharing practices, retention, credential handling, ADMT use, and reporting thresholds before real-world reuse.",
+          "Publish a printable, accessible policy through the required conspicuous link only after separate authorization and verification of operational facts."
+        ]
+      },
+      "created_at": "2026-09-26T20:41:44.638Z"
+    },
+    {
+      "receipt_hash": "65ae4141378d62dbf8f68333a5474a5e1bb0e67ad73c791d972a1d0856eec1ec",
+      "run_id": "ad56669f-6a1f-435c-b9aa-ca38e35784e7",
+      "candidate_content_hash": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f",
+      "provider_response_id": "resp_0e3006f1770994c0016ab82e092ea487d08b12c3e5a65deec2",
+      "model": "gpt-6-sol",
+      "authority_hash": "ad1bf0f41c2714172f926f165a3d9de304bbf737c35f2d55a1d2af70eb13c88e",
+      "facts_hash": "7d3778ae18232fd4495ed913fb633976981bb7c7532af358d542fd041beb5c5c",
+      "verdict": {
+        "passed": false,
+        "codes": [
+          "POLICY_DATE_MISMATCH",
+          "UNVERIFIED_REQUEST_CHANNEL_CLAIM",
+          "UNVERIFIED_PROCESS_CLAIM"
+        ],
+        "explanation": "The reconstructed policy says “Last updated: September 1, 2026,” but candidate metadata says September 26, 2026. It also presents the synthetic .example email and /privacy/requests path as currently usable request channels, and describes request verification as an operating process, although their readiness is unverified. These are textual failures even for an internal, unapproved proposal. The other changed baseline clauses are relevant to the California event and supported by the supplied legal obligations or synthetic facts; no unrelated-clause modification was identified.",
+        "operational_requirements": [
+          "Founder: assess whether collecting a full postal address is necessary and proportionate; preserve the signup fixture pending a separately approved decision.",
+          "Founder: verify and implement notice at or before collection for actual categories, purposes, sale/sharing status, and retention.",
+          "Founder: confirm monitored request methods, a usable form, identity and agent handling, and trained request operations before making present-tense claims or publishing.",
+          "Lawyer: review sensitive-personal-information risk-assessment applicability, timing, and completion.",
+          "Founder: authorize publication separately, only after operational facts match the policy.",
+          "Lawyer: verify processor contracts, sale/sharing practices, retention, credentials, ADMT practices, and reporting thresholds before real-world reuse."
+        ]
+      },
+      "created_at": "2026-09-26T20:41:52.130Z"
+    }
+  ],
+  "output_events": [
+    {
+      "receipt_hash": "a6df611c29407803c4f1a6b82fb62f7a5b9d8058a25c8f22aef107996e379fe1",
+      "event_id": "c898c096-e2e1-43d9-af15-03b8ff69b922",
+      "run_id": "ad56669f-6a1f-435c-b9aa-ca38e35784e7",
+      "revision_id": "bb595b31-97e3-48d2-b55a-fed566533bfe",
+      "content_hash": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f",
+      "base_revision_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+      "harness_version": 1,
+      "config_version": "50039d676bba9f8afa369940271a66b980b6fa4131ccb84d65612cbd09588c02",
+      "source_catalog_hash": "9d5593bc4dd87d0c23b19d609532727b1705ba93325c49cdeb9a7f80ba063d0f",
+      "provider_response_ids": [
+        "resp_0a0a30bd3c633b27016ab82df8fd8887d0ad3850c756a2189c",
+        "resp_06fb58f8ed75aecf016ab82e00bb9087d0afa54778933db967",
+        "resp_0e3006f1770994c0016ab82e092ea487d08b12c3e5a65deec2"
+      ],
+      "semantic_validation": {
+        "passed": false,
+        "codes": [
+          "POLICY_DATE_MISMATCH",
+          "UNVERIFIED_REQUEST_CHANNEL_CLAIM",
+          "LEGAL_DISCLOSURE_INCOMPLETE",
+          "UNVERIFIED_CHANNEL_CLAIM",
+          "LEGAL_DISCLOSURE_OMISSION",
+          "UNVERIFIED_PROCESS_CLAIM"
+        ],
+        "reviewed_content_hash": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f",
+        "model": "gpt-6-sol",
+        "checked_at": "2026-09-26T20:41:52.222Z"
+      },
+      "created_at": "2026-09-26T20:41:52.253Z"
+    }
+  ],
   "pending_semantic": [
     {
       "receipt_hash": "0a273741d2b95215f49abb07cbd45acc03844df424866e858f8626ba8137d8de",
       "run_id": "c0cdcee9-d380-4858-af6d-667c4845df52",
       "accepted": false,
-      "candidate_revision_id": "98ea9c12-61c9-49f1-962b-ddd19b107a92",
-      "content_hash": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f",
       "provider_response_ids": [
         "resp_05b25c2d23b1158e016ab82c0f73a487d098a15446c942d7f7",
         "resp_05b25c2d23b1158e016ab82c119a6487d0b4fbf10c8e955153",
@@ -291,16 +524,41 @@
         "resp_05b25c2d23b1158e016ab82c3949ac87d0823370c2831db855",
         "resp_05b25c2d23b1158e016ab82c3dde7887d083d8ec19ce15e16f"
       ],
-      "created_at": "2026-09-26T20:34:38.181Z"
+      "created_at": "2026-09-26T20:34:38.181Z",
+      "candidate_revision_id": "98ea9c12-61c9-49f1-962b-ddd19b107a92",
+      "content_hash": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f"
+    },
+    {
+      "receipt_hash": "3e32c98a614170075cec1c9b223852d6979aa5e3a6c862f9e79871a9ad3cbd0f",
+      "run_id": "ad56669f-6a1f-435c-b9aa-ca38e35784e7",
+      "accepted": false,
+      "provider_response_ids": [],
+      "created_at": "2026-09-26T20:41:26.977Z",
+      "candidate_revision_id": "bb595b31-97e3-48d2-b55a-fed566533bfe",
+      "content_hash": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f"
     }
   ],
   "candidate": {
-    "revision_id": "98ea9c12-61c9-49f1-962b-ddd19b107a92",
+    "revision_id": "bb595b31-97e3-48d2-b55a-fed566533bfe",
     "generation": "openai",
     "content_hash": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f",
     "base_revision_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+    "policy_updated_on": "2026-09-26",
     "clause_count": 14,
-    "semantic_validation": null
+    "semantic_validation": {
+      "passed": false,
+      "codes": [
+        "POLICY_DATE_MISMATCH",
+        "UNVERIFIED_REQUEST_CHANNEL_CLAIM",
+        "LEGAL_DISCLOSURE_INCOMPLETE",
+        "UNVERIFIED_CHANNEL_CLAIM",
+        "LEGAL_DISCLOSURE_OMISSION",
+        "UNVERIFIED_PROCESS_CLAIM"
+      ],
+      "reviewed_content_hash": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f",
+      "model": "gpt-6-sol",
+      "checked_at": "2026-09-26T20:41:52.222Z"
+    }
   },
   "approvals": [],
   "feedback": [],
@@ -464,51 +722,508 @@
       "event_id": "57902d32-b3ab-4fb9-bf07-e8ea26ff2495",
       "type": "harness.evaluation_trial_started",
       "created_at": "2026-09-26T20:34:53.011Z"
+    },
+    {
+      "event_id": "4f7c752f-d58c-4b14-9673-b7aa5b963972",
+      "type": "harness.evaluation_trial_completed",
+      "created_at": "2026-09-26T20:35:55.209Z"
+    },
+    {
+      "event_id": "8c69025a-e83c-4bbc-b3fb-0f032ff9303d",
+      "type": "harness.evaluation_trial_started",
+      "created_at": "2026-09-26T20:36:00.307Z"
+    },
+    {
+      "event_id": "079f4c3f-62d8-4942-8741-feae953b28c6",
+      "type": "harness.evaluation_trial_completed",
+      "created_at": "2026-09-26T20:37:03.109Z"
+    },
+    {
+      "event_id": "bd2ed14d-e020-4de8-a33c-d8f0c52e1f55",
+      "type": "harness.evaluation_trial_started",
+      "created_at": "2026-09-26T20:37:08.141Z"
+    },
+    {
+      "event_id": "3bf1cc00-b84f-4266-a6d1-c113a165f633",
+      "type": "harness.evaluation_trial_completed",
+      "created_at": "2026-09-26T20:38:40.627Z"
+    },
+    {
+      "event_id": "cfb6e827-ecc4-47d1-8483-3e8b7107b504",
+      "type": "harness.evaluation_trial_started",
+      "created_at": "2026-09-26T20:38:45.815Z"
+    },
+    {
+      "event_id": "362d1aa6-aef5-4538-9179-897e289e8e5b",
+      "type": "harness.evaluation_trial_completed",
+      "created_at": "2026-09-26T20:40:09.338Z"
+    },
+    {
+      "event_id": "1dbf82ef-911b-4841-bcea-6f38bddfd68e",
+      "type": "harness.evaluation_trial_started",
+      "created_at": "2026-09-26T20:40:14.329Z"
+    },
+    {
+      "event_id": "794d6ac2-e50a-49de-bd1b-3906095a3bcd",
+      "type": "model.retry_authorized",
+      "created_at": "2026-09-26T20:41:22.510Z"
+    },
+    {
+      "event_id": "6dd91423-4baf-4268-af9a-914fd9dfcb01",
+      "type": "model.started",
+      "created_at": "2026-09-26T20:41:26.843Z"
+    },
+    {
+      "event_id": "7857a87b-0647-416a-9b1e-d53ce5751240",
+      "type": "model.review_planned",
+      "created_at": "2026-09-26T20:41:28.471Z"
+    },
+    {
+      "event_id": "826f90ff-0cc7-4cf5-bb38-39b7f9862b36",
+      "type": "model.response",
+      "created_at": "2026-09-26T20:41:35.914Z"
+    },
+    {
+      "event_id": "e9924e9f-97ac-4069-aa07-956afea08d28",
+      "type": "model.semantic_review",
+      "created_at": "2026-09-26T20:41:36.205Z"
+    },
+    {
+      "event_id": "e3786e05-60e4-4908-a1ee-1b649682153a",
+      "type": "model.response",
+      "created_at": "2026-09-26T20:41:44.373Z"
+    },
+    {
+      "event_id": "3432a5d7-054b-4ced-8680-08368d0a29fb",
+      "type": "model.semantic_review",
+      "created_at": "2026-09-26T20:41:44.638Z"
+    },
+    {
+      "event_id": "7cc4d790-b37a-43e3-b089-78f48c42faf5",
+      "type": "model.response",
+      "created_at": "2026-09-26T20:41:51.901Z"
+    },
+    {
+      "event_id": "2a61af6c-31bc-4713-a9fd-beb662fa509f",
+      "type": "model.semantic_review",
+      "created_at": "2026-09-26T20:41:52.130Z"
+    },
+    {
+      "event_id": "2e35a3c1-66c2-44f0-bd9a-24949622479f",
+      "type": "proposal.created",
+      "created_at": "2026-09-26T20:41:52.253Z"
+    },
+    {
+      "event_id": "f6eb34c3-569c-4d90-89d9-7779c92d1694",
+      "type": "harness.evaluation_trial_completed",
+      "created_at": "2026-09-26T20:42:06.594Z"
+    },
+    {
+      "event_id": "b919f807-90ac-494a-9fb4-bb75a9fa698c",
+      "type": "validation.failed",
+      "created_at": "2026-09-26T20:42:11.314Z"
+    },
+    {
+      "event_id": "a3324e16-896f-4706-b4d0-3e1298d43376",
+      "type": "harness.improvement_not_admitted",
+      "created_at": "2026-09-26T20:42:11.618Z"
+    },
+    {
+      "event_id": "956754b9-5967-4847-827b-7050196387e1",
+      "type": "model.started",
+      "created_at": "2026-09-26T20:42:16.175Z"
+    },
+    {
+      "event_id": "ceb594c0-c521-408f-b53b-71e5247afd4f",
+      "type": "model.response",
+      "created_at": "2026-09-26T20:42:45.858Z"
+    },
+    {
+      "event_id": "37b88859-22cf-41b8-8dc3-129e5c4e87a7",
+      "type": "model.output_rejected",
+      "created_at": "2026-09-26T20:42:46.126Z"
+    },
+    {
+      "event_id": "e7357b72-9fb1-4b42-a729-bf8217a5444d",
+      "type": "model.repair_started",
+      "created_at": "2026-09-26T20:42:46.126Z"
+    },
+    {
+      "event_id": "f47ffba6-ab60-4a50-8dc2-9f7fffcd81e4",
+      "type": "model.response",
+      "created_at": "2026-09-26T20:42:48.402Z"
+    },
+    {
+      "event_id": "680f2993-807d-4dd7-924f-8d2fdd37228d",
+      "type": "model.output_rejected",
+      "created_at": "2026-09-26T20:42:48.669Z"
+    },
+    {
+      "event_id": "bdbbb535-64b1-4d12-bdf0-347790f54cc0",
+      "type": "model.blocked",
+      "created_at": "2026-09-26T20:42:48.789Z"
+    },
+    {
+      "event_id": "569f9ea4-aeb2-4c1b-b2f5-8ebc4170b368",
+      "type": "harness.improvement_not_admitted",
+      "created_at": "2026-09-26T20:42:49.127Z"
+    },
+    {
+      "event_id": "0d7d2c3b-d456-43a6-b3ea-573d35acfdc5",
+      "type": "harness.improvement_not_admitted",
+      "created_at": "2026-09-26T20:42:49.171Z"
+    },
+    {
+      "event_id": "423c0c0b-9418-465b-b29b-8cff5a3b4df5",
+      "type": "harness.evaluation_trial_started",
+      "created_at": "2026-09-26T20:42:54.494Z"
+    },
+    {
+      "event_id": "91a3ee1b-c4ce-4631-8730-7f8ffbcc74b0",
+      "type": "harness.evaluation_trial_completed",
+      "created_at": "2026-09-26T20:44:17.776Z"
+    },
+    {
+      "event_id": "61401f6e-0dbb-47ff-9447-dee44fce92ec",
+      "type": "harness.evaluation_completed",
+      "created_at": "2026-09-26T20:44:17.797Z"
+    },
+    {
+      "event_id": "135b59c3-2571-4f13-b467-fac407146e0d",
+      "type": "harness.improvement_proposed",
+      "created_at": "2026-09-26T20:44:18.092Z"
+    },
+    {
+      "event_id": "d503e80a-3623-405f-8296-8570d8edd958",
+      "type": "harness.proposal_agent_started",
+      "created_at": "2026-09-26T20:44:23.637Z"
+    },
+    {
+      "event_id": "e843bc5c-09a7-4015-a9b1-5b4d6793a00f",
+      "type": "harness.evaluation_completed",
+      "created_at": "2026-09-26T20:44:26.595Z"
+    },
+    {
+      "event_id": "d9360eda-fc65-4ddd-bb19-498ea9640dfc",
+      "type": "harness.proposal_agent_completed",
+      "created_at": "2026-09-26T20:44:26.595Z"
+    },
+    {
+      "event_id": "a8e5f97d-a2b4-493c-afbe-8f909032245f",
+      "type": "harness.improvement_proposed",
+      "created_at": "2026-09-26T20:44:26.839Z"
+    },
+    {
+      "event_id": "d676add0-583e-4f90-9c81-8fe3b0a9dd53",
+      "type": "harness.improvement_not_admitted",
+      "created_at": "2026-09-26T20:44:26.914Z"
+    },
+    {
+      "event_id": "02f31966-5a6e-4e70-85ed-723568495a59",
+      "type": "harness.improvement_not_admitted",
+      "created_at": "2026-09-26T20:44:26.977Z"
+    },
+    {
+      "event_id": "ae4a1ad0-52c6-49e3-a607-6394510d88b4",
+      "type": "harness.proposal_agent_started",
+      "created_at": "2026-09-26T20:44:41.271Z"
+    },
+    {
+      "event_id": "42f6f585-2540-4648-827a-f4c499518ba4",
+      "type": "harness.proposal_agent_completed",
+      "created_at": "2026-09-26T20:44:45.069Z"
+    },
+    {
+      "event_id": "16627775-8c70-4302-b595-82ec16be757a",
+      "type": "harness.evaluation_trial_started",
+      "created_at": "2026-09-26T20:44:51.491Z"
     }
   ],
   "improvements": [
     {
       "proposal_id": "de01b203-4e3e-4f12-8b73-4232cb383484",
-      "status": "evaluating",
-      "reason": "Provider-generated constrained strategy awaits six frozen independent trials.",
-      "origin": "validation",
+      "status": "rejected",
+      "reason": "candidate passes diagnosis and both independent unseen cases with no regression; measured success or repair improvement",
       "baseline_version": 1,
       "candidate_version": 2,
-      "actual_cost_usd": 0.001928,
+      "actual_cost_usd": 1.55152,
       "unknown_charge": false,
+      "origin": "validation",
       "trials": [
         {
           "trial_id": "ef047fb6-cd01-4430-9c78-c570b0df729f",
+          "arm": "baseline",
+          "status": "completed",
+          "result": {
+            "passed": false,
+            "validation_codes": [
+              "LEGAL_DISCLOSURE_INCOMPLETE",
+              "UNSUPPORTED_OPERATIONAL_CLAIM",
+              "INCONSISTENT_UPDATE_DATE",
+              "INCOMPLETE_PRIVACY_DISCLOSURE",
+              "INVALID_LAST_UPDATED_DATE",
+              "NOTICE_AT_COLLECTION_NOT_CONFIRMED",
+              "REQUEST_CHANNELS_NOT_CONFIRMED",
+              "INCONSISTENT_LAST_UPDATED_DATE",
+              "PUBLICATION_INSTRUCTIONS_IN_POLICY"
+            ],
+            "provider_response_ids": [
+              "resp_0da21a7c49fdddba016ab82c6d872c87d093a988b41be47a30",
+              "resp_0da21a7c49fdddba016ab82c70038887d09b47f7508a08d36b",
+              "resp_0da21a7c49fdddba016ab82c721d2087d0b0b0e836fc0c082b",
+              "resp_0da21a7c49fdddba016ab82c76109887d09c2a0f37db1de06e",
+              "resp_06c559ab893e277c016ab82c9aba0487d094002bda52341b05",
+              "resp_0669cb98ef4d7abf016ab82ca043f087d083c2d4fef8ff3b03",
+              "resp_0e0fdd1d6d19cf0b016ab82ca6510487d0afd72afc41484c47"
+            ],
+            "model_attempts": 7,
+            "input_tokens": 102795,
+            "output_tokens": 5075,
+            "cost_usd": 0.25634,
+            "duration_ms": 62066,
+            "unknown_charge": false,
+            "output_hash": "7786bf80413d75b92376f53362899f347aed7808299a8a322b758454879baee6",
+            "repair_count": 2,
+            "error": "MODEL_REQUEST_LIMIT"
+          }
+        },
+        {
+          "trial_id": "ba1bd323-ac80-4dbf-8256-4f4ae5d824aa",
+          "arm": "candidate",
+          "status": "completed",
+          "result": {
+            "passed": false,
+            "validation_codes": [
+              "INCOMPLETE_CALIFORNIA_DISCLOSURE",
+              "UNSUPPORTED_OPERATIONAL_CLAIM",
+              "POLICY_DATE_MISMATCH",
+              "DISCLOSURE_INCOMPLETE",
+              "POLICY_DATE_INCONSISTENT",
+              "OPERATIONAL_DUTIES_INCOMPLETE",
+              "NOTICE_AT_COLLECTION_NOT_READY",
+              "INCOMPLETE_PRIOR_12_MONTH_DISCLOSURE",
+              "INCONSISTENT_LAST_UPDATED_DATE"
+            ],
+            "provider_response_ids": [
+              "resp_05ae0ce37eba68fa016ab82cb0c3e887d0a22597d8215e2814",
+              "resp_05ae0ce37eba68fa016ab82cb2d4c487d08b8c6cc407046c82",
+              "resp_05ae0ce37eba68fa016ab82cb5165c87d090c5d900738f2eb1",
+              "resp_05ae0ce37eba68fa016ab82cb7aed487d0bc37081650854322",
+              "resp_023f5e3b8ae99d97016ab82ce17ac087d0a013cd13022984ca",
+              "resp_0a3ccf469d4e0f40016ab82ce537a087d0ad8af44c3dece435",
+              "resp_0e146f98b1058ffa016ab82ce9cf9087d09923b404fcd04297"
+            ],
+            "model_attempts": 7,
+            "input_tokens": 112469,
+            "output_tokens": 5469,
+            "cost_usd": 0.279628,
+            "duration_ms": 62677,
+            "unknown_charge": false,
+            "output_hash": "6cef8ff98bff24c5b9ef0c5ef4d18f1d49db40c333b2ca6b2dfb137d92d0f5ac",
+            "repair_count": 1,
+            "error": "MODEL_REQUEST_LIMIT"
+          }
+        },
+        {
+          "trial_id": "80d62e67-6e9c-447e-8120-674f8e1cae2c",
+          "arm": "baseline",
+          "status": "completed",
+          "result": {
+            "passed": false,
+            "validation_codes": [
+              "SEMANTIC_REVIEW_REQUIRED"
+            ],
+            "provider_response_ids": [
+              "resp_044ea9b2f3fd9172016ab82cf4b12887d08d8da5e6ac1ef0d9",
+              "resp_044ea9b2f3fd9172016ab82cf726d887d0a9e7fd64c2549af1",
+              "resp_044ea9b2f3fd9172016ab82cf9d59487d09ce20cb337552fdd",
+              "resp_044ea9b2f3fd9172016ab82d1c928087d082ef5edee4fdcd24",
+              "resp_044ea9b2f3fd9172016ab82d3744ec87d0a4dfaf90136f3ac7"
+            ],
+            "model_attempts": 5,
+            "input_tokens": 76190,
+            "output_tokens": 10179,
+            "cost_usd": 0.25417,
+            "duration_ms": 92351,
+            "unknown_charge": false,
+            "output_hash": "cd43901791d588b03fcbb5d3f21cc09d228d30a5a74b0a587d48e89a3b908ced",
+            "repair_count": 2,
+            "error": "MODEL_BUDGET_EXHAUSTED"
+          }
+        },
+        {
+          "trial_id": "7cf22834-9ccf-4e57-8cba-4ba114a51a8c",
+          "arm": "candidate",
+          "status": "completed",
+          "result": {
+            "passed": false,
+            "validation_codes": [
+              "SEMANTIC_REVIEW_REQUIRED"
+            ],
+            "provider_response_ids": [
+              "resp_0c85e56e9fcf8849016ab82d56537c87d08a4c246d9ee58f63",
+              "resp_0c85e56e9fcf8849016ab82d58663c87d0b151f0ef9d88a3b6",
+              "resp_0c85e56e9fcf8849016ab82d5a7f7087d09f617c9ddd78c101",
+              "resp_0c85e56e9fcf8849016ab82d5d3a4087d08530b57fb7cd9147",
+              "resp_0c85e56e9fcf8849016ab82d8914f487d0bdd4220180a3cd6e"
+            ],
+            "model_attempts": 5,
+            "input_tokens": 63869,
+            "output_tokens": 8519,
+            "cost_usd": 0.21292799999999998,
+            "duration_ms": 83414,
+            "unknown_charge": false,
+            "output_hash": "c63e41d76f011515045e0b6208258bcea7ccafced4114776dd0d73ee3a9fca5f",
+            "repair_count": 2,
+            "error": "MODEL_BUDGET_EXHAUSTED"
+          }
+        },
+        {
+          "trial_id": "a6b1c553-49c6-4cc4-9672-f46e583ab8cf",
+          "arm": "baseline",
+          "status": "completed",
+          "result": {
+            "passed": false,
+            "validation_codes": [
+              "REPAIR_LIMIT_REACHED"
+            ],
+            "provider_response_ids": [
+              "resp_052495063d20cc0f016ab82daee0fc87d08cbbe267046eac3e",
+              "resp_052495063d20cc0f016ab82db150ec87d0b3b1595bc9987f01",
+              "resp_052495063d20cc0f016ab82db3c4b887d0939a1b1e417deb92",
+              "resp_052495063d20cc0f016ab82ddb204087d08a0681100de980eb",
+              "resp_052495063d20cc0f016ab82dfc883c87d0b128ee7c042ea293"
+            ],
+            "model_attempts": 5,
+            "input_tokens": 81203,
+            "output_tokens": 13646,
+            "cost_usd": 0.298866,
+            "duration_ms": 112149,
+            "unknown_charge": false,
+            "output_hash": null,
+            "repair_count": 2,
+            "error": "REPAIR_LIMIT_REACHED"
+          }
+        },
+        {
+          "trial_id": "4722bfd3-943f-4a87-b0b4-d098d393fb32",
+          "arm": "candidate",
+          "status": "completed",
+          "result": {
+            "passed": false,
+            "validation_codes": [
+              "SEMANTIC_REVIEW_REQUIRED"
+            ],
+            "provider_response_ids": [
+              "resp_04391e120e44a713016ab82e4efb9887d09fea31290c3c9fa7",
+              "resp_04391e120e44a713016ab82e50d27487d08bc53966018bdc0a",
+              "resp_04391e120e44a713016ab82e53abb887d0a01e97d4073a2231",
+              "resp_04391e120e44a713016ab82e56789887d0a5b0d4053c21a2b9",
+              "resp_04391e120e44a713016ab82e7e578887d08862c5a3ac64e31c"
+            ],
+            "model_attempts": 5,
+            "input_tokens": 77860,
+            "output_tokens": 9194,
+            "cost_usd": 0.24766,
+            "duration_ms": 83131,
+            "unknown_charge": false,
+            "output_hash": "3ce9f132e3b67d196e34091401ed7d988f6c0f0ae76e703354d91c5a9fc84da3",
+            "repair_count": 1,
+            "error": "MODEL_BUDGET_EXHAUSTED"
+          }
+        }
+      ]
+    },
+    {
+      "proposal_id": "68a36779-b1fa-4061-832e-dc641503bc9e",
+      "status": "rejected",
+      "reason": "six completed provider trials with attributable usage; candidate passes diagnosis and both independent unseen cases with no regression; measured success or repair improvement",
+      "baseline_version": 1,
+      "candidate_version": 3,
+      "actual_cost_usd": 0.00197,
+      "unknown_charge": false,
+      "origin": "validation",
+      "trials": [
+        {
+          "trial_id": "1c213ba5-4472-48f6-ba5e-f539f17e9583",
+          "arm": "baseline",
+          "status": "pending",
+          "result": null
+        },
+        {
+          "trial_id": "bc9591b8-cc08-40a1-96f5-2f8989b8d535",
+          "arm": "candidate",
+          "status": "pending",
+          "result": null
+        },
+        {
+          "trial_id": "af52c4c2-1fb0-4289-92fc-0d394c2bbb64",
+          "arm": "baseline",
+          "status": "pending",
+          "result": null
+        },
+        {
+          "trial_id": "4c8f1b82-eee2-484a-af17-52bf9bacae4f",
+          "arm": "candidate",
+          "status": "pending",
+          "result": null
+        },
+        {
+          "trial_id": "f31a8989-7aa0-408f-8809-9145260e2a0b",
+          "arm": "baseline",
+          "status": "pending",
+          "result": null
+        },
+        {
+          "trial_id": "0d748c4b-9e63-460f-bd82-6c241aa3beea",
+          "arm": "candidate",
+          "status": "pending",
+          "result": null
+        }
+      ]
+    },
+    {
+      "proposal_id": "2e68d08c-ec3b-458c-8c0f-60be69e5c8b0",
+      "status": "evaluating",
+      "reason": "Provider-generated constrained strategy awaits six frozen independent trials.",
+      "baseline_version": 1,
+      "candidate_version": 4,
+      "actual_cost_usd": 0.002576,
+      "unknown_charge": false,
+      "origin": "validation",
+      "trials": [
+        {
+          "trial_id": "f6515ce6-2416-4f58-83b7-aa21bffb3d21",
           "arm": "baseline",
           "status": "dispatched",
           "result": null
         },
         {
-          "trial_id": "ba1bd323-ac80-4dbf-8256-4f4ae5d824aa",
+          "trial_id": "2da4c7aa-2cc9-475c-8703-6cbdbdb74370",
           "arm": "candidate",
           "status": "pending",
           "result": null
         },
         {
-          "trial_id": "80d62e67-6e9c-447e-8120-674f8e1cae2c",
+          "trial_id": "dd6f2fb9-47e0-4d29-a754-1a78c7f316b7",
           "arm": "baseline",
           "status": "pending",
           "result": null
         },
         {
-          "trial_id": "7cf22834-9ccf-4e57-8cba-4ba114a51a8c",
+          "trial_id": "94f6a56f-acb7-4220-9e96-13d4575b6a28",
           "arm": "candidate",
           "status": "pending",
           "result": null
         },
         {
-          "trial_id": "a6b1c553-49c6-4cc4-9672-f46e583ab8cf",
+          "trial_id": "ea1c1f00-d318-467b-bef5-88004a218663",
           "arm": "baseline",
           "status": "pending",
           "result": null
         },
         {
-          "trial_id": "4722bfd3-943f-4a87-b0b4-d098d393fb32",
+          "trial_id": "5426ce74-2b8d-4e16-bef9-f086ce2d3cda",
           "arm": "candidate",
           "status": "pending",
           "result": null
@@ -526,18 +1241,319 @@
       "reserved_usd": 0,
       "failure": "MODEL_BUDGET_EXHAUSTED",
       "semantic_reviews": 0
+    },
+    {
+      "checked_at": "2026-09-26T20:39:37.461Z",
+      "state": "needs_human_review",
+      "model_status": "blocked",
+      "failure": "MODEL_BUDGET_EXHAUSTED",
+      "model_attempts": 9,
+      "cost_usd": 0.384724,
+      "semantic_reviews": [],
+      "candidate": {
+        "revision_id": "98ea9c12-61c9-49f1-962b-ddd19b107a92",
+        "generation": "openai",
+        "content_hash": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f",
+        "base_revision_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+        "policy_updated_on": "2026-09-26",
+        "clause_count": 14,
+        "semantic_validation": null
+      },
+      "output_event_count": 0,
+      "improvements": [
+        {
+          "proposal_id": "de01b203-4e3e-4f12-8b73-4232cb383484",
+          "status": "evaluating",
+          "reason": "Provider-generated constrained strategy awaits six frozen independent trials.",
+          "cost_usd": 0.792066,
+          "completed_trials": 3
+        }
+      ]
+    },
+    {
+      "checked_at": "2026-09-26T20:42:43.856Z",
+      "state": "repairing",
+      "model_status": "running",
+      "failure": null,
+      "model_attempts": 13,
+      "cost_usd": 0.516276,
+      "semantic_reviews": [
+        {
+          "candidate": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f",
+          "passed": false,
+          "codes": [
+            "POLICY_DATE_MISMATCH",
+            "UNVERIFIED_REQUEST_CHANNEL_CLAIM",
+            "LEGAL_DISCLOSURE_INCOMPLETE"
+          ],
+          "explanation": "The reconstructed proposal says “Last updated: September 1, 2026,” but its metadata says September 26, 2026. It also unconditionally tells consumers they may submit requests through the email address and web path, although both are synthetic fixtures and their usability is unverified. Finally, the provider-disclosure list does not say which categories were disclosed for a business purpose in the preceding 12 months, as required by Civil Code §1798.130(a)(5)(C)(ii). The other changed clauses are related to the California signup and its disclosure obligations; no unrelated-clause modification was identified. This review concerns an unapproved proposal, not publication or operational compliance."
+        },
+        {
+          "candidate": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f",
+          "passed": false,
+          "codes": [
+            "POLICY_DATE_MISMATCH",
+            "UNVERIFIED_CHANNEL_CLAIM",
+            "LEGAL_DISCLOSURE_OMISSION"
+          ],
+          "explanation": "The reconstructed proposal says “Last updated: September 1, 2026,” but its metadata says September 26, 2026. It unconditionally tells consumers they may submit requests through a synthetic .example email address and /privacy/requests path, although neither channel is verified as usable. It also omits the required statement about whether the business has actual knowledge that it sells or shares personal information of consumers under 16. The changed inventory, purposes, disclosures, retention, rights, and signal language otherwise relate to the California launch and supplied facts; no unrelated baseline change was identified. This review does not certify operational compliance."
+        },
+        {
+          "candidate": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f",
+          "passed": false,
+          "codes": [
+            "POLICY_DATE_MISMATCH",
+            "UNVERIFIED_REQUEST_CHANNEL_CLAIM",
+            "UNVERIFIED_PROCESS_CLAIM"
+          ],
+          "explanation": "The reconstructed policy says “Last updated: September 1, 2026,” but candidate metadata says September 26, 2026. It also presents the synthetic .example email and /privacy/requests path as currently usable request channels, and describes request verification as an operating process, although their readiness is unverified. These are textual failures even for an internal, unapproved proposal. The other changed baseline clauses are relevant to the California event and supported by the supplied legal obligations or synthetic facts; no unrelated-clause modification was identified."
+        }
+      ],
+      "candidate": {
+        "revision_id": "bb595b31-97e3-48d2-b55a-fed566533bfe",
+        "generation": "openai",
+        "content_hash": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f",
+        "base_revision_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+        "policy_updated_on": "2026-09-26",
+        "clause_count": 14,
+        "semantic_validation": {
+          "passed": false,
+          "codes": [
+            "POLICY_DATE_MISMATCH",
+            "UNVERIFIED_REQUEST_CHANNEL_CLAIM",
+            "LEGAL_DISCLOSURE_INCOMPLETE",
+            "UNVERIFIED_CHANNEL_CLAIM",
+            "LEGAL_DISCLOSURE_OMISSION",
+            "UNVERIFIED_PROCESS_CLAIM"
+          ],
+          "reviewed_content_hash": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f",
+          "model": "gpt-6-sol",
+          "checked_at": "2026-09-26T20:41:52.222Z"
+        }
+      },
+      "output_event_count": 1,
+      "improvements": [
+        {
+          "proposal_id": "de01b203-4e3e-4f12-8b73-4232cb383484",
+          "status": "evaluating",
+          "reason": "Provider-generated constrained strategy awaits six frozen independent trials.",
+          "cost_usd": 1.30386,
+          "completed_trials": 5
+        }
+      ]
+    },
+    {
+      "checked_at": "2026-09-26T20:43:54.220Z",
+      "state": "needs_human_review",
+      "model_status": "blocked",
+      "failure": "REPAIR_LIMIT_REACHED",
+      "model_attempts": 14,
+      "cost_usd": 0.616642,
+      "semantic_reviews": [
+        {
+          "candidate": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f",
+          "passed": false,
+          "codes": [
+            "POLICY_DATE_MISMATCH",
+            "UNVERIFIED_REQUEST_CHANNEL_CLAIM",
+            "LEGAL_DISCLOSURE_INCOMPLETE"
+          ],
+          "explanation": "The reconstructed proposal says “Last updated: September 1, 2026,” but its metadata says September 26, 2026. It also unconditionally tells consumers they may submit requests through the email address and web path, although both are synthetic fixtures and their usability is unverified. Finally, the provider-disclosure list does not say which categories were disclosed for a business purpose in the preceding 12 months, as required by Civil Code §1798.130(a)(5)(C)(ii). The other changed clauses are related to the California signup and its disclosure obligations; no unrelated-clause modification was identified. This review concerns an unapproved proposal, not publication or operational compliance."
+        },
+        {
+          "candidate": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f",
+          "passed": false,
+          "codes": [
+            "POLICY_DATE_MISMATCH",
+            "UNVERIFIED_CHANNEL_CLAIM",
+            "LEGAL_DISCLOSURE_OMISSION"
+          ],
+          "explanation": "The reconstructed proposal says “Last updated: September 1, 2026,” but its metadata says September 26, 2026. It unconditionally tells consumers they may submit requests through a synthetic .example email address and /privacy/requests path, although neither channel is verified as usable. It also omits the required statement about whether the business has actual knowledge that it sells or shares personal information of consumers under 16. The changed inventory, purposes, disclosures, retention, rights, and signal language otherwise relate to the California launch and supplied facts; no unrelated baseline change was identified. This review does not certify operational compliance."
+        },
+        {
+          "candidate": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f",
+          "passed": false,
+          "codes": [
+            "POLICY_DATE_MISMATCH",
+            "UNVERIFIED_REQUEST_CHANNEL_CLAIM",
+            "UNVERIFIED_PROCESS_CLAIM"
+          ],
+          "explanation": "The reconstructed policy says “Last updated: September 1, 2026,” but candidate metadata says September 26, 2026. It also presents the synthetic .example email and /privacy/requests path as currently usable request channels, and describes request verification as an operating process, although their readiness is unverified. These are textual failures even for an internal, unapproved proposal. The other changed baseline clauses are relevant to the California event and supported by the supplied legal obligations or synthetic facts; no unrelated-clause modification was identified."
+        }
+      ],
+      "candidate": {
+        "revision_id": "bb595b31-97e3-48d2-b55a-fed566533bfe",
+        "generation": "openai",
+        "content_hash": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f",
+        "base_revision_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+        "policy_updated_on": "2026-09-26",
+        "clause_count": 14,
+        "semantic_validation": {
+          "passed": false,
+          "codes": [
+            "POLICY_DATE_MISMATCH",
+            "UNVERIFIED_REQUEST_CHANNEL_CLAIM",
+            "LEGAL_DISCLOSURE_INCOMPLETE",
+            "UNVERIFIED_CHANNEL_CLAIM",
+            "LEGAL_DISCLOSURE_OMISSION",
+            "UNVERIFIED_PROCESS_CLAIM"
+          ],
+          "reviewed_content_hash": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f",
+          "model": "gpt-6-sol",
+          "checked_at": "2026-09-26T20:41:52.222Z"
+        }
+      },
+      "output_event_count": 1,
+      "improvements": [
+        {
+          "proposal_id": "de01b203-4e3e-4f12-8b73-4232cb383484",
+          "status": "evaluating",
+          "reason": "Provider-generated constrained strategy awaits six frozen independent trials.",
+          "cost_usd": 1.30386,
+          "completed_trials": 5
+        }
+      ]
+    },
+    {
+      "failed_output_protocol": [
+        {
+          "run_id": "c0cdcee9-d380-4858-af6d-667c4845df52",
+          "response_id": "resp_05b25c2d23b1158e016ab82c3949ac87d0823370c2831db855",
+          "codes": [
+            "PROPOSAL_REQUIRED"
+          ],
+          "created_at": "2026-09-26T20:34:05.325Z",
+          "proposal_keys": [
+            "changes"
+          ],
+          "change_count": 0,
+          "reference_shapes": []
+        },
+        {
+          "run_id": "ad56669f-6a1f-435c-b9aa-ca38e35784e7",
+          "response_id": "resp_0393fd8df9b15f67016ab82e28ec5087d098dfe01697977779",
+          "codes": [
+            "CITATION_SPAN_MISMATCH"
+          ],
+          "created_at": "2026-09-26T20:42:46.126Z",
+          "proposal_keys": [
+            "changes"
+          ],
+          "change_count": 10,
+          "reference_shapes": [
+            "end_utf16,provision_key,quote_text,source_version_id,start_utf16"
+          ]
+        },
+        {
+          "run_id": "ad56669f-6a1f-435c-b9aa-ca38e35784e7",
+          "response_id": "resp_0393fd8df9b15f67016ab82e46dbd087d090e1e200aa63d1f1",
+          "codes": [
+            "PROPOSAL_REQUIRED"
+          ],
+          "created_at": "2026-09-26T20:42:48.668Z",
+          "proposal_keys": [
+            "changes"
+          ],
+          "change_count": 0,
+          "reference_shapes": []
+        }
+      ],
+      "checked_at": "2026-09-26T20:45:02.374Z",
+      "state": "needs_human_review",
+      "model_status": "blocked",
+      "failure": "REPAIR_LIMIT_REACHED",
+      "model_attempts": 14,
+      "cost_usd": 0.616642,
+      "semantic_reviews": [
+        {
+          "candidate": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f",
+          "passed": false,
+          "codes": [
+            "POLICY_DATE_MISMATCH",
+            "UNVERIFIED_REQUEST_CHANNEL_CLAIM",
+            "LEGAL_DISCLOSURE_INCOMPLETE"
+          ],
+          "explanation": "The reconstructed proposal says “Last updated: September 1, 2026,” but its metadata says September 26, 2026. It also unconditionally tells consumers they may submit requests through the email address and web path, although both are synthetic fixtures and their usability is unverified. Finally, the provider-disclosure list does not say which categories were disclosed for a business purpose in the preceding 12 months, as required by Civil Code §1798.130(a)(5)(C)(ii). The other changed clauses are related to the California signup and its disclosure obligations; no unrelated-clause modification was identified. This review concerns an unapproved proposal, not publication or operational compliance."
+        },
+        {
+          "candidate": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f",
+          "passed": false,
+          "codes": [
+            "POLICY_DATE_MISMATCH",
+            "UNVERIFIED_CHANNEL_CLAIM",
+            "LEGAL_DISCLOSURE_OMISSION"
+          ],
+          "explanation": "The reconstructed proposal says “Last updated: September 1, 2026,” but its metadata says September 26, 2026. It unconditionally tells consumers they may submit requests through a synthetic .example email address and /privacy/requests path, although neither channel is verified as usable. It also omits the required statement about whether the business has actual knowledge that it sells or shares personal information of consumers under 16. The changed inventory, purposes, disclosures, retention, rights, and signal language otherwise relate to the California launch and supplied facts; no unrelated baseline change was identified. This review does not certify operational compliance."
+        },
+        {
+          "candidate": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f",
+          "passed": false,
+          "codes": [
+            "POLICY_DATE_MISMATCH",
+            "UNVERIFIED_REQUEST_CHANNEL_CLAIM",
+            "UNVERIFIED_PROCESS_CLAIM"
+          ],
+          "explanation": "The reconstructed policy says “Last updated: September 1, 2026,” but candidate metadata says September 26, 2026. It also presents the synthetic .example email and /privacy/requests path as currently usable request channels, and describes request verification as an operating process, although their readiness is unverified. These are textual failures even for an internal, unapproved proposal. The other changed baseline clauses are relevant to the California event and supported by the supplied legal obligations or synthetic facts; no unrelated-clause modification was identified."
+        }
+      ],
+      "candidate": {
+        "revision_id": "bb595b31-97e3-48d2-b55a-fed566533bfe",
+        "generation": "openai",
+        "content_hash": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f",
+        "base_revision_id": "d682418a-4ae8-5e4a-b331-a644e4b38d5d",
+        "policy_updated_on": "2026-09-26",
+        "clause_count": 14,
+        "semantic_validation": {
+          "passed": false,
+          "codes": [
+            "POLICY_DATE_MISMATCH",
+            "UNVERIFIED_REQUEST_CHANNEL_CLAIM",
+            "LEGAL_DISCLOSURE_INCOMPLETE",
+            "UNVERIFIED_CHANNEL_CLAIM",
+            "LEGAL_DISCLOSURE_OMISSION",
+            "UNVERIFIED_PROCESS_CLAIM"
+          ],
+          "reviewed_content_hash": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f",
+          "model": "gpt-6-sol",
+          "checked_at": "2026-09-26T20:41:52.222Z"
+        }
+      },
+      "output_event_count": 1,
+      "improvements": [
+        {
+          "proposal_id": "de01b203-4e3e-4f12-8b73-4232cb383484",
+          "status": "rejected",
+          "reason": "candidate passes diagnosis and both independent unseen cases with no regression; measured success or repair improvement",
+          "cost_usd": 1.55152,
+          "completed_trials": 6
+        },
+        {
+          "proposal_id": "68a36779-b1fa-4061-832e-dc641503bc9e",
+          "status": "rejected",
+          "reason": "six completed provider trials with attributable usage; candidate passes diagnosis and both independent unseen cases with no regression; measured success or repair improvement",
+          "cost_usd": 0.00197,
+          "completed_trials": 0
+        },
+        {
+          "proposal_id": "2e68d08c-ec3b-458c-8c0f-60be69e5c8b0",
+          "status": "evaluating",
+          "reason": "Provider-generated constrained strategy awaits six frozen independent trials.",
+          "cost_usd": 0.002576,
+          "completed_trials": 0
+        }
+      ]
     }
   ],
   "candidate_quality_snapshot": {
-    "checked_at": "2026-09-26T20:37:14.334Z",
+    "checked_at": "2026-09-26T20:45:49.992Z",
     "workflow": {
       "workflow_id": "a4198d14-f3b3-4346-b435-77e06b1abcc2",
       "state": "needs_human_review",
-      "updated_at": "2026-09-26T20:34:39.187Z",
+      "updated_at": "2026-09-26T20:42:48.789Z",
       "model_status": "blocked",
-      "model_attempts": 9,
-      "cost_usd": 0.384724,
-      "failure": "MODEL_BUDGET_EXHAUSTED"
+      "model_attempts": 14,
+      "cost_usd": 0.616642,
+      "failure": "REPAIR_LIMIT_REACHED"
     },
     "candidate": {
       "policy_updated_on": "2026-09-26",
@@ -569,7 +1585,20 @@
         }
       ]
     },
-    "semantic_validation": null,
+    "semantic_validation": {
+      "passed": false,
+      "codes": [
+        "POLICY_DATE_MISMATCH",
+        "UNVERIFIED_REQUEST_CHANNEL_CLAIM",
+        "LEGAL_DISCLOSURE_INCOMPLETE",
+        "UNVERIFIED_CHANNEL_CLAIM",
+        "LEGAL_DISCLOSURE_OMISSION",
+        "UNVERIFIED_PROCESS_CLAIM"
+      ],
+      "reviewed_content_hash": "86bc7376f4f42cbe823aac1e14ff2703499a48040c15c1eeed932ec2a8ecfd5f",
+      "model": "gpt-6-sol",
+      "checked_at": "2026-09-26T20:41:52.222Z"
+    },
     "contact_date_facts": [
       {
         "fact_key": "consumer_request_email",
@@ -584,11 +1613,69 @@
     ],
     "global_budget": {
       "budget_usd": 50,
-      "spent_usd": 3.630122000000001,
-      "reserved_usd": 0.130596,
-      "inflight": 1,
+      "spent_usd": 5.28054,
+      "reserved_usd": 0.22337200000000001,
+      "inflight": 2,
       "unknown_charges": 0,
-      "request_count": 99
+      "request_count": 135
     }
-  }
+  },
+  "failed_output_protocol": [
+    {
+      "run_id": "c0cdcee9-d380-4858-af6d-667c4845df52",
+      "response_id": "resp_05b25c2d23b1158e016ab82c18951887d08dbd10b3cffe6a30",
+      "codes": [
+        "CITATION_SPAN_MISMATCH"
+      ],
+      "created_at": "2026-09-26T20:34:00.808Z",
+      "proposal_keys": [
+        "changes"
+      ],
+      "change_count": 10,
+      "reference_shapes": [
+        "end_utf16,provision_key,quote_text,source_version_id,start_utf16"
+      ]
+    },
+    {
+      "run_id": "c0cdcee9-d380-4858-af6d-667c4845df52",
+      "response_id": "resp_05b25c2d23b1158e016ab82c3949ac87d0823370c2831db855",
+      "codes": [
+        "PROPOSAL_REQUIRED"
+      ],
+      "created_at": "2026-09-26T20:34:05.325Z",
+      "proposal_keys": [
+        "changes"
+      ],
+      "change_count": 0,
+      "reference_shapes": []
+    },
+    {
+      "run_id": "ad56669f-6a1f-435c-b9aa-ca38e35784e7",
+      "response_id": "resp_0393fd8df9b15f67016ab82e28ec5087d098dfe01697977779",
+      "codes": [
+        "CITATION_SPAN_MISMATCH"
+      ],
+      "created_at": "2026-09-26T20:42:46.126Z",
+      "proposal_keys": [
+        "changes"
+      ],
+      "change_count": 10,
+      "reference_shapes": [
+        "end_utf16,provision_key,quote_text,source_version_id,start_utf16"
+      ]
+    },
+    {
+      "run_id": "ad56669f-6a1f-435c-b9aa-ca38e35784e7",
+      "response_id": "resp_0393fd8df9b15f67016ab82e46dbd087d090e1e200aa63d1f1",
+      "codes": [
+        "PROPOSAL_REQUIRED"
+      ],
+      "created_at": "2026-09-26T20:42:48.668Z",
+      "proposal_keys": [
+        "changes"
+      ],
+      "change_count": 0,
+      "reference_shapes": []
+    }
+  ]
 }

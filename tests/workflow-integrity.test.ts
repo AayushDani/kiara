@@ -146,3 +146,55 @@ test('disclosure coverage accepts combined sections while reporting missing topi
   assert.ok(missingDisclosureTopics(r).includes('authorized agents'));
   assert.ok(missingDisclosureTopics(r).includes('retention periods or criteria'));
 }));
+
+for(const action of ['legal_interpretation_note','requested_changes'] as const)test(`fresh ${action} reaches runtime after the prior repair limit without rotating reused authority`,()=>isolated(async()=>{
+  const {initializeLedger,reserveAttempt,saveLedger,getLedger,syncCounters}=await import('../src/runtime/budget');
+  const {executeModel}=await import('../src/runtime');
+  let w=await start(),parentRun='';
+  await transaction(s=>{
+    const current=s.workflows[0];current.model_mode='openai';current.model_status='complete';current.repair_count=2;
+    const ledger=initializeLedger(s,current),attempt=reserveAttempt(ledger,'draft',1000,4000);
+    attempt.status='complete';attempt.input_tokens=1000;attempt.output_tokens=200;attempt.cost_usd=0.02;
+    ledger.started_at=new Date(Date.now()-600000).toISOString();ledger.deadline_at=new Date(Date.now()-300000).toISOString();parentRun=ledger.run_id;
+    saveLedger(s,current,ledger);syncCounters(current,ledger);
+  });
+  w=(await readState()).workflows[0];
+  let resolutionId:string;
+  if(action==='legal_interpretation_note'){
+    const saved=await feedback(w.workflow_id,'lawyer',{type:action,text:'Reconsider the deletion exceptions against the retained authority.',expected_reset_epoch:w.reset_epoch,expected_state_version:w.state_version},id());resolutionId=saved.feedback_id;
+  }else{
+    await review(w.workflow_id,'founder',{...approve(w),action:'requested_changes',note:'Clarify the deletion exceptions before approval.'},id());
+    resolutionId=(await readState()).workflows[0].approvals.at(-1)!.approval_id;
+  }
+  assert.equal((await readState()).workflows[0].repair_count,2,'The engine cannot reset the protected counter.');
+  const task=await tick();assert.equal(task?.intent,'repair');
+  let calls=0;
+  await executeModel(w.workflow_id,w.reset_epoch,{count:async()=>1000,create:async()=>{
+    calls++;const s=await readState(),child=getLedger(s,s.workflows[0])!;
+    assert.equal(child.parent_run_id,parentRun);assert.equal(child.human_resolution_id,resolutionId);assert.equal(s.workflows[0].repair_count,1);assert.equal(s.workflows[0].cost_usd,0.02);
+    throw Object.assign(new Error('Explicit injected rejection; no provider call'),{status:400});
+  }},'repair');
+  assert.equal(calls,1);
+  const first=await readState(),child=getLedger(first,first.workflows[0])!;
+  assert.equal(Object.values(first.receipts).filter(r=>(r.result as any)?.kind==='runtime_history').length,1);
+  await transaction(s=>{s.workflows[0].state='repairing';s.workflows[0].repair_count=2;});
+  assert.equal((await tick())?.intent,'repair');
+  let forbiddenCalls=0;
+  await executeModel(w.workflow_id,w.reset_epoch,{count:async()=>{forbiddenCalls++;return 1000;},create:async()=>{throw new Error('must not dispatch');}},'repair');
+  const stopped=await readState();assert.equal(forbiddenCalls,0);assert.equal(stopped.workflows[0].failure,'REPAIR_LIMIT_REACHED');assert.equal(getLedger(stopped,stopped.workflows[0])!.run_id,child.run_id);assert.equal(stopped.workflows[0].repair_count,2);
+}));
+
+test('fresh lawyer feedback cannot bypass an unsettled charge after the repair limit',()=>isolated(async()=>{
+  const {initializeLedger,reserveAttempt,saveLedger,getLedger,syncCounters}=await import('../src/runtime/budget');
+  const {executeModel}=await import('../src/runtime');
+  const w=await start();let parentRun='';
+  await transaction(s=>{
+    const current=s.workflows[0];current.model_mode='openai';current.model_status='blocked';current.repair_count=2;
+    const ledger=initializeLedger(s,current),attempt=reserveAttempt(ledger,'draft',1000,4000);attempt.status='unknown';parentRun=ledger.run_id;
+    saveLedger(s,current,ledger);syncCounters(current,ledger);
+  });
+  await feedback(w.workflow_id,'lawyer',{type:'legal_interpretation_note',text:'Clarify the policy after resolving the prior request.',expected_reset_epoch:w.reset_epoch},id());
+  assert.equal((await tick())?.intent,'repair');let calls=0;
+  await executeModel(w.workflow_id,w.reset_epoch,{count:async()=>{calls++;return 1000;},create:async()=>{throw new Error('must not dispatch');}},'repair');
+  const stopped=await readState();assert.equal(calls,0);assert.equal(stopped.workflows[0].failure,'CHARGE_RECONCILIATION_REQUIRED');assert.equal(stopped.workflows[0].repair_count,2);assert.equal(getLedger(stopped,stopped.workflows[0])!.run_id,parentRun);assert.equal(Object.values(stopped.receipts).filter(r=>(r.result as any)?.kind==='runtime_history').length,0);
+}));
