@@ -1,0 +1,205 @@
+[
+  {
+    "fact_id": "61f93875-5234-5e3a-8c2c-639229827733",
+    "fact_key": "data_inventory",
+    "knowledge": "known",
+    "value": [
+      {
+        "categoryId": "identifiers",
+        "examples": [
+          "name",
+          "email",
+          "postal address",
+          "account ID",
+          "IP address",
+          "device identifiers"
+        ],
+        "statuteCategory": "1798.140(v)(1)(A)",
+        "sourceCategories": [
+          "consumer directly",
+          "device interaction"
+        ],
+        "purposes": [
+          "create and service account",
+          "deliver selected local event recommendations",
+          "security"
+        ],
+        "recipientCategories": [
+          "hosting service provider",
+          "transactional email service provider"
+        ],
+        "retention": "Account life plus 30 days after closure; security IP logs 90 days, subject to documented legal holds."
+      },
+      {
+        "categoryId": "customer_records",
+        "examples": [
+          "name",
+          "postal address",
+          "declared state of residence",
+          "support correspondence"
+        ],
+        "statuteCategory": "1798.140(v)(1)(B)",
+        "sourceCategories": [
+          "consumer directly"
+        ],
+        "purposes": [
+          "service account and user-selected region",
+          "respond to support requests"
+        ],
+        "recipientCategories": [
+          "hosting service provider"
+        ],
+        "retention": "Account records for account life plus 30 days after closure; support correspondence for 12 months; subject to documented legal holds."
+      },
+      {
+        "categoryId": "internet_activity",
+        "examples": [
+          "event views",
+          "search activity",
+          "saved events"
+        ],
+        "statuteCategory": "1798.140(v)(1)(F)",
+        "sourceCategories": [
+          "device interaction"
+        ],
+        "purposes": [
+          "operate discovery",
+          "diagnose errors",
+          "improve first-party recommendations"
+        ],
+        "recipientCategories": [
+          "hosting service provider",
+          "restricted first-party analytics service provider"
+        ],
+        "retention": "90 days, then deleted or deidentified; retained security incidents subject to documented legal hold."
+      },
+      {
+        "categoryId": "geolocation",
+        "examples": [
+          "declared city",
+          "coarse IP-derived city",
+          "declared state of residence"
+        ],
+        "statuteCategory": "1798.140(v)(1)(G)",
+        "sourceCategories": [
+          "consumer directly",
+          "device interaction"
+        ],
+        "purposes": [
+          "localize discovery"
+        ],
+        "recipientCategories": [
+          "hosting service provider"
+        ],
+        "retention": "Declared city for account life plus 30 days; coarse IP-derived location 90 days."
+      },
+      {
+        "categoryId": "inferences",
+        "examples": [
+          "music interests inferred from saved event categories"
+        ],
+        "statuteCategory": "1798.140(v)(1)(K)",
+        "sourceCategories": [
+          "derived from first-party interactions"
+        ],
+        "purposes": [
+          "first-party event recommendations"
+        ],
+        "recipientCategories": [
+          "hosting service provider"
+        ],
+        "retention": "Until preferences reset or account closure plus 30 days."
+      },
+      {
+        "categoryId": "sensitive_login",
+        "examples": [
+          "account login combined with access credentials"
+        ],
+        "statuteCategory": "1798.140(ae)(1)(B)",
+        "sourceCategories": [
+          "consumer directly"
+        ],
+        "purposes": [
+          "authenticate requested account",
+          "protect account security"
+        ],
+        "recipientCategories": [
+          "authentication service provider"
+        ],
+        "retention": "Until credential rotation or account closure; revocable session credentials expire within 30 days."
+      }
+    ]
+  },
+  {
+    "fact_id": "02f7fad8-0f7a-537b-b363-bead86cffe8a",
+    "fact_key": "business_purpose_disclosures_preceding_12_months",
+    "knowledge": "known",
+    "value": {
+      "period_start": "2025-09-26",
+      "period_end": "2026-09-26",
+      "categories_disclosed": [
+        {
+          "category_id": "identifiers",
+          "recipient_categories": [
+            "hosting service provider",
+            "transactional email service provider"
+          ]
+        },
+        {
+          "category_id": "customer_records",
+          "recipient_categories": [
+            "hosting service provider"
+          ]
+        },
+        {
+          "category_id": "internet_activity",
+          "recipient_categories": [
+            "hosting service provider",
+            "restricted first-party analytics service provider"
+          ]
+        },
+        {
+          "category_id": "geolocation",
+          "recipient_categories": [
+            "hosting service provider"
+          ]
+        },
+        {
+          "category_id": "inferences",
+          "recipient_categories": [
+            "hosting service provider"
+          ]
+        },
+        {
+          "category_id": "sensitive_login",
+          "recipient_categories": [
+            "authentication service provider"
+          ]
+        }
+      ],
+      "other_categories_disclosed": false,
+      "source": "Explicit fictional demonstration history; not a statement about a real business."
+    }
+  },
+  {
+    "fact_id": "ff7c9a33-79ca-516d-9ef5-1e60ace430f4",
+    "fact_key": "personal_information_history_preceding_12_months",
+    "knowledge": "known",
+    "value": {
+      "period_start": "2025-09-26",
+      "period_end": "2026-09-26",
+      "categories_collected": [
+        "identifiers",
+        "customer_records",
+        "internet_activity",
+        "geolocation",
+        "inferences",
+        "sensitive_login"
+      ],
+      "categories_sold": [],
+      "categories_shared_cross_context_advertising": [],
+      "actual_knowledge_sale_or_sharing_under_16": false,
+      "source": "Explicit fictional demonstration history only; never inferred real business facts."
+    }
+  }
+]

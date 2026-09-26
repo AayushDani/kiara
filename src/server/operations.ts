@@ -1,7 +1,7 @@
 import type {State} from './contracts';
 
 export interface OperationalEvidence {
-  shared_budget?:{budget_usd:number;spent_usd:number;reserved_usd:number;unknown_charges:number;inflight:number;request_count:number;scope:string};
+  shared_budget?:{budget_usd:number;spent_usd:number;reserved_usd:number;unknown_charges:number;blocking_unknown_charges?:number;covered_unknown_charges?:number;actual_spent_usd?:number;conservative_spent_usd?:number;inflight:number;request_count:number;scope:string};
   inference_evidence:{completed_requests:number;provider_response_ids:string[];input_tokens:number;output_tokens:number;cost_usd:number;reserved_usd:number;unknown_charge:boolean};
   runs:{workflow_id:string;run_id:string;model:string;config_hash:string|null;attempts:{attempt_id:string;phase:string;status:string;response_id:string|null;input_tokens:number;output_tokens:number;cost_usd:number;error_code:string|null}[];tools:{name:string;call_id:string|null;arguments_hash:string|null;result_hash:string}[]}[];
   improvements:Record<string,unknown>[];

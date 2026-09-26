@@ -5,7 +5,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
-import {reserveGlobalSpend,settleGlobalSpend,globalSpendStatus} from '../src/server/global-spend';
+import {reserveGlobalSpend,settleGlobalSpend,globalSpendStatus,conservativelyAccountUnknownCharge} from '../src/server/global-spend';
 import {withDemoScope} from '../src/server/demo-context';
 
 const execute=promisify(execFile);
@@ -31,7 +31,7 @@ test('shared operator cap atomically admits at most two concurrent visitors and 
   const children=await Promise.all(Array.from({length:4},(_,i)=>execute(process.execPath,['--import','tsx','--input-type=module','-e',source,`cross_process_${i}`],{cwd:process.cwd(),env:{...process.env},timeout:15000})));
   assert.equal(children.filter(c=>c.stdout.trim()==='reserved').length,1);
   assert.equal(children.filter(c=>c.stdout.trim()==='GLOBAL_BUDGET_EXHAUSTED').length,3);
-  assert.deepEqual(await globalSpendStatus(),{budget_usd:50,spent_usd:40,reserved_usd:6,unknown_charges:0,inflight:1,request_count:3,scope:'all_visitors_and_evaluations'});
+  assert.deepEqual(await globalSpendStatus(),{budget_usd:50,spent_usd:40,actual_spent_usd:40,conservative_spent_usd:0,reserved_usd:6,unknown_charges:0,covered_unknown_charges:0,blocking_unknown_charges:0,inflight:1,request_count:3,scope:'all_visitors_and_evaluations'});
 }));
 
 test('settled IDs cannot dispatch twice, repeat exact settlement is safe, and history cannot lower a charge',async()=>isolated(async()=>{
@@ -87,4 +87,31 @@ test('invalid reservations, settlements, authorization and hosted ephemeral stor
   for(const amount of [NaN,Infinity,-1])await assert.rejects(()=>settleGlobalSpend('missing_charge',amount),code('INVALID_SPEND_SETTLEMENT'));
   process.env.KIARA_OPENAI_BUDGET_USD='50.01';await assert.rejects(()=>reserveGlobalSpend('over_user_cap',1),code('OPENAI_BUDGET_REQUIRED'));
   process.env.KIARA_OPENAI_BUDGET_USD='50';process.env.VERCEL='1';await assert.rejects(()=>reserveGlobalSpend('hosted_no_store',1),code('SPEND_STORE_REQUIRED'));
+}));
+
+
+test('operator full-ceiling accounting preserves unknown history and hard cap while releasing independent work',async()=>isolated(async dir=>{
+  await reserveGlobalSpend('operator_unknown',1);await settleGlobalSpend('operator_unknown',.1,true);
+  const action={charge_id:'operator_unknown',expected_reserved_usd:1,actor:'authorized-test-operator',reason:'Conservatively charge the full request ceiling; original run must remain blocked.',confirmation:'charge_full_reservation_without_retry' as const};
+  const audit=await conservativelyAccountUnknownCharge(action);assert.equal(audit.budgeted_micro,1000000);assert.equal(audit.retry_authorized,false);
+  await conservativelyAccountUnknownCharge(action);
+  const status=await globalSpendStatus();assert.equal(status.spent_usd,1);assert.equal(status.actual_spent_usd,.1);assert.equal(status.conservative_spent_usd,.9);assert.equal(status.unknown_charges,0);assert.equal(status.covered_unknown_charges,1);assert.equal(status.blocking_unknown_charges,0);assert.equal(status.inflight,0);assert.equal(status.reserved_usd,0);
+  const charge=JSON.parse(await readFile(join(dir,'provider-spend.json'),'utf8')).charges.operator_unknown;
+  assert.equal(charge.status,'unknown');assert.equal(charge.actual,100000);assert.deepEqual(charge.reconciliation,audit);
+  await assert.rejects(()=>settleGlobalSpend('operator_unknown',0),code('GLOBAL_CHARGE_UNKNOWN'));
+  await assert.rejects(()=>reserveGlobalSpend('operator_unknown',1),code('SPEND_ID_CONFLICT'));
+  await assert.rejects(()=>conservativelyAccountUnknownCharge({...action,reason:'Rewrite the previously recorded immutable operator reason.'}),code('RECONCILIATION_IMMUTABLE'));
+  await reserveGlobalSpend('independent_after_unknown',1);
+  await assert.rejects(()=>reserveGlobalSpend('above_remaining_cap',.000001),code('GLOBAL_BUDGET_EXHAUSTED'));
+},'2'));
+
+test('operator coverage fails closed on wrong ceilings and late higher usage',async()=>isolated(async()=>{
+  await reserveGlobalSpend('late_unknown_charge',1);await settleGlobalSpend('late_unknown_charge',0,true);
+  const action={charge_id:'late_unknown_charge',expected_reserved_usd:1,actor:'authorized-test-operator',reason:'Full ceiling accounted without resolving unknown provider usage.',confirmation:'charge_full_reservation_without_retry' as const};
+  await assert.rejects(()=>conservativelyAccountUnknownCharge({...action,expected_reserved_usd:.5}),code('SPEND_RESERVATION_CHANGED'));
+  await conservativelyAccountUnknownCharge(action);
+  await settleGlobalSpend('late_unknown_charge',1.1,true);
+  const status=await globalSpendStatus();assert.equal(status.spent_usd,1.1);assert.equal(status.blocking_unknown_charges,1);
+  await assert.rejects(()=>reserveGlobalSpend('after_late_overrun',.1),code('GLOBAL_CHARGE_UNKNOWN'));
+  await assert.rejects(()=>conservativelyAccountUnknownCharge(action),code('SPEND_CEILING_EXCEEDED'));
 }));

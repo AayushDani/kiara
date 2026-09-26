@@ -4,11 +4,18 @@ import {operatorDatabase} from '../data/store';
 import {authorizedBudget} from '../runtime/config';
 import {AppError} from './contracts';
 
-interface Charge {id:string;reserved:number;actual:number;status:'reserved'|'settled'|'unknown';created_at:number}
+interface Charge {id:string;reserved:number;actual:number;status:'reserved'|'settled'|'unknown';created_at:number;reconciliation?:{kind:'conservative_unknown_ceiling';actor:string;reason:string;created_at:number;reserved_micro:number;confirmed_actual_micro:number;budgeted_micro:number;original_status:'unknown';retry_authorized:false}}
 interface Spend {_id:string;version:number;charges:Record<string,Charge>}
 const KEY='kiara-provider-total-v1';
 const micro=(usd:number)=>Math.ceil(usd*1_000_000);
-const totals=(s:Spend)=>Object.values(s.charges).reduce((a,c)=>{a.spent+=c.actual;if(c.status!=='settled')a.reserved+=Math.max(c.reserved-c.actual,0);if(c.status==='unknown')a.unknown++;if(c.status!=='settled')a.inflight++;return a;},{spent:0,reserved:0,unknown:0,inflight:0});
+const totals=(s:Spend)=>Object.values(s.charges).reduce((a,c)=>{
+  const coverage=c.reconciliation?.budgeted_micro??0,covered=c.status==='unknown'&&coverage>=c.reserved&&coverage>=c.actual;
+  a.actual+=c.actual;a.conservative+=Math.max(coverage-c.actual,0);a.spent+=Math.max(c.actual,coverage);
+  if(c.status!=='settled'&&!covered)a.reserved+=Math.max(c.reserved-Math.max(c.actual,coverage),0);
+  if(c.status==='unknown'){a.unknown++;if(!covered)a.blocking_unknown++;}
+  if(c.status!=='settled'&&!covered)a.inflight++;
+  return a;
+},{spent:0,actual:0,conservative:0,reserved:0,unknown:0,blocking_unknown:0,inflight:0});
 
 /** One operator ledger for ALL visitor scopes, evaluations and local acceptance using this database.
  * No reset epoch, visitor id, TTL, model-controlled key or automatic reservation expiry. */
@@ -47,7 +54,7 @@ export async function reserveGlobalSpend(charge_id:string,reserved_usd:number){
   return change(s=>{
     const old=s.charges[charge_id];if(old)throw new AppError('SPEND_ID_CONFLICT','A provider reservation cannot authorize a second dispatch.');
     const t=totals(s),recent=Object.values(s.charges).filter(c=>c.created_at>Date.now()-60_000);
-    if(t.unknown)throw new AppError('GLOBAL_CHARGE_UNKNOWN','A provider charge is unresolved; operator reconciliation is required.');
+    if(t.blocking_unknown)throw new AppError('GLOBAL_CHARGE_UNKNOWN','A provider charge is unresolved; operator reconciliation is required.');
     if(t.spent+t.reserved+reserved>cap)throw new AppError('GLOBAL_BUDGET_EXHAUSTED','The shared provider budget is exhausted.');
     if(t.inflight>=2)throw new AppError('GLOBAL_CONCURRENCY_LIMIT','Two provider requests are already running. Retry after they finish.');
     if(recent.length>=20||Object.keys(s.charges).length>=10000)throw new AppError('GLOBAL_RATE_LIMIT','The shared provider request limit is reached.');
@@ -72,5 +79,22 @@ export async function globalSpendStatus(){
   if(process.env.MONGODB_URI)state=await (await operatorDatabase()).collection<Spend>('provider_spend_authorization').findOne({_id:KEY});
   else{if(process.env.VERCEL)throw new AppError('SPEND_STORE_REQUIRED','Hosted provider spending requires durable MongoDB storage.',503);try{state=JSON.parse(await readFile(join(process.env.KIARA_GLOBAL_BUDGET_DIR||process.env.KIARA_DATA_DIR||join(process.cwd(),'.kiara'),'provider-spend.json'),'utf8'));}catch(e:any){if(e.code!=='ENOENT')throw e;}}
   state||={_id:KEY,version:0,charges:{}};const t=totals(state);
-  return {budget_usd:authorizedBudget(),spent_usd:t.spent/1_000_000,reserved_usd:t.reserved/1_000_000,unknown_charges:t.unknown,inflight:t.inflight,request_count:Object.keys(state.charges).length,scope:'all_visitors_and_evaluations'};
+  return {budget_usd:authorizedBudget(),spent_usd:t.spent/1_000_000,actual_spent_usd:t.actual/1_000_000,conservative_spent_usd:t.conservative/1_000_000,reserved_usd:t.reserved/1_000_000,unknown_charges:t.blocking_unknown,covered_unknown_charges:t.unknown-t.blocking_unknown,blocking_unknown_charges:t.blocking_unknown,inflight:t.inflight,request_count:Object.keys(state.charges).length,scope:'all_visitors_and_evaluations'};
+}
+
+/** Explicit operator action only; never called by the runtime, a visitor route, or a retry.
+ * Account for the entire bounded request ceiling without claiming provider usage is known.
+ * The original unknown charge and its workspace remain unresolved and cannot retry. */
+export async function conservativelyAccountUnknownCharge(input:{charge_id:string;expected_reserved_usd:number;actor:string;reason:string;confirmation:'charge_full_reservation_without_retry'}){
+  const expected=micro(input.expected_reserved_usd);
+  if(input.confirmation!=='charge_full_reservation_without_retry'||!Number.isSafeInteger(expected)||expected<=0||!input.actor.trim()||input.actor.length>200||input.reason.trim().length<20||input.reason.length>2000)throw new AppError('INVALID_OPERATOR_RECONCILIATION','Explicit operator attribution, reason, exact ceiling, and no-retry confirmation are required.',400);
+  return change(s=>{
+    const c=s.charges[input.charge_id];
+    if(!c||c.status!=='unknown')throw new AppError('UNKNOWN_CHARGE_REQUIRED','Only an existing unknown provider charge can be conservatively accounted.');
+    if(c.reserved!==expected)throw new AppError('SPEND_RESERVATION_CHANGED','Review the exact immutable request reservation before accounting for it.');
+    if(c.actual>c.reserved)throw new AppError('SPEND_CEILING_EXCEEDED','Reported usage exceeds the request ceiling; conservative coverage cannot unblock this charge.');
+    if(c.reconciliation){if(c.reconciliation.actor!==input.actor||c.reconciliation.reason!==input.reason)throw new AppError('RECONCILIATION_IMMUTABLE','Operator reconciliation history cannot be rewritten.');return c.reconciliation;}
+    const reconciliation={kind:'conservative_unknown_ceiling' as const,actor:input.actor,reason:input.reason,created_at:Date.now(),reserved_micro:c.reserved,confirmed_actual_micro:c.actual,budgeted_micro:c.reserved,original_status:'unknown' as const,retry_authorized:false as const};
+    c.reconciliation=reconciliation;return reconciliation;
+  });
 }

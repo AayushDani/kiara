@@ -6,7 +6,7 @@ import {authorizedBudget,runtimeConfig,tokenCost,type RuntimeConfig,type Reasoni
 // Real acceptance measured ~58k review-input tokens across three complete-authority
 // checks. The finite run window must cover generation and two reviewed repairs.
 // Monetary ceilings remain $3/run and the separately authorized $50 global total.
-export const LIMITS=Object.freeze({attempts:24,requests:24,tools:16,repairs:2,input:384000,output:48000,request_input:32000,request_output:10000,cost:3,deadline_ms:240000,timeout_ms:90000});
+export const LIMITS=Object.freeze({attempts:24,requests:24,tools:16,repairs:2,input:384000,output:48000,request_input:32000,request_output:10000,cost:3,deadline_ms:240000,timeout_ms:180000});
 export interface Attempt {attempt_id:string;phase:string;status:'reserved'|'dispatched'|'complete'|'rejected'|'unknown';reserved_input:number;reserved_output:number;reserved_usd:number;input_tokens:number;output_tokens:number;cost_usd:number;created_at:string;response_id:string|null;error_code:string|null;model?:string;provider_model?:string;provider_status?:string;provider_error_code?:string|null;provider_error_type?:string|null;provider_rate_diagnostics?:Record<string,number>;rate_limit_retry?:number;retry_of_attempt_id?:string|null;retry_after_ms?:number;execution_mode?:'provider'|'injected_test';provider_request_id?:string|null;request_hash?:string;output_hash?:string;duration_ms?:number;cached_input_tokens?:number;reasoning_tokens?:number;completed_at?:string;config_version?:string}
 export interface UsageTotals {model_attempts:number;input_tokens:number;output_tokens:number;cost_usd:number}
 export interface ReviewBudget {input_tokens:number;output_tokens:number;requests:number}
