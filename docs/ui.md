@@ -1,38 +1,27 @@
-# Kiara product UI
+# Kiara demo UI
 
-`src/ui/pages/KiaraApp.tsx` is the client entrypoint imported by the App Router page. It uses the typed server state directly; all workflow actions call the server. `src/ui/presentation.ts` contains pure display helpers and lossless clause comparison. `src/app/globals.css` is the responsive visual system.
+The demo is a single split-screen workspace inspired by the supplied Legal Context Layer prototype. A warm, light company workspace sits beside a dark execution harness. There is no dashboard sidebar. On narrow screens the panes stack without shrinking text.
 
-The application has six workspace sections:
+The primary path is one synthetic California signup → saved context retrieval and applicability assessment → scripted policy draft → visible validation and repair → founder approval → simulated lawyer review. A public visitor's final lawyer approval atomically restores their original demo data. The UI shows a completion receipt while displaying the fresh workspace. **Reset demo** is also available manually.
 
-- **Overview:** actual internal policy version, pending decisions, fact count, harness version, recent events, and synthetic signup entrypoint.
-- **Policy reviews:** selectable workflows, persisted progress, applicability criteria, unknown facts, visible failed/passed validation and repair history, ordered approvals, operational follow-ups, and optional technical pane. Tabs expose full clause redlines, retained legal sources, pinned company facts, and event/feedback history.
-- **Company context:** searchable facts with known/unknown/conflicted state and provenance, retained policy version exports, pending founder fact verification.
-- **Learning & guardrails:** active persisted harness configuration, fixed-case evaluation, safe promotion/rollback controls, result history, future-run feedback, and actual later workflow repair counts.
-- **Notifications:** persisted outbox, explicit preview-versus-delivery states, and inspectable message body.
-- **System & activity:** persistence/model/email modes, worker heartbeat, provider limitations, demo identity explanation, epochs, protections, and persisted events.
+`src/ui/pages/KiaraApp.tsx` owns server state and actions. `src/ui/components/DemoHarness.tsx` displays execution and a read-only state snapshot. `src/ui/demo-harness.ts` projects saved workflow state into progress checkpoints; no timer invents progress. `src/ui/presentation.ts` retains lossless clause comparisons. `src/app/globals.css` defines the responsive visual system.
 
-All visible writes use JSON POST requests, the session CSRF token, and a generated idempotency key. Workflow review commands carry the reset epoch, state version, and review bundle hash. The UI polls actual workspace state every second while jobs process and every five seconds while idle. It does not advance workflow stages or simulate approval locally.
+## Company workspace
 
-## Product boundaries
+The initial signup uses fictional defaults, with optional scenario customization. Activity, Policy, and Company context views keep the main page compact. Full original and proposed clauses remain available for review, with additions, changes, removals, and unchanged content distinguished. Retained sources and email previews are inspectable. Founder and lawyer actions remain explicit and ordered.
 
-The workspace is explicitly a synthetic demo. Local persistence is labeled separately from MongoDB. Scripted output is labeled separately from OpenAI. Email preview does not claim delivery. The role selector is a simulated session identity, not proof of separate human actors. Internal finalization does not claim publication or operational compliance.
+Every mutation uses the session CSRF token and a generated idempotency key. Review commands carry the reset generation, workflow state version, and sealed bundle hash. The UI polls saved state, and handles failed commands without claiming success. The server continues to enforce isolated signed public sessions and all approval gates.
 
-Unknown facts are not rendered as false. Proposed policy language is labeled and separated from retained source text. Source modals show the official URL, effective/retrieval dates, and content/source hashes. Clause comparison retains full original and candidate content and labels additions, removals, changes, and unchanged clauses; it uses semantic `ins`/`del` markup, not color alone.
+## Execution harness
 
-The four feedback categories remain separate: company fact correction, full clause edit, legal interpretation note, and future harness improvement. A company fact proposal needs founder verification. A wording edit creates a revision and reruns validation. Feedback itself does not silently change the harness.
+Six checkpoints show the current saved run: signup, context, applicability, draft, validation/repair, and human approval. Repairing retrieval and repairing a proposal are separate states. No-change decisions skip drafting and approvals. A material correction restarts progress even when the server retains historical checks. Only approvals bound to the current packet count.
 
-## Accessibility implementation
+Recorded events expose actual timestamps and failure/repair explanations. The syntax-colored snapshot is a projection of persisted fields, not an editable configuration or a claim that the harness upgraded itself. Harness versions are pinned to each workflow. After automatic reset the old run is not represented as ongoing activity.
 
-Native buttons, selects, labels, tables, dialog roles, focus trapping/restoration, Escape dismissal, live status announcements, and arrow-key tab navigation are implemented. Statuses use text in addition to color. Responsive layouts should be checked on a real browser and keyboard; these mechanisms alone are not an accessibility audit.
+## Demo boundaries
+
+The company and review roles are simulated. Model output is scripted; email messages are previews. MongoDB Atlas and Vercel Workflow labels appear only when those modes are reported by the server. Local persistence is labeled separately. The source-review window uses retained legal fixtures. Internal approval does not publish a policy or establish operational compliance.
 
 ## Verification
 
-Run pure presentation checks with:
-
-```sh
-node --import tsx --test tests/ui/*.test.ts
-```
-
-These tests exercise the real full baseline/candidate fixtures, preserve removed clauses and heading-only changes, distinguish unknown from false/zero, and surface structured server errors. They are unit checks only, not browser or provider proof.
-
-The integration lead owns browser acceptance and captures the actual persisted signup → validation/repair → founder → lawyer → finalization flow, structured feedback behavior, source/redline views, notifications, harness comparison, and later-event behavior. The UI author did not operate the browser while the integration lead controlled that shared session.
+Run `npm run check`, `npm test`, and `npm run build` under Node 24. Presentation tests verify complete clause comparisons and truthful errors. Harness tests verify state-driven progression, stale historical records, separate repair stages, no-change outcomes, ordered current-packet approvals, reset, and pinned harness versions. Browser verification covers rendered desktop/mobile layouts and the signup-to-approval path. Public automatic reset is checked over HTTPS on the deployed demo.

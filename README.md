@@ -1,6 +1,6 @@
 # Kiara
 
-Kiara turns a company change into a source-backed legal review. A California signup triggers a scoped applicability assessment, a versioned privacy-policy proposal, visible validation and repair, founder approval, then lawyer approval. The technical view connects that work to a persisted, measured retrieval-harness improvement.
+Kiara turns a company change into a source-backed legal review. A California signup triggers a scoped applicability assessment, a versioned privacy-policy proposal, visible validation and repair, founder approval, then lawyer approval. The split-screen demo pairs a simple company workspace with a persistent execution harness.
 
 This repository contains the actual application and the retained engineering inputs in `kiara-architecture/`. DemoCo is a fictional Rippit-inspired music-discovery company. Its revenue and practices are explicit synthetic facts; they are not claims about Rippit. A California address alone does not prove CCPA coverage, and an approved policy does not complete operational duties.
 
@@ -55,11 +55,12 @@ Local simulated identities are restricted to loopback. The public hackathon mode
 ## Working flow
 
 1. Start from the synthetic New York customer baseline and simulate a declared California signup.
-2. Watch context retrieval, explicit CCPA criteria, the full policy redline, the deliberately seeded citation fault and bounded repair.
-3. Inspect authoritative source text, source hashes/dates, linked company facts, operational follow-ups and validation records.
-4. Submit classified feedback or approve as founder. Switch to the simulated lawyer and approve the exact sealed bundle. A material change requires new validation and both approvals.
-5. In local or private mode, run the harness comparison. The narrow approved change prefetches California facts and legal evidence. Persisted deterministic results are labeled separately from a live-model evaluation.
-6. In local or private mode, submit a distinct later signup. The new workflow pins the promoted version; prior workflows retain their original pins. A reviewed current policy may need no second redline.
+2. Watch the harness show context retrieval, applicability, scripted drafting, and the seeded validation/repair steps.
+3. Inspect the full original and proposed policy clauses, retained legal sources, company facts, and recorded events.
+4. Approve as founder, inspect the email preview, then switch to the simulated lawyer and approve the exact sealed bundle.
+5. Final lawyer approval in the public demo restores the original workspace. Start again, or use **Reset demo** at any time. Optional signup scenarios demonstrate missing facts and no-change outcomes.
+
+The underlying adaptation and feedback APIs remain available for engineering experiments; the public UI focuses on the concise judge walkthrough. See [UI design and behavior](docs/ui.md).
 
 ## Verification and handoff
 
