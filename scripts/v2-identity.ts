@@ -15,8 +15,10 @@ const atlasReleaseUri=(value:string)=>{
   try{
     const url=new ConnectionString(value),options=[...url.searchParams].map(([key,setting])=>[key.toLowerCase(),setting.toLowerCase()] as const);
     const tls=options.filter(([key])=>key==='tls'||key==='ssl');
-    return url.protocol==='mongodb+srv:'&&url.hosts.length===1&&url.hosts[0].toLowerCase().endsWith('.mongodb.net')&&
-      (url.pathname==='/'||url.pathname==='/kiara_v2')&&tls.every(([,setting])=>['true','1'].includes(setting))&&
+    const atlasHosts=url.hosts.length>0&&url.hosts.every(host=>host.replace(/:\d+$/,'').toLowerCase().endsWith('.mongodb.net'));
+    const srv=url.protocol==='mongodb+srv:'&&url.hosts.length===1;
+    const standard=url.protocol==='mongodb:'&&tls.length===1&&['true','1'].includes(tls[0][1]);
+    return (srv||standard)&&atlasHosts&&(url.pathname==='/'||url.pathname==='/kiara_v2')&&tls.length<=1&&tls.every(([,setting])=>['true','1'].includes(setting))&&
       !options.some(([key,setting])=>['tlsinsecure','tlsallowinvalidcertificates','tlsallowinvalidhostnames'].includes(key)&&!['false','0'].includes(setting))&&
       !['tls','ssl','tlsinsecure','tlsallowinvalidcertificates','tlsallowinvalidhostnames'].some(key=>options.filter(([name])=>name===key).length>1);
   }catch{return false;}

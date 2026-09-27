@@ -70,6 +70,8 @@ test('synthetic Preview identity can target only the exact kiara_v2 Atlas releas
  const preview=await runIdentityCommand(input,releaseEnv,deps);
  assert.equal(preview.syntheticScope.database,'kiara_v2');
  assert.equal(preview.syntheticScope.tenantId,releaseTenant);
+ const standardEnv={...releaseEnv,MONGODB_URI:'mongodb://operator:secret@shard-a.example.mongodb.net:27017,shard-b.example.mongodb.net:27017/kiara_v2?tls=true'};
+ assert.equal((await runIdentityCommand(input,standardEnv,deps)).syntheticScope.database,'kiara_v2');
  const applied=await runIdentityCommand({...input,phase:'apply',previewHash:preview.previewHash},releaseEnv,deps);
  assert.equal(applied.changed,true);
  for(const bad of [
