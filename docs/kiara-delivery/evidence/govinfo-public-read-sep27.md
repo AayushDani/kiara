@@ -8,6 +8,8 @@ The response identified package `USCODE-2024-title17`, granule `USCODE-2024-titl
 
 Separately, Kiara's `readSelectedLegalSource` fetched the corresponding public HTML at `https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-chap1-sec105.htm`. It accepted `text/html`, read 18,316 bytes, extracted 14,782 text characters, and reported raw SHA-256 `be9a8a2918c3f674506e80087565ce9f5479ea358394313daf02e3aa0a1491ba`.
 
+Reprocessing those same 18,316 saved bytes after a text-decoding repair produced 14,489 characters, including the readable `§105.` section marker and decoded en/em dashes. None of the observed `&sect;`, `&ndash;`, or `&mdash;` entities remained. The raw source hash stayed the same. Focused legal-source tests passed **8/8**, and TypeScript passed after the repair; this did not use a connected tenant.
+
 The guessed HTML URL for the CFR example below returned HTTP 200 with a “Page Not Found | GovInfo” HTML page. The source reader now blocks that observed error-page signature for selected GovInfo content, including U.S. Code HTML, before it can be staged or treated as a watched change. The focused regression uses the observed title signature; it does not prove detection of every possible upstream error page.
 
 At 16:03 UTC, a read-only HEAD request to the constructed U.S. Code [official PDF](https://www.govinfo.gov/content/pkg/USCODE-2024-title17/pdf/USCODE-2024-title17-chap1-sec105.pdf) returned HTTP 200, `application/pdf`, and `Content-Length: 144211`. The PDF body was not inspected for legal equivalence.
