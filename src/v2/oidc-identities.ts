@@ -2,6 +2,7 @@ import {createHash} from 'node:crypto';
 import {MongoClient,type Collection} from 'mongodb';
 import {V2Error} from './contracts';
 import {digest,readWorkspace} from './store';
+import {v2DatabaseName} from './database-target';
 
 interface IdentityBinding {
   _id:string;issuer:string;tenantId:string;actorId:string;version:number;
@@ -22,10 +23,10 @@ function source(){
 }
 async function collection():Promise<Collection<IdentityBinding>>{
   if(process.env.KIARA_V2_STORE_MODE!=='normalized'||!process.env.MONGODB_URI)throw new V2Error('IDENTITY_STORE_NOT_CONFIGURED','Hosted identity bindings require normalized MongoDB storage.',503);
-  const key=JSON.stringify([process.env.MONGODB_URI,process.env.MONGODB_DB||'kiara']);
+  const target=v2DatabaseName(),key=JSON.stringify([process.env.MONGODB_URI,target]);
   if(client&&connectionKey!==key)throw new V2Error('IDENTITY_STORE_CHANGED','Restart the identity adapter after a storage configuration change.',503);
   if(!client){const next=new MongoClient(process.env.MONGODB_URI,{maxPoolSize:4,serverSelectionTimeoutMS:5000});await next.connect();client=next;connectionKey=key;}
-  return client.db(process.env.MONGODB_DB||'kiara').collection<IdentityBinding>('v2_oidc_identities');
+  return client.db(target).collection<IdentityBinding>('v2_oidc_identities');
 }
 export async function closeOidcIdentityStore(){await client?.close();client=undefined;connectionKey=undefined;}
 async function activeMember(tenantId:string,actorId:string):Promise<boolean>{
@@ -33,7 +34,7 @@ async function activeMember(tenantId:string,actorId:string):Promise<boolean>{
     const workspace=await readWorkspace(tenantId),member=workspace.memberships.find(m=>m.actorId===actorId);
     return !!member&&!member.revokedAt&&(!member.expiresAt||Date.parse(member.expiresAt)>Date.now())&&member.roles.includes('member');
   }
-  await collection();const db=client!.db(process.env.MONGODB_DB||'kiara');
+  await collection();const db=client!.db(v2DatabaseName());
   const head=await db.collection<{_id:string;mode:string;generation:string}>('v2_normalized_heads').findOne({_id:tenantId},{readConcern:{level:'majority'}});
   if(head?.mode!=='normalized'||!head.generation)return false;
   const row=await db.collection<{tenantId:string;generation:string;recordKey:string;hash:string;value:{actorId:string;roles:string[];revokedAt:string|null;expiresAt:string|null}}>('v2_records_memberships').findOne({tenantId,generation:head.generation,recordKey:actorId},{readConcern:{level:'majority'}});

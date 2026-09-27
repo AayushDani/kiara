@@ -2,6 +2,7 @@ import {createCipheriv,createDecipheriv,createHash,randomBytes} from 'node:crypt
 import {Binary,MongoClient,type Db} from 'mongodb';
 import {V2Error} from './contracts';
 import {syntheticOriginalCutoverEnabled,type OriginalReference} from './objects';
+import {v2DatabaseName} from './database-target';
 
 /** Original bytes are encrypted before they enter MongoDB. A majority transaction publishes
  * all ciphertext chunks and the manifest together; the permanent fence prevents resurrection. */
@@ -17,7 +18,7 @@ let client:MongoClient|undefined,identity:string|undefined;
 function keyMaterial(){const value=process.env.KIARA_ORIGINALS_KEY;if(!value||!/^[a-f0-9]{64}$/i.test(value))throw new V2Error('ENCRYPTION_KEY_REQUIRED','Configure a protected 32-byte hex key for MongoDB originals.',503);const key=Buffer.from(value,'hex');return {key,keyId:sha(key).slice(0,16)};}
 export function destinationOriginalReference(tenantId:string,reference:OriginalReference):OriginalReference{const {keyId}=keyMaterial(),tenantHash=sha(tenantId);return {key:`${tenantHash}/${reference.sha256}/${keyId}`,sha256:reference.sha256,bytes:reference.bytes,encryption:'aes-256-gcm',storage:'mongo_encrypted',keyId};}
 async function database():Promise<{client:MongoClient;db:Db}>{
- const uri=process.env.MONGODB_URI,dbName=process.env.MONGODB_DB||'kiara';
+ const uri=process.env.MONGODB_URI,dbName=v2DatabaseName();
  if(!uri)throw new V2Error('MONGO_ORIGINALS_NOT_CONFIGURED','MongoDB originals require MONGODB_URI.',503);
  const next=sha(uri+'\0'+dbName);if(client&&identity!==next)throw new V2Error('ORIGINAL_STORE_CONFIG_CHANGED','Restart the original store after changing its database identity.',503);
  if(!client){const connected=new MongoClient(uri,{serverSelectionTimeoutMS:5000,maxPoolSize:6,retryWrites:true});await connected.connect();client=connected;identity=next;}
