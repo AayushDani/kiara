@@ -16,7 +16,7 @@ function selected(value:GovInfoSelection){
  return value;
 }
 function optionalDate(value:unknown){if(typeof value!=='string'||!Number.isFinite(Date.parse(value)))return null;return new Date(value).toISOString();}
-function exactApiLink(value:unknown,selection:GovInfoSelection,format:'htm'|'pdf'){
+function exactApiLink(value:unknown,selection:GovInfoSelection,format:'htm'|'xml'|'pdf'){
  if(typeof value!=='string')return false;
  try{const url=new URL(value);return url.protocol==='https:'&&url.hostname==='api.govinfo.gov'&&!url.username&&!url.password&&!url.hash&&url.pathname===`/packages/${selection.packageId}/granules/${selection.granuleId}/${format}`&&!url.search;}catch{return false;}
 }
@@ -35,17 +35,19 @@ export async function inspectGovInfoGranule(selection:GovInfoSelection,options:{
  const endpoint=`https://api.govinfo.gov/packages/${selection.packageId}/granules/${selection.granuleId}/summary`;
  let response:Response;try{response=await (options.fetcher||fetch)(endpoint,{method:'GET',redirect:'error',credentials:'omit',signal:AbortSignal.timeout(15000),headers:{'X-Api-Key':apiKey,Accept:'application/json'}});}catch{throw new V2Error('GOVINFO_UNAVAILABLE','GovInfo metadata could not be read; source coverage remains unchanged.',503);}
  const raw=await boundedJson(response),downloads=raw.download as Record<string,unknown>|undefined;
- if(raw.packageId!==selection.packageId||raw.granuleId!==selection.granuleId||typeof raw.title!=='string'||!raw.title.trim()||raw.title.length>300||!downloads||!exactApiLink(downloads.txtLink,selection,'htm')||!exactApiLink(downloads.pdfLink,selection,'pdf'))throw new V2Error('GOVINFO_METADATA_MISMATCH','GovInfo metadata did not identify the selected granule and both review formats.',502);
+ const cfr=selection.packageId.startsWith('CFR-');
+ if(raw.packageId!==selection.packageId||raw.granuleId!==selection.granuleId||typeof raw.title!=='string'||!raw.title.trim()||raw.title.length>300||!downloads||!exactApiLink(cfr?downloads.xmlLink:downloads.txtLink,selection,cfr?'xml':'htm')||!exactApiLink(downloads.pdfLink,selection,'pdf'))throw new V2Error('GOVINFO_METADATA_MISMATCH','GovInfo metadata did not identify the selected granule and both review formats.',502);
  const stem=`https://www.govinfo.gov/content/pkg/${selection.packageId}`;
- return {packageId:selection.packageId,granuleId:selection.granuleId,title:raw.title.trim(),authorityType:selection.packageId.startsWith('USCODE-')?'statute':'regulation',jurisdiction:'US-federal',domain:selection.domain.trim(),dateIssued:optionalDate(raw.dateIssued),lastModified:optionalDate(raw.lastModified),metadataHash:digest(raw),sourceUrl:`${stem}/html/${selection.granuleId}.htm`,officialPdfUrl:`${stem}/pdf/${selection.granuleId}.pdf`,detailsUrl:`https://www.govinfo.gov/app/details/${selection.packageId}/${selection.granuleId}`,status:'unreviewed_candidate'};
+ return {packageId:selection.packageId,granuleId:selection.granuleId,title:raw.title.trim(),authorityType:cfr?'regulation':'statute',jurisdiction:'US-federal',domain:selection.domain.trim(),dateIssued:optionalDate(raw.dateIssued),lastModified:optionalDate(raw.lastModified),metadataHash:digest(raw),sourceUrl:cfr?`${stem}/xml/${selection.granuleId}.xml`:`${stem}/html/${selection.granuleId}.htm`,officialPdfUrl:`${stem}/pdf/${selection.granuleId}.pdf`,detailsUrl:`https://www.govinfo.gov/app/details/${selection.packageId}/${selection.granuleId}`,status:'unreviewed_candidate'};
 }
 
 type ReadOptions={apiKey?:string;metadataFetcher?:typeof fetch;sourceFetcher?:typeof fetch};
 async function selectedRead(actor:ActorContext,selection:GovInfoSelection,options:ReadOptions){
  requireRole(await readWorkspace(actor.tenantId),actor,'legal_reviewer');
- selected(selection);assertLegalSourceReadPolicy(actor.tenantId,`https://www.govinfo.gov/content/pkg/${selection.packageId}/html/${selection.granuleId}.htm`);
+ selected(selection);const cfr=selection.packageId.startsWith('CFR-');assertLegalSourceReadPolicy(actor.tenantId,`https://www.govinfo.gov/content/pkg/${selection.packageId}/${cfr?'xml':'html'}/${selection.granuleId}.${cfr?'xml':'htm'}`);
  const candidate=await inspectGovInfoGranule(selection,{apiKey:options.apiKey,fetcher:options.metadataFetcher});
  const read=await readSelectedLegalSource(actor.tenantId,candidate.sourceUrl,options.sourceFetcher);
+ if(cfr?!['application/xml','text/xml'].includes(read.type):read.type!=='text/html')throw new V2Error('GOVINFO_SOURCE_FORMAT','GovInfo returned a different source format than the selected official rendition.',502);
  requireRole(await readWorkspace(actor.tenantId),actor,'legal_reviewer');
  return {candidate,read,previewHash:digest({candidate,rawHash:read.rawHash})};
 }

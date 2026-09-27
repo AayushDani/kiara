@@ -36,6 +36,8 @@ test('source or member withdrawal while a public read is pending prevents observ
 });
 test('bounded extraction and public address policy reject binary, private and mapped destinations',()=>{
  for(const value of ['127.0.0.1','10.2.3.4','169.254.169.254','172.16.1.1','192.168.2.1','100.64.2.3','::1','fc00::1','fe80::1','::ffff:127.0.0.1','2001::1234','2002:7f00:1::1'])assert.equal(publicLegalAddress(value),false,value);for(const value of ['8.8.8.8','2606:4700:4700::1111'])assert.equal(publicLegalAddress(value),true,value);assert.throws(()=>extractLegalSource(new Uint8Array([255,255]),'text/plain'),{code:'LEGAL_SOURCE_ENCODING'});assert.equal(extractLegalSource(Buffer.from('<p>A &amp; B</p><script>not source text</script>'),'text/html'),'A & B');
+ assert.throws(()=>extractLegalSource(Buffer.from('<!DOCTYPE CFRGRANULE><CFRGRANULE><SECTION>Unsafe</SECTION></CFRGRANULE>'),'application/xml'),{code:'LEGAL_SOURCE_FORMAT'});
+ assert.throws(()=>extractLegalSource(Buffer.from('<html>GovInfo error</html>'),'application/xml'),{code:'LEGAL_SOURCE_FORMAT'});
 });
 
 test('unsupported and oversized reads remain blocked; deletion removes the staged observed payload and stops its watch',async()=>{

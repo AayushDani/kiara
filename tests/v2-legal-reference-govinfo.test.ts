@@ -63,3 +63,27 @@ test('metadata substitution and missing operator selection reject before source 
  await assert.rejects(()=>stageGovInfoGranule(actor,selected,{apiKey:'test-private-key',metadataFetcher:metadataReader,sourceFetcher:reader,expectedPreviewHash:'a'.repeat(64)}),{code:'LEGAL_WATCH_NOT_CONFIGURED'});
  assert.equal(sourceReads,0);assert.equal(metadataReads,0);
 });
+
+test('selected annual CFR granule uses the official XML rendition and rejects an HTML error page',async()=>{
+ await closeV2Store();const dir=await mkdtemp(join(tmpdir(),'kiara-govinfo-cfr-'));dirs.push(dir);process.env.KIARA_V2_DATA_DIR=dir;process.env.KIARA_ORIGINALS_DIR=join(dir,'originals');delete process.env.MONGODB_URI;delete process.env.KIARA_ORIGINALS_MODE;delete process.env.KIARA_V2_INDEX_POLICY;process.env.KIARA_V2_AI_MODE='local';
+ const selection={packageId:'CFR-2025-title17-vol1',granuleId:'CFR-2025-title17-vol1-sec1-2',domain:'commodity regulation'};
+ const xmlUrl=`https://www.govinfo.gov/content/pkg/${selection.packageId}/xml/${selection.granuleId}.xml`;
+ const cfrMetadata={packageId:selection.packageId,granuleId:selection.granuleId,title:'Liability of principal for act of agent.',dateIssued:'2025-04-01',lastModified:'2025-08-15T18:55:03Z',download:{xmlLink:`https://api.govinfo.gov/packages/${selection.packageId}/granules/${selection.granuleId}/xml`,pdfLink:`https://api.govinfo.gov/packages/${selection.packageId}/granules/${selection.granuleId}/pdf`}};
+ const xml='<?xml version="1.0"?><CFRGRANULE><SECTION><SECTNO>§ 1.2</SECTNO><SUBJECT>Liability of principal for act of agent.</SUBJECT><P>Fictional &amp; bounded CFR text.</P></SECTION></CFRGRANULE>';
+ const xmlFetcher:typeof fetch=async()=>new Response(xml,{headers:{'content-type':'application/xml'}});
+ process.env.KIARA_V2_LEGAL_SOURCE_POLICY=JSON.stringify([{tenantId:actor.tenantId,urls:[xmlUrl],validUntil:new Date(Date.now()+86400000).toISOString(),maxBytes:10000}]);
+ await snapshot(actor);
+ const candidate=await inspectGovInfoGranule(selection,{apiKey:'test-private-key',fetcher:metadataFetcher(cfrMetadata)});
+ assert.equal(candidate.sourceUrl,xmlUrl);assert.equal(candidate.authorityType,'regulation');
+ await assert.rejects(()=>inspectGovInfoGranule(selection,{apiKey:'test-private-key',fetcher:metadataFetcher({...cfrMetadata,download:{pdfLink:cfrMetadata.download.pdfLink,txtLink:`https://api.govinfo.gov/packages/${selection.packageId}/granules/${selection.granuleId}/htm`}})}),{code:'GOVINFO_METADATA_MISMATCH'});
+ await assert.rejects(()=>previewGovInfoGranule(actor,selection,{apiKey:'test-private-key',metadataFetcher:metadataFetcher(cfrMetadata),sourceFetcher:async()=>new Response('<html>Not found</html>',{headers:{'content-type':'text/html'}})}),{code:'LEGAL_SOURCE_FORMAT'});
+ const preview=await previewGovInfoGranule(actor,selection,{apiKey:'test-private-key',metadataFetcher:metadataFetcher(cfrMetadata),sourceFetcher:xmlFetcher});
+ assert.match(preview.text,/§ 1\.2/);assert.match(preview.text,/Fictional & bounded CFR text/);assert.doesNotMatch(preview.text,/<CFRGRANULE>/);
+ const staged=await stageGovInfoGranule(actor,selection,{apiKey:'test-private-key',metadataFetcher:metadataFetcher(cfrMetadata),sourceFetcher:xmlFetcher,expectedPreviewHash:preview.previewHash});
+ const state=await readWorkspace(actor.tenantId),source=state.sources.find(x=>x.id===staged.sourceId)!;
+ assert.equal(source.url,xmlUrl);assert.equal((await readOriginal(actor.tenantId,JSON.parse(source.originalObjectRef!))).toString(),xml);
+ const authority=state.legalAuthorities.find(x=>x.id===staged.authorityId)!;
+ const watch=await send({type:'legal.watch.configure',authorityId:authority.id,expectedAuthorityVersion:authority.version,intervalHours:24});
+ const checked=await processLegalWatch(actor.tenantId,String(watch.result.watchId),{fetcher:async()=>new Response('<html>GovInfo error</html>',{headers:{'content-type':'text/html'}})});
+ assert.equal(checked.status,'blocked');assert.equal((await readWorkspace(actor.tenantId)).legalChanges?.length,0);
+});
