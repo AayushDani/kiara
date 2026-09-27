@@ -1,0 +1,60 @@
+# Kiara v2 Preview worker. A Render Blueprint import creates a paid background
+# worker; inspect the plan and complete the secret prompts before deployment.
+# Keep its branch and environment aligned with the Vercel Preview release.
+services:
+  - type: worker
+    name: kiara-v2-preview-worker
+    runtime: node
+    plan: 0.5c-512mb
+    region: virginia
+    branch: codex/kiara-live-release
+    autoDeployTrigger: checksPass
+    buildCommand: npm ci --include=dev
+    startCommand: npm run worker:v2
+    numInstances: 1
+    maxShutdownDelaySeconds: 120
+    envVars:
+      - key: KIARA_V2_WORKER_HOST
+        value: render
+      - key: KIARA_V2_ORCHESTRATION_MODE
+        value: temporal
+      - key: KIARA_V2_STORE_MODE
+        value: normalized
+      - key: MONGODB_DB
+        value: kiara_v2
+      - key: KIARA_ORIGINALS_MODE
+        value: mongo_encrypted
+      - key: KIARA_V2_RETRIEVAL_MODE
+        value: atlas
+      - key: KIARA_V2_ATLAS_SEARCH_INDEX
+        value: kiara_keyword_v1
+      - key: KIARA_V2_ATLAS_VECTOR_INDEX
+        value: kiara_vector_v1
+      - key: KIARA_V2_AI_MODE
+        value: openai
+      - key: KIARA_OPENAI_BUDGET_USD
+        value: "50"
+      - key: KIARA_TEMPORAL_TASK_QUEUE
+        value: kiara-v2-preview
+      - key: KIARA_PUBLIC_ORIGIN
+        value: https://kiara-git-codex-kiara-live-release-aayushdani01-5976.vercel.app
+      - key: KIARA_V2_WORKER_TENANTS
+        sync: false
+      - key: MONGODB_URI
+        sync: false
+      - key: KIARA_BUDGET_DB
+        sync: false
+      - key: KIARA_ORIGINALS_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: KIARA_TEMPORAL_ADDRESS
+        sync: false
+      - key: KIARA_TEMPORAL_NAMESPACE
+        sync: false
+      - key: KIARA_TEMPORAL_API_KEY
+        sync: false
+      - key: KIARA_V2_EXECUTION
+        sync: false
+      - key: KIARA_RESEND_API_KEY
+        sync: false
