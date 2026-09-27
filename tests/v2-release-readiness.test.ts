@@ -6,7 +6,7 @@ const configured=():NodeJS.ProcessEnv=>({
   NODE_ENV:'production',
   KIARA_AUTH_MODE:'hosted_password',KIARA_V2_AUTH_MODE:'oidc',KIARA_PUBLIC_ORIGIN:'https://kiara.example.test',
   KIARA_OIDC_ISSUER:'https://identity.example.test',KIARA_OIDC_CLIENT_ID:'kiara',
-  KIARA_SESSION_SECRET:'s'.repeat(48),MONGODB_URI:'mongodb+srv://user:secret@cluster.example.test/kiara_v2',MONGODB_DB:'kiara_v2',KIARA_BUDGET_DB:'kiara_legacy',
+  KIARA_SESSION_SECRET:'s'.repeat(48),MONGODB_URI:'mongodb+srv://cluster.example.test/kiara_v2',MONGODB_DB:'kiara_v2',KIARA_BUDGET_DB:'kiara_legacy',
   KIARA_V2_STORE_MODE:'normalized',KIARA_ORIGINALS_MODE:'mongo_encrypted',KIARA_ORIGINALS_KEY:'a'.repeat(64),
   KIARA_V2_RETRIEVAL_MODE:'atlas',KIARA_V2_ATLAS_SEARCH_INDEX:'kiara_text',KIARA_V2_ATLAS_VECTOR_INDEX:'kiara_vector',
   KIARA_V2_AI_MODE:'openai',OPENAI_API_KEY:'private-provider-token',KIARA_OPENAI_BUDGET_USD:'10',
@@ -30,7 +30,7 @@ test('Mongo SRV insecure overrides and one-tenant-only delivery fail release pre
 });
 
 test('standard Atlas multi-host URI with explicit TLS passes the Mongo readiness check',()=>{
-  const uri='mongodb://user:secret@host-a.mongodb.net:27017,host-b.mongodb.net:27017,host-c.mongodb.net:27017/kiara_v2?replicaSet=atlas-test&authSource=admin&tls=true';
+  const uri='mongodb://host-a.mongodb.net:27017,host-b.mongodb.net:27017,host-c.mongodb.net:27017/kiara_v2?replicaSet=atlas-test&authSource=admin&tls=true';
   const env=configured();
   env.MONGODB_URI=uri;
   env.KIARA_V2_ATLAS_URI=uri;

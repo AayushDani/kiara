@@ -58,7 +58,7 @@ test('revocation preview binds exact active tenant and actor, and stale or remap
 
 test('synthetic Preview identity can target only the exact kiara_v2 Atlas release database',async()=>{
  const releaseTenant='synthetic-kiara-preview',releaseEnv:NodeJS.ProcessEnv={
-  ...env,MONGODB_URI:'mongodb+srv://operator:secret@cluster.example.mongodb.net/kiara_v2?retryWrites=true',
+  ...env,MONGODB_URI:'mongodb+srv://cluster.example.mongodb.net/kiara_v2?retryWrites=true',
   MONGODB_DB:'kiara_v2',KIARA_V2_RELEASE_SYNTHETIC_DB:undefined,KIARA_V2_RELEASE_DB:'kiara_v2',
   KIARA_V2_RELEASE_SYNTHETIC_TENANT:releaseTenant,
  };
@@ -70,7 +70,7 @@ test('synthetic Preview identity can target only the exact kiara_v2 Atlas releas
  const preview=await runIdentityCommand(input,releaseEnv,deps);
  assert.equal(preview.syntheticScope.database,'kiara_v2');
  assert.equal(preview.syntheticScope.tenantId,releaseTenant);
- const standardEnv={...releaseEnv,MONGODB_URI:'mongodb://operator:secret@shard-a.example.mongodb.net:27017,shard-b.example.mongodb.net:27017/kiara_v2?tls=true'};
+ const standardEnv={...releaseEnv,MONGODB_URI:'mongodb://shard-a.example.mongodb.net:27017,shard-b.example.mongodb.net:27017/kiara_v2?tls=true'};
  assert.equal((await runIdentityCommand(input,standardEnv,deps)).syntheticScope.database,'kiara_v2');
  const applied=await runIdentityCommand({...input,phase:'apply',previewHash:preview.previewHash},releaseEnv,deps);
  assert.equal(applied.changed,true);
@@ -79,7 +79,7 @@ test('synthetic Preview identity can target only the exact kiara_v2 Atlas releas
   {...releaseEnv,KIARA_V2_RELEASE_DB:undefined},
   {...releaseEnv,KIARA_V2_RELEASE_SYNTHETIC_DB:'kiara_synthetic_other'},
   {...releaseEnv,MONGODB_URI:'mongodb://localhost:27017/kiara_v2?tls=true'},
-  {...releaseEnv,MONGODB_URI:'mongodb+srv://operator:secret@cluster.example.mongodb.net/kiara_v2?tlsInsecure=true'},
+  {...releaseEnv,MONGODB_URI:'mongodb+srv://cluster.example.mongodb.net/kiara_v2?tlsInsecure=true'},
  ])await assert.rejects(()=>runIdentityCommand(input,bad,deps),/exact configured synthetic tenant/);
  await assert.rejects(()=>runIdentityCommand({...input,tenantId:'real-tenant'},releaseEnv,deps),/exact configured synthetic tenant/);
  await assert.rejects(()=>runIdentityCommand({...input,phase:'apply',previewHash:'a'.repeat(64)},releaseEnv,deps),/Preview hash changed/);

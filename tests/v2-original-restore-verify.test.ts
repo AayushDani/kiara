@@ -10,14 +10,14 @@ const tenant='recovery-test-tenant',readable=Buffer.from('selected retained synt
 const reference=(bytes:Buffer):OriginalReference=>({key:`${sha(tenant)}/${sha(bytes)}/${keyId}`,sha256:sha(bytes),bytes:bytes.length,encryption:'aes-256-gcm',storage:'mongo_encrypted',keyId});
 const kept=reference(readable),gone=reference(deleted),manifest={tenantId:tenant,checks:[{reference:kept,expected:'readable' as const},{reference:gone,expected:'deleted' as const}]};
 const target={database:'kiara_recovery_qualification',sourceDatabase:'kiara_v2',manifestPath:'/tmp/selected-restore-checks.json'};
-const env={NODE_ENV:'test' as const,MONGODB_URI:'mongodb+srv://example:secret@cluster.mongodb.net/?retryWrites=true',MONGODB_DB:target.database,KIARA_ORIGINALS_KEY:'1'.repeat(64)};
+const env={NODE_ENV:'test' as const,MONGODB_URI:'mongodb+srv://cluster.mongodb.net/?retryWrites=true',MONGODB_DB:target.database,KIARA_ORIGINALS_KEY:'1'.repeat(64)};
 
 test('recovery verifier requires a distinct isolated TLS Atlas database and matching key',()=>{
  assert.deepEqual(parseRestoreCommand(['--database',target.database,'--source-database',target.sourceDatabase,'--manifest',target.manifestPath]),target);
  assert.equal(validateRestoreTarget(target,env).database,target.database);
  for(const override of [{MONGODB_DB:'kiara_v2'},{MONGODB_URI:'mongodb://localhost:27017'},{MONGODB_URI:'mongodb+srv://cluster.mongodb.net/?tlsInsecure=true'},{MONGODB_URI:'mongodb+srv://cluster.mongodb.net/kiara_v2'},{KIARA_ORIGINALS_KEY:''}])assert.throws(()=>validateRestoreTarget(target,{...env,...override}));
  assert.throws(()=>validateRestoreTarget({...target,sourceDatabase:target.database},env));
- const multiHost='mongodb://example:secret@host-a.mongodb.net:27017,host-b.mongodb.net:27017,host-c.mongodb.net:27017/kiara_recovery_qualification?replicaSet=atlas-test&authSource=admin&tls=true';
+ const multiHost='mongodb://host-a.mongodb.net:27017,host-b.mongodb.net:27017,host-c.mongodb.net:27017/kiara_recovery_qualification?replicaSet=atlas-test&authSource=admin&tls=true';
  assert.equal(validateRestoreTarget(target,{...env,MONGODB_URI:multiHost}).database,target.database);
  for(const override of [
   `${multiHost}&tls=false`,
