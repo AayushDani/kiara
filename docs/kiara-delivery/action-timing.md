@@ -8,4 +8,6 @@ The action content fingerprint includes timing, content, title, kind, recipients
 
 The current flow does not automatically wake and dispatch at the chosen time. The owner or an authorized dispatcher must take a separate action, and all evidence, permissions, decisions and provider configuration are checked again at that point. A notice assessment alone does not authorize delivery. A complete notice requires exact recipients and an approved delivery channel before any live send.
 
+Authorization also assigns an open action task to the exact publisher or signatory. Manual evidence or provider readback completes that task; a failed effect blocks it while reconciliation remains owned. A reviewed no-action decision can cancel an unsent action and retire its task without claiming delivery.
+
 Synthetic execution tests cover a premature manual attestation and provider dispatch, a later dispatch after the boundary, malformed timing, and authorization that expires before the planned start. Provider calls in these tests use local adapters only.

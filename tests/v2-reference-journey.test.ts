@@ -17,7 +17,11 @@ import type {ActorContext,WorkspaceCommand} from '../src/v2/contracts';
 
 const tenantId='northstar-relayai-reference';
 const owner:ActorContext={tenantId,actorId:'founder',mode:'local_demo',expiresAt:Date.now()+3600000,bootstrapRoles:['member','business_owner','fact_owner','admin','publisher']};
+const engineer:ActorContext={...owner,actorId:'engineer',bootstrapRoles:['member','fact_owner']};
 const counsel:ActorContext={...owner,actorId:'counsel',bootstrapRoles:['member','legal_reviewer']};
+const publisher:ActorContext={...owner,actorId:'publisher',bootstrapRoles:['member','publisher']};
+const evaluator:ActorContext={...owner,actorId:'evaluator',bootstrapRoles:['member','evaluator']};
+const adoptionOwner:ActorContext={...owner,actorId:'adoption-owner',bootstrapRoles:['member','business_owner']};
 const newMember:ActorContext={...owner,actorId:'support-owner',bootstrapRoles:['member']};
 const audience={kind:'team' as const,actorIds:[]};
 const later=()=>new Date(Date.now()+2*3600000).toISOString();
@@ -33,12 +37,15 @@ test('one synthetic Northstar/RelayAI tenant retains the journey from question t
  Object.assign(process.env,{KIARA_V2_DATA_DIR:dir,KIARA_V2_AI_MODE:'local',KIARA_PUBLIC_ORIGIN:'https://kiara.example.test',JOURNEY_PROVIDER_TOKEN:'synthetic-token',JOURNEY_WEBHOOK_SECRET:'journey-secret'});
  globalThis.fetch=async()=>{throw Error('The reference journey must not call a live provider.');};
  try{
-  await snapshot(owner);await snapshot(counsel);await snapshot(newMember);
+  await snapshot(owner);await snapshot(engineer);await snapshot(counsel);await snapshot(publisher);await snapshot(evaluator);await snapshot(adoptionOwner);await snapshot(newMember);
   await transactWorkspace(tenantId,state=>{state.memberships.push({actorId:'integration',roles:['integration'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null});});
   await send(owner,{type:'company.configure',name:'Northstar'});
 
-  // J01–J03: the founder's scenario is not company truth until an explicit adoption.
+  // J01–J03: a sourced current answer and the founder's scenario stay separate.
+  const currentContext=await send(owner,{type:'document.add',title:'Northstar current support summaries context',body:'Northstar currently routes support requests to human reviewers. RelayAI summaries are proposed only; no production integration is confirmed.',authority:'effective',kind:'other'});
   const question=await send(owner,{type:'message.send',text:'What if Northstar added RelayAI support summaries using synthetic data only?',scope:audience});
+  const firstAnswer=question.snapshot.messages.find(item=>item.id===question.result.messageId)!;
+  assert.ok(firstAnswer.citations.some(citation=>citation.sourceId===currentContext.result.sourceId));assert.match(firstAnswer.text,/human reviewers/);
   const scenario=question.snapshot.scenarios[0];assert.ok(scenario);assert.equal(question.snapshot.matters.length,0);assert.equal(question.snapshot.facts.length,0);
   const explored=await send(owner,{type:'scenario.update',scenarioId:scenario.id,expectedRecordVersion:scenario.version,assumptions:['Synthetic-only exploration; no production transfer or deployment is asserted.','Possible later customer transcript processing needs separate review.']});
   assert.equal(explored.snapshot.facts.length,0);
@@ -78,10 +85,12 @@ test('one synthetic Northstar/RelayAI tenant retains the journey from question t
   const agreement=await send(owner,{type:'document.add',title:'Fictional Acme executed DPA',body:agreementBody,authority:'executed',kind:'agreement'});
   await send(owner,{type:'document.add',title:'Fictional Northstar privacy notice',body:'Current notice; applicability to a proposed RelayAI feature requires review.',authority:'effective',kind:'notice'});
   const counterparty=await send(owner,{type:'memory.entity.declare',kind:'counterparty',name:'Acme',aliases:[],ownerId:owner.actorId,scope:audience});
-  async function confirm(predicate:string,value:string,sourceIds:string[]=[]){const proposed=await send(owner,{type:'fact.propose',predicate,value,practice:'planned',sourceIds}),fact=proposed.snapshot.facts.at(-1)!;const confirmed=await send(owner,{type:'fact.confirm',factId:fact.id,expectedRecordVersion:fact.version,expectedOriginVersion:fact.originVersion});return confirmed.snapshot.facts.find(item=>item.id===fact.id)!;}
+  async function confirm(predicate:string,value:string,sourceIds:string[]=[],actor=owner){const proposed=await send(actor,{type:'fact.propose',predicate,value,practice:'planned',sourceIds}),fact=proposed.snapshot.facts.at(-1)!;const confirmed=await send(actor,{type:'fact.confirm',factId:fact.id,expectedRecordVersion:fact.version,expectedOriginVersion:fact.originVersion});return confirmed.snapshot.facts.find(item=>item.id===fact.id)!;}
   const objective=await confirm('business_objective',adopted.snapshot.matters[0].objective);
-  const deployment=await confirm('relayai_deployment','Planned only; production deployment is not confirmed.',[String(pr.sourceId)]);
-  await confirm('relayai_transcript_flow','Customer transcript text is proposed for the feature; live transfer is unconfirmed.',[String(thread.sourceId)]);
+  const deployment=await confirm('relayai_deployment','Planned only; production deployment is not confirmed.',[String(pr.sourceId)],engineer);
+  await confirm('relayai_transcript_flow','Customer transcript text is proposed for the feature; live transfer is unconfirmed.',[String(thread.sourceId)],engineer);
+  assert.equal(deployment.confirmedBy,engineer.actorId);
+  assert.ok(!(await snapshot(owner)).facts.some(fact=>['relayai_vendor_location','relayai_vendor_terms','production_release_verified'].includes(fact.predicate)&&fact.status==='confirmed'));
   view=await snapshot(owner);const firstPreparation=await send(owner,{type:'matter.prepare',matterId,expectedRecordVersion:view.matters[0].version});
   assert.ok(firstPreparation.snapshot.proposals[0].unknowns.some(item=>/legal|applicab/i.test(item)));
   const candidate=firstPreparation.snapshot.inventoryCandidates.find(item=>item.matterId===matterId)!;
@@ -110,9 +119,12 @@ test('one synthetic Northstar/RelayAI tenant retains the journey from question t
   const notBefore=new Date(Date.now()+10*60000).toISOString();
   const planned=await send(owner,{type:'action.plan',matterId,proposalId:proposal.id,kind:'send',title:'Fictional reviewed notice',content:proposal.body,recipients:['acme-legal@example.test'],timing:{mode:'not_before',notBefore,reason:'Wait for an explicit fictional launch checkpoint.'}});
   let action=planned.snapshot.actions.find(item=>item.id===planned.result.actionId)!;
-  const authorized=await send(owner,{type:'action.authorize',actionId:action.id,expectedRecordVersion:action.version,contentHash:action.contentHash,validUntil:later()});
+  const authorized=await send(publisher,{type:'action.authorize',actionId:action.id,expectedRecordVersion:action.version,contentHash:action.contentHash,validUntil:later()});
   action=authorized.snapshot.actions.find(item=>item.id===action.id)!;assert.equal(action.status,'pending_manual');assert.equal(action.completion,null);assert.equal(action.timing?.notBefore,notBefore);
-  await assert.rejects(()=>send(owner,{type:'action.attest',actionId:action.id,expectedRecordVersion:action.version,artifact:'Premature fictional completion',completionKind:'human_attestation'}),code('ACTION_NOT_BEFORE'));
+  assert.equal(authorized.snapshot.approvals.find(item=>item.id===action.authorizationId)?.actorId,publisher.actorId);
+  const ownedActionTask=authorized.snapshot.matters.find(item=>item.id===matterId)!.tasks.find(task=>task.kind==='action'&&task.evidenceIds.includes(action.id));
+  assert.equal(ownedActionTask?.ownerId,publisher.actorId);assert.equal(ownedActionTask?.status,'pending');
+  await assert.rejects(()=>send(publisher,{type:'action.attest',actionId:action.id,expectedRecordVersion:action.version,artifact:'Premature fictional completion',completionKind:'human_attestation'}),code('ACTION_NOT_BEFORE'));
 
   // J10: a scoped correction and feedback stay separate from automatically promoted policy.
   const correction=await send(owner,{type:'fact.propose',predicate:deployment.predicate,value:'Still planned; a merged PR is not deployment evidence.',practice:'planned',sourceIds:[String(pr.sourceId)],supersedesId:deployment.id});
@@ -123,13 +135,46 @@ test('one synthetic Northstar/RelayAI tenant retains the journey from question t
   assert.ok(answerTarget,'the attributed answer must support scoped feedback');
   const feedback=await send(owner,{type:'feedback.record',subjectKind:'message',subjectId:answer.id,expectedRecordVersion:answer.version,subjectHash:answerTarget.hash,category:'wording_preference',detail:'Keep the explanation concise and label planned deployment explicitly.'});
   assert.equal(feedback.snapshot.strategies.feedback.length,1);
-  const comparable=await send(owner,{type:'matter.create',title:'Comparable fictional support summary review',objective:'Assess a later RelayAI support-summary expansion.',scope:audience});
+  const distractor=(await send(owner,{type:'document.add',title:'Explain section 5.2',body:'Another fictional agreement mentions section 5.2 but is not the requested notice clause.',authority:'draft',kind:'other'})).snapshot.documents.at(-1)!;
+  const clause=(await send(owner,{type:'document.add',title:'RelayAI notice clause',body:'5.2 Notice\nA notice is required before a reviewed change takes effect.',authority:'draft',kind:'other'})).snapshot.documents.at(-1)!;
+  const clauseConversation=(await send(owner,{type:'conversation.create',title:'Locate the exact reviewed clause',scope:audience})).snapshot.conversations.at(-1)!;
+  const missed=await send(owner,{type:'message.send',conversationId:clauseConversation.id,text:'Explain section 5.2'}),missedAnswer=missed.snapshot.messages.at(-1)!,missedTarget=missed.snapshot.strategies.targets.find(item=>item.id===missedAnswer.id)!;
+  assert.equal(missedAnswer.citations[0].sourceId,distractor.sourceId);
+  const reported=await send(owner,{type:'feedback.record',subjectKind:'message',subjectId:missedAnswer.id,expectedRecordVersion:missedAnswer.version,subjectHash:missedTarget.hash,category:'retrieval_miss',detail:'The requested clause heading should outrank a repeated document title.',expectedDocumentId:clause.id});
+  const retrievalFeedback=reported.snapshot.strategies.feedback.at(-1)!;
+  const suggested=await send(owner,{type:'strategy.propose',feedbackId:retrievalFeedback.id,expectedFeedbackVersion:retrievalFeedback.version,title:'Prefer exact clause headings',rationale:'A matching clause heading is stronger evidence for an exact provision request.'});
+  let strategy=suggested.snapshot.strategies.candidates.at(-1)!;
+  const evaluated=await send(evaluator,{type:'strategy.evaluate',candidateId:strategy.id,expectedRecordVersion:strategy.version});
+  strategy=evaluated.snapshot.strategies.candidates.find(item=>item.id===strategy.id)!;
+  assert.equal(strategy.evaluation?.candidateFailures,0);assert.ok(strategy.evaluation!.baselineFailures>0);
+  const shadowed=await send(adoptionOwner,{type:'strategy.shadow',candidateId:strategy.id,expectedRecordVersion:strategy.version,evaluationHash:strategy.evaluationHash!,validUntil:later()});
+  strategy=shadowed.snapshot.strategies.candidates.find(item=>item.id===strategy.id)!;
+  const shadowAnswer=await send(owner,{type:'message.send',conversationId:clauseConversation.id,text:'Explain section 5.2'});
+  assert.equal(shadowAnswer.snapshot.messages.at(-1)!.citations[0].sourceId,distractor.sourceId);
+  strategy=(await snapshot(adoptionOwner)).strategies.candidates.find(item=>item.id===strategy.id)!;
+  assert.ok(strategy.shadowCount>0);assert.ok(strategy.shadowChangedCount>0);
+  await send(adoptionOwner,{type:'strategy.promote',candidateId:strategy.id,expectedRecordVersion:strategy.version,evaluationHash:strategy.evaluationHash!,shadowHash:strategy.shadowHash});
+  assert.equal((await snapshot(adoptionOwner)).strategies.candidates.find(item=>item.id===strategy.id)?.current,true,'the promoted strategy is current before the later matter');
+  const comparable=await send(owner,{type:'matter.create',title:'Later fictional support summary review',objective:adopted.snapshot.matters[0].objective,scope:audience});
   const laterMatter=comparable.snapshot.matters.find(item=>item.id===comparable.result.matterId)!;
-  await confirm('business_objective',laterMatter.objective);
+  assert.equal((await snapshot(adoptionOwner)).strategies.candidates.find(item=>item.id===strategy.id)?.current,true,'the promoted strategy survives matter creation');
+  assert.equal((await snapshot(owner)).facts.filter(item=>item.predicate==='business_objective').length,1,'the settled objective is reused without reconfirmation');
   const laterPrepared=await send(owner,{type:'matter.prepare',matterId:laterMatter.id,expectedRecordVersion:laterMatter.version});
   const laterProposal=laterPrepared.snapshot.proposals.find(item=>item.id===laterPrepared.result.proposalId)!;
+  assert.equal((await snapshot(adoptionOwner)).strategies.candidates.find(item=>item.id===strategy.id)?.current,true,'the promoted strategy survives later matter preparation');
   assert.ok(laterProposal.body.includes('Still planned; a merged PR is not deployment evidence.'));
   assert.ok(laterProposal.unknowns.length,'a comparable matter still needs its own legal and business review');
+  const laterConversation=(await send(owner,{type:'conversation.create',title:'Later RelayAI clause review',scope:audience})).snapshot.conversations.at(-1)!;
+  const beforeLink=await snapshot(owner),laterMatterNow=beforeLink.matters.find(item=>item.id===laterMatter.id)!;
+  await send(owner,{type:'conversation.link_matter',conversationId:laterConversation.id,matterId:laterMatter.id,expectedConversationVersion:laterConversation.version,expectedMatterVersion:laterMatterNow.version});
+  const benefited=await send(owner,{type:'message.send',conversationId:laterConversation.id,text:'Explain section 5.2'}),benefitedAnswer=benefited.snapshot.messages.at(-1)!;
+  assert.equal(benefitedAnswer.citations[0].sourceId,clause.sourceId,JSON.stringify((await snapshot(adoptionOwner)).strategies.candidates.map(item=>({status:item.status,current:item.current,shadowCount:item.shadowCount}))));
+  strategy=(await snapshot(adoptionOwner)).strategies.candidates.find(item=>item.id===strategy.id)!;
+  assert.ok(strategy.affectedRecordIds.includes(benefitedAnswer.id));
+  const rolled=await send(adoptionOwner,{type:'strategy.rollback',candidateId:strategy.id,expectedRecordVersion:strategy.version,reason:'Synthetic later review found that broader clause ranking needs more qualification.'});
+  assert.ok((rolled.result.affectedRecordIds as string[]).includes(benefitedAnswer.id));
+  const restored=await send(owner,{type:'message.send',conversationId:laterConversation.id,text:'Explain section 5.2'});
+  assert.equal(restored.snapshot.messages.at(-1)!.citations[0].sourceId,distractor.sourceId);
   assert.equal((await snapshot(owner)).matters.length,2);
  }finally{await closeV2Store();globalThis.fetch=previousFetch;for(const key of Object.keys(process.env))if(!(key in before))delete process.env[key];Object.assign(process.env,before);await rm(dir,{recursive:true,force:true});}
 });

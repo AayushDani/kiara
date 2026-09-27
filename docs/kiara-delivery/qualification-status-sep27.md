@@ -4,8 +4,8 @@ This is the current evidence index for the v2 plan. The detailed requirement/own
 
 ## Verified checkout evidence
 
-- Node 24 assembled suite: **597/597 passed** in [the final log](evidence/assembled-tests-final-sep27.log).
-- TypeScript check and Next production build passed; see [build log](evidence/build-final-sep27.log).
+- Node 24 assembled suite after the owned-action and reference-journey follow-up: **598/598 passed** in [the follow-up log](evidence/assembled-tests-j10-followup.log).
+- TypeScript check and Next production build passed sequentially after the follow-up; see [build log](evidence/build-j10-followup.log).
 - Independent code review of J04–J06, J09 timing and authority, plus an earlier custodial/security audit: [QA note](reviews/independent-custody-memory-task-audit.md). The J09 DST and notice-preview issues found by QA were repaired and rechecked.
 - Local browser review used an isolated fictional workspace on `127.0.0.1:3091`, empty Mongo URI, local AI and disabled live email. J05's frozen clause review/history and J09's timing choice, UTC conversion, daylight-saving ambiguity and 320/390 px layouts were exercised. No notice or action was sent. These observations do not certify a real legal conclusion or a production provider.
 
@@ -13,13 +13,13 @@ This is the current evidence index for the v2 plan. The detailed requirement/own
 
 | Steps | Local evidence | Limit |
 |---|---|---|
-| J01–J03 | Question → hypothetical scenario → deliberate adoption → one matter in `tests/v2-reference-journey.test.ts` | The first answer has no current company records to cite. The J01 sourced-context condition and expert usefulness are still pending. |
-| J04 | Signed PR and Slack event, deduplicated source revisions, exact named-owner link to the same matter and inline updates | Separate engineering confirmation of planned versus actual deployment and vendor terms/location is not in this trace. Real installations need customer deployment. |
+| J01–J03 | Supplied current support record → cited answer → hypothetical scenario → deliberate adoption → one matter in `tests/v2-reference-journey.test.ts` | Expert answer usefulness and real customer context are still pending. |
+| J04 | Signed PR and Slack event, exact named-owner link to the same matter, then separate engineering confirmation of planned flow and unconfirmed deployment | Vendor terms/location remain open; real installations need customer deployment. |
 | J05 | Supplied-register attestation, selected confirmed facts, exact executed-clause offsets and structured notice assessment | Synthetic legal-role assessment is conditional; external agreement discovery and qualified legal review remain open. |
 | J06 | Signed new-user Slack question, permission-scoped short answer, same-matter link and synthetic readback | Configured single-user thread, mapped identity and real Slack delivery need live validation. |
 | J07–J08 | Frozen counsel packet, fictional intake/terms/share, returned successor proposal and renewed exact decisions | The one-tenant test does not inspect the named-counsel/material UI preview; separate browser review covers that control. No real conflicts check, engagement, fee charge or professional legal clearance was claimed. |
-| J09 | Exact content, recipients and UTC timing are fingerprinted; future action rejects early completion | The reference notice remains pending and this trace does not exercise distinct publisher authorization or an owned unresolved task. Separate execution tests verify local readback, preview, timeout and no blind resend. No external send occurred. |
-| J10 | Attributed correction invalidates old work; feedback is retained; later matter reuses the current planned fact | The one-tenant trace does not promote or roll back a lesson. Separate deterministic procedure and strategy evaluation/promotion/rollback tests are in `tests/v2-learning-coverage.test.ts` and `tests/v2-strategies.test.ts`; generalized legal or model-quality learning is not established. |
+| J09 | Exact content, recipients and UTC timing are fingerprinted; a distinct publisher authorizes and owns a pending action task; future action rejects early completion | The reference notice remains pending. Separate execution tests verify local readback, preview, timeout and no blind resend. No external send occurred. |
+| J10 | Attributed correction invalidates old work; later matter reuses a settled planned fact without reconfirmation. A separate retrieval issue undergoes frozen evaluation, shadow, third-person promotion, observed later ranking change and rollback with affected answer ID. | Wording feedback is not promoted. This bounded local ranking behavior does not establish generalized legal or model-quality learning; separate procedure tests cover affected-matter rollback. |
 
 ## Section 16 acceptance coverage
 
