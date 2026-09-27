@@ -104,8 +104,8 @@ test('retrospective legal or business review loses reuse eligibility when review
  f.state.memberships.find(m=>m.actorId==='owner')!.version++;assert.equal(precedentAvailable(f.state,f.member,item),false);
 });
 test('shared command and snapshot retain the exact scoped precedent through local storage',async()=>{
- const dir=await mkdtemp(join(tmpdir(),'kiara-precedent-test-')),priorDir=process.env.KIARA_DATA_DIR,priorMongo=process.env.MONGODB_URI;
- process.env.KIARA_DATA_DIR=dir;process.env.MONGODB_URI='';
+ const dir=await mkdtemp(join(tmpdir(),'kiara-precedent-test-')),priorDir=process.env.KIARA_V2_DATA_DIR,priorMongo=process.env.MONGODB_URI;
+ process.env.KIARA_V2_DATA_DIR=dir;process.env.MONGODB_URI='';
  try{const f=fixture();await transactWorkspace(f.state.tenantId,s=>{Object.assign(s,structuredClone(f.state));return null;});const before=await snapshot(f.owner);
   const body=f.document.body,quote='Negotiated liability cap: fees paid in twelve months.',start=body.indexOf(quote);
   await assert.rejects(command(f.owner,{idempotencyKey:'stale-precedent-inspection',expectedVersion:before.version,command:{type:'precedent.propose',inspectedVersion:before.version-1,originMatterId:f.matter.id,originProposalId:f.proposal.id,businessApprovalId:f.business.id,legalApprovalId:f.legal.id,documentId:f.document.id,counterpartyEntityId:f.counterpartyId,clause:{start,end:start+quote.length,quote},context:{jurisdiction:'California',transaction:'B2B SaaS subscription',effectiveFrom:'2026-01-01',reuseUntil:'2026-12-31',productEntityIds:[f.productId],factIds:[]}}}),{code:'PRECEDENT_INSPECTION_CHANGED'});
@@ -114,17 +114,17 @@ test('shared command and snapshot retain the exact scoped precedent through loca
   const p=proposed.snapshot.scopedPrecedents[0],reviewed=await command(f.lawyer,{idempotencyKey:'legal-precedent',expectedVersion:proposed.snapshot.version,command:{type:'precedent.legal_review',precedentId:p.id,expectedRecordVersion:p.version,basisHash:p.basisHash}});
   const r=reviewed.snapshot.scopedPrecedents[0],adopted=await command(f.owner,{idempotencyKey:'adopt-precedent',expectedVersion:reviewed.snapshot.version,command:{type:'precedent.adopt',precedentId:r.id,expectedRecordVersion:r.version,basisHash:r.basisHash}});
   assert.equal(adopted.snapshot.scopedPrecedents[0].reusable,true);assert.equal((await snapshot(f.member)).scopedPrecedents[0].reusable,true);
- }finally{if(priorDir===undefined)delete process.env.KIARA_DATA_DIR;else process.env.KIARA_DATA_DIR=priorDir;if(priorMongo===undefined)delete process.env.MONGODB_URI;else process.env.MONGODB_URI=priorMongo;await rm(dir,{recursive:true,force:true});}
+ }finally{if(priorDir===undefined)delete process.env.KIARA_V2_DATA_DIR;else process.env.KIARA_V2_DATA_DIR=priorDir;if(priorMongo===undefined)delete process.env.MONGODB_URI;else process.env.MONGODB_URI=priorMongo;await rm(dir,{recursive:true,force:true});}
 });
 test('target command, snapshot match and source deletion remain bound across local persistence',async()=>{
- const dir=await mkdtemp(join(tmpdir(),'kiara-precedent-target-')),priorDir=process.env.KIARA_DATA_DIR,priorMongo=process.env.MONGODB_URI;
- process.env.KIARA_DATA_DIR=dir;process.env.MONGODB_URI='';
+ const dir=await mkdtemp(join(tmpdir(),'kiara-precedent-target-')),priorDir=process.env.KIARA_V2_DATA_DIR,priorMongo=process.env.MONGODB_URI;
+ process.env.KIARA_V2_DATA_DIR=dir;process.env.MONGODB_URI='';
  try{const f=adoptedFixture(),matter=targetMatter(f);f.state.memberships.find(member=>member.actorId==='owner')!.roles.push('admin');await transactWorkspace(f.state.tenantId,s=>{Object.assign(s,structuredClone(f.state));return null;});const before=await snapshot(f.owner);
   const set=await command(f.owner,{idempotencyKey:'target-context',expectedVersion:before.version,command:{type:'precedent.target.set',inspectedVersion:before.version,matterId:matter.id,expectedMatterVersion:matter.version,counterpartyEntityId:f.counterpartyId,jurisdiction:'California',transaction:'B2B SaaS subscription',asOfDate:'2026-09-27',productEntityIds:[f.productId],factIds:[]}});
   assert.equal(set.snapshot.precedentTargets[0].current,true);assert.equal(set.snapshot.matterPrecedentMatches.find(item=>item.matterId===matter.id)?.matches[0]?.matchStatus,'verified_target_suggestion');
   const removed=await command(f.owner,{idempotencyKey:'delete-precedent-source',expectedVersion:set.snapshot.version,command:{type:'source.revoke',sourceId:f.source.id,expectedRecordVersion:f.source.version,reason:'Synthetic source deletion test',delete:true}});
   assert.equal(removed.snapshot.matterPrecedentMatches.find(item=>item.matterId===matter.id)?.matches.length??0,0);assert.equal((await readWorkspace(f.state.tenantId)).precedentTargets?.[0].status,'superseded');
- }finally{if(priorDir===undefined)delete process.env.KIARA_DATA_DIR;else process.env.KIARA_DATA_DIR=priorDir;if(priorMongo===undefined)delete process.env.MONGODB_URI;else process.env.MONGODB_URI=priorMongo;await rm(dir,{recursive:true,force:true});}
+ }finally{if(priorDir===undefined)delete process.env.KIARA_V2_DATA_DIR;else process.env.KIARA_V2_DATA_DIR=priorDir;if(priorMongo===undefined)delete process.env.MONGODB_URI;else process.env.MONGODB_URI=priorMongo;await rm(dir,{recursive:true,force:true});}
 });
 test('normalized persistence retains precedent identity and deletion redacts clause/context',()=>{
  const f=fixture(),id=f.propose(),item=f.state.scopedPrecedents![0];applyScopedPrecedentCommand(f.state,f.lawyer,{type:'precedent.legal_review',precedentId:id,expectedRecordVersion:item.version,basisHash:precedentBasisHash(item)});applyScopedPrecedentCommand(f.state,f.owner,{type:'precedent.adopt',precedentId:id,expectedRecordVersion:item.version,basisHash:precedentBasisHash(item)});
