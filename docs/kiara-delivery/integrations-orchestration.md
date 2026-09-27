@@ -38,8 +38,8 @@ This foundation observes durable matter state and keeps human gates pending. It 
 
 - `tests/v2-integrations.test.ts`: synthetic signature, tenant/installation/resource scope, replay conflict, provider bounds, Drive cursor failure/deletion and extraction race, outbox acknowledgement loss/cancellation, late-signal reconciliation, explicit missing configuration.
 - Final focused integration + legacy replay: 31/31 pass in 10.5 seconds, including extraction race, installation grant removal and Slack deletion of retained thread snapshots.
-- TypeScript: passed the pre-AI implementation snapshot. Latest check is blocked only by a new concurrent AI test fixture missing SDK `cache_write_tokens`; reported to its owner.
-- Actual installed Temporal SDK `bundleWorkflowCode`: succeeds, 1,643,086 bytes. This verifies bundling, not a server workflow run or replay history.
+- TypeScript: passes the integrated execution/retention scheduling snapshot (`evidence/retention-orchestration-typecheck.log`).
+- Actual installed Temporal SDK `bundleWorkflowCode`: five workflows bundle successfully at 1,650,532 bytes (`evidence/temporal-retention-bundle.log`). This verifies bundling, not a server workflow run or replay history.
 - Evidence: `evidence/integrations-regressions.log`, `evidence/integrations-typecheck.log`, `evidence/temporal-bundle.log`.
 
 Primary API contracts checked against [GitHub webhook validation](https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries), [Slack verification](https://docs.slack.dev/authentication/verifying-requests-from-slack/), [Drive push notifications](https://developers.google.com/workspace/drive/api/guides/push), [Drive changes](https://developers.google.com/workspace/drive/api/guides/manage-changes), and installed Temporal 1.24 TypeScript definitions. These references support protocol implementation; they do not certify deployment configuration.
@@ -47,3 +47,11 @@ Primary API contracts checked against [GitHub webhook validation](https://docs.g
 ## Effect reconciliation extension
 
 The explicit execution broker now atomically creates an `effect_reconcile` outbox only after the user confirms an exact execution preview. `processEffectReference` and the third Temporal workflow perform read-back of that recorded effect; they cannot approve or dispatch a new one. Pending known effects poll every five minutes, verified email every six hours for late bounce, and unknown receipt-less effects retain their owned unresolved state without provider calls or resend. Local processing filters deferred entries before its bounded batch to prevent starvation. See `execution.md` for the exact protocol, tests and connected-service limitations.
+
+## Retention scheduling
+
+A source deletion atomically adds `retention_cleanup` with tenant/job/outbox references. Both local processing and `kiaraRetentionWorkflow` invoke `processDeletionJob` and return only complete/waiting plus a bounded delay. Pending original retention uses its next due time, capped at24hours; failures, holds and unsettled effects retry after6hours. No source body, object key, actor credential or provider error enters Temporal history. The job completes only when application cleanup is complete; host/provider backup erasure stays explicitly unverified.
+
+The local worker isolates each unavailable item, defers its retry and continues later accepted work. A missing original effect adapter cannot starve a later conversation or deletion. The combined execution/integration/retention/hybrid/normalized local replay passed75/75 in14.17seconds; managed services were not connected.
+
+Abandoned upload intake also creates an `artifact_cleanup` outbox before original I/O. The fifth workflow checks exact tenant/intake/outbox identity, waits for its24-hour expiry, and invokes the operator-owned original cleanup processor. A missing reference after a possible object write stays pending for reconciliation; no absence is inferred. Source attachment hands cleanup ownership to the source retention path. Actual local encrypted orphan expiry and reference-only dispatch are covered by `tests/v2-retention-orchestration.test.ts`; the final focused extension passed62/62.

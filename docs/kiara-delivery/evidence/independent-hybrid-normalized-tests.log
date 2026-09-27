@@ -1,0 +1,25 @@
+✔ exact embedding tokens preserve multilingual and adversarial special-token text (233.281833ms)
+✔ embedding reserves exact tokens under the shared cap and durable replay makes no provider call (91.536042ms)
+✔ embedding budget exhaustion prevents dispatch; unknown charges never invoke again (197.787833ms)
+✔ revocation during embedding wait cannot retain or attach the returned vector (190.82725ms)
+✔ expired dispatched embedding recovery is durable without a second provider invocation (77.233542ms)
+✔ both Atlas branches prefilter tenant, entity and immutable authorized IDs and return no indexed text (0.813542ms)
+✔ scoped sync and hybrid fusion hydrate actual retained quotes; replay reuses index embeddings (185.787583ms)
+✔ private and expired evidence cannot enter index query allowlist; stale indexes fail explicitly (85.247084ms)
+✔ revocation during search and malicious cross-scope search IDs never reach model context (298.055084ms)
+✔ conversation worker uses accepted run identity for hybrid query then grounded answer and review (377.826291ms)
+✔ expired parent lease during index admission cannot dispatch a query embedding (203.291792ms)
+✔ normalization round-trips optional collections, durable receipts and outbox without identity loss (6.591083ms)
+✔ normalized integrity rejects mixed tenant, generation, content, ordering or unexpected records (0.500375ms)
+✔ normalized diff touches changed records only and preserves append ordering (0.386792ms)
+✔ normalized storage removes aggregate BSON ceiling but enforces individual record allowance (166.164459ms)
+✔ migration dry-run plan is deterministic, binds exact state and never dispatches effects (0.80825ms)
+✔ empty normalized bootstrap contends on the same aggregate tenant key (0.906875ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2549.000125

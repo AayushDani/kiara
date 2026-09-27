@@ -1,0 +1,44 @@
+✔ internal document execution retains immutable encrypted bytes and verifies one output across replay (571.790417ms)
+✔ revoked decision, changed subject and lesser role cannot escalate into execution (501.820041ms)
+✔ concurrent retries share a durable intent and dispatch exactly once (607.315792ms)
+✔ source access revoked during preparation prevents the provider call (285.432875ms)
+✔ cancel during preparation prevents dispatch and retains its exact historical intent (272.703417ms)
+✔ cancel after dispatch preserves an uncertain effect and later read-back cannot reopen the matter (303.988375ms)
+✔ email acceptance requires exact tagged delivery read-back; late bounce fails completion (346.882958ms)
+✔ email unknown outcome is never resent and an unrelated receipt cannot complete it (246.289917ms)
+✔ email exact allowlist and configuration failure reject before any effect intent (199.110333ms)
+✔ preview stays pending manual and never downgrades a later attributed manual completion (285.001333ms)
+✔ publication read-back verifies exact authorized destination bytes without publishing (279.302792ms)
+✔ a provider signing-request receipt can never become an executed-original completion (301.859042ms)
+✔ expired prepared checkpoint recovers without dispatch, while a live lease remains untouched (299.362ms)
+✔ explicit provider rejection is retained and replay cannot dispatch a second request (240.429875ms)
+✔ frozen configured preview rejects changed sender or preview-to-live mode before reserving an effect (370.756708ms)
+✔ dispatcher membership version must still match the preview after preparation even with its role retained (273.444083ms)
+✔ legal obligation introduced during preparation blocks dispatch until its exact deadline basis is reviewed (313.310792ms)
+✔ a delayed delivered read-back cannot overwrite a concurrently recorded terminal delivery failure (315.87975ms)
+✔ durable effect outbox sends only references and local read-back completion never starts another dispatch (510.74625ms)
+✔ background email read-back defers unknown no-receipt effects without another provider call (337.3925ms)
+✔ deleting prepared evidence fails and scrubs the intent before dispatch, including after the prepare resumes (275.289375ms)
+✔ deleting an unknown effect retains a private operational exception until exact readback settles and then scrubs (297.34275ms)
+✔ a readback already in flight cannot restore a terminal receipt payload after deletion (298.250208ms)
+✔ internal output readback after deletion does not materialize fresh derivative document payload (291.499291ms)
+✔ internal_document terminal deletion preserves encrypted original manifests for the retention worker before clearing artifacts (291.393333ms)
+✔ publish terminal deletion preserves encrypted original manifests for the retention worker before clearing artifacts (296.01575ms)
+✔ inactive historical receipts lose payload regardless of old uncertainty without changing historical outcome or live operational exception (230.790667ms)
+✔ deletion atomically retains a refs-only outbox and the local worker completes real application cleanup (270.304458ms)
+✔ retention rejects cross-job or modified references and never exposes object identities in progress (102.569125ms)
+✔ future holds use bounded durable wakeups and local deferred work resumes after settlement (108.836125ms)
+✔ managed lost-ack replay preserves deletion identity and only sends opaque references (127.70975ms)
+✔ an unavailable earlier effect cannot starve later deletion cleanup in the local worker (203.667459ms)
+✔ abandoned intake retains its cleanup owner and the actual local worker purges expired encrypted bytes (240.895291ms)
+✔ an original write with no retained acknowledgement stays pending for explicit reconciliation (200.433208ms)
+✔ artifact workflow dispatch carries no original reference and validates scoped intake identity before processing (151.129334ms)
+✔ standing-policy index jobs dispatch only opaque references and terminal uncertainty never retries provider work (229.455125ms)
+ℹ tests 36
+ℹ suites 0
+ℹ pass 36
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9828.955208

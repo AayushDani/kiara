@@ -1,3 +1,5 @@
+import {hybridConfig,retrievalMode,retrieveHybridEvidence,type HybridAdapter} from './hybrid';
+import {reconcileEmbedding,type EmbeddingProvider} from './embeddings';
 import {randomUUID} from 'node:crypto';
 import OpenAI from 'openai';
 import type {Response,ResponseCreateParamsNonStreaming} from 'openai/resources/responses/responses';
@@ -11,7 +13,7 @@ import {digest,readWorkspace,timestamp,transactWorkspace} from './store';
 const PROTOCOL='v2-grounded-conversation-1',PREFIX='conversation-run:',LEASE_MS=300_000;
 export interface ConversationProvider {count(request:ResponseCreateParamsNonStreaming):Promise<number>;create(request:ResponseCreateParamsNonStreaming):Promise<Pick<Response,'id'|'model'|'status'|'output_text'|'usage'>>}
 interface Attempt {id:string;stage:'answer'|'review';status:'prepared'|'dispatched'|'completed'|'unknown'|'rejected';requestHash:string;model:string;inputTokens:number;maxOutputTokens:number;reservedUsd:number;actualUsd:number|null;responseId:string|null;responseHash:string|null;output:string|null;startedAt:string;finishedAt:string|null}
-interface ConversationRun extends ConversationRunView {protocol:string;actor:ActorContext;membershipVersion:number;conversationScopeHash:string;config:RuntimeConfig|null;budgetUsd:number|null;packet:EvidencePacket;attempts:Attempt[];leaseToken:string|null;leaseUntil:number|null;recoveryPending?:boolean}
+interface ConversationRun extends ConversationRunView {retrievalPolicy?:{mode:'local'|'atlas'|'invalid';configHash:string|null};redacted?:boolean;protocol:string;actor:ActorContext;membershipVersion:number;conversationScopeHash:string;config:RuntimeConfig|null;budgetUsd:number|null;packet:EvidencePacket;attempts:Attempt[];leaseToken:string|null;leaseUntil:number|null;recoveryPending?:boolean}
 interface Paragraph {id:string;kind:'grounded'|'hypothesis'|'question'|'limitation';text:string;citationIds:string[]}
 interface Answer {paragraphs:Paragraph[]}
 function err(code:string,message:string){return new V2Error(code,message);}
@@ -24,14 +26,25 @@ function runs(s:WorkspaceState){return Object.keys(s.receipts).filter(k=>k.start
 export function conversationRunViews(s:WorkspaceState,a:ActorContext){return runs(s).filter(r=>{const c=s.conversations.find(c=>c.id===r.conversationId);return c&&canRead(s,a,c)&&r.actor.actorId===a.actorId;}).map(view);}
 /** Called only in the authenticated message transaction; no provider or external I/O. */
 export function enqueueConversationRun(s:WorkspaceState,a:ActorContext,c:Conversation,user:Message,commandId:string):ConversationRunView {
- const member=membership(s,a),packet=retrieveConversationEvidence(s,a,c,user.id);let config:RuntimeConfig|null=null,budgetUsd:number|null=null,reason:string|null=null;
- try{if(conversationAIMode()!=='openai')throw err('AI_MODE_INVALID','Configure an explicit AI mode.');config=runtimeConfig();budgetUsd=authorizedBudget();if(!process.env.OPENAI_API_KEY)throw err('OPENAI_API_KEY_MISSING','The provider credential is not configured.');}catch(error){reason=failureCode(error);}
- const run:ConversationRun={id:randomUUID(),conversationId:c.id,userMessageId:user.id,status:reason?'blocked':'queued',reason,assistantMessageId:null,createdAt:timestamp(),updatedAt:timestamp(),protocol:PROTOCOL,actor:{tenantId:a.tenantId,actorId:a.actorId,mode:a.mode,expiresAt:a.expiresAt},membershipVersion:member.version,conversationScopeHash:digest(c.scope),config,budgetUsd,packet,attempts:[],leaseToken:null,leaseUntil:null};saveRun(s,run);
+ const member=membership(s,a),packet=retrieveConversationEvidence(s,a,c,user.id);let config:RuntimeConfig|null=null,budgetUsd:number|null=null,reason:string|null=null;const retrievalPolicy={mode:retrievalMode(),configHash:null as string|null};
+ try{if(retrievalPolicy.mode==='invalid')throw err('HYBRID_MODE_INVALID','Choose an explicit retrieval mode.');if(retrievalPolicy.mode==='atlas')retrievalPolicy.configHash=digest(hybridConfig());if(conversationAIMode()!=='openai')throw err('AI_MODE_INVALID','Configure an explicit AI mode.');config=runtimeConfig();budgetUsd=authorizedBudget();if(!process.env.OPENAI_API_KEY)throw err('OPENAI_API_KEY_MISSING','The provider credential is not configured.');}catch(error){reason=failureCode(error);}
+ const run:ConversationRun={retrievalPolicy,id:randomUUID(),conversationId:c.id,userMessageId:user.id,status:reason?'blocked':'queued',reason,assistantMessageId:null,createdAt:timestamp(),updatedAt:timestamp(),protocol:PROTOCOL,actor:{tenantId:a.tenantId,actorId:a.actorId,mode:a.mode,expiresAt:a.expiresAt},membershipVersion:member.version,conversationScopeHash:digest(c.scope),config,budgetUsd,packet,attempts:[],leaseToken:null,leaseUntil:null};saveRun(s,run);
  s.outbox.push({id:randomUUID(),tenantId:s.tenantId,kind:'conversation_answer',aggregateId:run.id,commandId,status:reason?'canceled':'pending',owner:'v2',createdAt:timestamp()});return view(run);
 }
 /** Server-only references for a durable worker; never accepts browser-selected identity. */
 export async function pendingConversationRuns(tenantId:string):Promise<ConversationRunView[]>{return runs(await readWorkspace(tenantId)).filter(r=>r.status==='queued'||r.status==='running'||r.recoveryPending).map(view);}
-function assertCurrent(s:WorkspaceState,run:ConversationRun){
+/** Called in the source-deletion transaction. Keep accounting/identity hashes, never deleted text. */
+export function redactKnowledgeReceipts(s:WorkspaceState,affectedRecordIds:Set<string>,deletedSourceIds:Set<string>){
+ let redactedRuns=0,redactedEmbeddings=0;
+ for(const run of runs(s))if(run.packet.references.some(r=>affectedRecordIds.has(r.id)||deletedSourceIds.has(r.id))||run.packet.sourceIds.some(id=>deletedSourceIds.has(id))||affectedRecordIds.has(run.userMessageId)||affectedRecordIds.has(run.conversationId)){
+  run.redacted=true;run.packet={...run.packet,question:'',history:[],evidence:[],hypotheses:[],agreementInventory:[],coverage:[],inventoryStatement:'Deleted evidence is unavailable.',limitations:['Source deletion removed the retained answer context.']};for(const at of run.attempts)at.output=null;
+  run.recoveryPending=run.recoveryPending||run.attempts.some(at=>at.status==='prepared'||at.status==='dispatched');run.status=run.attempts.some(at=>at.status==='dispatched'||at.status==='unknown')?'unknown':'blocked';run.reason='KNOWLEDGE_DELETED';run.leaseToken=null;run.leaseUntil=null;run.updatedAt=timestamp();redactedRuns++;
+  for(const o of s.outbox.filter(o=>o.kind==='conversation_answer'&&o.aggregateId===run.id))o.status=run.recoveryPending?'pending':'canceled';
+ }
+ for(const [key,receipt] of Object.entries(s.receipts))if(key.startsWith('embedding:')){const at=receipt.result.job as {evidenceIds?:string[];redacted?:boolean;vector:unknown;status:string;recoveryPending:boolean}|undefined;if(at&&(!at.evidenceIds?.length||at.evidenceIds.some(id=>affectedRecordIds.has(id)||deletedSourceIds.has(id)))){at.redacted=true;at.vector=null;at.recoveryPending=at.recoveryPending||at.status==='prepared'||at.status==='dispatched';redactedEmbeddings++;const owner=key.startsWith('embedding:query:')?key.slice('embedding:query:'.length):null;if(owner){const run=runs(s).find(r=>r.id===owner);if(run&&at.recoveryPending){run.recoveryPending=true;for(const o of s.outbox.filter(o=>o.kind==='conversation_answer'&&o.aggregateId===run.id))o.status='pending';}}}}
+ return {redactedRuns,redactedEmbeddings};
+}
+function assertCurrent(s:WorkspaceState,run:ConversationRun){if(run.redacted)throw err('KNOWLEDGE_DELETED','Run evidence was deleted.');if((run.retrievalPolicy?.mode||'local')!==retrievalMode()||run.retrievalPolicy?.mode==='atlas'&&run.retrievalPolicy.configHash!==digest(hybridConfig()))throw err('RETRIEVAL_CONFIG_CHANGED','The pinned retrieval configuration changed.');
  const member=membership(s,run.actor),conversation=readRecord(s,run.actor,s.conversations,run.conversationId);
  if(member.version!==run.membershipVersion||digest(conversation.scope)!==run.conversationScopeHash)throw err('RUN_AUTHORITY_CHANGED','Conversation authority changed.');
  if(conversationAIMode()!=='openai'||!run.config||digest(runtimeConfig())!==digest(run.config)||authorizedBudget()!==run.budgetUsd)throw err('AI_CONFIG_CHANGED','The pinned model or budget configuration changed.');
@@ -79,7 +92,7 @@ async function runAttempt(tenantId:string,id:string,token:string,stage:Attempt['
   const valid=typeof response.id==='string'&&response.id.length>0&&!!usage&&Number.isSafeInteger(usage.input_tokens)&&Number.isSafeInteger(usage.output_tokens)&&usage.input_tokens>=0&&usage.output_tokens>=0&&usage.input_tokens<=inputTokens&&usage.output_tokens<=attempt.maxOutputTokens&&response.model===attempt.model;
   const actual=usage&&Number.isSafeInteger(usage.input_tokens)&&Number.isSafeInteger(usage.output_tokens)&&usage.input_tokens>=0&&usage.output_tokens>=0?tokenCost(attempt.model,usage.input_tokens,usage.output_tokens):0;
   await settleGlobalSpend(attempt.id,actual,!valid);settled=true;
-  await transactWorkspace(tenantId,s=>{const r=getRun(s,id);assertLease(r,token);const at=r.attempts.find(x=>x.id===attempt.id)!;at.status=valid?'completed':'unknown';at.actualUsd=actual;at.responseId=typeof response.id==='string'?response.id:null;at.responseHash=digest(response);at.output=typeof response.output_text==='string'?response.output_text:null;at.finishedAt=timestamp();});
+  await transactWorkspace(tenantId,s=>{const r=getRun(s,id);const at=r.attempts.find(x=>x.id===attempt.id)!;if(!at)throw err('ATTEMPT_NOT_FOUND','The retained provider attempt is unavailable.');at.status=valid?'completed':'unknown';at.actualUsd=actual;at.responseId=typeof response.id==='string'?response.id:null;at.responseHash=digest(response);at.output=!r.redacted&&r.status==='running'&&r.leaseToken===token&&typeof response.output_text==='string'?response.output_text:null;at.finishedAt=timestamp();});
   if(!valid)throw err('PROVIDER_USAGE_UNKNOWN','Provider usage or model identity could not be reconciled.');
   if(response.status!=='completed'||!response.output_text||response.output_text.length>40000)throw err('PROVIDER_INCOMPLETE','The provider did not return a complete bounded answer.');
   run=getRun(await readWorkspace(tenantId),id);assertCurrent(await readWorkspace(tenantId),run);return response.output_text;
@@ -90,20 +103,21 @@ async function runAttempt(tenantId:string,id:string,token:string,stage:Attempt['
   throw error;
  }
 }
-async function finishFailure(tenantId:string,id:string,token:string,error:unknown){return (await transactWorkspace(tenantId,s=>{const run=getRun(s,id);if(run.status==='running'&&run.leaseToken===token){run.status=run.attempts.some(x=>x.status==='unknown'||x.status==='dispatched')?'unknown':'blocked';run.reason=failureCode(error);run.recoveryPending=run.attempts.some(x=>x.status==='prepared'||x.status==='dispatched');run.updatedAt=timestamp();run.leaseToken=null;run.leaseUntil=null;if(!run.recoveryPending)for(const o of s.outbox.filter(x=>x.kind==='conversation_answer'&&x.aggregateId===id))o.status='canceled';}return view(run);})).result;}
+async function finishFailure(tenantId:string,id:string,token:string,error:unknown){return (await transactWorkspace(tenantId,s=>{const run=getRun(s,id);if(run.status==='running'&&run.leaseToken===token){const embedding=s.receipts['embedding:query:'+id]?.result.job as {status:string;recoveryPending:boolean}|undefined;run.status=run.attempts.some(x=>x.status==='unknown'||x.status==='dispatched')||embedding?.status==='unknown'||embedding?.status==='dispatched'?'unknown':'blocked';run.reason=failureCode(error);run.recoveryPending=run.attempts.some(x=>x.status==='prepared'||x.status==='dispatched')||embedding?.recoveryPending===true;run.updatedAt=timestamp();run.leaseToken=null;run.leaseUntil=null;if(!run.recoveryPending)for(const o of s.outbox.filter(x=>x.kind==='conversation_answer'&&x.aggregateId===id))o.status='canceled';}return view(run);})).result;}
 /** Marker is committed before reconciliation so a crash can never strand the budget ledger. */
 async function reconcileInterruptedRun(tenantId:string,id:string){
  const run=getRun(await readWorkspace(tenantId),id);if(!run.recoveryPending)return;
+ await reconcileEmbedding(tenantId,`query:${id}`);
  for(const attempt of run.attempts)await recoverGlobalSpend(attempt.id,attempt.status==='dispatched'||attempt.status==='unknown');
  await transactWorkspace(tenantId,s=>{const r=getRun(s,id);if(r.recoveryPending){for(const a of r.attempts){if(a.status==='prepared')a.status='rejected';if(a.status==='dispatched')a.status='unknown';}r.recoveryPending=false;for(const o of s.outbox.filter(x=>x.kind==='conversation_answer'&&x.aggregateId===id))o.status='canceled';}});
 }
 /** No automatic generation retry: an expired lease reconciles spending and stops for review. */
-export async function processConversationRun(tenantId:string,runId:string,options:{provider?:ConversationProvider}={}):Promise<ConversationRunView>{
+export async function processConversationRun(tenantId:string,runId:string,options:{provider?:ConversationProvider;embeddingProvider?:EmbeddingProvider;hybridAdapter?:HybridAdapter}={}):Promise<ConversationRunView>{
  const token=randomUUID();
  const claim=await transactWorkspace(tenantId,s=>{const r=getRun(s,runId);if(r.status==='running'){if(r.leaseUntil&&r.leaseUntil>Date.now())return {claimed:false,run:view(r)};r.recoveryPending=true;r.status=r.attempts.some(x=>['dispatched','unknown'].includes(x.status))?'unknown':'blocked';r.reason='RUN_INTERRUPTED';r.updatedAt=timestamp();r.leaseToken=null;r.leaseUntil=null;return {claimed:false,run:view(r)};}if(r.status!=='queued')return {claimed:false,run:view(r)};r.status='running';r.leaseToken=token;r.leaseUntil=Date.now()+LEASE_MS;r.updatedAt=timestamp();return {claimed:true,run:view(r)};});
  if(!claim.result.claimed){await reconcileInterruptedRun(tenantId,runId);return view(getRun(await readWorkspace(tenantId),runId));}
  try{
-  const adapter=options.provider||provider(),r=getRun(await readWorkspace(tenantId),runId);assertCurrent(await readWorkspace(tenantId),r);
+  const adapter=options.provider||provider();let r=getRun(await readWorkspace(tenantId),runId);assertCurrent(await readWorkspace(tenantId),r);if(r.retrievalPolicy?.mode==='atlas'){const packet=await retrieveHybridEvidence(r.actor,r.conversationId,r.userMessageId,r.id,{adapter:options.hybridAdapter,provider:options.embeddingProvider,authorize:s=>{const current=getRun(s,runId);assertLease(current,token);assertCurrent(s,current);}});await transactWorkspace(tenantId,s=>{const current=getRun(s,runId);assertLease(current,token);assertCurrent(s,current);current.packet=packet;recheckEvidence(s,current.actor,current.conversationId,packet);});r=getRun(await readWorkspace(tenantId),runId);}
   const answer=parseAnswer(await runAttempt(tenantId,runId,token,'answer',adapter),r.packet);
   verifyReview(await runAttempt(tenantId,runId,token,'review',adapter,answer),answer);
   return (await transactWorkspace(tenantId,s=>{const run=getRun(s,runId);assertLease(run,token);assertCurrent(s,run);const c=readRecord(s,run.actor,s.conversations,run.conversationId),user=readRecord(s,run.actor,s.messages,run.userMessageId);

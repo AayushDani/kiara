@@ -1,6 +1,6 @@
 import {createCipheriv,createDecipheriv,createHash,randomBytes} from 'node:crypto';
 import {mkdir,open,readFile,link,rm} from 'node:fs/promises';
-import {join} from 'node:path';
+import {join,dirname} from 'node:path';
 import {V2Error} from './contracts';
 
 export interface OriginalReference {key:string;sha256:string;bytes:number;encryption:'aes-256-gcm'|'aws-kms';storage:'local_encrypted'|'s3_kms';keyId:string;versionId?:string}
@@ -40,4 +40,14 @@ export async function readOriginal(tenantId:string,reference:OriginalReference):
  const key=await encryptionKey(),envelope=JSON.parse(await readFile(join(root(),reference.key+'.json'),'utf8'));
  if(envelope.version!==1||envelope.keyId!==sha(key).slice(0,16)||reference.keyId!==envelope.keyId)throw new V2Error('ORIGINAL_KEY_REQUIRED','The retained original requires its matching encryption key.',503);
  try{const decipher=createDecipheriv('aes-256-gcm',key,Buffer.from(envelope.nonce,'base64'));decipher.setAAD(Buffer.from(reference.key));decipher.setAuthTag(Buffer.from(envelope.tag,'base64'));const bytes=Buffer.concat([decipher.update(Buffer.from(envelope.ciphertext,'base64')),decipher.final()]);if(sha(bytes)!==reference.sha256||bytes.length!==reference.bytes)throw new Error();return bytes;}catch{throw new V2Error('ORIGINAL_INTEGRITY','The original failed authenticated decryption or checksum verification.',503);}
+}
+
+/** Only the retention worker calls this after committing an object-reference deletion fence. */
+export async function purgeOriginal(tenantId:string,reference:OriginalReference):Promise<void>{
+ if(reference.storage==='s3_kms')return (await import('./s3-originals')).purgeS3Original(tenantId,reference);
+ const tenantHash=sha(tenantId);
+ if(reference.storage!=='local_encrypted'||!/^[a-f0-9]{64}\/[a-f0-9]{64}(?:\/[a-f0-9]{16})?$/.test(reference.key)||!reference.key.startsWith(tenantHash+'/')||reference.key.split('/')[1]!==reference.sha256||(reference.key.split('/').length===3&&reference.key.split('/')[2]!==reference.keyId))throw new V2Error('ORIGINAL_SCOPE','Original deletion identity is outside this tenant.',403);
+ const path=join(root(),reference.key+'.json');await rm(path,{force:true});
+ try{await syncDirectory(dirname(path));}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error;}
+ try{await readFile(path);throw new V2Error('ORIGINAL_PURGE_UNVERIFIED','The original remains present after deletion.',503);}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error;}
 }

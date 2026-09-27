@@ -1,0 +1,28 @@
+✔ selected scenario sharing discloses only inspected assumptions, never private history or origin IDs (361.890875ms)
+✔ scenario edits immediately stale the approved frozen share instead of disclosing new text (364.440291ms)
+✔ recipient membership revision and expiry withdraw scenario viewing (354.129583ms)
+✔ sharing cannot promote restricted source access or use stale selections (294.446875ms)
+✔ routing requires existing capacity, recipient acceptance and a separate grantor choice (335.274ms)
+✔ routing expiry derives the base owner without mutating stored task authority (248.548542ms)
+✔ existing conversation links preserve identity and refuse private-to-team scope expansion (254.417083ms)
+✔ source deletion redacts selected scenario sharing from current and historical records (302.161083ms)
+✔ a business owner cannot link another user’s private conversation, even when the proposed scopes match (162.37375ms)
+✔ pasted document route retains exact bytes, hands off its own revisions, and replays one document (381.503625ms)
+✔ multipart reimport preserves both exact originals and stale/CSRF requests cannot attach documents (571.8625ms)
+✔ deletion propagates through records and audit payloads while exposing only safe pending-retention status (522.7815ms)
+✔ uncertain effects remain protected exceptions until settled, then repeated cleanup erases the payload (591.799417ms)
+✔ local original deletion is tenant scoped, exact, verified and replayable (61.942208ms)
+✔ S3 purge targets the retained version, verifies absence and never treats forbidden/readback as success (5.382542ms)
+✔ original intake hands off only its own storage revisions and abandoned bytes are fenced before cleanup (354.608125ms)
+✔ retention worker honors original delay, shared pending intake and hold, then verifies exact purge (637.203917ms)
+✔ revoked-source owner controls allow a later scoped deletion without recovering content (382.989291ms)
+✔ pending intake blocks physical purge by content identity and deleted bytes cannot be re-created by later intake (280.050333ms)
+✔ interrupted original writes require exact verified manifest recovery before orphan cleanup (130.735417ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4103.531416

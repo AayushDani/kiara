@@ -1,5 +1,6 @@
 import {randomUUID} from 'node:crypto';
 import {canRead,readRecord,requireRole} from './authority';
+import {mayControlOwnEffort} from './recovery';
 import {V2Error,type ActorContext,type RecordBase,type WorkspaceState} from './contracts';
 import {timestamp} from './store';
 export type EffortStage='setup'|'research'|'drafting'|'review'|'correction'|'coordination'|'execution';
@@ -24,8 +25,8 @@ export function effortComparisons(s:WorkspaceState,a:ActorContext):EffortCompari
 export function applyMeasurementCommand(s:WorkspaceState,a:ActorContext,c:MeasurementCommand):Record<string,unknown>{
  const entries=s.effortEntries||=[];const baselines=s.effortBaselines||=[];requireRole(s,a,'member');
  if(c.type==='effort.stop'||c.type==='effort.void'){
-  const e=readRecord(s,a,entries,c.entryId);ensure(e.version===c.expectedRecordVersion,'VERSION_CONFLICT','Inspect the current effort record.');ensure(e.actorId===a.actorId,'EFFORT_OWNER_REQUIRED','Only the person who recorded effort can stop or void it.');
-  if(c.type==='effort.stop'){ensure(e.method==='elapsed_timer'&&!e.stoppedAt&&!e.voidReason,'TIMER_NOT_RUNNING','This effort timer is no longer running.');const elapsed=(Date.now()-Date.parse(e.startedAt))/60000;ensure(elapsed>=0&&elapsed<=1080,'TIMER_REVIEW_REQUIRED','This timer is outside the 18-hour bound. Void it with a reason and record the corrected effort.');e.minutes=Math.max(0.1,Math.round(elapsed*10)/10);e.stoppedAt=timestamp();e.evidence=text(c.evidence,'what the elapsed time covers, including any idle time');}
+  const e=entries.find(e=>e.id===c.entryId);if(e&&canRead(s,a,e)&&e.actorId!==a.actorId)throw new V2Error('EFFORT_OWNER_REQUIRED','Only the person who recorded effort can stop or void it.');if(!e||!mayControlOwnEffort(s,a,e))throw new V2Error('NOT_FOUND','Your effort record is unavailable.',404);ensure(e.version===c.expectedRecordVersion,'VERSION_CONFLICT','Inspect the current effort record.');ensure(e.actorId===a.actorId,'EFFORT_OWNER_REQUIRED','Only the person who recorded effort can stop or void it.');
+  if(c.type==='effort.stop'){ensure(e.method==='elapsed_timer'&&!e.stoppedAt&&!e.voidReason,'TIMER_NOT_RUNNING','This effort timer is no longer running.');const elapsed=(Date.now()-Date.parse(e.startedAt))/60000;ensure(elapsed>=0&&elapsed<=1080,'TIMER_REVIEW_REQUIRED','This timer is outside the 18-hour bound. Void it with a reason and record the corrected effort.');e.minutes=Math.round(elapsed*10)/10;e.stoppedAt=timestamp();e.evidence=text(c.evidence,'what the elapsed time covers, including any idle time');}
   else{ensure(!e.voidReason,'EFFORT_ALREADY_VOID','This record is already excluded from comparisons.');e.voidReason=text(c.reason,'the reason this time should not be counted');if(!e.stoppedAt)e.stoppedAt=timestamp();}
   e.version++;e.updatedAt=timestamp();return {entryId:e.id,matterId:e.matterId};
  }

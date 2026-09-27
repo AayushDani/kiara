@@ -3,6 +3,7 @@ import {V2Error,type Action,type ActorContext,type Approval,type DependencySnaps
 import {digest} from '../store';
 import {procedureAssessment} from '../procedures';
 import {assertObligationsReady} from '../obligations';
+import {assertProposalInventory} from '../inventory';
 const ensure=(ok:unknown,code:string,message:string)=>{if(!ok)throw new V2Error(code,message);};
 const capacityRole:Record<Approval['capacity'],Role>={business:'business_owner',legal:'legal_reviewer',sharing:'business_owner',publication:'publisher',signature:'signatory',no_action:'business_owner'};
 export function actionContentHash(action:Action){return digest({content:action.content,recipients:action.recipients,destination:action.destination,kind:action.kind,proposalId:action.proposalId,title:action.title});}
@@ -19,6 +20,7 @@ export function assertExecutable(s:WorkspaceState,actor:ActorContext,action:Acti
  ensure(!['closed','canceled'].includes(matter.state),'MATTER_TERMINAL','Canceled or closed work cannot dispatch new effects.');
  ensure(procedureAssessment(s,actor,matter).blockers.length===0,'PROCEDURE_REQUIREMENTS_PENDING','An applicable approved procedure requires current evidence or owner review.');
  assertObligationsReady(s,actor,matter.id);
+ assertProposalInventory(s,p);
  ensure(p.matterId===matter.id&&matter.proposalId===p.id&&p.status==='current'&&p.contentHash===digest(p.body)&&action.content===p.body&&action.contentHash===actionContentHash(action),'STALE_ACTION','The exact action or proposal bytes changed.');
  const sources=matter.sourceIds.map(id=>readRecord(s,actor,s.sources,id)),facts=matter.factIds.map(id=>readRecord(s,actor,s.facts,id)),docs=matter.documentIds.map(id=>readRecord(s,actor,s.documents,id));
  ensure(facts.every(f=>f.status==='confirmed'&&(!f.validUntil||Date.parse(f.validUntil)>Date.now())&&(!f.validFrom||Date.parse(f.validFrom)<=Date.now())),'FACTS_CHANGED','Current confirmed facts are required.');

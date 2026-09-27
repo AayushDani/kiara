@@ -239,3 +239,54 @@ Additional implemented interfaces, with typecheck passing, include:
 After independent review, the counsel sharing control additionally checks the packet's preparedProposal identity/hash against the current proposal and directs users to prepare a fresh request when they differ. All consequential form edits clear confirmation. Learning renewal reviews the unchanged evaluated rule and its deadline; it does not silently revise behavior.
 
 Latest-wave browser validation was temporarily interrupted by the localhost preview refusing connection during root's build/restart cycle. Root was informed; these latest interfaces are not counted as browser-passed until the resumed observations below.
+
+### Resumed latest-wave browser results
+
+The server was available; the old tab had retained a generated connection-error `data:` document that the browser URL policy would not bind. A fresh tab in the same IAB (tab 2) restored the authorized localhost session without resetting application state. All new records remained explicitly synthetic acceptance data.
+
+| Check | Observed result |
+|---|---|
+| Voice input control | Supported browser exposed an idle microphone control gated by explicit choice; no microphone or speech permission was started. A typed, edited and separately confirmed transcript became a retained Voice conversation and exploratory scenario. No new matter or fact was created |
+| Executed-document amendment | Separate fictional amendment saved as Draft, revision 1, alongside original Acme DPA revision 1, now correctly labeled Marked executed. The original was unchanged |
+| Internal response obligation | Explicit local date saved with visible UTC equivalent, owner, rationale and fulfillment criteria. The proposal required a separate exact basis approval |
+| Acknowledgment versus fulfillment | Acknowledge left the obligation Active. Separate attributed evidence of the actually observed two-document condition changed it to Fulfilled, labeled Human attestation |
+| Elapsed effort | Explicit start/stop retained 0.5 minutes of actual acceptance elapsed time including tool latency/idle time. A separately entered five-minute synthetic Estimate baseline showed a 4.5-minute difference and explicit incomplete/open-work/no-savings limitations |
+| Exact execution | Fresh proposal business and fictional local-counsel decisions, internal action plan, separate authorization and server-derived execution preview were all distinct. Preview named no sender, recipients or external destination. Explicit creation returned Verified by read-back and retained a new Draft in Documents |
+| Coverage registry | Explicit fictional contract source/domain/jurisdiction was registered. It remained Source verification pending; founder's Verify source revision control was disabled. No qualified legal-coverage assessment is claimed |
+| Latest narrow layout | At 320px the coverage definition dialog was 300px, body/document widths were 320px, initial focus was the dialog, and Escape closed it. The inline screenshot was visually clean |
+
+The native datetime field worked through the documented AX `setValue` control when the Playwright fill abstraction did not preserve its value. This was an automation limitation, not a product-state failure. An obsolete obligation-review blocker after fulfillment was reported to root and root owned its backend repair. The verified execution dialog was refined to show retained completion evidence rather than a reconciliation heading and to summarize the internal storage receipt instead of exposing raw encryption metadata.
+
+### Recovery and document revision completion
+
+`RecoveryPanel.tsx` exposes only the backend's opaque control records after evidence access is removed: owned affected work IDs/status and effect counts, withdrawal of future work with an exact version/reason/confirmation, and own unavailable timer stop or exclusion. Removed titles, evidence and history are not recreated. Completed or uncertain external effects are explicitly retained rather than claimed reversed.
+
+`DocumentDetails.tsx` and shared intake now provide template-to-draft named substitutions with full exact draft preview; immutable returned-draft revisions through pasted text or retained Word/plain-text upload; server-derived current-head eligibility; revision history; authenticated retained-original download; and exact extracted-text comparison with clearly labeled additions/removals and limitations for formatting, annotations, signatures and tracked changes. Executed/effective originals remain on the separate amendment path. Old authority and approvals do not transfer to returned drafts. Current heads come from the service's globally derived, access-filtered `documentHeadIds`, so a missing inaccessible successor cannot make a historical revision appear current.
+
+Typecheck and the three exact-review tests passed after this interface completion. These final recovery/template/reimport/compare additions await the next coordinated browser handoff; they are not included in the passed table above yet.
+
+### Final coordinated document and recovery observations
+
+The final browser handoff exercised the actual interfaces on the isolated localhost workspace:
+
+- Retained a fictional template with `PARTY` and `PURPOSE` fields. Explicit full-preview confirmation produced a separate Draft, leaving the template intact.
+- Imported revised draft text with a required revision note. Documents listed revision 2 as the current head; revision 1 remained in history. Server comparison showed the exact removed sentence and two added sentences, with formatting/signature/tracked-change limitations visible.
+- Created a new disposable synthetic matter and linked evidence, then explicitly started its timer. Revoking only that synthetic source hid the source title and matter from normal views. Recovery showed only opaque references, state and zero effect counts.
+- Stopped the owned unavailable timer with an attributed elapsed-time note; no removed evidence content reappeared. A separate exact-version withdrawal with reason changed the opaque work state to Canceled. Other sources and matters remained available.
+- Inspected the source-deletion review dialog. It named the exact source/version, irreversible content removal, separate original/index/history/backup states and reconciliation exceptions. Submission remained disabled without a reason and confirmation. The dialog was closed without performing permanent deletion.
+
+Snapshot authorization failures (401/403) now clear stale content and editors. Actor/tenant changes clear the previous identity's draft, selected records and uncertain-command display. `SourceAccessPanel.tsx` exposes exact source revocation/deletion requests and generic, admin-visible deletion-progress records without claiming immediate erasure. No deletion job's real backup cleanup was qualified by this worker.
+
+First-session visual inspection at 1280×720 found the composer below the original starter-card grid. The composer now precedes the secondary starter cards: its textarea spans y=453–549px at 1280×720 and ends at y=576px at 390×844. Mobile body/document widths equal the viewport; the primary input is visible without scrolling. The later public copy accurately distinguishes supported document intake/browser voice from configured external services.
+
+### Saved rendered artifacts
+
+The supported browser screenshot API returns image bytes. Those bytes were saved with standard Node filesystem I/O, then the files were visually inspected. This supersedes the earlier screenshot-save limitation recorded above. These are renders of implemented UI using fictional acceptance data, not generated mockups:
+
+- [Workspace desktop](renders/workspace-desktop.png)
+- [Workspace mobile](renders/workspace-mobile.png)
+- [Public desktop](renders/public-desktop.png)
+- [Public mobile](renders/public-mobile.png)
+- [Document comparison desktop](renders/document-comparison-desktop.png)
+
+Final worker checks: `npm run check` passed after recovery, source-access and document lifecycle UI integration; all three exact-preview tests passed; `git diff --check` passed before handoff. Root owns the final integrated build, full suite and production/connected-service qualification. Browser tab 2 was left on the working home preview as founder with the viewport override reset.

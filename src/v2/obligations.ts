@@ -61,7 +61,7 @@ export function applyObligationCommand(s:WorkspaceState,a:ActorContext,c:Obligat
   case 'obligation.cancel':requireRole(s,a,legal(o)?'legal_reviewer':'business_owner',o);ensure(o.status!=='fulfilled','FULFILLMENT_RETAINED','Preserve fulfilled obligations; open corrective work.');o.cancellationReason=text(c.reason,'the cancellation basis');o.status='canceled';if(task){task.status='done';task.evidenceIds=[o.id];}break;
   case 'obligation.acknowledge':ensure(a.actorId===o.ownerId||requireRole(s,a,'business_owner',o),'OWNER_REQUIRED','Only the assigned owner or business owner can acknowledge the reminder.');o.acknowledgedAt=timestamp();break;
   }
-  touch(o);touch(m);
+  if(!records.some(x=>x.matterId===m.id&&x.status==='proposed'))m.blockers=m.blockers.filter(x=>x!=='Review the proposed obligation and its deadline basis.');touch(o);touch(m);
  }
  s.events.push({id:randomUUID(),tenantId:s.tenantId,version:1,createdAt:timestamp(),updatedAt:timestamp(),scope:structuredClone(o.scope),provenance:structuredClone(o.provenance),type:c.type,title:`Obligation ${c.type.split('.')[1]}`,detail:`${o.title}; ${o.deadlineType.replaceAll('_',' ')}; due ${o.dueAt}. ${o.completion?.kind==='human_attestation'?'Completion is a named human attestation.':''}`,matterId:o.matterId,recordId:o.id,measurement:s.rehearsal?'fictional_rehearsal':'observed'});
  return {obligationId:o.id,matterId:o.matterId,basisHash:o.basisHash};

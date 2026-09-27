@@ -1,3 +1,5 @@
+import {documentHeads} from './document-lifecycle';
+import {factCurrentlyConfirmed} from './fact-validity';
 import {canRead, membership, readRecord} from './authority';
 import {V2Error, type ActorContext, type Conversation, type RecordBase, type WorkspaceState} from './contracts';
 import {digest} from './store';
@@ -6,7 +8,7 @@ import {authorityCurrent,coverageViews} from './coverage';
 export interface EvidenceItem {id:string;kind:'document'|'source'|'fact';title:string;quote:string;sourceId:string|null;factId:string|null;anchor:string;authority:string;practice:string|null;observedAt?:string;effectiveAt?:string|null;externalRevision?:string|null}
 export interface EvidenceReference {kind:'source'|'document'|'fact'|'message'|'scenario'|'conversation'|'authority'|'coverage';id:string;hash:string}
 export interface EvidencePacket {
- version:'v2-exact-keyword-1';question:string;history:{role:'user';text:string}[];
+ version:'v2-exact-keyword-1'|'v2-atlas-hybrid-1';question:string;history:{role:'user';text:string}[];
  evidence:EvidenceItem[];references:EvidenceReference[];sourceIds:string[];factIds:string[];
  hypotheses:string[];agreementInventory:{documentId:string;title:string;authority:string;amendsDocumentId:string|null}[];
  inventoryStatement:string;limitations:string[];coverage:{domain:string;jurisdiction:string;status:string;limitations:string[];qualification:string|null;reviewDueAt:string|null}[];
@@ -17,30 +19,31 @@ function reference(kind:EvidenceReference['kind'],record:RecordBase):EvidenceRef
 function records(s:WorkspaceState,kind:EvidenceReference['kind']):RecordBase[]{switch(kind){case 'source':return s.sources;case 'document':return s.documents;case 'fact':return s.facts;case 'message':return s.messages;case 'scenario':return s.scenarios;case 'conversation':return s.conversations;case 'authority':return s.legalAuthorities;case 'coverage':return s.coverage;}}
 const coveragePacket=(s:WorkspaceState,a:ActorContext)=>coverageViews(s,a).map(c=>({domain:c.domain,jurisdiction:c.jurisdiction,status:c.status,limitations:c.limitations,qualification:c.qualification||null,reviewDueAt:c.reviewDueAt}));
 /** Tenant, membership and current lineage are checked on every retrieval; no vector/index fallback. */
-export function retrieveConversationEvidence(s:WorkspaceState,a:ActorContext,conversation:Conversation,userMessageId:string):EvidencePacket {
+export function retrieveConversationEvidence(s:WorkspaceState,a:ActorContext,conversation:Conversation,userMessageId:string,selection?:{chunks:{kind:'document'|'source'|'fact';id:string;offset:number}[];hybrid:boolean}):EvidencePacket {
  membership(s,a);readRecord(s,a,s.conversations,conversation.id);const message=readRecord(s,a,s.messages,userMessageId);
  if(message.conversationId!==conversation.id||message.role!=='user'||!message.voiceConfirmed)throw failure();
  const terms=[...new Set(message.text.toLowerCase().match(/[\p{L}\p{N}_-]{3,}/gu)||[])];
  const score=(title:string,body:string)=>terms.reduce((n,t)=>n+(title.toLowerCase().includes(t)?5:0)+(body.toLowerCase().includes(t)?1:0),0);
- const eligible=s.documents.filter(d=>canRead(s,a,d)&&d.status!=='superseded'&&s.sources.some(x=>x.id===d.sourceId&&x.status==='active'));
+ const eligible=documentHeads(s.documents).filter(d=>canRead(s,a,d)&&d.status!=='superseded'&&s.sources.some(x=>x.id===d.sourceId&&x.status==='active'));
  const evidence:EvidenceItem[]=[],refs:EvidenceReference[]=[reference('message',message)];
  const sourceIds=new Set<string>(),factIds=new Set<string>();
  const traversed=new Set<string>();
  const addDependencies=(record:RecordBase)=>{if(traversed.has(record.id))return;traversed.add(record.id);for(const id of record.provenance.sourceIds){const source=readRecord(s,a,s.sources,id);sourceIds.add(id);refs.push(reference('source',source));addDependencies(source);}for(const id of record.provenance.factIds||[]){const fact=readRecord(s,a,s.facts,id);factIds.add(id);refs.push(reference('fact',fact));addDependencies(fact);}};
  const ranked=eligible.map(d=>({d,score:score(d.title,d.body)})).sort((x,y)=>y.score-x.score||x.d.id.localeCompare(y.d.id));
- const selected=ranked.some(x=>x.score>0)?ranked.filter(x=>x.score>0).slice(0,6):ranked.length===1?ranked:[];
+ const selected=selection?ranked.filter(x=>selection.chunks.some(c=>c.kind==='document'&&c.id===x.d.id)):ranked.some(x=>x.score>0)?ranked.filter(x=>x.score>0).slice(0,6):ranked.length===1?ranked:[];
  for(const {d} of selected){
   const source=readRecord(s,a,s.sources,d.sourceId);sourceIds.add(source.id);refs.push(reference('source',source),reference('document',d));addDependencies(d);
   // Rank contiguous source chunks; retain byte-for-byte quotes and offsets, including surrounding context.
   const chunks=Array.from({length:Math.max(1,Math.ceil(d.body.length/1800))},(_,i)=>({offset:i*1800,text:d.body.slice(i*1800,i*1800+2400)}));
-  for(const chunk of chunks.sort((x,y)=>score(d.title,y.text)-score(d.title,x.text)||x.offset-y.offset).slice(0,2))evidence.push({id:`document:${d.id}:${chunk.offset}`,kind:'document',title:d.title,quote:chunk.text,sourceId:source.id,factId:null,anchor:`document:${d.id}:chars:${chunk.offset}-${chunk.offset+chunk.text.length}`,authority:d.authority,practice:null});
+  for(const chunk of (selection?chunks.filter(c=>selection.chunks.some(x=>x.kind==='document'&&x.id===d.id&&x.offset===c.offset)):chunks.sort((x,y)=>score(d.title,y.text)-score(d.title,x.text)||x.offset-y.offset).slice(0,2)))evidence.push({id:`document:${d.id}:${chunk.offset}`,kind:'document',title:d.title,quote:chunk.text,sourceId:source.id,factId:null,anchor:`document:${d.id}:chars:${chunk.offset}-${chunk.offset+chunk.text.length}`,authority:d.authority,practice:null});
  }
- for(const source of s.sources.filter(x=>canRead(s,a,x)&&!eligible.some(d=>d.sourceId===x.id)).map(source=>({source,score:score(source.title,source.text)})).filter(x=>x.score>0).sort((x,y)=>y.score-x.score||x.source.id.localeCompare(y.source.id)).slice(0,4).map(x=>x.source)){
-  sourceIds.add(source.id);refs.push(reference('source',source));addDependencies(source);evidence.push({id:`source:${source.id}:0`,kind:'source',title:source.title,quote:source.text.slice(0,2400),sourceId:source.id,factId:null,anchor:`source:${source.id}:chars:0-${Math.min(2400,source.text.length)}`,authority:source.authority,practice:null,observedAt:source.observedAt,effectiveAt:source.effectiveAt,externalRevision:source.externalRevision});
+ for(const source of s.sources.filter(x=>canRead(s,a,x)&&!s.documents.some(d=>d.sourceId===x.id)).map(source=>({source,score:score(source.title,source.text)})).filter(x=>selection?selection.chunks.some(c=>c.kind==='source'&&c.id===x.source.id):x.score>0).sort((x,y)=>y.score-x.score||x.source.id.localeCompare(y.source.id)).slice(0,selection?16:4).map(x=>x.source)){
+  sourceIds.add(source.id);refs.push(reference('source',source));addDependencies(source);for(const offset of selection?selection.chunks.filter(c=>c.kind==='source'&&c.id===source.id).map(c=>c.offset):[0])evidence.push({id:`source:${source.id}:${offset}`,kind:'source',title:source.title,quote:source.text.slice(offset,offset+2400),sourceId:source.id,factId:null,anchor:`source:${source.id}:chars:${offset}-${Math.min(offset+2400,source.text.length)}`,authority:source.authority,practice:null,observedAt:source.observedAt,effectiveAt:source.effectiveAt,externalRevision:source.externalRevision});
  }
- for(const fact of s.facts.filter(f=>f.status==='confirmed'&&f.reuse==='company'&&f.entityId===conversation.entityId&&canRead(s,a,f)&&(!f.validUntil||Date.parse(f.validUntil)>Date.now())&&(!f.validFrom||Date.parse(f.validFrom)<=Date.now())).sort((x,y)=>score(y.predicate,JSON.stringify(y.value))-score(x.predicate,JSON.stringify(x.value))||x.id.localeCompare(y.id)).slice(0,12)){
+ for(const fact of s.facts.filter(f=>(!selection||selection.chunks.some(c=>c.kind==='fact'&&c.id===f.id))&&f.status==='confirmed'&&f.reuse==='company'&&f.entityId===conversation.entityId&&canRead(s,a,f)&&(!f.validUntil||Date.parse(f.validUntil)>Date.now())&&(!f.validFrom||Date.parse(f.validFrom)<=Date.now())).sort((x,y)=>score(y.predicate,JSON.stringify(y.value))-score(x.predicate,JSON.stringify(x.value))||x.id.localeCompare(y.id)).slice(0,12)){
   factIds.add(fact.id);refs.push(reference('fact',fact));addDependencies(fact);evidence.push({id:`fact:${fact.id}`,kind:'fact',title:fact.predicate,quote:JSON.stringify({predicate:fact.predicate,value:fact.value,practice:fact.practice,confirmedAt:fact.confirmedAt}),sourceId:null,factId:fact.id,anchor:`fact:${fact.id}`,authority:'confirmed_company_assertion',practice:fact.practice});
  }
+ if(selection){const order=new Map(selection.chunks.map((c,i)=>[c.kind==='fact'?`fact:${c.id}`:`${c.kind}:${c.id}:${c.offset}`,i]));evidence.sort((a,b)=>(order.get(a.id)??Number.MAX_SAFE_INTEGER)-(order.get(b.id)??Number.MAX_SAFE_INTEGER));}
  const scenario=conversation.scenarioId?s.scenarios.find(x=>x.id===conversation.scenarioId&&canRead(s,a,x)):undefined;
  if(scenario){refs.push(reference('scenario',scenario));addDependencies(scenario);}
  const history=s.messages.filter(x=>x.conversationId===conversation.id&&x.role==='user'&&canRead(s,a,x)&&x.voiceConfirmed).slice(-6);
@@ -52,11 +55,11 @@ export function retrieveConversationEvidence(s:WorkspaceState,a:ActorContext,con
  for(const authority of s.legalAuthorities.filter(x=>canRead(s,a,x))){const linked=evidence.filter(e=>e.sourceId===authority.sourceId);if(linked.length){refs.push(reference('authority',authority));addDependencies(authority);for(const e of linked)e.authority+=`; registered ${authority.authorityType} for ${authority.domain}/${authority.jurisdiction}; named source review ${authorityCurrent(s,a,authority)?'current':'unverified or stale'}`;}}
  for(const entry of s.coverage.filter(x=>canRead(s,a,x))){refs.push(reference('coverage',entry));addDependencies(entry);}
  if(inventory.length>100)throw new V2Error('INVENTORY_TOO_LARGE','Narrow the authorized scope before requesting an agreement inventory.');
- return {version:'v2-exact-keyword-1',coverage:coveragePacket(s,a),question:message.text,history:history.map(x=>({role:'user',text:x.text})),evidence,references:[...new Map(refs.map(r=>[`${r.kind}:${r.id}`,r])).values()],sourceIds:[...sourceIds],factIds:[...factIds],hypotheses:scenario?.assumptions||[],agreementInventory:inventory.map(d=>({documentId:d.id,title:d.title,authority:d.authority,amendsDocumentId:d.amendsDocumentId})),inventoryStatement:'Complete enumeration of currently authorized executed agreement records in this workspace only. Upload completeness, customer applicability, amendments and external inventories remain unverified.',limitations:['Exact and keyword retrieval only; semantic/vector retrieval is not deployed.','Quotes are bounded excerpts. Definitions, exceptions and amendments can occur outside selected passages.','Provider observations retain effective and observed times; later arrival is not evidence that an older revision is current. Conflicting revisions require review.','Company assertions and exploratory hypotheses are not legal authority. No jurisdiction-specific legal coverage is certified.']};
+ return {version:selection?.hybrid?'v2-atlas-hybrid-1':'v2-exact-keyword-1',coverage:coveragePacket(s,a),question:message.text,history:history.map(x=>({role:'user',text:x.text})),evidence,references:[...new Map(refs.map(r=>[`${r.kind}:${r.id}`,r])).values()],sourceIds:[...sourceIds],factIds:[...factIds],hypotheses:scenario?.assumptions||[],agreementInventory:inventory.map(d=>({documentId:d.id,title:d.title,authority:d.authority,amendsDocumentId:d.amendsDocumentId})),inventoryStatement:'Complete enumeration of currently authorized executed agreement records in this workspace only. Upload completeness, customer applicability, amendments and external inventories remain unverified.',limitations:[selection?.hybrid?'Atlas full-text and vector retrieval with exact matches, reciprocal rank fusion and authoritative record hydration. No learned reranker.':'Exact and keyword retrieval only; semantic/vector retrieval is not enabled for this run.','Quotes are bounded excerpts. Definitions, exceptions and amendments can occur outside selected passages.','Provider observations retain effective and observed times; later arrival is not evidence that an older revision is current. Conflicting revisions require review.','Company assertions and exploratory hypotheses are not legal authority. No jurisdiction-specific legal coverage is certified.']};
 }
 /** Rechecks every referenced record and its current ACL, not just cached search results. */
 export function recheckEvidence(s:WorkspaceState,a:ActorContext,conversationId:string,packet:EvidencePacket){
  membership(s,a);readRecord(s,a,s.conversations,conversationId);if(digest(packet.coverage)!==digest(coveragePacket(s,a)))throw failure();
- for(const ref of packet.references){const record=records(s,ref.kind).find(x=>x.id===ref.id);if(!record||!canRead(s,a,record)||fingerprint(record)!==ref.hash)throw failure();}
- for(const id of packet.factIds){const fact=readRecord(s,a,s.facts,id);if(fact.status!=='confirmed'||(fact.validUntil&&Date.parse(fact.validUntil)<=Date.now()))throw failure();}
+ for(const ref of packet.references){const record=records(s,ref.kind).find(x=>x.id===ref.id);if(!record||!canRead(s,a,record)||fingerprint(record)!==ref.hash||ref.kind==='document'&&!documentHeads(s.documents).some(d=>d.id===ref.id))throw failure();}
+ for(const id of packet.factIds){const fact=readRecord(s,a,s.facts,id);if(!factCurrentlyConfirmed(fact))throw failure();}
 }

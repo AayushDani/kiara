@@ -9,7 +9,7 @@ interface Spend {_id:string;version:number;charges:Record<string,Charge>}
 const KEY='kiara-provider-total-v1';
 const micro=(usd:number)=>Math.ceil(usd*1_000_000);
 const totals=(s:Spend)=>Object.values(s.charges).reduce((a,c)=>{
-  const coverage=c.reconciliation?.budgeted_micro??0,covered=c.status==='unknown'&&coverage>=c.reserved&&coverage>=c.actual;
+  const coverage=c.reconciliation?.budgeted_micro??0,covered=c.status==='unknown'&&!!c.reconciliation&&coverage>=c.reserved&&coverage>=c.actual;
   a.actual+=c.actual;a.conservative+=Math.max(coverage-c.actual,0);a.spent+=Math.max(c.actual,coverage);
   if(c.status!=='settled'&&!covered)a.reserved+=Math.max(c.reserved-Math.max(c.actual,coverage),0);
   if(c.status==='unknown'){a.unknown++;if(!covered)a.blocking_unknown++;}
@@ -72,7 +72,15 @@ export async function settleGlobalSpend(charge_id:string,actual_usd:number,unkno
   });
 }
 export async function recoverGlobalSpend(charge_id:string,dispatched:boolean){
-  return change(s=>{const c=s.charges[charge_id];if(!c||c.status==='settled'||c.status==='unknown')return;if(dispatched)c.status='unknown';else{c.actual=0;c.status='settled';}});
+  if(!/^[a-zA-Z0-9_-]{8,100}$/.test(charge_id))throw new AppError('INVALID_SPEND_RESERVATION','Invalid provider reservation identity.');
+  return change(s=>{
+    const c=s.charges[charge_id];
+    // Recovery can beat a delayed reservation write. Retire the identity durably so
+    // the former process cannot reserve after recovery and strand an unseen charge.
+    if(!c){s.charges[charge_id]={id:charge_id,reserved:0,actual:0,status:dispatched?'unknown':'settled',created_at:Date.now()};return;}
+    if(c.status==='settled'||c.status==='unknown')return;
+    if(dispatched)c.status='unknown';else{c.actual=0;c.status='settled';}
+  });
 }
 export async function globalSpendStatus(){
   let state:Spend|null=null;

@@ -1,0 +1,10 @@
+{
+  "directory": "/var/folders/z4/m4pjp3z979d_58fvs5bq_jqh0000gn/T/kiara-fixed-legacy-http-d0gsxxpa",
+  "port": 4517,
+  "url": "http://127.0.0.1:4517",
+  "fault": "Only copied src/server/hosted-worker.ts replaced with scheduleWorker throwing after command commit",
+  "node": "/Users/aayushdani/.npm/_npx/09ae5d3560c7b1f2/node_modules/node/bin/node",
+  "scope": "Copied current source, no .env, separate Next build/state, scripted model, preview email, no live provider",
+  "serverStopped": true,
+  "serverExitCode": 0
+}

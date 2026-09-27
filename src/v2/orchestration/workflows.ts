@@ -28,3 +28,24 @@ export async function kiaraEffectWorkflow(ref:OutboxReference):Promise<void>{
  let turns=0;
  while(true){const progress=await effects.processEffectReference(ref);if(progress.status==='complete')return;await sleep(Math.max(60000,Math.min(progress.nextCheckMs,6*3600000)));if(++turns>=100)await continueAsNew<typeof kiaraEffectWorkflow>(ref);}
 }
+
+const retention=proxyActivities<{processRetentionReference:(ref:OutboxReference)=>Promise<{status:'waiting'|'complete';nextCheckMs:number}>}>({startToCloseTimeout:'5 minutes',retry:{initialInterval:'1 minute',maximumInterval:'6 hours',backoffCoefficient:2}});
+/** Application erasure remains pending during retention holds and unresolved effects. */
+export async function kiaraRetentionWorkflow(ref:OutboxReference):Promise<void>{
+ let turns=0;
+ while(true){const progress=await retention.processRetentionReference(ref);if(progress.status==='complete')return;await sleep(Math.max(60000,Math.min(progress.nextCheckMs,24*3600000)));if(++turns>=100)await continueAsNew<typeof kiaraRetentionWorkflow>(ref);}
+}
+
+const artifacts=proxyActivities<{processArtifactReference:(ref:OutboxReference)=>Promise<{status:'waiting'|'complete';nextCheckMs:number}>}>({startToCloseTimeout:'2 minutes',retry:{initialInterval:'1 minute',maximumInterval:'6 hours',backoffCoefficient:2}});
+/** Abandoned uploads retain a durable cleanup owner, including a missing write acknowledgement. */
+export async function kiaraArtifactWorkflow(ref:OutboxReference):Promise<void>{
+ let turns=0;
+ while(true){const progress=await artifacts.processArtifactReference(ref);if(progress.status==='complete')return;await sleep(Math.max(60000,Math.min(progress.nextCheckMs,24*3600000)));if(++turns>=100)await continueAsNew<typeof kiaraArtifactWorkflow>(ref);}
+}
+
+const indexing=proxyActivities<{processIndexReference:(ref:OutboxReference)=>Promise<{status:'waiting'|'complete';nextCheckMs:number}>}>({startToCloseTimeout:'4 minutes',retry:{initialInterval:'10 seconds',maximumInterval:'5 minutes',backoffCoefficient:2}});
+/** The job owns the exact standing grant, budget and chunks; workflow history contains references only. */
+export async function kiaraIndexWorkflow(ref:OutboxReference):Promise<void>{
+ let turns=0;
+ while(true){const progress=await indexing.processIndexReference(ref);if(progress.status==='complete')return;await sleep(Math.max(60000,Math.min(progress.nextCheckMs,5*60000)));if(++turns>=100)await continueAsNew<typeof kiaraIndexWorkflow>(ref);}
+}

@@ -1,5 +1,5 @@
 import {createHash} from 'node:crypto';
-import {S3Client,PutObjectCommand,GetObjectCommand,HeadObjectCommand} from '@aws-sdk/client-s3';
+import {S3Client,PutObjectCommand,GetObjectCommand,HeadObjectCommand,DeleteObjectCommand} from '@aws-sdk/client-s3';
 import {V2Error} from './contracts';
 import type {OriginalReference} from './objects';
 
@@ -24,4 +24,14 @@ export async function readS3Original(tenantId:string,reference:OriginalReference
  const body=result.Body as AsyncIterable<Uint8Array>|undefined;if(!body)throw new V2Error('ORIGINAL_UNAVAILABLE','The retained original body is unavailable.',503);
  const chunks:Uint8Array[]=[];let length=0;for await(const chunk of body){length+=chunk.byteLength;if(length>20_000_000||length>reference.bytes)throw new V2Error('ORIGINAL_INTEGRITY','Retained original size differs from its manifest.',503);chunks.push(chunk);}
  const bytes=Buffer.concat(chunks);if(bytes.length!==reference.bytes||sha(bytes)!==reference.sha256)throw new V2Error('ORIGINAL_INTEGRITY','Retained original bytes differ from the manifest.',503);return bytes;
+}
+
+export async function purgeS3Original(tenantId:string,reference:OriginalReference,injected?:{send(command:DeleteObjectCommand|HeadObjectCommand):Promise<Record<string,unknown>>}):Promise<void>{
+ const config=configuration(),tenantHash=sha(tenantId);
+ if(reference.storage!=='s3_kms'||reference.keyId!==config.keyId||!reference.versionId||reference.versionId==='null'||reference.key!==`${tenantHash}/${reference.sha256}`||!/^([a-f0-9]{64})\/([a-f0-9]{64})$/.test(reference.key))throw new V2Error('ORIGINAL_SCOPE','Original deletion identity or tenant scope does not match.',403);
+ const client=injected||new S3Client({region:config.region,maxAttempts:2});
+ // Never bypass Object Lock or delete an unspecified/latest version.
+ await client.send(new DeleteObjectCommand({Bucket:config.bucket,Key:reference.key,VersionId:reference.versionId}));
+ try{await client.send(new HeadObjectCommand({Bucket:config.bucket,Key:reference.key,VersionId:reference.versionId}));}catch(error){if((error as {$metadata?:{httpStatusCode?:number}}).$metadata?.httpStatusCode===404||['NoSuchKey','NoSuchVersion','NotFound'].includes((error as {name?:string}).name||''))return;throw error;}
+ throw new V2Error('ORIGINAL_PURGE_UNVERIFIED','The retained object version still exists after deletion.',503);
 }

@@ -1,0 +1,28 @@
+✔ selected scenario sharing discloses only inspected assumptions, never private history or origin IDs (778.986584ms)
+✔ scenario edits immediately stale the approved frozen share instead of disclosing new text (717.568833ms)
+✔ recipient membership revision and expiry withdraw scenario viewing (774.542167ms)
+✔ sharing cannot promote restricted source access or use stale selections (703.013875ms)
+✔ routing requires existing capacity, recipient acceptance and a separate grantor choice (892.278125ms)
+✔ routing expiry derives the base owner without mutating stored task authority (619.230958ms)
+✔ existing conversation links preserve identity and refuse private-to-team scope expansion (636.112208ms)
+✔ source deletion redacts selected scenario sharing from current and historical records (701.839209ms)
+✔ a business owner cannot link another user’s private conversation, even when the proposed scopes match (325.92175ms)
+✔ pasted document route retains exact bytes, hands off its own revisions, and replays one document (737.282958ms)
+✔ multipart reimport preserves both exact originals and stale/CSRF requests cannot attach documents (1260.779959ms)
+✔ maintenance stays disabled by default and an explicit standing grant allows scoped member work without admin (1146.537709ms)
+✔ standing policy does not authorize private scope or a changed policy or member (862.339667ms)
+✔ revocation during embedding preserves accounted cost but cannot write index content (723.057875ms)
+✔ global concurrency delays the same job; a later retry invokes the provider once (1450.225792ms)
+✔ budget exhaustion and ambiguous provider failure never trigger automatic resubmission (1154.678375ms)
+✔ inventory requires every current head including draft authority, preserves exact counts and does not claim external discovery (601.241792ms)
+✔ new current agreement heads invalidate attested completeness; historical drafts cannot satisfy a successor (560.287292ms)
+✔ attestation expiry independently blocks fresh approval and final execution without a record mutation (769.837ms)
+✔ private attestation evidence is inherited by derived proposal lineage (510.985125ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8388.605834

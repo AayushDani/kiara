@@ -5,7 +5,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
-import {reserveGlobalSpend,settleGlobalSpend,globalSpendStatus,conservativelyAccountUnknownCharge} from '../src/server/global-spend';
+import {recoverGlobalSpend,reserveGlobalSpend,settleGlobalSpend,globalSpendStatus,conservativelyAccountUnknownCharge} from '../src/server/global-spend';
 import {withDemoScope} from '../src/server/demo-context';
 
 const execute=promisify(execFile);
@@ -114,4 +114,17 @@ test('operator coverage fails closed on wrong ceilings and late higher usage',as
   const status=await globalSpendStatus();assert.equal(status.spent_usd,1.1);assert.equal(status.blocking_unknown_charges,1);
   await assert.rejects(()=>reserveGlobalSpend('after_late_overrun',.1),code('GLOBAL_CHARGE_UNKNOWN'));
   await assert.rejects(()=>conservativelyAccountUnknownCharge(action),code('SPEND_CEILING_EXCEEDED'));
+}));
+
+
+test('pre-dispatch recovery retires missing reservation identities before a delayed writer resumes',async()=>isolated(async()=>{
+ await recoverGlobalSpend('late_reservation',false);
+ await assert.rejects(()=>reserveGlobalSpend('late_reservation',0.01),code('SPEND_ID_CONFLICT'));
+ const state=await globalSpendStatus();assert.equal(state.reserved_usd,0);assert.equal(state.inflight,0);assert.equal(state.actual_spent_usd,0);
+ await recoverGlobalSpend('late_reservation',false);
+ await reserveGlobalSpend('unrelated_request',0.01);await settleGlobalSpend('unrelated_request',0);
+}));
+
+test('missing dispatched reservation remains globally blocking without explicit reconciliation',async()=>isolated(async()=>{
+ await recoverGlobalSpend('missing_dispatched',true);const state=await globalSpendStatus();assert.equal(state.blocking_unknown_charges,1);assert.equal(state.covered_unknown_charges,0);await assert.rejects(()=>reserveGlobalSpend('after_missing_dispatched',0.01),code('GLOBAL_CHARGE_UNKNOWN'));
 }));
