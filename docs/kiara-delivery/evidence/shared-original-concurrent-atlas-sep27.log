@@ -1,0 +1,2 @@
+ATLAS_RETENTION_RACE_EVIDENCE {"database":"kiara_qualification_0eef6628ff254747aa78d5c947803d94","tenantHash":"9e9083b25a954386acab9d744c8302e5fcfdb6e153c9ff1d975a56e6332c6332","originalHash":"b8e918f1df97255bada093c888d9d2ca0d6fcb8bc310ec22b1e16479360cf66f","physicalCalls":1,"secondWorkerHeld":true,"firstWorkerCompleted":true,"encryptedBytesPurged":true,"managedBackupErasureVerified":false,"remoteTenantDataRead":false}
+ATLAS_ORIGINAL_CUTOVER_CLEANUP {"database":"kiara_qualification_0eef6628ff254747aa78d5c947803d94","dropped":true,"cleanupVerified":true}

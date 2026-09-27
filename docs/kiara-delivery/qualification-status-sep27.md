@@ -39,6 +39,8 @@ An independent [shared-original retention review](evidence/shared-original-reten
 
 An extended [connected Atlas two-owner drill](evidence/shared-original-multiowner-atlas-sep27.md) then held the same Mongo original for a later native-source deadline and an expired attached intake, before completing three retention jobs and dropping its generated database. This is sequential generated-tenant evidence; simultaneous worker races, managed backup expiry and customer migration remain unqualified.
 
+A later [concurrent-worker Atlas drill](evidence/shared-original-concurrent-atlas-sep27.md) reproduced duplicate physical dispatch locally, added a durable expiring purge claim and tested a second worker against a generated native Mongo original. The second worker held, one physical purge completed, and the generated database was dropped. This verifies the observed overlap under the synthetic drill; managed backup expiry, cross-host clock behavior and customer migration remain unqualified.
+
 A [connected synthetic recovery-state verifier drill](evidence/atlas-recovery-state-sep27.md) exercised normalized rehydration and exact hash, active/revoked OIDC identity and membership, deleted-source tombstone, receipt hash, and retained/deleted encrypted-original checks in a generated Atlas recovery database. It verified cleanup. No managed snapshot was restored; escrowed-key recovery, recovery point/time, worker/provider replay and production access denial remain open.
 
 A [read-only eCFR title-catalog probe](evidence/ecfr-title-currentness-sep27.md) returned Title 16 currentness metadata from the official API without a key or tenant write. This is a reviewer discovery signal only; section-level change review and legal applicability remain unqualified.
