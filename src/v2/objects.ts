@@ -6,6 +6,7 @@ import {V2Error} from './contracts';
 export interface OriginalReference {key:string;sha256:string;bytes:number;encryption:'aes-256-gcm'|'aws-kms';storage:'local_encrypted'|'mongo_encrypted'|'s3_kms';keyId:string;versionId?:string}
 const sha=(data:string|Uint8Array)=>createHash('sha256').update(data).digest('hex');
 const root=()=>process.env.KIARA_ORIGINALS_DIR||join(process.env.KIARA_V2_DATA_DIR||process.env.KIARA_DATA_DIR||join(process.cwd(),'.kiara'),'originals');
+export function syntheticOriginalCutoverEnabled(tenantId:string){return /^synthetic-[a-z0-9-]{1,80}$/.test(tenantId)&&process.env.KIARA_ORIGINAL_CUTOVER_TENANT===tenantId&&/^kiara_(qualification|synthetic)_[a-z0-9]+$/.test(process.env.MONGODB_DB||'');}
 async function syncDirectory(path:string){const directory=await open(path,'r');try{await directory.sync();}finally{await directory.close();}}
 async function encryptionKey(){
  const configured=process.env.KIARA_ORIGINALS_KEY;
@@ -36,6 +37,11 @@ export async function retainOriginal(tenantId:string,bytes:Uint8Array):Promise<O
  const reference:OriginalReference={key:objectKey,sha256:contentHash,bytes:bytes.byteLength,encryption:'aes-256-gcm',storage:'local_encrypted',keyId};await readOriginal(tenantId,reference);return reference;
 }
 export async function readOriginal(tenantId:string,reference:OriginalReference):Promise<Buffer>{
+ if(reference.storage!=='mongo_encrypted'&&process.env.MONGODB_URI&&syntheticOriginalCutoverEnabled(tenantId)){const alias=await(await import('./mongo-originals')).resolveMongoOriginalAlias(tenantId,reference);if(alias)return (await import('./mongo-originals')).readMongoOriginal(tenantId,alias);}
+ return readPhysicalOriginal(tenantId,reference);
+}
+/** The migration operator verifies legacy bytes directly before an alias can take effect. */
+export async function readPhysicalOriginal(tenantId:string,reference:OriginalReference):Promise<Buffer>{
  if(reference.storage==='mongo_encrypted')return (await import('./mongo-originals')).readMongoOriginal(tenantId,reference);
  if(reference.storage==='s3_kms')return (await import('./s3-originals')).readS3Original(tenantId,reference);
  if(reference.storage!=='local_encrypted')throw new V2Error('ORIGINAL_SCOPE','Unknown original storage mode.',403);
@@ -48,6 +54,15 @@ export async function readOriginal(tenantId:string,reference:OriginalReference):
 
 /** Only the retention worker calls this after committing an object-reference deletion fence. */
 export async function purgeOriginal(tenantId:string,reference:OriginalReference):Promise<void>{
+ if(reference.storage!=='mongo_encrypted'&&process.env.MONGODB_URI&&syntheticOriginalCutoverEnabled(tenantId)){const alias=await(await import('./mongo-originals')).resolveMongoOriginalAlias(tenantId,reference);if(alias)throw new V2Error('ORIGINAL_ALIAS_TARGET_HELD','A cutover alias target requires a separate exact-holder cleanup review.',409);}
+ return purgePhysicalOriginal(tenantId,reference);
+}
+/** Restricted operator helper for the exact synthetic tenant and isolated database. */
+export async function purgeSyntheticLegacyOriginal(tenantId:string,reference:OriginalReference):Promise<void>{
+ if(!syntheticOriginalCutoverEnabled(tenantId)||reference.storage==='mongo_encrypted')throw new V2Error('ORIGINAL_CUTOVER_SCOPE','Synthetic cutover scope is required.',403);
+ return purgePhysicalOriginal(tenantId,reference);
+}
+async function purgePhysicalOriginal(tenantId:string,reference:OriginalReference):Promise<void>{
  if(reference.storage==='mongo_encrypted')return (await import('./mongo-originals')).purgeMongoOriginal(tenantId,reference);
  if(reference.storage==='s3_kms')return (await import('./s3-originals')).purgeS3Original(tenantId,reference);
  const tenantHash=sha(tenantId);

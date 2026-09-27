@@ -3,12 +3,17 @@ import test,{before,after} from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash,randomUUID} from 'node:crypto';
 import {execFile} from 'node:child_process';
+import {mkdtemp,rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
 import {promisify} from 'node:util';
 import {MongoClient,Collection,type Db} from 'mongodb';
 import {closeV2Store,digest,emptyWorkspace,readWorkspace,timestamp,transactWorkspace} from '../src/v2/store';
 import {closeNormalizedStore,migrateAggregateToNormalized,normalizeWorkspace,normalizedMigrationPlan,purgeNormalizedHistory,readNormalized,rollbackNormalizedToAggregate,transactNormalized} from '../src/v2/normalized-store';
 import {closeHybridIndex,mongoHybridAdapter,type HybridChunk} from '../src/v2/hybrid';
-import {closeMongoOriginalStore,readMongoOriginal,retainMongoOriginal,purgeMongoOriginal} from '../src/v2/mongo-originals';
+import {activateOriginalAliases,closeMongoOriginalStore,legacyOriginalHash,readMongoOriginal,retainMongoOriginal,purgeMongoOriginal} from '../src/v2/mongo-originals';
+import {readOriginal,readPhysicalOriginal,retainOriginal,purgeOriginal} from '../src/v2/objects';
+import {applyOriginalCutover,liveMongoOriginalHolders,previewOriginalCutover} from '../src/v2/original-cutover';
 import {applySourceDeletion,redactHistoricalRecord,redactHistoricalWorkspace} from '../src/v2/retention';
 import type {Action,ActorContext,RecordBase,Source,WorkspaceState} from '../src/v2/contracts';
 import type {EffectIntent} from '../src/v2/execution/contracts';
@@ -135,4 +140,81 @@ test('encrypted Mongo originals survive exact readback, duplicate intake and res
  Collection.prototype.updateOne=async function(this:Collection,filter:any,...args:any[]){if(!paused&&this.collectionName==='v2_original_fences'&&filter._id===raceRef.key&&filter.deleted){paused=true;entered();await gate;}return originalUpdate.call(this,filter,...args as [any,any]);} as typeof Collection.prototype.updateOne;
  try{const late=retainMongoOriginal(tenant,racing);await waiting;await purgeMongoOriginal(tenant,raceRef);release();await assert.rejects(late,code('ORIGINAL_DELETED'));}finally{release?.();Collection.prototype.updateOne=originalUpdate;}
  assert.equal(await db.collection('v2_original_manifests').countDocuments({_id:raceRef.key as never}),0);
+});
+
+test('synthetic legacy cutover requires exact preview, verifies destination, and leaves alias target held for separate deletion review',{timeout:120000},async()=>{
+ const tenant='synthetic-cutover-tenant',dir=await mkdtemp(join(tmpdir(),'kiara-original-cutover-')),bytes=Buffer.from('synthetic cutover original bytes');
+ Object.assign(process.env,{KIARA_ORIGINAL_CUTOVER_TENANT:tenant,KIARA_ORIGINALS_DIR:dir,KIARA_ORIGINALS_MODE:'local_encrypted'});
+ try{
+  const legacy=await retainOriginal(tenant,bytes);assert.equal(legacy.storage,'local_encrypted');
+  await transactWorkspace(tenant,s=>{Object.assign(s,fixture(tenant));s.sources[0].originalObjectRef=JSON.stringify(legacy);});
+  process.env.KIARA_ORIGINALS_MODE='mongo_encrypted';
+  const preview=await previewOriginalCutover(tenant);assert.equal(preview.count,1);assert.equal(preview.entries[0].sourceUri,`file://${join(dir,legacy.key+'.json')}`);assert.equal(preview.entries[0].purgeTarget,preview.entries[0].sourceUri);assert.equal(preview.entries[0].sha256,legacy.sha256);assert.equal(preview.totalBytes,bytes.length);
+  await assert.rejects(applyOriginalCutover(tenant,'0'.repeat(64)),code('ORIGINAL_CUTOVER_PREVIEW_CHANGED'));
+  const result=await applyOriginalCutover(tenant,preview.previewHash);assert.equal(result.purged,1);assert.deepEqual(result.pendingPurgeHashes,[]);
+  await assert.rejects(readPhysicalOriginal(tenant,legacy),e=>(e as NodeJS.ErrnoException).code==='ENOENT');
+  assert.deepEqual(await readOriginal(tenant,legacy),bytes);
+  assert.equal((await applyOriginalCutover(tenant,preview.previewHash)).purged,1);
+  await assert.rejects(purgeOriginal(tenant,legacy),code('ORIGINAL_ALIAS_TARGET_HELD'));
+  assert.deepEqual(await readOriginal(tenant,legacy),bytes);
+ }finally{await rm(dir,{recursive:true,force:true});delete process.env.KIARA_ORIGINAL_CUTOVER_TENANT;delete process.env.KIARA_ORIGINALS_DIR;process.env.KIARA_ORIGINALS_MODE='mongo_encrypted';}
+});
+
+test('two legacy aliases and one native holder prevent one-source deletion from removing their shared Mongo bytes',{timeout:120000},async()=>{
+ const tenant='synthetic-shared-original',bytes=Buffer.from('synthetic shared original'),mongo=await retainMongoOriginal(tenant,bytes),tenantHash=createHash('sha256').update(tenant).digest('hex');
+ process.env.KIARA_ORIGINAL_CUTOVER_TENANT=tenant;
+ const old=(versionId:string)=>({key:`${tenantHash}/${mongo.sha256}`,sha256:mongo.sha256,bytes:mongo.bytes,encryption:'aws-kms' as const,storage:'s3_kms' as const,keyId:'synthetic-kms-key',versionId});
+ const first=old('synthetic-v1'),second=old('synthetic-v2');
+ const s=fixture(tenant),a=s.sources[0],b={...structuredClone(a),id:'second-alias-source',originalObjectRef:JSON.stringify(second)},c={...structuredClone(a),id:'native-mongo-source',originalObjectRef:JSON.stringify(mongo)};a.originalObjectRef=JSON.stringify(first);s.sources.push(b,c);await transactWorkspace(tenant,state=>Object.assign(state,s));
+ try{
+  assert.equal(liveMongoOriginalHolders(await readWorkspace(tenant),mongo).length,3);
+  const entry=(legacy:ReturnType<typeof old>)=>({legacy,mongo,legacyHash:legacyOriginalHash(legacy),sourceUri:`s3://kiara-synthetic-test/${legacy.key}?versionId=${legacy.versionId}`,purgeTarget:`s3://kiara-synthetic-test/${legacy.key}?versionId=${legacy.versionId}`,purgedAt:null});
+  await activateOriginalAliases(tenant,'a'.repeat(64),digest(await readWorkspace(tenant)),[entry(first),entry(second)]);
+  await transactWorkspace(tenant,state=>{state.sources.find(x=>x.id===a.id)!.status='deleted';});
+  assert.equal(liveMongoOriginalHolders(await readWorkspace(tenant),mongo).length,2);
+  await assert.rejects(purgeOriginal(tenant,first),code('ORIGINAL_ALIAS_TARGET_HELD'));
+  // A native source can hold the same content-addressed target. Its deletion
+  // path must also respect the aliases, even though its physical key differs.
+  await transactWorkspace(tenant,state=>{state.sources.find(x=>x.id===c.id)!.status='deleted';});
+  assert.equal(liveMongoOriginalHolders(await readWorkspace(tenant),mongo).length,1);
+  await assert.rejects(purgeOriginal(tenant,mongo),code('ORIGINAL_ALIAS_TARGET_HELD'));
+  assert.deepEqual(await readMongoOriginal(tenant,mongo),bytes);
+ }finally{delete process.env.KIARA_ORIGINAL_CUTOVER_TENANT;}
+});
+
+test('alias activation cannot publish a reference after concurrent native purge commits',{timeout:120000},async()=>{
+ const tenant='synthetic-alias-purge-race',bytes=Buffer.from('synthetic alias purge race'),mongo=await retainMongoOriginal(tenant,bytes),tenantHash=createHash('sha256').update(tenant).digest('hex');
+ const legacy={key:`${tenantHash}/${mongo.sha256}`,sha256:mongo.sha256,bytes:mongo.bytes,encryption:'aws-kms' as const,storage:'s3_kms' as const,keyId:'synthetic-kms-key',versionId:'synthetic-v1'};
+ const uri=`s3://kiara-synthetic-test/${legacy.key}?versionId=${legacy.versionId}`;
+ const entry={legacy,mongo,legacyHash:legacyOriginalHash(legacy),sourceUri:uri,purgeTarget:uri,purgedAt:null};
+ process.env.KIARA_ORIGINAL_CUTOVER_TENANT=tenant;
+ const originalUpdate=Collection.prototype.updateOne;let resume!:()=>void,purgeEntered!:()=>void,aliasEntered!:()=>void,paused=false;
+ const gate=new Promise<void>(resolve=>resume=resolve),purging=new Promise<void>(resolve=>purgeEntered=resolve),aliasing=new Promise<void>(resolve=>aliasEntered=resolve);
+ Collection.prototype.updateOne=async function(this:Collection,filter:any,update:any,...args:any[]){
+  if(this.collectionName==='v2_original_fences'&&filter._id===mongo.key){
+   if(update?.$set?.deleted===true&&!paused){paused=true;const result=await originalUpdate.call(this,filter,update,...args as [any]);purgeEntered();await gate;return result;}
+   if(filter.deleted===false)aliasEntered();
+  }
+  return originalUpdate.call(this,filter,update,...args as [any]);
+ } as typeof Collection.prototype.updateOne;
+ try{
+  const purge=purgeMongoOriginal(tenant,mongo);await purging;
+  const activateResult=activateOriginalAliases(tenant,'b'.repeat(64),'c'.repeat(64),[entry]).then(()=>null,error=>error);await aliasing;
+  resume();await purge;assert.equal((await activateResult as {code?:string})?.code,'ORIGINAL_DELETED');
+  assert.equal(await db.collection('v2_original_aliases').countDocuments({tenantHash,'mongo.key':mongo.key}),0);
+  await assert.rejects(readMongoOriginal(tenant,mongo),code('ORIGINAL_DELETED'));
+ }finally{resume?.();Collection.prototype.updateOne=originalUpdate;delete process.env.KIARA_ORIGINAL_CUTOVER_TENANT;}
+});
+
+test('cutover preview rejects path traversal and a non-synthetic S3 bucket before source access',{timeout:120000},async()=>{
+ const tenant='synthetic-invalid-source',state=fixture(tenant),source=state.sources[0],hash='a'.repeat(64);
+ process.env.KIARA_ORIGINAL_CUTOVER_TENANT=tenant;
+ try{
+  source.originalObjectRef=JSON.stringify({key:`../${hash}`,sha256:hash,bytes:1,encryption:'aes-256-gcm',storage:'local_encrypted',keyId:'b'.repeat(16)});
+  await transactWorkspace(tenant,s=>Object.assign(s,state));
+  await assert.rejects(previewOriginalCutover(tenant),code('ORIGINAL_CUTOVER_SOURCE'));
+  process.env.KIARA_ORIGINALS_S3_BUCKET='customer-production-bucket';
+  await transactWorkspace(tenant,s=>{s.sources[0].originalObjectRef=JSON.stringify({key:`${createHash('sha256').update(tenant).digest('hex')}/${hash}`,sha256:hash,bytes:1,encryption:'aws-kms',storage:'s3_kms',keyId:'synthetic-key',versionId:'v1'});});
+  await assert.rejects(previewOriginalCutover(tenant),code('OBJECT_STORE_NOT_CONFIGURED'));
+ }finally{delete process.env.KIARA_ORIGINAL_CUTOVER_TENANT;delete process.env.KIARA_ORIGINALS_S3_BUCKET;}
 });

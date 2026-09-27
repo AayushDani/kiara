@@ -18,6 +18,7 @@
     "reset": "node --import tsx scripts/reset.ts",
     "verify-seed": "node --import tsx scripts/verify-seed.ts",
     "v2:operator": "node --import tsx scripts/v2-operator.ts",
+    "v2:identity": "node --import tsx scripts/v2-identity.ts",
     "worker:v2": "node --import tsx src/v2/orchestration/worker.ts",
     "worker:v2-local": "node --import tsx src/v2/orchestration/local-worker.ts"
   },

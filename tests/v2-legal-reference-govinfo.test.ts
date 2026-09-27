@@ -8,6 +8,7 @@ import {inspectGovInfoGranule,previewGovInfoGranule,stageGovInfoGranule} from '.
 import {command,snapshot} from '../src/v2/service';
 import {readWorkspace,closeV2Store,transactWorkspace,digest} from '../src/v2/store';
 import {readOriginal} from '../src/v2/objects';
+import {processLegalWatch} from '../src/v2/legal-maintenance';
 import {authorityCurrent} from '../src/v2/coverage';
 import {retrieveConversationEvidence,recheckEvidence} from '../src/v2/retrieval';
 import type {ActorContext,WorkspaceCommand} from '../src/v2/contracts';
@@ -43,6 +44,10 @@ test('selected GovInfo source is durably staged with raw original and no implied
  const defined=await send({type:'coverage.define',domain:selected.domain,jurisdiction:'US-federal',authorityIds:[authority.id],limitations:['Fictional local test only; no real legal coverage.']});
  const coverageId=String(defined.result.coverageId),coverage=defined.snapshot.coverage.find(x=>x.id===coverageId)!;
  await send({type:'coverage.review',coverageId,expectedRecordVersion:coverage.version,qualificationEvidence:'Fictional local qualification for test only.',reviewDueAt:new Date(Date.now()+86400000).toISOString(),limitations:['Fictional local test only; no real legal coverage.']});
+ const reviewedAuthority=(await readWorkspace(actor.tenantId)).legalAuthorities.find(x=>x.id===authority.id)!;
+ const configuredWatch=await send({type:'legal.watch.configure',authorityId:authority.id,expectedAuthorityVersion:reviewedAuthority.version,intervalHours:24});
+ assert.equal((await processLegalWatch(actor.tenantId,String(configuredWatch.result.watchId),{fetcher:sourceFetcher})).status,'scheduled');
+ const unchanged=await readWorkspace(actor.tenantId);assert.equal(unchanged.legalChanges?.length,0);assert.equal(authorityCurrent(unchanged,actor,unchanged.legalAuthorities.find(x=>x.id===authority.id)!),true);
  current=await readWorkspace(actor.tenantId);conversation=current.conversations.find(x=>x.id===conversationId)!;
  const packet=retrieveConversationEvidence(current,actor,conversation,messageId);assert.ok(packet.evidence.some(x=>x.sourceId===source.id));
  await transactWorkspace(actor.tenantId,s=>{s.coverage.find(x=>x.id===coverageId)!.reviewDueAt=new Date(0).toISOString();});
