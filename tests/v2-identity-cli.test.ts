@@ -55,3 +55,30 @@ test('revocation preview binds exact active tenant and actor, and stale or remap
  await runIdentityCommand(base('apply','revoke',preview.previewHash),env,deps);
  assert.equal(writes,1);
 });
+
+test('synthetic Preview identity can target only the exact kiara_v2 Atlas release database',async()=>{
+ const releaseTenant='synthetic-kiara-preview',releaseEnv:NodeJS.ProcessEnv={
+  ...env,MONGODB_URI:'mongodb+srv://operator:secret@cluster.example.mongodb.net/kiara_v2?retryWrites=true',
+  MONGODB_DB:'kiara_v2',KIARA_V2_RELEASE_SYNTHETIC_DB:undefined,KIARA_V2_RELEASE_DB:'kiara_v2',
+  KIARA_V2_RELEASE_SYNTHETIC_TENANT:releaseTenant,
+ };
+ const input={...base('preview'),tenantId:releaseTenant},deps={
+  inspect:async()=>absent(),
+  provision:async(next:{dryRun:boolean})=>({bindingId:identityBindingKey(issuer,subject),operation:'create',expectedVersion:0,nextVersion:1,changed:!next.dryRun}),
+  revoke:async()=>{throw new Error('unexpected revoke');},
+ } as any;
+ const preview=await runIdentityCommand(input,releaseEnv,deps);
+ assert.equal(preview.syntheticScope.database,'kiara_v2');
+ assert.equal(preview.syntheticScope.tenantId,releaseTenant);
+ const applied=await runIdentityCommand({...input,phase:'apply',previewHash:preview.previewHash},releaseEnv,deps);
+ assert.equal(applied.changed,true);
+ for(const bad of [
+  {...releaseEnv,MONGODB_DB:'kiara'},
+  {...releaseEnv,KIARA_V2_RELEASE_DB:undefined},
+  {...releaseEnv,KIARA_V2_RELEASE_SYNTHETIC_DB:'kiara_synthetic_other'},
+  {...releaseEnv,MONGODB_URI:'mongodb://localhost:27017/kiara_v2?tls=true'},
+  {...releaseEnv,MONGODB_URI:'mongodb+srv://operator:secret@cluster.example.mongodb.net/kiara_v2?tlsInsecure=true'},
+ ])await assert.rejects(()=>runIdentityCommand(input,bad,deps),/exact configured synthetic tenant/);
+ await assert.rejects(()=>runIdentityCommand({...input,tenantId:'real-tenant'},releaseEnv,deps),/exact configured synthetic tenant/);
+ await assert.rejects(()=>runIdentityCommand({...input,phase:'apply',previewHash:'a'.repeat(64)},releaseEnv,deps),/Preview hash changed/);
+});

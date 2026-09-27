@@ -1,5 +1,6 @@
 import {digest} from '../src/v2/store';
 import {closeOidcIdentityStore,inspectOidcIdentity,provisionOidcIdentity,revokeOidcIdentity} from '../src/v2/oidc-identities';
+import ConnectionString from 'mongodb-connection-string-url';
 
 type Action='provision'|'revoke';
 type Phase='preview'|'apply';
@@ -9,6 +10,17 @@ const actual:Dependencies={inspect:inspectOidcIdentity,provision:provisionOidcId
 const fields=new Set(['--issuer','--subject','--tenant','--actor','--expected-version','--preview-hash']);
 const present=(value:string|undefined)=>!!value&&value.length<=200;
 const isolatedDatabase=(value:string|undefined)=>!!value&&value.length<=100&&/^kiara_(?:qualification|synthetic)_[a-z0-9]+(?:_[a-z0-9]+)*$/.test(value);
+const syntheticReleaseTenant=(value:string|undefined)=>!!value&&/^synthetic[-_][a-z0-9][a-z0-9_-]{0,98}$/.test(value);
+const atlasReleaseUri=(value:string)=>{
+  try{
+    const url=new ConnectionString(value),options=[...url.searchParams].map(([key,setting])=>[key.toLowerCase(),setting.toLowerCase()] as const);
+    const tls=options.filter(([key])=>key==='tls'||key==='ssl');
+    return url.protocol==='mongodb+srv:'&&url.hosts.length===1&&url.hosts[0].toLowerCase().endsWith('.mongodb.net')&&
+      (url.pathname==='/'||url.pathname==='/kiara_v2')&&tls.every(([,setting])=>['true','1'].includes(setting))&&
+      !options.some(([key,setting])=>['tlsinsecure','tlsallowinvalidcertificates','tlsallowinvalidhostnames'].includes(key)&&!['false','0'].includes(setting))&&
+      !['tls','ssl','tlsinsecure','tlsallowinvalidcertificates','tlsallowinvalidhostnames'].some(key=>options.filter(([name])=>name===key).length>1);
+  }catch{return false;}
+};
 const exactIssuer=(value:string|undefined)=>{try{if(!value||value.includes('?')||value.includes('#'))return false;const url=new URL(value);return url.protocol==='https:'&&!!url.hostname&&!url.username&&!url.password&&!url.search&&!url.hash;}catch{return false;}};
 
 export interface IdentityCliInput {
@@ -41,9 +53,13 @@ export function identityOperationPlan(input:IdentityCliInput,current:Inspection,
 export async function runIdentityCommand(input:IdentityCliInput,env:NodeJS.ProcessEnv=process.env,deps:Dependencies=actual){
   if(env.KIARA_V2_STORE_MODE!=='normalized'||!env.MONGODB_URI||env.KIARA_OIDC_IDENTITY_SOURCE&&env.KIARA_OIDC_IDENTITY_SOURCE!=='mongo')throw new Error('Identity operations require normalized MongoDB and Mongo identity bindings.');
   const syntheticTenant=env.KIARA_V2_RELEASE_SYNTHETIC_TENANT,syntheticDb=env.KIARA_V2_RELEASE_SYNTHETIC_DB;
-  if(!present(syntheticTenant)||!isolatedDatabase(syntheticDb)||!isolatedDatabase(env.MONGODB_DB)||input.tenantId!==syntheticTenant||env.MONGODB_DB!==syntheticDb)throw new Error('Identity operations require the exact configured synthetic tenant and isolated Mongo database.');
+  const isolated=isolatedDatabase(syntheticDb)&&env.MONGODB_DB===syntheticDb&&!env.KIARA_V2_RELEASE_DB;
+  const release=!syntheticDb&&env.KIARA_V2_RELEASE_DB==='kiara_v2'&&env.MONGODB_DB==='kiara_v2'&&
+    syntheticReleaseTenant(syntheticTenant)&&atlasReleaseUri(env.MONGODB_URI);
+  if(!present(syntheticTenant)||input.tenantId!==syntheticTenant||isolated===release||!isolated&&!release)
+    throw new Error('Identity operations require the exact configured synthetic tenant and isolated Mongo database or the exact synthetic tenant on the kiara_v2 Atlas release database.');
   const current=await deps.inspect(input.issuer,input.subject);
-  const plan=identityOperationPlan(input,current,digest([env.MONGODB_URI,env.MONGODB_DB]),{tenantId:syntheticTenant!,database:syntheticDb!});
+  const plan=identityOperationPlan(input,current,digest([env.MONGODB_URI,env.MONGODB_DB]),{tenantId:syntheticTenant!,database:env.MONGODB_DB!});
   if(input.phase==='apply'&&plan.previewHash!==input.previewHash)throw new Error('Preview hash changed; inspect and preview again.');
   const operation=input.action==='provision'
     ?{issuer:input.issuer,subject:input.subject,tenantId:input.tenantId,actorId:input.actorId,expectedVersion:input.expectedVersion}
