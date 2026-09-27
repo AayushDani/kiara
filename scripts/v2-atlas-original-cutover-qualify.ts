@@ -6,10 +6,12 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {MongoClient} from 'mongodb';
 import {ConnectionString} from 'mongodb-connection-string-url';
-import {applyOriginalCutover,previewOriginalCutover} from '../src/v2/original-cutover';
+import {applyOriginalAliasTargetReconciliation,applyOriginalCutover,previewOriginalAliasTargetReconciliation,previewOriginalCutover} from '../src/v2/original-cutover';
 import {closeMongoOriginalStore,purgeMongoOriginal,readMongoOriginal} from '../src/v2/mongo-originals';
 import {purgeOriginal,readOriginal,readPhysicalOriginal,retainOriginal} from '../src/v2/objects';
 import {closeV2Store,digest,readWorkspace,timestamp,transactWorkspace} from '../src/v2/store';
+import {applySourceDeletion} from '../src/v2/retention';
+import {processDeletionJob} from '../src/v2/retention-worker';
 
 const hash=(value:Uint8Array)=>createHash('sha256').update(value).digest('hex');
 const code=(expected:string)=>(error:unknown)=>(error as {code?:string}).code===expected;
@@ -36,7 +38,7 @@ async function main(){
   assert.deepEqual(await db.listCollections().toArray(),[]);
   await db.collection<{_id:string;purpose:string;tenantId:string}>('qualification_identity').insertOne({_id:marker,purpose:'generated Atlas original cutover drill',tenantId});
   marked=true;
-  Object.assign(process.env,{MONGODB_DB:databaseName,KIARA_V2_STORE_MODE:'aggregate',KIARA_V2_AI_MODE:'local',KIARA_ORIGINALS_MODE:'local_encrypted',KIARA_ORIGINALS_DIR:localDir,KIARA_ORIGINALS_KEY:randomBytes(32).toString('hex'),KIARA_ORIGINAL_CUTOVER_TENANT:tenantId});
+  Object.assign(process.env,{MONGODB_DB:databaseName,KIARA_V2_STORE_MODE:'normalized',KIARA_V2_AI_MODE:'local',KIARA_ORIGINALS_MODE:'local_encrypted',KIARA_ORIGINALS_DIR:localDir,KIARA_ORIGINALS_KEY:randomBytes(32).toString('hex'),KIARA_ORIGINAL_CUTOVER_TENANT:tenantId,KIARA_RETENTION_ORIGINAL_DAYS:'0'});
   const bytes=Buffer.from(`synthetic original cutover ${suffix} ${randomBytes(256).toString('hex')}`);
   const legacy=await retainOriginal(tenantId,bytes);
   assert.equal(legacy.storage,'local_encrypted');
@@ -70,6 +72,24 @@ async function main(){
   assert.equal(await db.collection('v2_original_manifests').countDocuments({_id:target.key}),1);
   assert.equal((await readWorkspace(tenantId)).sources[0].originalObjectRef,JSON.stringify(legacy));
   console.log('ATLAS_ORIGINAL_CUTOVER_EVIDENCE '+JSON.stringify({database:databaseName,tenant:tenantId,previewHash:preview.previewHash,count:preview.count,bytes:bytes.length,sourceHash:hash(bytes),aliasReadbackAfterClientReopen:true,legacyPhysicalPurged:true,replayVerified:true,aliasAndNativePurgeHeld:true,remoteTenantDataRead:false}));
+  await transactWorkspace(tenantId,state=>{state.sources.push({...structuredClone(state.sources[0]),id:'synthetic-native-holder',originalObjectRef:JSON.stringify(target)});});
+  assert.equal((await previewOriginalAliasTargetReconciliation(tenantId,target)).eligible,false);
+  const actor={tenantId,actorId:'synthetic-operator',expiresAt:Date.now()+60000,mode:'authenticated' as const};
+  await transactWorkspace(tenantId,state=>{applySourceDeletion(state,actor,'synthetic-source');applySourceDeletion(state,actor,'synthetic-native-holder');});
+  const cleanupPreview=await previewOriginalAliasTargetReconciliation(tenantId,target);
+  assert.equal(cleanupPreview.database,databaseName);assert.equal(cleanupPreview.eligible,true);assert.equal(cleanupPreview.aliases.length,1);
+  const cleaned=await applyOriginalAliasTargetReconciliation(tenantId,target,cleanupPreview.previewHash);
+  assert.equal(cleaned.deleted,true);assert.equal(cleaned.replayed,false);
+  assert.equal((await applyOriginalAliasTargetReconciliation(tenantId,target,cleanupPreview.previewHash)).replayed,true);
+  await assert.rejects(readOriginal(tenantId,legacy),code('ORIGINAL_DELETED'));
+  await assert.rejects(readMongoOriginal(tenantId,target),code('ORIGINAL_DELETED'));
+  assert.equal(await db.collection('v2_original_manifests').countDocuments({_id:target.key}),0);
+  assert.equal(await db.collection('v2_original_chunks').countDocuments({manifestId:target.key}),0);
+  assert.equal(await db.collection('v2_original_aliases').countDocuments({tenantHash:hash(Buffer.from(tenantId)),retiredAt:{$type:'string'}}),1);
+  const jobs=(await readWorkspace(tenantId)).deletionJobs||[];assert.equal(jobs.length,2);
+  const outcomes=[];for(const job of jobs)outcomes.push(await processDeletionJob(tenantId,job.id));
+  assert.ok(outcomes.every(x=>x.applicationCleanupComplete&&x.originalsPending===0));
+  console.log('ATLAS_ALIAS_RECONCILIATION_EVIDENCE '+JSON.stringify({database:databaseName,tenantHash:hash(Buffer.from(tenantId)),targetHash:hash(Buffer.from(target.key)),previewHash:cleanupPreview.previewHash,aliasesRetired:cleaned.aliasesRetired,retainedBytesDeleted:true,replayVerified:true,retentionJobsComplete:outcomes.length,managedBackupErasureVerified:false,remoteTenantDataRead:false}));
  }finally{
   try{
    await closeMongoOriginalStore().catch(()=>{});
