@@ -3,7 +3,7 @@ import {ConnectionString} from 'mongodb-connection-string-url';
 export interface ReleaseCheck {code:string;configured:boolean}
 export interface ReleaseReadiness {
   target:'kiara-v2-hosted';configurationReady:boolean;releaseQualified:false;
-  legacyMode:'public_demo'|'hosted_password'|'local_or_unset';checks:ReleaseCheck[];
+  legacyMode:'disabled'|'public_demo'|'hosted_password'|'local_or_unset';checks:ReleaseCheck[];
   connectedEvidenceRequired:string[];
 }
 
@@ -37,7 +37,7 @@ export function inspectV2ReleaseEnvironment(env:NodeJS.ProcessEnv,connected:{act
       typeof e.tokenEnv==='string'&&key.test(e.tokenEnv)&&has(env,e.tokenEnv);
   }).map(i=>i.tenantId as string));
   const liveEmail=tenants.size>0&&[...tenants].every(t=>liveEmailTenants.has(t));
-  add('LEGACY_PUBLIC_DEMO_DISABLED',env.KIARA_AUTH_MODE!=='public_demo');
+  add('LEGACY_API_DISABLED',env.KIARA_AUTH_MODE==='disabled');
   add('OIDC_MODE',env.KIARA_V2_AUTH_MODE==='oidc');
   add('OIDC_PUBLIC_HTTPS_ORIGIN',httpsOrigin(env.KIARA_PUBLIC_ORIGIN));
   add('OIDC_ISSUER_AND_CLIENT',httpsIssuer(env.KIARA_OIDC_ISSUER)&&has(env,'KIARA_OIDC_CLIENT_ID'));
@@ -58,7 +58,7 @@ export function inspectV2ReleaseEnvironment(env:NodeJS.ProcessEnv,connected:{act
   add('LIVE_EMAIL_DELIVERY_CONFIGURATION',liveEmail);
   return {
     target:'kiara-v2-hosted',configurationReady:checks.every(c=>c.configured),releaseQualified:false,
-    legacyMode:env.KIARA_AUTH_MODE==='public_demo'?'public_demo':env.KIARA_AUTH_MODE==='hosted_password'?'hosted_password':'local_or_unset',
+    legacyMode:env.KIARA_AUTH_MODE==='disabled'?'disabled':env.KIARA_AUTH_MODE==='public_demo'?'public_demo':env.KIARA_AUTH_MODE==='hosted_password'?'hosted_password':'local_or_unset',
     checks,connectedEvidenceRequired:[
       'OIDC_LOGIN_AND_MEMBERSHIP_REVOCATION','ATLAS_HYBRID_READ_AND_INDEX_RECOVERY',
       'MONGO_ENCRYPTED_ORIGINAL_ROUND_TRIP_AND_RESTORE','MANAGED_TEMPORAL_WORKER_REPLAY',

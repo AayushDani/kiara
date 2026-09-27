@@ -7,7 +7,7 @@ import {membership} from './authority';
 import {resolveOidcIdentity} from './oidc-identities';
 import {requestOriginMatches} from '../server/request-origin';
 
-interface Session {actor:ActorContext;csrf:string;profile:string;subject?:string;identityVersion?:number}
+interface Session {actor:ActorContext;csrf:string;profile:string;subject?:string;identityVersion?:number;issuer?:string;audience?:string}
 const profiles:Record<string,Role[]>={founder:['member','fact_owner','business_owner','publisher','admin'],engineer:['member','fact_owner'],counsel:['member','legal_reviewer'],publisher:['member','publisher'],evaluator:['member','evaluator'],signatory:['member','signatory']};
 const directory=()=>resolve(process.env.KIARA_V2_DATA_DIR||process.env.KIARA_DATA_DIR||join(process.cwd(),'.kiara-v2'));
 const mode=()=>process.env.KIARA_V2_AUTH_MODE||'local_demo';
@@ -50,7 +50,7 @@ export async function authenticateV2(request:Request,initialize=false):Promise<{
   let session:Session;try{session=JSON.parse(Buffer.from(encoded,'base64url').toString());}catch{throw new V2Error('INVALID_SESSION','Session is invalid.',401);}
   if(!session?.actor||!Number.isFinite(session.actor.expiresAt)||session.actor.expiresAt<=Date.now()||typeof session.csrf!=='string')throw new V2Error('SESSION_EXPIRED','Sign in again to continue.',401);
   if(mode()==='oidc'){
-    if(session.actor.mode!=='authenticated'||!session.subject)throw new V2Error('INVALID_SESSION','Sign in with your identity provider.',401);
+    if(session.actor.mode!=='authenticated'||!session.subject||!session.issuer||!session.audience||session.issuer!==process.env.KIARA_OIDC_ISSUER||session.audience!==process.env.KIARA_OIDC_CLIENT_ID)throw new V2Error('INVALID_SESSION','Sign in with your identity provider.',401);
     const mapping=await resolveOidcIdentity(process.env.KIARA_OIDC_ISSUER||'',session.subject);
     if(mapping.actorId!==session.actor.actorId||mapping.tenantId!==session.actor.tenantId||mapping.version!==session.identityVersion)throw new V2Error('MEMBERSHIP_REVOKED','This identity mapping changed. Sign in again.',403);
     delete session.actor.bootstrapRoles;
@@ -79,7 +79,7 @@ export async function verifyOidcToken(token:string,fetcher:typeof fetch=fetch,ex
   if(matching.length!==1)throw new V2Error('INVALID_TOKEN','Identity token signing key is unavailable.',401);
   try{if(!verify('RSA-SHA256',Buffer.from(`${parts[0]}.${parts[1]}`),createPublicKey({key:matching[0],format:'jwk'}),Buffer.from(parts[2],'base64url')))throw new Error();}catch{throw new V2Error('INVALID_TOKEN','Identity token signature is invalid.',401);}
   const identity=await resolveOidcIdentity(issuer,claims.sub);
-  return {actor:{tenantId:identity.tenantId,actorId:identity.actorId,expiresAt:Math.min(claims.exp*1000,Date.now()+30*60*1000),mode:'authenticated'} as ActorContext,subject:claims.sub,identityVersion:identity.version};
+  return {actor:{tenantId:identity.tenantId,actorId:identity.actorId,expiresAt:Math.min(claims.exp*1000,Date.now()+30*60*1000),mode:'authenticated'} as ActorContext,subject:claims.sub,identityVersion:identity.version,issuer:claims.iss,audience};
 }
 export const clearV2Session=()=>cookie('',0);
 

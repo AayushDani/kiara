@@ -25,6 +25,10 @@ export const dynamic='force-dynamic';
 const headers={'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'};
 function json(value:unknown,status=200,cookie?:string){return NextResponse.json(value,{status,headers:{...headers,...(cookie?{'Set-Cookie':cookie}:{})}});}
 function fail(error:unknown){if(error instanceof AppError)return json({error:{code:error.code,message:error.message}},error.status);console.error('Kiara request failed:',error instanceof Error?error.name:'unknown');return json({error:{code:'INTERNAL_ERROR',message:'The action could not complete. Check the server readiness and retry.'}},500);}
+// A v2 deployment must never expose the legacy password, webhook or workspace API,
+// even when inherited legacy environment variables are still present.
+function legacyApiDisabled(){return process.env.KIARA_V2_AUTH_MODE==='oidc'||process.env.KIARA_V2_STORE_MODE==='normalized'||process.env.MONGODB_DB==='kiara_v2';}
+function disabledLegacyResponse(){return json({error:{code:'LEGACY_API_DISABLED',message:'This API is unavailable in the v2 workspace.'}},404);}
 async function body(request:Request,keys:string[]){const text=await request.text();if(text.length>65536)throw new AppError('PAYLOAD_TOO_LARGE','Request is too large.',413);let b:any;try{b=JSON.parse(text||'{}');}catch{throw new AppError('INVALID_JSON','Invalid JSON body.',400);}if(!b||Array.isArray(b)||typeof b!=='object'||Object.keys(b).some(k=>!keys.includes(k)))throw new AppError('INVALID_BODY','Unexpected request fields.',400);return b;}
 function string(v:any,name:string,max=5000){if(typeof v!=='string'||!v.trim()||v.length>max)throw new AppError('INVALID_FIELD',`Provide a valid ${name}.`,400);return v.trim();}
 function epoch(v:any){if(!Number.isSafeInteger(v)||v<1)throw new AppError('INVALID_EPOCH','A valid reset generation is required.',400);return v;}
@@ -84,5 +88,5 @@ async function inDemo(request:Request,context:RouteContext,handler:(request:Requ
     });
   }catch(error){return fail(error);}
 }
-export async function GET(request:Request,context:RouteContext){return inDemo(request,context,handleGet);}
-export async function POST(request:Request,context:RouteContext){return inDemo(request,context,handlePost);}
+export async function GET(request:Request,context:RouteContext){if(legacyApiDisabled())return disabledLegacyResponse();return inDemo(request,context,handleGet);}
+export async function POST(request:Request,context:RouteContext){if(legacyApiDisabled())return disabledLegacyResponse();return inDemo(request,context,handlePost);}

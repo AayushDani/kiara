@@ -4,7 +4,7 @@ import {inspectV2ReleaseEnvironment} from '../scripts/v2-release-readiness';
 
 const configured=():NodeJS.ProcessEnv=>({
   NODE_ENV:'production',
-  KIARA_AUTH_MODE:'hosted_password',KIARA_V2_AUTH_MODE:'oidc',KIARA_PUBLIC_ORIGIN:'https://kiara.example.test',
+  KIARA_AUTH_MODE:'disabled',KIARA_V2_AUTH_MODE:'oidc',KIARA_PUBLIC_ORIGIN:'https://kiara.example.test',
   KIARA_OIDC_ISSUER:'https://identity.example.test',KIARA_OIDC_CLIENT_ID:'kiara',
   KIARA_SESSION_SECRET:'s'.repeat(48),MONGODB_URI:'mongodb+srv://cluster.example.test/kiara_v2',MONGODB_DB:'kiara_v2',KIARA_BUDGET_DB:'kiara_legacy',
   KIARA_V2_STORE_MODE:'normalized',KIARA_ORIGINALS_MODE:'mongo_encrypted',KIARA_ORIGINALS_KEY:'a'.repeat(64),
@@ -54,11 +54,21 @@ test('v2 release preflight only reports configuration booleans and retains conne
   for(const secret of ['private-provider-token','private-temporal-token','private-email-token','cluster.example.test','user-1','tenant-1','owner-1'])assert.equal(report.includes(secret),false);
 });
 
+test('v2 release preflight rejects inherited legacy authentication',()=>{
+  for(const legacy of ['hosted_password','public_demo','demo_simulated',undefined]){
+    const env=configured();
+    if(legacy===undefined)delete env.KIARA_AUTH_MODE;else env.KIARA_AUTH_MODE=legacy;
+    const result=inspectV2ReleaseEnvironment(env,{activeBindingTenants:['tenant-1']});
+    assert.equal(result.checks.find(c=>c.code==='LEGACY_API_DISABLED')?.configured,false);
+    assert.equal(result.configurationReady,false);
+  }
+});
+
 test('public demo, fixture identity source, preview delivery, and missing worker fail closed',()=>{
   const env=configured();
   Object.assign(env,{KIARA_AUTH_MODE:'public_demo',KIARA_OIDC_IDENTITY_SOURCE:'fixture_env',KIARA_V2_WORKER_TENANTS:'',KIARA_V2_EXECUTION:JSON.stringify([{tenantId:'tenant-1',email:{mode:'preview',from:'sender@example.test',allowedRecipients:['sandbox@example.test']}}])});
   const result=inspectV2ReleaseEnvironment(env);
   assert.equal(result.configurationReady,false);
   assert.equal(result.legacyMode,'public_demo');
-  for(const code of ['LEGACY_PUBLIC_DEMO_DISABLED','OIDC_MONGO_BINDING_SOURCE','OIDC_ACTIVE_BINDINGS_AND_MEMBERSHIPS','WORKER_TENANT_SELECTION','LIVE_EMAIL_DELIVERY_CONFIGURATION'])assert.equal(result.checks.find(c=>c.code===code)?.configured,false);
+  for(const code of ['LEGACY_API_DISABLED','OIDC_MONGO_BINDING_SOURCE','OIDC_ACTIVE_BINDINGS_AND_MEMBERSHIPS','WORKER_TENANT_SELECTION','LIVE_EMAIL_DELIVERY_CONFIGURATION'])assert.equal(result.checks.find(c=>c.code===code)?.configured,false);
 });

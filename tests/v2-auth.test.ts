@@ -37,6 +37,9 @@ for(const returnTo of ['/','/review/attention','/?matter=123e4567-e89b-12d3-a456
   wrongNonce=true;await assert.rejects(completeOidcSignIn(callback,provider),/sign-in attempt/);used=false;wrongNonce=false;
   const result=await completeOidcSignIn(callback,provider);assert.equal(result.location,'https://kiara.example'+returnTo);assert.equal(result.session.actor.actorId,'actor-a');assert.equal(result.session.actor.bootstrapRoles,undefined);assert.match(result.cookie,/SameSite=Strict/);
   const signedRequest=new Request('https://kiara.example/api/v2/workspace',{headers:{cookie:result.cookie.split(';')[0]}});assert.equal((await authenticateV2(signedRequest)).session.actor.actorId,'actor-a');
+  process.env.KIARA_OIDC_CLIENT_ID='another-client';await assert.rejects(authenticateV2(signedRequest),{code:'INVALID_SESSION'});process.env.KIARA_OIDC_CLIENT_ID='kiara-client';
+  process.env.KIARA_OIDC_ISSUER='https://another-identity.example';await assert.rejects(authenticateV2(signedRequest),{code:'INVALID_SESSION'});process.env.KIARA_OIDC_ISSUER='https://identity.example';
+  assert.equal((await authenticateV2(signedRequest)).session.actor.actorId,'actor-a');
   await assert.rejects(completeOidcSignIn(callback,provider),/could not complete/);
   used=false;await transactWorkspace('tenant-a',s=>{s.memberships[0].revokedAt=new Date().toISOString();});await assert.rejects(authenticateV2(signedRequest),/membership/);await assert.rejects(completeOidcSignIn(callback,provider),/membership/);
   await assert.rejects(startOidcSignIn(new Request('https://evil.example/api/v2/auth/start'),provider),/configured application origin/);
