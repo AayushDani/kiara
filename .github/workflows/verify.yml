@@ -20,8 +20,8 @@ jobs:
       KIARA_V2_AI_MODE: local
       KIARA_EMAIL_MODE: preview
       KIARA_ALLOW_LIVE_EMAIL: 'false'
-      KIARA_DATA_DIR: ${{ runner.temp }}/kiara-ci
-      KIARA_V2_DATA_DIR: ${{ runner.temp }}/kiara-ci/v2
+      KIARA_DATA_DIR: ${{ github.workspace }}/.kiara-ci
+      KIARA_V2_DATA_DIR: ${{ github.workspace }}/.kiara-ci/v2
     steps:
       - uses: actions/checkout@v7
         with:
