@@ -49,3 +49,17 @@ export async function kiaraIndexWorkflow(ref:OutboxReference):Promise<void>{
  let turns=0;
  while(true){const progress=await indexing.processIndexReference(ref);if(progress.status==='complete')return;await sleep(Math.max(60000,Math.min(progress.nextCheckMs,5*60000)));if(++turns>=100)await continueAsNew<typeof kiaraIndexWorkflow>(ref);}
 }
+
+const slack=proxyActivities<{processSlackReference:(ref:OutboxReference)=>Promise<{status:'waiting'|'complete';nextCheckMs:number}>}>({startToCloseTimeout:'3 minutes',retry:{initialInterval:'1 minute',maximumInterval:'6 hours',backoffCoefficient:2}});
+/** Explicit selected-thread grants admit one post; activity retries reconcile its retained identity. */
+export async function kiaraSlackWorkflow(ref:OutboxReference):Promise<void>{
+ let turns=0;
+ while(true){const progress=await slack.processSlackReference(ref);if(progress.status==='complete')return;await sleep(Math.max(60000,Math.min(progress.nextCheckMs,6*3600000)));if(++turns>=100)await continueAsNew<typeof kiaraSlackWorkflow>(ref);}
+}
+
+const legal=proxyActivities<{processLegalReference:(ref:OutboxReference)=>Promise<{status:'waiting'|'complete';nextCheckMs:number}>}>({startToCloseTimeout:'3 minutes',retry:{initialInterval:'1 minute',maximumInterval:'1 hour',backoffCoefficient:2}});
+/** Observations create review work; source applicability is never a workflow decision. */
+export async function kiaraLegalWorkflow(ref:OutboxReference):Promise<void>{
+ let turns=0;
+ while(true){const progress=await legal.processLegalReference(ref);if(progress.status==='complete')return;await sleep(Math.max(60000,Math.min(progress.nextCheckMs,24*3600000)));if(++turns>=100)await continueAsNew<typeof kiaraLegalWorkflow>(ref);}
+}

@@ -14,9 +14,9 @@ export async function processConversationReference(ref:OutboxReference,processor
  return {status:run.status};
 }
 /** Local recovery requires no Temporal config and never claims managed orchestration. */
-export async function processLocalOutboxOnce(tenantId:string,options:{processor?:ConversationProcessor;deferred?:Map<string,number>;effectProcessor?:(ref:OutboxReference)=>Promise<import('./effects').EffectProgress>;retentionProcessor?:(ref:OutboxReference)=>Promise<import('./retention').RetentionProgress>;artifactProcessor?:(ref:OutboxReference)=>Promise<import('./artifacts').ArtifactProgress>;indexProcessor?:(ref:OutboxReference)=>Promise<import('./indexing').IndexProgress>}={}){
+export async function processLocalOutboxOnce(tenantId:string,options:{processor?:ConversationProcessor;deferred?:Map<string,number>;effectProcessor?:(ref:OutboxReference)=>Promise<import('./effects').EffectProgress>;retentionProcessor?:(ref:OutboxReference)=>Promise<import('./retention').RetentionProgress>;artifactProcessor?:(ref:OutboxReference)=>Promise<import('./artifacts').ArtifactProgress>;indexProcessor?:(ref:OutboxReference)=>Promise<import('./indexing').IndexProgress>;slackProcessor?:(ref:OutboxReference)=>Promise<import('./slack').SlackProgress>;legalProcessor?:(ref:OutboxReference)=>Promise<import('./legal').LegalProgress>}={}){
  if(process.env.KIARA_V2_ORCHESTRATION_MODE==='temporal')throw new V2Error('ORCHESTRATION_OWNER','This workspace is configured for Temporal processing.',409);
- const entries=(await readWorkspace(tenantId)).outbox.filter(o=>o.owner==='v2'&&o.status==='pending'&&['conversation_answer','matter_changed','effect_reconcile','retention_cleanup','artifact_cleanup','index_maintenance'].includes(o.kind)&&(options.deferred?.get(o.id)||0)<=Date.now()).slice(0,100);let completed=0,waiting=0;
+ const entries=(await readWorkspace(tenantId)).outbox.filter(o=>o.owner==='v2'&&o.status==='pending'&&['conversation_answer','matter_changed','effect_reconcile','retention_cleanup','artifact_cleanup','index_maintenance','slack_reply','legal_watch'].includes(o.kind)&&(options.deferred?.get(o.id)||0)<=Date.now()).slice(0,100);let completed=0,waiting=0;
  for(const item of entries){if((options.deferred?.get(item.id)||0)>Date.now()){waiting++;continue;}
   const ref={tenantId,aggregateId:item.aggregateId,outboxId:item.id};
   try{
@@ -27,11 +27,13 @@ export async function processLocalOutboxOnce(tenantId:string,options:{processor?
   else if(item.kind==='retention_cleanup'){const result=await (options.retentionProcessor||(await import('./retention')).processRetentionReference)(ref);if(result.status==='waiting'){options.deferred?.set(item.id,Date.now()+result.nextCheckMs);waiting++;continue;}}
   else if(item.kind==='artifact_cleanup'){const result=await (options.artifactProcessor||(await import('./artifacts')).processArtifactReference)(ref);if(result.status==='waiting'){options.deferred?.set(item.id,Date.now()+result.nextCheckMs);waiting++;continue;}}
   else if(item.kind==='index_maintenance'){const result=await (options.indexProcessor||(await import('./indexing')).processIndexReference)(ref);if(result.status==='waiting'){options.deferred?.set(item.id,Date.now()+result.nextCheckMs);waiting++;continue;}}
+  else if(item.kind==='slack_reply'){const result=await (options.slackProcessor||(await import('./slack')).processSlackReference)(ref);if(result.status==='waiting'){options.deferred?.set(item.id,Date.now()+result.nextCheckMs);waiting++;continue;}}
+  else if(item.kind==='legal_watch'){const result=await (options.legalProcessor||(await import('./legal')).processLegalReference)(ref);if(result.status==='waiting'){options.deferred?.set(item.id,Date.now()+result.nextCheckMs);waiting++;continue;}}
   else if(item.kind==='matter_changed'){await (await import('./activities')).reconcileReference(ref);}else {waiting++;continue;}
   await transactWorkspace(tenantId,s=>{const o=s.outbox.find(o=>o.id===item.id&&o.owner==='v2');if(o?.status==='pending')o.status='dispatched';});options.deferred?.delete(item.id);completed++;
   }catch{
    // One unavailable provider/configuration must not block unrelated accepted work.
-   options.deferred?.set(item.id,Date.now()+(item.kind==='retention_cleanup'||item.kind==='effect_reconcile'||item.kind==='artifact_cleanup'?6*3600000:5*60000));waiting++;
+   options.deferred?.set(item.id,Date.now()+(item.kind==='retention_cleanup'||item.kind==='effect_reconcile'||item.kind==='artifact_cleanup'||item.kind==='slack_reply'?6*3600000:5*60000));waiting++;
   }
  }
  return {completed,waiting};

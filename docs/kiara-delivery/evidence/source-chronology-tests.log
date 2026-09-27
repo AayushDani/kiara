@@ -1,0 +1,25 @@
+✔ late ordered Drive revision preserves current proposal, approvals and one current queue (258.080583ms)
+✔ newer source invalidates dependent proposal but preserves scoped historical access and blocks old fact confirmation (204.179ms)
+✔ same revision conflicting bytes rejects atomically; identical delivery aliases do not duplicate sources or effects (48.711083ms)
+✔ opaque GitHub heads conflict regardless event time and only stable scoped read selects a current head (81.931709ms)
+✔ withdrawn current object cannot fall back, late events cannot restore it, historical source remains audit-readable (82.371917ms)
+✔ verified ordered provider read cannot regress a known newer revision (33.498083ms)
+✔ Slack edits order per message, late old edit does not displace newer evidence (44.234375ms)
+✔ complete Slack thread refresh after deletion preserves withdrawn message fence and replay does not revoke fresh snapshot (89.1895ms)
+✔ current evidence recheck rejects newly historical dependencies while new retrieval excludes old facts and prompt history (102.343458ms)
+✔ independent frozen clause includes referenced exception, defined term and its schedule without changing original bytes (3.345125ms)
+✔ malformed and adversarial headings remain literal source slices without fabricated exception applicability (0.4795ms)
+✔ bounded cross-reference expansion reports missing context rather than claiming complete review (0.124708ms)
+✔ source parsing preserves exact UTF-16 anchors, heading siblings and bounded complete Unicode (11.882375ms)
+✔ a notice clause brings its exact definitions, exception and referenced schedule table (4.402666ms)
+✔ bounded expansion reports omissions and handles repeated references without inventing source text (1.171584ms)
+✔ both local and selected hybrid evidence hydrate structured source slices and bounded supporting context (103.315875ms)
+✔ packet bound reports truncation while agreement inventory stays exhaustive (302.293584ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1850.941208

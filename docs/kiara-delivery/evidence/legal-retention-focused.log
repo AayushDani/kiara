@@ -1,0 +1,40 @@
+✔ server-owned frozen replay measures improvement and records immutable independent receipt (596.478667ms)
+✔ promotion changes later comparable work without reconfirming settled current facts; release evidence resolves the real gate (862.482125ms)
+✔ planned deployment remains distinct and does not trigger a live-claim requirement (600.544292ms)
+✔ rollback is monotonic, identifies affected later work, invalidates its proposal and removes only that behavior (657.239625ms)
+✔ stale evaluator authority, baseline change and reused scope without improvement cannot promote (306.102875ms)
+✔ procedure owner expiry is an explicit blocker and cannot silently remove a promoted safeguard (420.41625ms)
+✔ a private lesson never changes unrelated team work (351.53025ms)
+✔ source verification and coverage qualification are distinct exact-version legal reviewer decisions (199.0685ms)
+✔ coverage becomes stale dynamically when source version, reviewer membership or review deadline changes (289.988458ms)
+✔ explicit unsupported coverage remains unavailable and legal clearance is never automatically created (153.477875ms)
+✔ registered authority must preserve source scope and exact domain/jurisdiction inventory (103.7245ms)
+✔ renewing a source review does not silently renew old coverage approval; expiry is checked at read time (228.548875ms)
+✔ an already active same-scope rule has no measured improvement and cannot be promoted again (245.953542ms)
+✔ owner can renew an unchanged qualified deterministic rule after its review deadline (314.510375ms)
+✔ candidate authors never receive holdout names, labels, outputs or test evidence; independent evaluators can inspect (188.889583ms)
+✔ monitor admission requires exact protected URL policy and reads never claim applicability (664.653875ms)
+✔ observed change preserves bytes, expires source freshness and needs exact human applicability before targeting work (793.983542ms)
+✔ source or member withdrawal while a public read is pending prevents observed payload admission (373.781583ms)
+✔ bounded extraction and public address policy reject binary, private and mapped destinations (3.9895ms)
+✔ unsupported and oversized reads remain blocked; deletion removes the staged observed payload and stops its watch (777.812ms)
+✔ legal maintenance local worker reads the approved source and keeps a bounded durable watch without approving applicability (483.049209ms)
+✔ legal watch managed references contain no URL and mismatched tenant/job cannot reach processor (103.160833ms)
+✔ deletion propagates through records and audit payloads while exposing only safe pending-retention status (815.88025ms)
+✔ uncertain effects remain protected exceptions until settled, then repeated cleanup erases the payload (601.613292ms)
+✔ local original deletion is tenant scoped, exact, verified and replayable (64.690084ms)
+✔ S3 purge targets the retained version, verifies absence and never treats forbidden/readback as success (4.882375ms)
+✔ original intake hands off only its own storage revisions and abandoned bytes are fenced before cleanup (496.958041ms)
+✔ retention worker honors original delay, shared pending intake and hold, then verifies exact purge (779.064709ms)
+✔ revoked-source owner controls allow a later scoped deletion without recovering content (398.54025ms)
+✔ pending intake blocks physical purge by content identity and deleted bytes cannot be re-created by later intake (474.950291ms)
+✔ interrupted original writes require exact verified manifest recovery before orphan cleanup (232.8735ms)
+✔ an orphan purge claim fences all same-byte intakes until its exact deletion finishes (293.963667ms)
+ℹ tests 32
+ℹ suites 0
+ℹ pass 32
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6348.976834

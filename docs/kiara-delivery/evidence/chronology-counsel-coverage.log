@@ -1,0 +1,34 @@
+✔ counsel intake, fee approval and exact packet sharing are separate recorded decisions (702.639833ms)
+✔ source, recipient membership, explicit revoke and expiry immediately withdraw granted records (2133.397959ms)
+✔ counsel returned edits preserve original proposal and require new exact decisions (531.055167ms)
+✔ escalation invalidates prior engagement and access; referral stays unavailable; terminal work cannot revive (594.135084ms)
+✔ sharing an older packet cannot disclose newly revised proposal bytes or added matter tasks (742.061792ms)
+✔ counsel sharing rejects expired, future and malformed bound facts even when versions match (1144.842541ms)
+✔ server-owned frozen replay measures improvement and records immutable independent receipt (386.814542ms)
+✔ promotion changes later comparable work without reconfirming settled current facts; release evidence resolves the real gate (870.647292ms)
+✔ planned deployment remains distinct and does not trigger a live-claim requirement (615.206708ms)
+✔ rollback is monotonic, identifies affected later work, invalidates its proposal and removes only that behavior (655.263917ms)
+✔ stale evaluator authority, baseline change and reused scope without improvement cannot promote (345.346333ms)
+✔ procedure owner expiry is an explicit blocker and cannot silently remove a promoted safeguard (389.032167ms)
+✔ a private lesson never changes unrelated team work (327.05ms)
+✔ source verification and coverage qualification are distinct exact-version legal reviewer decisions (159.905042ms)
+✔ coverage becomes stale dynamically when source version, reviewer membership or review deadline changes (348.689708ms)
+✔ explicit unsupported coverage remains unavailable and legal clearance is never automatically created (241.958041ms)
+✔ registered authority must preserve source scope and exact domain/jurisdiction inventory (154.699417ms)
+✔ renewing a source review does not silently renew old coverage approval; expiry is checked at read time (355.664334ms)
+✔ an already active same-scope rule has no measured improvement and cannot be promoted again (365.030166ms)
+✔ owner can renew an unchanged qualified deterministic rule after its review deadline (568.614125ms)
+✔ candidate authors never receive holdout names, labels, outputs or test evidence; independent evaluators can inspect (186.433458ms)
+✔ monitor admission requires exact protected URL policy and reads never claim applicability (459.613584ms)
+✔ observed change preserves bytes, expires source freshness and needs exact human applicability before targeting work (851.93125ms)
+✔ source or member withdrawal while a public read is pending prevents observed payload admission (373.293916ms)
+✔ bounded extraction and public address policy reject binary, private and mapped destinations (3.830083ms)
+✔ unsupported and oversized reads remain blocked; deletion removes the staged observed payload and stops its watch (744.00625ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6766.422333

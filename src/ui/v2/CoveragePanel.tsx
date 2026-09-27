@@ -3,6 +3,7 @@ import {useCallback,useEffect,useState} from 'react';
 import type {CommandResult,CoverageEntry,LegalAuthority,Source,WorkspaceCommand,WorkspaceSnapshot} from '@/v2/contracts';
 import {Badge,Empty,Icon,date,human} from './Primitives';
 import {Modal} from './ReviewDialog';
+import {LegalMaintenancePanel} from './LegalMaintenancePanel';
 import s from './workspace.module.css';
 type Step='register'|'verify'|'define'|'review'|'unavailable';
 type Review={step:Step;authority?:LegalAuthority;coverage?:CoverageEntry;sources:Source[];authorities:LegalAuthority[];actorId:string};
@@ -45,5 +46,6 @@ export function CoveragePanel({data,busy,error,pending,submit,retryPending,clear
  {review.step==='unavailable'&&<label className={s.field}>Reason and current limits<textarea {...field('reason')} maxLength={2000}/></label>}
  <label className={s.field}><input type="checkbox" checked={confirmed} onChange={event=>setConfirmed(event.target.checked)}/>I reviewed these exact sources, scope and statements within my assigned capacity.</label>{!fresh&&<div className={s.error}>The source or scope changed. Close this preview and review the current versions.</div>}
  </Modal>}
+ <LegalMaintenancePanel data={data} busy={busy} error={error} pending={pending} submit={submit} retryPending={retryPending} clearError={clearError}/>
  </div>;
 }

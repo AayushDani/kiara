@@ -1,0 +1,46 @@
+
+> kiara@0.1.0 build
+> next build --webpack
+
+▲ Next.js 16.3.6 (webpack)
+- Environments: .env.local
+workflows build complete (5 steps, 1 workflow, time 21ms)
+✓ Running next.config.ts took 160ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1530ms
+  Running TypeScript ...
+  Finished TypeScript in 1807ms ...
+  Collecting page data using 9 workers ...
+  Generating static pages using 9 workers (0/7) ...
+  Generating static pages using 9 workers (1/7)
+  Generating static pages using 9 workers (3/7)
+  Generating static pages using 9 workers (5/7)
+✓ Generating static pages using 9 workers (7/7) in 205ms
+  Finalizing page optimization ...
+  Collecting build traces ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /.well-known/workflow/v1/flow
+├ ƒ /.well-known/workflow/v1/step
+├ ƒ /.well-known/workflow/v1/webhook/[token]
+├ ƒ /api/[...path]
+├ ƒ /api/v2/actions/[id]/execution
+├ ƒ /api/v2/auth/callback
+├ ƒ /api/v2/auth/start
+├ ƒ /api/v2/commands
+├ ƒ /api/v2/documents
+├ ƒ /api/v2/documents/[id]/compare
+├ ƒ /api/v2/documents/[id]/export
+├ ƒ /api/v2/documents/[id]/original
+├ ƒ /api/v2/integrations/[installationId]/webhook
+├ ƒ /api/v2/session
+├ ƒ /api/v2/workspace
+├ ○ /legacy
+└ ○ /welcome
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand

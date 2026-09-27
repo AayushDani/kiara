@@ -11,7 +11,7 @@ Provider-specific fields and resource selection:
 | Provider | Identity fields | Resources | Intake |
 |---|---|---|---|
 | GitHub | `providerInstallationId` | Exact `owner/repository` strings | Raw-body HMAC-SHA256; signed installation/repository binding; bounded pull-request, push and deployment-status evidence. Merge/push never implies deployment. Body-derived replay identity also covers unsigned delivery-header changes. |
-| Slack | `slackTeamId` | Exact channel IDs | Raw-body HMAC-SHA256 with five-minute timestamp bound; signed team/channel binding; message edits/deletions and stable event IDs. Signed URL verification is supported. No chat messages are sent. |
+| Slack | `slackTeamId` | Exact channel IDs | Raw-body HMAC-SHA256 with five-minute timestamp bound; signed team/channel binding; message edits/deletions and stable event IDs. Signed URL verification is supported. Optional explicit `slackReplies` grants enable selected-thread continuity; no live messages were used in qualification. |
 | Drive | `driveChannelId`, `driveResourceId`, `driveStartPageToken` | `file:<id>` or `folder:<id>` direct children | Channel token + exact channel/resource identity. Notification body is empty. Read authenticated changes, ingest selected resources, then CAS-save the cursor. Deletion/access removal revokes retained source eligibility. |
 
 The config scope is authoritative; incoming payloads cannot choose tenant, actor, participant list or scope. Upstream credential renewal, installation provisioning and Drive watch creation are operator responsibilities. Full per-user upstream ACL synchronization, recursive folder traversal, binary parsing and initial corpus backfill are not implemented and must not be represented as complete connection coverage.
@@ -55,3 +55,11 @@ A source deletion atomically adds `retention_cleanup` with tenant/job/outbox ref
 The local worker isolates each unavailable item, defers its retry and continues later accepted work. A missing original effect adapter cannot starve a later conversation or deletion. The combined execution/integration/retention/hybrid/normalized local replay passed75/75 in14.17seconds; managed services were not connected.
 
 Abandoned upload intake also creates an `artifact_cleanup` outbox before original I/O. The fifth workflow checks exact tenant/intake/outbox identity, waits for its24-hour expiry, and invokes the operator-owned original cleanup processor. A missing reference after a possible object write stays pending for reconciliation; no absence is inferred. Source attachment hands cleanup ownership to the source retention path. Actual local encrypted orphan expiry and reference-only dispatch are covered by `tests/v2-retention-orchestration.test.ts`; the final focused extension passed62/62.
+
+## Index, channel and legal-source continuation
+
+`index_maintenance` delegates only a retained standing-policy job to the index processor. Queued and leased jobs retry after one to five minutes; complete, blocked and unknown jobs terminate without automatically retrying uncertain embedding spend. The sixth workflow bundles with the installed SDK.
+
+`slack_reply` owns one response under an expiring selected-thread grant. The local worker and seventh workflow may admit the first post only through the reply processor's current audience, identity, content and lease checks; subsequent attempts perform readback. See [slack-continuity.md](slack-continuity.md). Ordinary matter workflows still cannot send or approve anything, and external-action outboxes still require explicit execution through the action broker.
+
+`legal_watch` delegates an existing legal-source watch ID to the source processor. Workflow history contains no URL, source body or original reference. Pending checks use bounded one-minute to 24-hour wakes; stopped watches complete. The processor's exact operator URL policy and reviewer authority remain authoritative. Source observations create review work and never decide legal applicability. `tests/v2-legal-orchestration.test.ts` exercises actual mocked source reading through the local worker, deferral, stopping and managed reference scope.

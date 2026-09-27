@@ -1,4 +1,5 @@
 import {randomUUID} from 'node:crypto';
+import {slackSnapshotIncludesSource} from './source-lifecycle';
 import {originalIntakeFenced} from './artifact-intake';
 import {membership,scopeVisible} from './authority';
 import {redactKnowledgeReceipts} from './ai';
@@ -7,7 +8,7 @@ import type {EffectIntent} from './execution/contracts';
 import {V2Error,type ActorContext,type RecordBase,type Scope,type WorkspaceState} from './contracts';
 import {digest,timestamp} from './store';
 
-const recordKinds=['sources','documents','facts','messages','conversations','scenarios','matters','proposals','approvals','actions','counsel','learning','legalAuthorities','coverage','events','effortEntries','effortBaselines','obligations','scenarioShares','routingDelegations','routingRules','inventories'] as const;
+const recordKinds=['sources','documents','facts','messages','conversations','scenarios','matters','proposals','approvals','actions','counsel','learning','legalAuthorities','coverage','events','effortEntries','effortBaselines','obligations','scenarioShares','routingDelegations','routingRules','inventories','attentionSettings','attentionDecisions','legalWatches','legalChanges','drafts','templateApprovals'] as const;
 type RecordKind=typeof recordKinds[number];
 export interface DeletionJob {
  id:string;sourceId:string;sourceIds:string[];actorId:string;scope:Scope;requestedAt:string;
@@ -42,7 +43,13 @@ export function redactedRecord(kind:RecordKind,value:RecordBase&Record<string,un
  case 'routingDelegations':r.revocationReason=r.revocationReason?'Evidence payload deleted.':null;r.revokedAt=r.revokedAt||timestamp();break;
  case 'routingRules':r.active=false;break;
  case 'inventories':clear('scopeDescription');r.revocationReason='Supporting evidence deleted.';r.status='revoked';break;
- case 'matters':clear('objective');r.outcome=null;r.blockers=['Evidence was deleted. Future work requires a new authorized basis.'];r.tasks=(r.tasks as {title:string}[]).map(t=>({...t,title:'Removed evidence task'}));break;
+ case 'attentionSettings':break;
+ case 'attentionDecisions':clear('reason');break;
+ case 'legalWatches':r.sourceUrl='';r.active=false;r.status='stopped';r.leaseToken=null;r.leaseUntil=null;break;
+ case 'legalChanges':if(r.assessment)r.assessment={...(r.assessment as object),reason:'Assessment payload deleted.'};break;
+ case 'drafts':clear('body');r.contentHash=digest('');r.changes=[];r.questions=[];r.tasks=[];r.status='rejected';r.standingEligible=false;r.rejectionReason='Supporting evidence deleted.';if(r.request)r.request={...(r.request as object),instruction:'',missingFields:[],fieldFactIds:{}};break;
+ case 'templateApprovals':clear('purpose');r.fields=[];r.status='revoked';r.standingInternal=false;break;
+ case 'matters':clear('objective');r.outcome=null;r.blockers=['Evidence was deleted. Future work requires a new authorized basis.'];r.tasks=(r.tasks as {title:string}[]).map(t=>({...t,title:'Removed evidence task',requiredFactPredicates:[]}));break;
  case 'proposals':clear('body');r.contentHash=digest('');r.noticeMatrix=[];r.unknowns=[];r.status='invalidated';break;
  case 'approvals':clear('note');r.recipients=[];r.destination=null;r.status='revoked';break;
  case 'actions':clear('content');r.recipients=[];r.destination=null;if(r.completion)r.completion={...(r.completion as object),artifact:'Evidence payload deleted; original completion identity and timestamp retained.'};if(!['verified','failed','canceled'].includes(String(r.status)))r.status='canceled';break;
@@ -64,6 +71,9 @@ export function assertOriginalNotDeleted(s:WorkspaceState,reference:string,intak
 export function applySourceDeletion(s:WorkspaceState,a:ActorContext,sourceId:string,operationalExceptionActionIds:string[]=[]):DeletionJob {
  const root=s.sources.find(x=>x.id===sourceId);if(!root)throw new V2Error('NOT_FOUND','Source unavailable.',404);
  const old=(s.deletionJobs||[]).find(j=>j.sourceId===sourceId),ids=new Set([sourceId,...old?.sourceIds||[],...old?.records.map(r=>r.id)||[]]),all=entries(s);let changed=true;
+ // A provider's aggregate snapshot can precede the child observation, so it may have no
+ // direct child provenance. Include only snapshots containing this exact erased identity.
+ for(const source of s.sources)if(slackSnapshotIncludesSource(s,source,root))ids.add(source.id);
  while(changed){changed=false;for(const {value} of all)if(!ids.has(value.id)&&references(value,ids)){ids.add(value.id);changed=true;}}
  const sourceIds=s.sources.filter(src=>ids.has(src.id)).map(src=>src.id),now=timestamp(),notBefore=new Date(Date.parse(old?.requestedAt||now)+originalDelay()).toISOString();
  const job:DeletionJob=old||{id:randomUUID(),sourceId,sourceIds,actorId:a.actorId,scope:structuredClone(root.scope),requestedAt:now,records:[],originals:[],operationalExceptionActionIds:[],indexCleanup:'pending',historicalCleanup:'pending',backupExpiresAt:null,backupStatus:'operator_verification_required'};

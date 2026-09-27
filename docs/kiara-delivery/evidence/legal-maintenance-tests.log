@@ -1,0 +1,12 @@
+✔ monitor admission requires exact protected URL policy and reads never claim applicability (248.321875ms)
+✔ observed change preserves bytes, expires source freshness and needs exact human applicability before targeting work (371.14175ms)
+✔ source or member withdrawal while a public read is pending prevents observed payload admission (140.391125ms)
+✔ bounded extraction and public address policy reject binary, private and mapped destinations (0.935375ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1365.559708

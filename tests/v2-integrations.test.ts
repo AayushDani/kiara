@@ -27,7 +27,7 @@ test('installation configuration is unavailable when absent, revoked or missing 
  delete process.env.KIARA_V2_INSTALLATIONS;await assert.rejects(resolveInstallation('github-1'),{code:'CONNECTION_UNAVAILABLE'});process.env.KIARA_V2_INSTALLATIONS=JSON.stringify([{...github,enabled:false}]);await assert.rejects(resolveInstallation('github-1'),{code:'CONNECTION_UNAVAILABLE'});delete process.env.TEST_WEBHOOK_SECRET;const {raw,headers}=signedGitHub(pr());assert.throws(()=>verifyWebhook(github,headers,raw),{code:'CONNECTION_UNAVAILABLE'});
 }));
 test('GitHub authenticates raw bytes, installation and selected repo before durable intake',()=>isolated(async()=>{
- const {raw,headers}=signedGitHub(pr());await acceptWebhook(github.id,headers,raw);let s=await readWorkspace('tenant-a');assert.equal(s.sources.length,1);assert.equal(s.outbox.length,1);assert.equal(s.sources[0].scope.kind,'team');assert.match(s.sources[0].text,/not deployment/);assert.equal(s.facts.length,0);
+ const {raw,headers}=signedGitHub(pr());await acceptWebhook(github.id,headers,raw);let s=await readWorkspace('tenant-a');assert.equal(s.sources.length,1);assert.equal(s.outbox.length,1);assert.equal(s.sources[0].scope.kind,'team');assert.match(s.sources[0].text,/does not establish deployment/);assert.equal(s.facts.length,0);
  headers.set('x-github-delivery','header-only-replay');await acceptWebhook(github.id,headers,raw);s=await readWorkspace('tenant-a');assert.equal(s.sources.length,1);assert.equal(s.outbox.length,1);
  await assert.rejects(acceptWebhook(github.id,headers,Buffer.from(raw.toString().replace('Synthetic','Customer'))),{code:'WEBHOOK_INVALID'});
  const other=signedGitHub(pr('acme/private'));await assert.rejects(acceptWebhook(github.id,other.headers,other.raw),{code:'INSTALLATION_SCOPE'});const wrong=signedGitHub({...pr(),installation:{id:888}});await assert.rejects(acceptWebhook(github.id,wrong.headers,wrong.raw),{code:'WEBHOOK_INVALID'});assert.equal((await readWorkspace('tenant-b')).sources.length,0);
@@ -43,7 +43,7 @@ test('Slack uses bounded request time, signed team/channel, stable event identit
 }));
 test('read adapters use fixed GET origins, selected resources and bounded truthful evidence',()=>isolated(async()=>{
  const calls:string[]=[];const fetcher:ProviderFetch=async(url,options)=>{assert.equal(options?.method,'GET');assert.equal(options?.redirect,'error');assert.equal(new Headers(options?.headers).get('authorization'),'Bearer synthetic-token');calls.push(String(url));if(String(url).includes('/pulls/'))return json({...pr().pull_request,state:'closed'});return json({ok:true,messages:[{ts:'1750000000.100',text:'Synthetic thread',user:'U1'}]});};
- const pull=await readGitHubPullRequest(github,'acme/product',7,fetcher);assert.match(pull.text,/does not establish deployment/);const thread=await readSlackThread(slack,'C1','1750000000.100',fetcher);assert.match(thread.text,/Synthetic thread/);assert.equal(calls.length,2);
+ const pull=await readGitHubPullRequest(github,'acme/product',7,fetcher);assert.match(pull.text,/does not establish deployment/);const thread=await readSlackThread(slack,'C1','1750000000.100',fetcher);assert.match(thread.text,/Synthetic thread/);assert.equal(calls.length,4);
  await assert.rejects(readGitHubPullRequest(github,'acme/private',7,fetcher),{code:'INSTALLATION_SCOPE'});await assert.rejects(providerRequest(github,new URL('https://example.com/token'),fetcher),{code:'PROVIDER_ORIGIN'});await assert.rejects(providerRequest(github,new URL('https://api.github.com/rate'),async()=>new Response('provider secret error',{status:429})),(e:any)=>e.code==='PROVIDER_UNAVAILABLE'&&!e.message.includes('secret'));
 }));
 test('Drive fetches authorized metadata before content and rejects unselected or unparsed files',()=>isolated(async()=>{
@@ -108,6 +108,6 @@ test('retained provider evidence becomes unreadable immediately after installati
 }));
 
 test('Slack deletion revokes retained thread snapshots containing that message',()=>isolated(async()=>{
- await ingestProviderObject(slack,'thread-read',{objectId:'C1:thread:1750000000.100',revision:'1750000000.200',title:'Thread snapshot',text:JSON.stringify({threadTs:'1750000000.100',messages:[{ts:'1750000000.100',text:'Initial'},{ts:'1750000000.200',text:'Later deleted'}]}),url:null,occurredAt:'2026-09-27T12:00:00Z'});
+ await ingestProviderObject(slack,'thread-read',{objectId:'C1:thread:1750000000.100',revision:'1750000000.200',title:'Thread snapshot',text:JSON.stringify({channel:'C1',threadTs:'1750000000.100',messages:[{ts:'1750000000.100',text:'Initial'},{ts:'1750000000.200',text:'Later deleted'}]}),url:null,occurredAt:'2026-09-27T12:00:00Z'});
  const request=signedSlack({type:'event_callback',team_id:'T1',event_id:'Ev-deletion',event:{type:'message',channel:'C1',subtype:'message_deleted',deleted_ts:'1750000000.200'}});await acceptWebhook(slack.id,request.headers,request.raw);assert.equal((await readWorkspace('tenant-a')).sources[0].status,'revoked');
 }));

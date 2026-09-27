@@ -1,0 +1,44 @@
+✔ approved template uses only confirmed mapped fields, remains proposed, accepts once as a new document (642.423ms)
+✔ unapproved uploaded template and assumed conversation fields cannot qualify (350.607083ms)
+✔ field correction and expired or revoked template approval invalidate acceptance (884.377042ms)
+✔ make it shorter uses full exact selected draft, produces reviewable model proposal, and does not replay generation (612.342333ms)
+✔ source instruction cannot introduce commands; invented citation fails before independent review (321.086792ms)
+✔ source revocation while model awaits prevents attaching a draft; charged result remains accounted (420.3465ms)
+✔ signed original gets a separate proposed amendment and current selection changes reject stale draft intent (556.55175ms)
+✔ accepted work plan creates owned typed tasks; unrelated fact cannot satisfy named task (512.566ms)
+✔ standing route permits only current exact internal preparation; business and publisher authorization still required (435.36175ms)
+✔ local semantic edit is explicit unavailable and selecting another current document cancels pending model intent (210.638458ms)
+✔ source deletion erases derived template and draft payloads while preserving decision identity (251.98575ms)
+✔ bounded draft requests cannot spend beyond the configured shared ceiling (222.223375ms)
+✔ standing internal execution retains exact encrypted bytes once without a per-document legal decision (602.022208ms)
+✔ standing policy expiry during asynchronous preparation blocks final broker dispatch (419.195042ms)
+✔ date mappings reject impossible calendar dates rather than inserting regex-shaped values (231.527834ms)
+✔ a completed semantic proposal cannot be accepted after supplemental document evidence changes (363.388875ms)
+✔ deletion propagates through records and audit payloads while exposing only safe pending-retention status (584.964167ms)
+✔ uncertain effects remain protected exceptions until settled, then repeated cleanup erases the payload (662.778041ms)
+✔ local original deletion is tenant scoped, exact, verified and replayable (80.522ms)
+✔ S3 purge targets the retained version, verifies absence and never treats forbidden/readback as success (3.61125ms)
+✔ original intake hands off only its own storage revisions and abandoned bytes are fenced before cleanup (546.910958ms)
+✔ retention worker honors original delay, shared pending intake and hold, then verifies exact purge (693.029334ms)
+✔ revoked-source owner controls allow a later scoped deletion without recovering content (420.622959ms)
+✔ pending intake blocks physical purge by content identity and deleted bytes cannot be re-created by later intake (446.979083ms)
+✔ interrupted original writes require exact verified manifest recovery before orphan cleanup (266.678208ms)
+✔ an orphan purge claim fences all same-byte intakes until its exact deletion finishes (314.192667ms)
+✔ late ordered Drive revision preserves current proposal, approvals and one current queue (363.615416ms)
+✔ newer source invalidates dependent proposal but preserves scoped historical access and blocks old fact confirmation (317.028416ms)
+✔ same revision conflicting bytes rejects atomically; identical delivery aliases do not duplicate sources or effects (148.028042ms)
+✔ opaque GitHub heads conflict regardless event time and only stable scoped read selects a current head (188.767834ms)
+✔ withdrawn current object cannot fall back, late events cannot restore it, historical source remains audit-readable (187.2245ms)
+✔ verified ordered provider read cannot regress a known newer revision (90.635708ms)
+✔ Slack edits order per message, late old edit does not displace newer evidence (158.782959ms)
+✔ complete Slack thread refresh after deletion preserves withdrawn message fence and replay does not revoke fresh snapshot (227.992083ms)
+✔ current evidence recheck rejects newly historical dependencies while new retrieval excludes old facts and prompt history (263.260083ms)
+✔ known deleted Slack message cannot reappear in a different verified thread snapshot or retained readable aggregate (197.326875ms)
+ℹ tests 36
+ℹ suites 0
+ℹ pass 36
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8082.825458

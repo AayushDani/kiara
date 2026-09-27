@@ -3,7 +3,7 @@ import {MongoClient,type ClientSession,type Db} from 'mongodb';
 import {V2Error,type WorkspaceState} from './contracts';
 import {digest,emptyWorkspace,validateWorkspace,type WorkspaceBackup} from './store';
 
-export const NORMALIZED_COLLECTIONS=['memberships','conversations','messages','scenarios','facts','preferences','sources','documents','legalAuthorities','coverage','matters','proposals','approvals','actions','counsel','learning','connections','events','outbox','tombstones','obligations','effortEntries','effortBaselines','deletionJobs','scenarioShares','routingDelegations','routingRules','inventories','receipts'] as const;
+export const NORMALIZED_COLLECTIONS=['memberships','conversations','messages','scenarios','facts','preferences','sources','documents','legalAuthorities','coverage','matters','proposals','approvals','actions','counsel','learning','connections','events','outbox','tombstones','obligations','effortEntries','effortBaselines','deletionJobs','scenarioShares','routingDelegations','routingRules','inventories','attentionSettings','attentionDecisions','legalWatches','legalChanges','templateApprovals','drafts','receipts'] as const;
 type Kind=typeof NORMALIZED_COLLECTIONS[number];
 export interface NormalizedRow {_id:string;tenantId:string;generation:string;recordKey:string;ordinal:number;hash:string;value:unknown}
 export interface NormalizedHead {_id:string;format:1;version:number;generation:string;stateHash:string;arrayKinds:Kind[];metadata:Record<string,unknown>;mode:'normalized'|'aggregate';migrationId:string|null}

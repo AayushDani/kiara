@@ -88,7 +88,7 @@ test('real concurrent empty-tenant aggregate and normalized bootstraps commit on
 });
 
 test('real index transactions permanently fence deletion including a writer paused after its snapshot read',{timeout:120000},async()=>{
- const adapter=mongoHybridAdapter(),tenantId='index-tenant',recordId='deleted-record',chunk:HybridChunk={id:'chunk-one',tenantId,entityId:'entity',kind:'source',recordId,recordHash:digest('revision'),offset:0,title:'Synthetic index title',text:'Synthetic index text',protocol:'kiara-atlas-chunks-1',embeddingPolicyHash:digest('embedding-policy')};
+ const adapter=mongoHybridAdapter(),tenantId='index-tenant',recordId='deleted-record',chunk:HybridChunk={id:'chunk-one',tenantId,entityId:'entity',kind:'source',recordId,recordHash:digest('revision'),offset:0,title:'Synthetic index title',text:'Synthetic index text',protocol:'kiara-atlas-chunks-1',structureVersion:'clauses-definitions-context-v1',embeddingPolicyHash:digest('embedding-policy')};
  await adapter.upsert(chunk,[0.1,0.2]);assert.deepEqual(await adapter.present(tenantId,[chunk.id]),[chunk.id]);
  const original=Collection.prototype.updateOne;let release!:()=>void,entered!:()=>void,paused=false;const gate=new Promise<void>(r=>release=r),waiting=new Promise<void>(r=>entered=r);const fenceId=digest({tenantId,recordId});
  Collection.prototype.updateOne=async function(this:Collection,filter:any,...args:any[]){if(!paused&&this.collectionName==='v2_search_record_fences'&&filter._id===fenceId&&filter.deleted){paused=true;entered();await gate;}return original.call(this,filter,...args as [any,any]);} as typeof Collection.prototype.updateOne;

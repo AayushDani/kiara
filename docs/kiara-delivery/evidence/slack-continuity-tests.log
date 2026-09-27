@@ -1,0 +1,93 @@
+✖ signed selected thread continues one conversation, pins lineage and delivers exact reply once with verified readback (132.232417ms)
+✔ bot messages never loop back into source ingestion and signed unmapped identities cannot impersonate the bound actor (47.32875ms)
+✔ historical web content cannot be reclassified as a Slack audience and canonical audience recursion rejects private dependencies (68.644542ms)
+✖ destination retrieval excludes an actor private contract and company fact before forming a local answer (147.717042ms)
+✖ lost acknowledgement reconciles by opaque metadata and exact bot/thread/content, never by absence or resend (121.3025ms)
+✔ configuration and actor membership changes during asynchronous preflight prevent the first provider post (212.918833ms)
+✖ source edit or deletion after accepted input blocks unsent reply; mismatched provider readback stays uncertain (239.574916ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 3
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1598.113833
+
+✖ failing tests:
+
+test at tests/v2-slack-continuity.test.ts:1:4939
+✖ signed selected thread continues one conversation, pins lineage and delivers exact reply once with verified readback (132.232417ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(s.messages[0].provenance.sourceIds.includes(String(result.sourceId)))
+
+      at <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-slack-continuity.test.ts:49:168)
+      at async isolated (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-slack-continuity.test.ts:28:58)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/v2-slack-continuity.test.ts:1:7555
+✖ destination retrieval excludes an actor private contract and company fact before forming a local answer (147.717042ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(!s.messages.filter(m=>m.role==='assistant').some(m=>/SUPER_PRIVATE/.test(m.text)))
+
+      at <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-slack-continuity.test.ts:68:261)
+      at async isolated (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-slack-continuity.test.ts:28:58)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/v2-slack-continuity.test.ts:1:8582
+✖ lost acknowledgement reconciles by opaque metadata and exact bot/thread/content, never by absence or resend (121.3025ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + 'blocked'
+  - 'verified'
+
+      at <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-slack-continuity.test.ts:71:66)
+      at async isolated (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-slack-continuity.test.ts:28:58)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'blocked',
+    expected: 'verified',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/v2-slack-continuity.test.ts:1:10081
+✖ source edit or deletion after accepted input blocks unsent reply; mismatched provider readback stays uncertain (239.574916ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + 'blocked'
+  - 'uncertain'
+
+      at <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-slack-continuity.test.ts:80:96)
+      at async isolated (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-slack-continuity.test.ts:28:58)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'blocked',
+    expected: 'uncertain',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
