@@ -1,0 +1,7 @@
+# Connected Atlas migration and rollback drill — 2026-09-27
+
+At 2026-09-27 17:16 UTC, an operator probe generated an empty isolated database named `kiara_qualification_2316ed7ec00149ce901472f22f03fee1` on the existing Atlas cluster. It wrote one synthetic aggregate workspace containing a membership and a retained synthetic receipt. Kiara's `migrateAggregateToNormalized` dry run returned a plan without publishing a normalized head. Apply committed the cutover; after closing and reopening the Mongo client, normalized readback matched the pre-cutover state hash.
+
+A later normalized transaction revoked the synthetic membership, added a tombstone, and retained a post-cutover receipt. `rollbackNormalizedToAggregate` dry run inspected that **current** state, then apply copied it back to aggregate storage. The aggregate readback hash matched the current normalized hash; the revocation, tombstone, original receipt, and post-cutover receipt all remained present. No provider was called.
+
+The probe dropped only its generated `kiara_qualification_*` database in `finally`; a separate read-only connection confirmed zero collections remained. This is a connected synthetic migration/recovery mechanism check. It does not prove a production tenant migration, a managed backup snapshot restore, concurrent live traffic, provider-effect reconciliation, IdP revocation replay, server failover, or operator recovery objectives. Those release gates remain open.
