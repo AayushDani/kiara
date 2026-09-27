@@ -26,6 +26,7 @@ after(async()=>{await closeV2Store();await Promise.all(dirs.map(dir=>rm(dir,{rec
 test('selected GovInfo source is durably staged with raw original and no implied coverage',async()=>{
  await closeV2Store();const dir=await mkdtemp(join(tmpdir(),'kiara-govinfo-'));dirs.push(dir);process.env.KIARA_V2_DATA_DIR=dir;process.env.KIARA_ORIGINALS_DIR=join(dir,'originals');delete process.env.MONGODB_URI;delete process.env.KIARA_ORIGINALS_MODE;delete process.env.KIARA_V2_INDEX_POLICY;process.env.KIARA_V2_LEGAL_SOURCE_POLICY=JSON.stringify([{tenantId:actor.tenantId,urls:[htmlUrl],validUntil:new Date(Date.now()+86400000).toISOString(),maxBytes:10000}]);
  process.env.KIARA_V2_AI_MODE='local';await snapshot(actor);
+ await assert.rejects(()=>previewGovInfoGranule(actor,selected,{apiKey:'test-private-key',metadataFetcher:metadataFetcher(metadata),sourceFetcher:async()=>new Response('<html><head><title>Page Not Found | GovInfo</title></head><body>Error occurred.</body></html>',{headers:{'content-type':'text/html'}})}),{code:'LEGAL_SOURCE_FORMAT'});
  const preview=await previewGovInfoGranule(actor,selected,{apiKey:'test-private-key',metadataFetcher:metadataFetcher(metadata),sourceFetcher});
  await assert.rejects(()=>stageGovInfoGranule(actor,selected,{apiKey:'test-private-key',metadataFetcher:metadataFetcher(metadata),sourceFetcher,expectedPreviewHash:'a'.repeat(64)}),{code:'GOVINFO_PREVIEW_CHANGED'});
  assert.equal((await readWorkspace(actor.tenantId)).sources.length,0,'changed preview cannot stage source bytes');

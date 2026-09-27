@@ -8,6 +8,8 @@ The response identified package `USCODE-2024-title17`, granule `USCODE-2024-titl
 
 Separately, Kiara's `readSelectedLegalSource` fetched the corresponding public HTML at `https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-chap1-sec105.htm`. It accepted `text/html`, read 18,316 bytes, extracted 14,782 text characters, and reported raw SHA-256 `be9a8a2918c3f674506e80087565ce9f5479ea358394313daf02e3aa0a1491ba`.
 
+The guessed HTML URL for the CFR example below returned HTTP 200 with a “Page Not Found | GovInfo” HTML page. The source reader now blocks that observed error-page signature for selected GovInfo content, including U.S. Code HTML, before it can be staged or treated as a watched change. The focused regression uses the observed title signature; it does not prove detection of every possible upstream error page.
+
 ## Annual CFR XML
 
 At approximately 15:54 UTC, a read-only `DEMO_KEY` request returned HTTP 200, `application/json`, and 1,558 bytes for `https://api.govinfo.gov/packages/CFR-2025-title17-vol1/granules/CFR-2025-title17-vol1-sec1-2/summary`. The response file had SHA-256 `c64c30b1cd9d615292e1079026210e9c41fbb427d5ffafafddd7add26eb95a3d` and identified “Liability of principal for act of agent.” The metadata supplied exact `xmlLink` and `pdfLink` fields but no `txtLink`. The previously assumed `/html/...htm` path served GovInfo's error page, so Kiara's earlier HTML-only validator could not admit this CFR granule.
