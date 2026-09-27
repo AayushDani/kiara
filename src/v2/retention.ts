@@ -13,7 +13,7 @@ type RecordKind=typeof recordKinds[number];
 export interface DeletionJob {
  id:string;sourceId:string;sourceIds:string[];actorId:string;scope:Scope;requestedAt:string;
  records:{kind:RecordKind;id:string;beforeHash:string;afterHash:string}[];
- originals:{reference:string;notBefore:string;status:'pending'|'purged'|'shared_reference'|'operational_exception'|'hold'|'failed';failureCode:string|null}[];
+ originals:{reference:string;notBefore:string;status:'pending'|'purging'|'purged'|'shared_reference'|'operational_exception'|'hold'|'failed';failureCode:string|null}[];
  operationalExceptionActionIds:string[];
  indexCleanup:'pending'|'complete';historicalCleanup:'pending'|'complete';
  backupExpiresAt:string|null;backupStatus:'operator_verification_required';

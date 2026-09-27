@@ -53,6 +53,55 @@ test('retention worker honors original delay, shared pending intake and hold, th
  await transactWorkspace(a.tenantId,s=>{s.deletionJobs![0].originals[0].notBefore=new Date(0).toISOString();});process.env.KIARA_RETENTION_HOLD='true';try{r=await processDeletionJob(a.tenantId,job.id);assert.equal(r.originalsPending,1);assert.equal((await readWorkspace(a.tenantId)).deletionJobs![0].originals[0].status,'hold');}finally{delete process.env.KIARA_RETENTION_HOLD;}
  r=await processDeletionJob(a.tenantId,job.id);assert.equal(r.applicationCleanupComplete,true);assert.equal(r.externalBackupErasureVerified,false);await assert.rejects(()=>readOriginal(a.tenantId,ref));assert.equal((await processDeletionJob(a.tenantId,job.id)).applicationCleanupComplete,true);
 });
+test('a later deletion job keeps shared original bytes until its own retention deadline',async()=>{
+ const a=owner(),bytes=Buffer.from('Two sources share the same retained original'),ref=await retainOriginal(a.tenantId,bytes);
+ const firstAdd=await send(a,{type:'document.add',title:'First shared source',body:bytes.toString(),authority:'draft'},{originalObjectRef:JSON.stringify(ref)});
+ const secondAdd=await send(a,{type:'document.add',title:'Second shared source',body:bytes.toString(),authority:'draft'},{originalObjectRef:JSON.stringify(ref)});
+ const firstSourceId=firstAdd.snapshot.documents[0].sourceId,secondSourceId=secondAdd.snapshot.documents.at(-1)!.sourceId;
+ assert.notEqual(firstSourceId,secondSourceId);
+ await send(a,{type:'source.revoke',sourceId:firstSourceId,reason:'First deletion',delete:true});
+ const first=(await readWorkspace(a.tenantId)).deletionJobs![0];
+ assert.equal(originalHeldElsewhere(await readWorkspace(a.tenantId),first,JSON.stringify(ref)),true);
+ await send(a,{type:'source.revoke',sourceId:secondSourceId,reason:'Later deletion',delete:true});
+ const current=await readWorkspace(a.tenantId);
+ assert.equal(current.deletionJobs?.length,2);
+ await transactWorkspace(a.tenantId,s=>{s.deletionJobs![0].originals[0].notBefore=new Date(0).toISOString();s.deletionJobs![1].originals[0].notBefore=new Date(Date.now()+86400000).toISOString();});
+ assert.equal(originalHeldElsewhere(await readWorkspace(a.tenantId),first,JSON.stringify(ref)),true);
+ const result=await processDeletionJob(a.tenantId,first.id);
+ assert.equal(result.originalsPending,1);
+ assert.deepEqual(await readOriginal(a.tenantId,ref),bytes);
+ await transactWorkspace(a.tenantId,s=>{s.deletionJobs![1].originals[0].notBefore=new Date(0).toISOString();});
+ const completed=await processDeletionJob(a.tenantId,first.id);
+ assert.equal(completed.applicationCleanupComplete,true);
+ await assert.rejects(()=>readOriginal(a.tenantId,ref));
+});
+test('retention worker records its purge claim before calling the physical adapter',async()=>{
+ const {a,doc,ref}=await setup();
+ await send(a,{type:'source.revoke',sourceId:doc.sourceId,reason:'Claim test',delete:true});
+ const job=(await readWorkspace(a.tenantId)).deletionJobs![0];
+ await transactWorkspace(a.tenantId,s=>{s.deletionJobs![0].originals[0].notBefore=new Date(0).toISOString();});
+ let observed=false;
+ const result=await processDeletionJob(a.tenantId,job.id,{original:async(tenant,reference)=>{
+  const current=await readWorkspace(tenant);
+  assert.equal(current.deletionJobs![0].originals[0].status,'purging');
+  observed=true;
+  await purgeOriginal(tenant,reference);
+ }});
+ assert.equal(observed,true);
+ assert.equal(result.applicationCleanupComplete,true);
+ await assert.rejects(()=>readOriginal(a.tenantId,ref));
+});
+test('an expired attached intake cannot purge bytes owned by a pending deletion job',async()=>{
+ const a=owner(),bytes=Buffer.from('Shared attached intake under retention'),initial=await snapshot(a);
+ const intake=await retainIntakeOriginal(a,'retained-shared-intake',bytes,initial.version);
+ const added=await send(a,{type:'document.add',title:'Shared intake',body:bytes.toString(),authority:'draft'},{originalObjectRef:JSON.stringify(intake.reference)});
+ const sourceId=added.snapshot.documents[0].sourceId;
+ await send(a,{type:'source.revoke',sourceId,reason:'Retain before purge',delete:true});
+ await transactWorkspace(a.tenantId,s=>{for(const [key,receipt] of Object.entries(s.receipts))if(key.startsWith('artifact-intake:'))(receipt.result.intake as {expiresAt:string}).expiresAt=new Date(0).toISOString();});
+ const swept=await purgeExpiredIntakes(a.tenantId);
+ assert.equal(swept.purged,0);
+ assert.deepEqual(await readOriginal(a.tenantId,intake.reference),bytes);
+});
 test('revoked-source owner controls allow a later scoped deletion without recovering content',async()=>{
  const {a,doc}=await setup();await send(a,{type:'source.revoke',sourceId:doc.sourceId,reason:'Withdraw access first'});const removed=await snapshot(a);assert.equal(removed.sources.length,0);assert.ok(removed.recovery.sources.some(s=>s.id===doc.sourceId));const deleted=await send(a,{type:'source.revoke',sourceId:doc.sourceId,delete:true,reason:'Then apply deletion policy'});assert.equal(deleted.snapshot.sources.length,0);assert.equal(deleted.snapshot.deletions.length,1);
 });
