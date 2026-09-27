@@ -2,7 +2,7 @@ import {currentEvidenceLineage} from './source-lifecycle';
 import {randomUUID} from 'node:crypto';
 import {legalAuthorityHasPendingChange} from './legal-maintenance';
 import {canRead,membership,readRecord,requireRole} from './authority';
-import {V2Error,type ActorContext,type CoverageEntry,type LegalAuthority,type RecordBase,type WorkspaceState} from './contracts';
+import {V2Error,type ActorContext,type CoverageEntry,type LegalAuthority,type RecordBase,type Source,type WorkspaceState} from './contracts';
 import {digest,timestamp} from './store';
 export interface AuthorityMaintenance {verifiedSourceVersion?:number;verifiedSourceHash?:string;verificationEvidence?:string;reviewDueAt?:string;reviewMembershipVersion?:number}
 export interface CoverageMaintenance {authorityIds?:string[];authorityVersions?:Record<string,number>;qualificationEvidence?:string;reviewMembershipVersion?:number;qualification?:'named_reviewer_attestation'|'fictional_local_attestation'}
@@ -32,6 +32,11 @@ export function coverageStatus(s:WorkspaceState,a:ActorContext,c:CoverageEntry):
  if(!canRead(s,a,c)||!c.reviewDueAt||Date.parse(c.reviewDueAt)<=Date.now()||!reviewer||reviewer.revokedAt||reviewer.version!==c.reviewMembershipVersion||!reviewer.roles.includes('legal_reviewer')||(reviewer.expiresAt&&Date.parse(reviewer.expiresAt)<=Date.now())||!c.authorityIds?.length||c.authorityIds.some(id=>!s.legalAuthorities.some(x=>x.id===id&&x.version===c.authorityVersions?.[id]&&authorityCurrent(s,a,x))))return 'stale';return 'available';
 }
 export function coverageViews(s:WorkspaceState,a:ActorContext){return s.coverage.filter(c=>canRead(s,a,c)).map(c=>({...structuredClone(c),status:coverageStatus(s,a,c)}));}
+/** A staged public-law source cannot enter an answer or embedding until its exact version and coverage are both reviewed. */
+export function legalSourceAnswerEligible(s:WorkspaceState,a:ActorContext,source:Source){
+ if(source.kind!=='legal')return true;
+ return s.legalAuthorities.some(authority=>authority.sourceId===source.id&&authorityCurrent(s,a,authority)&&s.coverage.some(entry=>entry.authorityIds?.includes(authority.id)&&coverageStatus(s,a,entry)==='available'));
+}
 function activity(s:WorkspaceState,a:ActorContext,record:RecordBase,type:string,title:string){s.events.push({...base(s,a,record.scope,record.provenance.sourceIds),type,title,detail:'Named source/coverage maintenance. Reviewer attestation is not external certification or matter-specific legal approval.',matterId:null,recordId:record.id,measurement:a.mode==='local_demo'?'fictional_rehearsal':'observed'});}
 export function applyCoverageCommand(s:WorkspaceState,a:ActorContext,c:CoverageCommand):Record<string,unknown>{
  switch(c.type){

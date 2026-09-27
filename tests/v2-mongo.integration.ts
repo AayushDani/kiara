@@ -1,13 +1,14 @@
 /** Explicit opt-in integration qualification. This file is deliberately outside *.test.ts. */
 import test,{before,after} from 'node:test';
 import assert from 'node:assert/strict';
-import {randomUUID} from 'node:crypto';
+import {createHash,randomUUID} from 'node:crypto';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
 import {MongoClient,Collection,type Db} from 'mongodb';
 import {closeV2Store,digest,emptyWorkspace,readWorkspace,timestamp,transactWorkspace} from '../src/v2/store';
 import {closeNormalizedStore,migrateAggregateToNormalized,normalizeWorkspace,normalizedMigrationPlan,purgeNormalizedHistory,readNormalized,rollbackNormalizedToAggregate,transactNormalized} from '../src/v2/normalized-store';
 import {closeHybridIndex,mongoHybridAdapter,type HybridChunk} from '../src/v2/hybrid';
+import {closeMongoOriginalStore,readMongoOriginal,retainMongoOriginal,purgeMongoOriginal} from '../src/v2/mongo-originals';
 import {applySourceDeletion,redactHistoricalRecord,redactHistoricalWorkspace} from '../src/v2/retention';
 import type {Action,ActorContext,RecordBase,Source,WorkspaceState} from '../src/v2/contracts';
 import type {EffectIntent} from '../src/v2/execution/contracts';
@@ -18,10 +19,10 @@ const databaseName=`kiara_qualification_${randomUUID().replaceAll('-','')}`;
 if(!/^kiara_qualification_[a-f0-9]{32}$/.test(databaseName))throw new Error('Unsafe qualification database identity.');
 const savedEnv={...process.env},oldFetch=globalThis.fetch;
 let client:MongoClient,db:Db;
-const evidence={database:databaseName,uri:expectedUri,mongodbVersion:'',binarySha256:'f81cb258434d548dca7244d599c82eb339043d8dedd0b1b807870c9d263117f2',node:process.version,applicationProcessRestartTested:false,serverRestartTested:false,atlasSearchTested:false,providersCalled:0,databaseDropped:false};
+const evidence={database:databaseName,uri:expectedUri,mongodbVersion:'',binarySha256Verified:false,node:process.version,applicationProcessRestartTested:false,serverRestartTested:false,atlasSearchTested:false,providersCalled:0,databaseDropped:false};
 before(async()=>{
  for(const key of Object.keys(process.env))if(/^(KIARA|MONGO|VERCEL|OPENAI|RESEND|TEMPORAL)/.test(key))delete process.env[key];
- Object.assign(process.env,{MONGODB_URI:expectedUri,MONGODB_DB:databaseName,KIARA_V2_STORE_MODE:'aggregate',KIARA_V2_AI_MODE:'local',KIARA_V2_ATLAS_URI:expectedUri});
+ Object.assign(process.env,{MONGODB_URI:expectedUri,MONGODB_DB:databaseName,KIARA_V2_STORE_MODE:'aggregate',KIARA_V2_AI_MODE:'local',KIARA_V2_ATLAS_URI:expectedUri,KIARA_ORIGINALS_MODE:'mongo_encrypted',KIARA_ORIGINALS_KEY:'4'.repeat(64)});
  globalThis.fetch=async()=>{throw new Error('Provider calls are forbidden in Mongo qualification');};
  client=new MongoClient(expectedUri,{serverSelectionTimeoutMS:5000,maxPoolSize:20});await client.connect();db=client.db(databaseName);
  const hello=await db.command({hello:1});assert.equal(hello.setName,'kiaraQualification');assert.equal(hello.isWritablePrimary,true);
@@ -29,7 +30,7 @@ before(async()=>{
  await db.createCollection('qualification_identity');await db.collection('qualification_identity').insertOne({databaseName,purpose:'isolated local integration qualification'});
 });
 after(async()=>{
- await closeHybridIndex();await closeV2Store();
+ await closeHybridIndex();await closeMongoOriginalStore();await closeV2Store();
  if(client){try{if(db?.databaseName!==databaseName||!/^kiara_qualification_[a-f0-9]{32}$/.test(databaseName))throw new Error('Refusing cleanup outside this generated database.');await db.dropDatabase();evidence.databaseDropped=true;}finally{await client.close();}}
  globalThis.fetch=oldFetch;for(const key of Object.keys(process.env))if(!(key in savedEnv))delete process.env[key];Object.assign(process.env,savedEnv);
  console.log('MONGO_QUALIFICATION_EVIDENCE '+JSON.stringify(evidence));
@@ -108,4 +109,30 @@ test('real historical generations, migration backups and frozen aggregate erase 
  const collections=await db.listCollections().toArray();for(const collection of collections){if(!collection.name.startsWith('v2_'))continue;const rows=await db.collection(collection.name).find({$or:[{tenantId:tenant},{_id:tenant}]} as never).toArray();assert.doesNotMatch(JSON.stringify(rows),new RegExp(secret),collection.name);}
  const current=await readWorkspace(tenant);assert.equal(await freshProcessHash(tenant,'normalized'),digest(current));assert.equal(current.sources[0].text,'');assert.equal(current.documents[0].body,'');assert.equal(current.actions[0].status,'failed');assert.equal((current.receipts['execution:action'].result.intent as unknown as EffectIntent).providerReceipt,'retained-provider-id');assert.ok(current.tombstones.some(t=>t.sourceId==='source'));assert.ok(current.receipts['post-cutover']);
  await rollbackNormalizedToAggregate(tenant,digest(current),false);await closeV2Store();mode('aggregate');assert.doesNotMatch(JSON.stringify(await readWorkspace(tenant)),new RegExp(secret));
+});
+
+test('encrypted Mongo originals survive exact readback, duplicate intake and restart; deletion fences concurrent reuse',{timeout:120000},async()=>{
+ const tenant='synthetic-original-tenant',bytes=Buffer.alloc(17_000_000,37);
+ bytes.write('synthetic-original-only',4096);
+ const reference=await retainMongoOriginal(tenant,bytes);
+ assert.equal(reference.storage,'mongo_encrypted');assert.equal(reference.bytes,bytes.length);
+ assert.deepEqual(await readMongoOriginal(tenant,reference),bytes);
+ assert.deepEqual(await retainMongoOriginal(tenant,bytes),reference);
+ assert.equal(await db.collection('v2_original_manifests').countDocuments({_id:reference.key as never}),1);
+ assert.equal(await db.collection('v2_original_chunks').countDocuments({manifestId:reference.key}),17);
+ await closeMongoOriginalStore();assert.deepEqual(await readMongoOriginal(tenant,reference),bytes);
+ await assert.rejects(readMongoOriginal('other-tenant',reference),code('ORIGINAL_SCOPE'));
+ await purgeMongoOriginal(tenant,reference);
+ assert.equal(await db.collection('v2_original_manifests').countDocuments({_id:reference.key as never}),0);
+ assert.equal(await db.collection('v2_original_chunks').countDocuments({manifestId:reference.key}),0);
+ assert.equal((await db.collection('v2_original_fences').findOne({_id:reference.key as never}))?.deleted,true);
+ await assert.rejects(retainMongoOriginal(tenant,bytes),code('ORIGINAL_DELETED'));
+ await assert.rejects(readMongoOriginal(tenant,reference),code('ORIGINAL_DELETED'));
+ await purgeMongoOriginal(tenant,reference);
+ const hash=(value:string|Buffer)=>createHash('sha256').update(value).digest('hex'),racing=Buffer.from('synthetic concurrent upload'),keyId=hash(Buffer.from(process.env.KIARA_ORIGINALS_KEY!,'hex')).slice(0,16);
+ const raceRef={...reference,key:`${hash(tenant)}/${hash(racing)}/${keyId}`,sha256:hash(racing),bytes:racing.length,keyId};
+ const originalUpdate=Collection.prototype.updateOne;let release!:()=>void,entered!:()=>void,paused=false;const gate=new Promise<void>(r=>release=r),waiting=new Promise<void>(r=>entered=r);
+ Collection.prototype.updateOne=async function(this:Collection,filter:any,...args:any[]){if(!paused&&this.collectionName==='v2_original_fences'&&filter._id===raceRef.key&&filter.deleted){paused=true;entered();await gate;}return originalUpdate.call(this,filter,...args as [any,any]);} as typeof Collection.prototype.updateOne;
+ try{const late=retainMongoOriginal(tenant,racing);await waiting;await purgeMongoOriginal(tenant,raceRef);release();await assert.rejects(late,code('ORIGINAL_DELETED'));}finally{release?.();Collection.prototype.updateOne=originalUpdate;}
+ assert.equal(await db.collection('v2_original_manifests').countDocuments({_id:raceRef.key as never}),0);
 });

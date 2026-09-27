@@ -4,10 +4,10 @@ import {join,resolve} from 'node:path';
 import {V2Error,type ActorContext,type Role} from './contracts';
 import {readWorkspace} from './store';
 import {membership} from './authority';
+import {resolveOidcIdentity} from './oidc-identities';
 import {requestOriginMatches} from '../server/request-origin';
 
-interface Session {actor:ActorContext;csrf:string;profile:string;subject?:string}
-interface IdentityMapping {subject:string;tenantId:string;actorId:string}
+interface Session {actor:ActorContext;csrf:string;profile:string;subject?:string;identityVersion?:number}
 const profiles:Record<string,Role[]>={founder:['member','fact_owner','business_owner','publisher','admin'],engineer:['member','fact_owner'],counsel:['member','legal_reviewer'],publisher:['member','publisher'],evaluator:['member','evaluator'],signatory:['member','signatory']};
 const directory=()=>resolve(process.env.KIARA_V2_DATA_DIR||process.env.KIARA_DATA_DIR||join(process.cwd(),'.kiara-v2'));
 const mode=()=>process.env.KIARA_V2_AUTH_MODE||'local_demo';
@@ -30,11 +30,6 @@ async function secret(){
   const value=randomBytes(48).toString('hex');
   try{await writeFile(path,value,{flag:'wx',mode:0o600});return value;}catch(e){if((e as NodeJS.ErrnoException).code==='EEXIST')return readFile(path,'utf8');throw e;}
 }
-function mappings():IdentityMapping[]{
-  try{const value=JSON.parse(process.env.KIARA_OIDC_IDENTITIES||'[]');if(!Array.isArray(value)||value.some(m=>!m||!['subject','tenantId','actorId'].every(k=>typeof m[k]==='string'&&m[k].length>0)))throw new Error();return value;}
-  catch{throw new V2Error('AUTH_NOT_CONFIGURED','Configure valid operator-managed OIDC identity mappings.',503);}
-}
-function mapIdentity(subject:string){const rows=mappings().filter(m=>m.subject===subject);if(rows.length!==1)throw new V2Error('MEMBERSHIP_REQUIRED','This identity has no unique workspace mapping. Ask the workspace administrator.',403);return rows[0];}
 function cookie(value:string,maxAge:number){return `${cookieName()}=${value}; HttpOnly; SameSite=Strict; Path=/; Max-Age=${maxAge}${mode()==='oidc'?'; Secure':''}`;}
 async function issue(session:Session){const encoded=Buffer.from(JSON.stringify(session)).toString('base64url');const signature=createHmac('sha256',await secret()).update(encoded).digest('base64url');return {session,cookie:cookie(`${encoded}.${signature}`,Math.max(0,Math.floor((session.actor.expiresAt-Date.now())/1000)))};}
 export function sameV2Origin(request:Request){
@@ -56,8 +51,8 @@ export async function authenticateV2(request:Request,initialize=false):Promise<{
   if(!session?.actor||!Number.isFinite(session.actor.expiresAt)||session.actor.expiresAt<=Date.now()||typeof session.csrf!=='string')throw new V2Error('SESSION_EXPIRED','Sign in again to continue.',401);
   if(mode()==='oidc'){
     if(session.actor.mode!=='authenticated'||!session.subject)throw new V2Error('INVALID_SESSION','Sign in with your identity provider.',401);
-    const mapping=mapIdentity(session.subject);
-    if(mapping.actorId!==session.actor.actorId||mapping.tenantId!==session.actor.tenantId)throw new V2Error('MEMBERSHIP_REVOKED','This identity mapping changed. Sign in again.',403);
+    const mapping=await resolveOidcIdentity(process.env.KIARA_OIDC_ISSUER||'',session.subject);
+    if(mapping.actorId!==session.actor.actorId||mapping.tenantId!==session.actor.tenantId||mapping.version!==session.identityVersion)throw new V2Error('MEMBERSHIP_REVOKED','This identity mapping changed. Sign in again.',403);
     delete session.actor.bootstrapRoles;
   }else if(session.actor.mode!=='local_demo'||!Object.hasOwn(profiles,session.profile)||session.actor.actorId!==`local-${session.profile}`||session.actor.tenantId!=='local-workspace')throw new V2Error('INVALID_SESSION','Invalid local identity.',401);
   return {session};
@@ -83,10 +78,9 @@ export async function verifyOidcToken(token:string,fetcher:typeof fetch=fetch,ex
   const matching=Array.isArray(keys)?keys.filter(k=>k.kid===header.kid&&k.kty==='RSA'&&(!k.use||k.use==='sig')&&(!k.alg||k.alg==='RS256')):[];
   if(matching.length!==1)throw new V2Error('INVALID_TOKEN','Identity token signing key is unavailable.',401);
   try{if(!verify('RSA-SHA256',Buffer.from(`${parts[0]}.${parts[1]}`),createPublicKey({key:matching[0],format:'jwk'}),Buffer.from(parts[2],'base64url')))throw new Error();}catch{throw new V2Error('INVALID_TOKEN','Identity token signature is invalid.',401);}
-  const identity=mapIdentity(claims.sub);
-  return {actor:{tenantId:identity.tenantId,actorId:identity.actorId,expiresAt:Math.min(claims.exp*1000,Date.now()+30*60*1000),mode:'authenticated'} as ActorContext,subject:claims.sub};
+  const identity=await resolveOidcIdentity(issuer,claims.sub);
+  return {actor:{tenantId:identity.tenantId,actorId:identity.actorId,expiresAt:Math.min(claims.exp*1000,Date.now()+30*60*1000),mode:'authenticated'} as ActorContext,subject:claims.sub,identityVersion:identity.version};
 }
-export async function oidcSession(request:Request,token:string){checkMode(request);sameV2Origin(request);if(mode()!=='oidc')throw new V2Error('OIDC_DISABLED','OIDC is not enabled in this workspace.',400);const identity=await verifyOidcToken(token);return issue({...identity,csrf:randomBytes(24).toString('hex'),profile:'oidc'});}
 export const clearV2Session=()=>cookie('',0);
 
 interface OidcFlow {returnTo?:string;state:string;nonce:string;verifier:string;redirectUri:string;expiresAt:number;issuer:string;clientId:string}

@@ -3,6 +3,7 @@ import {currentEvidenceLineage,currentSourceEvidence} from './source-lifecycle';
 import {factCurrentlyConfirmed} from './fact-validity';
 import {SOURCE_STRUCTURE_VERSION,structuredSourceChunks} from './source-structure';
 import {documentHeads} from './document-lifecycle';
+import {legalSourceAnswerEligible} from './coverage';
 import {MongoClient,type Document as MongoDocument} from 'mongodb';
 import {canRead,membership,readRecord,requireRole} from './authority';
 import {V2Error,type ActorContext,type RecordBase,type Conversation,type WorkspaceState} from './contracts';
@@ -20,8 +21,8 @@ export function hybridIndexDefinitions(config:HybridConfig){return [{name:config
 export function authorizedHybridChunks(s:WorkspaceState,a:ActorContext,entityId=s.entityId,conversation?:Conversation):HybridChunk[]{
  membership(s,a);if(entityId!==s.entityId)throw new V2Error('ENTITY_SCOPE','Retrieval must use the current entity.');const result:HybridChunk[]=[];
  const add=(r:RecordBase,kind:HybridChunk['kind'],title:string,text:string)=>{if(!text.trim()||!canRead(s,a,r)||conversation&&!slackAudienceEligible(s,conversation,r)||!currentEvidenceLineage(s,r))return;const recordHash=digest(r);for(const excerpt of kind==='fact'?[{offset:0,text}]:structuredSourceChunks(text)){const chunk:Omit<HybridChunk,'id'>={tenantId:s.tenantId,entityId,kind,recordId:r.id,recordHash,offset:excerpt.offset,title,text:excerpt.text,structureVersion:SOURCE_STRUCTURE_VERSION,protocol:'kiara-atlas-chunks-1' as const,embeddingPolicyHash:digest(EMBEDDING_POLICY)};result.push({id:digest(chunk),...chunk});}};
- const docs=documentHeads(s.documents).filter(d=>d.status!=='superseded'&&canRead(s,a,d)&&s.sources.some(x=>x.id===d.sourceId&&currentSourceEvidence(s,x)));for(const d of docs)add(d,'document',d.title,d.body);
- for(const source of s.sources.filter(x=>x.status==='active'&&!s.documents.some(d=>d.sourceId===x.id)))add(source,'source',source.title,source.text);
+ const docs=documentHeads(s.documents).filter(d=>d.status!=='superseded'&&canRead(s,a,d)&&s.sources.some(x=>x.id===d.sourceId&&currentSourceEvidence(s,x)&&legalSourceAnswerEligible(s,a,x)));for(const d of docs)add(d,'document',d.title,d.body);
+ for(const source of s.sources.filter(x=>x.status==='active'&&!s.documents.some(d=>d.sourceId===x.id)&&legalSourceAnswerEligible(s,a,x)))add(source,'source',source.title,source.text);
  for(const fact of s.facts.filter(f=>factCurrentlyConfirmed(f)&&f.reuse==='company'&&f.entityId===entityId))add(fact,'fact',fact.predicate,JSON.stringify({predicate:fact.predicate,value:fact.value,practice:fact.practice,confirmedAt:fact.confirmedAt}));
  if(result.length>10000)throw new V2Error('HYBRID_SCOPE_TOO_LARGE','Narrow the selected workspace scope before retrieving more than 10,000 authorized chunks.');return result;
 }

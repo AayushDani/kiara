@@ -5,8 +5,8 @@ import type {EffectIntent} from './contracts';
 function originalReference(value:unknown):string|null {
  if(!value||typeof value!=='object')return null;
  const r=value as Record<string,unknown>;
- if(!['local_encrypted','s3_kms'].includes(String(r.storage))||!['aes-256-gcm','aws-kms'].includes(String(r.encryption))||typeof r.key!=='string'||r.key.length>2000||typeof r.sha256!=='string'||!/^[a-f0-9]{64}$/.test(r.sha256)||!Number.isSafeInteger(r.bytes)||Number(r.bytes)<0||Number(r.bytes)>20000000||typeof r.keyId!=='string'||r.keyId.length>2000||r.versionId!==undefined&&typeof r.versionId!=='string')return null;
- if(!/^[a-f0-9]{64}\/[a-f0-9]{64}(?:\/[a-f0-9]{16})?$/.test(r.key)||r.key.split('/')[1]!==r.sha256||r.storage==='local_encrypted'&&(r.encryption!=='aes-256-gcm'||!/^[a-f0-9]{16}$/.test(r.keyId))||r.storage==='s3_kms'&&(r.encryption!=='aws-kms'||typeof r.versionId!=='string'||!r.versionId||r.versionId==='null'))return null;
+ if(!['local_encrypted','mongo_encrypted','s3_kms'].includes(String(r.storage))||!['aes-256-gcm','aws-kms'].includes(String(r.encryption))||typeof r.key!=='string'||r.key.length>2000||typeof r.sha256!=='string'||!/^[a-f0-9]{64}$/.test(r.sha256)||!Number.isSafeInteger(r.bytes)||Number(r.bytes)<0||Number(r.bytes)>20000000||typeof r.keyId!=='string'||r.keyId.length>2000||r.versionId!==undefined&&typeof r.versionId!=='string')return null;
+ if(!/^[a-f0-9]{64}\/[a-f0-9]{64}(?:\/[a-f0-9]{16})?$/.test(r.key)||r.key.split('/')[1]!==r.sha256||['local_encrypted','mongo_encrypted'].includes(String(r.storage))&&(r.encryption!=='aes-256-gcm'||!/^[a-f0-9]{16}$/.test(r.keyId))||r.storage==='s3_kms'&&(r.encryption!=='aws-kms'||typeof r.versionId!=='string'||!r.versionId||r.versionId==='null'))return null;
  return JSON.stringify({key:r.key,sha256:r.sha256,bytes:r.bytes,encryption:r.encryption,storage:r.storage,keyId:r.keyId,...(r.versionId!==undefined?{versionId:r.versionId}:{})});
 }
 function retainedOriginals(intent:EffectIntent):string[]{

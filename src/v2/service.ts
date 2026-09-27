@@ -40,7 +40,7 @@ import {resetReviewTasks,isProposalReviewTask,taskCommandFields,completeMatterTa
 import {PROCEDURES,procedureInput,procedureAssessment,evaluateProcedure,learningViews} from './procedures';
 import {actionContentHash,assertActionTimingReady} from './execution/authority';
 import {assignActionTask,retireCanceledActionTask,setActionTaskStatus} from './execution/action-tasks';
-import {applyCoverageCommand,coverageCommandFields,coverageViews} from './coverage';
+import {applyCoverageCommand,coverageCommandFields,coverageViews,legalSourceAnswerEligible} from './coverage';
 
 const roles:Role[]=['member','fact_owner','business_owner','legal_reviewer','publisher','signatory','admin','evaluator','integration'];
 function ensure(value:unknown,code:string,message:string,status=409):asserts value {if(!value)throw new V2Error(code,message,status);}
@@ -69,7 +69,7 @@ function actionTiming(value:Extract<WorkspaceCommand,{type:'action.plan'}>['timi
 const capacityRole:Record<Approval['capacity'],Role>={business:'business_owner',legal:'legal_reviewer',sharing:'business_owner',publication:'publisher',signature:'signatory',no_action:'business_owner'};
 function addApproval(s:WorkspaceState,a:ActorContext,p:Proposal,capacity:Approval['capacity'],validUntil:string,options:Partial<Approval>={}){ensure(Object.hasOwn(capacityRole,capacity),'INVALID_CAPACITY','Choose a specific decision capacity.',400);const member=requireRole(s,a,capacityRole[capacity],p);fresh(s,a,p);const approval:Approval={...base(s,a,p.scope,p.provenance.sourceIds),matterId:p.matterId,proposalId:p.id,proposalHash:p.contentHash,actionId:null,actionHash:null,capacity,actorId:a.actorId,membershipVersion:member.version,dependencies:structuredClone(p.dependencies),conditions:[],recipients:[],destination:null,validUntil:dateFuture(validUntil),status:'active',note:'',...options};approval.provenance.factIds=p.provenance.factIds||[];s.approvals.push(approval);return approval;}
 function usefulAnswer(s:WorkspaceState,a:ActorContext,c:Conversation,prompt:string):{text:string;citations:Message['citations'];sourceIds:string[];factIds?:string[]}{
- const available=documentHeads(s.documents).filter(d=>canRead(s,a,d)&&currentEvidenceLineage(s,d)&&slackAudienceEligible(s,c,d)&&s.sources.some(x=>x.id===d.sourceId&&x.status==='active'));
+ const available=documentHeads(s.documents).filter(d=>canRead(s,a,d)&&currentEvidenceLineage(s,d)&&slackAudienceEligible(s,c,d)&&s.sources.some(x=>x.id===d.sourceId&&x.status==='active'&&legalSourceAnswerEligible(s,a,x)));
  const terms=prompt.toLowerCase().split(/\W+/).filter(t=>t.length>3);const ranked=available.map(d=>({d,score:lexicalScore(prompt,d.title,d.body)+retrievalStrategyBoost(s,a,c,d,prompt)})).sort((x,y)=>y.score-x.score);
  const chosen=ranked.some(x=>x.score>0)?ranked.filter(x=>x.score>0).slice(0,3):ranked.length===1?ranked:[];const citations=chosen.map(({d})=>({sourceId:d.sourceId,anchor:`document:${d.id}`,quote:d.body.slice(0,700)}));
  const confirmed=s.facts.filter(f=>(f.subjectEntityId||s.entityId)===(c.subjectEntityId||s.entityId)&&factCurrentlyConfirmed(f)&&currentEvidenceLineage(s,f)&&f.reuse==='company'&&canRead(s,a,f)&&slackAudienceEligible(s,c,f)&&(!f.validUntil||Date.parse(f.validUntil)>Date.now()));

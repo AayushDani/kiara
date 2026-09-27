@@ -44,7 +44,7 @@ export async function reconcileEffect(tenantId:string,actionId:string,options:{a
  if(i.status==='verified'&&adapter.effect!=='email')return view(i);
  if((i.status==='prepared'||i.status==='dispatched')&&Date.parse(i.leaseUntil||'')>Date.now())return view(i);
  if(i.status==='prepared')return fail(tenantId,actionId,new V2Error('EFFECT_NOT_DISPATCHED','The interrupted prepared intent did not dispatch.'),false);
- if(options.candidateReceipt){ensure(adapter.effect==='email'&&(!i.providerReceipt||i.providerReceipt===options.candidateReceipt)&&options.candidateReceipt.length<200,'PROVIDER_RECEIPT_CONFLICT','The candidate receipt cannot replace a retained provider identity.');}
+ if(options.candidateReceipt){ensure(!!i.providerReceipt,'PROVIDER_RECEIPT_UNCORRELATED','A provider ID from an unknown send needs independent correlation before read-back.');ensure(adapter.effect==='email'&&i.providerReceipt===options.candidateReceipt&&options.candidateReceipt.length<200,'PROVIDER_RECEIPT_CONFLICT','The candidate receipt cannot replace a retained provider identity.');}
  let result;try{result=await bounded(adapter.readback(request(i),options.candidateReceipt||i.providerReceipt),20000);}catch{return fail(tenantId,actionId,new V2Error('READBACK_UNAVAILABLE','Read-back is unavailable; no resend is authorized.'),true);}
  if(options.candidateReceipt)ensure(result.reason!=='READBACK_MISMATCH','PROVIDER_RECEIPT_MISMATCH','The candidate receipt does not match this effect identity and exact payload.');
  return (await transactWorkspace(tenantId,s=>{
@@ -63,7 +63,7 @@ export async function reconcileEffect(tenantId:string,actionId:string,options:{a
  })).result;
 }
 
-/** An operator-supplied ID is accepted only after provider read-back binds exact effect tags and bytes. */
+/** Read-back only accepts an ID already captured by the original dispatch response. */
 export async function reconcileAction(actor:ActorContext,actionId:string,input:{expectedVersion:number;contentHash:string;providerReceipt?:string;adapter?:ExecutionAdapter}){
  const state=await readWorkspace(actor.tenantId),action=readRecord(state,actor,state.actions,actionId);requireRole(state,actor,action.kind==='signature_request'?'signatory':action.kind==='no_action'?'business_owner':'publisher',action);ensure(action.version===input.expectedVersion&&action.contentHash===input.contentHash,'STALE_ACTION','Refresh the current effect before reconciling.');return reconcileEffect(actor.tenantId,actionId,{adapter:input.adapter,candidateReceipt:input.providerReceipt});
 }

@@ -3,7 +3,7 @@ import {mkdir,open,readFile,link,rm} from 'node:fs/promises';
 import {join,dirname} from 'node:path';
 import {V2Error} from './contracts';
 
-export interface OriginalReference {key:string;sha256:string;bytes:number;encryption:'aes-256-gcm'|'aws-kms';storage:'local_encrypted'|'s3_kms';keyId:string;versionId?:string}
+export interface OriginalReference {key:string;sha256:string;bytes:number;encryption:'aes-256-gcm'|'aws-kms';storage:'local_encrypted'|'mongo_encrypted'|'s3_kms';keyId:string;versionId?:string}
 const sha=(data:string|Uint8Array)=>createHash('sha256').update(data).digest('hex');
 const root=()=>process.env.KIARA_ORIGINALS_DIR||join(process.env.KIARA_V2_DATA_DIR||process.env.KIARA_DATA_DIR||join(process.cwd(),'.kiara'),'originals');
 async function syncDirectory(path:string){const directory=await open(path,'r');try{await directory.sync();}finally{await directory.close();}}
@@ -17,8 +17,10 @@ async function encryptionKey(){
 }
 /** Local encrypted adapter. Managed object-storage deployment is a separate qualification. */
 export async function retainOriginal(tenantId:string,bytes:Uint8Array):Promise<OriginalReference>{
- if(process.env.KIARA_ORIGINALS_MODE==='s3_kms')return (await import('./s3-originals')).retainS3Original(tenantId,bytes);
- if(process.env.KIARA_ORIGINALS_MODE&&process.env.KIARA_ORIGINALS_MODE!=='local_encrypted')throw new V2Error('OBJECT_STORE_NOT_CONFIGURED','Choose a supported original-storage mode.',503);
+ const mode=process.env.KIARA_ORIGINALS_MODE||(process.env.MONGODB_URI?'mongo_encrypted':'local_encrypted');
+ if(mode==='mongo_encrypted')return (await import('./mongo-originals')).retainMongoOriginal(tenantId,bytes);
+ if(mode==='s3_kms')return (await import('./s3-originals')).retainS3Original(tenantId,bytes);
+ if(mode!=='local_encrypted')throw new V2Error('OBJECT_STORE_NOT_CONFIGURED','Choose a supported original-storage mode.',503);
  if(!tenantId||bytes.byteLength>20_000_000)throw new V2Error('ORIGINAL_CAPACITY','An authenticated tenant and source below 20 MB are required.',413);
  if(process.env.VERCEL)throw new V2Error('OBJECT_STORE_REQUIRED','Configure a durable managed original-storage adapter; ephemeral local storage is not sufficient.',503);
  const key=await encryptionKey(),contentHash=sha(bytes),tenantHash=sha(tenantId),keyId=sha(key).slice(0,16),objectKey=`${tenantHash}/${contentHash}/${keyId}`;
@@ -34,7 +36,9 @@ export async function retainOriginal(tenantId:string,bytes:Uint8Array):Promise<O
  const reference:OriginalReference={key:objectKey,sha256:contentHash,bytes:bytes.byteLength,encryption:'aes-256-gcm',storage:'local_encrypted',keyId};await readOriginal(tenantId,reference);return reference;
 }
 export async function readOriginal(tenantId:string,reference:OriginalReference):Promise<Buffer>{
+ if(reference.storage==='mongo_encrypted')return (await import('./mongo-originals')).readMongoOriginal(tenantId,reference);
  if(reference.storage==='s3_kms')return (await import('./s3-originals')).readS3Original(tenantId,reference);
+ if(reference.storage!=='local_encrypted')throw new V2Error('ORIGINAL_SCOPE','Unknown original storage mode.',403);
  const tenantHash=sha(tenantId);
  if(!/^[a-f0-9]{64}\/[a-f0-9]{64}(?:\/[a-f0-9]{16})?$/.test(reference.key)||!reference.key.startsWith(tenantHash+'/')||reference.key.split('/')[1]!==reference.sha256||(reference.key.split('/').length===3&&reference.key.split('/')[2]!==reference.keyId))throw new V2Error('ORIGINAL_SCOPE','The original belongs to another scope.',403);
  const key=await encryptionKey(),envelope=JSON.parse(await readFile(join(root(),reference.key+'.json'),'utf8'));
@@ -44,6 +48,7 @@ export async function readOriginal(tenantId:string,reference:OriginalReference):
 
 /** Only the retention worker calls this after committing an object-reference deletion fence. */
 export async function purgeOriginal(tenantId:string,reference:OriginalReference):Promise<void>{
+ if(reference.storage==='mongo_encrypted')return (await import('./mongo-originals')).purgeMongoOriginal(tenantId,reference);
  if(reference.storage==='s3_kms')return (await import('./s3-originals')).purgeS3Original(tenantId,reference);
  const tenantHash=sha(tenantId);
  if(reference.storage!=='local_encrypted'||!/^[a-f0-9]{64}\/[a-f0-9]{64}(?:\/[a-f0-9]{16})?$/.test(reference.key)||!reference.key.startsWith(tenantHash+'/')||reference.key.split('/')[1]!==reference.sha256||(reference.key.split('/').length===3&&reference.key.split('/')[2]!==reference.keyId))throw new V2Error('ORIGINAL_SCOPE','Original deletion identity is outside this tenant.',403);

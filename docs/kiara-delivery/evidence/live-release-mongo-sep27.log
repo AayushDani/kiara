@@ -1,0 +1,14 @@
+✔ real aggregate CAS, interrupted migration resume, normalized transactions and current-state rollback preserve durable effects (3022.458583ms)
+✔ real concurrent empty-tenant aggregate and normalized bootstraps commit only one owner (98.269334ms)
+✔ real index transactions permanently fence deletion including a writer paused after its snapshot read (69.485958ms)
+✔ real historical generations, migration backups and frozen aggregate erase payload and replay after client restart (623.164416ms)
+✔ encrypted Mongo originals survive exact readback, duplicate intake and restart; deletion fences concurrent reuse (369.847417ms)
+MONGO_QUALIFICATION_EVIDENCE {"database":"kiara_qualification_f58ced4f224e4dcc9a847da261ae8ccc","uri":"mongodb://127.0.0.1:27931/?replicaSet=kiaraQualification","mongodbVersion":"8.0.32","binarySha256Verified":false,"node":"v24.19.0","applicationProcessRestartTested":true,"serverRestartTested":false,"atlasSearchTested":false,"providersCalled":0,"databaseDropped":true}
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4826.875

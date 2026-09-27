@@ -24,7 +24,7 @@ test('v2 local sessions are signed, origin bound, role limited and explicitly si
 for(const returnTo of ['/','/review/attention','/?matter=123e4567-e89b-12d3-a456-426614174000'])test(`organization browser sign-in binds code, state, PKCE, nonce and provisioned membership for ${returnTo}`,async()=>{
  const before={...process.env},dir=await mkdtemp(join(tmpdir(),'kiara-oidc-browser-'));await closeV2Store();
  try{
-  Object.assign(process.env,{KIARA_V2_DATA_DIR:dir,KIARA_V2_AUTH_MODE:'oidc',KIARA_PUBLIC_ORIGIN:'https://kiara.example',KIARA_OIDC_ISSUER:'https://identity.example',KIARA_OIDC_CLIENT_ID:'kiara-client',KIARA_SESSION_SECRET:'s'.repeat(48),KIARA_OIDC_IDENTITIES:JSON.stringify([{subject:'user-1',tenantId:'tenant-a',actorId:'actor-a'}])});delete process.env.MONGODB_URI;delete process.env.KIARA_OIDC_CLIENT_SECRET;
+  Object.assign(process.env,{KIARA_V2_DATA_DIR:dir,KIARA_V2_AUTH_MODE:'oidc',KIARA_OIDC_IDENTITY_SOURCE:'fixture_env',KIARA_PUBLIC_ORIGIN:'https://kiara.example',KIARA_OIDC_ISSUER:'https://identity.example',KIARA_OIDC_CLIENT_ID:'kiara-client',KIARA_SESSION_SECRET:'s'.repeat(48),KIARA_OIDC_IDENTITIES:JSON.stringify([{subject:'user-1',tenantId:'tenant-a',actorId:'actor-a'}])});delete process.env.MONGODB_URI;delete process.env.KIARA_OIDC_CLIENT_SECRET;
   await transactWorkspace('tenant-a',s=>{s.memberships.push({actorId:'actor-a',roles:['member'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null});});
   const {privateKey,publicKey}=generateKeyPairSync('rsa',{modulusLength:2048});let nonce='',wrongNonce=false,used=false;let challenge='';const now=Math.floor(Date.now()/1000);
   const token=()=>{const header=Buffer.from(JSON.stringify({alg:'RS256',kid:'key-1'})).toString('base64url');const claims=Buffer.from(JSON.stringify({iss:'https://identity.example',aud:'kiara-client',sub:'user-1',iat:now,exp:now+600,nonce:wrongNonce?'foreign-attempt':nonce})).toString('base64url');return `${header}.${claims}.${sign('RSA-SHA256',Buffer.from(`${header}.${claims}`),privateKey).toString('base64url')}`;};
@@ -36,21 +36,23 @@ for(const returnTo of ['/','/review/attention','/?matter=123e4567-e89b-12d3-a456
   await assert.rejects(completeOidcSignIn(new Request(callback.url.replace('state=','state=forged'),{headers:callback.headers}),provider),/does not match/);assert.equal(used,false);
   wrongNonce=true;await assert.rejects(completeOidcSignIn(callback,provider),/sign-in attempt/);used=false;wrongNonce=false;
   const result=await completeOidcSignIn(callback,provider);assert.equal(result.location,'https://kiara.example'+returnTo);assert.equal(result.session.actor.actorId,'actor-a');assert.equal(result.session.actor.bootstrapRoles,undefined);assert.match(result.cookie,/SameSite=Strict/);
+  const signedRequest=new Request('https://kiara.example/api/v2/workspace',{headers:{cookie:result.cookie.split(';')[0]}});assert.equal((await authenticateV2(signedRequest)).session.actor.actorId,'actor-a');
   await assert.rejects(completeOidcSignIn(callback,provider),/could not complete/);
-  used=false;await transactWorkspace('tenant-a',s=>{s.memberships[0].revokedAt=new Date().toISOString();});await assert.rejects(completeOidcSignIn(callback,provider),/membership/);
+  used=false;await transactWorkspace('tenant-a',s=>{s.memberships[0].revokedAt=new Date().toISOString();});await assert.rejects(authenticateV2(signedRequest),/membership/);await assert.rejects(completeOidcSignIn(callback,provider),/membership/);
   await assert.rejects(startOidcSignIn(new Request('https://evil.example/api/v2/auth/start'),provider),/configured application origin/);
  }finally{await closeV2Store();for(const key of Object.keys(process.env))if(!(key in before))delete process.env[key];Object.assign(process.env,before);await rm(dir,{recursive:true,force:true});}
 });
 
 test('OIDC identity verification rejects forged tokens, wrong audience, expiry and unmapped subjects',async()=>{
- const before={...process.env};
+ const before={...process.env},dir=await mkdtemp(join(tmpdir(),'kiara-oidc-claims-'));await closeV2Store();
  try{
-  process.env.KIARA_OIDC_ISSUER='https://identity.example';process.env.KIARA_OIDC_CLIENT_ID='kiara-client';process.env.KIARA_OIDC_IDENTITIES=JSON.stringify([{subject:'user-1',tenantId:'tenant-a',actorId:'actor-a'}]);
+  process.env.KIARA_V2_DATA_DIR=dir;process.env.KIARA_OIDC_IDENTITY_SOURCE='fixture_env';delete process.env.MONGODB_URI;process.env.KIARA_OIDC_ISSUER='https://identity.example';process.env.KIARA_OIDC_CLIENT_ID='kiara-client';process.env.KIARA_OIDC_IDENTITIES=JSON.stringify([{subject:'user-1',tenantId:'tenant-a',actorId:'actor-a'}]);
+  await transactWorkspace('tenant-a',s=>{s.memberships.push({actorId:'actor-a',roles:['member'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null});});
   const {privateKey,publicKey}=generateKeyPairSync('rsa',{modulusLength:2048});const now=Math.floor(Date.now()/1000);
   const make=(changes:Record<string,unknown>={})=>{const header=Buffer.from(JSON.stringify({alg:'RS256',kid:'key-1'})).toString('base64url');const claims=Buffer.from(JSON.stringify({iss:'https://identity.example',aud:'kiara-client',sub:'user-1',iat:now,exp:now+600,roles:['admin'],...changes})).toString('base64url');return `${header}.${claims}.${sign('RSA-SHA256',Buffer.from(`${header}.${claims}`),privateKey).toString('base64url')}`;};
   const provider:typeof fetch=async input=>new Response(JSON.stringify(String(input).includes('openid-configuration')?{issuer:'https://identity.example',jwks_uri:'https://identity.example/keys'}:{keys:[{...publicKey.export({format:'jwk'}),kid:'key-1',use:'sig'}]}),{status:200});
   const identity=await verifyOidcToken(make(),provider);assert.equal(identity.actor.actorId,'actor-a');assert.equal(identity.actor.tenantId,'tenant-a');assert.equal(identity.actor.bootstrapRoles,undefined,'Token roles cannot create authority');
   for(const change of [{aud:'another-client'},{exp:now-1},{iss:'https://evil.example'},{aud:['kiara-client','other'],azp:'other'},{sub:'unknown-user'}])await assert.rejects(verifyOidcToken(make(change),provider));
   const token=make();await assert.rejects(verifyOidcToken(token.slice(0,token.lastIndexOf('.')+1)+'forged',provider),/signature/);
- }finally{for(const key of Object.keys(process.env))if(!(key in before))delete process.env[key];Object.assign(process.env,before);}
+ }finally{await closeV2Store();for(const key of Object.keys(process.env))if(!(key in before))delete process.env[key];Object.assign(process.env,before);await rm(dir,{recursive:true,force:true});}
 });
