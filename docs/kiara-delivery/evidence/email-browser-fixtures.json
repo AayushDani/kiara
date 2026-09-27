@@ -1,0 +1,31 @@
+{
+  "dataDir": "/private/tmp/kiara-v2-development-3091/v2",
+  "originalsDir": "/private/tmp/kiara-v2-development-3091/originals",
+  "environmentFile": "/private/tmp/kiara-v2-development-3091/v2/email-ui-environment.json",
+  "installationFile": "/private/tmp/kiara-v2-development-3091/v2/email-ui-installations.json",
+  "providerCalls": 0,
+  "fixtures": [
+    {
+      "label": "accept evidence",
+      "intakeId": "7529d28e22b21ea719f365441de93f3a30b9b23666885b4c5b226f0a463a04f0",
+      "status": "quarantined",
+      "failureCode": null,
+      "sourceId": "e2324294-663b-4c2b-91fc-ccdb295ca504",
+      "sourceVersion": 1,
+      "sourceHash": "1c151e8fda95c5e955dc7f4bee114abb6984bd97f37c7f8f1ac54f1e56c8a140",
+      "receiptHash": "4e074d69f9c5f2a78591b634cf0035ca321d3be5650b8fd4420c84573e7e9c44",
+      "title": "Synthetic quarantine — accept evidence"
+    },
+    {
+      "label": "reject evidence",
+      "intakeId": "de981126f60541d93c3dea05be2afad59c83c02ddd0b3bd9940c90b3fd320907",
+      "status": "quarantined",
+      "failureCode": null,
+      "sourceId": "825ddcb7-20cb-4806-87f9-2b2d6d4dbbd7",
+      "sourceVersion": 1,
+      "sourceHash": "2f9b496fae68ec290b4add0767845daf2c21cbf4d94d7f30946da229e8de0695",
+      "receiptHash": "a1042328acc82f3889452470e694a8db7aa950a8a90e7210ddda45631224a510",
+      "title": "Synthetic quarantine — reject evidence"
+    }
+  ]
+}

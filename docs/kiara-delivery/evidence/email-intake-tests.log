@@ -1,0 +1,16 @@
+✔ receiving signature, alias and stable provider identity precede any account read or durable source (65.775875ms)
+✔ configured authenticated sender admits private unknown-authority evidence with exact tracked original and no action (137.81475ms)
+✔ unknown sender stays outside retrieval until exact authenticated owner review; another admin cannot accept (175.651875ms)
+✔ copied forwarding identity, missing provider authentication and HTML-only bodies cannot auto-admit (309.415333ms)
+✔ unselected raw origin and receiving alias fail closed without downloading or attaching source (114.053375ms)
+✔ owner membership change during provider read prevents retained intake attachment and source eligibility (85.118875ms)
+✔ concurrent workers share one read lease and deletion prevents readback replay from restoring retained email (159.007583ms)
+✔ installation and alias selection revocation immediately hide retained email from snapshot and reuse (121.74725ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1926.90275

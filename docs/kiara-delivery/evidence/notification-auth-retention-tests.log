@@ -1,0 +1,26 @@
+✔ v2 local sessions are signed, origin bound, role limited and explicitly simulated (13.097791ms)
+✔ organization browser sign-in binds code, state, PKCE, nonce and provisioned membership for / (83.037291ms)
+✔ organization browser sign-in binds code, state, PKCE, nonce and provisioned membership for /review/attention (63.086167ms)
+✔ OIDC identity verification rejects forged tokens, wrong audience, expiry and unmapped subjects (37.364875ms)
+✔ deletion erases useful-output and strategy payloads without replacing the original first-useful receipt (14.250417ms)
+✔ email is off until exact configured recipient opt-in; malformed and conflicting grants are unavailable (88.841042ms)
+✔ required email contains only generic authenticated link; exact provider read-back distinguishes delivered (181.38725ms)
+✔ semantic dedup ignores unrelated versions but changed required conditions produce a new notice (303.136708ms)
+✔ digest dedup is once per local calendar day despite changes in item membership (199.438875ms)
+✔ quiet hours defer digest while required escalation can pass (172.08175ms)
+✔ preview and provider acceptance are never reported as verified delivery (97.062166ms)
+✔ a lost POST response stays unknown across retry and accepts only exact read-back (136.769084ms)
+✔ concurrent workers send once and a late acceptance survives expired-lease recovery (191.475ms)
+✔ membership, source condition and opt-out changes stop a prepared send at final admission (164.327875ms)
+✔ acknowledged work and revoked membership cannot trigger prepared email (178.20725ms)
+✔ accepted receipt requires matching provider bytes, and another actor cannot reconcile it (149.144125ms)
+✔ explicit reenrollment can prepare a canceled unsent condition without retrying an uncertain dispatch (196.462416ms)
+✔ membership change immediately before dispatch cancels the prepared notification (143.995666ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3268.16875

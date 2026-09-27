@@ -1,0 +1,63 @@
+✔ counsel intake, fee approval and exact packet sharing are separate recorded decisions (994.830166ms)
+✔ source, recipient membership, explicit revoke and expiry immediately withdraw granted records (2219.176541ms)
+✔ counsel returned edits preserve original proposal and require new exact decisions (766.13425ms)
+✔ escalation invalidates prior engagement and access; referral stays unavailable; terminal work cannot revive (832.143ms)
+✔ sharing an older packet cannot disclose newly revised proposal bytes or added matter tasks (1193.229041ms)
+✔ counsel sharing rejects expired, future and malformed bound facts even when versions match (1782.494541ms)
+✔ approved template uses only confirmed mapped fields, remains proposed, accepts once as a new document (851.449459ms)
+✔ unapproved uploaded template and assumed conversation fields cannot qualify (344.2275ms)
+✔ field correction and expired or revoked template approval invalidate acceptance (834.677833ms)
+✔ make it shorter uses full exact selected draft, produces reviewable model proposal, and does not replay generation (827.176666ms)
+✔ source instruction cannot introduce commands; invented citation fails before independent review (532.370417ms)
+✔ source revocation while model awaits prevents attaching a draft; charged result remains accounted (582.196292ms)
+✔ signed original gets a separate proposed amendment and current selection changes reject stale draft intent (839.509917ms)
+✔ accepted work plan creates owned typed tasks; unrelated fact cannot satisfy named task (1525.614708ms)
+✔ standing route permits only current exact internal preparation; business and publisher authorization still required (1191.555459ms)
+✔ local semantic edit is explicit unavailable and selecting another current document cancels pending model intent (549.256583ms)
+✔ source deletion erases derived template and draft payloads while preserving decision identity (702.535458ms)
+✔ bounded draft requests cannot spend beyond the configured shared ceiling (322.320541ms)
+✔ standing internal execution retains exact encrypted bytes once without a per-document legal decision (755.324459ms)
+✔ standing policy expiry during asynchronous preparation blocks final broker dispatch (752.354417ms)
+✔ date mappings reject impossible calendar dates rather than inserting regex-shaped values (382.174375ms)
+✔ a completed semantic proposal cannot be accepted after supplemental document evidence changes (641.71875ms)
+✔ accepted objective and completed-task lineage survive an empty retrieval ranking and adoption (16.078958ms)
+✔ unranked accepted-basis source revision invalidates the packet before further model work (2.474583ms)
+✔ a source audience narrowed after preparation invalidates frozen task text despite owner read access (0.283417ms)
+✔ named counsel may attest only the exact shared substantive legal task; changed work requires renewed packet access (918.841333ms)
+✔ accepted plan prepares objective-specific scoped artifact, adopts exact contents once and retains review/factual gates (1725.664459ms)
+✔ preparation does not send private supplementary material to a team-scoped artifact model (1332.856875ms)
+✔ changed task intent or canceled matter during model await cannot attach a prepared artifact (1269.392958ms)
+✔ completed preparation rejects later objective changes and source withdrawal before adoption (1555.812584ms)
+✔ local mode never substitutes a generic packet for accepted model work (797.586333ms)
+✔ exact audience coverage remains current while broader private coverage is omitted explicitly (1739.683041ms)
+✔ source deletion scrubs frozen matter preparation text from draft and provider run receipts (1070.89325ms)
+✖ proposal approvals satisfy only review gates; substantive work requires owned source-backed completion (1344.010417ms)
+✔ an effect created without mutating the matter still blocks final prepared adoption (940.738959ms)
+✔ main snapshots hide child text when its conversation or matter is inaccessible (600.235291ms)
+ℹ tests 36
+ℹ suites 0
+ℹ pass 35
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13411.231625
+
+✖ failing tests:
+
+test at tests/v2-matter-preparation.test.ts:1:10220
+✖ proposal approvals satisfy only review gates; substantive work requires owned source-backed completion (1344.010417ms)
+  Error [V2Error]: Inspect the exact current evidence and its dependency versions before attesting completion.
+      at need (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/tasks.ts:19:65)
+      at completeMatterTask (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/tasks.ts:22:96)
+      at applyCommand (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:90:52)
+      at <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:86:949)
+      at apply (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:36:83)
+      at transactWorkspace (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:38:57)
+      at async command (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:86:29)
+      at async TestContext.<anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-matter-preparation.test.ts:34:1947)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    code: 'TASK_EVIDENCE_CHANGED',
+    status: 409
+  }

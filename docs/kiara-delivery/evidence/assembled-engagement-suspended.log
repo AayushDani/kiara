@@ -1,0 +1,1028 @@
+
+> kiara@0.1.0 test
+> node --import tsx --test tests/*.test.ts tests/ui/*.test.ts tests/v2-regressions/*.test.ts
+
+✔ protected strategy catalog rejects arbitrary prompts, code, budgets, source or approval changes (1.202084ms)
+✔ scripted examples do not manufacture adaptation evidence or promote a prefetch flag (4154.841458ms)
+✔ genuine failure categories freeze independent company/document cases and deduplicate automatically (5714.674667ms)
+✔ missing credentials leave durable blocked evaluation, zero trials and unchanged champion (3929.715791ms)
+✔ in-process six-trial evaluator isolates state and never labels injected successes as live promotion (1880059.405583ms)
+✔ promotion gates require measured gain, no unseen regression, cost and latency ceilings, provider records (4693.263542ms)
+✔ founder corrections and lawyer notes produce distinct bounded strategies without executing feedback text (910434.499875ms)
+✔ concurrent workers dispatch one lease and a lost provider result terminates further spending (998273.086916ms)
+✔ rollback restores evaluated parent, increments generation, and preserves in-flight pins and history (814928.822792ms)
+✔ unverified fact notes do not become facts or improvement instructions, and protected input changes cancel without calls (10882.138833ms)
+✔ daily admission cap and promotion recursion depth cannot be overridden by a trigger (6063.961958ms)
+✔ proposal agent uses constrained provider output, hides heldouts, and rejects protected mutations (3365.213334ms)
+✔ local evaluator identity changes with runtime source and hosted identity requires a deployment commit (379.933792ms)
+✔ observed draft plus three complete checks and two checked repairs fit finite window without raising money limits (5.3525ms)
+✔ every repair reserves complete checker input/output/cost and request slots before dispatch (2.894042ms)
+✔ review planning cannot change hard dollar ceilings or inject unbounded planning values (1.780791ms)
+✔ supplied context is versioned, attributed, idempotent and cannot be silently replaced during review (339.945708ms)
+✔ context intake rejects duplicate facts, malformed prior document and absent provenance (6.718208ms)
+✔ shared operator cap atomically admits at most two concurrent visitors and survives process boundaries (2094.823417ms)
+✔ settled IDs cannot dispatch twice, repeat exact settlement is safe, and history cannot lower a charge (116.285125ms)
+✔ unknown provider charges retain unused reservation and block all visitors until explicit reconciliation (129.903375ms)
+✔ usage above reservation is auditable and closes all further spending (105.561417ms)
+✔ actual usage can settle after authorization is disabled but no new dispatch can reserve (149.455084ms)
+✔ micro-dollar accounting cannot round a small reservation down through the cap (145.587291ms)
+✔ new visitor workspaces cannot reset the shared request rate ceiling (3891.959708ms)
+✔ invalid reservations, settlements, authorization and hosted ephemeral storage fail before dispatch (13.16225ms)
+✔ operator full-ceiling accounting preserves unknown history and hard cap while releasing independent work (726.7745ms)
+✔ operator coverage fails closed on wrong ceilings and late higher usage (1256.186416ms)
+✔ pre-dispatch recovery retires missing reservation identities before a delayed writer resumes (1114.015542ms)
+✔ missing dispatched reservation remains globally blocking without explicit reconciliation (279.060791ms)
+✔ hosted scheduling deduplicates starts and records the exact run (1.309208ms)
+✔ new deployment fences old claims but waits for its dispatched step to settle (0.491167ms)
+✔ completed workers can restart and crashed starts recover after a bounded wait (0.121542ms)
+✔ new epoch cannot inherit a worker ticket (0.052625ms)
+▶ hosted login and durable worker preserve protected review gates
+  ✔ no automatic remote identity; login requires the matching password and origin (7.998292ms)
+  ✔ an authenticated founder cannot switch to lawyer without signing in (57.254292ms)
+  ✔ worker drains, pauses at review, resumes the queue, and fences old generations (8645.676208ms)
+  ✔ missing Atlas configuration on Vercel fails closed (0.281958ms)
+✔ hosted login and durable worker preserve protected review gates (9042.761542ms)
+✔ recovery propagates a crashed dispatched attempt to the shared unknown-charge fence (1471.202917ms)
+✔ recovery releases a crashed pre-dispatch shared reservation without inventing a provider charge (1527.964ms)
+✔ durable worker remains alive until a crashed model lease expires and stops after unknown-charge recovery (4292.337041ms)
+✔ local workspaces cannot overwrite one another through cookies shared across localhost ports (84.789083ms)
+✔ new model and human facts remain untrusted until founder verification; all prior context is retained (4119.743375ms)
+✔ new fact values cannot bypass key, size, nesting, or count limits (0.412ms)
+✔ new public demo preserves old audit and global spend while enforcing auth, CSRF and active-charge gates (2121.585625ms)
+✔ preview is durable and never grants lawyer approval (4251.443042ms)
+✔ a changed review bundle cancels its old queued notification (1856.87525ms)
+✔ expired send is unknown, blocks blind retry and preserves the provider key (891.943625ms)
+✔ webhook rejects requests when signature configuration is absent (31.690667ms)
+▶ persistence: deterministic baseline, atomic transactions, fences and physical records
+  ✔ baseline is deterministic and seed twice is a byte-identical no-op (877.157916ms)
+  ✔ an exception or async callback cannot commit a partial write (80.964917ms)
+  ✔ tenant injection, stale epoch and stale CAS are rejected (342.900958ms)
+  ✔ immutable revision edits fail; appending a new sealed revision succeeds (106.425875ms)
+  ✔ concurrent independent processes do not lose increments (10452.340875ms)
+  ✔ dead-owner lock recovers without manual data deletion (299.176042ms)
+  ✔ CA event produces scoped customer, context and durable dispatch rows (181.011125ms)
+  ✔ reset retains evaluation campaign reservations and unknown charges (930.620125ms)
+  ✔ reset blocks unknown charges and preserves a surviving monotonic guard (613.564625ms)
+✔ persistence: deterministic baseline, atomic transactions, fences and physical records (13925.805708ms)
+▶ public visitors have isolated, repeatable demos without passwords
+  ✔ public bootstrap isolates signed sessions and refuses unscoped access (267.584541ms)
+  ✔ role switching is self-service but review order is still required (5464.055084ms)
+  ✔ final lawyer approval retains the completed run and isolates visitor history (823.163084ms)
+  ✔ manual reset works in lawyer role and old requests cannot revive cleared data (194.102292ms)
+  ✔ public mode fails closed if paid generation or delivery is enabled (0.360458ms)
+✔ public visitors have isolated, repeatable demos without passwords (7416.41425ms)
+✔ F16 numeric local Host reconciles framework URL normalization without trusting forwarded hosts (29.061458ms)
+✔ review regression: unresolved model charges survive human-edit validation (3227.558417ms)
+✔ review: authenticated early delivery receipts reconcile once when the send response arrives (2295.018791ms)
+✔ review regression: verified company facts preserve signup-specific provenance (1135.059541ms)
+✔ review regression: changed input can start a new settled model ledger (904952.202625ms)
+✔ review regression: scripted document edits cannot contradict an explicit no-sale fact (974134.533625ms)
+[Resend API Error]: {
+  error: {
+    name: 'application_error',
+    statusCode: null,
+    message: 'Unable to fetch data. The request could not be resolved.'
+  },
+  path: '/emails'
+}
+✔ review regression: Resend SDK transport errors remain unknown delivery and block reset (2945.557542ms)
+✔ review: a later unchanged event closes only against a current sealed finalized packet (914493.627834ms)
+✔ review: scripted validation failure escalates without claiming AI repair or hiding the output (997972.200584ms)
+✔ review regression: stale document edits reject before mutation while a fresh snapshot succeeds (811849.534875ms)
+✔ review regression: a session cannot cross the reset fence while its command body is being read (1015.617042ms)
+✔ review: model fact proposals require current founder verification and retain model attribution (5843.566125ms)
+✔ review regression: founder verification of a model fact authorizes a linked run after the settled parent deadline (9611.4285ms)
+✔ eleven frozen legal cases execute with unknown/conflict preservation (17.712084ms)
+✔ actual citation span, complete evidence, clauses, unknown facts and semantic rules are validated (1699.848625ms)
+✔ live mode without credentials blocks instead of substituting the scripted revision (1224.219291ms)
+✔ timeout retains pre-dispatch reservation and prevents reset (2233.866916ms)
+✔ crashed dispatched run recovers once without replaying model or discarding charge (902560.635334ms)
+✔ budget deadline, request ceiling and unknown-charge reservation cannot reset on reuse (1285.971ms)
+✖ provider adapter exercises scoped tools, exact citations, full-law semantic hydration and immutable generated revision (973901.227459ms)
+✔ an out-of-scope model tool is blocked before it can mutate state (3067.666542ms)
+✔ verified human edit after a settled run deadline starts a linked child and retains immutable costs; automatic repair cannot rotate (5089.451084ms)
+✖ founder verification of an attributed model fact proposal authorizes a settled expired child scope without fabricating human feedback (910959.199208ms)
+✖ genuine bad output from an injected provider is recorded, repaired with failure feedback, and produces correlated audit records (1803947.963167ms)
+✔ unparseable provider output stops at the protected repair limit without saving a placeholder candidate (11283.376833ms)
+✔ oversized legal retrieval produces a scoped tool error that the agent can correct within the same budget (10778.07175ms)
+✔ frozen evaluation runs semantic repair and retains full audit without mutating the supplied state or live store (1645.725583ms)
+✔ explicit total spending authorization includes evaluation reservations and never exposes credentials (1287.51225ms)
+✔ acceptance fault injection is rejected outside an explicitly enabled local test before any provider request (1069.326167ms)
+✔ provider billing failures retain safe actionable codes without retaining raw error messages (2185.470041ms)
+✔ recovery retries a persisted unknown attempt even after its workflow was already blocked (935051.579542ms)
+✔ explicit founder retry of a settled billing rejection starts a linked run and preserves prior attempts (3276.407292ms)
+✔ rate backoff accepts only explicit rate rejections, caps safe headers, and preserves the absolute deadline (2.766709ms)
+✔ two explicit rate rejections retry the exact request with distinct settled reservations and audited waits (6041.417292ms)
+✔ repeated rate rejections stop after two retries and never extend the run deadline (3275.054958ms)
+✔ test retry wait overrides cannot bypass a real provider delay (853.293958ms)
+✔ exact legal search computes UTF-16 offsets from pinned text and authorizes only three returned matches (2501.875875ms)
+✔ semantic document delta reconstructs all business/legal text and preserves selected citation support bindings (788.486834ms)
+✔ semantic packing counts complete balanced batches once, merges when possible, and never omits text (25.0715ms)
+✔ semantic packing refuses one oversized complete authority instead of truncating it (17.021834ms)
+✔ retrieval rate retries cannot consume the final proposal-emission slot (192173.441416ms)
+✔ numeric provider rate diagnostics exclude raw messages, identifiers and unknown headers (7.136041ms)
+✔ legal citation chunks preserve literal text, surrogate offsets and explicit capacity continuations (2.743458ms)
+✔ incomplete paid-shaped output retains partial bytes and allows only explicit settled founder retry (7541.699333ms)
+✖ repair rate retries preserve all three independent checker slots (1005000.473709ms)
+✔ checker capacity failure retains the unaccepted proposal and founder retry validates it without redrafting (5181.139458ms)
+✔ opaque citation IDs resolve only exact returned source chunks and reject guessed or changed evidence (2.763875ms)
+✖ provider-selected citation IDs become exact audited citations without model-copied offsets or quotes (464502.977792ms)
+▶ security: HTTP permissions and persisted human-review guards
+  ✔ rejects client identity injection, unexpected fields, bad CSRF and cross-origin actions (17.848ms)
+  ✔ lawyer cannot inject company signup (5.475583ms)
+  ✔ lawyer-first, stale state and stale bundle approvals are rejected (251.816125ms)
+  ✔ source integrity changes invalidate an otherwise matching approval (75.048209ms)
+  ✔ replayed same approval does not add another decision (4.274417ms)
+  ✔ old notification is canceled after new feedback changes its sealed bundle (651.414416ms)
+  ✔ malformed business facts cannot be promoted to verified known facts (318.48675ms)
+  ✔ applicability fails closed when a required boolean has invalid type (9.748209ms)
+  ✔ old session and stale reset command cannot mutate a new epoch (230.832792ms)
+✔ security: HTTP permissions and persisted human-review guards (3384.619916ms)
+✔ empty and reset workspaces do not invent execution or approval activity (1.946542ms)
+✔ stage progression follows saved workflow state rather than elapsed time (0.237125ms)
+✔ fact correction restarts progress despite retained historical assessment, checks, and approvals (0.354083ms)
+✔ retrieval repairs and proposal repairs stay attached to the checkpoint that failed (0.058958ms)
+✔ non-citation validation failures are not described as citation repairs (0.115083ms)
+✔ only approvals for the current sealed packet can complete the human checkpoint (2.353666ms)
+✔ no-change decisions skip drafting and approvals instead of fabricating successful reviews (0.309833ms)
+✔ information and failed-check pauses block the relevant checkpoint (0.0725ms)
+✔ requested changes to a sealed packet pause human review without inventing a validation failure (0.068541ms)
+✔ snapshot identifies the harness pinned to the run even after champion promotion (0.272917ms)
+✔ redline comparison retains every original and proposed clause with exact full text (0.57675ms)
+✔ removals and heading-only edits cannot disappear from the redline (0.078292ms)
+✔ empty and missing revisions remain honest instead of inventing policy text (0.1855ms)
+✔ unknown facts stay distinct from false and zero (15.205542ms)
+✔ client surfaces actionable structured API errors without coercing objects (0.598542ms)
+✔ a review preview cannot follow a newly polled proposal or lost access (0.338834ms)
+✔ an action preview rejects changed recipients/content, dispatch and withdrawn access (0.06425ms)
+✔ a counsel decision rejects changed scope, recipient, lifecycle or withdrawn access (0.051791ms)
+
+Interrupted while running:
+
+⚠ tests/v2-ai.test.ts (tests/v2-ai.test.ts:1:1)
+⚠ tests/v2-attention-regressions.test.ts (tests/v2-attention-regressions.test.ts:1:1)
+⚠ tests/v2-attention.test.ts (tests/v2-attention.test.ts:1:1)
+⚠ tests/v2-auth.test.ts (tests/v2-auth.test.ts:1:1)
+⚠ tests/v2-collaboration.test.ts (tests/v2-collaboration.test.ts:1:1)
+⚠ tests/v2-company-memory.test.ts (tests/v2-company-memory.test.ts:1:1)
+⚠ tests/v2-counsel.test.ts (tests/v2-counsel.test.ts:1:1)
+⚠ tests/v2-document-files.test.ts (tests/v2-document-files.test.ts:1:1)
+⚠ tests/v2-document-lifecycle.test.ts (tests/v2-document-lifecycle.test.ts:1:1)
+⚠ tests/v2-document-routes.test.ts (tests/v2-document-routes.test.ts:1:1)
+⚠ tests/v2-drafting.test.ts (tests/v2-drafting.test.ts:1:1)
+⚠ tests/v2-email-intake.test.ts (tests/v2-email-intake.test.ts:1:1)
+⚠ tests/v2-engagement-retention.test.ts (tests/v2-engagement-retention.test.ts:1:1)
+⚠ tests/v2-execution.test.ts (tests/v2-execution.test.ts:1:1)
+⚠ tests/v2-hybrid.test.ts (tests/v2-hybrid.test.ts:1:1)
+⚠ tests/v2-index-inventory.test.ts (tests/v2-index-inventory.test.ts:1:1)
+⚠ tests/v2-integrations.test.ts (tests/v2-integrations.test.ts:1:1)
+⚠ tests/v2-learning-coverage.test.ts (tests/v2-learning-coverage.test.ts:1:1)
+⚠ tests/v2-legacy-intent.test.ts (tests/v2-legacy-intent.test.ts:1:1)
+⚠ tests/v2-legal-maintenance.test.ts (tests/v2-legal-maintenance.test.ts:1:1)
+⚠ tests/v2-legal-orchestration.test.ts (tests/v2-legal-orchestration.test.ts:1:1)
+⚠ tests/v2-matter-preparation-review.test.ts (tests/v2-matter-preparation-review.test.ts:1:1)
+⚠ tests/v2-matter-preparation.test.ts (tests/v2-matter-preparation.test.ts:1:1)
+⚠ tests/v2-migration.test.ts (tests/v2-migration.test.ts:1:1)
+⚠ tests/v2-normalized-store.test.ts (tests/v2-normalized-store.test.ts:1:1)
+⚠ tests/v2-notification-orchestration.test.ts (tests/v2-notification-orchestration.test.ts:1:1)
+⚠ tests/v2-notification-review.test.ts (tests/v2-notification-review.test.ts:1:1)
+⚠ tests/v2-notifications.test.ts (tests/v2-notifications.test.ts:1:1)
+⚠ tests/v2-operations.test.ts (tests/v2-operations.test.ts:1:1)
+⚠ tests/v2-platform.test.ts (tests/v2-platform.test.ts:1:1)
+⚠ tests/v2-recovery.test.ts (tests/v2-recovery.test.ts:1:1)
+⚠ tests/v2-regressions/legacy.test.ts (tests/v2-regressions/legacy.test.ts:1:1)
+⚠ tests/v2-retention-orchestration.test.ts (tests/v2-retention-orchestration.test.ts:1:1)
+⚠ tests/v2-retention.test.ts (tests/v2-retention.test.ts:1:1)
+⚠ tests/v2-run-control.test.ts (tests/v2-run-control.test.ts:1:1)
+⚠ tests/v2-slack-continuity.test.ts (tests/v2-slack-continuity.test.ts:1:1)
+⚠ tests/v2-slack-knowledge.test.ts (tests/v2-slack-knowledge.test.ts:1:1)
+⚠ tests/v2-source-lifecycle.test.ts (tests/v2-source-lifecycle.test.ts:1:1)
+⚠ tests/v2-source-review.test.ts (tests/v2-source-review.test.ts:1:1)
+⚠ tests/v2-source-structure.test.ts (tests/v2-source-structure.test.ts:1:1)
+⚠ tests/v2-strategies.test.ts (tests/v2-strategies.test.ts:1:1)
+⚠ tests/v2-value.test.ts (tests/v2-value.test.ts:1:1)
+⚠ tests/workflow-integrity.test.ts (tests/workflow-integrity.test.ts:1:1)
+⚠ tests/workflow.test.ts (tests/workflow.test.ts:1:1)
+✔ message acceptance is durable before model dispatch; grounded answer receipts survive replay (2919.130917ms)
+✔ same accepted message key is one durable run even after reply completion (542.7925ms)
+✔ missing provider credentials and invalid modes fail closed with retained user message (901689.5255ms)
+✔ shared spending cap prevents dispatch and is never raised by conversation processing (1411.798375ms)
+✔ provider timeout or unknown failure retains uncertain charge and forbids replay (1777.517209ms)
+✖ explicit provider rejection settles reservation without fabricating an answer (972165.863833ms)
+✔ source revoked while provider awaits cannot reach review or attach stale response (2271.390416ms)
+✔ membership revoked during final support review cannot attach answer (2854.102333ms)
+✔ unsupported citation IDs fail before support review; injection text remains untrusted with no tools (1884.10075ms)
+✔ support reviewer rejects source-injected claims even when citation identity exists (2960.799541ms)
+✔ private sources cannot enter another actor retrieval and derived output retains source ACL (906420.002291ms)
+✔ hypotheses stay isolated; inventory enumerates authorized executed agreements beyond ranking (2468.371333ms)
+✖ tests/v2-ai.test.ts (12751201.488667ms)
+✔ uncertain external effects remain required after future work is canceled, and acknowledgment never marks delivery (1150.8155ms)
+✔ accepted routing moves only factual attention; membership change returns the task and invalidates a delegated decision (1276.246125ms)
+✔ quiet hours and digest grouping apply to ordinary work, with timezone-aware next delivery (340.956916ms)
+✔ required overdue work stays visible after acknowledgment in quiet hours (321.75375ms)
+✔ dismissal requires an exact visible item and reappears after the underlying work changes (287.707125ms)
+✔ attention hides another owner’s tasks and withdrawn-source content (463.445625ms)
+✔ child effect attention cannot expose a withdrawn parent matter (219.207625ms)
+✔ stale completed work routes attention to the current delegated owner (224.562ms)
+✔ v2 local sessions are signed, origin bound, role limited and explicitly simulated (46.132208ms)
+✔ organization browser sign-in binds code, state, PKCE, nonce and provisioned membership for / (442.884167ms)
+✔ organization browser sign-in binds code, state, PKCE, nonce and provisioned membership for /review/attention (292.171125ms)
+✔ OIDC identity verification rejects forged tokens, wrong audience, expiry and unmapped subjects (13.113584ms)
+✔ selected scenario sharing discloses only inspected assumptions, never private history or origin IDs (902470.669125ms)
+✔ scenario edits immediately stale the approved frozen share instead of disclosing new text (1525.779083ms)
+✔ recipient membership revision and expiry withdraw scenario viewing (1684.555166ms)
+✔ sharing cannot promote restricted source access or use stale selections (972887.736084ms)
+✔ routing requires existing capacity, recipient acceptance and a separate grantor choice (2117.795833ms)
+✔ routing expiry derives the base owner without mutating stored task authority (1319.718541ms)
+✔ existing conversation links preserve identity and refuse private-to-team scope expansion (1603.723625ms)
+✔ source deletion redacts selected scenario sharing from current and historical records (2275.764875ms)
+✔ a business owner cannot link another user’s private conversation, even when the proposed scopes match (1079.989083ms)
+✔ declarations and candidates do not become facts; exact confirmation preserves planned status and stable subject identity (11.290709ms)
+✔ ordinary members cannot confirm identities or relationships; cross-tenant and stale intent remain blocked (0.625125ms)
+✔ nested private evidence cannot be laundered into a team relationship (0.233875ms)
+✔ changed proof or declared identity prevents stale confirmation and relationship fact reuse (0.655584ms)
+✔ relationship evidence binds current document revision, not a similarly named replacement (0.570833ms)
+✔ effective periods, conflict replacement and exact graph audiences remain explicit (3.019167ms)
+✔ a named owner must be able to read the declared entity under current membership restrictions (0.133334ms)
+✔ counsel intake, fee approval and exact packet sharing are separate recorded decisions (904019.754042ms)
+✔ source, recipient membership, explicit revoke and expiry immediately withdraw granted records (981558.824208ms)
+✔ counsel returned edits preserve original proposal and require new exact decisions (908312.138541ms)
+✔ escalation invalidates prior engagement and access; referral stays unavailable; terminal work cannot revive (995885.905458ms)
+✔ sharing an older packet cannot disclose newly revised proposal bytes or added matter tasks (808675.06175ms)
+✔ counsel sharing rejects expired, future and malformed bound facts even when versions match (12924.191834ms)
+✔ Word review export round-trips body and authority manifest while rejecting malformed archives (54.808708ms)
+✔ S3 originals require KMS and a version receipt; repeated upload reconciles the retained version (1.358083ms)
+✔ template substitution creates a private unapproved draft without expanding scope or treating values as company facts (1406.0085ms)
+✔ reimport retains exact original bytes and immutable revisions, rejects stale heads and invalidates dependent decisions (1998.066792ms)
+✔ signed and effective originals require a separate amendment instead of replacement (972049.172917ms)
+✔ comparison reconstructs both complete texts and preserves insertions, removals and exceptions (16.005375ms)
+✔ pasted document route retains exact bytes, hands off its own revisions, and replays one document (1615.219625ms)
+✔ multipart reimport preserves both exact originals and stale/CSRF requests cannot attach documents (973752.874041ms)
+✔ approved template uses only confirmed mapped fields, remains proposed, accepts once as a new document (2850.061625ms)
+✔ unapproved uploaded template and assumed conversation fields cannot qualify (972707.466334ms)
+✔ field correction and expired or revoked template approval invalidate acceptance (3635.108375ms)
+✔ make it shorter uses full exact selected draft, produces reviewable model proposal, and does not replay generation (3865.976125ms)
+✔ source instruction cannot introduce commands; invented citation fails before independent review (2532.153459ms)
+✔ source revocation while model awaits prevents attaching a draft; charged result remains accounted (907810.416167ms)
+✔ signed original gets a separate proposed amendment and current selection changes reject stale draft intent (995966.2675ms)
+✔ accepted work plan creates owned typed tasks; unrelated fact cannot satisfy named task (814182.547875ms)
+✔ standing route permits only current exact internal preparation; business and publisher authorization still required (6675.30125ms)
+✔ local semantic edit is explicit unavailable and selecting another current document cancels pending model intent (2905.944083ms)
+✔ source deletion erases derived template and draft payloads while preserving decision identity (3225.778458ms)
+✔ bounded draft requests cannot spend beyond the configured shared ceiling (2672.996584ms)
+✔ standing internal execution retains exact encrypted bytes once without a per-document legal decision (4138.90125ms)
+✔ standing policy expiry during asynchronous preparation blocks final broker dispatch (3400.205042ms)
+✔ date mappings reject impossible calendar dates rather than inserting regex-shaped values (935067.130291ms)
+✔ a completed semantic proposal cannot be accepted after supplemental document evidence changes (2846.960167ms)
+✔ receiving signature, alias and stable provider identity precede any account read or durable source (761.991542ms)
+✔ configured authenticated sender admits private unknown-authority evidence with exact tracked original and no action (1398.951ms)
+✔ unknown sender stays outside retrieval until exact authenticated owner review; another admin cannot accept (1992.419917ms)
+✖ copied forwarding identity, missing provider authentication and HTML-only bodies cannot auto-admit (906730.405166ms)
+✔ unselected raw origin and receiving alias fail closed without downloading or attaching source (1305.149333ms)
+✔ owner membership change during provider read prevents retained intake attachment and source eligibility (909.339292ms)
+✔ concurrent workers share one read lease and deletion prevents readback replay from restoring retained email (994218.509542ms)
+✔ installation and alias selection revocation immediately hide retained email from snapshot and reuse (1370.150166ms)
+✔ email local and managed workers carry only references, defer running intake and reject substituted identities (2464.026083ms)
+✔ retained source and exact review are fenced by receiving membership version, not just unchanged role (805136.620958ms)
+✔ dedicated account attestation and unique credential identities prevent shared-account tenant routing (1144.45225ms)
+✔ Received-header recipients are denial-only consistency and never override selected receiving alias (3500.455042ms)
+✔ owner-only discovery projects metadata and hides source title after installation revocation (1932.912125ms)
+✔ deletion erases useful-output and strategy payloads without replacing the original first-useful receipt (41.22375ms)
+✔ internal document execution retains immutable encrypted bytes and verifies one output across replay (908501.390542ms)
+✔ revoked decision, changed subject and lesser role cannot escalate into execution (995328.939583ms)
+✔ concurrent retries share a durable intent and dispatch exactly once (3188.397459ms)
+✔ source access revoked during preparation prevents the provider call (808994.061791ms)
+✔ cancel during preparation prevents dispatch and retains its exact historical intent (6203.334792ms)
+✔ cancel after dispatch preserves an uncertain effect and later read-back cannot reopen the matter (5141.728709ms)
+✔ email acceptance requires exact tagged delivery read-back; late bounce fails completion (4704.357375ms)
+✔ email unknown outcome is never resent and an unrelated receipt cannot complete it (3710.319458ms)
+✔ email exact allowlist and configuration failure reject before any effect intent (2108.208ms)
+✔ preview stays pending manual and never downgrades a later attributed manual completion (2614.963417ms)
+✔ publication read-back verifies exact authorized destination bytes without publishing (2720.289417ms)
+✖ a provider signing-request receipt can never become an executed-original completion (932654.095958ms)
+✖ expired prepared checkpoint recovers without dispatch, while a live lease remains untouched (606.56575ms)
+✖ explicit provider rejection is retained and replay cannot dispatch a second request (68.70525ms)
+✖ frozen configured preview rejects changed sender or preview-to-live mode before reserving an effect (98.663542ms)
+✖ dispatcher membership version must still match the preview after preparation even with its role retained (66.800625ms)
+✖ legal obligation introduced during preparation blocks dispatch until its exact deadline basis is reviewed (82.704375ms)
+✖ a delayed delivered read-back cannot overwrite a concurrently recorded terminal delivery failure (88.079541ms)
+✖ durable effect outbox sends only references and local read-back completion never starts another dispatch (114.277417ms)
+✖ background email read-back defers unknown no-receipt effects without another provider call (90.435666ms)
+✖ deleting prepared evidence fails and scrubs the intent before dispatch, including after the prepare resumes (83.615334ms)
+✖ deleting an unknown effect retains a private operational exception until exact readback settles and then scrubs (76.404709ms)
+✖ a readback already in flight cannot restore a terminal receipt payload after deletion (112.542375ms)
+✖ internal output readback after deletion does not materialize fresh derivative document payload (103.969875ms)
+✖ internal_document terminal deletion preserves encrypted original manifests for the retention worker before clearing artifacts (110.322208ms)
+✖ publish terminal deletion preserves encrypted original manifests for the retention worker before clearing artifacts (84.415ms)
+✖ inactive historical receipts lose payload regardless of old uncertainty without changing historical outcome or live operational exception (80.047875ms)
+✔ exact embedding tokens preserve multilingual and adversarial special-token text (1159.677333ms)
+✔ embedding reserves exact tokens under the shared cap and durable replay makes no provider call (993819.856916ms)
+✔ embedding budget exhaustion prevents dispatch; unknown charges never invoke again (1827.422167ms)
+✔ revocation during embedding wait cannot retain or attach the returned vector (2035.775375ms)
+✔ expired dispatched embedding recovery is durable without a second provider invocation (981.451125ms)
+✔ both Atlas branches prefilter tenant, entity and immutable authorized IDs and return no indexed text (23.883209ms)
+✔ scoped sync and hybrid fusion hydrate actual retained quotes; replay reuses index embeddings (811346.103667ms)
+✔ private and expired evidence cannot enter index query allowlist; stale indexes fail explicitly (1518.959166ms)
+✔ revocation during search and malicious cross-scope search IDs never reach model context (4253.55075ms)
+✔ conversation worker uses accepted run identity for hybrid query then grounded answer and review (6042.206917ms)
+✔ expired parent lease during index admission cannot dispatch a query embedding (3511.699084ms)
+✔ an old prepared embedding cannot dispatch or mutate a successor admission after recovery (2140.085917ms)
+✔ a permanently fenced record cannot be reinserted by an index writer paused across deletion (2039.424042ms)
+✔ late embedding receipt survives unknown-charge recovery without restoring vector or clearing uncertainty (1681.075ms)
+✔ maintenance stays disabled by default and an explicit standing grant allows scoped member work without admin (4199.069833ms)
+✔ standing policy does not authorize private scope or a changed policy or member (1836.759ms)
+✔ revocation during embedding preserves accounted cost but cannot write index content (1459.518834ms)
+✔ global concurrency delays the same job; a later retry invokes the provider once (3033.476834ms)
+✔ budget exhaustion and ambiguous provider failure never trigger automatic resubmission (934855.202875ms)
+✔ inventory requires every current head including draft authority, preserves exact counts and does not claim external discovery (1409.938959ms)
+✔ new current agreement heads invalidate attested completeness; historical drafts cannot satisfy a successor (1397.825542ms)
+✔ attestation expiry independently blocks fresh approval and final execution without a record mutation (1966.226791ms)
+✔ private attestation evidence is inherited by derived proposal lineage (1488.541542ms)
+✔ malformed maintenance policy or missing Atlas configuration never rolls back source or member revocation (1007.361708ms)
+✔ installation configuration is unavailable when absent, revoked or missing referenced credentials (406.662375ms)
+✔ GitHub authenticates raw bytes, installation and selected repo before durable intake (571.807125ms)
+✔ installation membership revocation blocks a correctly signed event (503.931208ms)
+✔ Slack uses bounded request time, signed team/channel, stable event identity and deletion (466.248333ms)
+✔ read adapters use fixed GET origins, selected resources and bounded truthful evidence (124.620167ms)
+✔ Drive fetches authorized metadata before content and rejects unselected or unparsed files (177.251667ms)
+✔ Drive extraction rejects a revision changed between metadata and content (169.373083ms)
+✔ Drive channel notification reads changes and advances cursor only after durable ingestion (857.333167ms)
+✔ Drive cursor does not skip a failed extraction or disclose provider response text (225.44625ms)
+✔ provider revision replay conflicts instead of overwriting an accepted event (412.940708ms)
+✔ outbox acknowledgement loss retries only scoped refs with stable workflow identity (372.679792ms)
+✔ outbox dispatcher does not signal legacy-owned or canceled work (338.013417ms)
+✔ reconciliation re-reads current state for duplicate/late signals and retains unknown effects after cancellation (785.160125ms)
+✔ Temporal missing configuration fails explicitly and workflow source excludes source payload imports (148.559ms)
+✔ conversation activities return status only and local processing commits terminal acknowledgement (327.358208ms)
+✔ local runner waits through active lease, retains unknown outcomes, and respects managed owner (460.064458ms)
+✔ Temporal dispatch selects conversation workflow by kind and excludes external actions (933417.920541ms)
+✔ deferred effect reads cannot starve newer local conversation work beyond the batch boundary (416.017166ms)
+✔ retained provider evidence becomes unreadable immediately after installation selection or actor revocation (702.390583ms)
+✔ Slack deletion revokes retained thread snapshots containing that message (517.820666ms)
+✔ server-owned frozen replay measures improvement and records immutable independent receipt (1613.171833ms)
+✔ promotion changes later comparable work without reconfirming settled current facts; release evidence resolves the real gate (936415.511458ms)
+✔ planned deployment remains distinct and does not trigger a live-claim requirement (2175.895875ms)
+✔ rollback is monotonic, identifies affected later work, invalidates its proposal and removes only that behavior (2154.375167ms)
+✔ stale evaluator authority, baseline change and reused scope without improvement cannot promote (1243.276417ms)
+✔ procedure owner expiry is an explicit blocker and cannot silently remove a promoted safeguard (1836.101625ms)
+✔ a private lesson never changes unrelated team work (1292.504916ms)
+✔ source verification and coverage qualification are distinct exact-version legal reviewer decisions (1196.252417ms)
+✔ coverage becomes stale dynamically when source version, reviewer membership or review deadline changes (998.337083ms)
+✔ explicit unsupported coverage remains unavailable and legal clearance is never automatically created (884.32375ms)
+✔ registered authority must preserve source scope and exact domain/jurisdiction inventory (548.041667ms)
+✔ renewing a source review does not silently renew old coverage approval; expiry is checked at read time (1063.138583ms)
+✔ an already active same-scope rule has no measured improvement and cannot be promoted again (1555.151958ms)
+✔ owner can renew an unchanged qualified deterministic rule after its review deadline (1562.14375ms)
+✔ candidate authors never receive holdout names, labels, outputs or test evidence; independent evaluators can inspect (1612.248083ms)
+✔ F07 supplied context lineage survives an attributed fact correction and later supplied work (936676.230667ms)
+✔ F08 model fact verification rejects an originating snapshot made stale by human correction (2774.389708ms)
+✔ F12 blocked work can be withdrawn once without dropping uncertain effects or permitting stale intent (3280.843166ms)
+✔ monitor admission requires exact protected URL policy and reads never claim applicability (1682.041625ms)
+✔ observed change preserves bytes, expires source freshness and needs exact human applicability before targeting work (2619.876542ms)
+✔ source or member withdrawal while a public read is pending prevents observed payload admission (1181.1945ms)
+✔ bounded extraction and public address policy reject binary, private and mapped destinations (7.989125ms)
+✔ unsupported and oversized reads remain blocked; deletion removes the staged observed payload and stops its watch (1898.64125ms)
+✔ legal maintenance local worker reads the approved source and keeps a bounded durable watch without approving applicability (742.258959ms)
+✔ legal watch managed references contain no URL and mismatched tenant/job cannot reach processor (230.945708ms)
+✔ accepted objective and completed-task lineage survive an empty retrieval ranking and adoption (40.5415ms)
+✔ unranked accepted-basis source revision invalidates the packet before further model work (3.974459ms)
+✔ a source audience narrowed after preparation invalidates frozen task text despite owner read access (1.285125ms)
+✔ named counsel may attest only the exact shared substantive legal task; changed work requires renewed packet access (2317.127459ms)
+✔ accepted plan prepares objective-specific scoped artifact, adopts exact contents once and retains review/factual gates (4187.276666ms)
+✔ preparation does not send private supplementary material to a team-scoped artifact model (3200.190625ms)
+✔ changed task intent or canceled matter during model await cannot attach a prepared artifact (3434.420417ms)
+✔ completed preparation rejects later objective changes and source withdrawal before adoption (190227.028833ms)
+✔ local mode never substitutes a generic packet for accepted model work (6530.895792ms)
+✖ exact audience coverage remains current while broader private coverage is omitted explicitly (1006702.346333ms)
+✔ source deletion scrubs frozen matter preparation text from draft and provider run receipts (3724.045625ms)
+✔ proposal approvals satisfy only review gates; substantive work requires owned source-backed completion (470666.470541ms)
+✔ an effect created without mutating the matter still blocks final prepared adoption (5508.443ms)
+✔ main snapshots hide child text when its conversation or matter is inaccessible (4336.753875ms)
+✔ task attestation rejects an independently changed inspected source and permits exact refreshed proof (2566.145ms)
+✔ task evidence pins transitive source-free facts even when the cited source version stays unchanged (2486.129666ms)
+✔ stale completed work renews under its still-current delegated owner (889394.83925ms)
+✔ historical generated work marked done without attestation is stale and recoverable (1519.687541ms)
+✔ migration dry run is inert; archive import is restartable and preserves exact legacy bytes without dispatch ownership (366.407666ms)
+✔ originals use authenticated encryption and cannot be read across tenant scope (323.447083ms)
+✔ same-byte upload after key rotation preserves old ciphertext and both recoverable references (287.867375ms)
+✔ normalization round-trips optional collections, durable receipts and outbox without identity loss (35.164541ms)
+✔ normalized integrity rejects mixed tenant, generation, content, ordering or unexpected records (3.145083ms)
+✔ normalized diff touches changed records only and preserves append ordering (2.439875ms)
+✔ normalized storage removes aggregate BSON ceiling but enforces individual record allowance (811.5695ms)
+✔ migration dry-run plan is deterministic, binds exact state and never dispatches effects (1.780833ms)
+✔ empty normalized bootstrap contends on the same aggregate tenant key (45.847417ms)
+✔ notification references omit recipients/content and validate exact retained identity before processor (338.72375ms)
+✔ local notification loop reschedules unknown delivery, stops completed watch and never invents a completion (143.213125ms)
+✔ independent final grant mutation blocks posting to a recipient never reviewed (967.764375ms)
+✔ unknown dispatch remains deduped after explicit off and on; no automatic resend (973.62425ms)
+✔ provider acknowledgment after opt-out and expired lease is retained without another send (1542.091333ms)
+✔ readback with extra HTML or attachment content cannot certify exact generic delivery (946.610292ms)
+✔ legacy unknown without a proven identity cannot repeat through grant renewal (1084.774458ms)
+✔ legacy sending without a proven identity cannot repeat through grant renewal (1113.200333ms)
+✔ legacy accepted without a proven identity cannot repeat through grant renewal (1207.58375ms)
+✔ email is off until exact configured recipient opt-in; malformed and conflicting grants are unavailable (367.660917ms)
+✔ required email contains only generic authenticated link; exact provider read-back distinguishes delivered (710.332458ms)
+✔ semantic dedup ignores unrelated versions but changed required conditions produce a new notice (1367.207083ms)
+✔ digest dedup is once per local calendar day despite changes in item membership (1127.789959ms)
+✔ quiet hours defer digest while required escalation can pass (992.119958ms)
+✔ preview and provider acceptance are never reported as verified delivery (584.933625ms)
+✔ a lost POST response stays unknown across retry and accepts only exact read-back (849.420209ms)
+✔ concurrent workers send once and a late acceptance survives expired-lease recovery (1311.01425ms)
+✔ membership, source condition and opt-out changes stop a prepared send at final admission (187202.027542ms)
+✔ acknowledged work and revoked membership cannot trigger prepared email (4130.888208ms)
+✔ accepted receipt requires matching provider bytes, and another actor cannot reconcile it (1875.299958ms)
+✔ explicit reenrollment can prepare a canceled unsent condition without retrying an uncertain dispatch (1572.3365ms)
+✔ membership change immediately before dispatch cancels the prepared notification (712.768667ms)
+✔ grant renewal preserves unknown dedup and permits exact readback under the same current delivery identity (904.7045ms)
+✔ contractual dates require exact source and legal review; reminders and manual fulfillment stay distinct (1545.858334ms)
+✔ stale deadline source or reviewer authority blocks action and closure; source revocation hides derived dates (1105.414208ms)
+✔ deadline proposal rejects false source quotes, ambiguous dates and inaccessible owners (731.490625ms)
+✔ effort totals count all stages once, distinguish estimates, retain supersession and reject overlapping timers (188504.570958ms)
+✔ amendment inherits exact original scope and retains its source lineage (4320.28625ms)
+✔ empty workspace, useful first response, and separate hypothetical memory (772.011333ms)
+✔ ambiguous approval and unconfirmed voice cannot mutate consequential records (437.253791ms)
+✔ unauthorized corrections remain candidates and stale proposals cannot replace a newer fact (1143.805916ms)
+✔ personal preference applies immediately without leaking to other members (496.368583ms)
+✔ selected-team ACL and source lineage deny content to another team member and tenant (742.493959ms)
+✔ restricted counsel sees only explicitly allowed matter records and their scoped sources (187179.264ms)
+✔ revocation immediately denies derived summaries with stale content still retained (1307.395667ms)
+✔ command retry remains idempotent after restart and stale concurrent command conflicts (3351.343167ms)
+✔ review binds exact proposal and conditioned or expired approvals cannot authorize effects (3256.5685ms)
+✔ manual outcome remains pending until evidence, no-counsel route stays open, and cancellation cannot revive (1004802.284208ms)
+✔ action-specific manual evidence closes work; runtime completion enum and signing-original checks fail closed (2119.26125ms)
+✔ no-action cannot close unresolved effects or required tasks (1764.039708ms)
+✔ expired sessions, revoked membership and authenticated unknown users cannot use bootstrap claims (449.141916ms)
+✔ provider events require installation authority, deduplicate and link to one existing matter (630.494334ms)
+✔ deletion tombstones survive backup dry run, tampered backup is rejected, restore is restartable (550.760625ms)
+✔ learning requires an independent evaluator and owner with frozen evidence identity (1546.771375ms)
+✔ private confirmed facts cannot leak through a team response or proposal and cannot overwrite team truth (463426.517209ms)
+✔ source originals are bound only through trusted upload metadata, never a client command property (286.508542ms)
+✔ expired authorization and absent signed original keep consequential work pending (5914.90025ms)
+✔ a superseded confirmed fact keeps historical matter access while current proposals must be rebuilt (2055.821166ms)
+✔ required business and legal tasks stay open with named owners until current unconditioned decisions (1350.214083ms)
+✔ time-expired or future facts cannot authorize a current proposal and reprepare omits them (1956.5935ms)
+✔ removed evidence has a minimal owner control view and another member cannot infer it (1472.856ms)
+✔ withdrawal cancels future effects while preserving uncertain effects and reconciliation (1291.740042ms)
+✔ revoked or narrowed membership cannot use recovery controls (187777.629334ms)
+✔ F03 source recheck suspends approval before fetch and preserves the failure across packets (193916.7215ms)
+✔ F03 successful corpus recheck preserves queued siblings without evidence (1007139.209083ms)
+✔ F04 exact selected quote and clause bindings reach semantic review (2550.244667ms)
+✔ F05 arbitrary, missing, unknown or extra exemption fields cannot satisfy screening (1.553958ms)
+✔ F06 each verified alternative route survives false direct-business prerequisites (3.260792ms)
+✔ F09 blocked campaigns remain scheduled and expire through the ordinary worker (4235.0265ms)
+✔ F10 sending-only notification keeps watchdog alive then resolves to unknown without another send (472807.414291ms)
+✔ F11 count rejection creates no generation attempt and supports explicit settled retry (3510.187167ms)
+✔ F13 selected suggestion has its own exact campaign and repeated requests retain identity (2776.688166ms)
+✔ F15 signed out-of-order callbacks converge and never downgrade delivery or bounce (3305.811958ms)
+✔ F17 paid operation scripts cannot raise configured authorization (9.100959ms)
+✔ F18 strategies use supplied complete facts and baseline without mandatory rereads (0.503583ms)
+✔ deletion atomically retains a refs-only outbox and the local worker completes real application cleanup (892.5565ms)
+✔ retention rejects cross-job or modified references and never exposes object identities in progress (383.433666ms)
+✔ future holds use bounded durable wakeups and local deferred work resumes after settlement (444.327458ms)
+✔ managed lost-ack replay preserves deletion identity and only sends opaque references (491.682292ms)
+✔ an unavailable earlier effect cannot starve later deletion cleanup in the local worker (823.21825ms)
+✔ abandoned intake retains its cleanup owner and the actual local worker purges expired encrypted bytes (861.146667ms)
+✔ an original write with no retained acknowledgement stays pending for explicit reconciliation (723.241375ms)
+✔ artifact workflow dispatch carries no original reference and validates scoped intake identity before processing (579.79375ms)
+✔ standing-policy index jobs dispatch only opaque references and terminal uncertainty never retries provider work (650.129459ms)
+✔ deletion propagates through records and audit payloads while exposing only safe pending-retention status (1549.868708ms)
+✔ uncertain effects remain protected exceptions until settled, then repeated cleanup erases the payload (1805.361458ms)
+✔ local original deletion is tenant scoped, exact, verified and replayable (203.550167ms)
+✔ S3 purge targets the retained version, verifies absence and never treats forbidden/readback as success (13.071583ms)
+✔ original intake hands off only its own storage revisions and abandoned bytes are fenced before cleanup (1461.948792ms)
+✔ retention worker honors original delay, shared pending intake and hold, then verifies exact purge (465181.083542ms)
+✔ revoked-source owner controls allow a later scoped deletion without recovering content (5109.351208ms)
+✔ pending intake blocks physical purge by content identity and deleted bytes cannot be re-created by later intake (1802.721ms)
+✔ interrupted original writes require exact verified manifest recovery before orphan cleanup (822.016459ms)
+✔ an orphan purge claim fences all same-byte intakes until its exact deletion finishes (1512.823542ms)
+✔ queued cancellation survives restart, leaves user message and makes zero provider/count/reservation calls (490.329792ms)
+✔ only initiating owner with current membership and exact run version may cancel (572.875792ms)
+✔ cancel during asynchronous count prevents reservation and first generation (472.241125ms)
+✔ cancel in flight waits for actual usage, discards result and never starts review (1327.912084ms)
+✔ cancel during final review preserves both actual charges without attaching an answer (2002.867042ms)
+✔ lost provider response after cancellation remains unknown and cannot be retried (462832.994459ms)
+✔ restart after cancellation of dispatched attempt waits until lease then reconciles unknown without dispatch (1103.125542ms)
+✔ prepared cancellation releases reservation and retires any not-yet-created reservation identity (2516.119208ms)
+✔ query embedding submitted before cancellation owns its charge and no generation may start (2459.068042ms)
+✔ real idempotent cancellation command replays once and source deletion clears cancellation reason (1939.469958ms)
+✔ canceling a model work plan creates neither a proposed artifact nor an accepted matter (1333.262708ms)
+✔ refs-only local processing waits for cancellation accounting and completes only after lease recovery (891.465542ms)
+✔ a late valid provider receipt after canceled lease recovery preserves metadata without clearing unknown charge (1837.480917ms)
+✔ revoked source hides cancellation free text but preserves safe accounting; deletion erases audit reason (778.112958ms)
+✔ real query embedding canceled in flight settles usage, clears vector, skips search and generation (1851.045208ms)
+✔ a valid response receipt survives ledger outage and restart without another provider attempt (1230.090083ms)
+✔ signed selected thread continues one conversation, pins lineage and delivers exact reply once with verified readback (1416.66075ms)
+✔ bot messages never loop back into source ingestion and signed unmapped identities cannot impersonate the bound actor (368.712ms)
+✔ historical web content cannot be reclassified as a Slack audience and canonical audience recursion rejects private dependencies (472.91675ms)
+✔ destination retrieval excludes an actor private contract and company fact before forming a local answer (1028.643958ms)
+✔ lost acknowledgement reconciles by opaque metadata and exact bot/thread/content, never by absence or resend (464839.126583ms)
+✔ configuration and actor membership changes during asynchronous preflight prevent the first provider post (4699.518667ms)
+✔ source edit or deletion after accepted input blocks unsent reply; mismatched provider readback stays uncertain (1843.413042ms)
+✔ DM bindings keep the exact destination and concurrent workers can admit only one post (1000.119708ms)
+✔ outbox dispatch and local worker carry only reply references and reject substituted message identity (1869.407916ms)
+✔ answer dependency changes during preflight block stale local facts and superseded document heads (905.671708ms)
+✔ delivery projection distinguishes unknown completion and never leaks destination or body to another member (935.929583ms)
+✔ later-page duplicate receipt metadata cannot establish unique delivery (936.207125ms)
+✔ model packet excludes private transitive evidence, including same-audience facts with private sources (2760.532ms)
+✔ configuration revocation during counted model admission prevents generation (1082.29075ms)
+✔ hybrid query restricts prefilters to the channel audience before embedding and search (2171.927708ms)
+✔ source deletion propagates to Slack scenario assumptions and current user dependencies (792.309084ms)
+✔ browser cannot forge channel provenance or use an outdated source-revocation version (441.90075ms)
+✔ late ordered Drive revision preserves current proposal, approvals and one current queue (1043.910875ms)
+✔ newer source invalidates dependent proposal but preserves scoped historical access and blocks old fact confirmation (1232.627666ms)
+✔ same revision conflicting bytes rejects atomically; identical delivery aliases do not duplicate sources or effects (366.561917ms)
+✔ opaque GitHub heads conflict regardless event time and only stable scoped read selects a current head (436.69075ms)
+✔ withdrawn current object cannot fall back, late events cannot restore it, historical source remains audit-readable (418.373458ms)
+✔ verified ordered provider read cannot regress a known newer revision (234.051125ms)
+✔ Slack edits order per message, late old edit does not displace newer evidence (289.807292ms)
+✔ complete Slack thread refresh after deletion preserves withdrawn message fence and replay does not revoke fresh snapshot (574.919417ms)
+✔ current evidence recheck rejects newly historical dependencies while new retrieval excludes old facts and prompt history (853.533958ms)
+✔ known deleted Slack message cannot reappear in a different verified thread snapshot or retained readable aggregate (453.627833ms)
+✔ manual withdrawal of a signed message hides its existing active aggregate immediately (528.257625ms)
+✔ historical Slack deletion relation is exact to installation, channel, revision and bytes (357.6085ms)
+✔ attributed current message deletion physically clears aggregate payload and leaves unrelated malformed evidence alone (522.906291ms)
+✔ deleting only a historical message revision purges its matching snapshot while preserving newer thread bytes (497.768125ms)
+✔ independent frozen clause includes referenced exception, defined term and its schedule without changing original bytes (14.879917ms)
+✔ malformed and adversarial headings remain literal source slices without fabricated exception applicability (2.800459ms)
+✔ bounded cross-reference expansion reports missing context rather than claiming complete review (0.426292ms)
+✔ source parsing preserves exact UTF-16 anchors, heading siblings and bounded complete Unicode (55.748417ms)
+✔ a notice clause brings its exact definitions, exception and referenced schedule table (52.218ms)
+✔ bounded expansion reports omissions and handles repeated references without inventing source text (28.181333ms)
+✔ both local and selected hybrid evidence hydrate structured source slices and bounded supporting context (506.752125ms)
+✔ packet bound reports truncation while agreement inventory stays exhaustive (1137.523917ms)
+✔ real frozen ranking replay requires three people, protected holdouts, shadow then exact controlled adoption (2522.779833ms)
+✔ promotion binds the inspected shadow hash; rollback removes actual ranking behavior and identifies affected input (1746.847917ms)
+✔ scoped policy cannot affect a private conversation and owner revocation removes its effect immediately (888676.930458ms)
+✔ classification is explicit and does not promote factual or legal corrections into strategy authority (710.840958ms)
+✔ draft preservation comparison shadows actual generated text before adoption blocks a numeric omission (2820.804125ms)
+✔ feedback and strategy authority follow the current conversation container, including source-free outputs (189284.470667ms)
+✔ actual model evidence ordering changes only in local retrieval; hybrid selection retains its supplied order (1274.627084ms)
+✔ policy expiry after model count stops provider dispatch and preserves the original decision history (4235.138917ms)
+✔ feedback inherits direct fact lineage of replay documents and cannot reveal original labels to another audience (764.520209ms)
+✔ literal guard preserves percent units and does not claim semantic equivalence (5.823833ms)
+✔ new evidence used only during shadow cannot authorize promotion after withdrawal (1031.344083ms)
+✔ promoted authority stops when a shadow-only dependency changes (1465.416666ms)
+✔ protected holdout rows remain server-only for every UI actor, including an evaluator who later authors (1077052.69325ms)
+✔ first-work observation is durable across later goals and generated output is not useful acceptance (30.308167ms)
+✔ retrospective retained baseline is explicit and never reset by a new question (1.663917ms)
+✔ usefulness is exact-version/hash bound, deduplicated and independent of goal achievement (6.119166ms)
+✔ goal achievement requires the same goal’s current useful receipt and cannot be reported by another actor (2.387709ms)
+✔ foreign private outputs and withdrawn-source receipts cannot leak into views or numeric exports (2.129083ms)
+✔ correcting a usefulness report cannot silently replace the original first-useful metric (3.773208ms)
+✔ rehearsals retain learning feedback but never count as observed customer value (1.478791ms)
+✔ source revision changes invalidate inspected output hash even when answer text is unchanged (1.293375ms)
+✔ read projection supports a current integration-only member without granting feedback write capacity (0.291833ms)
+✔ service hooks retain the first message baseline and observe an async answer only after committed output (1591.771625ms)
+✔ historical report remains attributed after version change but cannot outlive its conversation access (0.949166ms)
+✔ output observation never rolls back a membership removal or requires a still-valid session (0.322584ms)
+✔ unseen request email and URL cannot pass by citing the right fact ID with the wrong prose (1270.786125ms)
+✔ required disclosure validation supports arbitrary document, clause and fact identities (965.082083ms)
+✔ unseen unrelated clauses remain protected even with valid citations and a passing semantic verdict (834.811708ms)
+✔ live intake preserves supplied facts and blocks paid drafting until source recheck (366.305417ms)
+✔ immutable redline reconstructs exact prior and candidate wording and retains unfamiliar content (888556.647625ms)
+✔ lawyer interpretation feedback retains attribution and invalidates both approvals without changing facts (2232.62475ms)
+✔ stale fact correction cannot overwrite a later verified company context (1005.086125ms)
+✔ pinned context tampering fails approval even if the candidate and bundle are unchanged (189414.134292ms)
+✔ unsupported jurisdiction and future rule period escalate instead of issuing no-change decisions (404.944458ms)
+✔ disclosure coverage accepts combined sections while reporting missing topics (1966.564541ms)
+✔ fresh legal_interpretation_note reaches runtime after the prior repair limit without rotating reused authority (1084099.221709ms)
+✔ fresh requested_changes reaches runtime after the prior repair limit without rotating reused authority (1827.914708ms)
+✔ fresh lawyer feedback cannot bypass an unsettled charge after the repair limit (983629.420833ms)
+✔ persisted signup without manufactured failure, ordered sealed approval and retained finalization (1657.1025ms)
+✔ distinct event pins the existing harness and closes only against the finalized packet (686.394583ms)
+✔ unknown facts block drafting and old reset commands cannot affect reused workspace (889248.084375ms)
+✔ material edit invalidates earlier founder approval and requires both gates again (1305.68875ms)
+✔ source expiry prevents approval even without a background invalidation job (366.683459ms)
+ℹ tests 532
+ℹ suites 0
+ℹ pass 507
+ℹ fail 24
+ℹ cancelled 1
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12763738.865917
+
+✖ failing tests:
+
+test at tests/runtime.test.ts:1:6144
+✖ provider adapter exercises scoped tools, exact citations, full-law semantic hydration and immutable generated revision (973901.227459ms)
+  AssertionError [ERR_ASSERTION]: MODEL_LEASE_EXPIRED
+  + actual - expected
+  
+  + 'needs_human_review'
+  - 'validating'
+  
+      at TestContext.<anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/runtime.test.ts:28:1818)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'needs_human_review',
+    expected: 'validating',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/runtime.test.ts:1:12595
+✖ founder verification of an attributed model fact proposal authorizes a settled expired child scope without fabricating human feedback (910959.199208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  2 !== 3
+  
+      at TestContext.<anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/runtime.test.ts:31:1994)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 3,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/runtime.test.ts:1:16186
+✖ genuine bad output from an injected provider is recorded, repaired with failure feedback, and produces correlated audit records (1803947.963167ms)
+  AssertionError [ERR_ASSERTION]: MODEL_LEASE_EXPIRED
+  + actual - expected
+  
+  + 'blocked'
+  - 'complete'
+  
+      at TestContext.<anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/runtime.test.ts:56:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'blocked',
+    expected: 'complete',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/runtime.test.ts:1:42924
+✖ repair rate retries preserve all three independent checker slots (1005000.473709ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 6
+  
+      at TestContext.<anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/runtime.test.ts:271:36)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 6,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/runtime.test.ts:1:46988
+✖ provider-selected citation IDs become exact audited citations without model-copied offsets or quotes (464502.977792ms)
+  AssertionError [ERR_ASSERTION]: MODEL_LEASE_EXPIRED
+  + actual - expected
+  
+  + 'blocked'
+  - 'complete'
+  
+      at TestContext.<anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/runtime.test.ts:301:129)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'blocked',
+    expected: 'complete',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/v2-ai.test.ts:1:6860
+✖ explicit provider rejection settles reservation without fabricating an answer (972165.863833ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-ai.test.ts:35:426)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/v2-ai.test.ts:1:1
+✖ tests/v2-ai.test.ts (12751201.488667ms)
+  'Promise resolution is still pending but the event loop has already resolved'
+
+test at tests/v2-email-intake.test.ts:1:8915
+✖ copied forwarding identity, missing provider authentication and HTML-only bodies cannot auto-admit (906730.405166ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'blocked'
+  - 'quarantined'
+  
+      at <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-email-intake.test.ts:36:195)
+      at async isolated (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-email-intake.test.ts:19:857)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'blocked',
+    expected: 'quarantined',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/v2-execution.test.ts:1:13972
+✖ a provider signing-request receipt can never become an executed-original completion (932654.095958ms)
+  Error [V2Error]: Sign in again.
+      at ensure (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:36:101)
+      at bootstrap (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:41:53)
+      at <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:136)
+      at apply (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:36:83)
+      at transactWorkspace (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:38:57)
+      at async snapshot (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:93)
+      at async send (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:20:49)
+      at async prepared (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:22:10)
+      at async <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:68:10)
+      at async isolated (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:19:434) {
+    code: 'SESSION_EXPIRED',
+    status: 401
+  }
+
+test at tests/v2-execution.test.ts:1:14508
+✖ expired prepared checkpoint recovers without dispatch, while a live lease remains untouched (606.56575ms)
+  Error [V2Error]: Sign in again.
+      at ensure (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:36:101)
+      at bootstrap (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:41:53)
+      at <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:136)
+      at apply (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:36:83)
+      at transactWorkspace (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:38:57)
+      at async snapshot (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:93)
+      at async send (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:20:49)
+      at async prepared (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:22:10)
+      at async <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:71:10)
+      at async isolated (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:19:434) {
+    code: 'SESSION_EXPIRED',
+    status: 401
+  }
+
+test at tests/v2-execution.test.ts:1:15361
+✖ explicit provider rejection is retained and replay cannot dispatch a second request (68.70525ms)
+  Error [V2Error]: Sign in again.
+      at ensure (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:36:101)
+      at bootstrap (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:41:53)
+      at <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:136)
+      at apply (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:36:83)
+      at transactWorkspace (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:38:57)
+      at async snapshot (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:93)
+      at async send (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:20:49)
+      at async prepared (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:22:10)
+      at async <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:74:10)
+      at async isolated (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:19:434) {
+    code: 'SESSION_EXPIRED',
+    status: 401
+  }
+
+test at tests/v2-execution.test.ts:1:15855
+✖ frozen configured preview rejects changed sender or preview-to-live mode before reserving an effect (98.663542ms)
+  Error [V2Error]: Sign in again.
+      at ensure (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:36:101)
+      at bootstrap (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:41:53)
+      at <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:136)
+      at apply (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:36:83)
+      at transactWorkspace (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:38:57)
+      at async snapshot (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:93)
+      at async send (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:20:49)
+      at async prepared (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:22:10)
+      at async <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:77:10)
+      at async isolated (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:19:434) {
+    code: 'SESSION_EXPIRED',
+    status: 401
+  }
+
+test at tests/v2-execution.test.ts:1:17347
+✖ dispatcher membership version must still match the preview after preparation even with its role retained (66.800625ms)
+  Error [V2Error]: Sign in again.
+      at ensure (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:36:101)
+      at bootstrap (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:41:53)
+      at <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:136)
+      at apply (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:36:83)
+      at transactWorkspace (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:38:57)
+      at async snapshot (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:93)
+      at async send (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:20:49)
+      at async prepared (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:22:10)
+      at async <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:82:10)
+      at async isolated (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:19:434) {
+    code: 'SESSION_EXPIRED',
+    status: 401
+  }
+
+test at tests/v2-execution.test.ts:1:18159
+✖ legal obligation introduced during preparation blocks dispatch until its exact deadline basis is reviewed (82.704375ms)
+  Error [V2Error]: Sign in again.
+      at ensure (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:36:101)
+      at bootstrap (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:41:53)
+      at <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:136)
+      at apply (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:36:83)
+      at transactWorkspace (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:38:57)
+      at async snapshot (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:93)
+      at async send (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:20:49)
+      at async prepared (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:22:10)
+      at async <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:85:10)
+      at async isolated (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:19:434) {
+    code: 'SESSION_EXPIRED',
+    status: 401
+  }
+
+test at tests/v2-execution.test.ts:1:19014
+✖ a delayed delivered read-back cannot overwrite a concurrently recorded terminal delivery failure (88.079541ms)
+  Error [V2Error]: Sign in again.
+      at ensure (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:36:101)
+      at bootstrap (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:41:53)
+      at <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:136)
+      at apply (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:36:83)
+      at transactWorkspace (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:38:57)
+      at async snapshot (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:93)
+      at async send (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:20:49)
+      at async prepared (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:22:10)
+      at async <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:88:10)
+      at async isolated (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:19:434) {
+    code: 'SESSION_EXPIRED',
+    status: 401
+  }
+
+test at tests/v2-execution.test.ts:1:20056
+✖ durable effect outbox sends only references and local read-back completion never starts another dispatch (114.277417ms)
+  Error [V2Error]: Sign in again.
+      at ensure (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:36:101)
+      at bootstrap (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:41:53)
+      at <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:136)
+      at apply (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:36:83)
+      at transactWorkspace (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:38:57)
+      at async snapshot (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:93)
+      at async send (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:20:49)
+      at async prepared (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:22:10)
+      at async <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:91:10)
+      at async isolated (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:19:434) {
+    code: 'SESSION_EXPIRED',
+    status: 401
+  }
+
+test at tests/v2-execution.test.ts:1:21205
+✖ background email read-back defers unknown no-receipt effects without another provider call (90.435666ms)
+  Error [V2Error]: Sign in again.
+      at ensure (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:36:101)
+      at bootstrap (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:41:53)
+      at <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:136)
+      at apply (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:36:83)
+      at transactWorkspace (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:38:57)
+      at async snapshot (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:93)
+      at async send (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:20:49)
+      at async prepared (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:22:10)
+      at async <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:94:10)
+      at async isolated (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:19:434) {
+    code: 'SESSION_EXPIRED',
+    status: 401
+  }
+
+test at tests/v2-execution.test.ts:1:22648
+✖ deleting prepared evidence fails and scrubs the intent before dispatch, including after the prepare resumes (83.615334ms)
+  Error [V2Error]: Sign in again.
+      at ensure (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:36:101)
+      at bootstrap (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:41:53)
+      at <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:136)
+      at apply (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:36:83)
+      at transactWorkspace (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:38:57)
+      at async snapshot (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:93)
+      at async send (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:20:49)
+      at async prepared (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:22:10)
+      at async <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:98:10)
+      at async isolated (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:19:434) {
+    code: 'SESSION_EXPIRED',
+    status: 401
+  }
+
+test at tests/v2-execution.test.ts:1:23642
+✖ deleting an unknown effect retains a private operational exception until exact readback settles and then scrubs (76.404709ms)
+  Error [V2Error]: Sign in again.
+      at ensure (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:36:101)
+      at bootstrap (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:41:53)
+      at <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:136)
+      at apply (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:36:83)
+      at transactWorkspace (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:38:57)
+      at async snapshot (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:93)
+      at async send (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:20:49)
+      at async prepared (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:22:10)
+      at async <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:102:10)
+      at async isolated (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:19:434) {
+    code: 'SESSION_EXPIRED',
+    status: 401
+  }
+
+test at tests/v2-execution.test.ts:1:25271
+✖ a readback already in flight cannot restore a terminal receipt payload after deletion (112.542375ms)
+  Error [V2Error]: Sign in again.
+      at ensure (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:36:101)
+      at bootstrap (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:41:53)
+      at <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:136)
+      at apply (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:36:83)
+      at transactWorkspace (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:38:57)
+      at async snapshot (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:93)
+      at async send (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:20:49)
+      at async prepared (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:22:10)
+      at async <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:108:10)
+      at async isolated (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:19:434) {
+    code: 'SESSION_EXPIRED',
+    status: 401
+  }
+
+test at tests/v2-execution.test.ts:1:26554
+✖ internal output readback after deletion does not materialize fresh derivative document payload (103.969875ms)
+  Error [V2Error]: Sign in again.
+      at ensure (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:36:101)
+      at bootstrap (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:41:53)
+      at <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:136)
+      at apply (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:36:83)
+      at transactWorkspace (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:38:57)
+      at async snapshot (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:93)
+      at async send (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:20:49)
+      at async prepared (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:22:10)
+      at async <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:112:10)
+      at async isolated (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:19:434) {
+    code: 'SESSION_EXPIRED',
+    status: 401
+  }
+
+test at tests/v2-execution.test.ts:1:27587
+✖ internal_document terminal deletion preserves encrypted original manifests for the retention worker before clearing artifacts (110.322208ms)
+  Error [V2Error]: Sign in again.
+      at ensure (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:36:101)
+      at bootstrap (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:41:53)
+      at <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:136)
+      at apply (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:36:83)
+      at transactWorkspace (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:38:57)
+      at async snapshot (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:93)
+      at async send (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:20:49)
+      at async prepared (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:22:10)
+      at async <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:117:10)
+      at async isolated (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:19:434) {
+    code: 'SESSION_EXPIRED',
+    status: 401
+  }
+
+test at tests/v2-execution.test.ts:1:27587
+✖ publish terminal deletion preserves encrypted original manifests for the retention worker before clearing artifacts (84.415ms)
+  Error [V2Error]: Sign in again.
+      at ensure (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:36:101)
+      at bootstrap (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:41:53)
+      at <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:136)
+      at apply (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:36:83)
+      at transactWorkspace (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:38:57)
+      at async snapshot (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:93)
+      at async send (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:20:49)
+      at async prepared (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:22:10)
+      at async <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:117:10)
+      at async isolated (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:19:434) {
+    code: 'SESSION_EXPIRED',
+    status: 401
+  }
+
+test at tests/v2-execution.test.ts:1:28385
+✖ inactive historical receipts lose payload regardless of old uncertainty without changing historical outcome or live operational exception (80.047875ms)
+  Error [V2Error]: Sign in again.
+      at ensure (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:36:101)
+      at bootstrap (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:41:53)
+      at <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:136)
+      at apply (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:36:83)
+      at transactWorkspace (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/store.ts:38:57)
+      at async snapshot (/Users/aayushdani/Documents/ChatGPT/Kiara/src/v2/service.ts:76:93)
+      at async send (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:20:49)
+      at async prepared (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:22:10)
+      at async <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:121:10)
+      at async isolated (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-execution.test.ts:19:434) {
+    code: 'SESSION_EXPIRED',
+    status: 401
+  }
+
+test at tests/v2-matter-preparation.test.ts:1:9093
+✖ exact audience coverage remains current while broader private coverage is omitted explicitly (1006702.346333ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'blocked'
+  - 'complete'
+  
+      at TestContext.<anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-matter-preparation.test.ts:32:904)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'blocked',
+    expected: 'complete',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,116 @@
+✔ quiet hours and digest grouping apply to ordinary work, with timezone-aware next delivery (514.457083ms)
+✔ required overdue work stays visible after acknowledgment in quiet hours (636.418959ms)
+✔ dismissal requires an exact visible item and reappears after the underlying work changes (519.739916ms)
+✔ attention hides another owner’s tasks and withdrawn-source content (1019.707709ms)
+✔ child effect attention cannot expose a withdrawn parent matter (431.667ms)
+✔ stale completed work routes attention to the current delegated owner (487.563375ms)
+✔ counsel intake, fee approval and exact packet sharing are separate recorded decisions (4237.598125ms)
+✔ source, recipient membership, explicit revoke and expiry immediately withdraw granted records (1881771.568333ms)
+✔ counsel returned edits preserve original proposal and require new exact decisions (3264.751958ms)
+✔ escalation invalidates prior engagement and access; referral stays unavailable; terminal work cannot revive (3447.201875ms)
+✔ sharing an older packet cannot disclose newly revised proposal bytes or added matter tasks (909613.8005ms)
+✔ counsel sharing rejects expired, future and malformed bound facts even when versions match (999405.463917ms)
+✔ approved template uses only confirmed mapped fields, remains proposed, accepts once as a new document (4000.081625ms)
+✔ unapproved uploaded template and assumed conversation fields cannot qualify (1264.757834ms)
+✔ field correction and expired or revoked template approval invalidate acceptance (3170.548042ms)
+✔ make it shorter uses full exact selected draft, produces reviewable model proposal, and does not replay generation (904476.602041ms)
+✔ source instruction cannot introduce commands; invented citation fails before independent review (973555.7715ms)
+✔ source revocation while model awaits prevents attaching a draft; charged result remains accounted (2484.324084ms)
+✔ signed original gets a separate proposed amendment and current selection changes reject stale draft intent (3556.216459ms)
+✔ accepted work plan creates owned typed tasks; unrelated fact cannot satisfy named task (911728.348209ms)
+✔ standing route permits only current exact internal preparation; business and publisher authorization still required (996802.254542ms)
+✔ local semantic edit is explicit unavailable and selecting another current document cancels pending model intent (807784.52025ms)
+✔ source deletion erases derived template and draft payloads while preserving decision identity (5665.14125ms)
+✔ bounded draft requests cannot spend beyond the configured shared ceiling (3061.057583ms)
+✔ standing internal execution retains exact encrypted bytes once without a per-document legal decision (7155.48725ms)
+✔ standing policy expiry during asynchronous preparation blocks final broker dispatch (5209.511375ms)
+✔ date mappings reject impossible calendar dates rather than inserting regex-shaped values (2337.286583ms)
+✔ a completed semantic proposal cannot be accepted after supplemental document evidence changes (3339.000958ms)
+✔ accepted objective and completed-task lineage survive an empty retrieval ranking and adoption (18.148125ms)
+✔ unranked accepted-basis source revision invalidates the packet before further model work (2.450625ms)
+✔ a source audience narrowed after preparation invalidates frozen task text despite owner read access (0.95325ms)
+✔ named counsel may attest only the exact shared substantive legal task; changed work requires renewed packet access (4281.878667ms)
+✔ accepted plan prepares objective-specific scoped artifact, adopts exact contents once and retains review/factual gates (7594.761208ms)
+✖ preparation does not send private supplementary material to a team-scoped artifact model (902079.271667ms)
+✔ changed task intent or canceled matter during model await cannot attach a prepared artifact (976968.415834ms)
+✔ completed preparation rejects later objective changes and source withdrawal before adoption (6762.104625ms)
+✖ local mode never substitutes a generic packet for accepted model work (907860.168459ms)
+✔ exact audience coverage remains current while broader private coverage is omitted explicitly (999148.347417ms)
+✖ source deletion scrubs frozen matter preparation text from draft and provider run receipts (807925.959958ms)
+✔ proposal approvals satisfy only review gates; substantive work requires owned source-backed completion (16062.559583ms)
+✔ an effect created without mutating the matter still blocks final prepared adoption (7207.962917ms)
+✔ main snapshots hide child text when its conversation or matter is inaccessible (938756.601042ms)
+✔ task attestation rejects an independently changed inspected source and permits exact refreshed proof (3304.683084ms)
+✔ task evidence pins transitive source-free facts even when the cited source version stays unchanged (3615.449917ms)
+✔ stale completed work renews under its still-current delegated owner (3923.203125ms)
+✔ historical generated work marked done without attestation is stale and recoverable (2197.981375ms)
+ℹ tests 46
+ℹ suites 0
+ℹ pass 43
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5587485.501708
+
+✖ failing tests:
+
+test at tests/v2-matter-preparation.test.ts:1:6639
+✖ preparation does not send private supplementary material to a team-scoped artifact model (902079.271667ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'blocked'
+  - 'complete'
+  
+      at setup (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-matter-preparation.test.ts:19:538)
+      at async TestContext.<anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-matter-preparation.test.ts:24:117)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'blocked',
+    expected: 'complete',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/v2-matter-preparation.test.ts:1:8703
+✖ local mode never substitutes a generic packet for accepted model work (907860.168459ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'blocked'
+  - 'complete'
+  
+      at setup (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-matter-preparation.test.ts:19:538)
+      at async TestContext.<anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-matter-preparation.test.ts:30:98)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'blocked',
+    expected: 'complete',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/v2-matter-preparation.test.ts:1:10033
+✖ source deletion scrubs frozen matter preparation text from draft and provider run receipts (807925.959958ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'blocked'
+  - 'complete'
+  
+      at setup (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-matter-preparation.test.ts:19:538)
+      at async TestContext.<anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/v2-matter-preparation.test.ts:34:123)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'blocked',
+    expected: 'complete',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

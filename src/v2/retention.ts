@@ -8,7 +8,7 @@ import type {EffectIntent} from './execution/contracts';
 import {V2Error,type ActorContext,type RecordBase,type Scope,type WorkspaceState} from './contracts';
 import {digest,timestamp} from './store';
 
-const recordKinds=['sources','documents','facts','messages','conversations','scenarios','matters','proposals','approvals','actions','counsel','learning','legalAuthorities','coverage','events','effortEntries','effortBaselines','obligations','scenarioShares','routingDelegations','routingRules','inventories','attentionSettings','attentionDecisions','legalWatches','legalChanges','drafts','templateApprovals'] as const;
+const recordKinds=['sources','documents','facts','messages','conversations','scenarios','matters','proposals','approvals','actions','counsel','learning','legalAuthorities','coverage','events','effortEntries','effortBaselines','obligations','scenarioShares','routingDelegations','routingRules','inventories','attentionSettings','attentionDecisions','legalWatches','legalChanges','drafts','templateApprovals','valueGoals','valueReceipts','notificationDeliveries','strategyFeedback','strategyCandidates','strategyShadows'] as const;
 type RecordKind=typeof recordKinds[number];
 export interface DeletionJob {
  id:string;sourceId:string;sourceIds:string[];actorId:string;scope:Scope;requestedAt:string;
@@ -47,9 +47,15 @@ export function redactedRecord(kind:RecordKind,value:RecordBase&Record<string,un
  case 'attentionDecisions':clear('reason');break;
  case 'legalWatches':r.sourceUrl='';r.active=false;r.status='stopped';r.leaseToken=null;r.leaseUntil=null;break;
  case 'legalChanges':if(r.assessment)r.assessment={...(r.assessment as object),reason:'Assessment payload deleted.'};break;
- case 'drafts':clear('body');r.contentHash=digest('');r.changes=[];r.questions=[];r.tasks=[];r.status='rejected';r.standingEligible=false;r.rejectionReason='Supporting evidence deleted.';if(r.request)r.request={...(r.request as object),instruction:'',missingFields:[],fieldFactIds:{}};break;
+ case 'drafts':clear('body');r.contentHash=digest('');r.changes=[];r.questions=[];r.tasks=[];r.status='rejected';r.standingEligible=false;r.rejectionReason='Supporting evidence deleted.';if(r.request)r.request={...(r.request as object),instruction:'',missingFields:[],fieldFactIds:{},...((r.request as {matter?:object}).matter?{matter:{...(r.request as {matter:object}).matter,objective:'',tasks:[]}}:{})};break;
+ case 'strategyFeedback':clear('detail','withdrawalReason');r.original=null;r.status='withdrawn';break;
+ case 'strategyCandidates':clear('rationale','rollbackReason');r.status='rolled_back';break;
+ case 'strategyShadows':break;
+ case 'valueGoals':clear('successCriteria','outcomeNote');break;
+ case 'valueReceipts':clear('outputTitle','reason','withdrawalReason');break;
+ case 'notificationDeliveries':if(r.status==='prepared'){r.status='canceled';r.reason='SUPPORTING_EVIDENCE_DELETED';r.leaseToken=null;r.leaseUntil=null;}break;
  case 'templateApprovals':clear('purpose');r.fields=[];r.status='revoked';r.standingInternal=false;break;
- case 'matters':clear('objective');r.outcome=null;r.blockers=['Evidence was deleted. Future work requires a new authorized basis.'];r.tasks=(r.tasks as {title:string}[]).map(t=>({...t,title:'Removed evidence task',requiredFactPredicates:[]}));break;
+ case 'matters':clear('objective');r.outcome=null;r.blockers=['Evidence was deleted. Future work requires a new authorized basis.'];r.tasks=(r.tasks as {title:string;completion?:unknown}[]).map(t=>{const task={...t,title:'Removed evidence task',requiredFactPredicates:[]};delete task.completion;return task;});break;
  case 'proposals':clear('body');r.contentHash=digest('');r.noticeMatrix=[];r.unknowns=[];r.status='invalidated';break;
  case 'approvals':clear('note');r.recipients=[];r.destination=null;r.status='revoked';break;
  case 'actions':clear('content');r.recipients=[];r.destination=null;if(r.completion)r.completion={...(r.completion as object),artifact:'Evidence payload deleted; original completion identity and timestamp retained.'};if(!['verified','failed','canceled'].includes(String(r.status)))r.status='canceled';break;

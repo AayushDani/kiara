@@ -1,0 +1,42 @@
+✔ receiving signature, alias and stable provider identity precede any account read or durable source (73.588542ms)
+✔ configured authenticated sender admits private unknown-authority evidence with exact tracked original and no action (152.495708ms)
+✔ unknown sender stays outside retrieval until exact authenticated owner review; another admin cannot accept (346.75ms)
+✔ copied forwarding identity, missing provider authentication and HTML-only bodies cannot auto-admit (504.76325ms)
+✔ unselected raw origin and receiving alias fail closed without downloading or attaching source (178.324625ms)
+✔ owner membership change during provider read prevents retained intake attachment and source eligibility (133.433ms)
+✔ concurrent workers share one read lease and deletion prevents readback replay from restoring retained email (252.463291ms)
+✔ installation and alias selection revocation immediately hide retained email from snapshot and reuse (199.052167ms)
+✔ email local and managed workers carry only references, defer running intake and reject substituted identities (276.382625ms)
+✔ retained source and exact review are fenced by receiving membership version, not just unchanged role (128.967667ms)
+✔ installation configuration is unavailable when absent, revoked or missing referenced credentials (67.731625ms)
+✔ GitHub authenticates raw bytes, installation and selected repo before durable intake (131.675958ms)
+✔ installation membership revocation blocks a correctly signed event (69.970791ms)
+✔ Slack uses bounded request time, signed team/channel, stable event identity and deletion (115.466ms)
+✔ read adapters use fixed GET origins, selected resources and bounded truthful evidence (39.278208ms)
+✔ Drive fetches authorized metadata before content and rejects unselected or unparsed files (28.867333ms)
+✔ Drive extraction rejects a revision changed between metadata and content (33.944792ms)
+✔ Drive channel notification reads changes and advances cursor only after durable ingestion (185.110625ms)
+✔ Drive cursor does not skip a failed extraction or disclose provider response text (34.088625ms)
+✔ provider revision replay conflicts instead of overwriting an accepted event (66.222958ms)
+✔ outbox acknowledgement loss retries only scoped refs with stable workflow identity (92.844208ms)
+✔ outbox dispatcher does not signal legacy-owned or canceled work (81.494375ms)
+✔ reconciliation re-reads current state for duplicate/late signals and retains unknown effects after cancellation (132.851ms)
+✔ Temporal missing configuration fails explicitly and workflow source excludes source payload imports (29.547958ms)
+✔ conversation activities return status only and local processing commits terminal acknowledgement (83.938834ms)
+✔ local runner waits through active lease, retains unknown outcomes, and respects managed owner (97.948375ms)
+✔ Temporal dispatch selects conversation workflow by kind and excludes external actions (67.240417ms)
+✔ deferred effect reads cannot starve newer local conversation work beyond the batch boundary (91.895334ms)
+✔ retained provider evidence becomes unreadable immediately after installation selection or actor revocation (142.040959ms)
+✔ Slack deletion revokes retained thread snapshots containing that message (59.33675ms)
+✔ legal maintenance local worker reads the approved source and keeps a bounded durable watch without approving applicability (259.848417ms)
+✔ legal watch managed references contain no URL and mismatched tenant/job cannot reach processor (84.059125ms)
+✔ notification references omit recipients/content and validate exact retained identity before processor (147.271875ms)
+✔ local notification loop reschedules unknown delivery, stops completed watch and never invents a completion (86.725917ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 34
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3594.253125

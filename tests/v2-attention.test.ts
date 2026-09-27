@@ -4,6 +4,7 @@ import {mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {applyAttentionCommand,attentionView,type AttentionSettings,type AttentionDecision} from '../src/v2/attention';
+import {applyCollaborationCommand} from '../src/v2/collaboration';
 import {command,snapshot} from '../src/v2/service';
 import {readWorkspace,closeV2Store} from '../src/v2/store';
 import type {ActorContext,WorkspaceState,WorkspaceCommand} from '../src/v2/contracts';
@@ -29,4 +30,16 @@ test('dismissal requires an exact visible item and reappears after the underlyin
 test('attention hides another owner’s tasks and withdrawn-source content',async()=>{
  const s=await fixture(),m=s.matters[0];await snapshot(actor('other'));s.memberships.push({actorId:'other',roles:['member','fact_owner'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null});assert.equal(attentionView(s,actor('other')).items.length,0);
  const source={...m,id:'source',title:'Private source',kind:'manual' as const,externalId:null,externalRevision:null,text:'Hidden payload',contentHash:'fixture',url:null,status:'revoked' as const,aclVersion:2,observedAt:m.createdAt,effectiveAt:null,authority:'unknown' as const,originalObjectRef:null};s.sources.push(source);m.provenance.sourceIds.push(source.id);assert.equal(attentionView(s,actor()).items.length,0);assert.doesNotMatch(JSON.stringify(attentionView(s,actor())),/Hidden payload|Owned work/);
+});
+test('child effect attention cannot expose a withdrawn parent matter',async()=>{
+ const s=await fixture(),m=s.matters[0];s.memberships.push({actorId:'other',roles:['member'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null});
+ s.actions.push({...structuredClone(m),id:'effect',matterId:m.id,proposalId:'proposal',title:'RESTRICTED settlement',kind:'publish',content:'RESTRICTED terms',contentHash:'fixture',recipients:[],destination:null,status:'uncertain',authorizationId:null,providerIdempotencyKey:'fixture',providerReceipt:null,completion:null,executionOwner:'v2',leaseUntil:null});
+ assert.ok(attentionView(s,actor()).items.some(i=>i.id==='effect:effect'));m.scope={kind:'private',actorIds:['other']};
+ assert.equal(attentionView(s,actor()).items.length,0);assert.doesNotMatch(JSON.stringify(attentionView(s,actor())),/RESTRICTED/);
+});
+test('stale completed work routes attention to the current delegated owner',async()=>{
+ const s=await fixture(),m=s.matters[0];s.memberships.push({actorId:'delegate',roles:['member','business_owner'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null});
+ m.tasks.push({id:'legacy-done-work',title:'Renew evidenced negotiation completion',purpose:'work',kind:'business',ownerId:'owner',status:'done',dueAt:null,deadlineType:'undated',evidenceIds:[]});
+ const offered=applyCollaborationCommand(s,actor(),{type:'delegation.offer',matterId:m.id,expectedMatterVersion:m.version,recipientActorId:'delegate',topics:['business_decisions'],validUntil:new Date(Date.now()+86400000).toISOString()}),id=String(offered.delegationId);applyCollaborationCommand(s,actor('delegate'),{type:'delegation.accept',delegationId:id,expectedRecordVersion:s.routingDelegations![0].version});applyCollaborationCommand(s,actor(),{type:'routing.set',delegationId:id,expectedRecordVersion:s.routingDelegations![0].version,topic:'business_decisions'});
+ assert.ok(attentionView(s,actor('delegate')).items.some(i=>i.id==='task:legacy-done-work'));assert.ok(!attentionView(s,actor()).items.some(i=>i.id==='task:legacy-done-work'));
 });

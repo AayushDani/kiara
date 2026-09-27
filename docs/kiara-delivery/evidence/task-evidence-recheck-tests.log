@@ -1,0 +1,26 @@
+✔ accepted objective and completed-task lineage survive an empty retrieval ranking and adoption (8.515333ms)
+✔ unranked accepted-basis source revision invalidates the packet before further model work (2.178084ms)
+✔ a source audience narrowed after preparation invalidates frozen task text despite owner read access (0.239291ms)
+✔ named counsel may attest only the exact shared substantive legal task; changed work requires renewed packet access (481.075083ms)
+✔ accepted plan prepares objective-specific scoped artifact, adopts exact contents once and retains review/factual gates (790.692208ms)
+✔ preparation does not send private supplementary material to a team-scoped artifact model (887.818625ms)
+✔ changed task intent or canceled matter during model await cannot attach a prepared artifact (502.835833ms)
+✔ completed preparation rejects later objective changes and source withdrawal before adoption (614.628084ms)
+✔ local mode never substitutes a generic packet for accepted model work (338.9245ms)
+✔ exact audience coverage remains current while broader private coverage is omitted explicitly (664.224708ms)
+✔ source deletion scrubs frozen matter preparation text from draft and provider run receipts (703.967792ms)
+✔ proposal approvals satisfy only review gates; substantive work requires owned source-backed completion (988.024625ms)
+✔ an effect created without mutating the matter still blocks final prepared adoption (620.610667ms)
+✔ main snapshots hide child text when its conversation or matter is inaccessible (695.416875ms)
+✔ task attestation rejects an independently changed inspected source and permits exact refreshed proof (890.237792ms)
+✔ task evidence pins transitive source-free facts even when the cited source version stays unchanged (1068.652333ms)
+✔ stale completed work renews under its still-current delegated owner (1717.73675ms)
+✔ historical generated work marked done without attestation is stale and recoverable (1043.599709ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12216.9735

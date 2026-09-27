@@ -14,3 +14,6 @@
 .sourceRow .badge{flex:0 0 auto}
 .app small,.publicPage small{color:#756c7e}.app .eyebrow,.publicPage .eyebrow{color:#7b6e87}.app .composerMeta,.app .rehearsal,.app .coverageStrip,.app .factProvenance,.app .documentMeta,.app .detailMeta,.app .small{color:#766b80}.app .card p,.app .sideCardBody>p,.app .emptyAttention p,.app .empty p,.app .timeline p{color:#766a81}.app .listRow p,.app .dataTable td,.app .dataTable th,.app .definitionList dt,.app .definitionList dd{color:#71637c}.publicPage .publicHero p,.publicPage .journeyCard p,.publicPage .card p,.publicPage .checkList,.publicPage .publicFooter{color:#76697f}.app .welcome p,.app .starter small{color:#79717f}.app .stat span,.app .stat small,.app .sectionTabs button{color:#766a81}
 @media(prefers-reduced-motion:reduce){.spinner{animation:none}.publicMock{transform:none}}
+
+.valueStats{grid-template-columns:repeat(3,minmax(0,1fr))}.valueStats .stat{min-width:0}.valueStats .stat strong{overflow-wrap:anywhere}
+@media(max-width:680px){.valueStats{grid-template-columns:minmax(0,1fr)}.valueStats .stat{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:4px 12px}.valueStats .stat strong{grid-row:span 2}}

@@ -1,0 +1,33 @@
+{
+  "protocol": "kiara-synthetic-cancellation-ui-1",
+  "providerCalls": 0,
+  "recovered": {
+    "id": "2336a51a-f09d-4f27-9c46-98c45c637cc6",
+    "version": 5,
+    "cancellation": {
+      "requestedAt": "2026-09-27T08:03:32.124Z",
+      "reason": "Fictional UI acceptance: stop further generation for this simulated running request. Retain pending charge reconciliation and do not claim an abort or refund.",
+      "accounting": "unknown"
+    },
+    "conversationId": "219b2f0d-0fde-4b1f-8f60-14f7acbc2d1f",
+    "userMessageId": "992f76a9-a6c6-44f5-840a-d563c1d7ef7d",
+    "status": "canceled",
+    "reason": "RUN_CANCELED",
+    "assistantMessageId": null,
+    "createdAt": "2026-09-27T08:02:34.686Z",
+    "updatedAt": "2026-09-27T08:04:14.119Z"
+  },
+  "syntheticLedger": {
+    "budget_usd": 1,
+    "spent_usd": 0,
+    "actual_spent_usd": 0,
+    "conservative_spent_usd": 0,
+    "reserved_usd": 0.001,
+    "unknown_charges": 1,
+    "covered_unknown_charges": 0,
+    "blocking_unknown_charges": 1,
+    "inflight": 1,
+    "request_count": 1,
+    "scope": "all_visitors_and_evaluations"
+  }
+}

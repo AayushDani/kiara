@@ -1,0 +1,45 @@
+✔ message acceptance is durable before model dispatch; grounded answer receipts survive replay (452.532792ms)
+✔ same accepted message key is one durable run even after reply completion (109.74925ms)
+✔ missing provider credentials and invalid modes fail closed with retained user message (128.042875ms)
+✔ shared spending cap prevents dispatch and is never raised by conversation processing (221.994584ms)
+✔ provider timeout or unknown failure retains uncertain charge and forbids replay (318.165792ms)
+✔ explicit provider rejection settles reservation without fabricating an answer (293.493916ms)
+✔ source revoked while provider awaits cannot reach review or attach stale response (337.900417ms)
+✔ membership revoked during final support review cannot attach answer (500.831667ms)
+✔ unsupported citation IDs fail before support review; injection text remains untrusted with no tools (307.106125ms)
+✔ support reviewer rejects source-injected claims even when citation identity exists (414.566959ms)
+✔ private sources cannot enter another actor retrieval and derived output retains source ACL (231.458834ms)
+✔ hypotheses stay isolated; inventory enumerates authorized executed agreements beyond ranking (351.026417ms)
+✔ concurrent worker replays do not invoke the model twice (325.905458ms)
+✔ expired running lease conservatively reconciles an interrupted dispatch without another invocation (175.299625ms)
+✔ pinned model configuration cannot silently change after message acceptance (161.838875ms)
+✔ durable recovery marker survives the crash checkpoint between run terminalization and ledger reconciliation (210.386916ms)
+✔ prepared reservation interrupted before dispatch is released without invoking provider (140.070833ms)
+✔ source instructions stay in untrusted evidence and cannot gain model tools or command authority (279.236959ms)
+✔ source access changed during token count prevents generation dispatch and reservation (125.716208ms)
+✔ a uniquely supplied document supports Explain this contract even without a keyword match (60.322167ms)
+✔ source deletion during inference scrubs retained packet and prevents late provider payload storage (248.771167ms)
+✔ queued cancellation survives restart, leaves user message and makes zero provider/count/reservation calls (105.580458ms)
+✔ only initiating owner with current membership and exact run version may cancel (129.308417ms)
+✔ cancel during asynchronous count prevents reservation and first generation (142.414709ms)
+✔ cancel in flight waits for actual usage, discards result and never starts review (350.978333ms)
+✔ cancel during final review preserves both actual charges without attaching an answer (491.801375ms)
+✔ lost provider response after cancellation remains unknown and cannot be retried (325.122125ms)
+✔ restart after cancellation of dispatched attempt waits until lease then reconciles unknown without dispatch (228.214375ms)
+✔ prepared cancellation releases reservation and retires any not-yet-created reservation identity (353.732667ms)
+✔ query embedding submitted before cancellation owns its charge and no generation may start (284.787667ms)
+✔ real idempotent cancellation command replays once and source deletion clears cancellation reason (201.811667ms)
+✔ canceling a model work plan creates neither a proposed artifact nor an accepted matter (355.288042ms)
+✔ refs-only local processing waits for cancellation accounting and completes only after lease recovery (237.381625ms)
+✔ a late valid provider receipt after canceled lease recovery preserves metadata without clearing unknown charge (358.887333ms)
+✔ revoked source hides cancellation free text but preserves safe accounting; deletion erases audit reason (207.656584ms)
+✔ real query embedding canceled in flight settles usage, clears vector, skips search and generation (496.845791ms)
+✔ a valid response receipt survives ledger outage and restart without another provider attempt (310.366875ms)
+ℹ tests 37
+ℹ suites 0
+ℹ pass 37
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6210.214875

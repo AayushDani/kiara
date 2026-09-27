@@ -1,0 +1,36 @@
+✔ server-owned frozen replay measures improvement and records immutable independent receipt (513.51375ms)
+✔ promotion changes later comparable work without reconfirming settled current facts; release evidence resolves the real gate (779.160292ms)
+✔ planned deployment remains distinct and does not trigger a live-claim requirement (511.68825ms)
+✔ rollback is monotonic, identifies affected later work, invalidates its proposal and removes only that behavior (472.832792ms)
+✔ stale evaluator authority, baseline change and reused scope without improvement cannot promote (315.891875ms)
+✔ procedure owner expiry is an explicit blocker and cannot silently remove a promoted safeguard (450.234334ms)
+✔ a private lesson never changes unrelated team work (698.139583ms)
+✔ source verification and coverage qualification are distinct exact-version legal reviewer decisions (195.137125ms)
+✔ coverage becomes stale dynamically when source version, reviewer membership or review deadline changes (380.468125ms)
+✔ explicit unsupported coverage remains unavailable and legal clearance is never automatically created (428.979292ms)
+✔ registered authority must preserve source scope and exact domain/jurisdiction inventory (218.97525ms)
+✔ renewing a source review does not silently renew old coverage approval; expiry is checked at read time (346.93325ms)
+✔ an already active same-scope rule has no measured improvement and cannot be promoted again (441.194625ms)
+✔ owner can renew an unchanged qualified deterministic rule after its review deadline (526.373458ms)
+✔ holdout names, labels, outputs and evidence stay server-only across evaluator-to-author role changes (402.067083ms)
+✔ real frozen ranking replay requires three people, protected holdouts, shadow then exact controlled adoption (1164.145459ms)
+✔ promotion binds the inspected shadow hash; rollback removes actual ranking behavior and identifies affected input (791.737ms)
+✔ scoped policy cannot affect a private conversation and owner revocation removes its effect immediately (577.095458ms)
+✔ classification is explicit and does not promote factual or legal corrections into strategy authority (182.465417ms)
+✔ draft preservation comparison shadows actual generated text before adoption blocks a numeric omission (2210.549667ms)
+✔ feedback and strategy authority follow the current conversation container, including source-free outputs (580.567792ms)
+✔ actual model evidence ordering changes only in local retrieval; hybrid selection retains its supplied order (544.041917ms)
+✔ policy expiry after model count stops provider dispatch and preserves the original decision history (650.874958ms)
+✔ feedback inherits direct fact lineage of replay documents and cannot reveal original labels to another audience (233.708292ms)
+✔ literal guard preserves percent units and does not claim semantic equivalence (0.664792ms)
+✔ new evidence used only during shadow cannot authorize promotion after withdrawal (425.249375ms)
+✔ promoted authority stops when a shadow-only dependency changes (415.775833ms)
+✔ protected holdout rows remain server-only for every UI actor, including an evaluator who later authors (307.04975ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11343.768584

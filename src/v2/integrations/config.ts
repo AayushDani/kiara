@@ -1,3 +1,4 @@
+import {emailSourceEligible} from './email-config';
 import {slackSnapshotHasWithdrawnMessage} from '../source-lifecycle';
 import {readFileSync,statSync} from 'node:fs';
 import {digest} from '../store';
@@ -33,6 +34,7 @@ export async function connectionAvailability(tenantId:string){return (await inst
 
 /** Read-time grant validation is deliberately synchronous: retained/indexed evidence cannot outlive an installation selection. */
 export function sourceInstallationEligible(state:WorkspaceState,source:Source):boolean {
+ if(source.kind==='email')return emailSourceEligible(state,source);
  if(!['github','slack','drive'].includes(source.kind))return true;
  if(slackSnapshotHasWithdrawnMessage(state,source))return false;
  const grant=source.installationGrant;if(!grant)return false;

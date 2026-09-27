@@ -1,0 +1,29 @@
+import {randomUUID} from 'node:crypto';
+import {readRecord,requireRole} from './authority';
+import {digest,timestamp} from './store';
+import {V2Error,type ActorContext,type WorkspaceState} from './contracts';
+
+export interface RunCancellation {requestedAt:string;reason:string;accounting:'settling'|'settled'|'unknown';actorId:string;membershipVersion:number;inputHash:string}
+export interface ControlledRun {id:string;protocol:string;version?:number;conversationId:string;userMessageId:string;actor:ActorContext;status:string;reason:string|null;updatedAt:string;leaseToken:string|null;leaseUntil:number|null;recoveryPending?:boolean;cancellation?:RunCancellation;packet?:{sourceIds:string[];factIds:string[]};attempts:{id:string;status:string}[]}
+export type RunControlCommand={type:'run.cancel';runId:string;expectedRecordVersion:number;reason:string};
+export const runControlCommandFields={'run.cancel':['runId','expectedRecordVersion','reason']};
+const ensure=(value:unknown,code:string,message:string,status=409)=>{if(!value)throw new V2Error(code,message,status);};
+export function runVersion(run:{version?:number}){return Number.isSafeInteger(run.version)&&run.version!>0?run.version!:1;}
+export function touchRun(run:{version?:number;updatedAt:string}){run.version=runVersion(run)+1;run.updatedAt=timestamp();}
+export function controlledRun(s:WorkspaceState,id:string):ControlledRun {const run=s.receipts['conversation-run:'+id]?.result.run as unknown as ControlledRun|undefined;ensure(run?.id===id&&run.protocol==='v2-grounded-conversation-1','RUN_NOT_FOUND','This investigation is unavailable.',404);return run!;}
+function embedding(s:WorkspaceState,run:ControlledRun){return s.receipts['embedding:query:'+run.id]?.result.job as {status:string;recoveryPending?:boolean;vector?:unknown}|undefined;}
+export function assertRunNotCanceled(run:ControlledRun){ensure(!run.cancellation,'RUN_CANCELED','The owner stopped this investigation. No additional generation or output attachment is allowed.');}
+/** Cancellation never erases a provider attempt or releases an unknown charge. */
+export function applyRunControlCommand(s:WorkspaceState,a:ActorContext,c:RunControlCommand):Record<string,unknown>{
+ const member=requireRole(s,a,'member'),run=controlledRun(s,c.runId);ensure(run.actor.actorId===a.actorId&&run.actor.tenantId===a.tenantId,'RUN_OWNER_REQUIRED','Only the initiating owner can stop this investigation.',403);const conversation=readRecord(s,a,s.conversations,run.conversationId);const user=readRecord(s,a,s.messages,run.userMessageId);
+ ensure(Number.isSafeInteger(c.expectedRecordVersion)&&runVersion(run)===c.expectedRecordVersion,'VERSION_CONFLICT','Inspect the current investigation before stopping it.');ensure(['queued','running'].includes(run.status)&&!run.cancellation,'RUN_NOT_CANCELABLE','This investigation is already stopped or complete.');ensure(typeof c.reason==='string'&&c.reason.trim().length>0&&c.reason.length<=1000,'RUN_CANCEL_REASON','Provide a short reason for stopping the investigation.',400);
+ const pending=run.recoveryPending===true||run.attempts.some(a=>['prepared','dispatched'].includes(a.status)),query=embedding(s,run),pendingEmbedding=!!query&&(['prepared','dispatched'].includes(query.status)||query.recoveryPending===true);run.cancellation={actorId:a.actorId,membershipVersion:member.version,requestedAt:timestamp(),reason:c.reason.trim(),inputHash:digest(c),accounting:pending||pendingEmbedding?'settling':run.attempts.some(a=>a.status==='unknown')||query?.status==='unknown'?'unknown':'settled'};run.reason='RUN_CANCELED';run.status=pending||pendingEmbedding?'cancel_requested':'canceled';run.recoveryPending=pending||pendingEmbedding;
+ if(query&&['prepared','dispatched'].includes(query.status))query.recoveryPending=true;
+ if(run.status==='canceled'){run.leaseToken=null;run.leaseUntil=null;}touchRun(run);for(const o of s.outbox.filter(o=>o.kind==='conversation_answer'&&o.aggregateId===run.id))if(run.status==='canceled')o.status='canceled';else if(o.status==='canceled')o.status='pending';
+ s.events.push({id:randomUUID(),tenantId:s.tenantId,version:1,createdAt:timestamp(),updatedAt:timestamp(),scope:structuredClone(conversation.scope),provenance:{actorId:a.actorId,sourceIds:[...new Set([...(run.packet?.sourceIds||[]),...conversation.provenance.sourceIds,...user.provenance.sourceIds])],factIds:[...new Set([...(run.packet?.factIds||[]),...(conversation.provenance.factIds||[]),...(user.provenance.factIds||[])])],description:'Explicit owner cancellation; submitted provider costs remain accounted.'},type:'conversation.run_cancel_requested',title:'Investigation stopped by its owner',detail:c.reason.trim(),matterId:null,recordId:run.userMessageId,measurement:'observed'});
+ return {runId:run.id,status:run.status,version:runVersion(run),accounting:run.cancellation.accounting};
+}
+/** A live submitted attempt can still return exact usage; wait for it or its existing lease. */
+export function canceledRunNeedsWait(s:WorkspaceState,run:ControlledRun){if(!run.cancellation)return false;const query=embedding(s,run),submitted=run.attempts.some(a=>a.status==='dispatched')||query?.status==='dispatched';return submitted&&!!run.leaseUntil&&run.leaseUntil>Date.now();}
+/** Called only after ledger reconciliation, or once every submitted attempt has settled. */
+export function finalizeRunCancellation(s:WorkspaceState,run:ControlledRun){if(!run.cancellation)return;const query=embedding(s,run);run.cancellation.accounting=run.attempts.some(a=>a.status==='unknown')||query?.status==='unknown'?'unknown':'settled';run.status='canceled';run.reason='RUN_CANCELED';run.recoveryPending=false;run.leaseToken=null;run.leaseUntil=null;touchRun(run);for(const o of s.outbox.filter(o=>o.kind==='conversation_answer'&&o.aggregateId===run.id))o.status='canceled';}

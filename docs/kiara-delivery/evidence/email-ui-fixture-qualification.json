@@ -1,0 +1,30 @@
+{
+  "dataDir": "/private/tmp/kiara-email-ui-fixture-qualification",
+  "environmentFile": "/private/tmp/kiara-email-ui-fixture-qualification/email-ui-environment.json",
+  "installationFile": "/private/tmp/kiara-email-ui-fixture-qualification/email-ui-installations.json",
+  "providerCalls": 0,
+  "fixtures": [
+    {
+      "label": "accept evidence",
+      "intakeId": "04bff79d076a02a9fd72564784d3fd7624b6c2714a062215a7ea352bfa36c3dc",
+      "status": "quarantined",
+      "failureCode": null,
+      "sourceId": "3c65c428-e4fc-4bba-9992-586b4a7ec097",
+      "sourceVersion": 1,
+      "sourceHash": "e98df88bb2c96f017b1cfa23331b067556b53aac8aeeb8a3ded338831264a9e9",
+      "receiptHash": "36f8faace5c60e450d63aa23dd06f08569dddcd5c8aa075f3ddd2c91ef6566c1",
+      "title": "Synthetic quarantine — accept evidence"
+    },
+    {
+      "label": "reject evidence",
+      "intakeId": "734a64fb942138ab3de88894285ece816b751f8b6c04e3111b1b411d9b54e056",
+      "status": "quarantined",
+      "failureCode": null,
+      "sourceId": "bb367694-6ff2-4b79-adba-724a896b2f03",
+      "sourceVersion": 1,
+      "sourceHash": "649831323ee71c3f41bc1e9cb49f09481c41986117e7519afeba5407712c078b",
+      "receiptHash": "f3e1ab654d6057f636c3d30d3f5c304d5c5598176730c0a5bd616cf9dd36b546",
+      "title": "Synthetic quarantine — reject evidence"
+    }
+  ]
+}

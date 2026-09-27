@@ -1,0 +1,26 @@
+✔ independent final grant mutation blocks posting to a recipient never reviewed (244.008125ms)
+✔ unknown dispatch remains deduped after explicit off and on; no automatic resend (320.936708ms)
+✔ provider acknowledgment after opt-out and expired lease is retained without another send (365.746417ms)
+✔ readback with extra HTML or attachment content cannot certify exact generic delivery (306.822625ms)
+✔ email is off until exact configured recipient opt-in; malformed and conflicting grants are unavailable (118.99575ms)
+✔ required email contains only generic authenticated link; exact provider read-back distinguishes delivered (253.604333ms)
+✔ semantic dedup ignores unrelated versions but changed required conditions produce a new notice (431.808916ms)
+✔ digest dedup is once per local calendar day despite changes in item membership (230.685916ms)
+✔ quiet hours defer digest while required escalation can pass (259.512625ms)
+✔ preview and provider acceptance are never reported as verified delivery (102.525125ms)
+✔ a lost POST response stays unknown across retry and accepts only exact read-back (140.081667ms)
+✔ concurrent workers send once and a late acceptance survives expired-lease recovery (202.62025ms)
+✔ membership, source condition and opt-out changes stop a prepared send at final admission (173.899167ms)
+✔ acknowledged work and revoked membership cannot trigger prepared email (143.326083ms)
+✔ accepted receipt requires matching provider bytes, and another actor cannot reconcile it (158.734708ms)
+✔ explicit reenrollment can prepare a canceled unsent condition without retrying an uncertain dispatch (251.666792ms)
+✔ membership change immediately before dispatch cancels the prepared notification (168.176833ms)
+✔ grant renewal preserves unknown dedup and permits exact readback under the same current delivery identity (155.857167ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3882.73025

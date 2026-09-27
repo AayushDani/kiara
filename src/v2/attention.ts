@@ -3,6 +3,7 @@ import {canRead,membership} from './authority';
 import {routedTaskOwner} from './collaboration';
 import {coverageStatus} from './coverage';
 import {obligationCurrent} from './obligations';
+import {taskCompletionCurrent} from './tasks';
 import {digest,timestamp} from './store';
 import {V2Error,type ActorContext,type RecordBase,type WorkspaceState} from './contracts';
 
@@ -22,10 +23,10 @@ function base(s:State,a:ActorContext,record?:RecordBase):RecordBase{return {id:r
 type Candidate={item:Omit<AttentionItem,'fingerprint'|'acknowledged'|'placement'>;basis:unknown;record:RecordBase};
 function candidates(s:State,a:ActorContext,now:number,p:AttentionSettings|null):Candidate[]{
  const result:Candidate[]=[],hours=p?.approachingHours||24;
- const add=(record:RecordBase,item:Candidate['item'],basis:unknown)=>{if(canRead(s,a,record))result.push({record,item,basis});};
+ const add=(record:RecordBase,item:Candidate['item'],basis:unknown)=>{const matter=item.matterId?s.matters.find(m=>m.id===item.matterId):null;if(canRead(s,a,record)&&(!item.matterId||!!matter&&canRead(s,a,matter)))result.push({record,item,basis});};
  for(const m of s.matters.filter(m=>canRead(s,a,m)&&!['closed','canceled'].includes(m.state))){
-  const own=m.tasks.filter(t=>t.status!=='done'&&routedTaskOwner(s,m,t)===a.actorId);
-  for(const t of own){const due=t.dueAt?Date.parse(t.dueAt):NaN,overdue=Number.isFinite(due)&&due<=now;add(m,{id:`task:${t.id}`,kind:'task',title:t.title,detail:overdue?'The recorded target has passed. Inspect its authority and current work.':t.status==='blocked'?'This owned task is blocked. Open the matter for its current dependency.':'A decision or factual response is assigned to you.',matterId:m.id,recordId:t.id,ownerId:a.actorId,required:overdue,decisionRequired:true,dueAt:t.dueAt,deadlineType:t.deadlineType,}, {matterVersion:m.version,task:t,owner:a.actorId,overdue});}
+  const own=m.tasks.filter(t=>(t.status!=='done'||!taskCompletionCurrent(s,a,m,t))&&routedTaskOwner(s,m,t.status==='done'?{...t,status:'pending'}:t)===a.actorId);
+  for(const t of own){const due=t.dueAt?Date.parse(t.dueAt):NaN,overdue=Number.isFinite(due)&&due<=now;add(m,{id:`task:${t.id}`,kind:'task',title:t.title,detail:t.status==='done'?'The recorded completion basis changed. Inspect and renew the assigned work evidence.':overdue?'The recorded target has passed. Inspect its authority and current work.':t.status==='blocked'?'This owned task is blocked. Open the matter for its current dependency.':'A decision or factual response is assigned to you.',matterId:m.id,recordId:t.id,ownerId:a.actorId,required:overdue,decisionRequired:true,dueAt:t.dueAt,deadlineType:t.deadlineType,}, {matterVersion:m.version,task:t,owner:a.actorId,overdue});}
   if(m.ownerId===a.actorId&&!own.length)add(m,{id:`update:${m.id}`,kind:'update',title:m.title,detail:m.blockers[0]||'This work remains open. Open the matter for its actual status.',matterId:m.id,recordId:m.id,ownerId:a.actorId,required:false,decisionRequired:false,dueAt:null,deadlineType:null},{version:m.version,state:m.state});
  }
  for(const o of s.obligations||[]){if(!['active','proposed'].includes(o.status)||!canRead(s,a,o))continue;const m=s.matters.find(m=>m.id===o.matterId);if(o.ownerId!==a.actorId&&m?.ownerId!==a.actorId)continue;const due=Date.parse(o.dueAt),overdue=o.status==='active'&&Number.isFinite(due)&&due<=now,current=obligationCurrent(s,a,o),approaching=Number.isFinite(due)&&due>now&&due-now<=hours*3600000;if(!overdue&&!approaching&&current)continue;add(o,{id:`obligation:${o.id}`,kind:'obligation',title:o.title,detail:!current?'The obligation basis needs a current authorized review.':overdue?'The reviewed obligation is past its recorded deadline. Acknowledgment does not fulfill it.':'The recorded deadline is approaching. Inspect its authority and fulfillment criteria.',matterId:o.matterId,recordId:o.id,ownerId:o.ownerId,required:overdue||!current,decisionRequired:true,dueAt:o.dueAt,deadlineType:o.deadlineType},{version:o.version,basisHash:o.basisHash,overdue,approaching,current});}

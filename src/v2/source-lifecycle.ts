@@ -31,6 +31,7 @@ export function slackSnapshotHasWithdrawnMessage(s:WorkspaceState,source:Source)
 /** Historical source access stays in canRead; this predicate is only for admitting current evidence. */
 export function currentSourceEvidence(s:WorkspaceState,source:Source):boolean {
  if(source.status!=='active'||s.tombstones.some(t=>t.sourceId===source.id)||slackSnapshotHasWithdrawnMessage(s,source))return false;
+ if(source.kind==='email'&&source.emailIntake?.status!=='accepted')return false;
  if(!providers.includes(source.kind))return true;
  const observation=(source as ObservedSource).observation;if(!observation||observation.state!=='current')return false;
  const object=stateOf(s,observation.objectKey);return !!object&&!object.withdrawn&&object.currentSourceId===source.id;

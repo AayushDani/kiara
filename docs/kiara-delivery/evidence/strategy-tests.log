@@ -1,0 +1,21 @@
+✔ real frozen ranking replay requires three people, protected holdouts, shadow then exact controlled adoption (341.506792ms)
+✔ promotion binds the inspected shadow hash; rollback removes actual ranking behavior and identifies affected input (374.606583ms)
+✔ scoped policy cannot affect a private conversation and owner revocation removes its effect immediately (388.547959ms)
+✔ classification is explicit and does not promote factual or legal corrections into strategy authority (85.981208ms)
+✔ draft preservation comparison shadows actual generated text before adoption blocks a numeric omission (890.056834ms)
+✔ feedback and strategy authority follow the current conversation container, including source-free outputs (320.492042ms)
+✔ actual model evidence ordering changes only in local retrieval; hybrid selection retains its supplied order (262.214042ms)
+✔ policy expiry after model count stops provider dispatch and preserves the original decision history (348.22ms)
+✔ feedback inherits direct fact lineage of replay documents and cannot reveal original labels to another audience (162.266709ms)
+✔ literal guard preserves percent units and does not claim semantic equivalence (0.627959ms)
+✔ new evidence used only during shadow cannot authorize promotion after withdrawal (279.06825ms)
+✔ promoted authority stops when a shadow-only dependency changes (285.276708ms)
+✔ protected holdout rows remain server-only for every UI actor, including an evaluator who later authors (242.85475ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4595.579416

@@ -1,0 +1,24 @@
+{
+  "protocol": "kiara-synthetic-cancellation-ui-1",
+  "dataDir": "/private/tmp/kiara-run-ui-qualification/v2",
+  "budgetDir": "/private/tmp/kiara-run-ui-qualification/budget",
+  "queued": {
+    "state": "queued",
+    "conversationId": "3d2c5f7b-d4f5-4a41-a86c-cf0a76e47f45",
+    "runId": "4fdd97c6-e156-45a9-8a85-7cb481e8dfc4",
+    "version": 1,
+    "chargeId": null
+  },
+  "running": {
+    "state": "running",
+    "conversationId": "8222e1af-dc85-41c1-8b8e-4a1313dbc0fc",
+    "runId": "f16dac75-b883-4e1b-a2e3-d1ca9a32d0c3",
+    "version": 2,
+    "chargeId": "6ee5c127-cc62-4d81-888e-49940c36a8d9"
+  },
+  "providerCalls": 0,
+  "ledgerIsSynthetic": true,
+  "manifestPath": "/private/tmp/kiara-run-ui-qualification/v2/run-ui-fixtures.json",
+  "previewAiMode": "local",
+  "note": "Do not enable model providers in the preview. Run --recover with these exact dirs only after canceling the labeled running fixture."
+}
