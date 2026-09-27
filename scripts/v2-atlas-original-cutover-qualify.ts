@@ -12,6 +12,7 @@ import {purgeOriginal,readOriginal,readPhysicalOriginal,retainOriginal} from '..
 import {closeV2Store,digest,readWorkspace,timestamp,transactWorkspace} from '../src/v2/store';
 import {applySourceDeletion} from '../src/v2/retention';
 import {processDeletionJob} from '../src/v2/retention-worker';
+import {purgeExpiredIntakes} from '../src/v2/artifact-intake';
 
 const hash=(value:Uint8Array)=>createHash('sha256').update(value).digest('hex');
 const code=(expected:string)=>(error:unknown)=>(error as {code?:string}).code===expected;
@@ -72,10 +73,27 @@ async function main(){
   assert.equal(await db.collection('v2_original_manifests').countDocuments({_id:target.key}),1);
   assert.equal((await readWorkspace(tenantId)).sources[0].originalObjectRef,JSON.stringify(legacy));
   console.log('ATLAS_ORIGINAL_CUTOVER_EVIDENCE '+JSON.stringify({database:databaseName,tenant:tenantId,previewHash:preview.previewHash,count:preview.count,bytes:bytes.length,sourceHash:hash(bytes),aliasReadbackAfterClientReopen:true,legacyPhysicalPurged:true,replayVerified:true,aliasAndNativePurgeHeld:true,remoteTenantDataRead:false}));
-  await transactWorkspace(tenantId,state=>{state.sources.push({...structuredClone(state.sources[0]),id:'synthetic-native-holder',originalObjectRef:JSON.stringify(target)});});
+  await transactWorkspace(tenantId,state=>{state.sources.push({...structuredClone(state.sources[0]),id:'synthetic-native-holder',originalObjectRef:JSON.stringify(target)},{...structuredClone(state.sources[0]),id:'synthetic-late-native-holder',originalObjectRef:JSON.stringify(target)});});
   assert.equal((await previewOriginalAliasTargetReconciliation(tenantId,target)).eligible,false);
   const actor={tenantId,actorId:'synthetic-operator',expiresAt:Date.now()+60000,mode:'authenticated' as const};
-  await transactWorkspace(tenantId,state=>{applySourceDeletion(state,actor,'synthetic-source');applySourceDeletion(state,actor,'synthetic-native-holder');});
+  await transactWorkspace(tenantId,state=>{applySourceDeletion(state,actor,'synthetic-source');applySourceDeletion(state,actor,'synthetic-native-holder');applySourceDeletion(state,actor,'synthetic-late-native-holder');});
+  const lateDue=new Date(Date.now()+86400000).toISOString();
+  await transactWorkspace(tenantId,state=>{
+   const late=state.deletionJobs!.find(job=>job.sourceId==='synthetic-late-native-holder')!;
+   late.originals[0].notBefore=lateDue;
+   state.receipts['artifact-intake:synthetic-expired']={hash:'synthetic-expired',result:{intake:{id:'synthetic-expired',actorId:'synthetic-operator',contentHash:target.sha256,bytes:target.bytes,createdAt:timestamp(),expiresAt:new Date(0).toISOString(),reference:JSON.stringify(target),status:'attached',failureCode:null}}};
+  });
+  const dueNative=(await readWorkspace(tenantId)).deletionJobs!.find(job=>job.sourceId==='synthetic-native-holder')!;
+  const delayed=await processDeletionJob(tenantId,dueNative.id);
+  assert.equal(delayed.originalsPending,1);
+  assert.equal((await readWorkspace(tenantId)).deletionJobs!.find(job=>job.id===dueNative.id)!.originals[0].status,'shared_reference');
+  assert.deepEqual(await readMongoOriginal(tenantId,target),bytes);
+  const intakeHeld=await purgeExpiredIntakes(tenantId,'synthetic-expired');
+  assert.equal(intakeHeld.purged,0);assert.equal(intakeHeld.retained,1);assert.equal(intakeHeld.unresolved,0);
+  const delayedPreview=await previewOriginalAliasTargetReconciliation(tenantId,target);
+  assert.equal(delayedPreview.eligible,false);
+  assert.ok(delayedPreview.holders.some((holder:string)=>holder.startsWith('deletion:')));
+  await transactWorkspace(tenantId,state=>{state.deletionJobs!.find(job=>job.sourceId==='synthetic-late-native-holder')!.originals[0].notBefore=new Date(0).toISOString();});
   // Exercise the retained holders found by independent review against normalized Atlas
   // state before allowing target deletion. These are generated receipts, not provider calls.
   await transactWorkspace(tenantId,state=>{
@@ -103,10 +121,12 @@ async function main(){
   assert.equal(await db.collection('v2_original_manifests').countDocuments({_id:target.key}),0);
   assert.equal(await db.collection('v2_original_chunks').countDocuments({manifestId:target.key}),0);
   assert.equal(await db.collection('v2_original_aliases').countDocuments({tenantHash:hash(Buffer.from(tenantId)),retiredAt:{$type:'string'}}),1);
-  const jobs=(await readWorkspace(tenantId)).deletionJobs||[];assert.equal(jobs.length,2);
+  const jobs=(await readWorkspace(tenantId)).deletionJobs||[];assert.equal(jobs.length,3);
   const outcomes=[];for(const job of jobs)outcomes.push(await processDeletionJob(tenantId,job.id));
   assert.ok(outcomes.every(x=>x.applicationCleanupComplete&&x.originalsPending===0));
-  console.log('ATLAS_ALIAS_RECONCILIATION_EVIDENCE '+JSON.stringify({database:databaseName,tenantHash:hash(Buffer.from(tenantId)),targetHash:hash(Buffer.from(target.key)),previewHash:cleanupPreview.previewHash,aliasesRetired:cleaned.aliasesRetired,retainedBytesDeleted:true,replayVerified:true,retentionJobsComplete:outcomes.length,unresolvedEffectReadbackHeld:true,unresolvedEffectContentHeld:true,stagingIntakeHeld:true,managedBackupErasureVerified:false,remoteTenantDataRead:false}));
+  const intakeCleared=await purgeExpiredIntakes(tenantId,'synthetic-expired');
+  assert.equal(intakeCleared.purged,1);
+  console.log('ATLAS_ALIAS_RECONCILIATION_EVIDENCE '+JSON.stringify({database:databaseName,tenantHash:hash(Buffer.from(tenantId)),targetHash:hash(Buffer.from(target.key)),previewHash:cleanupPreview.previewHash,aliasesRetired:cleaned.aliasesRetired,retainedBytesDeleted:true,replayVerified:true,retentionJobsComplete:outcomes.length,laterNativeDeadlineHeld:true,expiredAttachedIntakeHeld:true,expiredAttachedIntakeCleared:true,unresolvedEffectReadbackHeld:true,unresolvedEffectContentHeld:true,stagingIntakeHeld:true,managedBackupErasureVerified:false,remoteTenantDataRead:false}));
  }finally{
   try{
    await closeMongoOriginalStore().catch(()=>{});
