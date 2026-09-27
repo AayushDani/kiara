@@ -1,6 +1,10 @@
 # Kiara v2 delivery status
 
-Status: **active implementation; target not complete**. The authoritative contract is [the v2 product plan](../product-plan/kiara-product-plan-v2.md); the full autonomous execution brief is supplied in this chat. Source reports are preserved in the original checkout.
+**Current implementation checkpoint — September 27, 2026:** This checkout is integrated on `codex/kiara-v2`. The [current qualification index](qualification-status-sep27.md) and [single-tenant reference journey](reference-journey.md) describe the tested behavior and remaining release conditions. The detailed [handoff](handoff-gpt-6-sol.md) records the starting state; its pending-work statements are historical.
+
+The present wave integrates company memory, conservative natural correction, voice interpretation, owner-specific preparation, exact agreement applicability, scoped precedent matching, named-owner event linking, bound Slack matter explanations, and exact action timing. A single fictional tenant exercises the shared journey without live sends. The Node 24 assembled suite passed **597/597**, TypeScript check passed, and the production build succeeded. Local browser checks covered clause review and timing at desktop/390/320 px. No customer tenant payload was copied from the earlier remote preview; the preview uses local storage with live email disabled.
+
+Status: **software integrated; external qualification pending**. The authoritative contract is [the v2 product plan](../product-plan/kiara-product-plan-v2.md); the full autonomous execution brief is supplied in this chat. Source reports are preserved in the original checkout.
 
 ## Baseline and coordination
 

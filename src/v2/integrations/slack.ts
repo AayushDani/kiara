@@ -5,11 +5,12 @@ import {command} from '../service';
 import {recheckEvidence,type EvidencePacket} from '../retrieval';
 import {digest,readWorkspace,timestamp,transactWorkspace} from '../store';
 import {currentInstallations,type Installation} from './config';
-import {assertSlackChannelGrant,configuredSlackBinding,scopeAudienceHash,slackAudienceEligible,slackMessageEvidenceHash,type SlackChannelGrant} from './slack-scope';
+import {assertSlackChannelGrant,configuredSlackBinding,isWhyMatterPrompt,scopeAudienceHash,slackAudienceEligible,slackMatterDeepLink,slackMessageEvidenceHash,type SlackChannelGrant} from './slack-scope';
 
 export interface SlackReplyIntent {
  id:string;tenantId:string;installationId:string;configurationHash:string;conversationId:string;sourceId:string;sourceHash:string;
  actorId:string;membershipVersion:number;channel:string;threadTs:string;commandId:string;runId:string|null;messageId:string|null;
+ matterId?:string|null;matterHash?:string|null;matterLinkRequired?:boolean;
  status:'waiting_answer'|'prepared'|'dispatched'|'verified'|'uncertain'|'blocked';reason:string|null;
  messageHash:string|null;contentHash:string|null;providerTs:string|null;leaseToken:string|null;leaseUntil:number|null;
  createdAt:string;updatedAt:string;
@@ -21,6 +22,7 @@ export function assertReplyAuthority(s:WorkspaceState,r:SlackReplyIntent){
  const conversation=s.conversations.find(c=>c.id===r.conversationId);if(!conversation)throw fail('SLACK_GRANT_CHANGED');
  const current=assertSlackChannelGrant(s,conversation);
  if(current.installation.id!==r.installationId||digest(current.installation)!==r.configurationHash||current.grant.actorId!==r.actorId||current.grant.membershipVersion!==r.membershipVersion||current.grant.channel!==r.channel||current.grant.threadTs!==r.threadTs)throw fail('SLACK_GRANT_CHANGED');
+ if((r.matterId||null)!==(current.matter?.id||null)||r.matterId&&(!current.matter||digest(current.matter)!==r.matterHash))throw fail('SLACK_MATTER_CHANGED');
  const source=readRecord(s,current.actor,s.sources,r.sourceId);if(digest(source)!==r.sourceHash||!slackAudienceEligible(s,conversation,source))throw fail('SLACK_INPUT_CHANGED');
  return {...current,conversation};
 }
@@ -34,7 +36,7 @@ export async function continueSlackThread(i:Installation,eventId:string,message:
   if(!conversation||scopeAudienceHash(conversation.scope)!==scopeAudienceHash(current.scope))throw fail('SLACK_CONVERSATION_SCOPE');
   if(!conversation.channelGrant){
    // Existing history cannot be retroactively declared safe for another destination.
-   if(conversation.scenarioId||conversation.matterId||s.messages.some(m=>m.conversationId===conversation.id)||conversation.provenance.sourceIds.length||conversation.provenance.factIds?.length)throw fail('SLACK_BINDING_REQUIRES_EMPTY_CONVERSATION');
+   if(conversation.scenarioId||conversation.matterId!== (binding.matterId||null)||s.messages.some(m=>m.conversationId===conversation.id)||conversation.provenance.sourceIds.length||conversation.provenance.factIds?.length)throw fail('SLACK_BINDING_REQUIRES_EMPTY_CONVERSATION');
    const actor={tenantId:s.tenantId,actorId:binding.actorId,mode:'authenticated' as const,expiresAt:Date.parse(i.slackReplies!.validUntil)};
    const member=membership(s,actor);conversation.channelGrant={...binding,installationId:i.id,configurationHash:digest(i),membershipVersion:member.version,boundAt:timestamp()};conversation.version++;conversation.updatedAt=timestamp();
   }
@@ -50,8 +52,8 @@ export async function continueSlackThread(i:Installation,eventId:string,message:
  if(!result)throw new V2Error('STORE_BUSY','This signed message remains retryable with its original identity.',503);
  return (await transactWorkspace(i.tenantId,s=>{
   const prior=s.receipts[replyKey(intentId)];if(prior)return {continued:true,replyId:intentId,conversationId:binding.conversationId};
-  const conversation=s.conversations.find(c=>c.id===binding.conversationId)!;const {actor}=assertSlackChannelGrant(s,conversation),source=readRecord(s,actor,s.sources,sourceId);
-  const r:SlackReplyIntent={id:intentId,tenantId:s.tenantId,installationId:i.id,configurationHash:digest(i),conversationId:conversation.id,sourceId,sourceHash:digest(source),actorId:binding.actorId,membershipVersion:membership(s,actor).version,channel:binding.channel,threadTs:binding.threadTs,commandId,runId:typeof result.runId==='string'?result.runId:null,messageId:typeof result.messageId==='string'?result.messageId:null,status:'waiting_answer',reason:null,messageHash:null,contentHash:null,providerTs:null,leaseToken:null,leaseUntil:null,createdAt:timestamp(),updatedAt:timestamp()};
+  const conversation=s.conversations.find(c=>c.id===binding.conversationId)!;const {actor,matter}=assertSlackChannelGrant(s,conversation),source=readRecord(s,actor,s.sources,sourceId);
+  const r:SlackReplyIntent={id:intentId,tenantId:s.tenantId,installationId:i.id,configurationHash:digest(i),conversationId:conversation.id,sourceId,sourceHash:digest(source),actorId:binding.actorId,membershipVersion:membership(s,actor).version,channel:binding.channel,threadTs:binding.threadTs,commandId,runId:typeof result.runId==='string'?result.runId:null,messageId:typeof result.messageId==='string'?result.messageId:null,matterId:matter?.id||null,matterHash:matter?digest(matter):null,matterLinkRequired:!!matter&&isWhyMatterPrompt(message.text),status:'waiting_answer',reason:null,messageHash:null,contentHash:null,providerTs:null,leaseToken:null,leaseUntil:null,createdAt:timestamp(),updatedAt:timestamp()};
   s.receipts[replyKey(r.id)]={hash:digest({id:r.id,commandId:r.commandId,sourceId}),result:{reply:r}};
   s.outbox.push({id:randomUUID(),tenantId:s.tenantId,kind:'slack_reply',aggregateId:r.id,commandId,status:'pending',owner:'v2',createdAt:timestamp()});
   return {continued:true,replyId:r.id,conversationId:conversation.id};
@@ -65,6 +67,7 @@ export function replyMessage(s:WorkspaceState,r:SlackReplyIntent):{message:Messa
  if(!r.messageId&&r.runId){const run=s.receipts[`conversation-run:${r.runId}`]?.result.run as {id:string;conversationId:string;status:string;assistantMessageId:string|null}|undefined;if(!run||run.id!==r.runId||run.conversationId!==r.conversationId)throw fail('SLACK_RUN_IDENTITY');if(['queued','running'].includes(run.status))return null;if(run.status!=='complete'||!run.assistantMessageId)throw fail('SLACK_ANSWER_UNAVAILABLE');r.messageId=run.assistantMessageId;}
  const message=readRecord(s,actor,s.messages,r.messageId||'');
  if(message.role!=='assistant'||message.conversationId!==r.conversationId||message.channel!=='slack'||!slackAudienceEligible(s,conversation,message)||!message.text||message.text.length>30000)throw fail('SLACK_ANSWER_UNAVAILABLE');
+ if(r.matterLinkRequired&&(!r.matterId||!message.text.includes(slackMatterDeepLink(r.matterId))))throw fail('SLACK_ANSWER_CHANGED');
  if(r.messageHash&&r.messageHash!==digest(message))throw fail('SLACK_ANSWER_CHANGED');
  if(!message.channelEvidenceHash||message.channelEvidenceHash!==slackMessageEvidenceHash(s,message))throw fail('SLACK_ANSWER_CHANGED');
  if(r.runId){const run=s.receipts[`conversation-run:${r.runId}`]?.result.run as {packet?:EvidencePacket;channelGrantHash?:string}|undefined;if(!run?.packet||run.channelGrantHash!==digest(conversation.channelGrant))throw fail('SLACK_ANSWER_CHANGED');recheckEvidence(s,actor,conversation.id,run.packet);}

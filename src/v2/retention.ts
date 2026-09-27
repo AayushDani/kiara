@@ -8,7 +8,7 @@ import type {EffectIntent} from './execution/contracts';
 import {V2Error,type ActorContext,type RecordBase,type Scope,type WorkspaceState} from './contracts';
 import {digest,timestamp} from './store';
 
-const recordKinds=['sources','documents','facts','messages','conversations','scenarios','matters','proposals','approvals','actions','counsel','learning','legalAuthorities','coverage','events','effortEntries','effortBaselines','obligations','scenarioShares','routingDelegations','routingRules','inventories','attentionSettings','attentionDecisions','legalWatches','legalChanges','drafts','templateApprovals','valueGoals','valueReceipts','notificationDeliveries','strategyFeedback','strategyCandidates','strategyShadows'] as const;
+const recordKinds=['sources','documents','facts','messages','conversations','scenarios','memoryEntities','memoryRelationships','scopedPrecedents','precedentTargets','applicabilityAssessments','matters','proposals','approvals','actions','counsel','learning','legalAuthorities','coverage','events','effortEntries','effortBaselines','obligations','scenarioShares','routingDelegations','routingRules','inventories','attentionSettings','attentionDecisions','legalWatches','legalChanges','drafts','templateApprovals','valueGoals','valueReceipts','notificationDeliveries','strategyFeedback','strategyCandidates','strategyShadows'] as const;
 type RecordKind=typeof recordKinds[number];
 export interface DeletionJob {
  id:string;sourceId:string;sourceIds:string[];actorId:string;scope:Scope;requestedAt:string;
@@ -19,7 +19,7 @@ export interface DeletionJob {
  backupExpiresAt:string|null;backupStatus:'operator_verification_required';
 }
 export interface DeletionView {id:string;sourceId:string;requestedAt:string;recordsRedacted:number;originalsPending:number;operationalExceptions:number;indexCleanup:DeletionJob['indexCleanup'];historicalCleanup:DeletionJob['historicalCleanup'];backupExpiresAt:string|null;backupStatus:DeletionJob['backupStatus']}
-const referenceKeys=new Set(['sourceId','sourceIds','factIds','documentIds','baselineRevisionIds','artifactIds','matterId','conversationId','conversationIds','scenarioId','proposalId','originMatterId','recordId','parentRevisionId','messageId']);
+const referenceKeys=new Set(['sourceId','sourceIds','factIds','documentIds','baselineRevisionIds','artifactIds','matterId','conversationId','conversationIds','scenarioId','proposalId','originMatterId','originProposalId','businessApprovalId','legalApprovalId','documentId','counterpartyEntityId','productEntityIds','recordId','parentRevisionId','messageId']);
 function references(value:unknown,ids:Set<string>,key=''):boolean {
  if(typeof value==='string')return referenceKeys.has(key)&&ids.has(value);
  if(Array.isArray(value))return value.some(v=>references(v,ids,key));
@@ -37,7 +37,12 @@ export function redactedRecord(kind:RecordKind,value:RecordBase&Record<string,un
  case 'sources':clear('text');r.url=null;r.externalId=null;r.externalRevision=null;r.status='deleted';r.aclVersion=Number(r.aclVersion)+1;break;
  case 'documents':clear('body');r.contentHash=digest('');break;
  case 'facts':r.predicate='removed_assertion';r.value=null;r.status='unknown';break;
- case 'messages':clear('text');r.citations=[];r.artifactIds=[];break;
+ case 'memoryEntities':clear('name','archiveReason');r.aliases=[];r.status='archived';break;
+ case 'memoryRelationships':clear('description','withdrawalReason');r.status='withdrawn';break;
+ case 'scopedPrecedents':r.clause={...(r.clause as object),quote:''};r.context={jurisdiction:'',transaction:'',effectiveFrom:'',reuseUntil:'',productEntityIds:[],factIds:[],factHashes:{}};r.status='withdrawn';r.withdrawalReason='Supporting evidence deleted.';break;
+ case 'precedentTargets':r.transaction='';r.jurisdiction='';r.asOfDate='';r.productEntityIds=[];r.factIds=[];r.status='superseded';break;
+ case 'applicabilityAssessments':r.rows=[];r.target={transaction:'',jurisdiction:'',counterpartyEntityId:null,counterpartyHash:null,productEntityIds:[],productHashes:{},factIds:[],factHashes:{},matterContextHash:'',matterFactHashes:{},matterSourceVersions:{}};r.status='withdrawn';r.withdrawalReason='Supporting evidence deleted.';break;
+ case 'messages':clear('text');r.citations=[];r.artifactIds=[];if('voiceInterpretation' in r)r.voiceInterpretation=null;break;
  case 'conversations':break;
  case 'scenarios':case 'scenarioShares':r.assumptions=[];r.questions=[];if('revokedAt' in r)r.revokedAt=r.revokedAt||timestamp();break;
  case 'routingDelegations':r.revocationReason=r.revocationReason?'Evidence payload deleted.':null;r.revokedAt=r.revokedAt||timestamp();break;
@@ -48,7 +53,7 @@ export function redactedRecord(kind:RecordKind,value:RecordBase&Record<string,un
  case 'legalWatches':r.sourceUrl='';r.active=false;r.status='stopped';r.leaseToken=null;r.leaseUntil=null;break;
  case 'legalChanges':if(r.assessment)r.assessment={...(r.assessment as object),reason:'Assessment payload deleted.'};break;
  case 'drafts':clear('body');r.contentHash=digest('');r.changes=[];r.questions=[];r.tasks=[];r.status='rejected';r.standingEligible=false;r.rejectionReason='Supporting evidence deleted.';if(r.request)r.request={...(r.request as object),instruction:'',missingFields:[],fieldFactIds:{},...((r.request as {matter?:object}).matter?{matter:{...(r.request as {matter:object}).matter,objective:'',tasks:[]}}:{})};break;
- case 'strategyFeedback':clear('detail','withdrawalReason');r.original=null;r.status='withdrawn';break;
+ case 'strategyFeedback':clear('detail','issueKey','withdrawalReason');r.original=null;r.status='withdrawn';break;
  case 'strategyCandidates':clear('rationale','rollbackReason');r.status='rolled_back';break;
  case 'strategyShadows':break;
  case 'valueGoals':clear('successCriteria','outcomeNote');break;

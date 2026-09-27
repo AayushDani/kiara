@@ -108,6 +108,7 @@ export function applyCollaborationCommand(s:WorkspaceState,a:ActorContext,c:Coll
  }
  if(c.type==='conversation.link_matter'){
   const conversation=readRecord(s,a,s.conversations,c.conversationId),matter=readRecord(s,a,s.matters,c.matterId);requireRole(s,a,'business_owner',matter);version(conversation,c.expectedConversationVersion);version(matter,c.expectedMatterVersion);
+  ensure(matter.ownerId===a.actorId,'MATTER_OWNER_REQUIRED','The named matter owner must link this conversation to existing work.',403);
   ensure(!['closed','canceled'].includes(matter.state)&&!matter.legacyWorkflowId,'MATTER_TERMINAL','Choose current v2 work.');ensure(!conversation.matterId||conversation.matterId===matter.id,'CONVERSATION_ALREADY_LINKED','This conversation already belongs to other work.');
   ensure(digest(conversation.scope)===digest(matter.scope),'LINK_SCOPE_MISMATCH','Conversation and matter visibility must match exactly. A private conversation cannot be linked into broader work.',403);
   conversation.matterId=matter.id;if(!matter.conversationIds.includes(conversation.id))matter.conversationIds.push(conversation.id);touch(conversation);touch(matter);event(s,a,matter,c.type,'Conversation linked to existing work',matter.id);return {conversationId:conversation.id,matterId:matter.id};

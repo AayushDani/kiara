@@ -1,4 +1,5 @@
 import {factCurrentlyConfirmed} from './fact-validity';
+import {memoryRecordCurrent} from './company-memory-validity';
 import {V2Error,type RecordBase,type Source,type WorkspaceState} from './contracts';
 import {digest,timestamp} from './store';
 
@@ -37,7 +38,7 @@ export function currentSourceEvidence(s:WorkspaceState,source:Source):boolean {
  const object=stateOf(s,observation.objectKey);return !!object&&!object.withdrawn&&object.currentSourceId===source.id;
 }
 export function currentEvidenceLineage(s:WorkspaceState,record:RecordBase):boolean {
- const seen=new Set<string>();const visit=(r:RecordBase):boolean=>{if(seen.has(r.id))return true;seen.add(r.id);if('externalRevision' in r&&!currentSourceEvidence(s,r as Source))return false;return r.provenance.sourceIds.every(id=>{const source=s.sources.find(x=>x.id===id);return !!source&&visit(source);})&&(r.provenance.factIds||[]).every(id=>{const fact=s.facts.find(x=>x.id===id);return !!fact&&factCurrentlyConfirmed(fact)&&visit(fact);});};return visit(record);
+ const seen=new Set<string>();const visit=(r:RecordBase):boolean=>{if(seen.has(r.id))return true;seen.add(r.id);if(!memoryRecordCurrent(s,r)||'externalRevision' in r&&!currentSourceEvidence(s,r as Source))return false;return r.provenance.sourceIds.every(id=>{const source=s.sources.find(x=>x.id===id);return !!source&&visit(source);})&&(r.provenance.factIds||[]).every(id=>{const fact=s.facts.find(x=>x.id===id);return !!fact&&factCurrentlyConfirmed(fact)&&visit(fact);});};return visit(record);
 }
 /** Same transaction as ingestion. Caller pushes a returned new Source and invalidates only returned IDs. */
 export function recordSourceObservation(s:WorkspaceState,incoming:Source,options:{confirmedCurrent?:boolean}={}):{source:Source;duplicate:boolean;invalidatedSourceIds:string[];state:SourceObservation['state'];becameCurrent:boolean} {

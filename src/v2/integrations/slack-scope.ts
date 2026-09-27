@@ -1,12 +1,12 @@
 import {canRead,membership,requireRole} from '../authority';
-import {V2Error,type ActorContext,type Conversation,type Message,type RecordBase,type Scope,type WorkspaceState} from '../contracts';
-import {currentSourceEvidence} from '../source-lifecycle';
+import {V2Error,type ActorContext,type Conversation,type Matter,type Message,type RecordBase,type Scope,type WorkspaceState} from '../contracts';
+import {currentEvidenceLineage,currentSourceEvidence} from '../source-lifecycle';
 import {factCurrentlyConfirmed} from '../fact-validity';
 import {documentHeads} from '../document-lifecycle';
 import {digest} from '../store';
 import {currentInstallations,installationActor,type Installation} from './config';
 
-export interface SlackThreadBinding {channel:string;threadTs:string;conversationId:string;actorId:string;slackUserId:string}
+export interface SlackThreadBinding {channel:string;threadTs:string;conversationId:string;actorId:string;slackUserId:string;matterId?:string}
 export interface SlackReplyGrant {botUserId:string;validUntil:string;readTokenEnv?:string;bindings:SlackThreadBinding[]}
 /** Server-stamped destination authority; a browser message cannot create or change it. */
 export interface SlackChannelGrant extends SlackThreadBinding {installationId:string;configurationHash:string;membershipVersion:number;boundAt:string}
@@ -20,7 +20,7 @@ export function validSlackReplies(value:unknown,installation:Installation):value
  const g=value as SlackReplyGrant;
  if(!/^[UW][A-Z0-9]{1,99}$/.test(g.botUserId)||!Number.isFinite(Date.parse(g.validUntil))||g.readTokenEnv!==undefined&&!/^[A-Z][A-Z0-9_]{0,99}$/.test(g.readTokenEnv)||!Array.isArray(g.bindings)||!g.bindings.length||g.bindings.length>100)return false;
  const destinations=new Set<string>(),conversations=new Set<string>();
- return g.bindings.every(b=>{if(!b||!/^([CDG])[A-Z0-9]{1,99}$/.test(b.channel)||!installation.resources.includes(b.channel)||!/^\d{1,15}\.\d{1,10}$/.test(b.threadTs)||!['conversationId','actorId'].every(k=>typeof b[k as keyof SlackThreadBinding]==='string'&&b[k as keyof SlackThreadBinding].length>0&&b[k as keyof SlackThreadBinding].length<=200)||!/^[UW][A-Z0-9]{1,99}$/.test(b.slackUserId)||b.slackUserId===g.botUserId)return false;const destination=`${b.channel}:${b.threadTs}`;if(destinations.has(destination)||conversations.has(b.conversationId))return false;destinations.add(destination);conversations.add(b.conversationId);return true;});
+ return g.bindings.every(b=>{if(!b||!/^([CDG])[A-Z0-9]{1,99}$/.test(b.channel)||!installation.resources.includes(b.channel)||!/^\d{1,15}\.\d{1,10}$/.test(b.threadTs)||![b.conversationId,b.actorId].every(value=>typeof value==='string'&&value.length>0&&value.length<=200)||b.matterId!==undefined&&(typeof b.matterId!=='string'||!b.matterId||b.matterId.length>200)||!/^[UW][A-Z0-9]{1,99}$/.test(b.slackUserId)||b.slackUserId===g.botUserId)return false;const destination=`${b.channel}:${b.threadTs}`;if(destinations.has(destination)||conversations.has(b.conversationId))return false;destinations.add(destination);conversations.add(b.conversationId);return true;});
 }
 export function configuredSlackBinding(i:Installation,channel:string,threadTs:string):SlackThreadBinding|undefined {
  const grant=(i as SlackInstallation).slackReplies;
@@ -34,12 +34,26 @@ export function assertSlackChannelGrant(state:WorkspaceState,conversation:Conver
  const installation=currentInstallations().find(i=>i.id===grant.installationId) as SlackInstallation|undefined;
  if(!installation?.enabled||installation.provider!=='slack'||installation.tenantId!==state.tenantId||digest(installation)!==grant.configurationHash||conversation.id!==grant.conversationId||scopeAudienceHash(conversation.scope)!==scopeAudienceHash(installation.scope))throw fail();
  const binding=configuredSlackBinding(installation,grant.channel,grant.threadTs);
- if(!binding||digest(binding)!==digest({channel:grant.channel,threadTs:grant.threadTs,conversationId:grant.conversationId,actorId:grant.actorId,slackUserId:grant.slackUserId}))throw fail();
+ if(!binding||digest(binding)!==digest({channel:grant.channel,threadTs:grant.threadTs,conversationId:grant.conversationId,actorId:grant.actorId,slackUserId:grant.slackUserId,...(grant.matterId?{matterId:grant.matterId}:{})}))throw fail();
  const actor:ActorContext={tenantId:state.tenantId,actorId:grant.actorId,mode:'authenticated',expiresAt:Date.parse(installation.slackReplies!.validUntil)};
  const member=membership(state,actor);requireRole(state,installationActor(installation),'integration');
  if(member.version!==grant.membershipVersion||!member.roles.includes('member')||!canRead(state,actor,conversation)||!canRead(state,installationActor(installation),conversation))throw fail();
- return {installation,actor,grant};
+ let matter:Matter|null=null;
+ if(grant.matterId){
+  matter=state.matters.find(item=>item.id===grant.matterId)||null;const owner=matter&&state.memberships.find(item=>item.actorId===matter!.ownerId),ownerActor:ActorContext={...actor,actorId:matter?.ownerId||''},integration=installationActor(installation);
+  if(!matter||matter.legacyWorkflowId||['closed','canceled'].includes(matter.state)||conversation.matterId!==matter.id||!matter.conversationIds.includes(conversation.id)||scopeAudienceHash(matter.scope)!==scopeAudienceHash(conversation.scope)||!owner||owner.revokedAt||owner.expiresAt&&Date.parse(owner.expiresAt)<=Date.now()||!owner.roles.includes('business_owner')||!canRead(state,ownerActor,matter)||!canRead(state,actor,matter)||!canRead(state,integration,matter)||!currentEvidenceLineage(state,matter))throw fail();
+  const seen=new Set<string>(),exact=(record:RecordBase):boolean=>{if(seen.has(record.id))return true;seen.add(record.id);if(scopeAudienceHash(record.scope)!==scopeAudienceHash(matter!.scope)||!canRead(state,actor,record)||!canRead(state,integration,record)||!canRead(state,ownerActor,record))return false;return record.provenance.sourceIds.every(id=>{const source=state.sources.find(item=>item.id===id);return !!source&&exact(source);})&&(record.provenance.factIds||[]).every(id=>{const fact=state.facts.find(item=>item.id===id);return !!fact&&exact(fact);});};
+  if(!exact(matter))throw fail();
+ }
+ return {installation,actor,grant,matter};
 }
+/** Canonical configured app origin; URLs contain only opaque matter IDs, never source text. */
+export function slackMatterDeepLink(matterId:string){
+ const raw=process.env.KIARA_PUBLIC_ORIGIN;let origin:URL;try{origin=new URL(raw||'');}catch{throw new V2Error('SLACK_LINK_UNAVAILABLE','Configure the public Kiara HTTPS origin before replying with a matter link.',503);}
+ if(origin.protocol!=='https:'||origin.origin!==raw||origin.username||origin.password||!/^[-a-zA-Z0-9]{1,200}$/.test(matterId))throw new V2Error('SLACK_LINK_UNAVAILABLE','Configure a valid public Kiara HTTPS origin and matter identity.',503);
+ const link=new URL('/',origin);link.searchParams.set('matter',matterId);return link.href;
+}
+export const isWhyMatterPrompt=(text:string)=>/^\s*why (?:does this matter|is this matter important)\s*\??\s*$/i.test(text);
 /** Equal destination audience plus complete transitive lineage, before any text enters a prompt. */
 export function slackAudienceEligible(state:WorkspaceState,conversation:Conversation,record:RecordBase):boolean {
  if(!(conversation as BoundConversation).channelGrant)return true;

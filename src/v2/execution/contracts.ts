@@ -6,4 +6,4 @@ export interface Readback {status:'pending'|'verified'|'failed';receipt:string;c
 export interface ExecutionAdapter {id:string;configurationHash:string;supportedKinds:Action['kind'][];effect:'internal'|'email'|'publication_readback'|'preview';sender?:string;validate?:(request:ExecutionRequest)=>void;prepare?:(request:ExecutionRequest)=>Promise<void>;dispatch(request:ExecutionRequest):Promise<{receipt:string}>;readback(request:ExecutionRequest,receipt:string|null):Promise<Readback>}
 export class DispatchRejected extends Error {readonly code='PROVIDER_REJECTED';}
 
-export interface ExecutionPreview {previewHash:string;actionVersion:number;contentHash:string;mode:ExecutionAdapter['effect'];sender?:string;recipients:string[];destination:string|null;title:string;content:string}
+export interface ExecutionPreview {previewHash:string;actionVersion:number;contentHash:string;mode:ExecutionAdapter['effect'];sender?:string;recipients:string[];destination:string|null;title:string;content:string;timing?:Action['timing']}

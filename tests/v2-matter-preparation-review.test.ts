@@ -6,6 +6,7 @@ import {tmpdir} from 'node:os';
 import {randomUUID} from 'node:crypto';
 import {emptyWorkspace,digest,timestamp,transactWorkspace,closeV2Store} from '../src/v2/store';
 import {command,snapshot} from '../src/v2/service';
+import {processConversationRun,type ConversationProvider} from '../src/v2/ai';
 import {canRead} from '../src/v2/authority';
 import {buildMatterPreparation,matterPreparationPacket,adoptMatterPreparation,assertMatterPreparation} from '../src/v2/matter-preparation';
 import {retainDraftProposal,type DraftProposal,type DraftRequest} from '../src/v2/drafting';
@@ -51,16 +52,18 @@ test('a source audience narrowed after preparation invalidates frozen task text 
 });
 
 test('named counsel may attest only the exact shared substantive legal task; changed work requires renewed packet access',async()=>{
- const dir=await mkdtemp(join(tmpdir(),'kiara-preparation-review-')),keys=['MONGODB_URI','VERCEL','KIARA_V2_DATA_DIR','KIARA_V2_AI_MODE','KIARA_V2_STORE_MODE'],prior=Object.fromEntries(keys.map(k=>[k,process.env[k]]));
+ const dir=await mkdtemp(join(tmpdir(),'kiara-preparation-review-')),keys=['MONGODB_URI','VERCEL','KIARA_V2_DATA_DIR','KIARA_GLOBAL_BUDGET_DIR','KIARA_V2_AI_MODE','KIARA_V2_RETRIEVAL_MODE','KIARA_V2_STORE_MODE','OPENAI_API_KEY','KIARA_OPENAI_BUDGET_USD','KIARA_MODEL','KIARA_REVIEW_MODEL','KIARA_REASONING_EFFORT'],prior=Object.fromEntries(keys.map(k=>[k,process.env[k]]));
  try{
-  await closeV2Store();for(const key of keys)delete process.env[key];Object.assign(process.env,{KIARA_V2_DATA_DIR:dir,KIARA_V2_AI_MODE:'local'});
+  await closeV2Store();for(const key of keys)delete process.env[key];Object.assign(process.env,{KIARA_V2_DATA_DIR:dir,KIARA_GLOBAL_BUDGET_DIR:join(dir,'budget'),KIARA_V2_AI_MODE:'openai',KIARA_V2_RETRIEVAL_MODE:'local',OPENAI_API_KEY:'mock-only',KIARA_OPENAI_BUDGET_USD:'1',KIARA_MODEL:'gpt-6-sol',KIARA_REVIEW_MODEL:'gpt-6-sol',KIARA_REASONING_EFFORT:'low'});
   const owner:ActorContext={tenantId:'independent-counsel-task',actorId:'owner',mode:'local_demo',expiresAt:Date.now()+3600000,bootstrapRoles:['member','business_owner','admin']},counsel:ActorContext={...owner,actorId:'counsel',bootstrapRoles:['member','legal_reviewer']},future=new Date(Date.now()+3600000).toISOString();
   const send=async(a:ActorContext,c:WorkspaceCommand)=>command(a,{idempotencyKey:randomUUID(),expectedVersion:(await snapshot(a)).version,command:c});
   await snapshot(counsel);await send(owner,{type:'conversation.create',title:'PRIVATE_UNSHARED_HISTORY',scope:{kind:'private',actorIds:['owner']}});
   const added=await send(owner,{type:'document.add',title:'Exact retained review evidence',body:'The named reviewer must review the complete supplied notice terms.',authority:'executed',scope:{kind:'private',actorIds:['owner']}}),sourceId=String(added.result.sourceId);
   const created=await send(owner,{type:'matter.create',title:'Private substantive analysis',objective:'Complete the named specialist analysis',scope:{kind:'private',actorIds:['owner']}}),matterId=String(created.result.matterId);
   await transactWorkspace(owner.tenantId,s=>{const m=s.matters.find(x=>x.id===matterId)!;m.tasks.push({id:'specialist-work',title:'Complete specialist regulatory analysis',kind:'legal',purpose:'work',requiredFactPredicates:[],ownerId:owner.actorId,status:'pending',dueAt:null,deadlineType:'undated',evidenceIds:[]});m.version++;});
-  let state=await snapshot(owner);await send(owner,{type:'matter.prepare',matterId,expectedRecordVersion:state.matters[0].version});
+  let state=await snapshot(owner);const queued=await send(owner,{type:'matter.prepare',matterId,expectedRecordVersion:state.matters[0].version});
+  const provider:ConversationProvider={count:async()=>1000,create:async request=>{const data=JSON.parse(String(request.input));const output=data.items?{safe:true,checks:data.items.map((x:{id:string})=>({paragraphId:x.id,supported:true,reason:'Exact source and pending specialist work are retained.'}))}:{title:'Specialist review packet',body:'Review the supplied notice terms and complete the named specialist analysis before any external action.',changes:[],questions:['What legal applicability is confirmed?'],tasks:[],citationIds:[]};return {id:randomUUID(),status:'completed',model:String(request.model),output_text:JSON.stringify(output),usage:{input_tokens:100,output_tokens:100,total_tokens:200,input_tokens_details:{cached_tokens:0,cache_write_tokens:0},output_tokens_details:{reasoning_tokens:0}}};}};
+  assert.equal((await processConversationRun(owner.tenantId,String(queued.result.runId),{provider})).status,'complete');const draft=(await snapshot(owner)).drafts[0];await send(owner,{type:'draft.accept',draftId:draft.id,expectedRecordVersion:draft.version,expectedContentHash:draft.contentHash});
   let engagement=(await send(owner,{type:'counsel.request',matterId,route:'existing',providerName:'Synthetic named counsel'})).snapshot.counsel[0];
   engagement=(await send(owner,{type:'counsel.intake',engagementId:engagement.id,expectedRecordVersion:engagement.version,counselActorId:counsel.actorId,conflictsCleared:true,intakeEvidence:'Synthetic independent intake fixture'})).snapshot.counsel[0];
   engagement=(await send(owner,{type:'counsel.engage',engagementId:engagement.id,expectedRecordVersion:engagement.version,terms:'Review the exact supplied terms and complete the specialist analysis',feeCap:0,currency:'USD',responseDueAt:future})).snapshot.counsel[0];

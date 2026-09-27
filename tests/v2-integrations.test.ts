@@ -3,17 +3,17 @@ import assert from 'node:assert/strict';
 import {mkdtemp,rm,readFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
-import {createHmac} from 'node:crypto';
+import {createHmac,randomUUID} from 'node:crypto';
 import {closeV2Store,digest,readWorkspace,transactWorkspace} from '../src/v2/store';
 import {canRead} from '../src/v2/authority';
-import {snapshot} from '../src/v2/service';
+import {command,snapshot} from '../src/v2/service';
 import {resolveInstallation,type Installation} from '../src/v2/integrations/config';
 import {acceptWebhook,ingestProviderObject,syncDriveInstallation,verifyWebhook} from '../src/v2/integrations/intake';
 import {providerRequest,readDriveFile,readGitHubPullRequest,readSlackThread,type ProviderFetch} from '../src/v2/integrations/read';
 import {dispatchOutbox,matterWorkflowId,temporalConfig} from '../src/v2/orchestration/temporal';
 import {reconcileReference} from '../src/v2/orchestration/activities';
 import {processConversationReference,processLocalOutboxOnce} from '../src/v2/orchestration/conversations';
-import type {Matter,OutboxEntry} from '../src/v2/contracts';
+import type {ActorContext,Matter,OutboxEntry,WorkspaceCommand} from '../src/v2/contracts';
 const github:Installation={id:'github-1',provider:'github',tenantId:'tenant-a',actorId:'integration',enabled:true,tokenEnv:'TEST_PROVIDER_TOKEN',webhookSecretEnv:'TEST_WEBHOOK_SECRET',resources:['acme/product'],scope:{kind:'team',actorIds:[]},providerInstallationId:'777'};
 const slack:Installation={...github,id:'slack-1',provider:'slack',slackTeamId:'T1',resources:['C1']};
 const drive:Installation={...github,id:'drive-1',provider:'drive',driveChannelId:'channel-1',driveResourceId:'resource-1',driveStartPageToken:'cursor-0',resources:['folder:folder1']};
@@ -31,6 +31,24 @@ test('GitHub authenticates raw bytes, installation and selected repo before dura
  headers.set('x-github-delivery','header-only-replay');await acceptWebhook(github.id,headers,raw);s=await readWorkspace('tenant-a');assert.equal(s.sources.length,1);assert.equal(s.outbox.length,1);
  await assert.rejects(acceptWebhook(github.id,headers,Buffer.from(raw.toString().replace('Synthetic','Customer'))),{code:'WEBHOOK_INVALID'});
  const other=signedGitHub(pr('acme/private'));await assert.rejects(acceptWebhook(github.id,other.headers,other.raw),{code:'INSTALLATION_SCOPE'});const wrong=signedGitHub({...pr(),installation:{id:888}});await assert.rejects(acceptWebhook(github.id,wrong.headers,wrong.raw),{code:'WEBHOOK_INVALID'});assert.equal((await readWorkspace('tenant-b')).sources.length,0);
+}));
+test('owner links two signed provider observations to one matter with an inline review update',()=>isolated(async()=>{
+ const owner:ActorContext={tenantId:'tenant-a',actorId:'owner',mode:'authenticated',expiresAt:Date.now()+3600000};
+ const send=async(value:WorkspaceCommand)=>command(owner,{idempotencyKey:randomUUID(),expectedVersion:(await snapshot(owner)).version,command:value});
+ const created=await send({type:'matter.create',title:'Synthetic rollout review',objective:'Review a possible product change'}),matterId=String(created.result.matterId);
+ const gh=signedGitHub(pr());const pull=await acceptWebhook(github.id,gh.headers,gh.raw);
+ const slackEvent={type:'event_callback',team_id:'T1',event_id:'Ev-same-matter',event:{type:'message',channel:'C1',user:'U1',ts:'1750000000.777',text:'Discussing a possible synthetic-data launch.'}};
+ const signed=signedSlack(slackEvent);const thread=await acceptWebhook(slack.id,signed.headers,signed.raw);
+ assert.equal(pull.matterId,null);assert.equal(thread.matterId,null);
+ await transactWorkspace('tenant-a',s=>{s.memberships.push({actorId:'second-owner',roles:['member','business_owner'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null});});
+ const second:ActorContext={...owner,actorId:'second-owner'},beforeLink=await snapshot(second),target=beforeLink.matters.find(item=>item.id===matterId)!,candidate=beforeLink.sources.find(item=>item.id===pull.sourceId)!;
+ await assert.rejects(command(second,{idempotencyKey:randomUUID(),expectedVersion:beforeLink.version,command:{type:'event.link_matter',sourceId:candidate.id,expectedSourceVersion:candidate.version,matterId,expectedMatterVersion:target.version}}),{code:'MATTER_OWNER_REQUIRED'});
+ for(const sourceId of [String(pull.sourceId),String(thread.sourceId)]){const view=await snapshot(owner),matter=view.matters.find(item=>item.id===matterId)!,source=view.sources.find(item=>item.id===sourceId)!;await send({type:'event.link_matter',sourceId,expectedSourceVersion:source.version,matterId,expectedMatterVersion:matter.version});}
+ const view=await snapshot(owner),matter=view.matters.find(item=>item.id===matterId)!;
+ assert.deepEqual(new Set(matter.sourceIds),new Set([pull.sourceId,thread.sourceId]));
+ const updates=view.messages.filter(message=>matter.conversationIds.includes(message.conversationId)&&message.provenance.sourceIds.some(id=>matter.sourceIds.includes(id)));
+ assert.equal(updates.length,2);assert.ok(updates.every(message=>message.text.includes('not proof of deployment')&&message.role==='assistant'&&message.citations.length===1));assert.equal(view.facts.length,0);
+ await assert.rejects(send({type:'event.link_matter',sourceId:String(pull.sourceId),expectedSourceVersion:view.sources.find(item=>item.id===pull.sourceId)!.version,matterId,expectedMatterVersion:matter.version}),{code:'EVENT_ALREADY_LINKED'});
 }));
 test('installation membership revocation blocks a correctly signed event',()=>isolated(async()=>{
  await transactWorkspace('tenant-a',s=>{s.memberships[0].revokedAt=new Date().toISOString();});const {raw,headers}=signedGitHub(pr());await assert.rejects(acceptWebhook(github.id,headers,raw),{code:'MEMBERSHIP_REVOKED'});assert.equal((await readWorkspace('tenant-a')).sources.length,0);

@@ -1,0 +1,7 @@
+# J06: scoped Slack matter explanation
+
+A configured Slack thread can answer a mapped workspace member's exact “Why does this matter?” question about one existing matter. The named business owner first links an empty conversation to that matter. The server-side Slack reply binding then names both the conversation and matter, with the same exact audience as the installation. A signed message from the selected Slack user produces a short deterministic answer from the visible matter title and objective, plus `/?matter=<id>` on the configured `KIARA_PUBLIC_ORIGIN`.
+
+The reply remains a suggestion to review. It does not quote an agreement, assert legal applicability, approve work, or authorize an action. Before posting, the worker rechecks the installation and thread grant, mapped member, named matter owner, recursive audience and current evidence, input source, answer hash, matter hash, and exact link. A changed basis blocks the unsent reply. The browser opens the link only if the authenticated workspace snapshot includes that matter; organization sign-in preserves only this bounded return target.
+
+Synthetic verification: `tests/v2-slack-continuity.test.ts` exercises signed webhook intake, a newly mapped member, private-clause exclusion, exact provider post/readback, and changed-matter blocking. `tests/v2-auth.test.ts` and `tests/ui/v2-matter-deep-link.test.ts` cover the bounded sign-in return and link parsing. This validates local behavior, not a live Slack installation or deployed public origin.

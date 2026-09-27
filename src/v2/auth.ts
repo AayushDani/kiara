@@ -89,7 +89,8 @@ export async function verifyOidcToken(token:string,fetcher:typeof fetch=fetch,ex
 export async function oidcSession(request:Request,token:string){checkMode(request);sameV2Origin(request);if(mode()!=='oidc')throw new V2Error('OIDC_DISABLED','OIDC is not enabled in this workspace.',400);const identity=await verifyOidcToken(token);return issue({...identity,csrf:randomBytes(24).toString('hex'),profile:'oidc'});}
 export const clearV2Session=()=>cookie('',0);
 
-interface OidcFlow {returnTo?:'/'|'/review/attention';state:string;nonce:string;verifier:string;redirectUri:string;expiresAt:number;issuer:string;clientId:string}
+interface OidcFlow {returnTo?:string;state:string;nonce:string;verifier:string;redirectUri:string;expiresAt:number;issuer:string;clientId:string}
+const validReturnTo=(value:string)=>value==='/'||value==='/review/attention'||/^\/\?matter=[A-Za-z0-9-]{1,200}$/.test(value);
 const flowCookieName=()=>`__Host-${cookieName()}_signin`;
 export const clearOidcFlow=()=>`${flowCookieName()}=; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=0`;
 function browserOidcConfig(request:Request){
@@ -113,9 +114,9 @@ async function browserMetadata(issuer:string,fetcher:typeof fetch){
 /** Redirect-based sign-in uses state, nonce and PKCE; no bearer token is entered in the UI. */
 export async function startOidcSignIn(request:Request,fetcher:typeof fetch=fetch){
  const config=browserOidcConfig(request),targets=new URL(request.url).searchParams.getAll('returnTo'),returnTo=targets[0]||'/';
- if(targets.length>1||!['/','/review/attention'].includes(returnTo))throw new V2Error('OIDC_RETURN_INVALID','Choose a supported Kiara sign-in destination.',400);
+ if(targets.length>1||!validReturnTo(returnTo))throw new V2Error('OIDC_RETURN_INVALID','Choose a supported Kiara sign-in destination.',400);
  const metadata=await browserMetadata(config.issuer,fetcher);
- const flow:OidcFlow={returnTo:returnTo as OidcFlow['returnTo'],state:randomBytes(32).toString('base64url'),nonce:randomBytes(32).toString('base64url'),verifier:randomBytes(48).toString('base64url'),redirectUri:config.redirectUri,expiresAt:Date.now()+10*60*1000,issuer:config.issuer,clientId:config.clientId};
+ const flow:OidcFlow={returnTo,state:randomBytes(32).toString('base64url'),nonce:randomBytes(32).toString('base64url'),verifier:randomBytes(48).toString('base64url'),redirectUri:config.redirectUri,expiresAt:Date.now()+10*60*1000,issuer:config.issuer,clientId:config.clientId};
  const encoded=Buffer.from(JSON.stringify(flow)).toString('base64url'),signature=createHmac('sha256',await secret()).update(encoded).digest('base64url');
  const url=new URL(metadata.authorization_endpoint);for(const [key,value] of Object.entries({client_id:config.clientId,redirect_uri:flow.redirectUri,response_type:'code',scope:'openid',state:flow.state,nonce:flow.nonce,code_challenge:createHash('sha256').update(flow.verifier).digest('base64url'),code_challenge_method:'S256',response_mode:'query'}))url.searchParams.set(key,value);
  return {location:url.href,cookie:`${flowCookieName()}=${encoded}.${signature}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=600`};
@@ -125,7 +126,7 @@ export async function completeOidcSignIn(request:Request,fetcher:typeof fetch=fe
  if(!raw||raw.length>8000)throw new V2Error('OIDC_STATE_REQUIRED','Start a new sign-in attempt from Kiara.',401);
  const [encoded,signature,extra]=raw.split('.');if(!encoded||!signature||extra||!safeEqual(signature,createHmac('sha256',await secret()).update(encoded).digest('base64url')))throw new V2Error('OIDC_STATE_INVALID','Start a new sign-in attempt from Kiara.',401);
  let flow:OidcFlow;try{flow=JSON.parse(Buffer.from(encoded,'base64url').toString());}catch{throw new V2Error('OIDC_STATE_INVALID','Start a new sign-in attempt from Kiara.',401);}
- const state=url.searchParams.get('state');if(flow.returnTo!==undefined&&!['/','/review/attention'].includes(flow.returnTo)||!Number.isFinite(flow.expiresAt)||flow.expiresAt<=Date.now()||typeof flow.state!=='string'||!state||url.searchParams.getAll('state').length!==1||!safeEqual(state,flow.state)||flow.issuer!==config.issuer||flow.clientId!==config.clientId||flow.redirectUri!==config.redirectUri||typeof flow.nonce!=='string'||typeof flow.verifier!=='string')throw new V2Error('OIDC_STATE_INVALID','This sign-in response is expired or does not match the current attempt.',401);
+ const state=url.searchParams.get('state');if(flow.returnTo!==undefined&&!validReturnTo(flow.returnTo)||!Number.isFinite(flow.expiresAt)||flow.expiresAt<=Date.now()||typeof flow.state!=='string'||!state||url.searchParams.getAll('state').length!==1||!safeEqual(state,flow.state)||flow.issuer!==config.issuer||flow.clientId!==config.clientId||flow.redirectUri!==config.redirectUri||typeof flow.nonce!=='string'||typeof flow.verifier!=='string')throw new V2Error('OIDC_STATE_INVALID','This sign-in response is expired or does not match the current attempt.',401);
  if(url.searchParams.has('error'))throw new V2Error('OIDC_DECLINED','Organization sign-in was not completed. You can try again.',401);
  const code=url.searchParams.get('code');if(!code||code.length>8000||url.searchParams.getAll('code').length!==1)throw new V2Error('OIDC_CODE_REQUIRED','The sign-in response is missing its authorization code.',401);
  if(url.searchParams.has('iss')&&url.searchParams.get('iss')!==config.issuer)throw new V2Error('OIDC_ISSUER_MISMATCH','The sign-in response came from a different identity provider.',401);

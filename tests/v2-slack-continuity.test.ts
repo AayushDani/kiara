@@ -21,14 +21,15 @@ import {slackDeliveryViews} from '../src/v2/integrations/slack-status';
 const owner:ActorContext={tenantId:'slack-tenant',actorId:'owner',mode:'authenticated',expiresAt:Date.now()+3600000};
 const scope={kind:'team' as const,actorIds:['owner','integration']};
 async function send(c:WorkspaceCommand,key=crypto.randomUUID()){const s=await readWorkspace(owner.tenantId);return command(owner,{idempotencyKey:key,expectedVersion:s.version,command:c});}
-async function isolated(run:(i:Installation,conversationId:string)=>Promise<void>){
+async function isolated(run:(i:Installation,conversationId:string)=>Promise<void>,options:{mappedMember?:boolean}={}){
  const before={...process.env},oldFetch=globalThis.fetch,dir=await mkdtemp(join(tmpdir(),'kiara-slack-'));
  for(const key of Object.keys(process.env))if(/KIARA|MONGO|VERCEL|OPENAI|RESEND|TEMPORAL/.test(key))delete process.env[key];
  Object.assign(process.env,{KIARA_V2_DATA_DIR:dir,KIARA_V2_AI_MODE:'local',TEST_SLACK_TOKEN:'synthetic-token',TEST_SLACK_SECRET:'synthetic-secret'});globalThis.fetch=async()=>{throw Error('Unexpected live provider request');};
  try{
   await transactWorkspace(owner.tenantId,s=>{for(const actorId of ['owner','integration','other'])s.memberships.push({actorId,roles:actorId==='integration'?['integration']:['member','admin','business_owner','fact_owner'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null});});
-  const conversationId=String((await send({type:'conversation.create',title:'Selected Slack continuity',scope})).result.conversationId);
-  const i:Installation={id:'slack-installed',provider:'slack',tenantId:owner.tenantId,actorId:'integration',enabled:true,tokenEnv:'TEST_SLACK_TOKEN',webhookSecretEnv:'TEST_SLACK_SECRET',resources:['C1','D1'],scope,slackTeamId:'T1',slackReplies:{botUserId:'UBOT',validUntil:new Date(Date.now()+86400000).toISOString(),bindings:[{channel:'C1',threadTs:'1770000000.001',conversationId,actorId:'owner',slackUserId:'U1'}]}};
+  const audience=options.mappedMember?{...scope,actorIds:[...scope.actorIds,'other']}:scope;
+  const conversationId=String((await send({type:'conversation.create',title:'Selected Slack continuity',scope:audience})).result.conversationId);
+  const i:Installation={id:'slack-installed',provider:'slack',tenantId:owner.tenantId,actorId:'integration',enabled:true,tokenEnv:'TEST_SLACK_TOKEN',webhookSecretEnv:'TEST_SLACK_SECRET',resources:['C1','D1'],scope:audience,slackTeamId:'T1',slackReplies:{botUserId:'UBOT',validUntil:new Date(Date.now()+86400000).toISOString(),bindings:[{channel:'C1',threadTs:'1770000000.001',conversationId,actorId:options.mappedMember?'other':'owner',slackUserId:options.mappedMember?'U2':'U1'}]}};
   process.env.KIARA_V2_INSTALLATIONS=JSON.stringify([i]);await run(i,conversationId);
  }finally{await closeV2Store();globalThis.fetch=oldFetch;for(const key of Object.keys(process.env))if(!(key in before))delete process.env[key];Object.assign(process.env,before);await rm(dir,{recursive:true,force:true});}
 }
@@ -54,6 +55,29 @@ test('signed selected thread continues one conversation, pins lineage and delive
  const io=provider();assert.equal((await processSlackReply(owner.tenantId,String(result.replyId),io)).status,'verified');await processSlackReply(owner.tenantId,String(result.replyId),io);assert.equal(io.posts.length,1);assert.equal(io.posts[0].channel,'C1');assert.equal(io.posts[0].thread_ts,'1770000000.001');
  s=await readWorkspace(owner.tenantId);const receipt=getSlackReply(s,String(result.replyId));assert.equal(receipt.conversationId,cid);assert.equal(receipt.providerTs,'1770000002.001');assert.equal(receipt.contentHash,digest(io.posts[0].text));assert.ok(!JSON.stringify(receipt).includes(s.messages[1].text));
  await send({type:'message.send',conversationId:cid,text:'Continue on the web'});s=await readWorkspace(owner.tenantId);assert.equal(s.outbox.filter(o=>o.kind==='slack_reply').length,1);
+}));
+test('a newly mapped Slack member receives one scoped why-this-matters answer and same-matter app link',()=>isolated(async(i,cid)=>{
+ process.env.KIARA_PUBLIC_ORIGIN='https://kiara.example.test';
+ await transactWorkspace(owner.tenantId,s=>{s.memberships.find(m=>m.actorId==='other')!.roles=['member'];});
+ const opened=await send({type:'matter.create',title:'Support summary launch',objective:'Assess whether the proposed support summaries can use customer transcripts.',scope:i.scope}),matter=opened.snapshot.matters[0],conversation=opened.snapshot.conversations.find(c=>c.id===cid)!;
+ await send({type:'conversation.link_matter',conversationId:cid,matterId:matter.id,expectedConversationVersion:conversation.version,expectedMatterVersion:matter.version});
+ i.slackReplies!.bindings[0].matterId=matter.id;process.env.KIARA_V2_INSTALLATIONS=JSON.stringify([i]);
+ await send({type:'document.add',title:'Owner private agreement',body:'PRIVATE_CLAUSE_837 only for owner.',authority:'executed',scope:{kind:'private',actorIds:['owner']}});
+ const accepted=await intake(i,'J06-WHY',{user:'U2',text:'Why does this matter?'});assert.equal(accepted.continued,true);
+ const state=await readWorkspace(owner.tenantId),answer=state.messages.find(m=>m.role==='assistant'&&m.channel==='slack')!;
+ assert.ok(answer);assert.match(answer.text,/Support summary launch/);assert.match(answer.text,/proposed support summaries/);assert.match(answer.text,new RegExp(`https://kiara\\.example\\.test/\\?matter=${matter.id}`));assert.ok(!answer.text.includes('PRIVATE_CLAUSE_837'));assert.ok(answer.text.length<600);
+ const io=provider();assert.equal((await processSlackReply(owner.tenantId,String(accepted.replyId),io)).status,'verified');assert.equal(io.posts.length,1);assert.ok(io.posts[0].text.includes(`?matter=${matter.id}`));
+ assert.equal(state.approvals.length,0);assert.equal(state.actions.length,0);
+},{mappedMember:true}));
+test('a linked Slack matter and its answer fail closed when the owner link or matter changes before dispatch',()=>isolated(async(i,cid)=>{
+ process.env.KIARA_PUBLIC_ORIGIN='https://kiara.example.test';
+ const opened=await send({type:'matter.create',title:'Launch question',objective:'Review the planned launch.',scope:i.scope}),matter=opened.snapshot.matters[0],conversation=opened.snapshot.conversations.find(c=>c.id===cid)!;
+ await send({type:'conversation.link_matter',conversationId:cid,matterId:matter.id,expectedConversationVersion:conversation.version,expectedMatterVersion:matter.version});
+ await assert.rejects(intake(i,'J06-NO-GRANT',{text:'Why does this matter?'}),{code:'SLACK_BINDING_REQUIRES_EMPTY_CONVERSATION'});
+ i.slackReplies!.bindings[0].matterId=matter.id;process.env.KIARA_V2_INSTALLATIONS=JSON.stringify([i]);
+ const accepted=await intake(i,'J06-STALE',{text:'Why does this matter?'});
+ await transactWorkspace(owner.tenantId,s=>{s.matters.find(m=>m.id===matter.id)!.version++;});
+ const io=provider();assert.equal((await processSlackReply(owner.tenantId,String(accepted.replyId),io)).status,'blocked');assert.equal(io.posts.length,0);
 }));
 test('bot messages never loop back into source ingestion and signed unmapped identities cannot impersonate the bound actor',()=>isolated(async(i)=>{
  assert.equal((await intake(i,'EBOT',{user:'UBOT',bot_id:'B1'})).ignored,true);assert.equal((await readWorkspace(owner.tenantId)).sources.length,0);

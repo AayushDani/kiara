@@ -18,13 +18,13 @@ import type {Action,ActorContext,WorkspaceCommand} from '../src/v2/contracts';
 const actor:ActorContext={tenantId:'execution-test',actorId:'owner',mode:'local_demo',expiresAt:Date.now()+3600000,bootstrapRoles:['member','business_owner','fact_owner','legal_reviewer','publisher','signatory','admin']};
 async function isolated(run:()=>Promise<void>){const env={...process.env},fetch=globalThis.fetch,dir=await mkdtemp(join(tmpdir(),'kiara-v2-execution-'));for(const k of Object.keys(process.env))if(/KIARA|MONGO|VERCEL|OPENAI|RESEND|TEMPORAL/.test(k))delete process.env[k];process.env.KIARA_V2_DATA_DIR=dir;process.env.KIARA_V2_AI_MODE='local';globalThis.fetch=async()=>{throw new Error('Live effects forbidden in qualification');};try{await run();}finally{await closeV2Store();globalThis.fetch=fetch;for(const k of Object.keys(process.env))if(!(k in env))delete process.env[k];Object.assign(process.env,env);await rm(dir,{recursive:true,force:true});}}
 async function send(c:WorkspaceCommand){const s=await snapshot(actor);return command(actor,{idempotencyKey:randomUUID(),expectedVersion:s.version,command:c});}
-async function prepared(kind:Action['kind']='internal_document'){
- const f=await send({type:'fact.propose',predicate:'deployment',value:'Synthetic planned demonstration',practice:'planned'}),fact=f.snapshot.facts.at(-1)!;await send({type:'fact.confirm',factId:fact.id,expectedRecordVersion:fact.version,expectedOriginVersion:fact.originVersion});
+async function prepared(kind:Action['kind']='internal_document',timing?:Action['timing'],authorize=true){
+ const f=await send({type:'fact.propose',predicate:'deployment',value:'Synthetic planned demonstration',practice:'planned'}),fact=f.snapshot.facts.at(-1)!;await send({type:'fact.confirm',factId:fact.id,expectedRecordVersion:fact.version,expectedOriginVersion:fact.originVersion});const objective=await send({type:'fact.propose',predicate:'business_objective',value:'Test exact authorized execution',practice:'planned'}),objectiveFact=objective.snapshot.facts.at(-1)!;await send({type:'fact.confirm',factId:objectiveFact.id,expectedRecordVersion:objectiveFact.version,expectedOriginVersion:objectiveFact.originVersion});
  await send({type:'document.add',title:'Synthetic agreement',body:'This fictional agreement is for local testing only.',authority:'executed',kind:'agreement'});
  const m=await send({type:'matter.create',title:'Synthetic execution',objective:'Test exact authorized execution'}),matter=m.snapshot.matters.at(-1)!;const p=await send({type:'matter.prepare',matterId:matter.id,expectedRecordVersion:matter.version}),proposal=p.snapshot.proposals.at(-1)!;
  for(const capacity of ['business','legal'] as const)await send({type:'approval.record',proposalId:proposal.id,proposalHash:proposal.contentHash,capacity,validUntil:new Date(Date.now()+3600000).toISOString()});
- const planned=await send({type:'action.plan',matterId:matter.id,proposalId:proposal.id,kind,title:'Approved synthetic subject',content:proposal.body,...(['send','signature_request'].includes(kind)?{recipients:['recipient@example.test']}:{}) ,...(kind==='publish'?{destination:'https://published.example.test/notice'}:{})}),action=planned.snapshot.actions.at(-1)!;
- const approved=await send({type:'action.authorize',actionId:action.id,expectedRecordVersion:action.version,contentHash:action.contentHash,validUntil:new Date(Date.now()+3600000).toISOString()});return approved.snapshot.actions.at(-1)!;
+ const planned=await send({type:'action.plan',matterId:matter.id,proposalId:proposal.id,kind,title:'Approved synthetic subject',content:proposal.body,...(['send','signature_request'].includes(kind)?{recipients:['recipient@example.test']}:{}) ,...(kind==='publish'?{destination:'https://published.example.test/notice'}:{}),...(timing?{timing}:{})}),action=planned.snapshot.actions.at(-1)!;
+ if(!authorize)return action;const approved=await send({type:'action.authorize',actionId:action.id,expectedRecordVersion:action.version,contentHash:action.contentHash,validUntil:new Date(Date.now()+3600000).toISOString()});return approved.snapshot.actions.at(-1)!;
 }
 const input=async(a:Action,adapter?:ExecutionAdapter)=>({expectedVersion:a.version,contentHash:a.contentHash,previewHash:(await executionPreview(actor,a.id,{adapter})).previewHash,adapter});
 const fake=(overrides:Partial<ExecutionAdapter>={}):ExecutionAdapter=>({id:'synthetic-adapter',configurationHash:'synthetic-config',supportedKinds:['send','internal_document','signature_request'],effect:'email',dispatch:async()=>({receipt:'synthetic-receipt'}),readback:async()=>({status:'pending',receipt:'synthetic-receipt',reason:'WAITING'}),...overrides});
@@ -38,6 +38,22 @@ test('revoked decision, changed subject and lesser role cannot escalate into exe
 }));
 test('concurrent retries share a durable intent and dispatch exactly once',()=>isolated(async()=>{
  const a=await prepared('send');let calls=0;const adapter=fake({dispatch:async()=>{calls++;return {receipt:'synthetic-receipt'};}});await Promise.all([dispatchAction(actor,a.id,await input(a,adapter)),dispatchAction(actor,a.id,await input(a,adapter))]);await dispatchAction(actor,a.id,await input(a,adapter));assert.equal(calls,1);assert.equal((await current(a)).status,'verifying');
+}));
+test('reviewed not-before timing blocks manual completion and provider dispatch until its exact UTC start',()=>isolated(async()=>{
+ const notBefore=new Date(Date.now()+5*60000).toISOString(),a=await prepared('send',{mode:'not_before',notBefore,reason:'Fictional advance notice begins after owner review.'});
+ assert.deepEqual(a.timing,{mode:'not_before',notBefore,reason:'Fictional advance notice begins after owner review.'});
+ let calls=0;const adapter=fake({dispatch:async()=>{calls++;return {receipt:'synthetic-receipt'};}});
+ await assert.rejects(dispatchAction(actor,a.id,await input(a,adapter)),{code:'ACTION_NOT_BEFORE'});
+ await assert.rejects(send({type:'action.attest',actionId:a.id,expectedRecordVersion:a.version,artifact:'Premature manual completion',completionKind:'human_attestation'}),{code:'ACTION_NOT_BEFORE'});
+ assert.equal((await readWorkspace(actor.tenantId)).receipts[`execution:${a.id}`],undefined);assert.equal(calls,0);
+ const actualNow=Date.now;try{Date.now=()=>actualNow()+6*60000;const result=await dispatchAction(actor,a.id,await input(a,adapter));assert.equal(result.status,'verifying');assert.equal(calls,1);}finally{Date.now=actualNow;}
+}));
+test('delayed action authorization must outlast its reviewed start and malformed timing is rejected',()=>isolated(async()=>{
+ const notBefore=new Date(Date.now()+2*3600000).toISOString(),a=await prepared('send',{mode:'not_before',notBefore,reason:'Fictional recipient notice window.'},false);
+ await assert.rejects(send({type:'action.authorize',actionId:a.id,expectedRecordVersion:a.version,contentHash:a.contentHash,validUntil:new Date(Date.now()+3600000).toISOString()}),{code:'ACTION_AUTHORIZATION_TOO_EARLY'});
+ const state=await snapshot(actor),proposal=state.proposals.find(p=>p.id===a.proposalId)!;
+ await assert.rejects(send({type:'action.plan',matterId:a.matterId,proposalId:proposal.id,kind:'send',title:'Malformed timing',content:proposal.body,recipients:['recipient@example.test'],timing:{mode:'not_before',notBefore:'tomorrow',reason:'Fictional'}}),{code:'INVALID_ACTION_TIMING'});
+ assert.equal((await snapshot(actor)).actions.find(action=>action.id===a.id)?.status,'planned');
 }));
 test('source access revoked during preparation prevents the provider call',()=>isolated(async()=>{
  const a=await prepared('send');let calls=0;const adapter=fake({prepare:async()=>{await send({type:'source.revoke',sourceId:(await readWorkspace(actor.tenantId)).sources[0].id,reason:'Selection revoked'});},dispatch:async()=>{calls++;return {receipt:'never'};}});const result=await dispatchAction(actor,a.id,await input(a,adapter));assert.equal(result.status,'failed');assert.equal(calls,0);assert.equal((await current(a)).completion,null);

@@ -9,7 +9,12 @@ import {factCurrentlyConfirmed} from '../fact-validity';
 import {currentEvidenceLineage} from '../source-lifecycle';
 const ensure=(ok:unknown,code:string,message:string)=>{if(!ok)throw new V2Error(code,message);};
 const capacityRole:Record<Approval['capacity'],Role>={business:'business_owner',legal:'legal_reviewer',sharing:'business_owner',publication:'publisher',signature:'signatory',no_action:'business_owner'};
-export function actionContentHash(action:Action){return digest({content:action.content,recipients:action.recipients,destination:action.destination,kind:action.kind,proposalId:action.proposalId,title:action.title});}
+export function actionContentHash(action:Action){return digest({content:action.content,recipients:action.recipients,destination:action.destination,kind:action.kind,proposalId:action.proposalId,title:action.title,...(action.timing?{timing:action.timing}:{})});}
+export function assertActionTimingReady(action:Action){
+ const timing=action.timing;if(!timing)return;
+ ensure(timing.mode==='now'||timing.mode==='not_before','ACTION_TIMING_CHANGED','The approved action timing is invalid.');
+ ensure(timing.mode!=='not_before'||!!timing.notBefore&&Number.isFinite(Date.parse(timing.notBefore))&&Date.now()>=Date.parse(timing.notBefore),'ACTION_NOT_BEFORE','The approved action cannot be completed before its reviewed start time.');
+}
 export function assertDecision(s:WorkspaceState,approval:Approval,p:Proposal){
  const member=s.memberships.find(m=>m.actorId===approval.actorId),actor:ActorContext={tenantId:s.tenantId,actorId:approval.actorId,mode:'authenticated',expiresAt:Date.now()+60000};
  ensure(approval.status==='active'&&Date.parse(approval.validUntil)>Date.now()&&approval.conditions.length===0&&member&&!member.revokedAt&&(!member.expiresAt||Date.parse(member.expiresAt)>Date.now())&&member.version===approval.membershipVersion&&member.roles.includes(capacityRole[approval.capacity]),'AUTHORIZATION_EXPIRED','The authorizing role, conditions or expiry no longer permit this action.');
@@ -27,6 +32,7 @@ export function assertExecutable(s:WorkspaceState,actor:ActorContext,action:Acti
  ensure(currentEvidenceLineage(s,p)&&currentEvidenceLineage(s,action),'SOURCE_OBSERVATION_STALE','The action depends on historical, conflicting or withdrawn provider evidence.');
  ensure(p.route!=='standing_policy'||standingPolicyCurrent(s,actor,p)&&action.kind==='internal_document'&&action.recipients.length===0&&action.destination===null,'STANDING_POLICY_CHANGED','Only an unchanged approved template can use the internal standing route.');
  ensure(p.matterId===matter.id&&matter.proposalId===p.id&&p.status==='current'&&p.contentHash===digest(p.body)&&action.content===p.body&&action.contentHash===actionContentHash(action),'STALE_ACTION','The exact action or proposal bytes changed.');
+ assertActionTimingReady(action);
  const sources=matter.sourceIds.map(id=>readRecord(s,actor,s.sources,id)),facts=matter.factIds.map(id=>readRecord(s,actor,s.facts,id)),docs=matter.documentIds.map(id=>readRecord(s,actor,s.documents,id));
  ensure(facts.every(f=>factCurrentlyConfirmed(f)&&currentEvidenceLineage(s,f)),'FACTS_CHANGED','Current confirmed facts are required.');
  ensure(matter.tasks.filter(t=>t.kind==='fact'&&t.requiredFactPredicates!==undefined).every(t=>t.requiredFactPredicates!.length>0&&t.requiredFactPredicates!.every(predicate=>facts.some(f=>f.predicate===predicate&&factCurrentlyConfirmed(f)))),'PLAN_FACTS_PENDING','The accepted work plan requires its explicitly named current facts.');
