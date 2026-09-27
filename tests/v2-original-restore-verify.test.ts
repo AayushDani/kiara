@@ -17,6 +17,16 @@ test('recovery verifier requires a distinct isolated TLS Atlas database and matc
  assert.equal(validateRestoreTarget(target,env).database,target.database);
  for(const override of [{MONGODB_DB:'kiara_v2'},{MONGODB_URI:'mongodb://localhost:27017'},{MONGODB_URI:'mongodb+srv://cluster.mongodb.net/?tlsInsecure=true'},{MONGODB_URI:'mongodb+srv://cluster.mongodb.net/kiara_v2'},{KIARA_ORIGINALS_KEY:''}])assert.throws(()=>validateRestoreTarget(target,{...env,...override}));
  assert.throws(()=>validateRestoreTarget({...target,sourceDatabase:target.database},env));
+ const multiHost='mongodb://example:secret@host-a.mongodb.net:27017,host-b.mongodb.net:27017,host-c.mongodb.net:27017/kiara_recovery_qualification?replicaSet=atlas-test&authSource=admin&tls=true';
+ assert.equal(validateRestoreTarget(target,{...env,MONGODB_URI:multiHost}).database,target.database);
+ for(const override of [
+  `${multiHost}&tls=false`,
+  `${multiHost}&tlsAllowInvalidCertificates=true`,
+  multiHost.replace('host-c.mongodb.net','foreign.example.test'),
+  multiHost.replace('/kiara_recovery_qualification?','/kiara_v2?'),
+  multiHost.replace('&tls=true',''),
+ ])assert.throws(()=>validateRestoreTarget(target,{...env,MONGODB_URI:override}));
+ assert.throws(()=>validateRestoreTarget(target,{...env,MONGODB_URI:multiHost,NODE_ENV:'production'}));
 });
 
 test('restore manifest rejects cross-tenant references and requires retained/deleted probes',()=>{
