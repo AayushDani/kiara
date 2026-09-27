@@ -44,8 +44,10 @@ export function inspectV2ReleaseEnvironment(env:NodeJS.ProcessEnv,connected:{act
   add('OIDC_ACTIVE_BINDINGS_AND_MEMBERSHIPS',tenants.size>0&&[...tenants].every(t=>active.has(t)));
   add('SESSION_SIGNING_SECRET',!!env.KIARA_SESSION_SECRET&&env.KIARA_SESSION_SECRET.length>=32);
   add('NORMALIZED_MONGO_TLS',env.KIARA_V2_STORE_MODE==='normalized'&&mongoTls(env.MONGODB_URI));
+  add('V2_DATABASE_TARGET',env.MONGODB_DB==='kiara_v2');
   add('MONGO_ENCRYPTED_ORIGINALS',env.KIARA_ORIGINALS_MODE==='mongo_encrypted'&&/^[a-f0-9]{64}$/i.test(env.KIARA_ORIGINALS_KEY||''));
-  add('ATLAS_HYBRID_INDEXES',env.KIARA_V2_RETRIEVAL_MODE==='atlas'&&!!env.KIARA_V2_ATLAS_SEARCH_INDEX&&!!env.KIARA_V2_ATLAS_VECTOR_INDEX);
+  add('ATLAS_HYBRID_INDEXES',env.KIARA_V2_RETRIEVAL_MODE==='atlas'&&!!env.KIARA_V2_ATLAS_SEARCH_INDEX&&!!env.KIARA_V2_ATLAS_VECTOR_INDEX&&(!env.KIARA_V2_ATLAS_URI||mongoTls(env.KIARA_V2_ATLAS_URI)));
+  add('EXPLICIT_OPENAI_BUDGET_LEDGER',has(env,'KIARA_BUDGET_DB'));
   add('OPENAI_EMBEDDING_AND_AI',env.KIARA_V2_AI_MODE==='openai'&&has(env,'OPENAI_API_KEY'));
   const budget=Number(env.KIARA_OPENAI_BUDGET_USD);
   add('AUTHORIZED_OPENAI_BUDGET',Number.isFinite(budget)&&budget>0&&budget<=50);
@@ -59,7 +61,8 @@ export function inspectV2ReleaseEnvironment(env:NodeJS.ProcessEnv,connected:{act
     checks,connectedEvidenceRequired:[
       'OIDC_LOGIN_AND_MEMBERSHIP_REVOCATION','ATLAS_HYBRID_READ_AND_INDEX_RECOVERY',
       'MONGO_ENCRYPTED_ORIGINAL_ROUND_TRIP_AND_RESTORE','MANAGED_TEMPORAL_WORKER_REPLAY',
-      'SANDBOX_PROVIDER_SEND_AND_EXACT_READBACK','RECOVERY_DRILL_AND_CUSTOMER_ACCEPTANCE',
+      'SANDBOX_PROVIDER_SEND_AND_EXACT_READBACK','GLOBAL_OPENAI_LEDGER_RECONCILIATION',
+      'RECOVERY_DRILL_AND_CUSTOMER_ACCEPTANCE',
     ],
   };
 }
