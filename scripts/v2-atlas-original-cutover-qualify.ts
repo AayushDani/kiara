@@ -76,6 +76,23 @@ async function main(){
   assert.equal((await previewOriginalAliasTargetReconciliation(tenantId,target)).eligible,false);
   const actor={tenantId,actorId:'synthetic-operator',expiresAt:Date.now()+60000,mode:'authenticated' as const};
   await transactWorkspace(tenantId,state=>{applySourceDeletion(state,actor,'synthetic-source');applySourceDeletion(state,actor,'synthetic-native-holder');});
+  // Exercise the retained holders found by independent review against normalized Atlas
+  // state before allowing target deletion. These are generated receipts, not provider calls.
+  await transactWorkspace(tenantId,state=>{
+   state.receipts['execution:synthetic-holder']={hash:'synthetic-effect',result:{intent:{status:'uncertain',providerReceipt:JSON.stringify({readback:target}),actionSnapshot:{content:bytes.toString('utf8')},redactedAt:null}}};
+   state.receipts['artifact-intake:synthetic-holder']={hash:'synthetic-intake',result:{intake:{status:'staging',contentHash:target.sha256,reference:null}}};
+  });
+  let held=await previewOriginalAliasTargetReconciliation(tenantId,target);
+  assert.equal(held.eligible,false);
+  assert.ok(held.holders.includes('effect:execution:synthetic-holder'));
+  assert.ok(held.holders.includes('effect:execution:synthetic-holder:content'));
+  assert.ok(held.holders.includes('intake:artifact-intake:synthetic-holder:staging'));
+  await assert.rejects(applyOriginalAliasTargetReconciliation(tenantId,target,held.previewHash),code('ORIGINAL_ALIAS_TARGET_HELD'));
+  await transactWorkspace(tenantId,state=>{delete state.receipts['execution:synthetic-holder'];});
+  held=await previewOriginalAliasTargetReconciliation(tenantId,target);
+  assert.equal(held.eligible,false);
+  assert.deepEqual(held.holders,['intake:artifact-intake:synthetic-holder:staging']);
+  await transactWorkspace(tenantId,state=>{delete state.receipts['artifact-intake:synthetic-holder'];});
   const cleanupPreview=await previewOriginalAliasTargetReconciliation(tenantId,target);
   assert.equal(cleanupPreview.database,databaseName);assert.equal(cleanupPreview.eligible,true);assert.equal(cleanupPreview.aliases.length,1);
   const cleaned=await applyOriginalAliasTargetReconciliation(tenantId,target,cleanupPreview.previewHash);
@@ -89,7 +106,7 @@ async function main(){
   const jobs=(await readWorkspace(tenantId)).deletionJobs||[];assert.equal(jobs.length,2);
   const outcomes=[];for(const job of jobs)outcomes.push(await processDeletionJob(tenantId,job.id));
   assert.ok(outcomes.every(x=>x.applicationCleanupComplete&&x.originalsPending===0));
-  console.log('ATLAS_ALIAS_RECONCILIATION_EVIDENCE '+JSON.stringify({database:databaseName,tenantHash:hash(Buffer.from(tenantId)),targetHash:hash(Buffer.from(target.key)),previewHash:cleanupPreview.previewHash,aliasesRetired:cleaned.aliasesRetired,retainedBytesDeleted:true,replayVerified:true,retentionJobsComplete:outcomes.length,managedBackupErasureVerified:false,remoteTenantDataRead:false}));
+  console.log('ATLAS_ALIAS_RECONCILIATION_EVIDENCE '+JSON.stringify({database:databaseName,tenantHash:hash(Buffer.from(tenantId)),targetHash:hash(Buffer.from(target.key)),previewHash:cleanupPreview.previewHash,aliasesRetired:cleaned.aliasesRetired,retainedBytesDeleted:true,replayVerified:true,retentionJobsComplete:outcomes.length,unresolvedEffectReadbackHeld:true,unresolvedEffectContentHeld:true,stagingIntakeHeld:true,managedBackupErasureVerified:false,remoteTenantDataRead:false}));
  }finally{
   try{
    await closeMongoOriginalStore().catch(()=>{});
