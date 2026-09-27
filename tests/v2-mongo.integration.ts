@@ -11,9 +11,9 @@ import {MongoClient,Collection,type Db} from 'mongodb';
 import {closeV2Store,digest,emptyWorkspace,readWorkspace,timestamp,transactWorkspace} from '../src/v2/store';
 import {closeNormalizedStore,migrateAggregateToNormalized,normalizeWorkspace,normalizedMigrationPlan,purgeNormalizedHistory,readNormalized,rollbackNormalizedToAggregate,transactNormalized} from '../src/v2/normalized-store';
 import {closeHybridIndex,mongoHybridAdapter,type HybridChunk} from '../src/v2/hybrid';
-import {activateOriginalAliases,closeMongoOriginalStore,legacyOriginalHash,readMongoOriginal,retainMongoOriginal,purgeMongoOriginal} from '../src/v2/mongo-originals';
+import {activateOriginalAliases,closeMongoOriginalStore,legacyOriginalHash,markLegacyOriginalPurged,readMongoOriginal,retainMongoOriginal,purgeMongoOriginal} from '../src/v2/mongo-originals';
 import {readOriginal,readPhysicalOriginal,retainOriginal,purgeOriginal} from '../src/v2/objects';
-import {applyOriginalCutover,liveMongoOriginalHolders,previewOriginalCutover} from '../src/v2/original-cutover';
+import {applyOriginalAliasTargetReconciliation,applyOriginalCutover,liveMongoOriginalHolders,previewOriginalAliasTargetReconciliation,previewOriginalCutover} from '../src/v2/original-cutover';
 import {applySourceDeletion,redactHistoricalRecord,redactHistoricalWorkspace} from '../src/v2/retention';
 import type {Action,ActorContext,RecordBase,Source,WorkspaceState} from '../src/v2/contracts';
 import type {EffectIntent} from '../src/v2/execution/contracts';
@@ -204,6 +204,42 @@ test('alias activation cannot publish a reference after concurrent native purge 
   assert.equal(await db.collection('v2_original_aliases').countDocuments({tenantHash,'mongo.key':mongo.key}),0);
   await assert.rejects(readMongoOriginal(tenant,mongo),code('ORIGINAL_DELETED'));
  }finally{resume?.();Collection.prototype.updateOne=originalUpdate;delete process.env.KIARA_ORIGINAL_CUTOVER_TENANT;}
+});
+
+test('synthetic alias reconciliation waits for every holder and retention delay, then retires aliases and fences exact bytes',{timeout:120000},async()=>{
+ const tenant='synthetic-alias-reconciliation',bytes=Buffer.from('synthetic alias reconciliation'),mongo=await retainMongoOriginal(tenant,bytes),tenantHash=createHash('sha256').update(tenant).digest('hex');
+ const old=(versionId:string)=>({key:`${tenantHash}/${mongo.sha256}`,sha256:mongo.sha256,bytes:mongo.bytes,encryption:'aws-kms' as const,storage:'s3_kms' as const,keyId:'synthetic-kms-key',versionId});
+ const first=old('synthetic-v1'),second=old('synthetic-v2'),previewId='d'.repeat(64),uri=(ref:ReturnType<typeof old>)=>`s3://kiara-synthetic-test/${ref.key}?versionId=${ref.versionId}`;
+ const entry=(legacy:ReturnType<typeof old>)=>({legacy,mongo,legacyHash:legacyOriginalHash(legacy),sourceUri:uri(legacy),purgeTarget:uri(legacy),purgedAt:null});
+ process.env.KIARA_ORIGINAL_CUTOVER_TENANT=tenant;mode('normalized');
+ try{
+  await transactWorkspace(tenant,s=>{Object.assign(s,fixture(tenant));s.sources[0].originalObjectRef=JSON.stringify(first);s.sources.push({...structuredClone(s.sources[0]),id:'second-alias-source',originalObjectRef:JSON.stringify(second)},{...structuredClone(s.sources[0]),id:'native-source',originalObjectRef:JSON.stringify(mongo)});});
+  await activateOriginalAliases(tenant,previewId,digest(await readWorkspace(tenant)),[entry(first),entry(second)]);
+  await markLegacyOriginalPurged(tenant,previewId,legacyOriginalHash(first));await assert.rejects(previewOriginalAliasTargetReconciliation(tenant,mongo),code('ORIGINAL_LEGACY_PURGE_PENDING'));
+  await markLegacyOriginalPurged(tenant,previewId,legacyOriginalHash(second));
+  let preview=await previewOriginalAliasTargetReconciliation(tenant,mongo);assert.equal(preview.eligible,false);assert.equal(preview.aliases.length,2);assert.ok(preview.holders.some(x=>x.startsWith('source:')));
+  const future=new Date(Date.now()+86400000).toISOString();await transactWorkspace(tenant,s=>{for(const source of s.sources){source.status='deleted';s.tombstones.push({sourceId:source.id,deletedAt:timestamp(),reason:'Synthetic deletion',backupExpiresAt:null});}s.deletionJobs=[{id:'deletion-one',sourceId:'source',sourceIds:['source'],actorId:'owner',scope:{kind:'team',actorIds:[]},requestedAt:timestamp(),records:[],originals:[{reference:JSON.stringify(first),notBefore:future,status:'pending',failureCode:null}],operationalExceptionActionIds:[],indexCleanup:'complete',historicalCleanup:'complete',backupExpiresAt:null,backupStatus:'operator_verification_required'}];});
+  preview=await previewOriginalAliasTargetReconciliation(tenant,mongo);assert.equal(preview.eligible,false);assert.ok(preview.holders.includes('deletion:deletion-one'));
+  await transactWorkspace(tenant,s=>{s.deletionJobs![0].originals[0].notBefore=new Date(Date.now()-1000).toISOString();});
+  preview=await previewOriginalAliasTargetReconciliation(tenant,mongo);assert.equal(preview.eligible,true);assert.deepEqual(preview.holders,[]);
+  await transactWorkspace(tenant,s=>{s.receipts.reconciliationDrift={hash:'drift',result:{accepted:true}};});
+  await assert.rejects(applyOriginalAliasTargetReconciliation(tenant,mongo,preview.previewHash),code('ORIGINAL_RECONCILIATION_PREVIEW_CHANGED'));
+  preview=await previewOriginalAliasTargetReconciliation(tenant,mongo);
+  const originalUpdate=Collection.prototype.updateOne;let release!:()=>void,entered!:()=>void,paused=false;const gate=new Promise<void>(r=>release=r),waiting=new Promise<void>(r=>entered=r);
+  Collection.prototype.updateOne=async function(this:Collection,filter:any,update:any,...args:any[]){if(!paused&&this.collectionName==='v2_normalized_heads'&&filter._id===tenant&&update?.$inc?.retentionEpoch===1){paused=true;entered();await gate;}return originalUpdate.call(this,filter,update,...args as [any]);} as typeof Collection.prototype.updateOne;
+  try{const racing=applyOriginalAliasTargetReconciliation(tenant,mongo,preview.previewHash);await waiting;await transactWorkspace(tenant,s=>{s.sources.push({...structuredClone(s.sources[0]),id:'late-native-holder',status:'active',originalObjectRef:JSON.stringify(mongo)});});release();await assert.rejects(racing,code('ORIGINAL_RECONCILIATION_WORKSPACE_CHANGED'));}finally{release?.();Collection.prototype.updateOne=originalUpdate;}
+  assert.deepEqual(await readMongoOriginal(tenant,mongo),bytes);
+  await transactWorkspace(tenant,s=>{const late=s.sources.find(x=>x.id==='late-native-holder')!;late.status='deleted';s.tombstones.push({sourceId:late.id,deletedAt:timestamp(),reason:'Synthetic deletion',backupExpiresAt:null});});
+  preview=await previewOriginalAliasTargetReconciliation(tenant,mongo);
+  const result=await applyOriginalAliasTargetReconciliation(tenant,mongo,preview.previewHash);assert.equal(result.deleted,true);assert.equal(result.replayed,false);assert.equal(result.aliasesRetired,2);
+  assert.equal(await db.collection('v2_original_manifests').countDocuments({_id:mongo.key as never}),0);assert.equal(await db.collection('v2_original_chunks').countDocuments({manifestId:mongo.key}),0);
+  assert.equal(await db.collection('v2_original_aliases').countDocuments({tenantHash,'mongo.key':mongo.key,retiredAt:null}),0);assert.equal(await db.collection('v2_original_aliases').countDocuments({tenantHash,'mongo.key':mongo.key,retiredAt:{$type:'string'}}),2);
+  await assert.rejects(readOriginal(tenant,first),code('ORIGINAL_DELETED'));await assert.rejects(readMongoOriginal(tenant,mongo),code('ORIGINAL_DELETED'));
+  await purgeOriginal(tenant,first);await purgeOriginal(tenant,second);await purgeMongoOriginal(tenant,mongo);
+  assert.equal((await applyOriginalAliasTargetReconciliation(tenant,mongo,preview.previewHash)).replayed,true);
+  await assert.rejects(applyOriginalCutover(tenant,previewId),code('ORIGINAL_CUTOVER_ALIAS_RETIRED'));
+  await assert.rejects(activateOriginalAliases(tenant,'e'.repeat(64),digest(await readWorkspace(tenant)),[entry(first)]),code('ORIGINAL_DELETED'));
+ }finally{delete process.env.KIARA_ORIGINAL_CUTOVER_TENANT;mode('aggregate');}
 });
 
 test('cutover preview rejects path traversal and a non-synthetic S3 bucket before source access',{timeout:120000},async()=>{

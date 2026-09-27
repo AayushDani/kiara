@@ -3,25 +3,13 @@ import {join,resolve} from 'node:path';
 import {V2Error,type WorkspaceState} from './contracts';
 import {digest,readWorkspace} from './store';
 import {readPhysicalOriginal,purgeSyntheticLegacyOriginal,syntheticOriginalCutoverEnabled,type OriginalReference} from './objects';
-import {activateOriginalAliases,destinationOriginalReference,legacyOriginalHash,readMongoOriginal,readOriginalCutoverManifest,resolveMongoOriginalAlias,retainMongoOriginal,markLegacyOriginalPurged,type OriginalAliasEntry,type OriginalCutoverManifest} from './mongo-originals';
+import {activateOriginalAliases,destinationOriginalReference,inspectMongoAliasTarget,legacyOriginalHash,mongoOriginalAliasStatus,readMongoAliasReconciliation,readMongoOriginal,readOriginalCutoverManifest,reconcileMongoAliasTarget,resolveMongoOriginalAlias,retainMongoOriginal,markLegacyOriginalPurged,type OriginalAliasEntry,type OriginalCutoverManifest} from './mongo-originals';
+import {liveMongoOriginalHolders} from './original-holders';
+export {liveMongoOriginalHolders} from './original-holders';
 
 const sha=(value:Uint8Array)=>createHash('sha256').update(value).digest('hex');
 export interface CutoverEntry {legacy:OriginalReference;legacyHash:string;locations:string[];sourceUri:string;purgeTarget:string;bytes:number;sha256:string;destination:{database:string;collection:'v2_original_manifests';objectId:string}}
 export interface OriginalCutoverPreview {tenantId:string;workspaceVersion:number;workspaceHash:string;database:string;count:number;totalBytes:number;entries:CutoverEntry[];previewHash:string;sourceVerified:true}
-/** Conservative holder check for content-addressed copies shared by multiple aliases or
- * native Mongo references. A retained uncertain effect also keeps its original. */
-export function liveMongoOriginalHolders(s:WorkspaceState,mongo:OriginalReference,deletingLegacy?:OriginalReference):string[]{
- const held:string[]=[];const check=(value:unknown,location:string)=>{if(!value)return;try{const parsed=typeof value==='string'?JSON.parse(value):value;if(!parsed||typeof parsed!=='object')return;const ref=parsed as OriginalReference;if(ref.sha256===mongo.sha256&&ref.bytes===mongo.bytes&&['local_encrypted','s3_kms','mongo_encrypted'].includes(ref.storage))held.push(location);}catch{/* Non-reference provider receipts do not hold an original. */}};
- for(const source of s.sources.filter(x=>x.status!=='deleted'))check(source.originalObjectRef,`source:${source.id}`);
- if(s.migration)check((s.migration.legacyArchive as {original?:unknown})?.original,'migration:legacyArchive');
- for(const job of s.deletionJobs||[])for(const original of job.originals.filter(x=>x.status!=='purged')){try{const ref=JSON.parse(original.reference) as OriginalReference;if(deletingLegacy&&legacyOriginalHash(ref)===legacyOriginalHash(deletingLegacy))continue;check(ref,`deletion:${job.id}`);}catch{held.push(`deletion:${job.id}:unclassified`);}}
- for(const [key,receipt] of Object.entries(s.receipts)){
-  const intake=receipt.result.intake as {status?:string;reference?:string}|undefined;if(intake&&['staging','retained'].includes(intake.status||''))check(intake.reference,`intake:${key}`);
-  const intent=receipt.result.intent as {status?:string;redactedAt?:string;retentionOriginalReferences?:string[];providerReceipt?:string;completionArtifact?:string;actionSnapshot?:{completion?:{artifact?:string}}}|undefined;
-  if(intent&&!intent.redactedAt){for(const ref of intent.retentionOriginalReferences||[])check(ref,`effect:${key}`);check(intent.providerReceipt,`effect:${key}`);check(intent.completionArtifact,`effect:${key}`);check(intent.actionSnapshot?.completion?.artifact,`effect:${key}`);}
- }
- return [...new Set(held)];
-}
 function scope(tenantId:string){if(!syntheticOriginalCutoverEnabled(tenantId)||!process.env.MONGODB_URI)throw new V2Error('ORIGINAL_CUTOVER_SCOPE','Name the exact synthetic tenant and isolated MongoDB database before cutover.',403);}
 function sourceUri(reference:OriginalReference){if(reference.storage==='local_encrypted'){if(!/^[a-f0-9]{64}\/[a-f0-9]{64}(?:\/[a-f0-9]{16})?$/.test(reference.key))throw new V2Error('ORIGINAL_CUTOVER_SOURCE','Legacy local object key shape is invalid.',403);const root=process.env.KIARA_ORIGINALS_DIR||join(process.env.KIARA_V2_DATA_DIR||process.env.KIARA_DATA_DIR||join(process.cwd(),'.kiara'),'originals');return `file://${resolve(root,reference.key+'.json')}`;}if(reference.storage==='s3_kms'){if(!/^[a-f0-9]{64}\/[a-f0-9]{64}$/.test(reference.key))throw new V2Error('ORIGINAL_CUTOVER_SOURCE','Legacy S3 object key shape is invalid.',403);const bucket=process.env.KIARA_ORIGINALS_S3_BUCKET;if(!bucket||!/^kiara-synthetic-[a-z0-9-]+$/.test(bucket)||process.env.KIARA_ORIGINAL_CUTOVER_S3_BUCKET!==bucket||!reference.versionId)throw new V2Error('OBJECT_STORE_NOT_CONFIGURED','The exact synthetic S3 bucket and version are required for migration preview.',503);return `s3://${bucket}/${reference.key}?versionId=${encodeURIComponent(reference.versionId)}`;}throw new V2Error('ORIGINAL_CUTOVER_SOURCE','Only legacy local and S3 originals are cutover candidates.',400);}
 function references(s:WorkspaceState){const rows=new Map<string,{legacy:OriginalReference;locations:string[]}>();
@@ -57,6 +45,7 @@ export async function previewOriginalCutover(tenantId:string):Promise<OriginalCu
  const body={tenantId,workspaceVersion:state.version,workspaceHash,database,count:entries.length,totalBytes:entries.reduce((n,e)=>n+e.bytes,0),entries,sourceVerified:true as const};return {...body,previewHash:digest(body)};
 }
 async function purgeVerifiedLegacyCopies(tenantId:string,manifest:OriginalCutoverManifest){const pending:string[]=[];let purged=0;
+ for(const entry of manifest.entries)if(await mongoOriginalAliasStatus(tenantId,entry.legacy)!=='active')throw new V2Error('ORIGINAL_CUTOVER_ALIAS_RETIRED','This cutover alias is no longer active; do not replay an old migration.',410);
  for(const entry of manifest.entries){if(entry.purgedAt){purged++;continue;}try{if(sourceUri(entry.legacy)!==entry.sourceUri||entry.purgeTarget!==entry.sourceUri||entry.legacyHash!==legacyOriginalHash(entry.legacy)||(await resolveMongoOriginalAlias(tenantId,entry.legacy))?.key!==entry.mongo.key)throw new V2Error('ORIGINAL_CUTOVER_TARGET_CHANGED','The exact reviewed alias or legacy purge target changed.',409);const copied=await readMongoOriginal(tenantId,entry.mongo);if(copied.length!==entry.legacy.bytes||sha(copied)!==entry.legacy.sha256)throw new V2Error('ORIGINAL_CUTOVER_READBACK','The Mongo original failed exact readback before legacy purge.',503);await purgeSyntheticLegacyOriginal(tenantId,entry.legacy);await markLegacyOriginalPurged(tenantId,manifest.previewHash,entry.legacyHash);purged++;}catch{pending.push(entry.legacyHash);}}
  return {activated:true,purged,pendingPurgeHashes:pending,previewHash:manifest.previewHash};
 }
@@ -68,4 +57,21 @@ export async function applyOriginalCutover(tenantId:string,previewHash:string){
  const entries:OriginalAliasEntry[]=[];for(const item of preview.entries){if(sourceUri(item.legacy)!==item.sourceUri)throw new V2Error('ORIGINAL_CUTOVER_TARGET_CHANGED','The exact reviewed source changed.',409);const source=await readPhysicalOriginal(tenantId,item.legacy);if(source.length!==item.bytes||sha(source)!==item.sha256)throw new V2Error('ORIGINAL_CUTOVER_SOURCE_CHANGED','Legacy original changed during copy.',503);const mongo=await retainMongoOriginal(tenantId,source),readback=await readMongoOriginal(tenantId,mongo);if(mongo.key!==item.destination.objectId||!readback.equals(source))throw new V2Error('ORIGINAL_CUTOVER_READBACK','Mongo original did not match the reviewed destination.',503);entries.push({legacy:item.legacy,mongo,legacyHash:item.legacyHash,sourceUri:item.sourceUri,purgeTarget:item.purgeTarget,purgedAt:null});}
  if(digest(await readWorkspace(tenantId))!==preview.workspaceHash)throw new V2Error('ORIGINAL_CUTOVER_WORKSPACE_CHANGED','Workspace changed before alias activation; no aliases were enabled.',409);
  const manifest=await activateOriginalAliases(tenantId,previewHash,preview.workspaceHash,entries);return purgeVerifiedLegacyCopies(tenantId,manifest);
+}
+
+/** Deletion is operator-only and requires an exact preview of every live holder and alias. */
+export async function previewOriginalAliasTargetReconciliation(tenantId:string,mongo:OriginalReference){
+ scope(tenantId);if(process.env.KIARA_V2_STORE_MODE!=='normalized')throw new V2Error('ORIGINAL_RECONCILIATION_STORE','Reconcile only a normalized synthetic workspace.',403);
+ const state=await readWorkspace(tenantId),workspaceHash=digest(state),target=await inspectMongoAliasTarget(tenantId,mongo),holders=liveMongoOriginalHolders(state,mongo,undefined,{forReconciliation:true}).sort();
+ if(digest(await readWorkspace(tenantId))!==workspaceHash)throw new V2Error('ORIGINAL_RECONCILIATION_WORKSPACE_CHANGED','The holder state changed during preview.',409);
+ const body={tenantId,database:process.env.MONGODB_DB!,mongo,workspaceVersion:state.version,workspaceHash,targetHash:target.targetHash,aliases:target.aliases,holders,eligible:holders.length===0};
+ return {...body,previewHash:digest(body)};
+}
+export async function applyOriginalAliasTargetReconciliation(tenantId:string,mongo:OriginalReference,previewHash:string){
+ scope(tenantId);if(!/^[a-f0-9]{64}$/.test(previewHash))throw new V2Error('ORIGINAL_RECONCILIATION_PREVIEW','Provide the exact reviewed preview hash.',400);
+ const prior=await readMongoAliasReconciliation(tenantId,mongo,previewHash);if(prior!==null)return {deleted:true,replayed:true,previewHash,aliasesRetired:prior};
+ const preview=await previewOriginalAliasTargetReconciliation(tenantId,mongo);
+ if(preview.previewHash!==previewHash)throw new V2Error('ORIGINAL_RECONCILIATION_PREVIEW_CHANGED','Inspect the current holder and alias preview again.',409);
+ if(!preview.eligible)throw new V2Error('ORIGINAL_ALIAS_TARGET_HELD','A current workspace reference still holds the Mongo original.',409);
+ return reconcileMongoAliasTarget(tenantId,mongo,{previewHash,workspaceVersion:preview.workspaceVersion,workspaceHash:preview.workspaceHash,targetHash:preview.targetHash,aliasIds:preview.aliases.map(a=>a.id)});
 }

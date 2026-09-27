@@ -54,7 +54,7 @@ export async function readPhysicalOriginal(tenantId:string,reference:OriginalRef
 
 /** Only the retention worker calls this after committing an object-reference deletion fence. */
 export async function purgeOriginal(tenantId:string,reference:OriginalReference):Promise<void>{
- if(reference.storage!=='mongo_encrypted'&&process.env.MONGODB_URI&&syntheticOriginalCutoverEnabled(tenantId)){const alias=await(await import('./mongo-originals')).resolveMongoOriginalAlias(tenantId,reference);if(alias)throw new V2Error('ORIGINAL_ALIAS_TARGET_HELD','A cutover alias target requires a separate exact-holder cleanup review.',409);}
+ if(reference.storage!=='mongo_encrypted'&&process.env.MONGODB_URI&&syntheticOriginalCutoverEnabled(tenantId)){const status=await(await import('./mongo-originals')).mongoOriginalAliasStatus(tenantId,reference);if(status==='active')throw new V2Error('ORIGINAL_ALIAS_TARGET_HELD','A cutover alias target requires a separate exact-holder cleanup review.',409);if(status==='retired')return;}
  return purgePhysicalOriginal(tenantId,reference);
 }
 /** Restricted operator helper for the exact synthetic tenant and isolated database. */
