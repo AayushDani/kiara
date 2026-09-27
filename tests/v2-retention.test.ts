@@ -91,6 +91,62 @@ test('retention worker records its purge claim before calling the physical adapt
  assert.equal(result.applicationCleanupComplete,true);
  await assert.rejects(()=>readOriginal(a.tenantId,ref));
 });
+test('a second worker cannot dispatch physical purge while the first claim is active',async()=>{
+ const {a,doc,ref,bytes}=await setup();
+ await send(a,{type:'source.revoke',sourceId:doc.sourceId,reason:'Concurrent purge claim',delete:true});
+ const job=(await readWorkspace(a.tenantId)).deletionJobs![0];
+ await transactWorkspace(a.tenantId,s=>{s.deletionJobs![0].originals[0].notBefore=new Date(0).toISOString();});
+ let entered!:()=>void,released!:()=>void,physicalCalls=0;
+ const firstEntered=new Promise<void>(resolve=>entered=resolve),gate=new Promise<void>(resolve=>released=resolve);
+ const first=processDeletionJob(a.tenantId,job.id,{original:async(tenant,reference)=>{physicalCalls++;entered();await gate;await purgeOriginal(tenant,reference);}});
+ await firstEntered;
+ try{
+  const second=await processDeletionJob(a.tenantId,job.id,{original:async(tenant,reference)=>{physicalCalls++;await purgeOriginal(tenant,reference);}});
+  assert.equal(physicalCalls,1);
+  assert.equal(second.originalsPending,1);
+  assert.deepEqual(await readOriginal(a.tenantId,ref),bytes);
+ }finally{released();await first;}
+ assert.equal((await readWorkspace(a.tenantId)).deletionJobs![0].originals[0].status,'purged');
+});
+test('an expired purge claim recovers without letting the old worker overwrite completion',async()=>{
+ const {a,doc,ref}=await setup();
+ await send(a,{type:'source.revoke',sourceId:doc.sourceId,reason:'Crash recovery claim',delete:true});
+ const job=(await readWorkspace(a.tenantId)).deletionJobs![0];
+ await transactWorkspace(a.tenantId,s=>{s.deletionJobs![0].originals[0].notBefore=new Date(0).toISOString();});
+ let entered!:()=>void,released!:()=>void;
+ const firstEntered=new Promise<void>(resolve=>entered=resolve),gate=new Promise<void>(resolve=>released=resolve);
+ const stale=processDeletionJob(a.tenantId,job.id,{original:async()=>{entered();await gate;throw new Error('Old worker lost its result');}});
+ await firstEntered;
+ await transactWorkspace(a.tenantId,s=>{s.deletionJobs![0].originals[0].claimExpiresAt=new Date(0).toISOString();});
+ const recovered=await processDeletionJob(a.tenantId,job.id,{original:purgeOriginal});
+ assert.equal(recovered.applicationCleanupComplete,true);
+ released();
+ const old=await stale;
+ assert.equal(old.failures.length,0);
+ assert.equal((await readWorkspace(a.tenantId)).deletionJobs![0].originals[0].status,'purged');
+ await assert.rejects(()=>readOriginal(a.tenantId,ref));
+});
+test('one due deletion claim holds a second due owner of the same original',async()=>{
+ const a=owner(),bytes=Buffer.from('Two due owners, one physical original'),ref=await retainOriginal(a.tenantId,bytes);
+ const first=await send(a,{type:'document.add',title:'Owner one',body:bytes.toString(),authority:'draft'},{originalObjectRef:JSON.stringify(ref)});
+ const second=await send(a,{type:'document.add',title:'Owner two',body:bytes.toString(),authority:'draft'},{originalObjectRef:JSON.stringify(ref)});
+ await send(a,{type:'source.revoke',sourceId:first.snapshot.documents[0].sourceId,reason:'First owner delete',delete:true});
+ await send(a,{type:'source.revoke',sourceId:second.snapshot.documents.at(-1)!.sourceId,reason:'Second owner delete',delete:true});
+ const jobs=(await readWorkspace(a.tenantId)).deletionJobs!;
+ await transactWorkspace(a.tenantId,s=>{for(const job of s.deletionJobs!)for(const original of job.originals)original.notBefore=new Date(0).toISOString();});
+ let entered!:()=>void,released!:()=>void,physicalCalls=0;
+ const firstEntered=new Promise<void>(resolve=>entered=resolve),gate=new Promise<void>(resolve=>released=resolve);
+ const firstRun=processDeletionJob(a.tenantId,jobs[0].id,{original:async(tenant,reference)=>{physicalCalls++;entered();await gate;await purgeOriginal(tenant,reference);}});
+ await firstEntered;
+ try{
+  const other=await processDeletionJob(a.tenantId,jobs[1].id,{original:async(tenant,reference)=>{physicalCalls++;await purgeOriginal(tenant,reference);}});
+  assert.equal(physicalCalls,1);
+  assert.equal(other.originalsPending,1);
+  assert.equal((await readWorkspace(a.tenantId)).deletionJobs![1].originals[0].status,'shared_reference');
+  assert.deepEqual(await readOriginal(a.tenantId,ref),bytes);
+ }finally{released();await firstRun;}
+ assert.equal((await processDeletionJob(a.tenantId,jobs[1].id)).applicationCleanupComplete,true);
+});
 test('an expired attached intake cannot purge bytes owned by a pending deletion job',async()=>{
  const a=owner(),bytes=Buffer.from('Shared attached intake under retention'),initial=await snapshot(a);
  const intake=await retainIntakeOriginal(a,'retained-shared-intake',bytes,initial.version);

@@ -35,6 +35,8 @@ For a lost email acceptance receipt, the final command may include a candidate p
 
 Backup status remains `operator_verification_required`, with unknown expiry. No application command currently certifies external backups, provider retention, object-lock expiration or customer legal retention policy. Operators must record actual backup expiration/deletion evidence in their deployment procedure; a green application cleanup count is insufficient.
 
+Original purge claims are stored with an opaque claim ID and a 15-minute expiry. A second worker skips a live claim, including a claim held by another due deletion job for the same bytes. An expired claim can be retried, and an older worker cannot overwrite a later worker's completion or failure record. Retry timing uses the claim expiry. The physical purge adapter must remain idempotent because an old request may finish after its lease expires. The [generated Atlas concurrent-worker drill](evidence/shared-original-concurrent-atlas-sep27.md) verifies one overlapping claim and exact Mongo byte deletion; it does not establish managed backup erasure or customer migration.
+
 ## Evidence
 
 `evidence/retention-collaboration-routes.log` records 20 passing local tests for lineage deletion, current/historical share redaction, uncertain effects, purge delay/hold, pending intake races, interrupted-write recovery and exact document API originals/replay/reimport. Route tests invoke the actual Request/Response handlers; they are not network or browser observations. S3 behavior uses an injected transport. The separate MongoDB integration record documents actual transactions on an isolated loopback replica set. No customer database, S3 bucket or paid provider was used.

@@ -7,7 +7,7 @@ import {join} from 'node:path';
 import {MongoClient} from 'mongodb';
 import {ConnectionString} from 'mongodb-connection-string-url';
 import {applyOriginalAliasTargetReconciliation,applyOriginalCutover,previewOriginalAliasTargetReconciliation,previewOriginalCutover} from '../src/v2/original-cutover';
-import {closeMongoOriginalStore,purgeMongoOriginal,readMongoOriginal} from '../src/v2/mongo-originals';
+import {closeMongoOriginalStore,purgeMongoOriginal,readMongoOriginal,retainMongoOriginal} from '../src/v2/mongo-originals';
 import {purgeOriginal,readOriginal,readPhysicalOriginal,retainOriginal} from '../src/v2/objects';
 import {closeV2Store,digest,readWorkspace,timestamp,transactWorkspace} from '../src/v2/store';
 import {applySourceDeletion} from '../src/v2/retention';
@@ -127,6 +127,23 @@ async function main(){
   const intakeCleared=await purgeExpiredIntakes(tenantId,'synthetic-expired');
   assert.equal(intakeCleared.purged,1);
   console.log('ATLAS_ALIAS_RECONCILIATION_EVIDENCE '+JSON.stringify({database:databaseName,tenantHash:hash(Buffer.from(tenantId)),targetHash:hash(Buffer.from(target.key)),previewHash:cleanupPreview.previewHash,aliasesRetired:cleaned.aliasesRetired,retainedBytesDeleted:true,replayVerified:true,retentionJobsComplete:outcomes.length,laterNativeDeadlineHeld:true,expiredAttachedIntakeHeld:true,expiredAttachedIntakeCleared:true,unresolvedEffectReadbackHeld:true,unresolvedEffectContentHeld:true,stagingIntakeHeld:true,managedBackupErasureVerified:false,remoteTenantDataRead:false}));
+  const raceBytes=Buffer.from(`generated native purge race ${suffix}`),raceReference=await retainMongoOriginal(tenantId,raceBytes),raceText=raceBytes.toString('utf8');
+  await transactWorkspace(tenantId,state=>{state.sources.push({id:'synthetic-race-native',tenantId,version:1,createdAt:timestamp(),updatedAt:timestamp(),scope:{kind:'team',actorIds:[]},provenance:{actorId:'synthetic-operator',sourceIds:[],description:'generated concurrent retention drill'},title:'Generated race source',kind:'manual',externalId:null,externalRevision:null,text:raceText,contentHash:digest(raceText),url:null,status:'active',aclVersion:1,observedAt:timestamp(),effectiveAt:null,authority:'draft',originalObjectRef:JSON.stringify(raceReference)});});
+  await transactWorkspace(tenantId,state=>{applySourceDeletion(state,actor,'synthetic-race-native');});
+  const raceJob=(await readWorkspace(tenantId)).deletionJobs!.find(job=>job.sourceId==='synthetic-race-native')!;
+  let entered!:()=>void,released!:()=>void,physicalCalls=0;
+  const firstEntered=new Promise<void>(resolve=>entered=resolve),gate=new Promise<void>(resolve=>released=resolve);
+  const firstRun=processDeletionJob(tenantId,raceJob.id,{original:async(t,reference)=>{physicalCalls++;entered();await gate;await purgeOriginal(t,reference);}});
+  await Promise.race([firstEntered,firstRun.then(()=>{throw new Error('The first retention worker exited before entering physical purge.');})]);
+  try{
+   const secondRun=await processDeletionJob(tenantId,raceJob.id,{original:async(t,reference)=>{physicalCalls++;await purgeOriginal(t,reference);}});
+   assert.equal(physicalCalls,1);
+   assert.equal(secondRun.originalsPending,1);
+   assert.deepEqual(await readMongoOriginal(tenantId,raceReference),raceBytes);
+  }finally{released();await firstRun;}
+  assert.equal((await readWorkspace(tenantId)).deletionJobs!.find(job=>job.id===raceJob.id)!.originals[0].status,'purged');
+  await assert.rejects(readMongoOriginal(tenantId,raceReference),code('ORIGINAL_DELETED'));
+  console.log('ATLAS_RETENTION_RACE_EVIDENCE '+JSON.stringify({database:databaseName,tenantHash:hash(Buffer.from(tenantId)),originalHash:raceReference.sha256,physicalCalls,secondWorkerHeld:true,firstWorkerCompleted:true,encryptedBytesPurged:true,managedBackupErasureVerified:false,remoteTenantDataRead:false}));
  }finally{
   try{
    await closeMongoOriginalStore().catch(()=>{});
