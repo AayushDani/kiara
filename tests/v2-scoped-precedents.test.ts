@@ -8,6 +8,8 @@ import {command,snapshot} from '../src/v2/service';
 import {normalizeWorkspace,hydrateWorkspace} from '../src/v2/normalized-store';
 import {redactedRecord} from '../src/v2/retention';
 import {mkdtemp,rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
 import type {ActorContext,Approval,DocumentRecord,Matter,Proposal,RecordBase,Scope,Source} from '../src/v2/contracts';
 
 const scope:Scope={kind:'team',actorIds:[]};
@@ -102,7 +104,7 @@ test('retrospective legal or business review loses reuse eligibility when review
  f.state.memberships.find(m=>m.actorId==='owner')!.version++;assert.equal(precedentAvailable(f.state,f.member,item),false);
 });
 test('shared command and snapshot retain the exact scoped precedent through local storage',async()=>{
- const dir=await mkdtemp('/private/tmp/kiara-precedent-test-'),priorDir=process.env.KIARA_DATA_DIR,priorMongo=process.env.MONGODB_URI;
+ const dir=await mkdtemp(join(tmpdir(),'kiara-precedent-test-')),priorDir=process.env.KIARA_DATA_DIR,priorMongo=process.env.MONGODB_URI;
  process.env.KIARA_DATA_DIR=dir;process.env.MONGODB_URI='';
  try{const f=fixture();await transactWorkspace(f.state.tenantId,s=>{Object.assign(s,structuredClone(f.state));return null;});const before=await snapshot(f.owner);
   const body=f.document.body,quote='Negotiated liability cap: fees paid in twelve months.',start=body.indexOf(quote);
@@ -115,7 +117,7 @@ test('shared command and snapshot retain the exact scoped precedent through loca
  }finally{if(priorDir===undefined)delete process.env.KIARA_DATA_DIR;else process.env.KIARA_DATA_DIR=priorDir;if(priorMongo===undefined)delete process.env.MONGODB_URI;else process.env.MONGODB_URI=priorMongo;await rm(dir,{recursive:true,force:true});}
 });
 test('target command, snapshot match and source deletion remain bound across local persistence',async()=>{
- const dir=await mkdtemp('/private/tmp/kiara-precedent-target-'),priorDir=process.env.KIARA_DATA_DIR,priorMongo=process.env.MONGODB_URI;
+ const dir=await mkdtemp(join(tmpdir(),'kiara-precedent-target-')),priorDir=process.env.KIARA_DATA_DIR,priorMongo=process.env.MONGODB_URI;
  process.env.KIARA_DATA_DIR=dir;process.env.MONGODB_URI='';
  try{const f=adoptedFixture(),matter=targetMatter(f);f.state.memberships.find(member=>member.actorId==='owner')!.roles.push('admin');await transactWorkspace(f.state.tenantId,s=>{Object.assign(s,structuredClone(f.state));return null;});const before=await snapshot(f.owner);
   const set=await command(f.owner,{idempotencyKey:'target-context',expectedVersion:before.version,command:{type:'precedent.target.set',inspectedVersion:before.version,matterId:matter.id,expectedMatterVersion:matter.version,counterpartyEntityId:f.counterpartyId,jurisdiction:'California',transaction:'B2B SaaS subscription',asOfDate:'2026-09-27',productEntityIds:[f.productId],factIds:[]}});
