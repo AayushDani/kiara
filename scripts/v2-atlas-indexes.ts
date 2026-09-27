@@ -1,4 +1,5 @@
 import {MongoClient,type Document} from 'mongodb';
+import ConnectionString from 'mongodb-connection-string-url';
 import {hybridIndexDefinitions,type HybridConfig} from '../src/v2/hybrid';
 import {EMBEDDING_POLICY} from '../src/v2/embeddings';
 import {digest} from '../src/v2/store';
@@ -14,29 +15,34 @@ const hashPattern=/^[a-f0-9]{64}$/i;
 
 export function parseAtlasIndexCommand(args:string[]):AtlasIndexInput {
   const [phase,...rest]=args;
-  if(!['preview','apply','verify'].includes(phase))throw new Error('Usage: v2-atlas-indexes <preview|apply|verify> --database SYNTHETIC_DB [--preview-hash SHA256]');
+  if(!['preview','apply','verify'].includes(phase))throw new Error('Usage: v2-atlas-indexes <preview|apply|verify> --database DATABASE [--preview-hash SHA256]');
   const options=new Map<string,string>();
   for(let i=0;i<rest.length;i+=2){const key=rest[i],value=rest[i+1];if(!['--database','--preview-hash'].includes(key)||options.has(key)||!value||value.startsWith('--'))throw new Error('Unknown, duplicate or missing Atlas index option.');options.set(key,value);}
   const database=options.get('--database')||'',previewHash=options.get('--preview-hash');
-  if(!namePattern.test(database))throw new Error('Supply one exact synthetic database name.');
+  if(!namePattern.test(database))throw new Error('Supply one exact database name.');
   if(phase==='apply'&&!hashPattern.test(previewHash||''))throw new Error('Apply requires the SHA-256 preview hash.');
   if(phase!=='apply'&&previewHash)throw new Error('Only apply accepts a preview hash.');
   return {phase:phase as Phase,database,...(previewHash?{previewHash:previewHash.toLowerCase()}:{})};
 }
 
 function target(input:AtlasIndexInput,env:NodeJS.ProcessEnv){
-  const uri=env.KIARA_V2_ATLAS_URI||env.MONGODB_URI||'',configuredDb=env.MONGODB_DB||'',syntheticDb=env.KIARA_V2_RELEASE_SYNTHETIC_DB||'';
-  if(!namePattern.test(input.database)||!/(?:synthetic|sandbox|test)/i.test(input.database)||input.database!==configuredDb||input.database!==syntheticDb)
-    throw new Error('Atlas index operations require the exact configured isolated synthetic database.');
-  let url:URL;
-  try{url=new URL(uri);}catch{throw new Error('Configure an Atlas SRV connection for the synthetic database.');}
+  const uri=env.KIARA_V2_ATLAS_URI||env.MONGODB_URI||'',configuredDb=env.MONGODB_DB||'',syntheticDb=env.KIARA_V2_RELEASE_SYNTHETIC_DB||'',releaseDb=env.KIARA_V2_RELEASE_DB||'';
+  const synthetic=!!syntheticDb&&input.database===syntheticDb&&/(?:synthetic|sandbox|test)/i.test(syntheticDb);
+  const release=!!releaseDb&&input.database===releaseDb&&/^kiara(?:_[a-z0-9]+)*_v2$/.test(releaseDb);
+  if(!namePattern.test(input.database)||input.database!==configuredDb||synthetic===release||!!syntheticDb&&!!releaseDb)
+    throw new Error('Atlas index operations require one exact configured v2 release or isolated synthetic database.');
+  let url:ConnectionString;
+  try{url=new ConnectionString(uri);}catch{throw new Error('Configure a TLS-enabled Atlas connection for the selected database.');}
   const options=[...url.searchParams].map(([name,value])=>[name.toLowerCase(),value.toLowerCase()] as const);
   const security=['tls','ssl','tlsinsecure','tlsallowinvalidcertificates','tlsallowinvalidhostnames'];
   const ambiguous=security.some(name=>options.filter(([key])=>key===name).length>1)||options.some(([key])=>key==='tls')&&options.some(([key])=>key==='ssl');
   const insecure=options.some(([key,value])=>['tlsinsecure','tlsallowinvalidcertificates','tlsallowinvalidhostnames'].includes(key)&&!['false','0'].includes(value));
   const tls=options.find(([key])=>key==='tls'||key==='ssl')?.[1];
-  if(url.protocol!=='mongodb+srv:'||!url.hostname.endsWith('.mongodb.net')||url.hostname==='mongodb.net'||url.pathname!=='/'&&url.pathname!==`/${input.database}`||ambiguous||insecure||tls!==undefined&&!['true','1'].includes(tls))
-    throw new Error('The index operator requires a TLS-enabled Atlas SRV URI targeting the synthetic database.');
+  const atlasHosts=url.hosts.length>0&&url.hosts.every(host=>{const name=host.replace(/:\d+$/,'').toLowerCase();return name.endsWith('.mongodb.net')&&name!=='mongodb.net';});
+  const srv=url.protocol==='mongodb+srv:'&&url.hosts.length===1;
+  const standard=url.protocol==='mongodb:'&&tls!==undefined&&['true','1'].includes(tls);
+  if(!(srv||standard)||!atlasHosts||url.pathname!=='/'&&url.pathname!==`/${input.database}`||ambiguous||insecure||tls!==undefined&&!['true','1'].includes(tls))
+    throw new Error('The index operator requires a TLS-enabled Atlas URI targeting the selected database.');
   if(env.KIARA_V2_RETRIEVAL_MODE!=='atlas')throw new Error('Select Atlas retrieval mode before managing its indexes.');
   const searchIndex=env.KIARA_V2_ATLAS_SEARCH_INDEX||'',vectorIndex=env.KIARA_V2_ATLAS_VECTOR_INDEX||'';
   if(!/^[a-zA-Z0-9_-]{1,100}$/.test(searchIndex)||!/^[a-zA-Z0-9_-]{1,100}$/.test(vectorIndex))throw new Error('Configure both exact Atlas index names.');

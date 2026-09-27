@@ -72,3 +72,21 @@ test('only an explicit matching synthetic Atlas database can be inspected or cha
   assert.throws(()=>parseAtlasIndexCommand(['apply','--database',database]),/preview hash/);
   assert.throws(()=>parseAtlasIndexCommand(['preview','--database',database,'--preview-hash','0'.repeat(64)]),/Only apply/);
 });
+
+test('an exact v2 release database accepts the current TLS Atlas replica-set URI format',async()=>{
+  const releaseDb='kiara_v2';
+  const standardUri=`mongodb://a.invalid.mongodb.net:27017,b.invalid.mongodb.net:27017,c.invalid.mongodb.net:27017/${releaseDb}?tls=true&authSource=admin`;
+  const releaseEnv={...env,KIARA_V2_ATLAS_URI:standardUri,MONGODB_DB:releaseDb,KIARA_V2_RELEASE_SYNTHETIC_DB:undefined,KIARA_V2_RELEASE_DB:releaseDb};
+  const fake=fixture(),preview=await runAtlasIndexCommand({phase:'preview',database:releaseDb},releaseEnv,fake.factory);
+  assert.equal(preview.indexes.length,2);assert.equal(fake.reads,1);assert.equal(fake.writes,0);
+  for(const bad of [
+    {...releaseEnv,KIARA_V2_RELEASE_DB:undefined},
+    {...releaseEnv,MONGODB_DB:'kiara'},
+    {...releaseEnv,KIARA_V2_RELEASE_SYNTHETIC_DB:database},
+    {...releaseEnv,KIARA_V2_ATLAS_URI:standardUri.replace('tls=true','tls=false')},
+    {...releaseEnv,KIARA_V2_ATLAS_URI:standardUri.replace('tls=true','tlsInsecure=true&tls=true')},
+    {...releaseEnv,KIARA_V2_ATLAS_URI:standardUri.replace('b.invalid.mongodb.net','localhost')},
+    {...releaseEnv,KIARA_V2_ATLAS_URI:standardUri.replace(`/${releaseDb}?`,`/kiara?`)},
+  ])await assert.rejects(runAtlasIndexCommand({phase:'preview',database:releaseDb},bad,fake.factory));
+  assert.equal(fake.writes,0);
+});
