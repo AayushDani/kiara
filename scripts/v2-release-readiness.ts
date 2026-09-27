@@ -1,4 +1,5 @@
 /** Secret-free, read-only preflight. Connected qualifications are separate release gates. */
+import {ConnectionString} from 'mongodb-connection-string-url';
 export interface ReleaseCheck {code:string;configured:boolean}
 export interface ReleaseReadiness {
   target:'kiara-v2-hosted';configurationReady:boolean;releaseQualified:false;
@@ -13,7 +14,7 @@ const httpsIssuer=(value:string|undefined)=>{try{const url=new URL(value||'');re
 const mongoTls=(value:string|undefined)=>{
   if(!value)return false;
   try{
-    const url=new URL(value),entries=[...url.searchParams].map(([name,setting])=>[name.toLowerCase(),setting.toLowerCase()] as const),parameters=new Map(entries);
+    const url=new ConnectionString(value),entries=[...url.searchParams].map(([name,setting])=>[name.toLowerCase(),setting.toLowerCase()] as const),parameters=new Map(entries);
     const tls=parameters.get('tls'),ssl=parameters.get('ssl');
     const insecure=entries.some(([name,setting])=>['tlsinsecure','tlsallowinvalidcertificates','tlsallowinvalidhostnames'].includes(name)&&!['false','0'].includes(setting));
     const ambiguous=['tls','ssl','tlsinsecure','tlsallowinvalidcertificates','tlsallowinvalidhostnames'].some(name=>entries.filter(([key])=>key===name).length>1);

@@ -29,6 +29,21 @@ test('Mongo SRV insecure overrides and one-tenant-only delivery fail release pre
   }
 });
 
+test('standard Atlas multi-host URI with explicit TLS passes the Mongo readiness check',()=>{
+  const uri='mongodb://user:secret@host-a.mongodb.net:27017,host-b.mongodb.net:27017,host-c.mongodb.net:27017/kiara_v2?replicaSet=atlas-test&authSource=admin&tls=true';
+  const env=configured();
+  env.MONGODB_URI=uri;
+  env.KIARA_V2_ATLAS_URI=uri;
+  const result=inspectV2ReleaseEnvironment(env,{activeBindingTenants:['tenant-1']});
+  assert.equal(result.checks.find(c=>c.code==='NORMALIZED_MONGO_TLS')?.configured,true);
+  assert.equal(result.checks.find(c=>c.code==='ATLAS_HYBRID_INDEXES')?.configured,true);
+  assert.equal(result.configurationReady,true);
+  for(const insecure of ['tls=false','tlsAllowInvalidCertificates=true','TLS=true&tls=true']){
+    const rejected=inspectV2ReleaseEnvironment({...env,MONGODB_URI:`${uri}&${insecure}`},{activeBindingTenants:['tenant-1']});
+    assert.equal(rejected.checks.find(c=>c.code==='NORMALIZED_MONGO_TLS')?.configured,false);
+  }
+});
+
 test('v2 release preflight only reports configuration booleans and retains connected gates',()=>{
   const result=inspectV2ReleaseEnvironment(configured(),{activeBindingTenants:['tenant-1']});
   assert.equal(result.configurationReady,true);
