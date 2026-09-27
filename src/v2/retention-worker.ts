@@ -16,6 +16,9 @@ function sameOriginal(left:string,right:string){try{const identity=(value:string
 export function originalHeldElsewhere(s:Awaited<ReturnType<typeof readWorkspace>>,job:DeletionJob,reference:string){
  const affected=new Set([...job.records.map(r=>r.id),...job.operationalExceptionActionIds]);let contentHash:string;try{contentHash=JSON.parse(reference).sha256;}catch{return true;}
  if(s.sources.some(src=>src.status!=='deleted'&&!!src.originalObjectRef&&sameOriginal(src.originalObjectRef,reference)))return true;
+ // A second deleted source may share the same physical object but have a later
+ // retention deadline. Neither job may purge the bytes before every owner is due.
+ if((s.deletionJobs||[]).some(other=>other.id!==job.id&&other.originals.some(original=>original.status!=='purged'&&sameOriginal(original.reference,reference)&&(!Number.isFinite(Date.parse(original.notBefore))||Date.parse(original.notBefore)>Date.now()||other.operationalExceptionActionIds.length>0))))return true;
  for(const [key,receipt] of Object.entries(s.receipts)){
   if(key.startsWith('artifact-intake:')){const intake=receipt.result.intake as {reference?:string;contentHash?:string;status?:string;expiresAt?:string}|undefined;if(intake?.status==='staging'&&intake.contentHash===contentHash)return true;if(intake?.reference&&['staging','retained'].includes(intake.status||'')&&Date.parse(intake.expiresAt||'')>Date.now()&&sameOriginal(intake.reference,reference))return true;}
   if(key.startsWith('execution:')){const intent=receipt.result.intent as {actionId:string;status:string;redactedAt?:string;providerReceipt?:string;completionArtifact?:string;retentionOriginalReferences?:string[];actionSnapshot?:{content?:string;completion?:{artifact?:string}}}|undefined;if(!intent||affected.has(intent.actionId)||intent.redactedAt&&['verified','failed'].includes(intent.status))continue;const refs=[intent.providerReceipt,intent.completionArtifact,intent.actionSnapshot?.completion?.artifact,...intent.retentionOriginalReferences||[]].filter((r):r is string=>!!r);if(refs.some(r=>{if(sameOriginal(r,reference))return true;try{const parsed=JSON.parse(r);return parsed.readback&&sameOriginal(JSON.stringify(parsed.readback),reference);}catch{return false;}}))return true;if(['prepared','dispatched','verifying','uncertain'].includes(intent.status)&&intent.actionSnapshot?.content&&createHash('sha256').update(intent.actionSnapshot.content).digest('hex')===contentHash)return true;}
@@ -36,10 +39,18 @@ export async function processDeletionJob(tenantId:string,jobId:string,adapters:R
  try{if(adapters.history)await adapters.history(tenantId,manifestKey,job);else if(process.env.MONGODB_URI)await purgeNormalizedHistory(tenantId,manifestKey,{redactRecord:(kind,value)=>redactHistoricalRecord(kind,value,job),redactWorkspace:state=>redactHistoricalWorkspace(state,job)});await transactWorkspace(tenantId,s=>{getJob(s,jobId).historicalCleanup='complete';});}catch(error){failures.push(failureCode(error));}
  for(const original of job.originals){
   if(original.status==='purged')continue;
-  const current=await readWorkspace(tenantId);job=getJob(current,jobId);
-  const status=process.env.KIARA_RETENTION_HOLD==='true'?'hold':job.operationalExceptionActionIds.length?'operational_exception':originalHeldElsewhere(current,job,original.reference)?'shared_reference':null;
-  if(status){await transactWorkspace(tenantId,s=>{const row=getJob(s,jobId).originals.find(o=>o.reference===original.reference)!;row.status=status;row.failureCode=null;});continue;}
-  if(Date.parse(original.notBefore)>Date.now())continue;
+  // The holder/deadline check and purge claim share the workspace transaction.
+  // A concurrent source deletion must conflict before physical bytes are touched.
+  const claim=await transactWorkspace(tenantId,s=>{
+   const currentJob=getJob(s,jobId),row=currentJob.originals.find(o=>o.reference===original.reference);
+   if(!row||row.status==='purged')return false;
+   const status=process.env.KIARA_RETENTION_HOLD==='true'?'hold':currentJob.operationalExceptionActionIds.length?'operational_exception':originalHeldElsewhere(s,currentJob,row.reference)?'shared_reference':null;
+   if(status){row.status=status;row.failureCode=null;return false;}
+   const due=Date.parse(row.notBefore);
+   if(!Number.isFinite(due)||due>Date.now()){row.status='pending';return false;}
+   row.status='purging';row.failureCode=null;return true;
+  });
+  if(!claim.result)continue;
   try{
    const reference=JSON.parse(original.reference) as OriginalReference;await(adapters.original||purgeOriginal)(tenantId,reference);
    await transactWorkspace(tenantId,s=>{const row=getJob(s,jobId).originals.find(o=>o.reference===original.reference)!;row.status='purged';row.failureCode=null;});
