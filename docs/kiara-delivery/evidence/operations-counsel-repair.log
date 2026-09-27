@@ -1,0 +1,18 @@
+✔ counsel intake, fee approval and exact packet sharing are separate recorded decisions (499.317666ms)
+✔ source, recipient membership, explicit revoke and expiry immediately withdraw granted records (1450.755958ms)
+✔ counsel returned edits preserve original proposal and require new exact decisions (323.47025ms)
+✔ escalation invalidates prior engagement and access; referral stays unavailable; terminal work cannot revive (326.334417ms)
+✔ sharing an older packet cannot disclose newly revised proposal bytes or added matter tasks (448.596334ms)
+✔ contractual dates require exact source and legal review; reminders and manual fulfillment stay distinct (345.767334ms)
+✔ stale deadline source or reviewer authority blocks action and closure; source revocation hides derived dates (294.595667ms)
+✔ deadline proposal rejects false source quotes, ambiguous dates and inaccessible owners (284.858959ms)
+✔ effort totals count all stages once, distinguish estimates, retain supersession and reject overlapping timers (461.628125ms)
+✔ amendment inherits exact original scope and retains its source lineage (206.481833ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3486.073792

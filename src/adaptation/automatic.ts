@@ -21,7 +21,7 @@ export function evaluationImplementationIdentity(root=process.cwd()):{kind:'depl
   if(process.env.VERCEL){if(!deployment)throw new AppError('EVALUATOR_BUILD_ID_REQUIRED','Hosted evaluation requires an immutable deployment identity.');return {kind:'deployment_commit',identity:deployment};}
   return {kind:'local_sources',identity:hash(EVALUATION_IMPLEMENTATION_FILES.map(path=>[path,hash(readFileSync(join(/* turbopackIgnore: true */ root,path),'utf8'))]))};
 }
-export interface ImprovementTrigger {workflow_id:string;trigger_id:string;origin:'validation'|'founder_feedback'|'lawyer_feedback';codes:string[];feedback_type?:string;depth?:number}
+export interface ImprovementTrigger {workflow_id:string;trigger_id:string;origin:'validation'|'founder_feedback'|'lawyer_feedback';codes:string[];feedback_type?:string;feedback_id?:string;depth?:number}
 export interface FrozenCase {case_id:string;split:'diagnosis'|'unseen';label:string;workflow:Workflow;base:Revision;input_hash:string}
 export interface AutomaticTrialResult {passed:boolean;validation_codes:string[];provider_response_ids:string[];model_attempts:number;input_tokens:number;output_tokens:number;cost_usd:number;duration_ms:number;unknown_charge:boolean;output_hash:string|null;repair_count:number;error?:string|null;audit?:unknown}
 interface Trial {trial_id:string;case_id:string;arm:'baseline'|'candidate';status:'pending'|'dispatched'|'completed'|'inconclusive';lease_owner:string|null;lease_until:string|null;charge_id:string;result:AutomaticTrialResult|null;input_hash:string}
@@ -32,6 +32,7 @@ export interface AutomaticImprovement {
   context_epoch:number;source_hash:string;model_config_hash:string;kernel_hash:string;dataset_hash:string;frozen_cases:FrozenCase[];frozen_sources:Provision[];
   trials:Trial[];actual_cost_usd:number;unknown_charge:boolean;evaluation_id:string|null;execution_mode:'provider'|'injected_test';
   proposal?:{status:'pending'|'dispatched'|'completed'|'inconclusive';charge_id:string;lease_owner:string|null;lease_until:string|null;result:StrategyProposalResult|null};
+  requested_suggestion?:{proposal_id:string;strategy:HarnessStrategy;strategy_hash:string};
   implementation_identity?:{kind:'deployment_commit'|'local_sources';identity:string};
 }
 type EvaluationRunner=(input:{state:State;workflow_id:string;max_cost_usd:number;max_attempts:number;provisions:Provision[];authorization_charge_id?:string})=>Promise<AutomaticTrialResult>;
@@ -82,13 +83,13 @@ function freezeCases(s:State,w:Workflow):FrozenCase[]{
 }
 
 /** Must be called in the same durable transaction that observes a failure or human feedback. */
-export function enqueueAutomaticImprovementInState(s:State,trigger:ImprovementTrigger):AutomaticImprovement|null {
+export function enqueueAutomaticImprovementInState(s:State,trigger:ImprovementTrigger,suggestion?:{proposal_id:string;strategy:HarnessStrategy}):AutomaticImprovement|null {
   const triggerKey=`adaptation:trigger:${trigger.origin}:${trigger.trigger_id}`;
   const prior=s.receipts[triggerKey]?.result as {reason?:string}|undefined;
   if(prior&&!['AUTOMATIC_CONCURRENCY_LIMIT','AUTOMATIC_DAILY_RATE_LIMIT'].includes(prior.reason||''))return null;
   const w=s.workflows.find(w=>w.workflow_id===trigger.workflow_id&&w.tenant_id===s.tenant_id&&w.reset_epoch===s.reset_epoch);
   if(!w)throw new AppError('NOT_FOUND','Improvement trigger workflow not found.');
-  const base=resolveHarnessStrategy(s,s.champion_version),candidate=proposeStrategy(base,trigger)||structuredClone(base);
+  const base=resolveHarnessStrategy(s,s.champion_version),candidate=suggestion?validateStrategy(suggestion.strategy):proposeStrategy(base,trigger)||structuredClone(base);
   const parent=readRecords(s).find(r=>r.candidate_version===s.champion_version&&r.status==='promoted');
   const depth=(parent?.depth||0)+1;
   let reason:string|null=null;
@@ -101,6 +102,7 @@ export function enqueueAutomaticImprovementInState(s:State,trigger:ImprovementTr
   if(reason){if(prior?.reason!==reason)emit(s,w.workflow_id,'harness.improvement_not_admitted','Harness trigger recorded',reason);return null;}
   const version=Math.max(...s.harnesses.map(h=>h.version))+1,proposal_id=id(),frozen_cases=freezeCases(s,w),frozen_sources=structuredClone(provisions());
   const record:AutomaticImprovement={kind:'automatic_improvement',proposal_id,workflow_id:w.workflow_id,tenant_id:s.tenant_id,reset_epoch:s.reset_epoch,created_at:now(),deadline_at:new Date(Date.now()+AUTOMATIC_LIMITS.deadline_ms).toISOString(),trigger:structuredClone(trigger),depth,status:'queued',reason:'Observed failure or attributed review feedback; awaiting real paired provider evaluation.',baseline_version:s.champion_version,candidate_version:version,expected_generation:s.champion_generation,baseline_strategy:base,candidate_strategy:candidate!,context_epoch:s.context_epoch,source_hash:sourceHash(),model_config_hash:configHash(),kernel_hash:kernelHash(),dataset_hash:hash({cases:frozen_cases,sources:frozen_sources}),frozen_cases,frozen_sources,trials:frozen_cases.flatMap(c=>(['baseline','candidate'] as const).map(arm=>({trial_id:id(),case_id:c.case_id,arm,status:'pending' as const,lease_owner:null,lease_until:null,charge_id:id(),result:null,input_hash:c.input_hash}))),actual_cost_usd:0,unknown_charge:false,evaluation_id:null,execution_mode:'provider',proposal:{status:'pending',charge_id:id(),lease_owner:null,lease_until:null,result:null},implementation_identity:evaluationImplementationIdentity()};
+  if(suggestion)record.requested_suggestion={proposal_id:suggestion.proposal_id,strategy:validateStrategy(suggestion.strategy),strategy_hash:hash(suggestion.strategy)};
   save(s,record);
   s.harnesses.push({version,harness_id:proposal_id,prefetch:true,created_at:now(),status:'candidate',reason:record.reason});
   emit(s,w.workflow_id,'harness.improvement_proposed','Improvement diagnosis queued',`${trigger.origin}; a provider proposal is required before selecting the candidate strategy. Frozen diagnosis plus two independent synthetic cases, six provider trials, maximum $18.25 including the proposal inside the shared authorization.`);
@@ -120,7 +122,7 @@ export function scanAutomaticTriggers(s:State):number {
   return count;
 }
 
-export function hasAutomaticWork(s:State):boolean{return readRecords(s).some(r=>['queued','evaluating'].includes(r.status));}
+export function hasAutomaticWork(s:State):boolean{return readRecords(s).some(r=>['queued','blocked','evaluating'].includes(r.status));}
 function isolate(s:State,r:AutomaticImprovement,t:Trial):State {
   const c=r.frozen_cases.find(c=>c.case_id===t.case_id)!,out=structuredClone(s),w=structuredClone(c.workflow);
   out.events=[];out.feedback=[];out.notifications=[];out.evaluations=[];out.receipts={};
@@ -149,6 +151,7 @@ function finish(s:State,r:AutomaticImprovement){
   const cas=s.champion_version===r.baseline_version&&s.champion_generation===r.expected_generation;
   cases.push({name:'frozen source, model, dataset and protected evaluator bindings',expected:'unchanged',actual:unchanged?'unchanged':'changed',passed:unchanged},{name:'champion version and generation compare-and-swap',expected:'matched',actual:cas?'matched':'changed',passed:cas});
   cases.push({name:'model-proposed strategy has attributable provider evidence',expected:'completed provider proposal',actual:r.proposal?.result?.response_id||r.proposal?.status||'missing',passed:r.execution_mode==='provider'&&r.proposal?.status==='completed'&&r.proposal.result?.execution_mode==='provider'&&!!r.proposal.result.response_id&&!r.proposal.result.unknown_charge});
+  if(r.requested_suggestion)cases.push({name:'exact requested suggestion strategy',expected:r.requested_suggestion.strategy_hash,actual:hash(r.candidate_strategy),passed:hash(r.candidate_strategy)===r.requested_suggestion.strategy_hash});
   const passed=cases.every(c=>c.passed),evaluation_id=id();
   const evaluation:Evaluation={evaluation_id,created_at:now(),baseline_version:r.baseline_version,candidate_version:r.candidate_version,mode:r.execution_mode==='provider'&&r.trials.every(t=>t.status==='completed')?'live_executed':'inconclusive',cases,baseline_repairs:r.trials.filter(t=>t.arm==='baseline').reduce((n,t)=>n+(t.result?.repair_count||0),0),candidate_repairs:r.trials.filter(t=>t.arm==='candidate').reduce((n,t)=>n+(t.result?.repair_count||0),0),passed,promoted:passed,dataset_hash:r.dataset_hash,duration_ms:r.trials.reduce((n,t)=>n+(t.result?.duration_ms||0),0)};
   const harness=s.harnesses.find(h=>h.version===r.candidate_version);
@@ -182,7 +185,7 @@ export async function processAutomaticImprovementStep(injected?:EvaluationRunner
           catch(e){r.status='blocked';r.reason=e instanceof AppError?e.code:'PROPOSAL_BUDGET_BLOCKED';save(s,r);continue;}
           r.status='evaluating';r.proposal.status='dispatched';r.proposal.lease_owner=owner;r.proposal.lease_until=new Date(Date.now()+120000).toISOString();save(s,r);
           emit(s,r.workflow_id,'harness.proposal_agent_started','Improvement proposal agent dispatched','One bounded model call selects a permitted strategy from observed failure evidence. Frozen unseen evaluation cases remain hidden from the proposal agent.');
-          return {kind:'proposal' as const,proposal_id:r.proposal_id,charge_id:r.proposal.charge_id,state:structuredClone(s),baseline_strategy:r.baseline_strategy,failure_codes:r.trigger.codes,origin:r.trigger.origin,feedback_type:r.trigger.feedback_type,attributed_feedback:s.feedback.filter(f=>f.feedback_id===r.trigger.trigger_id).map(f=>({role:f.role,type:f.type,text:f.text.slice(0,2000),status:f.status}))};
+          return {kind:'proposal' as const,proposal_id:r.proposal_id,charge_id:r.proposal.charge_id,state:structuredClone(s),baseline_strategy:r.baseline_strategy,requested_strategy:r.requested_suggestion?.strategy,failure_codes:r.trigger.codes,origin:r.trigger.origin,feedback_type:r.trigger.feedback_type,attributed_feedback:s.feedback.filter(f=>f.feedback_id===(r.trigger.feedback_id||r.trigger.trigger_id)).map(f=>({role:f.role,type:f.type,text:f.text.slice(0,2000),status:f.status}))};
         }
       }
       const trial=r.trials.find(t=>t.status==='pending');if(!trial){finish(s,r);continue;}
@@ -204,6 +207,7 @@ export async function processAutomaticImprovementStep(injected?:EvaluationRunner
       if(!r?.proposal||r.proposal.lease_owner!==owner||r.proposal.status!=='dispatched')throw new AppError('EVALUATION_FENCED','A stale proposal cannot attach.');
       budget.settleAuthorizedSpend(s,r.proposal.charge_id,result.cost_usd,result.unknown_charge);
       r.proposal.result=result;r.proposal.lease_until=null;r.proposal.status=result.unknown_charge?'inconclusive':'completed';r.actual_cost_usd=result.cost_usd;r.unknown_charge=result.unknown_charge;
+      if(result.strategy&&r.requested_suggestion&&hash(result.strategy)!==r.requested_suggestion.strategy_hash){result.strategy=null;result.error='SUGGESTION_STRATEGY_NOT_CONFIRMED';}
       if(result.strategy&&!result.unknown_charge&&hash(result.strategy)!==hash(r.baseline_strategy)){
         r.candidate_strategy=validateStrategy(result.strategy);saveHarnessStrategy(s,r.candidate_version,r.candidate_strategy);r.status='queued';r.reason='Provider-generated constrained strategy awaits six frozen independent trials.';save(s,r);
       }else{r.status=result.unknown_charge?'inconclusive':'rejected';r.reason=result.error||'MODEL_PROPOSED_NO_JUSTIFIED_CHANGE';save(s,r);finish(s,r);}

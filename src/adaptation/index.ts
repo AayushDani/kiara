@@ -1,13 +1,39 @@
 import {transaction,readState} from '../data/store';
-import {AppError,type Evaluation} from '../server/contracts';
+import {AppError,type Evaluation,type Json} from '../server/contracts';
 import {hash,id,now} from '../server/hash';
 import {contextCheck} from '../validation/proposal';
 import {getLedger} from '../runtime/budget';
-import {scanAutomaticTriggers,automaticImprovementStatus,type AutomaticImprovement} from './automatic';
+import {scanAutomaticTriggers,automaticImprovementStatus,enqueueAutomaticImprovementInState,type AutomaticImprovement} from './automatic';
+import {validateStrategy} from './strategy';
 export {BASE_CONFIG,PREFETCH_PATCH,validateHarnessPatch} from './patch';
 export type {HarnessConfig,PatchOperation} from './patch';
 export * from './automatic';
 export {BASE_STRATEGY,saveHarnessStrategy,validateStrategy} from './strategy';
+
+/** Queue only the exact selected strategy, preserving suggestion/campaign identity through retries. */
+export async function evaluateModelSuggestion(proposal_id:string,options:{expected_reset_epoch:number;expected_champion_generation:number}){
+  return transaction(s=>{
+    if(options.expected_reset_epoch!==s.reset_epoch)throw new AppError('RESET_EPOCH_MISMATCH','Refresh before evaluating.');
+    const proposal=s.receipts[`${s.reset_epoch}:model_harness_proposal:${proposal_id}`]?.result as any;
+    if(!proposal||proposal.kind!=='model_harness_proposal'||proposal.tenant_id!==s.tenant_id||proposal.reset_epoch!==s.reset_epoch)throw new AppError('PROPOSAL_REQUIRED','A current attributed harness suggestion is required.',400);
+    const strategy=validateStrategy(proposal.strategy);
+    if(proposal.strategy_hash!==hash(strategy))throw new AppError('PROPOSAL_INTEGRITY','The suggestion strategy changed.');
+    let campaign=Object.values(s.receipts).map(r=>r.result as unknown as AutomaticImprovement).find(r=>r?.kind==='automatic_improvement'&&r.requested_suggestion?.proposal_id===proposal_id);
+    if(!campaign){
+      if(options.expected_champion_generation!==s.champion_generation||proposal.champion_generation!==s.champion_generation||proposal.champion_version!==s.champion_version||proposal.context_epoch!==s.context_epoch)throw new AppError('PROPOSAL_STALE','The suggestion was made for an older context or strategy. Request a new suggestion.');
+      const w=s.workflows.find(w=>w.workflow_id===proposal.workflow_id&&w.reset_epoch===s.reset_epoch&&w.tenant_id===s.tenant_id);
+      if(!w)throw new AppError('NOT_FOUND','The originating workflow is unavailable.',404);
+      const failures=w.validations.filter(v=>!v.passed).flatMap(v=>v.codes);
+      const correction=s.feedback.find(f=>f.workflow_id===w.workflow_id&&f.type!=='harness_improvement'&&(f.type!=='fact_correction'||f.status==='applied'));
+      if(!failures.length&&!correction)throw new AppError('DIAGNOSIS_REQUIRED','This suggestion requires an actual failure or attributed correction on its originating workflow.');
+      campaign=enqueueAutomaticImprovementInState(s,{workflow_id:w.workflow_id,trigger_id:`suggestion:${proposal_id}`,origin:failures.length?'validation':correction!.role==='founder'?'founder_feedback':'lawyer_feedback',codes:failures,feedback_type:correction?.type,feedback_id:correction?.feedback_id},{proposal_id,strategy})||undefined;
+      if(!campaign)throw new AppError('EVALUATION_NOT_ADMITTED','The selected suggestion cannot start another evaluation while admission limits apply.');
+      const resolution={kind:'model_proposal_resolution',proposal_id,campaign_id:campaign.proposal_id,status:'queued',strategy_hash:hash(strategy),created_at:now()};
+      s.receipts[`${s.reset_epoch}:model_proposal_resolution:${proposal_id}`]={hash:hash(resolution),result:resolution as Json};
+    }
+    return {proposal_id,campaign_id:campaign.proposal_id,status:campaign.status,evaluation_id:campaign.evaluation_id,strategy_hash:hash(strategy)};
+  });
+}
 
 /** Legacy manual entry point now queues the same genuine failure-driven evaluation as workers. */
 export async function evaluateHarness(input:{patch?:unknown;expected_reset_epoch?:number;expected_champion_generation?:number}|number={}):Promise<Evaluation>{

@@ -1,0 +1,30 @@
+[
+  {
+    "host": "localhost",
+    "version": "v2/",
+    "get": 200,
+    "post": 200,
+    "error": null
+  },
+  {
+    "host": "localhost",
+    "version": "legacy",
+    "get": 200,
+    "post": 200,
+    "error": null
+  },
+  {
+    "host": "127.0.0.1",
+    "version": "v2/",
+    "get": 200,
+    "post": 403,
+    "error": "ORIGIN_REJECTED"
+  },
+  {
+    "host": "127.0.0.1",
+    "version": "legacy",
+    "get": 200,
+    "post": 403,
+    "error": "ORIGIN_REJECTED"
+  }
+]

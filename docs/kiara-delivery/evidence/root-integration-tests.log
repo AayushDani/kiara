@@ -1,0 +1,35 @@
+✔ review regression: unresolved model charges survive human-edit validation (500.802416ms)
+✔ review: authenticated early delivery receipts reconcile once when the send response arrives (535.351042ms)
+✔ review regression: verified company facts preserve signup-specific provenance (187.164959ms)
+✔ review regression: changed input can start a new settled model ledger (709.364542ms)
+✔ review regression: scripted document edits cannot contradict an explicit no-sale fact (312.061625ms)
+[Resend API Error]: {
+  error: {
+    name: 'application_error',
+    statusCode: null,
+    message: 'Unable to fetch data. The request could not be resolved.'
+  },
+  path: '/emails'
+}
+✔ review regression: Resend SDK transport errors remain unknown delivery and block reset (338.894125ms)
+✔ review: a later unchanged event closes only against a current sealed finalized packet (1347.738833ms)
+✔ review: scripted validation failure escalates without claiming AI repair or hiding the output (786.942167ms)
+✔ review regression: stale document edits reject before mutation while a fresh snapshot succeeds (356.326583ms)
+✔ review regression: a session cannot cross the reset fence while its command body is being read (48.963791ms)
+✔ review: model fact proposals require current founder verification and retain model attribution (330.875375ms)
+✔ review regression: founder verification of a model fact authorizes a linked run after the settled parent deadline (729.057791ms)
+✔ v2 local sessions are signed, origin bound, role limited and explicitly simulated (25.316792ms)
+✔ OIDC identity verification rejects forged tokens, wrong audience, expiry and unmapped subjects (49.346625ms)
+✔ F07 supplied context lineage survives an attributed fact correction and later supplied work (575.009667ms)
+✔ F08 model fact verification rejects an originating snapshot made stale by human correction (602.169083ms)
+✔ F12 blocked work can be withdrawn once without dropping uncertain effects or permitting stale intent (609.833208ms)
+✔ migration dry run is inert; archive import is restartable and preserves exact legacy bytes without dispatch ownership (88.854417ms)
+✔ originals use authenticated encryption and cannot be read across tenant scope (19.423167ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6916.487416

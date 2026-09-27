@@ -1,0 +1,23 @@
+✔ server-owned frozen replay measures improvement and records immutable independent receipt (155.129333ms)
+✔ promotion changes later comparable work without reconfirming settled current facts; release evidence resolves the real gate (335.785583ms)
+✔ planned deployment remains distinct and does not trigger a live-claim requirement (271.276042ms)
+✔ rollback is monotonic, identifies affected later work, invalidates its proposal and removes only that behavior (256.731375ms)
+✔ stale evaluator authority, baseline change and reused scope without improvement cannot promote (178.005333ms)
+✔ procedure owner expiry is an explicit blocker and cannot silently remove a promoted safeguard (296.181791ms)
+✔ a private lesson never changes unrelated team work (301.43625ms)
+✔ source verification and coverage qualification are distinct exact-version legal reviewer decisions (157.512459ms)
+✔ coverage becomes stale dynamically when source version, reviewer membership or review deadline changes (174.176084ms)
+✔ explicit unsupported coverage remains unavailable and legal clearance is never automatically created (203.951875ms)
+✔ registered authority must preserve source scope and exact domain/jurisdiction inventory (194.019791ms)
+✔ renewing a source review does not silently renew old coverage approval; expiry is checked at read time (346.519209ms)
+✔ an already active same-scope rule has no measured improvement and cannot be promoted again (418.444708ms)
+✔ owner can renew an unchanged qualified deterministic rule after its review deadline (459.912ms)
+✔ candidate authors never receive holdout names, labels, outputs or test evidence; independent evaluators can inspect (184.1775ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4358.923583

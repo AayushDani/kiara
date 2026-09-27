@@ -1,0 +1,13 @@
+✔ contractual dates require exact source and legal review; reminders and manual fulfillment stay distinct (336.090833ms)
+✔ stale deadline source or reviewer authority blocks action and closure; source revocation hides derived dates (291.118375ms)
+✔ deadline proposal rejects false source quotes, ambiguous dates and inaccessible owners (155.012041ms)
+✔ effort totals count all stages once, distinguish estimates, retain supersession and reject overlapping timers (515.945125ms)
+✔ amendment inherits exact original scope and retains its source lineage (248.612916ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2179.29525

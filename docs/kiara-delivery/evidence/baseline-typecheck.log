@@ -1,0 +1,9 @@
+
+> kiara@0.1.0 check
+> tsc --noEmit
+
+.next/dev/types/app/product/page.ts(2,24): error TS2307: Cannot find module '../../../../../src/app/product/page.js' or its corresponding type declarations.
+.next/dev/types/app/product/page.ts(7,29): error TS2307: Cannot find module '../../../../../src/app/product/page.js' or its corresponding type declarations.
+.next/dev/types/validator.ts(62,39): error TS2307: Cannot find module '../../../src/app/product/page.js' or its corresponding type declarations.
+.next/dev/types/validator.ts(80,39): error TS2307: Cannot find module '../../../src/app/api/product/route.js' or its corresponding type declarations.
+.next/dev/types/validator.ts(89,39): error TS2307: Cannot find module '../../../src/app/api/product/session/route.js' or its corresponding type declarations.

@@ -1,0 +1,76 @@
+✔ new model and human facts remain untrusted until founder verification; all prior context is retained (1020.721792ms)
+✔ new fact values cannot bypass key, size, nesting, or count limits (0.354958ms)
+✔ review regression: unresolved model charges survive human-edit validation (780.936833ms)
+✔ review: authenticated early delivery receipts reconcile once when the send response arrives (763.206625ms)
+✔ review regression: verified company facts preserve signup-specific provenance (323.806667ms)
+✔ review regression: changed input can start a new settled model ledger (1143.808291ms)
+✔ review regression: scripted document edits cannot contradict an explicit no-sale fact (620.438791ms)
+[Resend API Error]: {
+  error: {
+    name: 'application_error',
+    statusCode: null,
+    message: 'Unable to fetch data. The request could not be resolved.'
+  },
+  path: '/emails'
+}
+✔ review regression: Resend SDK transport errors remain unknown delivery and block reset (542.337875ms)
+✔ review: a later unchanged event closes only against a current sealed finalized packet (1987.635584ms)
+✔ review: scripted validation failure escalates without claiming AI repair or hiding the output (1270.1135ms)
+✔ review regression: stale document edits reject before mutation while a fresh snapshot succeeds (502.624459ms)
+✔ review regression: a session cannot cross the reset fence while its command body is being read (88.420792ms)
+✔ review: model fact proposals require current founder verification and retain model attribution (495.84025ms)
+✔ review regression: founder verification of a model fact authorizes a linked run after the settled parent deadline (1012.363125ms)
+✔ eleven frozen legal cases execute with unknown/conflict preservation (6.32675ms)
+✔ actual citation span, complete evidence, clauses, unknown facts and semantic rules are validated (471.525958ms)
+✔ live mode without credentials blocks instead of substituting the scripted revision (398.735584ms)
+✔ timeout retains pre-dispatch reservation and prevents reset (674.325041ms)
+✔ crashed dispatched run recovers once without replaying model or discarding charge (505.499875ms)
+✔ budget deadline, request ceiling and unknown-charge reservation cannot reset on reuse (319.559667ms)
+✔ provider adapter exercises scoped tools, exact citations, full-law semantic hydration and immutable generated revision (1809.469167ms)
+✔ an out-of-scope model tool is blocked before it can mutate state (600.031875ms)
+✔ verified human edit after a settled run deadline starts a linked child and retains immutable costs; automatic repair cannot rotate (1060.468209ms)
+✔ founder verification of an attributed model fact proposal authorizes a settled expired child scope without fabricating human feedback (1336.705584ms)
+✔ genuine bad output from an injected provider is recorded, repaired with failure feedback, and produces correlated audit records (1288.425792ms)
+✔ unparseable provider output stops at the protected repair limit without saving a placeholder candidate (905.683875ms)
+✔ oversized legal retrieval produces a scoped tool error that the agent can correct within the same budget (865.87925ms)
+✔ frozen evaluation runs semantic repair and retains full audit without mutating the supplied state or live store (239.8755ms)
+✔ explicit total spending authorization includes evaluation reservations and never exposes credentials (146.224792ms)
+✔ acceptance fault injection is rejected outside an explicitly enabled local test before any provider request (159.425875ms)
+✔ provider billing failures retain safe actionable codes without retaining raw error messages (331.595334ms)
+✔ recovery retries a persisted unknown attempt even after its workflow was already blocked (248.9775ms)
+✔ explicit founder retry of a settled billing rejection starts a linked run and preserves prior attempts (546.5575ms)
+✔ rate backoff accepts only explicit rate rejections, caps safe headers, and preserves the absolute deadline (1.055125ms)
+✔ two explicit rate rejections retry the exact request with distinct settled reservations and audited waits (946.716458ms)
+✔ repeated rate rejections stop after two retries and never extend the run deadline (565.3405ms)
+✔ test retry wait overrides cannot bypass a real provider delay (163.132708ms)
+✔ exact legal search computes UTF-16 offsets from pinned text and authorizes only three returned matches (516.871792ms)
+✔ semantic document delta reconstructs all business/legal text and preserves selected citation support bindings (195.757916ms)
+✔ semantic packing counts complete balanced batches once, merges when possible, and never omits text (7.852334ms)
+✔ semantic packing refuses one oversized complete authority instead of truncating it (2.237709ms)
+✔ retrieval rate retries cannot consume the final proposal-emission slot (975.362209ms)
+✔ numeric provider rate diagnostics exclude raw messages, identifiers and unknown headers (0.737125ms)
+✔ legal citation chunks preserve literal text, surrogate offsets and explicit capacity continuations (0.566416ms)
+✔ incomplete paid-shaped output retains partial bytes and allows only explicit settled founder retry (368.898417ms)
+✔ repair rate retries preserve all three independent checker slots (1109.78375ms)
+✔ checker capacity failure retains the unaccepted proposal and founder retry validates it without redrafting (846.394792ms)
+✔ opaque citation IDs resolve only exact returned source chunks and reject guessed or changed evidence (0.500125ms)
+✔ provider-selected citation IDs become exact audited citations without model-copied offsets or quotes (743.019625ms)
+✔ F03 source recheck suspends approval before fetch and preserves the failure across packets (1108.705542ms)
+✔ F04 exact selected quote and clause bindings reach semantic review (701.583416ms)
+✔ F05 arbitrary, missing, unknown or extra exemption fields cannot satisfy screening (0.699833ms)
+✔ F06 each verified alternative route survives false direct-business prerequisites (0.7965ms)
+✔ F09 blocked campaigns remain scheduled and expire through the ordinary worker (1328.247875ms)
+✔ F10 sending-only notification keeps watchdog alive then resolves to unknown without another send (1391.583083ms)
+✔ F11 count rejection creates no generation attempt and supports explicit settled retry (1045.055166ms)
+✔ F13 selected suggestion has its own exact campaign and repeated requests retain identity (923.0805ms)
+✔ F15 signed out-of-order callbacks converge and never downgrade delivery or bounce (1023.817ms)
+✔ F17 paid operation scripts cannot raise configured authorization (0.728083ms)
+✔ F18 strategies use supplied complete facts and baseline without mandatory rereads (0.156125ms)
+ℹ tests 60
+ℹ suites 0
+ℹ pass 60
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 19213.114166

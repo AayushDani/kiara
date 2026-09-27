@@ -1,0 +1,12 @@
+✔ F16 numeric local Host reconciles framework URL normalization without trusting forwarded hosts (14.642375ms)
+✔ v2 local sessions are signed, origin bound, role limited and explicitly simulated (23.730583ms)
+✔ organization browser sign-in binds code, state, PKCE, nonce and provisioned membership (85.1955ms)
+✔ OIDC identity verification rejects forged tokens, wrong audience, expiry and unmapped subjects (19.002417ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 593.221583

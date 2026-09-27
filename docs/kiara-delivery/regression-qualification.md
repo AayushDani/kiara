@@ -1,0 +1,98 @@
+# Regression and qualification ledger
+
+Owner: regression/qualification agent. Integration and review owner: lead. Updated 27 September 2026. Baseline report and findings read against the actual source; v2 §§16–17 and the build prompt's critical invariants govern qualification. The old reports remain unchanged. A passing local test is neither current legal advice nor connected-service evidence.
+
+## Reproduced baseline
+
+The preserved runtime, data/legal, platform trace and UI-handler probes all reproduced successfully from a fresh source copy using Node **24.19.0**. Each was run with an allowlisted environment, separate temporary state, no `.env` files, zero provider authorization, injected providers/stubbed source fetch and preview email. Commands, copied tree and exit codes: [regression-baseline.json](evidence/regression-baseline.json). The baseline logs are in this evidence directory. The UI probe is a synthetic hook/handler harness, not a React renderer or two-browser race.
+
+The first new regression suite passed **11/11**, 4.57 seconds: [legacy-regressions.log](evidence/legacy-regressions.log). An assembled run then passed **167/170**, 24 seconds: [legacy-combined-tests.log](evidence/legacy-combined-tests.log). Its three failures were obsolete tests: two manually constructed unpinned model-fact proposals and one asserting that semantic review omits citation bindings. Updated fixtures/assertions require a fresh combined run. Typecheck at that checkpoint found shared integration errors and stale generated Next route types: [regression-typecheck.log](evidence/regression-typecheck.log). No success is inferred from an incomplete assembled check.
+
+Reproduce the focused suite:
+
+```sh
+/Users/aayushdani/.npm/_npx/09ae5d3560c7b1f2/node_modules/node/bin/node --import tsx --test tests/v2-regressions/legacy.test.ts
+```
+
+## F01–F18
+
+“Fixed locally” below means an implementation and specific local regression exist; independent review and integrated release qualification remain separate gates. “Unresolved” includes code whose promised behavior has not yet been independently demonstrated.
+
+| ID | Baseline evidence | Current disposition and next proof |
+|---|---|---|
+| F01 | Current TSX handler replay: A note submitted with B packet | Lead implemented inspected-target capture and explicit re-review. **Unresolved qualification:** replay the fixed handlers, then actual browser polling race. |
+| F02 | Current TSX handler replay: A text submitted with B revision | Lead implemented captured edit identity and stale submission block. **Unresolved qualification:** fixed-handler replay and browser race. |
+| F03 | Local mocked-fetch replay: changed bytes retain fresh approvable packet | **Fixed locally.** Recheck durably suspends active packets that depend on retrieved evidence before fetch; global health blocks new work/review; failure stays blocked. Tests exercise in-flight approval, changed bytes, successful exact-byte recheck and preserving queued siblings without evidence. Hosted process interruption remains unqualified. |
+| F04 | Eight authentic irrelevant citation substitutions pass and leave checker input unchanged | **Fixed input gap locally.** Exact selected binding/quote/fact/rationale data now enters checker packet; checker instructed to reject unsupported assignments. Test proves packet changes when bindings change. Actual model entailment accuracy and qualified legal review remain unresolved. |
+| F05 | Twelve unrelated false keys satisfy exemption screen | **Fixed locally.** Exact named screen fields, nonempty scope and no extra keys; missing/unknown/arbitrary fields block. |
+| F06 | False direct prerequisite suppresses independently certified route | **Fixed locally.** Direct business and related/joint/certification routes use separate predicates. Certification still requires California business activity; data-scope/exemption guards remain. Code structure checked against [Civil Code §1798.140(d)](https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CIV&sectionNum=1798.140.). No professional legal validation claimed. |
+| F07 | Import v2 → founder correction v3 loses supplied lineage | Lead implemented lineage continuation and regression. **Unresolved independent qualification:** actual supplied-event HTTP admission after correction. |
+| F08 | Explicit approval of old model proposal overwrites newer founder fact | Runtime now captures originating context and full fact hash; lead engine rejects stale or legacy unpinned proposals. **Fixed locally;** final focused legacy replay passed 60/60 after fixture corrections. |
+| F09 | Blocked campaign falls out of scheduler and never expires | **Fixed locally.** Blocked records keep watchdog scheduled; ordinary worker expires the campaign and frees admission. |
+| F10 | Sending-only notification has no hosted pending-work reason | **Fixed locally.** Sending lease keeps watchdog alive; expiry produces unknown delivery without resending. Hosted platform process-kill qualification remains unperformed. |
+| F11 | Count429 → invalid output, zero creates, unsafe retry | **Fixed locally.** Non-generation counting failure has distinct code and supports explicit settled retry; existing unknown-charge guards remain. |
+| F12 | Some blocked work holds only slot without cancellation | Lead added version-bound attributed withdrawal, retaining history and rejecting unsettled provider work. **Unresolved independent qualification:** UI flow and action reconciliation remain broader v2 work. |
+| F13 | Selected strategy route evaluates unrelated latest campaign then marks selected suggestion evaluated | **Fixed locally.** Exact suggestion ID/strategy/context/champion binds one campaign; diagnostic evidence must belong to originating workflow; replay retains campaign; queued is not evaluated. Independent proposer must confirm exact strategy before trials. Live proposal/evaluation remains unverified. |
+| F14 | Saved command + enqueue503 + new browser key can duplicate intent | Lead returns durable acceptance202 with pending processing and retains browser key across uncertain response. **Unresolved qualification:** injected enqueue failure and lost response through HTTP/browser. |
+| F15 | Callback projection has partial ordering | **Fixed locally.** One deterministic complete-event fold: bounce > delivered > failed, preserving provider timestamps and IDs. Signed out-of-order callbacks do not downgrade delivery/bounce or confer legal approval. Real delivery remains unverified. |
+| F16 | Real dev HTTP rejects matching127.0.0.1 origin; localhost works | **Fixed and independently reviewed locally.** Shared origin helper permits local framework normalization only when actual Host equals Origin.host and both are loopback with identical scheme/port. Hosted/OIDC/public demo remain exact; forwarded headers are ignored. Actual HTTP before/after evidence shows numeric loopback POST403→200 for legacy and v2, while localhost remains200 (`evidence/loopback-auth*.json`). |
+| F17 | Paid scripts overwrite smaller configured cap with50 | **Fixed locally.** Overrides removed from provider-probe, live-acceptance and live-status; static guard test covers all three. Scripts were never executed. |
+| F18 | Strategy requires redundant reads while core forbids them | **Fixed locally.** Strategy uses supplied complete facts/baseline; targeted inspection only for ambiguity. String regression passes; latency/token effect unmeasured. |
+
+## B01–B15
+
+No boundary is declared resolved merely because a v2 type or screen exists. Disposition below is **unresolved** until the replacement path has executable evidence and independent review.
+
+| ID | Remaining boundary / required replacement proof |
+|---|---|
+| B01 | Usable browser resolution for model facts, suggestions, rejection, notification recovery and rollback; API existence alone is insufficient. |
+| B02 | Show exact old/new headings, metadata, order, selected citation quote and rationale using persisted comparison data. |
+| B03 | Native document fidelity, explicit artifact status and approval manifest; internal finalization must not imply publication/signing/filing. |
+| B04 | **Implemented bounded foundation:** configured GitHub/Slack/Drive readers, HMAC/token intake, selected-resource grants and immediate retained-evidence revocation; 19 injected integration tests. Connected OAuth/provider accounts, broad formats, upstream per-user ACL synchronization and backfills remain unqualified. |
+| B05 | **Implemented bounded retrieval:** actual authorized source/document/fact records, exact quotes/anchors, keyword ranking and complete enumeration of authorized executed agreement records. Hybrid/vector retrieval and proof that customer uploads/inventory are exhaustive remain absent; model/third-party quality unqualified. |
+| B06 | Source extraction chain with originals, parser version, stable exact anchors, extraction verification and reviewed current-law selection. |
+| B07 | **Implemented deterministic catalog procedure:** server-executed baseline/candidate original, near-miss and holdout fixtures, independent evaluator/owner gates, immutable receipt and observed later blocking/clearing behavior. Fixtures are visible protocol tests; broad hidden legal/model holdouts and measured recurrence/human effort remain unqualified. |
+| B08 | Independent legal/domain review and calibration. A separate model call or passing mocked verdict does not provide expert evidence. |
+| B09 | Attributed corrections, distinct preferences and scoped reviewed lessons implemented. One exact-scope finite release-evidence guard has an observed later effect and monotonic rollback; general learned legal playbooks/model strategies remain absent. |
+| B10 | Individual organization identity/membership/expiry/revocation, resource scope and delegation. New OIDC/auth modules are under independent qualification; local role switching stays simulated. |
+| B11 | Source grant revocation, selected-team/private fact lineage and derived AI eligibility have local regression evidence. New counsel sharing defect independently reproduced and repaired: old displayed packet could grant a revised proposal. Prepared proposal/material context/evidence hashes now block stale sharing, independently re-read with regression evidence. Browser/connected-service permission qualification remains separate. |
+| B12 | Retention/deletion lineage for originals and derivatives, explicit exceptions and backup expiry; session expiry does not mean deletion. |
+| B13 | Bound aggregate storage is not production scale proof. Measure contention, growth, tenant fairness, pagination and query latency. |
+| B14 | Versioned restartable migration, effect-owner cutover, dry run, rollback/restore and tombstone/unknown-outcome preservation. New migration modules need tests and review. |
+| B15 | Installed pinned dependencies verified; clean install, advisory/license review, default production build, hosted deployment/restore remain unqualified. |
+
+## Release blockers and acceptance priorities
+
+1. **Authority/access:** tenant and revoked-access attacks before model/UI/export/notification/counsel output. New independent review reproduced selected-team leakage: `scopeVisible` ignored nonempty `team.actorIds`, so Bob could read Alice's selected-team record. Repaired by platform and code re-reviewed: nonempty team participant lists now restrict access. Further private-fact derivation leak was found and repaired with fact lineage; successor-fact recovery is under review.
+2. **Human intent:** actual browser packet change during review/edit, stale fact and action guards, current membership recheck at execution, exact recipients/destinations.
+3. **Memory:** hypothetical never becomes live fact; unauthorized corrections stay candidates; conversation-only source remains confined; personal preference takes effect without becoming policy.
+4. **Durability/completion:** accepted event plus outbox, duplicate/reordered event correlation, timeout reconciliation, uncertain effects preserved through cancel/reset/migration; all required evidence before closure.
+5. **Legal/counsel:** unsupported/stale coverage visible, qualified reviewer required where applicable, no-counsel export plus owned pending task, v3 approval cannot execute v4; original agreement intact.
+6. **Product tasks:** first useful supplied-document result without integrations, ordinary explanation without needless matter, deliberate scenario adoption, PR merged distinct from release, scoped Slack continuation and misheard voice correction before mutation.
+7. **Learning/value:** regression rollback identifies affected matters; real independent holdout/owner gates; total human effort counted once and estimates labeled.
+
+## Current review and handoff
+
+My owned production files are sources/source-health, legal assessment, runtime/semantic, adaptation, worker-step, notifications and the three budget scripts. Tests: `tests/v2-regressions/legacy.test.ts` plus the existing runtime packet assertion updated to its new contract. Lead owns engine/API/UI and reviews these edits; platform reviewer supplies an independent author-independent pass. No branches/staging/commits, service credentials, paid probes, external messages or customer state were changed by this agent.
+
+Independent read of lead's OIDC/auth/API and legacy intent/cancellation changes found no additional confirmed defect beyond the selected-team authority leak. Auth tests verify injected signing keys, not a connected IdP. API review cannot certify the service until implementation and attacks are run. Remaining proof must distinguish service, handler, browser and connected-provider evidence.
+
+## Follow-on qualification evidence
+
+The final legacy focused replay (`tests/review.test.ts`, `tests/new-company-facts.test.ts`, `tests/runtime.test.ts`, nested legacy regressions) passed 60/60 in 19.2 seconds under Node 24.19.0 (`evidence/legacy-final-focused.log`). Independent review then found that source recheck suspended queued siblings with no evidence; the suspension now applies only to workflows that depend on retrieved evidence. A new successful exact-byte mock verifies queued siblings remain schedulable. Integration plus updated legacy regression replay passed 25/25 in 5.3 seconds (`evidence/integrations-regressions.log`).
+
+Configured GitHub/Slack/Drive readers, authenticated scoped webhook intake and managed Temporal reference-only outbox dispatch now have local protocol/replay tests; see `integrations-orchestration.md`. B04/B11 remain partial: no connected account or upstream per-user ACL sync is qualified. Temporal SDK workflow bundling passed; server execution/replay was not attempted. New independent review found private no-source fact derivation could leak into a team assistant response; platform added recursive fact provenance. That repair exposed an owner-recovery issue when historical facts are superseded; reported for correction. These are new implementation regressions, not changes to the original platform report.
+
+Independent integration review found retained provider sources remained eligible after installation disable/selection changes. Repaired with server grant identity pinned on the source and current installation/member checks inside every source read; the regression proves snapshot and direct authorization deny retained evidence immediately. Slack deletions also invalidate retained thread snapshots containing the deleted message. Updated integration/legacy suite: 31/31 pass. Independent AI review found a crash window between interrupted-run status and global budget recovery; platform added a durable recovery marker, with worker outbox scheduling under final review.
+
+## Execution and latest independent review
+
+Restricted execution now has real encrypted internal document output, configured exact-payload email/preview adapters and GET-only publication read-back. Frozen previews bind sender, mode, exact action, dispatcher membership and configuration. Durable prepared/dispatched intents, final source/decision/procedure/deadline checks, no automatic resend after unknown outcomes, restart-safe read-back and manual completion are implemented. Independent root/platform review found missing preview binding, dispatcher membership drift and closed matter state after late bounce; all were repaired with explicit regressions. A concurrent delayed delivery read-back also cannot overwrite a terminal failure. Final focused suite: **18/18**, 5.93 seconds, and TypeScript exit 0 (`evidence/execution-tests.log`, `evidence/execution-typecheck.log`). See `execution.md` for operational boundaries. These are injected protocol tests and encrypted local storage reads; no message or publication was sent.
+
+Independent learning/coverage review found no additional blocker within its documented finite protocol. Source and coverage maintenance preserve source/reviewer versions, expiry and qualification labels. Executed candidate comparisons are tied to immutable receipts and current role/version gates. This does not qualify candidate prose, general legal quality, external professional credentials or unknown customer inventories. AI recovery marker ordering was re-read: interrupted reservations settle before pending recovery is cleared and outbox cancellation completes.
+
+Independent counsel service/UI review reproduced a new exact-sharing violation with real isolated commands: request a private packet, revise the proposal, complete intake/engagement, approve the unchanged packet hash. The packet lacked the new bytes while the reviewer received the new proposal (`evidence/counsel-packet-probe.json`, preserved pre-fix evidence).
+
+The counsel repair now also pins exact selected source/fact/document snapshots. Independent re-read confirms sharing must match the prepared proposal ID/hash/dependencies, material matter hash and evidence hash; the service regression rejects the reproduced revised-proposal and changed-task cases. The UI's frozen engagement/recipient/proposal checks complement this server guard. Local/API service evidence does not imply an actual attorney invitation or connected review.
+
+Durable effect read-back now has its own atomic outbox and reference-only Temporal/local worker. It cannot dispatch or approve; known outcomes poll, unknown receipt-less effects remain retained without a network request, and delayed effects do not consume the local batch ahead of new work. The latest execution/integration/counsel run passed **45/45**, 8.91 seconds (`evidence/execution-worker-tests.log`); Temporal bundled all three workflows successfully at 1,645,580 bytes (`evidence/temporal-bundle.log`). A separate independent replay of AI/auth/origin/learning/legacy/UI-intent tests passed **45/45**, 6.32 seconds (`evidence/independent-review-tests.log`).

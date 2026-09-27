@@ -1,0 +1,57 @@
+{
+  "snapshot": "/var/folders/z4/m4pjp3z979d_58fvs5bq_jqh0000gn/T/kiara-delivery-regressions-yjq4xnqj",
+  "runtime": "/Users/aayushdani/.npm/_npx/09ae5d3560c7b1f2/node_modules/node/bin/node",
+  "scope": "Current source copied at execution; no env files or inherited service credentials; injected providers, mocked fetch, preview email.",
+  "results": [
+    {
+      "name": "runtime-probes",
+      "exit_code": 0,
+      "seconds": 2.637,
+      "command": [
+        "/Users/aayushdani/.npm/_npx/09ae5d3560c7b1f2/node_modules/node/bin/node",
+        "--import",
+        "tsx",
+        "/var/folders/z4/m4pjp3z979d_58fvs5bq_jqh0000gn/T/kiara-delivery-regressions-yjq4xnqj/docs/platform-review/evidence/runtime-probes.ts"
+      ],
+      "cwd": "/var/folders/z4/m4pjp3z979d_58fvs5bq_jqh0000gn/T/kiara-delivery-regressions-yjq4xnqj",
+      "log": "docs/kiara-delivery/evidence/runtime-probes-baseline.log"
+    },
+    {
+      "name": "data-legal-repro",
+      "exit_code": 0,
+      "seconds": 0.595,
+      "command": [
+        "/Users/aayushdani/.npm/_npx/09ae5d3560c7b1f2/node_modules/node/bin/node",
+        "--import",
+        "tsx",
+        "/var/folders/z4/m4pjp3z979d_58fvs5bq_jqh0000gn/T/kiara-delivery-regressions-yjq4xnqj/docs/platform-review/evidence/data-legal-repro.ts"
+      ],
+      "cwd": "/var/folders/z4/m4pjp3z979d_58fvs5bq_jqh0000gn/T/kiara-delivery-regressions-yjq4xnqj",
+      "log": "docs/kiara-delivery/evidence/data-legal-repro-baseline.log"
+    },
+    {
+      "name": "platform-traces",
+      "exit_code": 0,
+      "seconds": 3.913,
+      "command": [
+        "/Users/aayushdani/.npm/_npx/09ae5d3560c7b1f2/node_modules/node/bin/node",
+        "--import",
+        "tsx",
+        "/var/folders/z4/m4pjp3z979d_58fvs5bq_jqh0000gn/T/kiara-delivery-regressions-yjq4xnqj/docs/platform-review/evidence/platform-traces.ts"
+      ],
+      "cwd": "/var/folders/z4/m4pjp3z979d_58fvs5bq_jqh0000gn/T/kiara-delivery-regressions-yjq4xnqj",
+      "log": "docs/kiara-delivery/evidence/platform-traces-baseline.log"
+    },
+    {
+      "name": "ui-handler-repro",
+      "exit_code": 0,
+      "seconds": 0.196,
+      "command": [
+        "/Users/aayushdani/.npm/_npx/09ae5d3560c7b1f2/node_modules/node/bin/node",
+        "/var/folders/z4/m4pjp3z979d_58fvs5bq_jqh0000gn/T/kiara-delivery-regressions-yjq4xnqj/docs/platform-review/evidence/ui-handler-repro.cjs"
+      ],
+      "cwd": "/var/folders/z4/m4pjp3z979d_58fvs5bq_jqh0000gn/T/kiara-delivery-regressions-yjq4xnqj",
+      "log": "docs/kiara-delivery/evidence/ui-handler-repro-baseline.log"
+    }
+  ]
+}

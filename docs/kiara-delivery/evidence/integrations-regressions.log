@@ -1,0 +1,39 @@
+✔ installation configuration is unavailable when absent, revoked or missing referenced credentials (52.091166ms)
+✔ GitHub authenticates raw bytes, installation and selected repo before durable intake (80.130417ms)
+✔ installation membership revocation blocks a correctly signed event (68.633791ms)
+✔ Slack uses bounded request time, signed team/channel, stable event identity and deletion (198.532709ms)
+✔ read adapters use fixed GET origins, selected resources and bounded truthful evidence (74.035ms)
+✔ Drive fetches authorized metadata before content and rejects unselected or unparsed files (79.960542ms)
+✔ Drive extraction rejects a revision changed between metadata and content (48.18475ms)
+✔ Drive channel notification reads changes and advances cursor only after durable ingestion (312.298583ms)
+✔ Drive cursor does not skip a failed extraction or disclose provider response text (47.815583ms)
+✔ provider revision replay conflicts instead of overwriting an accepted event (122.128292ms)
+✔ outbox acknowledgement loss retries only scoped refs with stable workflow identity (119.711458ms)
+✔ outbox dispatcher does not signal legacy-owned or canceled work (148.991875ms)
+✔ reconciliation re-reads current state for duplicate/late signals and retains unknown effects after cancellation (235.7135ms)
+✔ Temporal missing configuration fails explicitly and workflow source excludes source payload imports (42.732042ms)
+✔ conversation activities return status only and local processing commits terminal acknowledgement (152.361334ms)
+✔ local runner waits through active lease, retains unknown outcomes, and respects managed owner (159.907875ms)
+✔ Temporal dispatch selects conversation workflow by kind and excludes external actions (124.929375ms)
+✔ retained provider evidence becomes unreadable immediately after installation selection or actor revocation (245.809959ms)
+✔ Slack deletion revokes retained thread snapshots containing that message (180.430042ms)
+✔ F03 source recheck suspends approval before fetch and preserves the failure across packets (1177.334708ms)
+✔ F03 successful corpus recheck preserves queued siblings without evidence (1165.013167ms)
+✔ F04 exact selected quote and clause bindings reach semantic review (806.524792ms)
+✔ F05 arbitrary, missing, unknown or extra exemption fields cannot satisfy screening (0.615916ms)
+✔ F06 each verified alternative route survives false direct-business prerequisites (1.077667ms)
+✔ F09 blocked campaigns remain scheduled and expire through the ordinary worker (1549.825459ms)
+✔ F10 sending-only notification keeps watchdog alive then resolves to unknown without another send (1486.603625ms)
+✔ F11 count rejection creates no generation attempt and supports explicit settled retry (1163.016375ms)
+✔ F13 selected suggestion has its own exact campaign and repeated requests retain identity (802.134416ms)
+✔ F15 signed out-of-order callbacks converge and never downgrade delivery or bounce (672.085333ms)
+✔ F17 paid operation scripts cannot raise configured authorization (0.629291ms)
+✔ F18 strategies use supplied complete facts and baseline without mandatory rereads (0.119834ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10499.789459

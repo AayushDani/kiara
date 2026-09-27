@@ -1,0 +1,250 @@
+✔ protected strategy catalog rejects arbitrary prompts, code, budgets, source or approval changes (1.140083ms)
+✔ scripted examples do not manufacture adaptation evidence or promote a prefetch flag (1806.733167ms)
+✔ genuine failure categories freeze independent company/document cases and deduplicate automatically (1855.353916ms)
+✔ missing credentials leave durable blocked evaluation, zero trials and unchanged champion (1823.519791ms)
+✔ in-process six-trial evaluator isolates state and never labels injected successes as live promotion (2804.066917ms)
+✔ promotion gates require measured gain, no unseen regression, cost and latency ceilings, provider records (1187.345458ms)
+✔ founder corrections and lawyer notes produce distinct bounded strategies without executing feedback text (1219.8995ms)
+✔ concurrent workers dispatch one lease and a lost provider result terminates further spending (1281.95275ms)
+✔ rollback restores evaluated parent, increments generation, and preserves in-flight pins and history (1344.2125ms)
+✔ unverified fact notes do not become facts or improvement instructions, and protected input changes cancel without calls (1344.935042ms)
+✔ daily admission cap and promotion recursion depth cannot be overridden by a trigger (772.560834ms)
+✔ proposal agent uses constrained provider output, hides heldouts, and rejects protected mutations (646.718042ms)
+✔ local evaluator identity changes with runtime source and hosted identity requires a deployment commit (3.333125ms)
+✔ observed draft plus three complete checks and two checked repairs fit finite window without raising money limits (4.598125ms)
+✔ every repair reserves complete checker input/output/cost and request slots before dispatch (3.06475ms)
+✔ review planning cannot change hard dollar ceilings or inject unbounded planning values (0.46625ms)
+✔ supplied context is versioned, attributed, idempotent and cannot be silently replaced during review (295.212083ms)
+✔ context intake rejects duplicate facts, malformed prior document and absent provenance (0.647833ms)
+✔ shared operator cap atomically admits at most two concurrent visitors and survives process boundaries (880.112125ms)
+✔ settled IDs cannot dispatch twice, repeat exact settlement is safe, and history cannot lower a charge (185.625583ms)
+✔ unknown provider charges retain unused reservation and block all visitors until explicit reconciliation (84.467791ms)
+✔ usage above reservation is auditable and closes all further spending (47.345ms)
+✔ actual usage can settle after authorization is disabled but no new dispatch can reserve (60.753042ms)
+✔ micro-dollar accounting cannot round a small reservation down through the cap (188.533375ms)
+✔ new visitor workspaces cannot reset the shared request rate ceiling (2836.273791ms)
+✔ invalid reservations, settlements, authorization and hosted ephemeral storage fail before dispatch (12.224416ms)
+✔ operator full-ceiling accounting preserves unknown history and hard cap while releasing independent work (362.950792ms)
+✔ operator coverage fails closed on wrong ceilings and late higher usage (264.736875ms)
+✔ hosted scheduling deduplicates starts and records the exact run (1.049ms)
+✔ new deployment fences old claims but waits for its dispatched step to settle (0.461875ms)
+✔ completed workers can restart and crashed starts recover after a bounded wait (0.124584ms)
+✔ new epoch cannot inherit a worker ticket (0.055666ms)
+▶ hosted login and durable worker preserve protected review gates
+  ✔ no automatic remote identity; login requires the matching password and origin (7.857666ms)
+  ✔ an authenticated founder cannot switch to lawyer without signing in (33.74575ms)
+  ✔ worker drains, pauses at review, resumes the queue, and fences old generations (3487.961541ms)
+  ✔ missing Atlas configuration on Vercel fails closed (0.714792ms)
+✔ hosted login and durable worker preserve protected review gates (3648.911958ms)
+✔ recovery propagates a crashed dispatched attempt to the shared unknown-charge fence (663.783292ms)
+✔ recovery releases a crashed pre-dispatch shared reservation without inventing a provider charge (658.199459ms)
+✔ durable worker remains alive until a crashed model lease expires and stops after unknown-charge recovery (1482.323125ms)
+✔ local workspaces cannot overwrite one another through cookies shared across localhost ports (43.156625ms)
+✔ new model and human facts remain untrusted until founder verification; all prior context is retained (1648.6145ms)
+✔ new fact values cannot bypass key, size, nesting, or count limits (0.355292ms)
+✔ new public demo preserves old audit and global spend while enforcing auth, CSRF and active-charge gates (829.719584ms)
+✔ preview is durable and never grants lawyer approval (1881.762417ms)
+✔ a changed review bundle cancels its old queued notification (456.752167ms)
+✔ expired send is unknown, blocks blind retry and preserves the provider key (308.993041ms)
+✔ webhook rejects requests when signature configuration is absent (8.03775ms)
+▶ persistence: deterministic baseline, atomic transactions, fences and physical records
+  ✔ baseline is deterministic and seed twice is a byte-identical no-op (606.249667ms)
+  ✔ an exception or async callback cannot commit a partial write (58.897875ms)
+  ✔ tenant injection, stale epoch and stale CAS are rejected (49.214417ms)
+  ✔ immutable revision edits fail; appending a new sealed revision succeeds (73.993625ms)
+  ✔ concurrent independent processes do not lose increments (4222.714292ms)
+  ✔ dead-owner lock recovers without manual data deletion (151.817208ms)
+  ✔ CA event produces scoped customer, context and durable dispatch rows (97.753333ms)
+  ✔ reset retains evaluation campaign reservations and unknown charges (451.532958ms)
+  ✔ reset blocks unknown charges and preserves a surviving monotonic guard (344.408ms)
+✔ persistence: deterministic baseline, atomic transactions, fences and physical records (6069.704791ms)
+▶ public visitors have isolated, repeatable demos without passwords
+  ✔ public bootstrap isolates signed sessions and refuses unscoped access (87.172167ms)
+  ✔ role switching is self-service but review order is still required (1865.427125ms)
+  ✔ final lawyer approval retains the completed run and isolates visitor history (483.775958ms)
+  ✔ manual reset works in lawyer role and old requests cannot revive cleared data (108.019917ms)
+  ✔ public mode fails closed if paid generation or delivery is enabled (0.2305ms)
+✔ public visitors have isolated, repeatable demos without passwords (2721.643833ms)
+✔ review regression: unresolved model charges survive human-edit validation (1219.449959ms)
+✔ review: authenticated early delivery receipts reconcile once when the send response arrives (1238.297083ms)
+✔ review regression: verified company facts preserve signup-specific provenance (535.046ms)
+✔ review regression: changed input can start a new settled model ledger (1940.668458ms)
+✔ review regression: scripted document edits cannot contradict an explicit no-sale fact (834.800416ms)
+[Resend API Error]: {
+  error: {
+    name: 'application_error',
+    statusCode: null,
+    message: 'Unable to fetch data. The request could not be resolved.'
+  },
+  path: '/emails'
+}
+✔ review regression: Resend SDK transport errors remain unknown delivery and block reset (823.700958ms)
+✔ review: a later unchanged event closes only against a current sealed finalized packet (2284.867042ms)
+✔ review: scripted validation failure escalates without claiming AI repair or hiding the output (1241.399458ms)
+✔ review regression: stale document edits reject before mutation while a fresh snapshot succeeds (643.922583ms)
+✔ review regression: a session cannot cross the reset fence while its command body is being read (124.7355ms)
+✖ review: model fact proposals require current founder verification and retain model attribution (582.862292ms)
+✖ review regression: founder verification of a model fact authorizes a linked run after the settled parent deadline (522.721583ms)
+✔ eleven frozen legal cases execute with unknown/conflict preservation (4.4535ms)
+✔ actual citation span, complete evidence, clauses, unknown facts and semantic rules are validated (672.091ms)
+✔ live mode without credentials blocks instead of substituting the scripted revision (758.62175ms)
+✔ timeout retains pre-dispatch reservation and prevents reset (1071.423167ms)
+✔ crashed dispatched run recovers once without replaying model or discarding charge (856.451459ms)
+✔ budget deadline, request ceiling and unknown-charge reservation cannot reset on reuse (508.111625ms)
+✔ provider adapter exercises scoped tools, exact citations, full-law semantic hydration and immutable generated revision (2828.589625ms)
+✔ an out-of-scope model tool is blocked before it can mutate state (787.390709ms)
+✔ verified human edit after a settled run deadline starts a linked child and retains immutable costs; automatic repair cannot rotate (1235.178042ms)
+✔ founder verification of an attributed model fact proposal authorizes a settled expired child scope without fabricating human feedback (1620.100834ms)
+✔ genuine bad output from an injected provider is recorded, repaired with failure feedback, and produces correlated audit records (1810.180375ms)
+✔ unparseable provider output stops at the protected repair limit without saving a placeholder candidate (712.334917ms)
+✔ oversized legal retrieval produces a scoped tool error that the agent can correct within the same budget (932.876083ms)
+✔ frozen evaluation runs semantic repair and retains full audit without mutating the supplied state or live store (202.048375ms)
+✔ explicit total spending authorization includes evaluation reservations and never exposes credentials (134.647209ms)
+✔ acceptance fault injection is rejected outside an explicitly enabled local test before any provider request (138.668125ms)
+✔ provider billing failures retain safe actionable codes without retaining raw error messages (289.081792ms)
+✔ recovery retries a persisted unknown attempt even after its workflow was already blocked (218.432125ms)
+✔ explicit founder retry of a settled billing rejection starts a linked run and preserves prior attempts (547.561042ms)
+✔ rate backoff accepts only explicit rate rejections, caps safe headers, and preserves the absolute deadline (0.874584ms)
+✔ two explicit rate rejections retry the exact request with distinct settled reservations and audited waits (868.583041ms)
+✔ repeated rate rejections stop after two retries and never extend the run deadline (450.630042ms)
+✔ test retry wait overrides cannot bypass a real provider delay (137.989166ms)
+✔ exact legal search computes UTF-16 offsets from pinned text and authorizes only three returned matches (421.195792ms)
+✖ semantic document delta reconstructs all business/legal text without duplicate citation proof metadata (184.746583ms)
+✔ semantic packing counts complete balanced batches once, merges when possible, and never omits text (6.556208ms)
+✔ semantic packing refuses one oversized complete authority instead of truncating it (1.921125ms)
+✔ retrieval rate retries cannot consume the final proposal-emission slot (823.20075ms)
+✔ numeric provider rate diagnostics exclude raw messages, identifiers and unknown headers (0.697708ms)
+✔ legal citation chunks preserve literal text, surrogate offsets and explicit capacity continuations (0.519ms)
+✔ incomplete paid-shaped output retains partial bytes and allows only explicit settled founder retry (331.784708ms)
+✔ repair rate retries preserve all three independent checker slots (867.232208ms)
+✔ checker capacity failure retains the unaccepted proposal and founder retry validates it without redrafting (769.56025ms)
+✔ opaque citation IDs resolve only exact returned source chunks and reject guessed or changed evidence (0.457041ms)
+✔ provider-selected citation IDs become exact audited citations without model-copied offsets or quotes (630.947333ms)
+▶ security: HTTP permissions and persisted human-review guards
+  ✔ rejects client identity injection, unexpected fields, bad CSRF and cross-origin actions (4.211208ms)
+  ✔ lawyer cannot inject company signup (1.472834ms)
+  ✔ lawyer-first, stale state and stale bundle approvals are rejected (116.6405ms)
+  ✔ source integrity changes invalidate an otherwise matching approval (57.76825ms)
+  ✔ replayed same approval does not add another decision (5.722042ms)
+  ✔ old notification is canceled after new feedback changes its sealed bundle (300.790458ms)
+  ✔ malformed business facts cannot be promoted to verified known facts (174.497834ms)
+  ✔ applicability fails closed when a required boolean has invalid type (12.648209ms)
+  ✔ old session and stale reset command cannot mutate a new epoch (167.388917ms)
+✔ security: HTTP permissions and persisted human-review guards (1845.074042ms)
+✔ empty and reset workspaces do not invent execution or approval activity (2.536666ms)
+✔ stage progression follows saved workflow state rather than elapsed time (0.38975ms)
+✔ fact correction restarts progress despite retained historical assessment, checks, and approvals (1.060667ms)
+✔ retrieval repairs and proposal repairs stay attached to the checkpoint that failed (0.215208ms)
+✔ non-citation validation failures are not described as citation repairs (0.459417ms)
+✔ only approvals for the current sealed packet can complete the human checkpoint (1.391417ms)
+✔ no-change decisions skip drafting and approvals instead of fabricating successful reviews (0.274875ms)
+✔ information and failed-check pauses block the relevant checkpoint (0.072333ms)
+✔ requested changes to a sealed packet pause human review without inventing a validation failure (0.061917ms)
+✔ snapshot identifies the harness pinned to the run even after champion promotion (0.2575ms)
+✔ redline comparison retains every original and proposed clause with exact full text (0.59925ms)
+✔ removals and heading-only edits cannot disappear from the redline (0.250709ms)
+✔ empty and missing revisions remain honest instead of inventing policy text (0.210208ms)
+✔ unknown facts stay distinct from false and zero (10.501666ms)
+✔ client surfaces actionable structured API errors without coercing objects (0.108917ms)
+✔ v2 local sessions are signed, origin bound, role limited and explicitly simulated (31.039875ms)
+✔ OIDC identity verification rejects forged tokens, wrong audience, expiry and unmapped subjects (35.961625ms)
+✔ F07 supplied context lineage survives an attributed fact correction and later supplied work (1378.948042ms)
+✔ F08 model fact verification rejects an originating snapshot made stale by human correction (1206.19825ms)
+✔ F12 blocked work can be withdrawn once without dropping uncertain effects or permitting stale intent (1318.765084ms)
+✔ F03 source recheck suspends approval before fetch and preserves the failure across packets (1338.952084ms)
+✔ F04 exact selected quote and clause bindings reach semantic review (991.737167ms)
+✔ F05 arbitrary, missing, unknown or extra exemption fields cannot satisfy screening (1.224458ms)
+✔ F06 each verified alternative route survives false direct-business prerequisites (0.911334ms)
+✔ F09 blocked campaigns remain scheduled and expire through the ordinary worker (1734.443583ms)
+✔ F10 sending-only notification keeps watchdog alive then resolves to unknown without another send (1671.096292ms)
+✔ F11 count rejection creates no generation attempt and supports explicit settled retry (1103.98675ms)
+✔ F13 selected suggestion has its own exact campaign and repeated requests retain identity (905.365ms)
+✔ F15 signed out-of-order callbacks converge and never downgrade delivery or bounce (1338.1415ms)
+✔ F17 paid operation scripts cannot raise configured authorization (9.185833ms)
+✔ F18 strategies use supplied complete facts and baseline without mandatory rereads (0.374875ms)
+✔ unseen request email and URL cannot pass by citing the right fact ID with the wrong prose (700.246958ms)
+✔ required disclosure validation supports arbitrary document, clause and fact identities (620.508417ms)
+✔ unseen unrelated clauses remain protected even with valid citations and a passing semantic verdict (618.492583ms)
+✔ live intake preserves supplied facts and blocks paid drafting until source recheck (346.110958ms)
+✔ immutable redline reconstructs exact prior and candidate wording and retains unfamiliar content (549.408583ms)
+✔ lawyer interpretation feedback retains attribution and invalidates both approvals without changing facts (1125.263292ms)
+✔ stale fact correction cannot overwrite a later verified company context (738.790291ms)
+✔ pinned context tampering fails approval even if the candidate and bundle are unchanged (501.656792ms)
+✔ unsupported jurisdiction and future rule period escalate instead of issuing no-change decisions (274.359083ms)
+✔ disclosure coverage accepts combined sections while reporting missing topics (430.92175ms)
+✔ fresh legal_interpretation_note reaches runtime after the prior repair limit without rotating reused authority (1642.040167ms)
+✔ fresh requested_changes reaches runtime after the prior repair limit without rotating reused authority (1351.642875ms)
+✔ fresh lawyer feedback cannot bypass an unsettled charge after the repair limit (638.568083ms)
+✔ persisted signup without manufactured failure, ordered sealed approval and retained finalization (1086.54825ms)
+✔ distinct event pins the existing harness and closes only against the finalized packet (432.724875ms)
+✔ unknown facts block drafting and old reset commands cannot affect reused workspace (1024.908291ms)
+✔ material edit invalidates earlier founder approval and requires both gates again (823.013125ms)
+✔ source expiry prevents approval even without a background invalidation job (130.784042ms)
+ℹ tests 170
+ℹ suites 0
+ℹ pass 167
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 23996.568458
+
+✖ failing tests:
+
+test at tests/review.test.ts:1:15050
+✖ review: model fact proposals require current founder verification and retain model attribution (582.862292ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /documented fact type/. Input:
+
+  'Error: This proposal predates the current company facts. Request a fresh proposal before verification.'
+
+      at async <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/review.test.ts:216:2)
+      at async isolated (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/review.test.ts:23:6)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: This proposal predates the current company facts. Request a fresh proposal before verification.
+        at <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/src/workflow/engine.ts:132:881)
+        at apply (/Users/aayushdani/Documents/ChatGPT/Kiara/src/data/store.ts:36:308)
+        at transaction (/Users/aayushdani/Documents/ChatGPT/Kiara/src/data/store.ts:57:73)
+        at async waitForActual (node:assert:646:5)
+        at async strict.rejects (node:assert:769:25)
+        at async <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/review.test.ts:216:2)
+        at async isolated (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/review.test.ts:23:6)
+        at async Test.run (node:internal/test_runner/test:1389:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:960:7),
+    expected: /documented fact type/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at tests/review.test.ts:1:17450
+✖ review regression: founder verification of a model fact authorizes a linked run after the settled parent deadline (522.721583ms)
+  Error: This proposal predates the current company facts. Request a fresh proposal before verification.
+      at <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/src/workflow/engine.ts:132:881)
+      at apply (/Users/aayushdani/Documents/ChatGPT/Kiara/src/data/store.ts:36:308)
+      at transaction (/Users/aayushdani/Documents/ChatGPT/Kiara/src/data/store.ts:57:73)
+      at async <anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/review.test.ts:240:33)
+      at async isolated (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/review.test.ts:23:6)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    code: 'STALE_FACT_PROPOSAL',
+    status: 409
+  }
+
+test at tests/runtime.test.ts:1:33964
+✖ semantic document delta reconstructs all business/legal text without duplicate citation proof metadata (184.746583ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(!JSON.stringify(packet).includes('evidence_bindings'))
+
+      at TestContext.<anonymous> (/Users/aayushdani/Documents/ChatGPT/Kiara/tests/runtime.test.ts:203:698)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

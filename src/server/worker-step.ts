@@ -10,7 +10,7 @@ import {claimWorkerStep,ownsWorker,releaseWorkerStep,workerDeployment,type Worke
 /** Keep a durable watchdog alive while another step owns a model lease.
  * A retried/crashed step must reach lease expiry and recovery, not silently close its workflow. */
 export function hasPendingWorkerWork(state:State){
-  return !!(nextRunnable(state)||hasAutomaticWork(state)||state.notifications.some(n=>n.status==='pending')||state.workflows.some(w=>w.model_status==='running'));
+  return !!(nextRunnable(state)||hasAutomaticWork(state)||state.notifications.some(n=>n.status==='pending'||n.status==='sending')||state.workflows.some(w=>w.model_status==='running'));
 }
 
 export async function processWorkerStep(resetEpoch:number,ticket?:WorkerTicket){

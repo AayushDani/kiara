@@ -1,0 +1,32 @@
+{
+  "runtime": "v24.19.0",
+  "at": "2026-09-27T04:44:22.738Z",
+  "mode": "isolated local injected providers; no external access",
+  "blocked_campaign": {
+    "status_after_worker_and_expired_deadline": "blocked",
+    "reason": "OPENAI_API_KEY_MISSING",
+    "hasAutomaticWork": false,
+    "hasPendingWorkerWork": false,
+    "competing_campaign_admitted": false
+  },
+  "citation_support": {
+    "mutated_binding_count": 8,
+    "replaced_every_reference_with": "prov_ccpa_cpi",
+    "validation_codes": [],
+    "semantic_packet_identical": true,
+    "limit": "Proves grader-input gap, not real model legal acceptance."
+  },
+  "count_endpoint_failure": {
+    "failure": "MODEL_OUTPUT_INVALID",
+    "provider_attempts": 0,
+    "retry_error": "MODEL_RETRY_UNSAFE"
+  },
+  "stale_model_fact": {
+    "old_proposal_has_context_epoch": false,
+    "newer_founder_value": 42000000,
+    "verified_at_context_epoch": 2,
+    "result_value": 31000000,
+    "result_context_epoch": 3,
+    "limit": "Caller still explicitly verifies; stale-proposal detection absent."
+  }
+}

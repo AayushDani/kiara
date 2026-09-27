@@ -198,9 +198,9 @@ test('exact legal search computes UTF-16 offsets from pinned text and authorizes
  }finally{await rm(dir,{recursive:true,force:true});}
 });
 
-test('semantic document delta reconstructs all business/legal text without duplicate citation proof metadata',async()=>{
+test('semantic document delta reconstructs all business/legal text and preserves selected citation support bindings',async()=>{
  const {semanticDocumentPacket}=await import('../src/runtime/semantic');const {dir,state,w}=await setup();
- try{const base=state.revisions[0],candidate=scriptedCandidate(base,w);candidate.clauses=[...candidate.clauses].reverse();const packet=semanticDocumentPacket(base,candidate),mapped=new Map(base.clauses.map(c=>[c.clause_id,c]));for(const c of packet.candidate_delta.clause_patches)mapped.set(c.clause_id,c);for(const id of packet.candidate_delta.removed_clause_ids)mapped.delete(id);const reconstructed={...packet.candidate_delta.metadata,clauses:packet.candidate_delta.clause_order.map(id=>mapped.get(id)!)};assert.deepEqual(reconstructed.clauses,candidate.clauses);assert.equal(reconstructed.title,candidate.title);assert.equal(reconstructed.policy_updated_on,candidate.policy_updated_on);assert.ok(!JSON.stringify(packet).includes('evidence_bindings'));assert.ok(packet.candidate_delta.clause_patches.length<candidate.clauses.length);}
+ try{const base=state.revisions[0],candidate=scriptedCandidate(base,w);candidate.clauses=[...candidate.clauses].reverse();const packet=semanticDocumentPacket(base,candidate),mapped=new Map(base.clauses.map(c=>[c.clause_id,c]));for(const c of packet.candidate_delta.clause_patches)mapped.set(c.clause_id,c);for(const id of packet.candidate_delta.removed_clause_ids)mapped.delete(id);const reconstructed={...packet.candidate_delta.metadata,clauses:packet.candidate_delta.clause_order.map(id=>mapped.get(id)!)};assert.deepEqual(reconstructed.clauses,candidate.clauses);assert.equal(reconstructed.title,candidate.title);assert.equal(reconstructed.policy_updated_on,candidate.policy_updated_on);assert.deepEqual(packet.evidence_bindings,candidate.evidence_bindings);assert.ok(packet.candidate_delta.clause_patches.length<candidate.clauses.length);}
  finally{await rm(dir,{recursive:true,force:true});}
 });
 
