@@ -1,0 +1,5 @@
+# Provider-vector / Atlas join preflight · 27 September 2026
+
+The new operator command `scripts/v2-provider-atlas-join-qualify.ts --preflight` ran read-only with `MONGODB_DB=kiara_v2`, `KIARA_BUDGET_DB=kiara`, `KIARA_OPENAI_BUDGET_USD=50`, normalized storage, Atlas retrieval, and the exact configured keyword/vector index names. It loaded the existing credential locally without printing it.
+
+The command returned `atlasIndexesReady: true`, `sharedBudgetUsd: 50`, `sharedSpentUsd: 24.067081`, `sharedRequestCount: 569`, `blockingUnknownCharges: 0`, `providerKeyPresent: true`, `providerCalls: 0`, and `writes: 0`. TypeScript passed. This verifies the current read-only inputs needed for the drill, not the paid provider-vector query. The prior authorization covered **one** live embedding; the `--run` mode requires separate authorization for up to **two** additional real embedding requests under the same shared $50 cap. Its generated tenant and Atlas writes are bounded and cleaned only after a settled outcome. Hosted identity, customer evidence and managed recovery remain separate gates.
