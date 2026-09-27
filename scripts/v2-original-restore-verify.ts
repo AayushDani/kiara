@@ -1,6 +1,7 @@
 /** Read-only verification of selected encrypted originals in an isolated restored database. */
 import {createHash} from 'node:crypto';
 import {readFile,stat} from 'node:fs/promises';
+import {ConnectionString} from 'mongodb-connection-string-url';
 import {readMongoOriginal,closeMongoOriginalStore} from '../src/v2/mongo-originals';
 import {V2Error} from '../src/v2/contracts';
 import type {OriginalReference} from '../src/v2/objects';
@@ -22,12 +23,14 @@ export function parseRestoreCommand(args:string[]):RestoreTarget {
 export function validateRestoreTarget(target:RestoreTarget,env:NodeJS.ProcessEnv){
  if(!/^kiara_recovery_[A-Za-z0-9_-]{1,48}$/.test(target.database)||!dbName.test(target.sourceDatabase)||target.database===target.sourceDatabase||env.MONGODB_DB!==target.database)throw new Error('Select an exact isolated recovery database different from the source database.');
  if(!/^[a-f0-9]{64}$/i.test(env.KIARA_ORIGINALS_KEY||''))throw new Error('Configure the matching escrowed original encryption key.');
- let url:URL;try{url=new URL(env.MONGODB_URI||'');}catch{throw new Error('Configure a TLS-enabled Atlas URI for the restored database.');}
+ let url:ConnectionString;try{url=new ConnectionString(env.MONGODB_URI||'');}catch{throw new Error('Configure a TLS-enabled Atlas URI for the restored database.');}
  const entries=[...url.searchParams].map(([name,value])=>[name.toLowerCase(),value.toLowerCase()] as const);
  const tls=entries.find(([name])=>name==='tls'||name==='ssl')?.[1];
  const insecure=entries.some(([name,value])=>['tlsinsecure','tlsallowinvalidcertificates','tlsallowinvalidhostnames'].includes(name)&&!['false','0'].includes(value));
  const ambiguous=['tls','ssl','tlsinsecure','tlsallowinvalidcertificates','tlsallowinvalidhostnames'].some(name=>entries.filter(([key])=>key===name).length>1)||entries.some(([name])=>name==='tls')&&entries.some(([name])=>name==='ssl');
- if(url.protocol!=='mongodb+srv:'||!url.hostname.endsWith('.mongodb.net')||url.hostname==='mongodb.net'||url.pathname!=='/'&&url.pathname!==`/${target.database}`||insecure||ambiguous||tls!==undefined&&!['true','1'].includes(tls))throw new Error('The recovery verifier requires a TLS-enabled Atlas SRV URI targeting only the recovery database.');
+ const atlasHosts=url.hosts.length>0&&url.hosts.every(host=>{const name=host.split(':')[0];return name.endsWith('.mongodb.net')&&name!=='mongodb.net';});
+ const encrypted=url.isSRV?tls===undefined||['true','1'].includes(tls):tls!==undefined&&['true','1'].includes(tls);
+ if(!atlasHosts||!encrypted||url.pathname!=='/'&&url.pathname!==`/${target.database}`||insecure||ambiguous||env.VERCEL||env.NODE_ENV==='production'||env.KIARA_V2_AUTH_MODE==='oidc'||env.KIARA_V2_ORCHESTRATION_MODE==='temporal'||env.KIARA_V2_WORKER_HOST)throw new Error('The recovery verifier requires an isolated TLS-enabled Atlas URI targeting only the recovery database.');
  return {database:target.database,sourceDatabase:target.sourceDatabase,connectionFingerprint:sha(env.MONGODB_URI!)};
 }
 
