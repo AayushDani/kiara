@@ -6,7 +6,7 @@ import {join} from 'node:path';
 import {command,snapshot} from '../src/v2/service';
 import {readWorkspace,transactWorkspace,closeV2Store} from '../src/v2/store';
 import {processLegalWatch,publicLegalAddress,extractLegalSource} from '../src/v2/legal-maintenance';
-import {authorityCurrent,legalSourceAnswerEligible} from '../src/v2/coverage';
+import {authorityCurrent,coverageStatus,legalSourceAnswerEligible} from '../src/v2/coverage';
 import {readOriginal} from '../src/v2/objects';
 import type {ActorContext,WorkspaceCommand} from '../src/v2/contracts';
 const dirs:string[]=[];let seq=0;const url='https://example.test/legal-source';
@@ -49,6 +49,54 @@ test('observed change preserves bytes, expires source freshness and needs exact 
  await assert.rejects(()=>send({type:'legal.change.assess',changeId:change.id,expectedRecordVersion:change.version,oldHash:'wrong',newHash:change.newHash,decision:'affected_work',reason:'Stale review',matterIds:[matter.id],learningIds:[],adoptSource:true}),{code:'CHANGE_REVIEW_CHANGED'});
  await send({type:'legal.change.assess',changeId:change.id,expectedRecordVersion:change.version,oldHash:change.oldHash,newHash:change.newHash,decision:'affected_work',reason:'Synthetic reviewer chose this exact matter for follow-up.',matterIds:[matter.id],learningIds:[],adoptSource:true});s=await readWorkspace(owner().tenantId);assert.equal(s.matters.find(m=>m.id===matter.id)!.state,'legal_review');assert.ok(s.matters.find(m=>m.id===matter.id)!.tasks.some(t=>t.evidenceIds.includes(change.id)));assert.equal(s.proposals[0].status,'invalidated');assert.equal(s.legalAuthorities.find(x=>x.id===authorityId)!.verifiedAt,null);assert.equal(s.legalChanges![0].assessment?.adoptedSource,true);
  await transactWorkspace(owner().tenantId,s=>{s.legalWatches![0].nextCheckAt=new Date(0).toISOString();});await processLegalWatch(owner().tenantId,watchId,{fetcher:response(body,'text/html')});assert.equal((await readWorkspace(owner().tenantId)).legalChanges?.length,1);
+});
+test('three observations keep historical review but block older source adoption and affected-work targeting',async()=>{
+ const {watchId,sourceId,authorityId}=await fixture();
+ const defined=await send({type:'coverage.define',domain:'synthetic',jurisdiction:'TEST ONLY',authorityIds:[authorityId],limitations:['Fictional test coverage only.']});
+ const coverageId=String(defined.result.coverageId),coverage=defined.snapshot.coverage.find(item=>item.id===coverageId)!;
+ await send({type:'coverage.review',coverageId,expectedRecordVersion:coverage.version,qualificationEvidence:'Synthetic reviewer qualification for ordering regression.',reviewDueAt:due(),limitations:['Fictional test coverage only.']});
+ const made=await send({type:'matter.create',title:'Fictional affected matter',objective:'Test observed source ordering.',scope:{kind:'team',actorIds:[]}}),matterId=String(made.result.matterId);
+ for(const body of ['Observed A','Observed B','Observed C']){
+  if(body!=='Observed A')await transactWorkspace(owner().tenantId,s=>{s.legalWatches![0].nextCheckAt=new Date(0).toISOString();});
+  assert.equal((await processLegalWatch(owner().tenantId,watchId,{fetcher:response(body)})).status,'review_required');
+ }
+ let s=await readWorkspace(owner().tenantId),[a,b,c]=s.legalChanges!;
+ assert.equal(s.legalChanges?.length,3);assert.equal(s.legalWatches![0].lastObservedHash,c.rawHash);assert.equal(coverageStatus(s,owner(),s.coverage.find(item=>item.id===coverageId)!),'stale');
+ const assess=(change:typeof a,decision:'no_applicability_change'|'affected_work',adoptSource:boolean)=>send({type:'legal.change.assess',changeId:change.id,expectedRecordVersion:change.version,oldHash:change.oldHash,newHash:change.newHash,decision,reason:'Synthetic exact observation review.',matterIds:decision==='affected_work'?[matterId]:[],learningIds:[],adoptSource});
+ await assert.rejects(()=>assess(a,'no_applicability_change',true),{code:'CHANGE_OBSERVATION_SUPERSEDED'});
+ await assert.rejects(()=>assess(b,'affected_work',false),{code:'CHANGE_OBSERVATION_SUPERSEDED'});
+ s=await readWorkspace(owner().tenantId);assert.equal(s.legalAuthorities.find(item=>item.id===authorityId)!.sourceId,sourceId);assert.equal(s.legalChanges!.filter(item=>item.status==='pending_review').length,3);assert.equal(authorityCurrent(s,owner(),s.legalAuthorities.find(item=>item.id===authorityId)!),false);
+ await assess(a,'no_applicability_change',false);await assess(b,'no_applicability_change',false);
+ s=await readWorkspace(owner().tenantId);assert.equal(s.legalChanges!.length,3);assert.equal(s.legalChanges!.filter(item=>item.status==='pending_review').length,1);assert.equal(coverageStatus(s,owner(),s.coverage.find(item=>item.id===coverageId)!),'stale');
+ await assess(c,'affected_work',true);
+ s=await readWorkspace(owner().tenantId);assert.equal(s.legalAuthorities.find(item=>item.id===authorityId)!.sourceId,c.newSourceId);assert.equal(s.legalAuthorities.find(item=>item.id===authorityId)!.verifiedAt,null);assert.equal(coverageStatus(s,owner(),s.coverage.find(item=>item.id===coverageId)!),'pending_review');
+});
+test('a replacement watch seeing original bytes supersedes the old watch change without creating another change',async()=>{
+ const {watchId:oldWatchId,sourceId,authorityId}=await fixture();
+ assert.equal((await processLegalWatch(owner().tenantId,oldWatchId,{fetcher:response('Observed A')})).status,'review_required');
+ let s=await readWorkspace(owner().tenantId),change=s.legalChanges![0],oldWatch=s.legalWatches!.find(item=>item.id===oldWatchId)!;
+ assert.ok(Number.isSafeInteger(oldWatch.lastObservedWorkspaceVersion));
+ await send({type:'legal.watch.stop',watchId:oldWatchId,expectedRecordVersion:oldWatch.version});
+ s=await readWorkspace(owner().tenantId);
+ const replacement=await send({type:'legal.watch.configure',authorityId,expectedAuthorityVersion:s.legalAuthorities.find(item=>item.id===authorityId)!.version,intervalHours:24}),newWatchId=String(replacement.result.watchId);
+ assert.equal((await processLegalWatch(owner().tenantId,newWatchId,{fetcher:response('Original source text.')})).status,'review_required');
+ s=await readWorkspace(owner().tenantId);assert.equal(s.legalChanges!.length,1,'unchanged replacement read adds no change record');
+ const newWatch=s.legalWatches!.find(item=>item.id===newWatchId)!;
+ assert.ok(newWatch.lastObservedWorkspaceVersion!>oldWatch.lastObservedWorkspaceVersion!);
+ assert.notEqual(newWatch.lastObservedHash,change.rawHash);
+ await assert.rejects(()=>send({type:'legal.change.assess',changeId:change.id,expectedRecordVersion:change.version,oldHash:change.oldHash,newHash:change.newHash,decision:'no_applicability_change',reason:'Older watch observation must not become current.',matterIds:[],learningIds:[],adoptSource:true}),{code:'CHANGE_OBSERVATION_SUPERSEDED'});
+ s=await readWorkspace(owner().tenantId);assert.equal(s.legalAuthorities.find(item=>item.id===authorityId)!.sourceId,sourceId);assert.equal(s.legalChanges![0].status,'pending_review');assert.equal(authorityCurrent(s,owner(),s.legalAuthorities.find(item=>item.id===authorityId)!),false);
+});
+test('an unsequenced legacy observation cannot adopt until a fresh exact check',async()=>{
+ const {watchId,authorityId}=await fixture();
+ await processLegalWatch(owner().tenantId,watchId,{fetcher:response('Observed legacy A')});
+ await transactWorkspace(owner().tenantId,s=>{delete s.legalWatches![0].lastObservedWorkspaceVersion;s.legalWatches![0].nextCheckAt=new Date(0).toISOString();});
+ let s=await readWorkspace(owner().tenantId),change=s.legalChanges![0];
+ const adopt=()=>send({type:'legal.change.assess',changeId:change.id,expectedRecordVersion:change.version,oldHash:change.oldHash,newHash:change.newHash,decision:'no_applicability_change',reason:'Synthetic reviewed latest source.',matterIds:[],learningIds:[],adoptSource:true});
+ await assert.rejects(adopt,{code:'CHANGE_OBSERVATION_SUPERSEDED'});
+ assert.equal((await processLegalWatch(owner().tenantId,watchId,{fetcher:response('Observed legacy A')})).status,'review_required');
+ s=await readWorkspace(owner().tenantId);assert.equal(s.legalChanges!.length,1);assert.ok(Number.isSafeInteger(s.legalWatches![0].lastObservedWorkspaceVersion));
+ await adopt();s=await readWorkspace(owner().tenantId);assert.equal(s.legalAuthorities.find(item=>item.id===authorityId)!.sourceId,change.newSourceId);
 });
 test('source or member withdrawal while a public read is pending prevents observed payload admission',async()=>{
  const {watchId,sourceId}=await fixture();const result=await processLegalWatch(owner().tenantId,watchId,{fetcher:async()=>{await send({type:'source.revoke',sourceId,reason:'Withdraw while source check is in flight'});return new Response('Never admit this later source body.',{headers:{'content-type':'text/plain'}});}});assert.equal(result.status,'stopped');assert.equal(result.complete,true);const s=await readWorkspace(owner().tenantId);assert.equal(s.sources.length,1);assert.equal(s.legalChanges?.length,0);assert.doesNotMatch(JSON.stringify(s),/Never admit this later source body/);
