@@ -127,6 +127,18 @@ export async function globalSpendStatus(){
   return {budget_usd:authorizedBudget(),spent_usd:t.spent/1_000_000,actual_spent_usd:t.actual/1_000_000,conservative_spent_usd:t.conservative/1_000_000,reserved_usd:t.reserved/1_000_000,unknown_charges:t.blocking_unknown,covered_unknown_charges:t.unknown-t.blocking_unknown,blocking_unknown_charges:t.blocking_unknown,inflight:t.inflight,request_count:Object.keys(state.charges).length,scope:'all_visitors_and_evaluations'};
 }
 
+/** Read-only proof that an individual uncertain dispatch has its full original ceiling
+ * retained in the shared budget. It does not settle or authorize retry of that charge. */
+export async function coveredUnknownCharge(chargeId:string){
+  if(!/^[a-zA-Z0-9_-]{8,100}$/.test(chargeId))throw new AppError('INVALID_SPEND_RESERVATION','Invalid provider reservation identity.');
+  let state:Spend|null=null;
+  if(process.env.MONGODB_URI)state=await (await operatorDatabase()).collection<Spend>('provider_spend_authorization').findOne({_id:KEY},{readConcern:{level:'majority'}});
+  else{if(hostedSpend(process.env))throw new AppError('SPEND_STORE_REQUIRED','Hosted provider spending requires durable MongoDB storage.',503);try{state=JSON.parse(await readFile(join(process.env.KIARA_GLOBAL_BUDGET_DIR||process.env.KIARA_DATA_DIR||join(process.cwd(),'.kiara'),'provider-spend.json'),'utf8'));}catch(e:any){if(e.code!=='ENOENT')throw e;}}
+  if(hostedSpend(process.env)&&!ledgerAnchorMatches(state))throw new AppError('SPEND_LEDGER_UNVERIFIED','The shared provider ledger target or anchor is unverified.',503);
+  const charge=state?.charges[chargeId],reconciliation=charge?.reconciliation;
+  return !!charge&&charge.status==='unknown'&&!!reconciliation&&reconciliation.kind==='conservative_unknown_ceiling'&&reconciliation.original_status==='unknown'&&reconciliation.retry_authorized===false&&reconciliation.budgeted_micro>=charge.reserved&&reconciliation.budgeted_micro>=charge.actual&&charge.reserved>0;
+}
+
 /** Explicit operator action only; never called by the runtime, a visitor route, or a retry.
  * Account for the entire bounded request ceiling without claiming provider usage is known.
  * The original unknown charge and its workspace remain unresolved and cannot retry. */

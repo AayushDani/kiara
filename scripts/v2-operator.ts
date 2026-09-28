@@ -13,13 +13,13 @@ import {inspectWithdrawalEffects,pendingSourceWithdrawalSummary,resumeSourceWith
 import {requireRole} from '../src/v2/authority';
 import type {ActorContext,WorkspaceCommand} from '../src/v2/contracts';
 import {checkInstallationAccess,reconcileInstallationAccess,retryInstallationAccessOwner} from '../src/v2/integrations/access-reconcile';
-import {previewIndexRecovery,requeueIndexJob} from '../src/v2/index-maintenance';
+import {previewIndexRecovery,requeueIndexJob,previewUnknownEmbeddingRepair,repairUnknownEmbedding} from '../src/v2/index-maintenance';
 import {operatorOidcBindingForActor} from '../src/v2/oidc-identities';
 
 const [operation,tenantId,...args]=process.argv.slice(2);
 const roles:Role[]=['member','admin','business_owner','fact_owner','legal_reviewer','publisher','signatory','evaluator','integration'];
 async function main(){
- if(!tenantId)throw new Error('Usage: v2-operator <inspect|provision|backup|restore-check|restore|migrate-check|migrate|migrate-archive-status|migrate-archive-candidate|migrate-archive-reconcile|legacy-export|normalize-check|normalize|normalize-rollback-check|index-definitions|index-sync|index-reconcile|index-recovery-preview|index-recovery-requeue|retention-status|retention-run|intake-status|intake-sweep|intake-reconcile|effect-status|effect-reconcile|withdrawal-status|withdrawal-retry|withdrawal-assign|withdrawal-inspect|withdrawal-review|source-withdrawal-pending|source-withdrawal-run|installation-access-check|installation-access-reconcile|installation-access-retry-owner> <tenant> [arguments]');
+ if(!tenantId)throw new Error('Usage: v2-operator <inspect|provision|backup|restore-check|restore|migrate-check|migrate|migrate-archive-status|migrate-archive-candidate|migrate-archive-reconcile|legacy-export|normalize-check|normalize|normalize-rollback-check|index-definitions|index-sync|index-reconcile|index-recovery-preview|index-recovery-requeue|index-embedding-repair-preview|index-embedding-repair|retention-status|retention-run|intake-status|intake-sweep|intake-reconcile|effect-status|effect-reconcile|withdrawal-status|withdrawal-retry|withdrawal-assign|withdrawal-inspect|withdrawal-review|source-withdrawal-pending|source-withdrawal-run|installation-access-check|installation-access-reconcile|installation-access-retry-owner> <tenant> [arguments]');
  if(operation==='inspect'){const s=await readWorkspace(tenantId);return {tenantId,version:s.version,stateHash:digest(s),configuredStorage:process.env.KIARA_V2_STORE_MODE==='normalized'?'normalized':process.env.MONGODB_URI?'mongo_aggregate':'local',memberships:s.memberships.map(m=>({actorId:m.actorId,roles:m.roles,revokedAt:m.revokedAt})),migration:s.migration?.status||null};}
  if(['withdrawal-status','withdrawal-retry','withdrawal-assign','withdrawal-inspect','withdrawal-review'].includes(operation||'')){
   const actorId=args[0],actor:ActorContext={tenantId,actorId,expiresAt:Date.now()+3600000,mode:'authenticated'};
@@ -100,6 +100,14 @@ async function main(){
   if(operation==='index-recovery-preview')return previewIndexRecovery(actor,jobId);
   if(!/^(0|[1-9]\d*)$/.test(expectedVersion||'')||!Number.isSafeInteger(Number(expectedVersion))||!/^[a-f0-9]{64}$/.test(planHash||'')||!reasonFile)throw new Error('Requeue requires the inspected workspace version, exact plan hash and review reason file.');
   return requeueIndexJob(actor,jobId,{expectedVersion:Number(expectedVersion),planHash,reason:await readFile(reasonFile,'utf8')});
+ }
+ if(operation==='index-embedding-repair-preview'||operation==='index-embedding-repair'){
+  const [actorId,jobId,chunkId,expectedVersion,planHash,reasonFile]=args;
+  if(!actorId||!jobId||!chunkId||args.length!==(operation==='index-embedding-repair-preview'?3:6))throw new Error('Embedding repair requires administrator actor ID, exact unknown job ID and current chunk ID; apply also requires preview version, hash and reason file.');
+  const actor:ActorContext={tenantId,actorId,expiresAt:Date.now()+3600000,mode:'authenticated',...(process.env.KIARA_V2_AUTH_MODE==='oidc'?{oidcBinding:await operatorOidcBindingForActor(tenantId,actorId)}:{})};
+  if(operation==='index-embedding-repair-preview')return previewUnknownEmbeddingRepair(actor,jobId,chunkId);
+  if(!/^(0|[1-9]\d*)$/.test(expectedVersion||'')||!Number.isSafeInteger(Number(expectedVersion))||!/^[a-f0-9]{64}$/.test(planHash||'')||!reasonFile)throw new Error('Apply requires exact inspected version, plan hash and review reason file.');
+  return repairUnknownEmbedding(actor,jobId,chunkId,{expectedVersion:Number(expectedVersion),planHash,reason:await readFile(reasonFile,'utf8')});
  }
  if(operation==='index-sync'||operation==='index-reconcile'){const actor={tenantId,actorId:args[0],expiresAt:Date.now()+3600000,mode:'authenticated' as const};if(!actor.actorId)throw new Error('Supply a currently provisioned admin actor ID');return operation==='index-sync'?syncHybridIndex(actor,args.slice(1)):reconcileHybridIndex(actor);}
  if(operation==='backup'){if(!args[0])throw new Error('Supply a new backup path');await writeFile(args[0],JSON.stringify(await backupWorkspace(tenantId)),{flag:'wx',mode:0o600});return {backup:args[0],containsSensitiveData:true};}

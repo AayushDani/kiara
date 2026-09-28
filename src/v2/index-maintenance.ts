@@ -1,9 +1,9 @@
 import {randomUUID} from 'node:crypto';
 import {membership,requireRole} from './authority';
-import {globalSpendStatus} from '../server/global-spend';
+import {coveredUnknownCharge,globalSpendStatus} from '../server/global-spend';
 import {V2Error,type ActorContext,type WorkspaceState} from './contracts';
-import {authorizedHybridChunks,hybridConfig,retrievalMode,syncHybridIndex,type HybridAdapter} from './hybrid';
-import {reconcilePendingEmbeddings,type EmbeddingProvider} from './embeddings';
+import {authorizedHybridChunks,hybridConfig,mongoHybridAdapter,retrievalMode,syncHybridIndex,type HybridAdapter} from './hybrid';
+import {EMBEDDING_POLICY,embedAuthorized,embeddingTokens,reconcilePendingEmbeddings,type EmbeddingProvider} from './embeddings';
 import {digest,readWorkspace,timestamp,transactWorkspace} from './store';
 import {assertOidcBindingCurrent} from './oidc-identities';
 interface IndexPolicy {tenantId:string;enabled:boolean;actorIds:string[];scopeKinds:('private'|'team'|'matter')[];maxChunksPerJob:number;validUntil:string}
@@ -52,6 +52,59 @@ export async function requeueIndexJob(a:ActorContext,jobId:string,input:{expecte
   j.status='queued';j.reason=null;j.nextAttemptAt=null;j.updatedAt=timestamp();const outboxId=randomUUID();s.outbox.push({id:outboxId,tenantId:s.tenantId,kind:'index_maintenance',aggregateId:jobId,commandId:`operator:index-recovery:${outboxId}`,status:'pending',owner:'v2',createdAt:timestamp()});
   s.receipts[`index-recovery:${outboxId}`]={hash:input.planHash,result:{jobId,operatorId:a.actorId,reason:input.reason.trim(),at:timestamp(),previousReason:'GLOBAL_CHARGE_UNKNOWN',planHash:input.planHash,workspaceVersion:input.expectedVersion,reusableCompletedChunks:proof.proof.filter(x=>x.status==='complete').length,neverDispatchedChunks:proof.proof.filter(x=>x.status!=='complete').length,outboxId}};
   return {job:view(j),outboxId};})).result;
+}
+
+const REPAIR_PREFIX='index-embedding-repair:';
+interface UnknownEmbeddingProof {jobId:string;chunkId:string;recordId:string;oldAttemptId:string;ownerKey:string;authorityHash:string;inputHash:string;oldInputHash:string;chunkHash:string;repairText:string}
+function assertRepairAdmin(s:WorkspaceState,a:ActorContext){const admin=requireRole(s,a,'admin');if(admin.matterIds!==null||admin.entityIds!==null&&!admin.entityIds.includes(s.entityId))throw new V2Error('INDEX_OPERATOR_SCOPE','Repair requires an unrestricted current entity administrator.',403);}
+/** An uncertain provider dispatch is immutable. Repair uses a distinct title-aware input and owner. */
+function unknownEmbeddingProof(s:WorkspaceState,a:ActorContext,jobId:string,chunkId:string):UnknownEmbeddingProof{
+ const j=get(s,jobId);if(j.status!=='unknown'||j.leaseToken||j.leaseUntil||!j.chunkIds.includes(chunkId))throw new V2Error('INDEX_REPAIR_NOT_ELIGIBLE','Select an idle unknown index job and one exact retained chunk.');
+ const p=policy(s.tenantId);if(!p?.enabled||Date.parse(p.validUntil)<=Date.now()||!p.actorIds.includes(j.actorId)||digest(p)!==j.policyHash||digest(hybridConfig())!==j.configHash)throw new V2Error('INDEX_GRANT_CHANGED','The standing index grant expired or changed.');
+ const indexActor:ActorContext={tenantId:s.tenantId,actorId:j.actorId,mode:'authenticated',expiresAt:Date.parse(p.validUntil)};
+ if(membership(s,indexActor).version!==j.membershipVersion)throw new V2Error('INDEX_MEMBERSHIP_CHANGED','The initiating member authority changed.');
+ const current=authorizedHybridChunks(s,indexActor),chunk=current.find(c=>c.id===chunkId);
+ if(!chunk||!authorizedHybridChunks(s,a).some(c=>c.id===chunkId)||!j.recordIds.includes(chunk.recordId))throw new V2Error('INDEX_EVIDENCE_CHANGED','The selected source revision or operator access changed.');
+ const oldKey=`index:${digest({actor:j.actorId,chunk:chunkId})}`,old=s.receipts[`embedding:${oldKey}`]?.result.job as {id?:string;key?:string;actorId?:string;membershipVersion?:number;inputHash?:string;authorityHash?:string;policyHash?:string;status?:string;providerDispatched?:boolean;recoveryPending?:boolean;vector?:unknown}|undefined;
+ if(!old?.id||old.key!==oldKey||old.actorId!==j.actorId||old.membershipVersion!==j.membershipVersion||old.authorityHash!==digest({config:hybridConfig(),chunk:chunkId})||old.policyHash!==digest(EMBEDDING_POLICY)||old.inputHash!==digest(embeddingTokens(chunk.text))||old.status!=='unknown'||old.providerDispatched!==true||old.recoveryPending||old.vector!==null)throw new V2Error('INDEX_EMBEDDING_UNCERTAIN','The exact original embedding is not a terminal, dispatched unknown attempt.');
+ const repairText=`Title: ${chunk.title}\nExcerpt: ${chunk.text}`,inputHash=digest(embeddingTokens(repairText));
+ if(inputHash===old.inputHash)throw new V2Error('INDEX_REPAIR_INPUT_UNCHANGED','The repair input must differ from the uncertain original.');
+ const ownerKey=`index-repair:${digest({actor:a.actorId,chunkId,oldAttemptId:old.id,protocol:'title-excerpt-v1'})}`;
+ return {jobId,chunkId,recordId:chunk.recordId,oldAttemptId:old.id,ownerKey,authorityHash:digest({config:hybridConfig(),chunkId,oldAttemptId:old.id,protocol:'title-excerpt-v1'}),inputHash,oldInputHash:old.inputHash,chunkHash:digest(chunk),repairText};
+}
+export async function previewUnknownEmbeddingRepair(a:ActorContext,jobId:string,chunkId:string,options:{adapter?:HybridAdapter}={}){
+ await assertRecoveryOperatorBinding(a);const s=await readWorkspace(a.tenantId);assertRepairAdmin(s,a);
+ const proof=unknownEmbeddingProof(s,a,jobId,chunkId),chargeCovered=await coveredUnknownCharge(proof.oldAttemptId),spend=await globalSpendStatus(),repairJob=s.receipts[`embedding:${proof.ownerKey}`]?.result.job as {status?:string;providerDispatched?:boolean;id?:string}|undefined,receipt=s.receipts[REPAIR_PREFIX+chunkId]?.result as {status?:string;ownerKey?:string;oldAttemptId?:string}|undefined;
+ if(repairJob&&repairJob.status!=='complete'&&!(repairJob.status==='rejected'&&repairJob.providerDispatched===false))throw new V2Error('INDEX_REPAIR_ATTEMPT_PENDING','A repair embedding was dispatched or remains unsettled; inspect it before further work.');
+ if(receipt&&receipt.status!=='pending')throw new V2Error('INDEX_REPAIR_ALREADY_COMPLETE','The selected chunk already has a completed repair.');
+ if(receipt&&(receipt.ownerKey!==proof.ownerKey||receipt.oldAttemptId!==proof.oldAttemptId))throw new V2Error('INDEX_REPAIR_OWNER_CHANGED','The retained repair owner differs from the current proof.');
+ const present=await (options.adapter||mongoHybridAdapter()).present(a.tenantId,[chunkId]);if(present.includes(chunkId)&&!receipt)throw new V2Error('INDEX_REPAIR_ALREADY_INDEXED','The selected chunk is already present in Atlas.');
+ const planHash=digest({tenantId:s.tenantId,workspaceVersion:s.version,proof:{...proof,repairText:undefined},repairJob:repairJob?{id:repairJob.id,status:repairJob.status}:null,receipt:receipt||null,present:present.includes(chunkId)});
+ return {jobId,chunkId,oldAttemptId:proof.oldAttemptId,workspaceVersion:s.version,planHash,ready:chargeCovered&&spend.blocking_unknown_charges===0&&spend.inflight===0,originalChargeCovered:chargeCovered,blockingUnknownCharges:spend.blocking_unknown_charges,inflight:spend.inflight,newEmbeddingStatus:repairJob?.status||'absent',atlasPresent:present.includes(chunkId)};
+}
+/** Operator-only exact repair. The original job and embedding stay terminal unknown. */
+export async function repairUnknownEmbedding(a:ActorContext,jobId:string,chunkId:string,input:{expectedVersion:number;planHash:string;reason:string},options:{provider?:EmbeddingProvider;adapter?:HybridAdapter}={}){
+ if(!Number.isSafeInteger(input.expectedVersion)||!/^[a-f0-9]{64}$/.test(input.planHash)||input.reason.trim().length<20||input.reason.length>2000)throw new V2Error('INDEX_REPAIR_INPUT','Supply exact preview version, plan hash, and a reason of at least 20 characters.');
+ const adapter=options.adapter||mongoHybridAdapter(),preview=await previewUnknownEmbeddingRepair(a,jobId,chunkId,{adapter});
+ if(!preview.ready)throw new V2Error('INDEX_REPAIR_CHARGE_UNCOVERED','The original charge ceiling or shared ledger remains unresolved.');
+ if(preview.workspaceVersion!==input.expectedVersion||preview.planHash!==input.planHash)throw new V2Error('INDEX_REPAIR_CHANGED','The inspected repair plan changed. Preview it again.');
+ await assertRecoveryOperatorBinding(a);const initial=await transactWorkspace(a.tenantId,s=>{assertRepairAdmin(s,a);const proof=unknownEmbeddingProof(s,a,jobId,chunkId);if(s.version!==input.expectedVersion)throw new V2Error('INDEX_REPAIR_CHANGED','The inspected repair plan changed. Preview it again.');const key=REPAIR_PREFIX+chunkId,prior=s.receipts[key]?.result as {status?:string;ownerKey?:string;oldAttemptId?:string}|undefined;if(prior&&(prior.status!=='pending'||prior.ownerKey!==proof.ownerKey||prior.oldAttemptId!==proof.oldAttemptId))throw new V2Error('INDEX_REPAIR_OWNER_CHANGED','The retained repair owner differs from the current proof.');if(!prior)s.receipts[key]={hash:input.planHash,result:{status:'pending',jobId,chunkId,operatorId:a.actorId,reason:input.reason.trim(),oldAttemptId:proof.oldAttemptId,oldInputHash:proof.oldInputHash,newInputHash:proof.inputHash,ownerKey:proof.ownerKey,planHash:input.planHash,workspaceVersion:input.expectedVersion,createdAt:timestamp()}};return proof;});
+ const proof=initial.result,authorize=(s:WorkspaceState)=>{assertRepairAdmin(s,a);const current=unknownEmbeddingProof(s,a,jobId,chunkId);if(digest({...current,repairText:undefined})!==digest({...proof,repairText:undefined}))throw new V2Error('INDEX_REPAIR_CHANGED','Repair authority or source changed.');};
+ await assertRecoveryOperatorBinding(a);const vector=await embedAuthorized(a,proof.ownerKey,proof.repairText,proof.authorityHash,authorize,{provider:options.provider,evidenceIds:[proof.recordId]});
+ await assertRecoveryOperatorBinding(a);const s=await readWorkspace(a.tenantId);authorize(s);const chunk=authorizedHybridChunks(s,a).find(c=>c.id===chunkId)!;
+ let upsertCompleted=false;
+ try{
+  await adapter.upsert(chunk,vector);upsertCompleted=true;const present=await adapter.present(a.tenantId,[chunkId]);if(!present.includes(chunkId))throw new V2Error('INDEX_REPAIR_READBACK','Atlas did not return the repaired chunk after upsert.');
+  await assertRecoveryOperatorBinding(a);return (await transactWorkspace(a.tenantId,state=>{authorize(state);const receipt=state.receipts[REPAIR_PREFIX+chunkId];if(!receipt||receipt.result.status!=='pending'||receipt.result.oldAttemptId!==proof.oldAttemptId||receipt.result.ownerKey!==proof.ownerKey)throw new V2Error('INDEX_REPAIR_OWNER_CHANGED','Repair intent changed before readback.');const newJob=state.receipts[`embedding:${proof.ownerKey}`]?.result.job as {id:string;status:string;inputHash:string}|undefined;if(!newJob||newJob.status!=='complete'||newJob.inputHash!==proof.inputHash)throw new V2Error('INDEX_REPAIR_EMBEDDING_CHANGED','The distinct repair embedding is not complete.');receipt.result.status='complete';receipt.result.newAttemptId=newJob.id;receipt.result.vectorHash=digest(vector);receipt.result.atlasReadback=true;receipt.result.completedAt=timestamp();return {jobId,chunkId,oldAttemptId:proof.oldAttemptId,newAttemptId:newJob.id,status:'complete' as const,atlasReadback:true};})).result;
+ }catch(error){
+  // A definitive immutable conflict means another writer owns the row. This
+  // repair must not erase it. Other upsert errors can have an ambiguous outcome.
+  if(!upsertCompleted&&error instanceof V2Error&&error.code==='HYBRID_INDEX_CONFLICT')throw error;
+  // Upsert may have committed before readback or authority failed. Remove only this
+  // chunk, including when the adapter reports an ambiguous upsert failure.
+  try{await adapter.remove(a.tenantId,[chunkId]);}catch{throw new V2Error('INDEX_REPAIR_CLEANUP_FAILED','Repair failed and the exact Atlas chunk could not be removed. Inspect and purge it before continuing.',503);}
+  throw error;
+ }
 }
 /** Refs-only worker entry. No model or caller can choose a new role, identity or expanded scope. */
 export async function processIndexJob(tenantId:string,jobId:string,options:{provider?:EmbeddingProvider;adapter?:HybridAdapter}={}):Promise<IndexJobView>{
