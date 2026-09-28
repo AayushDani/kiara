@@ -9,6 +9,7 @@ import type {Role} from '../src/v2/contracts';
 import type {EffectIntent} from '../src/v2/execution/contracts';
 import {reconcileEffect} from '../src/v2/execution/broker';
 import {command,snapshot} from '../src/v2/service';
+import {inspectWithdrawalEffects} from '../src/v2/source-corrective';
 import {requireRole} from '../src/v2/authority';
 import type {ActorContext,WorkspaceCommand} from '../src/v2/contracts';
 import {checkInstallationAccess,reconcileInstallationAccess,retryInstallationAccessOwner} from '../src/v2/integrations/access-reconcile';
@@ -16,19 +17,29 @@ import {checkInstallationAccess,reconcileInstallationAccess,retryInstallationAcc
 const [operation,tenantId,...args]=process.argv.slice(2);
 const roles:Role[]=['member','admin','business_owner','fact_owner','legal_reviewer','publisher','signatory','evaluator','integration'];
 async function main(){
- if(!tenantId)throw new Error('Usage: v2-operator <inspect|provision|backup|restore-check|restore|migrate-check|migrate|legacy-export|normalize-check|normalize|normalize-rollback-check|index-definitions|index-sync|index-reconcile|retention-status|retention-run|intake-status|intake-sweep|intake-reconcile|effect-status|effect-reconcile|withdrawal-status|withdrawal-retry|withdrawal-assign|withdrawal-review|installation-access-check|installation-access-reconcile|installation-access-retry-owner> <tenant> [arguments]');
+ if(!tenantId)throw new Error('Usage: v2-operator <inspect|provision|backup|restore-check|restore|migrate-check|migrate|legacy-export|normalize-check|normalize|normalize-rollback-check|index-definitions|index-sync|index-reconcile|retention-status|retention-run|intake-status|intake-sweep|intake-reconcile|effect-status|effect-reconcile|withdrawal-status|withdrawal-retry|withdrawal-assign|withdrawal-inspect|withdrawal-review|installation-access-check|installation-access-reconcile|installation-access-retry-owner> <tenant> [arguments]');
  if(operation==='inspect'){const s=await readWorkspace(tenantId);return {tenantId,version:s.version,stateHash:digest(s),configuredStorage:process.env.KIARA_V2_STORE_MODE==='normalized'?'normalized':process.env.MONGODB_URI?'mongo_aggregate':'local',memberships:s.memberships.map(m=>({actorId:m.actorId,roles:m.roles,revokedAt:m.revokedAt})),migration:s.migration?.status||null};}
- if(['withdrawal-status','withdrawal-retry','withdrawal-assign','withdrawal-review'].includes(operation||'')){
+ if(['withdrawal-status','withdrawal-retry','withdrawal-assign','withdrawal-inspect','withdrawal-review'].includes(operation||'')){
   const actorId=args[0],actor:ActorContext={tenantId,actorId,expiresAt:Date.now()+3600000,mode:'authenticated'};
   if(!actorId)throw new Error('Supply a currently provisioned administrator actor ID');
   const state=await readWorkspace(tenantId),admin=requireRole(state,actor,'admin');
   if(admin.matterIds!==null||admin.entityIds!==null&&!admin.entityIds.includes(state.entityId))throw new Error('Withdrawal exception recovery requires an unrestricted current entity administrator');
   if(operation==='withdrawal-status'){const view=await snapshot(actor);return {version:view.version,exceptions:view.withdrawalExceptions};}
+  if(operation==='withdrawal-inspect'){
+   const [reviewRef,recordVersion,workspaceVersion,inspectionPath]=args.slice(1);
+   if(args.length!==5||!/^EW-[A-F0-9]{12}$/.test(reviewRef||'')||!/^\d+$/.test(recordVersion||'')||!/^\d+$/.test(workspaceVersion||'')||!inspectionPath)throw new Error('Inspection requires administrator actor ID, opaque reference, corrective matter version, workspace version and a new protected output file');
+   const inspected=await transactWorkspace(tenantId,s=>{if(s.version!==Number(workspaceVersion))throw new Error('Workspace version changed; refresh withdrawal-status');return inspectWithdrawalEffects(s,actor,reviewRef,Number(recordVersion));});
+   await writeFile(inspectionPath,JSON.stringify(inspected.result,null,2),{flag:'wx',mode:0o600});
+   return {inspectionFile:inspectionPath,verifiedEffects:inspected.result.effects.length,version:inspected.state.version,expiresInMinutes:15};
+  }
   if(operation==='withdrawal-review'){
-   const [reviewRef,effectReviewHash,recordVersion,workspaceVersion,notePath]=args.slice(1);
-   if(args.length!==6||!/^EW-[A-F0-9]{12}$/.test(reviewRef||'')||!/^[a-f0-9]{64}$/.test(effectReviewHash||'')||!recordVersion||!workspaceVersion||!notePath||!/^\d+$/.test(recordVersion)||!/^\d+$/.test(workspaceVersion))throw new Error('Review requires administrator actor ID, opaque reference, inspected effect hash, corrective matter version, workspace version and a review-note file');
+   const [inspectionPath,workspaceVersion,notePath]=args.slice(1);
+   if(args.length!==4||!inspectionPath||!/^\d+$/.test(workspaceVersion||'')||!notePath)throw new Error('Review requires administrator actor ID, inspected evidence file, current workspace version and a review-note file');
+   const inspected=JSON.parse(await readFile(inspectionPath,'utf8')) as {reviewRef:string;effectReviewHash:string;inspectionId:string;inspectionEvidenceHash:string;correctiveMatterVersion:number;effects:unknown[]};
+   const {reviewRef,effectReviewHash,inspectionId,inspectionEvidenceHash,correctiveMatterVersion}=inspected;
+   if(!/^EW-[A-F0-9]{12}$/.test(reviewRef||'')||!/^[a-f0-9]{64}$/.test(effectReviewHash||'')||!/^[a-f0-9]{64}$/.test(inspectionEvidenceHash||'')||!/^[a-f0-9-]{36}$/.test(inspectionId||'')||!Number.isSafeInteger(correctiveMatterVersion)||!Array.isArray(inspected.effects)||!inspected.effects.length||digest(inspected.effects)!==inspectionEvidenceHash)throw new Error('The inspected evidence file is invalid; run withdrawal-inspect again');
    const note=await readFile(notePath,'utf8');
-   const saved=await command(actor,{idempotencyKey:`operator:withdrawal-review:${reviewRef}:${workspaceVersion}`,expectedVersion:Number(workspaceVersion),command:{type:'source.correction.effect_review',reviewRef,effectReviewHash,expectedRecordVersion:Number(recordVersion),note}});
+   const saved=await command(actor,{idempotencyKey:`operator:withdrawal-review:${inspectionId}`,expectedVersion:Number(workspaceVersion),command:{type:'source.correction.effect_review',reviewRef,effectReviewHash,inspectionId,inspectionEvidenceHash,expectedRecordVersion:correctiveMatterVersion,note}});
    return {result:saved.result,replayed:saved.replayed,version:saved.snapshot.version};
   }
   const reviewRef=args[1],expectedVersion=args.at(-1);

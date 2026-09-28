@@ -9,16 +9,17 @@ import {withinConversationAudience} from './retrieval';
 export type WithdrawalCommand=
  |{type:'source.correction.retry';reviewRef:string}
  |{type:'source.correction.assign';reviewRef:string;ownerId:string;expectedRecordVersion:number}
- |{type:'source.correction.effect_review';reviewRef:string;expectedRecordVersion:number;effectReviewHash:string;note:string}
+ |{type:'source.correction.effect_review';reviewRef:string;expectedRecordVersion:number;effectReviewHash:string;inspectionId:string;inspectionEvidenceHash:string;note:string}
  |{type:'source.correction.resolve';reviewRef:string;expectedRecordVersion:number;note:string;evidenceSourceIds:string[];evidenceSourceVersions:Record<string,number>;evidenceSourceHashes:Record<string,string>;evidenceSourceDependencyHashes:Record<string,string>};
 export const withdrawalCommandFields:Record<WithdrawalCommand['type'],string[]>={
  'source.correction.retry':['reviewRef'],
  'source.correction.assign':['reviewRef','ownerId','expectedRecordVersion'],
- 'source.correction.effect_review':['reviewRef','expectedRecordVersion','effectReviewHash','note'],
+ 'source.correction.effect_review':['reviewRef','expectedRecordVersion','effectReviewHash','inspectionId','inspectionEvidenceHash','note'],
  'source.correction.resolve':['reviewRef','expectedRecordVersion','note','evidenceSourceIds','evidenceSourceVersions','evidenceSourceHashes','evidenceSourceDependencyHashes']
 };
 export interface WithdrawalExceptionView {reviewRef:string;status:'owner_unavailable'|'admin_exception'|'effect_review_required'|'effect_reviewed';correctiveMatterId:string|null;version:number|null;effectReviewHash:string|null;verifiedEffects:number}
 type EffectReview={hash:string;reviewerId:string;membershipVersion:number;reviewedAt:string;noteHash:string};
+type EffectInspection={reviewRef:string;effectReviewHash:string;evidenceHash:string;recordVersion:number;actorId:string;membershipVersion:number;expiresAt:string;consumedAt?:string};
 function exceptionEntries(s:WorkspaceState){return Object.entries(s.receipts).filter(([key,receipt])=>key.startsWith('source-withdrawal:')&&typeof receipt.result.reviewRef==='string');}
 export function isWithdrawalCorrection(s:WorkspaceState,matterId:string){return exceptionEntries(s).some(([,receipt])=>receipt.result.correctiveMatterId===matterId);}
 function unreadableVerifiedEffects(s:WorkspaceState,result:Record<string,unknown>,owner:ActorContext):Action[]{
@@ -32,8 +33,29 @@ function effectReviewCurrent(s:WorkspaceState,result:Record<string,unknown>,hash
  return !!review&&review.hash===hash&&!!reviewer&&reviewer.version===review.membershipVersion&&activeRole(s,reviewer,'admin')&&effects.every(effect=>reviewer.roles.includes(effect.kind==='signature_request'?'signatory':'publisher'));
 }
 function retainedReadbackCurrent(s:WorkspaceState,effect:Action){
- const completion=effect.completion,intent=s.receipts[`execution:${effect.id}`]?.result.intent as {status?:string;providerReceipt?:string|null;completionArtifact?:string|null;redactedAt?:string|null}|undefined;
- return effect.status==='verified'&&completion?.kind==='readback'&&!!completion.artifact&&completion.verifierId.startsWith('adapter:')&&!!effect.providerReceipt&&!!intent&&intent.status==='verified'&&intent.providerReceipt===effect.providerReceipt&&intent.completionArtifact===completion.artifact&&!intent.redactedAt;
+ const completion=effect.completion,intent=s.receipts[`execution:${effect.id}`]?.result.intent as {actionId?:string;actionHash?:string;adapterId?:string;status?:string;providerReceipt?:string|null;completionArtifact?:string|null;redactedAt?:string|null}|undefined;
+ return effect.status==='verified'&&completion?.kind==='readback'&&!!completion.artifact&&!!effect.providerReceipt&&!!intent&&intent.actionId===effect.id&&intent.actionHash===effect.contentHash&&!!intent.adapterId&&completion.verifierId===`adapter:${intent.adapterId}`&&intent.status==='verified'&&intent.providerReceipt===effect.providerReceipt&&intent.completionArtifact===completion.artifact&&!intent.redactedAt;
+}
+function effectInspectionEvidence(s:WorkspaceState,effects:Action[]){
+ return effects.map(effect=>{
+  const intent=s.receipts[`execution:${effect.id}`]?.result.intent as {id?:string;adapterId?:string;status?:string;providerReceipt?:string|null;completionArtifact?:string|null}|undefined;
+  return {actionId:effect.id,kind:effect.kind,status:effect.status,actionHash:digest(effect),targetHash:digest({recipients:effect.recipients,destination:effect.destination,contentHash:effect.contentHash}),providerReceipt:effect.providerReceipt,readbackArtifact:effect.completion?.artifact||null,readbackVerifier:effect.completion?.verifierId||null,readbackAt:effect.completion?.verifiedAt||null,intentId:intent?.id||null,adapterId:intent?.adapterId||null,intentHash:digest(intent||null),intentStatus:intent?.status||null,intentProviderReceipt:intent?.providerReceipt||null,intentCompletionArtifact:intent?.completionArtifact||null};
+ }).sort((a,b)=>a.actionHash.localeCompare(b.actionHash));
+}
+/** This privileged operator-only inspection is intentionally absent from normal snapshots. */
+export function inspectWithdrawalEffects(s:WorkspaceState,a:ActorContext,reviewRef:string,expectedRecordVersion:number){
+ requireAdmin(s,a);
+ const result=exceptionByRef(s,reviewRef).result,m=s.matters.find(item=>item.id===result.correctiveMatterId);
+ if(result.status!=='owner_review'||!m||m.version!==expectedRecordVersion||['closed','canceled'].includes(m.state))throw new V2Error('EFFECT_REVIEW_CHANGED','Inspect the current corrective work before reviewing retained effects.',409);
+ if(a.actorId===m.ownerId)throw new V2Error('FORBIDDEN','An independent current administrator must inspect retained effects.',403);
+ const owner:ActorContext={tenantId:s.tenantId,actorId:m.ownerId,mode:'authenticated',expiresAt:Date.now()+60_000};
+ const effects=unreadableVerifiedEffects(s,result,owner),reviewer=membership(s,a);
+ if(!effects.length||!effects.every(effect=>reviewer.roles.includes(effect.kind==='signature_request'?'signatory':'publisher')))throw new V2Error('FORBIDDEN','Current delivery or signing review capacity is required.',403);
+ if(!effects.every(effect=>retainedReadbackCurrent(s,effect)))throw new V2Error('EFFECT_RECEIPT_REQUIRED','Only exact retained provider readback and matching durable receipts permit this review.',409);
+ for(const [key,receipt] of Object.entries(s.receipts).filter(([key])=>key.startsWith('source-effect-inspection:'))){const prior=receipt.result.inspection as EffectInspection|undefined;if(!prior||prior.consumedAt||Date.parse(prior.expiresAt)<=Date.now()||prior.actorId===a.actorId&&prior.reviewRef===reviewRef)delete s.receipts[key];}
+ const evidence=effectInspectionEvidence(s,effects),currentHash=effectReviewHash(s,effects),evidenceHash=digest(evidence),inspectionId=randomUUID();
+ s.receipts[`source-effect-inspection:${inspectionId}`]={hash:evidenceHash,result:{inspection:{reviewRef,effectReviewHash:currentHash,evidenceHash,recordVersion:m.version,actorId:a.actorId,membershipVersion:reviewer.version,expiresAt:new Date(Date.now()+15*60_000).toISOString()} satisfies EffectInspection}};
+ return {reviewRef,effectReviewHash:currentHash,inspectionId,inspectionEvidenceHash:evidenceHash,correctiveMatterVersion:m.version,effects:evidence};
 }
 /** Admin inventory deliberately contains only opaque references and generic correction IDs. */
 export function withdrawalExceptionViews(s:WorkspaceState,a:ActorContext):WithdrawalExceptionView[]{
@@ -216,7 +238,11 @@ export function applyWithdrawalCommand(s:WorkspaceState,a:ActorContext,c:Withdra
   if(!effects.length||c.effectReviewHash!==hash)throw new V2Error('EFFECT_REVIEW_CHANGED','Inspect the current opaque effect review fingerprint.',409);
   if(!effects.every(effect=>reviewer.roles.includes(effect.kind==='signature_request'?'signatory':'publisher')))throw new V2Error('FORBIDDEN','Current delivery or signing review capacity is required.',403);
   if(!effects.every(effect=>retainedReadbackCurrent(s,effect)))throw new V2Error('EFFECT_RECEIPT_REQUIRED','Only exact retained provider readback and matching durable receipts permit this review.',409);
+  const inspection=s.receipts[`source-effect-inspection:${c.inspectionId}`]?.result.inspection as EffectInspection|undefined;
+  if(!inspection||inspection.reviewRef!==c.reviewRef||inspection.effectReviewHash!==hash||inspection.evidenceHash!==c.inspectionEvidenceHash||inspection.evidenceHash!==digest(effectInspectionEvidence(s,effects))||inspection.recordVersion!==m.version||inspection.actorId!==a.actorId||inspection.membershipVersion!==reviewer.version||inspection.consumedAt||Date.parse(inspection.expiresAt)<=Date.now())throw new V2Error('EFFECT_INSPECTION_REQUIRED','Inspect the exact retained effect and provider readback before attesting.',409);
   if(typeof c.note!=='string'||c.note.trim().length<30||c.note.length>2000)throw new V2Error('REVIEW_ATTESTATION_REQUIRED','Record the exact retained receipt review in 30 to 2,000 characters.',400);
+  inspection.consumedAt=timestamp();
+  delete s.receipts[`source-effect-inspection:${c.inspectionId}`];
   result.effectReview={hash,reviewerId:a.actorId,membershipVersion:reviewer.version,reviewedAt:timestamp(),noteHash:digest(c.note.trim())} satisfies EffectReview;
   m.blockers=m.blockers.filter(value=>!value.startsWith('Historical effects are not readable by this owner.'));
   m.blockers.push('A qualified operator reviewed retained effect readback records. The assigned owner must still review current authorized evidence.');
