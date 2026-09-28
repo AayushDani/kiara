@@ -5,19 +5,47 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
-import {reserveGlobalSpend,settleGlobalSpend,globalSpendStatus,conservativelyAccountUnknownCharge} from '../src/server/global-spend';
+import {recoverGlobalSpend,reserveGlobalSpend,settleGlobalSpend,globalSpendStatus,conservativelyAccountUnknownCharge,spendLedgerAnchor,ledgerAnchorMatches} from '../src/server/global-spend';
 import {withDemoScope} from '../src/server/demo-context';
 
 const execute=promisify(execFile);
-const envKeys=['MONGODB_URI','VERCEL','KIARA_GLOBAL_BUDGET_DIR','KIARA_DATA_DIR','KIARA_OPENAI_BUDGET_USD'] as const;
+const envKeys=['MONGODB_URI','VERCEL','KIARA_V2_AUTH_MODE','KIARA_V2_ORCHESTRATION_MODE','KIARA_V2_WORKER_HOST','KIARA_GLOBAL_BUDGET_DIR','KIARA_DATA_DIR','KIARA_OPENAI_BUDGET_USD'] as const;
 async function isolated(fn:(dir:string)=>Promise<void>,budget='50'){
   const prior=Object.fromEntries(envKeys.map(key=>[key,process.env[key]]));
   const dir=await mkdtemp(join(tmpdir(),'kiara-global-spend-test-'));
-  delete process.env.MONGODB_URI;delete process.env.VERCEL;
+  for(const key of envKeys)delete process.env[key];
   process.env.KIARA_GLOBAL_BUDGET_DIR=dir;process.env.KIARA_DATA_DIR=join(dir,'workspace');process.env.KIARA_OPENAI_BUDGET_USD=budget;
   try{await fn(dir);}finally{for(const key of envKeys){if(prior[key]===undefined)delete process.env[key];else process.env[key]=prior[key];}await rm(dir,{recursive:true,force:true});}
 }
 const code=(expected:string)=>(error:unknown)=>!!error&&typeof error==='object'&&'code' in error&&error.code===expected;
+
+test('hosted ledger anchor rejects an empty or different Mongo ledger',()=>{
+  const env:NodeJS.ProcessEnv={NODE_ENV:'test',MONGODB_URI:'mongodb+srv://user:secret@cluster-a.mongodb.net/kiara_v2',KIARA_BUDGET_DB:'kiara'};
+  const charge={id:'prior_settled_charge',reserved:1000000,actual:250000,status:'settled' as const,created_at:1};
+  env.KIARA_BUDGET_LEDGER_MIN_REQUESTS='2';env.KIARA_BUDGET_LEDGER_MIN_SPENT_MICRO='1250000';
+  env.KIARA_BUDGET_LEDGER_ANCHOR=spendLedgerAnchor(charge.id,env);
+  const later={...charge,id:'later_settled_charge',actual:1000000};
+  const state={_id:'kiara-provider-total-v1',version:2,charges:{[charge.id]:charge,[later.id]:later}};
+  assert.equal(ledgerAnchorMatches(state,env),true);
+  assert.equal(ledgerAnchorMatches(null,env),false);
+  assert.equal(ledgerAnchorMatches({...state,charges:{}},env),false);
+  assert.equal(ledgerAnchorMatches({...state,charges:{[charge.id]:charge}},env),false);
+  assert.equal(ledgerAnchorMatches({...state,charges:{[charge.id]:charge,[later.id]:{...later,actual:0}}},env),false);
+  assert.equal(ledgerAnchorMatches(state,{...env,KIARA_BUDGET_LEDGER_MIN_REQUESTS:'1'}),false);
+  assert.equal(ledgerAnchorMatches(state,{...env,KIARA_BUDGET_LEDGER_MIN_SPENT_MICRO:'0'}),false);
+  assert.equal(ledgerAnchorMatches({...state,charges:{other_settled_charge:{...charge,id:'other_settled_charge'}}},env),false);
+  assert.equal(ledgerAnchorMatches(state,{...env,KIARA_BUDGET_DB:'kiara_v2'}),false);
+  assert.equal(ledgerAnchorMatches(state,{...env,MONGODB_URI:'mongodb+srv://user:secret@cluster-b.mongodb.net/kiara_v2'}),false);
+});
+
+test('missing settlement cannot report success and hosted OIDC or Temporal cannot use local spend',async()=>isolated(async()=>{
+  await assert.rejects(()=>settleGlobalSpend('never_reserved',0),code('SPEND_RESERVATION_MISSING'));
+  assert.equal((await globalSpendStatus()).request_count,0);
+  process.env.KIARA_V2_AUTH_MODE='oidc';
+  await assert.rejects(()=>reserveGlobalSpend('oidc_missing_mongo',.01),code('SPEND_STORE_REQUIRED'));
+  delete process.env.KIARA_V2_AUTH_MODE;process.env.KIARA_V2_ORCHESTRATION_MODE='temporal';
+  await assert.rejects(()=>reserveGlobalSpend('temporal_missing_mongo',.01),code('SPEND_STORE_REQUIRED'));
+}));
 
 test('shared operator cap atomically admits at most two concurrent visitors and survives process boundaries',async()=>isolated(async dir=>{
   const attempts=await Promise.allSettled(Array.from({length:8},(_,i)=>withDemoScope({id:i.toString(16).padStart(32,'0'),expires_at:Date.now()+60000},()=>reserveGlobalSpend(`concurrent_visitor_${i}`,20))));
@@ -114,4 +142,17 @@ test('operator coverage fails closed on wrong ceilings and late higher usage',as
   const status=await globalSpendStatus();assert.equal(status.spent_usd,1.1);assert.equal(status.blocking_unknown_charges,1);
   await assert.rejects(()=>reserveGlobalSpend('after_late_overrun',.1),code('GLOBAL_CHARGE_UNKNOWN'));
   await assert.rejects(()=>conservativelyAccountUnknownCharge(action),code('SPEND_CEILING_EXCEEDED'));
+}));
+
+
+test('pre-dispatch recovery retires missing reservation identities before a delayed writer resumes',async()=>isolated(async()=>{
+ await recoverGlobalSpend('late_reservation',false);
+ await assert.rejects(()=>reserveGlobalSpend('late_reservation',0.01),code('SPEND_ID_CONFLICT'));
+ const state=await globalSpendStatus();assert.equal(state.reserved_usd,0);assert.equal(state.inflight,0);assert.equal(state.actual_spent_usd,0);
+ await recoverGlobalSpend('late_reservation',false);
+ await reserveGlobalSpend('unrelated_request',0.01);await settleGlobalSpend('unrelated_request',0);
+}));
+
+test('missing dispatched reservation remains globally blocking without explicit reconciliation',async()=>isolated(async()=>{
+ await recoverGlobalSpend('missing_dispatched',true);const state=await globalSpendStatus();assert.equal(state.blocking_unknown_charges,1);assert.equal(state.covered_unknown_charges,0);await assert.rejects(()=>reserveGlobalSpend('after_missing_dispatched',0.01),code('GLOBAL_CHARGE_UNKNOWN'));
 }));

@@ -1,0 +1,22 @@
+✔ exact embedding tokens preserve multilingual and adversarial special-token text (239.136125ms)
+✔ embedding reserves exact tokens under the shared cap and durable replay makes no provider call (111.198792ms)
+✔ embedding budget exhaustion prevents dispatch; unknown charges never invoke again (176.923167ms)
+✔ revocation during embedding wait cannot retain or attach the returned vector (199.172542ms)
+✔ expired dispatched embedding recovery is durable without a second provider invocation (76.54625ms)
+✔ both Atlas branches prefilter tenant, entity and immutable authorized IDs and return no indexed text (0.780583ms)
+✔ scoped sync and hybrid fusion hydrate actual retained quotes; replay reuses index embeddings (296.72225ms)
+✔ private and expired evidence cannot enter index query allowlist; stale indexes fail explicitly (106.922ms)
+✔ revocation during search and malicious cross-scope search IDs never reach model context (370.1625ms)
+✔ conversation worker uses accepted run identity for hybrid query then grounded answer and review (512.019667ms)
+✔ expired parent lease during index admission cannot dispatch a query embedding (262.8445ms)
+✔ an old prepared embedding cannot dispatch or mutate a successor admission after recovery (230.0515ms)
+✔ a permanently fenced record cannot be reinserted by an index writer paused across deletion (258.42525ms)
+✔ late embedding receipt survives unknown-charge recovery without restoring vector or clearing uncertainty (192.557333ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4051.055416

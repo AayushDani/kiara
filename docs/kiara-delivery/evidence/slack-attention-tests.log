@@ -1,0 +1,20 @@
+✔ uncertain external effects remain required after future work is canceled, and acknowledgment never marks delivery (119.871625ms)
+✔ accepted routing moves only factual attention; membership change returns the task and invalidates a delegated decision (141.553291ms)
+✔ signed selected thread continues one conversation, pins lineage and delivers exact reply once with verified readback (214.803333ms)
+✔ bot messages never loop back into source ingestion and signed unmapped identities cannot impersonate the bound actor (45.020125ms)
+✔ historical web content cannot be reclassified as a Slack audience and canonical audience recursion rejects private dependencies (64.116833ms)
+✔ destination retrieval excludes an actor private contract and company fact before forming a local answer (139.77225ms)
+✔ lost acknowledgement reconciles by opaque metadata and exact bot/thread/content, never by absence or resend (318.097542ms)
+✔ configuration and actor membership changes during asynchronous preflight prevent the first provider post (254.443916ms)
+✔ source edit or deletion after accepted input blocks unsent reply; mismatched provider readback stays uncertain (279.896334ms)
+✔ DM bindings keep the exact destination and concurrent workers can admit only one post (183.338208ms)
+✔ outbox dispatch and local worker carry only reply references and reject substituted message identity (246.705375ms)
+✔ answer dependency changes during preflight block stale local facts and superseded document heads (177.441375ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2629.57275

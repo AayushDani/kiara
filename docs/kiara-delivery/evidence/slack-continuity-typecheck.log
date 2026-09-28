@@ -1,0 +1,62 @@
+src/v2/drafting.ts(31,19): error TS2339: Property 'activeDocumentId' does not exist on type 'Conversation'.
+src/v2/drafting.ts(31,58): error TS2339: Property 'activeDocumentId' does not exist on type 'Conversation'.
+src/v2/drafting.ts(37,23): error TS2339: Property 'templateApprovals' does not exist on type 'WorkspaceState'.
+src/v2/drafting.ts(46,52): error TS2339: Property 'templateApprovals' does not exist on type 'WorkspaceState'.
+src/v2/drafting.ts(46,165): error TS2345: Argument of type 'RecordBase' is not assignable to parameter of type 'TemplateApproval'.
+  Type 'RecordBase' is missing the following properties from type 'TemplateApproval': templateRevisionId, templateHash, purpose, fields, and 5 more.
+src/v2/drafting.ts(48,330): error TS2339: Property 'templateApprovals' does not exist on type 'WorkspaceState'.
+src/v2/drafting.ts(48,525): error TS2339: Property 'fields' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(48,537): error TS7006: Parameter 'x' implicitly has an 'any' type.
+src/v2/drafting.ts(52,68): error TS2339: Property 'templateApprovals' does not exist on type 'WorkspaceState'.
+src/v2/drafting.ts(52,92): error TS7006: Parameter 'x' implicitly has an 'any' type.
+src/v2/drafting.ts(53,5): error TS2339: Property 'drafts' does not exist on type 'WorkspaceState'.
+src/v2/drafting.ts(59,71): error TS2339: Property 'drafts' does not exist on type 'WorkspaceState'.
+src/v2/drafting.ts(59,90): error TS7006: Parameter 'p' implicitly has an 'any' type.
+src/v2/drafting.ts(59,113): error TS7006: Parameter 'p' implicitly has an 'any' type.
+src/v2/drafting.ts(60,82): error TS2339: Property 'templateApprovals' does not exist on type 'WorkspaceState'.
+src/v2/drafting.ts(60,112): error TS7006: Parameter 'p' implicitly has an 'any' type.
+src/v2/drafting.ts(60,135): error TS7006: Parameter 'p' implicitly has an 'any' type.
+src/v2/drafting.ts(62,520): error TS2339: Property 'activeDocumentId' does not exist on type 'Conversation'.
+src/v2/drafting.ts(63,1418): error TS2339: Property 'templateApprovals' does not exist on type 'WorkspaceState'.
+src/v2/drafting.ts(64,58): error TS2339: Property 'templateApprovals' does not exist on type 'WorkspaceState'.
+src/v2/drafting.ts(64,236): error TS2339: Property 'status' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(65,31): error TS2339: Property 'drafts' does not exist on type 'WorkspaceState'.
+src/v2/drafting.ts(65,175): error TS2339: Property 'status' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(65,263): error TS2339: Property 'requesterId' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(66,36): error TS2339: Property 'status' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(66,60): error TS2339: Property 'rejectionReason' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(67,15): error TS2339: Property 'status' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(67,42): error TS2339: Property 'contentHash' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(67,92): error TS2339: Property 'body' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(67,106): error TS2339: Property 'contentHash' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(67,223): error TS2339: Property 'request' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(67,288): error TS2339: Property 'conversationId' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(67,318): error TS2339: Property 'request' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(67,355): error TS2339: Property 'activeDocumentId' does not exist on type 'Conversation'.
+src/v2/drafting.ts(67,380): error TS2339: Property 'request' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(68,11): error TS2339: Property 'request' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(69,259): error TS2339: Property 'title' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(69,281): error TS2339: Property 'body' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(69,507): error TS2339: Property 'request' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(69,537): error TS2339: Property 'request' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(69,592): error TS2339: Property 'tasks' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(69,602): error TS7006: Parameter 't' implicitly has an 'any' type.
+src/v2/drafting.ts(69,1047): error TS2353: Object literal may only specify known properties, and 'requiredFactPredicates' does not exist in type 'MatterTask'.
+src/v2/drafting.ts(69,1210): error TS2339: Property 'acceptedMatterId' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(71,21): error TS2339: Property 'request' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(71,70): error TS2339: Property 'request' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(71,200): error TS2339: Property 'request' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(71,234): error TS2339: Property 'request' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(71,304): error TS2339: Property 'title' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(71,373): error TS2339: Property 'body' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(71,396): error TS2339: Property 'contentHash' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(71,707): error TS2339: Property 'title' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(71,724): error TS2339: Property 'body' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(71,747): error TS2339: Property 'contentHash' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(71,900): error TS2339: Property 'request' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(71,989): error TS2339: Property 'request' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(71,1061): error TS2339: Property 'acceptedDocumentId' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(71,1105): error TS2339: Property 'activeDocumentId' does not exist on type 'Conversation'.
+src/v2/drafting.ts(73,8): error TS2339: Property 'status' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(73,170): error TS2339: Property 'acceptedDocumentId' does not exist on type 'RecordBase'.
+src/v2/drafting.ts(73,204): error TS2339: Property 'acceptedMatterId' does not exist on type 'RecordBase'.

@@ -1,0 +1,27 @@
+✔ quiet hours and digest grouping apply to ordinary work, with timezone-aware next delivery (72.808917ms)
+✔ required overdue work stays visible after acknowledgment in quiet hours (54.682666ms)
+✔ dismissal requires an exact visible item and reappears after the underlying work changes (54.205542ms)
+✔ attention hides another owner’s tasks and withdrawn-source content (89.137167ms)
+✔ signed selected thread continues one conversation, pins lineage and delivers exact reply once with verified readback (378.944333ms)
+✔ bot messages never loop back into source ingestion and signed unmapped identities cannot impersonate the bound actor (95.4035ms)
+✔ historical web content cannot be reclassified as a Slack audience and canonical audience recursion rejects private dependencies (156.851166ms)
+✔ destination retrieval excludes an actor private contract and company fact before forming a local answer (256.056ms)
+✔ lost acknowledgement reconciles by opaque metadata and exact bot/thread/content, never by absence or resend (394.067041ms)
+✔ configuration and actor membership changes during asynchronous preflight prevent the first provider post (307.150125ms)
+✔ source edit or deletion after accepted input blocks unsent reply; mismatched provider readback stays uncertain (236.107166ms)
+✔ DM bindings keep the exact destination and concurrent workers can admit only one post (154.77525ms)
+✔ outbox dispatch and local worker carry only reply references and reject substituted message identity (273.554875ms)
+✔ answer dependency changes during preflight block stale local facts and superseded document heads (169.963334ms)
+✔ model packet excludes private transitive evidence, including same-audience facts with private sources (575.325ms)
+✔ configuration revocation during counted model admission prevents generation (362.056833ms)
+✔ hybrid query restricts prefilters to the channel audience before embedding and search (496.5905ms)
+✔ source deletion propagates to Slack scenario assumptions and current user dependencies (186.698375ms)
+✔ browser cannot forge channel provenance or use an outdated source-revocation version (131.683875ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3901.145833

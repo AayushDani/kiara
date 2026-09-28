@@ -1,0 +1,36 @@
+{
+  "environment": {
+    "node": "v24.19.0",
+    "method": "Current TSX transpiled and executed under minimal synthetic hook/JSX harness; no browser or network"
+  },
+  "approval_poll_refresh": {
+    "inspected_packet": "bundle-1",
+    "new_visible_packet": "bundle-2",
+    "retained_note": "I inspected packet A.",
+    "submitted": {
+      "url": "/api/workflows/workflow-1/review",
+      "body": {
+        "action": "approved",
+        "note": "I inspected packet A.",
+        "expected_state_version": 12,
+        "expected_reset_epoch": 1,
+        "bundle_hash": "bundle-2"
+      }
+    }
+  },
+  "draft_poll_refresh": {
+    "edit_started_on": "draft-1",
+    "submitted": {
+      "url": "/api/workflows/workflow-1/feedback",
+      "body": {
+        "type": "document_edit",
+        "text": "User edit based on packet A.",
+        "expected_reset_epoch": 1,
+        "clause_id": "rights",
+        "expected_candidate_revision_id": "draft-2",
+        "expected_state_version": 12
+      }
+    }
+  },
+  "result": "Both user-intent races reproduced at component-handler layer. Browser and backend integration confirmation remain separate."
+}

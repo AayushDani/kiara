@@ -1,0 +1,19 @@
+✔ F03 source recheck suspends approval before fetch and preserves the failure across packets (472.010209ms)
+✔ F04 exact selected quote and clause bindings reach semantic review (398.61425ms)
+✔ F05 arbitrary, missing, unknown or extra exemption fields cannot satisfy screening (0.526375ms)
+✔ F06 each verified alternative route survives false direct-business prerequisites (0.680167ms)
+✔ F09 blocked campaigns remain scheduled and expire through the ordinary worker (786.12325ms)
+✔ F10 sending-only notification keeps watchdog alive then resolves to unknown without another send (786.70625ms)
+✔ F11 count rejection creates no generation attempt and supports explicit settled retry (550.51325ms)
+✔ F13 selected suggestion has its own exact campaign and repeated requests retain identity (477.804666ms)
+✔ F15 signed out-of-order callbacks converge and never downgrade delivery or bounce (597.302208ms)
+✔ F17 paid operation scripts cannot raise configured authorization (0.61275ms)
+✔ F18 strategies use supplied complete facts and baseline without mandatory rereads (0.118375ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4572.688042

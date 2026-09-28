@@ -1,0 +1,35 @@
+✔ quiet hours and digest grouping apply to ordinary work, with timezone-aware next delivery (183.062333ms)
+✔ required overdue work stays visible after acknowledgment in quiet hours (73.432166ms)
+✔ dismissal requires an exact visible item and reappears after the underlying work changes (79.123583ms)
+✔ attention hides another owner’s tasks and withdrawn-source content (117.212ms)
+✔ child effect attention cannot expose a withdrawn parent matter (86.690875ms)
+✔ stale completed work routes attention to the current delegated owner (81.031417ms)
+✔ independent final grant mutation blocks posting to a recipient never reviewed (464.285583ms)
+✔ unknown dispatch remains deduped after explicit off and on; no automatic resend (364.863875ms)
+✔ provider acknowledgment after opt-out and expired lease is retained without another send (376.048625ms)
+✔ readback with extra HTML or attachment content cannot certify exact generic delivery (311.645167ms)
+✔ legacy unknown without a proven identity cannot repeat through grant renewal (345.729375ms)
+✔ legacy sending without a proven identity cannot repeat through grant renewal (321.554625ms)
+✔ legacy accepted without a proven identity cannot repeat through grant renewal (351.6355ms)
+✔ email is off until exact configured recipient opt-in; malformed and conflicting grants are unavailable (228.364459ms)
+✔ required email contains only generic authenticated link; exact provider read-back distinguishes delivered (355.022416ms)
+✔ semantic dedup ignores unrelated versions but changed required conditions produce a new notice (413.970125ms)
+✔ digest dedup is once per local calendar day despite changes in item membership (265.83825ms)
+✔ quiet hours defer digest while required escalation can pass (305.764417ms)
+✔ preview and provider acceptance are never reported as verified delivery (178.273417ms)
+✔ a lost POST response stays unknown across retry and accepts only exact read-back (232.57825ms)
+✔ concurrent workers send once and a late acceptance survives expired-lease recovery (366.331209ms)
+✔ membership, source condition and opt-out changes stop a prepared send at final admission (237.625791ms)
+✔ acknowledged work and revoked membership cannot trigger prepared email (136.64575ms)
+✔ accepted receipt requires matching provider bytes, and another actor cannot reconcile it (141.436542ms)
+✔ explicit reenrollment can prepare a canceled unsent condition without retrying an uncertain dispatch (197.594042ms)
+✔ membership change immediately before dispatch cancels the prepared notification (136.068959ms)
+✔ grant renewal preserves unknown dedup and permits exact readback under the same current delivery identity (166.273042ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4737.619167

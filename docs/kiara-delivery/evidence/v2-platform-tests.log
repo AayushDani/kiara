@@ -1,0 +1,27 @@
+✔ empty workspace, useful first response, and separate hypothetical memory (97.471041ms)
+✔ ambiguous approval and unconfirmed voice cannot mutate consequential records (54.7195ms)
+✔ unauthorized corrections remain candidates and stale proposals cannot replace a newer fact (256.183583ms)
+✔ personal preference applies immediately without leaking to other members (131.928167ms)
+✔ selected-team ACL and source lineage deny content to another team member and tenant (117.125125ms)
+✔ restricted counsel sees only explicitly allowed matter records and their scoped sources (137.693584ms)
+✔ revocation immediately denies derived summaries with stale content still retained (82.916083ms)
+✔ command retry remains idempotent after restart and stale concurrent command conflicts (47.144833ms)
+✔ review binds exact proposal and conditioned or expired approvals cannot authorize effects (304.111708ms)
+✔ manual outcome remains pending until evidence, no-counsel route stays open, and cancellation cannot revive (359.153458ms)
+✔ action-specific manual evidence closes work; runtime completion enum and signing-original checks fail closed (369.172208ms)
+✔ no-action cannot close unresolved effects or required tasks (387.965708ms)
+✔ expired sessions, revoked membership and authenticated unknown users cannot use bootstrap claims (85.764958ms)
+✔ provider events require installation authority, deduplicate and link to one existing matter (111.668833ms)
+✔ deletion tombstones survive backup dry run, tampered backup is rejected, restore is restartable (85.613125ms)
+✔ learning requires an independent evaluator and owner with frozen evidence identity (304.868208ms)
+✔ private confirmed facts cannot leak through a team response or proposal and cannot overwrite team truth (245.019208ms)
+✔ source originals are bound only through trusted upload metadata, never a client command property (38.517292ms)
+✔ expired authorization and absent signed original keep consequential work pending (276.959292ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3876.878833

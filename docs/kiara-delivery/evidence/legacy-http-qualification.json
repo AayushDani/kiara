@@ -1,0 +1,29 @@
+{
+  "node": "v24.19.0",
+  "server": "http://127.0.0.1:4517",
+  "isolation": "Copied current source, no .env, separate Next build/state, scripted model, preview email, no live provider",
+  "fault": "Only copied src/server/hosted-worker.ts replaced with scheduleWorker throwing after command commit",
+  "qualification": "Current TSX hook/handler replay through actual Next HTTP. Browser and hosted queue remain separate.",
+  "F14": {
+    "firstSavedStatus": 202,
+    "retryStatus": 202,
+    "sameKey": true,
+    "workflowsAfterSavedResponseLoss": 1,
+    "workflowsAfterRetry": 1
+  },
+  "F01": {
+    "pollChangedBundle": true,
+    "retainedNote": true,
+    "staleButtonDisabled": true,
+    "forcedHandlerSent": false,
+    "staleHttpStatus": 409,
+    "newExplicitReviewStatus": 202
+  },
+  "F02": {
+    "oldTextPreserved": true,
+    "staleButtonDisabled": true,
+    "forcedHandlerSent": false,
+    "staleHttpStatus": 409,
+    "staleTextPersisted": false
+  }
+}

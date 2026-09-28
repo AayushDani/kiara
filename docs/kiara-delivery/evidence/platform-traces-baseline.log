@@ -1,0 +1,149 @@
+{
+  "runtime": "v24.19.0",
+  "mode": "scripted/local/preview",
+  "provider_calls": 0,
+  "supported": {
+    "duplicate_idempotent": true,
+    "conflicting_replay_rejected": true,
+    "states": [
+      {
+        "state": "retrieving_context",
+        "version": 2,
+        "model": "not_started",
+        "context": 1
+      },
+      {
+        "state": "assessing",
+        "version": 3,
+        "model": "not_started",
+        "context": 1
+      },
+      {
+        "state": "drafting",
+        "version": 4,
+        "model": "not_started",
+        "context": 1
+      },
+      {
+        "state": "validating",
+        "version": 5,
+        "model": "scripted_complete",
+        "context": 1
+      },
+      {
+        "state": "awaiting_founder",
+        "version": 6,
+        "model": "scripted_complete",
+        "context": 1
+      }
+    ],
+    "final_state": "finalized",
+    "approval_order": [
+      "founder",
+      "lawyer"
+    ],
+    "same_bundle": true,
+    "export_type": "text/plain; charset=utf-8",
+    "export_bytes": 9927,
+    "notifications": [
+      "previewed",
+      "previewed"
+    ],
+    "events": [
+      "user.signed_up",
+      "workflow.slot_acquired",
+      "context.snapshot_pinned",
+      "assessment.completed",
+      "proposal.created",
+      "review.founder_requested",
+      "review.founder_approved",
+      "notification.enqueued",
+      "review.lawyer_approved",
+      "document.finalized",
+      "notification.enqueued",
+      "notification.previewed",
+      "notification.previewed"
+    ]
+  },
+  "incomplete": {
+    "states": [
+      {
+        "state": "retrieving_context",
+        "version": 2,
+        "model": "not_started",
+        "context": 1
+      },
+      {
+        "state": "assessing",
+        "version": 3,
+        "model": "not_started",
+        "context": 1
+      },
+      {
+        "state": "needs_information",
+        "version": 4,
+        "model": "not_started",
+        "context": 1
+      }
+    ],
+    "missing": [
+      "annual_gross_revenue_usd"
+    ],
+    "candidate_created_before_resolution": false,
+    "resolved_by": "founder structured correction and separate verification",
+    "resumed": [
+      {
+        "state": "retrieving_context",
+        "version": 6,
+        "model": "not_started",
+        "context": 2
+      },
+      {
+        "state": "assessing",
+        "version": 7,
+        "model": "not_started",
+        "context": 2
+      },
+      {
+        "state": "drafting",
+        "version": 8,
+        "model": "not_started",
+        "context": 2
+      },
+      {
+        "state": "validating",
+        "version": 9,
+        "model": "scripted_complete",
+        "context": 2
+      },
+      {
+        "state": "awaiting_founder",
+        "version": 10,
+        "model": "scripted_complete",
+        "context": 2
+      }
+    ],
+    "events": [
+      "user.signed_up",
+      "workflow.slot_acquired",
+      "context.snapshot_pinned",
+      "workflow.information_requested",
+      "feedback.recorded",
+      "approval.invalidated",
+      "workflow.slot_acquired",
+      "harness.improvement_not_admitted",
+      "context.snapshot_pinned",
+      "assessment.completed",
+      "proposal.created",
+      "review.founder_requested"
+    ]
+  },
+  "notification_watchdog": {
+    "constructed_no_email_sent": true,
+    "pending_before_expiry": false,
+    "step_returned": false,
+    "status_after_step": "sending",
+    "pending_after_expiry": false,
+    "finding": "Hosted scheduler cannot restart recovery for sending-only state because hasPendingWorkerWork excludes sending; direct recovery code exists but needs a scheduled caller."
+  }
+}

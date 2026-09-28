@@ -1,0 +1,21 @@
+✔ email is off until exact configured recipient opt-in; malformed and conflicting grants are unavailable (65.441417ms)
+✔ required email contains only generic authenticated link; exact provider read-back distinguishes delivered (144.88525ms)
+✔ semantic dedup ignores unrelated versions but changed required conditions produce a new notice (264.9695ms)
+✔ digest dedup is once per local calendar day despite changes in item membership (146.793375ms)
+✔ quiet hours defer digest while required escalation can pass (170.097875ms)
+✔ preview and provider acceptance are never reported as verified delivery (106.539541ms)
+✔ a lost POST response stays unknown across retry and accepts only exact read-back (161.561458ms)
+✔ concurrent workers send once and a late acceptance survives expired-lease recovery (218.215208ms)
+✔ membership, source condition and opt-out changes stop a prepared send at final admission (147.569333ms)
+✔ acknowledged work and revoked membership cannot trigger prepared email (131.958042ms)
+✔ accepted receipt requires matching provider bytes, and another actor cannot reconcile it (155.337458ms)
+✔ explicit reenrollment can prepare a canceled unsent condition without retrying an uncertain dispatch (236.046708ms)
+✔ membership change immediately before dispatch cancels the prepared notification (144.692875ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3042.728709

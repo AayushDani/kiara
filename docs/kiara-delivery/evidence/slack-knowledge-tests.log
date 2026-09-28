@@ -1,0 +1,13 @@
+✔ model packet excludes private transitive evidence, including same-audience facts with private sources (337.410292ms)
+✔ configuration revocation during counted model admission prevents generation (209.285667ms)
+✔ hybrid query restricts prefilters to the channel audience before embedding and search (390.931375ms)
+✔ source deletion propagates to Slack scenario assumptions and current user dependencies (106.976708ms)
+✔ browser cannot forge channel provenance or use an outdated source-revocation version (57.589125ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1816.667833

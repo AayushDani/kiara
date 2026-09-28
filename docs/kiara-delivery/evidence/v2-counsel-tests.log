@@ -1,0 +1,13 @@
+✔ counsel intake, fee approval and exact packet sharing are separate recorded decisions (289.746083ms)
+✔ source, recipient membership, explicit revoke and expiry immediately withdraw granted records (963.736833ms)
+✔ counsel returned edits preserve original proposal and require new exact decisions (336.536583ms)
+✔ escalation invalidates prior engagement and access; referral stays unavailable; terminal work cannot revive (296.065459ms)
+✔ sharing an older packet cannot disclose newly revised proposal bytes or added matter tasks (441.271375ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2842.421792

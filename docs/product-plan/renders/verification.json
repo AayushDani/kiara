@@ -1,0 +1,157 @@
+{
+  "errors": [],
+  "layouts": [
+    {
+      "width": 1024,
+      "mode": "workspace",
+      "w": 1022,
+      "scroll": 1022
+    },
+    {
+      "width": 1024,
+      "mode": "onboarding",
+      "w": 1022,
+      "scroll": 1022
+    },
+    {
+      "width": 1024,
+      "mode": "counsel",
+      "w": 1022,
+      "scroll": 1022
+    },
+    {
+      "width": 1024,
+      "mode": "notifications",
+      "w": 1022,
+      "scroll": 1022
+    },
+    {
+      "width": 1024,
+      "mode": "website",
+      "w": 1022,
+      "scroll": 1022
+    },
+    {
+      "width": 1024,
+      "mode": "architecture",
+      "w": 1022,
+      "scroll": 1022
+    },
+    {
+      "width": 736,
+      "mode": "workspace",
+      "w": 734,
+      "scroll": 734
+    },
+    {
+      "width": 736,
+      "mode": "onboarding",
+      "w": 734,
+      "scroll": 734
+    },
+    {
+      "width": 736,
+      "mode": "counsel",
+      "w": 734,
+      "scroll": 734
+    },
+    {
+      "width": 736,
+      "mode": "notifications",
+      "w": 734,
+      "scroll": 734
+    },
+    {
+      "width": 736,
+      "mode": "website",
+      "w": 734,
+      "scroll": 734
+    },
+    {
+      "width": 736,
+      "mode": "architecture",
+      "w": 734,
+      "scroll": 734
+    },
+    {
+      "width": 390,
+      "mode": "workspace",
+      "w": 388,
+      "scroll": 388
+    },
+    {
+      "width": 390,
+      "mode": "onboarding",
+      "w": 388,
+      "scroll": 388
+    },
+    {
+      "width": 390,
+      "mode": "counsel",
+      "w": 388,
+      "scroll": 388
+    },
+    {
+      "width": 390,
+      "mode": "notifications",
+      "w": 388,
+      "scroll": 388
+    },
+    {
+      "width": 390,
+      "mode": "website",
+      "w": 388,
+      "scroll": 388
+    },
+    {
+      "width": 390,
+      "mode": "architecture",
+      "w": 388,
+      "scroll": 388
+    },
+    {
+      "width": 320,
+      "mode": "workspace",
+      "w": 318,
+      "scroll": 318
+    },
+    {
+      "width": 320,
+      "mode": "onboarding",
+      "w": 318,
+      "scroll": 318
+    },
+    {
+      "width": 320,
+      "mode": "counsel",
+      "w": 318,
+      "scroll": 318
+    },
+    {
+      "width": 320,
+      "mode": "notifications",
+      "w": 318,
+      "scroll": 318
+    },
+    {
+      "width": 320,
+      "mode": "website",
+      "w": 318,
+      "scroll": 318
+    },
+    {
+      "width": 320,
+      "mode": "architecture",
+      "w": 318,
+      "scroll": 318
+    }
+  ],
+  "checks": [
+    "missing fact blocks counsel handoff",
+    "fact confirmation changes status",
+    "counsel handoff simulation succeeds",
+    "onboarding advances through four steps",
+    "all six modes render at four widths"
+  ],
+  "note": "Concept UI checks only; no production application or backend behavior is tested."
+}

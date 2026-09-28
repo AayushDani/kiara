@@ -1,0 +1,18 @@
+✔ deletion propagates through records and audit payloads while exposing only safe pending-retention status (250.892792ms)
+✔ uncertain effects remain protected exceptions until settled, then repeated cleanup erases the payload (258.218625ms)
+✔ local original deletion is tenant scoped, exact, verified and replayable (19.097541ms)
+✔ S3 purge targets the retained version, verifies absence and never treats forbidden/readback as success (1.531042ms)
+✔ original intake hands off only its own storage revisions and abandoned bytes are fenced before cleanup (214.405417ms)
+✔ retention worker honors original delay, shared pending intake and hold, then verifies exact purge (361.823292ms)
+✔ revoked-source owner controls allow a later scoped deletion without recovering content (234.423375ms)
+✔ pending intake blocks physical purge by content identity and deleted bytes cannot be re-created by later intake (385.995166ms)
+✔ interrupted original writes require exact verified manifest recovery before orphan cleanup (228.108834ms)
+✔ an orphan purge claim fences all same-byte intakes until its exact deletion finishes (275.521375ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3017.736667

@@ -1,0 +1,51 @@
+
+> kiara@0.1.0 check
+> tsc --noEmit
+
+src/v2/collaboration.ts(62,23): error TS2339: Property 'scenarioShares' does not exist on type 'WorkspaceState'.
+src/v2/collaboration.ts(66,49): error TS7006: Parameter 'recipient' implicitly has an 'any' type.
+src/v2/collaboration.ts(72,222): error TS7006: Parameter 'recipient' implicitly has an 'any' type.
+src/v2/collaboration.ts(82,123): error TS2339: Property 'routingDelegations' does not exist on type 'WorkspaceState'.
+src/v2/collaboration.ts(82,154): error TS7006: Parameter 'd' implicitly has an 'any' type.
+src/v2/collaboration.ts(82,318): error TS7006: Parameter 'd' implicitly has an 'any' type.
+src/v2/collaboration.ts(83,78): error TS2339: Property 'routingDelegations' does not exist on type 'WorkspaceState'.
+src/v2/collaboration.ts(83,103): error TS7006: Parameter 'record' implicitly has an 'any' type.
+src/v2/collaboration.ts(84,111): error TS2339: Property 'routingRules' does not exist on type 'WorkspaceState'.
+src/v2/collaboration.ts(84,136): error TS7006: Parameter 'rule' implicitly has an 'any' type.
+src/v2/collaboration.ts(84,247): error TS7006: Parameter 'rule' implicitly has an 'any' type.
+src/v2/collaboration.ts(86,139): error TS2339: Property 'routingRules' does not exist on type 'WorkspaceState'.
+src/v2/collaboration.ts(86,166): error TS7006: Parameter 'rule' implicitly has an 'any' type.
+src/v2/collaboration.ts(86,199): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type 'Record<RoutingTopic, "legal" | "fact" | "business" | "action" | "verification">'.
+src/v2/collaboration.ts(86,282): error TS2339: Property 'routingDelegations' does not exist on type 'WorkspaceState'.
+src/v2/collaboration.ts(86,307): error TS7006: Parameter 'record' implicitly has an 'any' type.
+src/v2/collaboration.ts(90,33): error TS2339: Property 'scenarioShares' does not exist on type 'WorkspaceState'.
+src/v2/collaboration.ts(90,55): error TS2339: Property 'routingDelegations' does not exist on type 'WorkspaceState'.
+src/v2/collaboration.ts(90,81): error TS2339: Property 'routingRules' does not exist on type 'WorkspaceState'.
+src/v2/collaboration.ts(102,732): error TS2339: Property 'scenarioShares' does not exist on type 'WorkspaceState'.
+src/v2/collaboration.ts(107,18): error TS2339: Property 'scenarioShares' does not exist on type 'WorkspaceState'.
+src/v2/collaboration.ts(107,38): error TS7006: Parameter 'record' implicitly has an 'any' type.
+src/v2/collaboration.ts(119,363): error TS2339: Property 'routingDelegations' does not exist on type 'WorkspaceState'.
+src/v2/collaboration.ts(122,31): error TS2339: Property 'routingRules' does not exist on type 'WorkspaceState'.
+src/v2/collaboration.ts(122,143): error TS2339: Property 'ownerId' does not exist on type 'RecordBase'.
+src/v2/collaboration.ts(122,301): error TS2339: Property 'active' does not exist on type 'RecordBase'.
+src/v2/collaboration.ts(122,380): error TS2339: Property 'matterId' does not exist on type 'RecordBase'.
+src/v2/collaboration.ts(124,36): error TS2339: Property 'routingDelegations' does not exist on type 'WorkspaceState'.
+src/v2/collaboration.ts(125,54): error TS2339: Property 'grantorId' does not exist on type 'RecordBase'.
+src/v2/collaboration.ts(125,75): error TS2339: Property 'recipientActorId' does not exist on type 'RecordBase'.
+src/v2/collaboration.ts(125,208): error TS2339: Property 'revocationReason' does not exist on type 'RecordBase'.
+src/v2/collaboration.ts(125,286): error TS2339: Property 'revokedAt' does not exist on type 'RecordBase'.
+src/v2/collaboration.ts(125,396): error TS2339: Property 'matterId' does not exist on type 'RecordBase'.
+src/v2/collaboration.ts(126,53): error TS2339: Property 'recipientActorId' does not exist on type 'RecordBase'.
+src/v2/collaboration.ts(126,202): error TS2345: Argument of type 'RecordBase' is not assignable to parameter of type 'RoutingDelegation'.
+  Type 'RecordBase' is missing the following properties from type 'RoutingDelegation': matterId, grantorId, recipientActorId, grantorMembershipVersion, and 6 more.
+src/v2/collaboration.ts(126,344): error TS2339: Property 'acceptedAt' does not exist on type 'RecordBase'.
+src/v2/collaboration.ts(126,462): error TS2339: Property 'matterId' does not exist on type 'RecordBase'.
+src/v2/collaboration.ts(127,65): error TS2339: Property 'grantorId' does not exist on type 'RecordBase'.
+src/v2/collaboration.ts(127,188): error TS2345: Argument of type 'RecordBase' is not assignable to parameter of type 'RoutingDelegation'.
+  Type 'RecordBase' is missing the following properties from type 'RoutingDelegation': matterId, grantorId, recipientActorId, grantorMembershipVersion, and 6 more.
+src/v2/collaboration.ts(127,225): error TS2339: Property 'topics' does not exist on type 'RecordBase'.
+src/v2/collaboration.ts(128,21): error TS2339: Property 'routingRules' does not exist on type 'WorkspaceState'.
+src/v2/collaboration.ts(128,41): error TS7006: Parameter 'rule' implicitly has an 'any' type.
+src/v2/collaboration.ts(128,74): error TS2339: Property 'matterId' does not exist on type 'RecordBase'.
+src/v2/collaboration.ts(129,108): error TS2339: Property 'matterId' does not exist on type 'RecordBase'.
+src/v2/collaboration.ts(129,191): error TS2339: Property 'routingRules' does not exist on type 'WorkspaceState'.

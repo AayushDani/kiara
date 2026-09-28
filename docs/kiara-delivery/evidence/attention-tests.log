@@ -1,0 +1,12 @@
+✔ quiet hours and digest grouping apply to ordinary work, with timezone-aware next delivery (49.836291ms)
+✔ required overdue and unresolved provider work stays visible after acknowledgment in quiet hours (28.58875ms)
+✔ dismissal requires an exact visible item and reappears after the underlying work changes (28.039166ms)
+✔ attention uses authoritative source access and current delegation without exposing private work (46.082042ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 898.746167

@@ -1,0 +1,11 @@
+✔ migration dry run is inert; archive import is restartable and preserves exact legacy bytes without dispatch ownership (43.615542ms)
+✔ originals use authenticated encryption and cannot be read across tenant scope (10.790459ms)
+✔ same-byte upload after key rotation preserves old ciphertext and both recoverable references (26.818375ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 381.105583

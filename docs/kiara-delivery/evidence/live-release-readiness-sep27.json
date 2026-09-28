@@ -1,0 +1,80 @@
+{
+  "target": "kiara-v2-hosted",
+  "configurationReady": false,
+  "releaseQualified": false,
+  "legacyMode": "local_or_unset",
+  "checks": [
+    {
+      "code": "LEGACY_PUBLIC_DEMO_DISABLED",
+      "configured": true
+    },
+    {
+      "code": "OIDC_MODE",
+      "configured": false
+    },
+    {
+      "code": "OIDC_PUBLIC_HTTPS_ORIGIN",
+      "configured": false
+    },
+    {
+      "code": "OIDC_ISSUER_AND_CLIENT",
+      "configured": false
+    },
+    {
+      "code": "OIDC_MONGO_BINDING_SOURCE",
+      "configured": true
+    },
+    {
+      "code": "OIDC_ACTIVE_BINDINGS_AND_MEMBERSHIPS",
+      "configured": false
+    },
+    {
+      "code": "SESSION_SIGNING_SECRET",
+      "configured": false
+    },
+    {
+      "code": "NORMALIZED_MONGO_TLS",
+      "configured": false
+    },
+    {
+      "code": "MONGO_ENCRYPTED_ORIGINALS",
+      "configured": false
+    },
+    {
+      "code": "ATLAS_HYBRID_INDEXES",
+      "configured": false
+    },
+    {
+      "code": "OPENAI_EMBEDDING_AND_AI",
+      "configured": false
+    },
+    {
+      "code": "AUTHORIZED_OPENAI_BUDGET",
+      "configured": false
+    },
+    {
+      "code": "TEMPORAL_NAMESPACE_AND_CREDENTIAL",
+      "configured": false
+    },
+    {
+      "code": "WORKER_TENANT_SELECTION",
+      "configured": false
+    },
+    {
+      "code": "MANAGED_WORKER_HOST",
+      "configured": false
+    },
+    {
+      "code": "LIVE_EMAIL_DELIVERY_CONFIGURATION",
+      "configured": false
+    }
+  ],
+  "connectedEvidenceRequired": [
+    "OIDC_LOGIN_AND_MEMBERSHIP_REVOCATION",
+    "ATLAS_HYBRID_READ_AND_INDEX_RECOVERY",
+    "MONGO_ENCRYPTED_ORIGINAL_ROUND_TRIP_AND_RESTORE",
+    "MANAGED_TEMPORAL_WORKER_REPLAY",
+    "SANDBOX_PROVIDER_SEND_AND_EXACT_READBACK",
+    "RECOVERY_DRILL_AND_CUSTOMER_ACCEPTANCE"
+  ]
+}

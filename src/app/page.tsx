@@ -1,2 +1,2 @@
-import KiaraApp from '@/ui/pages/KiaraApp';
-export default function Page(){return <KiaraApp/>;}
+import KiaraWorkspace from '@/ui/v2/KiaraWorkspace';
+export default function Page(){return <KiaraWorkspace/>;}

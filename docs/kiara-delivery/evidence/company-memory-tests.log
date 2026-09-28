@@ -1,0 +1,16 @@
+✔ declarations and candidates do not become facts; exact confirmation preserves planned status and stable subject identity (8.549125ms)
+✔ ordinary members cannot confirm identities or relationships; cross-tenant and stale intent remain blocked (0.774625ms)
+✔ nested private evidence cannot be laundered into a team relationship (0.243916ms)
+✔ changed proof or declared identity prevents stale confirmation and relationship fact reuse (0.651458ms)
+✔ relationship evidence binds current document revision, not a similarly named replacement (0.553083ms)
+✔ effective periods, conflict replacement and exact graph audiences remain explicit (2.104083ms)
+✔ a named owner must be able to read the declared entity under current membership restrictions (0.132917ms)
+✔ effective dates reject impossible calendar normalization and root declarations do not leave denormalized name copies (0.332792ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 539.992083

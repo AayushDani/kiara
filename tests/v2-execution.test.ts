@@ -1,0 +1,215 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {mkdtemp,rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {randomUUID} from 'node:crypto';
+import {identityBindingKey} from '../src/v2/oidc-identities';
+import {command,snapshot} from '../src/v2/service';
+import {closeV2Store,readWorkspace,transactWorkspace} from '../src/v2/store';
+import {readOriginal,retainOriginal,type OriginalReference} from '../src/v2/objects';
+import {dispatchAction,reconcileAction,reconcileEffect,executionPreview} from '../src/v2/execution/broker';
+import {emailAdapter,internalDocumentAdapter,publicationReadbackAdapter} from '../src/v2/execution/adapters';
+import {DispatchRejected,type ExecutionAdapter,type ExecutionRequest,type EffectIntent} from '../src/v2/execution/contracts';
+import {processEffectReference} from '../src/v2/orchestration/effects';
+import {dispatchOutbox} from '../src/v2/orchestration/temporal';
+import {processLocalOutboxOnce} from '../src/v2/orchestration/conversations';
+import {redactEffectReceipts} from '../src/v2/execution/retention';
+import type {Action,ActorContext,WorkspaceCommand} from '../src/v2/contracts';
+const actor:ActorContext={tenantId:'execution-test',actorId:'owner',mode:'local_demo',expiresAt:Date.now()+3600000,bootstrapRoles:['member','business_owner','fact_owner','legal_reviewer','publisher','signatory','admin']};
+async function isolated(run:()=>Promise<void>){const env={...process.env},fetch=globalThis.fetch,dir=await mkdtemp(join(tmpdir(),'kiara-v2-execution-'));for(const k of Object.keys(process.env))if(/KIARA|MONGO|VERCEL|OPENAI|RESEND|TEMPORAL/.test(k))delete process.env[k];process.env.KIARA_V2_DATA_DIR=dir;process.env.KIARA_V2_AI_MODE='local';globalThis.fetch=async()=>{throw new Error('Live effects forbidden in qualification');};try{await run();}finally{await closeV2Store();globalThis.fetch=fetch;for(const k of Object.keys(process.env))if(!(k in env))delete process.env[k];Object.assign(process.env,env);await rm(dir,{recursive:true,force:true});}}
+async function send(c:WorkspaceCommand){const s=await snapshot(actor);return command(actor,{idempotencyKey:randomUUID(),expectedVersion:s.version,command:c});}
+async function prepared(kind:Action['kind']='internal_document',timing?:Action['timing'],authorize=true){
+ const f=await send({type:'fact.propose',predicate:'deployment',value:'Synthetic planned demonstration',practice:'planned'}),fact=f.snapshot.facts.at(-1)!;await send({type:'fact.confirm',factId:fact.id,expectedRecordVersion:fact.version,expectedOriginVersion:fact.originVersion});const objective=await send({type:'fact.propose',predicate:'business_objective',value:'Test exact authorized execution',practice:'planned'}),objectiveFact=objective.snapshot.facts.at(-1)!;await send({type:'fact.confirm',factId:objectiveFact.id,expectedRecordVersion:objectiveFact.version,expectedOriginVersion:objectiveFact.originVersion});
+ await send({type:'document.add',title:'Synthetic agreement',body:'This fictional agreement is for local testing only.',authority:'executed',kind:'agreement'});
+ const m=await send({type:'matter.create',title:'Synthetic execution',objective:'Test exact authorized execution'}),matter=m.snapshot.matters.at(-1)!;const p=await send({type:'matter.prepare',matterId:matter.id,expectedRecordVersion:matter.version}),proposal=p.snapshot.proposals.at(-1)!;
+ for(const capacity of ['business','legal'] as const)await send({type:'approval.record',proposalId:proposal.id,proposalHash:proposal.contentHash,capacity,validUntil:new Date(Date.now()+3600000).toISOString()});
+ const planned=await send({type:'action.plan',matterId:matter.id,proposalId:proposal.id,kind,title:'Approved synthetic subject',content:proposal.body,...(['send','signature_request'].includes(kind)?{recipients:['recipient@example.test']}:{}) ,...(kind==='publish'?{destination:'https://published.example.test/notice'}:{}),...(timing?{timing}:{})}),action=planned.snapshot.actions.at(-1)!;
+ if(!authorize)return action;const approved=await send({type:'action.authorize',actionId:action.id,expectedRecordVersion:action.version,contentHash:action.contentHash,validUntil:new Date(Date.now()+3600000).toISOString()});return approved.snapshot.actions.at(-1)!;
+}
+const input=async(a:Action,adapter?:ExecutionAdapter)=>({expectedVersion:a.version,contentHash:a.contentHash,previewHash:(await executionPreview(actor,a.id,{adapter})).previewHash,adapter});
+const fake=(overrides:Partial<ExecutionAdapter>={}):ExecutionAdapter=>({id:'synthetic-adapter',configurationHash:'synthetic-config',supportedKinds:['send','internal_document','signature_request'],effect:'email',dispatch:async()=>({receipt:'synthetic-receipt'}),readback:async()=>({status:'pending',receipt:'synthetic-receipt',reason:'WAITING'}),...overrides});
+async function current(a:Action){return (await readWorkspace(actor.tenantId)).actions.find(x=>x.id===a.id)!;}
+
+test('revoking a hashed OIDC binding while effect preparation waits prevents provider dispatch',()=>isolated(async()=>{
+ const action=await prepared('send'),issuer='https://synthetic-identity.example.test',subject='synthetic-dispatch-subject';
+ process.env.KIARA_OIDC_IDENTITY_SOURCE='fixture_env';process.env.KIARA_OIDC_ISSUER=issuer;
+ process.env.KIARA_OIDC_IDENTITIES=JSON.stringify([{subject,tenantId:actor.tenantId,actorId:actor.actorId}]);
+ const signedActor:ActorContext={tenantId:actor.tenantId,actorId:actor.actorId,mode:'authenticated',expiresAt:Date.now()+3600000,oidcBinding:{key:identityBindingKey(issuer,subject),version:1}};
+ let entered!:()=>void,release!:()=>void,calls=0;const waiting=new Promise<void>(r=>entered=r),gate=new Promise<void>(r=>release=r);
+ const adapter=fake({prepare:async()=>{entered();await gate;},dispatch:async()=>{calls++;return {receipt:'must-not-send'};}});
+ const preview=await executionPreview(signedActor,action.id,{adapter});
+ const pending=dispatchAction(signedActor,action.id,{expectedVersion:action.version,contentHash:action.contentHash,previewHash:preview.previewHash,adapter});
+ await waiting;
+ const retained=(await readWorkspace(actor.tenantId)).receipts[`execution:${action.id}`].result.intent as EffectIntent;
+ assert.doesNotMatch(JSON.stringify(retained),/synthetic-dispatch-subject/);
+ process.env.KIARA_OIDC_IDENTITIES='[]';
+ release();
+ const result=await pending;
+ assert.equal(result.status,'failed');assert.equal(result.failure,'IDENTITY_GRANT_CHANGED');assert.equal(calls,0);
+}));
+
+test('revocation during authenticated effect readback cannot commit a terminal outcome',()=>isolated(async()=>{
+ const action=await prepared('send'),issuer='https://synthetic-identity.example.test',subject='synthetic-reconcile-subject';let revoke=false;
+ const adapter=fake({readback:async()=>{if(revoke)process.env.KIARA_OIDC_IDENTITIES='[]';return {status:revoke?'failed':'pending',receipt:'synthetic-receipt',reason:revoke?'SYNTHETIC_FAILURE':'WAITING'};}});
+ await dispatchAction(actor,action.id,await input(action,adapter));const before=await current(action);
+ process.env.KIARA_OIDC_IDENTITY_SOURCE='fixture_env';process.env.KIARA_OIDC_ISSUER=issuer;process.env.KIARA_OIDC_IDENTITIES=JSON.stringify([{subject,tenantId:actor.tenantId,actorId:actor.actorId}]);
+ const signed:ActorContext={tenantId:actor.tenantId,actorId:actor.actorId,mode:'authenticated',expiresAt:Date.now()+3600000,oidcBinding:{key:identityBindingKey(issuer,subject),version:1}};
+ revoke=true;await assert.rejects(()=>reconcileAction(signed,action.id,{expectedVersion:before.version,contentHash:before.contentHash,adapter}),{code:'IDENTITY_GRANT_CHANGED'});
+ assert.equal((await current(action)).version,before.version);
+}));
+
+test('internal document execution retains immutable encrypted bytes and verifies one output across replay',()=>isolated(async()=>{
+ const a=await prepared(),done=await dispatchAction(actor,a.id,await input(a));assert.equal(done.status,'verified');let s=await readWorkspace(actor.tenantId);const output=s.documents.find(d=>d.id===done.completionArtifact)!;assert.equal(output.body,a.content);assert.equal(output.authority,'draft');assert.equal(output.status,'proposed');const source=s.sources.find(x=>x.id===output.sourceId)!;assert.ok((await readOriginal(actor.tenantId,JSON.parse(source.originalObjectRef!))).equals(Buffer.from(a.content)));assert.ok(s.matters[0].tasks.some(task=>task.kind==='action'&&task.status==='done'&&task.evidenceIds.includes(a.id)));const replay=await dispatchAction(actor,a.id,await input(a));assert.equal(replay.completionArtifact,done.completionArtifact);s=await readWorkspace(actor.tenantId);assert.equal(s.documents.length,2);assert.equal(s.actions[0].completion?.kind,'readback');assert.equal(s.matters[0].state,'verifying');
+}));
+test('internal effect restart before retention cannot create an original during read-back',()=>isolated(async()=>{
+ const a=await prepared(),adapter=internalDocumentAdapter();let dispatches=0;
+ const interrupted={...adapter,dispatch:async()=>{dispatches++;throw new Error('Synthetic stop before original retention');}};
+ assert.equal((await dispatchAction(actor,a.id,await input(a,interrupted))).status,'uncertain');
+ const before=await readWorkspace(actor.tenantId),intent=before.receipts[`execution:${a.id}`].result.intent as EffectIntent;
+ assert.equal(intent.providerReceipt,null);assert.equal(before.documents.length,1);
+ const outbox=before.outbox.find(item=>item.kind==='effect_reconcile')!;
+ assert.deepEqual(await processEffectReference({tenantId:actor.tenantId,aggregateId:a.id,outboxId:outbox.id},{adapter}),{status:'waiting',nextCheckMs:6*3600000});
+ const after=await readWorkspace(actor.tenantId);
+ assert.equal(after.actions.find(item=>item.id===a.id)?.status,'uncertain');assert.equal(after.documents.length,1);assert.equal((after.receipts[`execution:${a.id}`].result.intent as EffectIntent).providerReceipt,null);assert.equal(dispatches,1);
+}));
+test('an original retained without a durable broker receipt stays uncertain after restart',()=>isolated(async()=>{
+ const a=await prepared(),adapter=internalDocumentAdapter();let retained:OriginalReference|null=null,dispatches=0;
+ const interrupted={...adapter,dispatch:async(request:ExecutionRequest)=>{dispatches++;retained=await retainOriginal(request.tenantId,Buffer.from(request.action.content,'utf8'));throw new Error('Synthetic lost original acknowledgement');}};
+ assert.equal((await dispatchAction(actor,a.id,await input(a,interrupted))).status,'uncertain');
+ assert.ok(retained);assert.equal((await readOriginal(actor.tenantId,retained!)).toString('utf8'),a.content);
+ const before=await readWorkspace(actor.tenantId),outbox=before.outbox.find(item=>item.kind==='effect_reconcile')!;
+ assert.equal((before.receipts[`execution:${a.id}`].result.intent as EffectIntent).providerReceipt,null);
+ assert.deepEqual(await processEffectReference({tenantId:actor.tenantId,aggregateId:a.id,outboxId:outbox.id},{adapter}),{status:'waiting',nextCheckMs:6*3600000});
+ const after=await readWorkspace(actor.tenantId);
+ assert.equal(after.actions.find(item=>item.id===a.id)?.status,'uncertain');assert.equal(after.documents.length,1);assert.equal((after.receipts[`execution:${a.id}`].result.intent as EffectIntent).providerReceipt,null);assert.equal(dispatches,1);
+}));
+test('worker verifies an internal original after the broker durably captures its exact receipt',()=>isolated(async()=>{
+ const a=await prepared(),adapter=internalDocumentAdapter();
+ const pending={...adapter,readback:async(_request:ExecutionRequest,receipt:string|null)=>({status:'pending' as const,receipt:receipt||'',reason:'Synthetic interruption before read-back'})};
+ assert.equal((await dispatchAction(actor,a.id,await input(a,pending))).status,'verifying');
+ const before=await readWorkspace(actor.tenantId),intent=before.receipts[`execution:${a.id}`].result.intent as EffectIntent,outbox=before.outbox.find(item=>item.kind==='effect_reconcile')!;
+ assert.ok(intent.providerReceipt);assert.equal(before.documents.length,1);
+ const reference=JSON.parse(intent.providerReceipt!) as OriginalReference;
+ assert.equal((await readOriginal(actor.tenantId,reference)).toString('utf8'),a.content);
+ assert.deepEqual(await processEffectReference({tenantId:actor.tenantId,aggregateId:a.id,outboxId:outbox.id},{adapter}),{status:'complete',nextCheckMs:0});
+ const after=await readWorkspace(actor.tenantId),output=after.documents.find(item=>item.id===after.actions.find(action=>action.id===a.id)?.completion?.artifact)!;
+ assert.equal(after.actions.find(item=>item.id===a.id)?.status,'verified');assert.equal(after.sources.find(item=>item.id===output.sourceId)?.originalObjectRef,intent.providerReceipt);
+}));
+test('revoked decision, changed subject and lesser role cannot escalate into execution',()=>isolated(async()=>{
+ const a=await prepared();const bob={...actor,actorId:'member',bootstrapRoles:['member' as const]};await snapshot(bob);await assert.rejects(dispatchAction(bob,a.id,await input(a)),{code:'FORBIDDEN'});await transactWorkspace(actor.tenantId,s=>{s.actions[0].title='Unapproved subject';});await assert.rejects(dispatchAction(actor,a.id,await input(a)),{code:'STALE_ACTION'});await transactWorkspace(actor.tenantId,s=>{s.actions[0].title=a.title;s.approvals.find(x=>x.id===a.authorizationId)!.status='revoked';});await assert.rejects(dispatchAction(actor,a.id,await input(a)),{code:'AUTHORIZATION_EXPIRED'});assert.equal((await readWorkspace(actor.tenantId)).receipts[`execution:${a.id}`],undefined);
+}));
+test('concurrent retries share a durable intent and dispatch exactly once',()=>isolated(async()=>{
+ const a=await prepared('send');let calls=0;const adapter=fake({dispatch:async()=>{calls++;return {receipt:'synthetic-receipt'};}});await Promise.all([dispatchAction(actor,a.id,await input(a,adapter)),dispatchAction(actor,a.id,await input(a,adapter))]);await dispatchAction(actor,a.id,await input(a,adapter));assert.equal(calls,1);assert.equal((await current(a)).status,'verifying');
+}));
+test('reviewed not-before timing blocks manual completion and provider dispatch until its exact UTC start',()=>isolated(async()=>{
+ const notBefore=new Date(Date.now()+5*60000).toISOString(),a=await prepared('send',{mode:'not_before',notBefore,reason:'Fictional advance notice begins after owner review.'});
+ assert.deepEqual(a.timing,{mode:'not_before',notBefore,reason:'Fictional advance notice begins after owner review.'});
+ let calls=0;const adapter=fake({dispatch:async()=>{calls++;return {receipt:'synthetic-receipt'};}});
+ await assert.rejects(dispatchAction(actor,a.id,await input(a,adapter)),{code:'ACTION_NOT_BEFORE'});
+ await assert.rejects(send({type:'action.attest',actionId:a.id,expectedRecordVersion:a.version,artifact:'Premature manual completion',completionKind:'human_attestation'}),{code:'ACTION_NOT_BEFORE'});
+ assert.equal((await readWorkspace(actor.tenantId)).receipts[`execution:${a.id}`],undefined);assert.equal(calls,0);
+ const actualNow=Date.now;try{Date.now=()=>actualNow()+6*60000;const result=await dispatchAction(actor,a.id,await input(a,adapter));assert.equal(result.status,'verifying');assert.equal(calls,1);}finally{Date.now=actualNow;}
+}));
+test('delayed action authorization must outlast its reviewed start and malformed timing is rejected',()=>isolated(async()=>{
+ const notBefore=new Date(Date.now()+2*3600000).toISOString(),a=await prepared('send',{mode:'not_before',notBefore,reason:'Fictional recipient notice window.'},false);
+ await assert.rejects(send({type:'action.authorize',actionId:a.id,expectedRecordVersion:a.version,contentHash:a.contentHash,validUntil:new Date(Date.now()+3600000).toISOString()}),{code:'ACTION_AUTHORIZATION_TOO_EARLY'});
+ const state=await snapshot(actor),proposal=state.proposals.find(p=>p.id===a.proposalId)!;
+ await assert.rejects(send({type:'action.plan',matterId:a.matterId,proposalId:proposal.id,kind:'send',title:'Malformed timing',content:proposal.body,recipients:['recipient@example.test'],timing:{mode:'not_before',notBefore:'tomorrow',reason:'Fictional'}}),{code:'INVALID_ACTION_TIMING'});
+ assert.equal((await snapshot(actor)).actions.find(action=>action.id===a.id)?.status,'planned');
+}));
+test('source access revoked during preparation prevents the provider call',()=>isolated(async()=>{
+ const a=await prepared('send');let calls=0;const adapter=fake({prepare:async()=>{await send({type:'source.revoke',sourceId:(await readWorkspace(actor.tenantId)).sources[0].id,reason:'Selection revoked'});},dispatch:async()=>{calls++;return {receipt:'never'};}});const result=await dispatchAction(actor,a.id,await input(a,adapter));assert.equal(result.status,'failed');assert.equal(calls,0);assert.equal((await current(a)).completion,null);
+}));
+test('cancel during preparation prevents dispatch and retains its exact historical intent',()=>isolated(async()=>{
+ const a=await prepared('send');let calls=0;const adapter=fake({prepare:async()=>{const m=(await snapshot(actor)).matters[0];await send({type:'matter.cancel',matterId:m.id,expectedRecordVersion:m.version,reason:'Do not proceed'});},dispatch:async()=>{calls++;return {receipt:'never'};}});await dispatchAction(actor,a.id,await input(a,adapter));const s=await readWorkspace(actor.tenantId);assert.equal(calls,0);assert.equal(s.actions[0].status,'canceled');assert.equal(s.matters[0].state,'canceled');assert.equal((s.receipts[`execution:${a.id}`].result.intent as unknown as EffectIntent).actionHash,a.contentHash);
+}));
+test('cancel after dispatch preserves an uncertain effect and later read-back cannot reopen the matter',()=>isolated(async()=>{
+ const a=await prepared('send');let calls=0;const adapter=fake({dispatch:async()=>{calls++;const m=(await snapshot(actor)).matters[0];await send({type:'matter.cancel',matterId:m.id,expectedRecordVersion:m.version,reason:'Stop future work'});throw new Error('Connection closed after dispatch');},readback:async()=>({status:'verified',receipt:'synthetic-receipt',contentHash:a.contentHash,artifact:'synthetic-delivery-proof'})});const unknown=await dispatchAction(actor,a.id,await input(a,adapter));assert.equal(unknown.status,'uncertain');await dispatchAction(actor,a.id,await input(a,adapter));assert.equal(calls,1);assert.equal((await reconcileEffect(actor.tenantId,a.id,{adapter})).status,'verified');const s=await readWorkspace(actor.tenantId);assert.equal(s.matters[0].state,'canceled');assert.equal(s.actions[0].status,'verified');
+}));
+test('email acceptance requires receipt-bound exact delivery read-back; late bounce fails completion',()=>isolated(async()=>{
+ const a=await prepared('send');process.env.TEST_EMAIL_TOKEN='synthetic-credential';let post:any,posts=0,last='sent';const adapter=emailAdapter({tenantId:actor.tenantId,email:{mode:'resend',from:'legal@example.test',tokenEnv:'TEST_EMAIL_TOKEN',allowedRecipients:a.recipients}},async(url,options)=>{if(options?.method==='POST'){posts++;assert.equal(new Headers(options.headers).get('idempotency-key'),a.providerIdempotencyKey);post=JSON.parse(String(options.body));return new Response(JSON.stringify({id:'email-1'}));}if(String(url).endsWith('/attachments'))return Response.json({object:'list',has_more:false,data:[]});return new Response(JSON.stringify({...post,id:'email-1',last_event:last,cc:[],bcc:[]}));});
+ assert.equal((await dispatchAction(actor,a.id,await input(a,adapter))).status,'verifying');assert.equal((await current(a)).completion,null);last='delivered';let action=await current(a);assert.equal((await reconcileAction(actor,a.id,await input(action,adapter))).status,'verified');assert.equal(posts,1);const matter=(await snapshot(actor)).matters[0];await send({type:'matter.close',matterId:matter.id,expectedRecordVersion:matter.version,reason:'Delivered with provider read-back.'});assert.equal((await snapshot(actor)).matters[0].state,'closed');last='bounced';action=await current(a);assert.equal((await reconcileAction(actor,a.id,await input(action,adapter))).status,'failed');assert.equal((await current(a)).status,'failed');const reopened=(await snapshot(actor)).matters[0];assert.equal(reopened.state,'needs_facts');assert.equal(reopened.closedAt,null);assert.ok(reopened.tasks.some(t=>t.kind==='verification'&&t.status==='pending'));assert.ok((await current(a)).completion);assert.equal(posts,1);
+}));
+test('email read-back rejects unapproved HTML and attachments even when plain text matches',()=>isolated(async()=>{
+ const action=await prepared('send');process.env.TEST_EMAIL_TOKEN='synthetic-credential';let sent:any,extra:Record<string,unknown>={},listed:unknown[]=[];
+ const adapter=emailAdapter({tenantId:actor.tenantId,email:{mode:'resend',from:'legal@example.test',tokenEnv:'TEST_EMAIL_TOKEN',allowedRecipients:action.recipients}},async(url,options)=>{
+  if(options?.method==='POST'){sent=JSON.parse(String(options.body));return Response.json({id:'email-extra'});}
+  if(String(url).endsWith('/attachments'))return Response.json({object:'list',has_more:false,data:listed});
+  return Response.json({id:'email-extra',from:sent.from,to:sent.to,subject:sent.subject,text:sent.text,last_event:'delivered',...extra});
+ });
+ const request={tenantId:actor.tenantId,action,idempotencyKey:action.providerIdempotencyKey},receipt=(await adapter.dispatch(request)).receipt;
+ assert.equal((await adapter.readback(request,receipt)).status,'verified');
+ for(const unexpected of [{html:'<p>Different legal notice</p>'},{attachments:[{filename:'other.pdf'}]},{attachments:'unverifiable'}]){
+  extra=unexpected;assert.deepEqual(await adapter.readback(request,receipt),{status:'failed',receipt,reason:'READBACK_MISMATCH'});
+ }
+ extra={};listed=[{id:'unapproved-attachment'}];assert.deepEqual(await adapter.readback(request,receipt),{status:'failed',receipt,reason:'READBACK_MISMATCH'});
+}));
+test('email unknown outcome is never resent and an unrelated receipt cannot complete it',()=>isolated(async()=>{
+ const a=await prepared('send');process.env.TEST_EMAIL_TOKEN='synthetic-credential';let posts=0,reads=0;let body:any;const adapter=emailAdapter({tenantId:actor.tenantId,email:{mode:'resend',from:'legal@example.test',tokenEnv:'TEST_EMAIL_TOKEN',allowedRecipients:a.recipients}},async(_url,options)=>{if(options?.method==='POST'){posts++;body=JSON.parse(String(options.body));throw new Error('No acknowledgement');}reads++;return new Response(JSON.stringify({...body,id:'wrong-email',last_event:'delivered',tags:[{name:'kiara_effect',value:'unrelated'}]}));});assert.equal((await dispatchAction(actor,a.id,await input(a,adapter))).status,'uncertain');await dispatchAction(actor,a.id,await input(a,adapter));assert.equal(posts,1);await assert.rejects(reconcileAction(actor,a.id,{...await input(await current(a),adapter),providerReceipt:'wrong-email'}),{code:'PROVIDER_RECEIPT_UNCORRELATED'});assert.equal(reads,0);assert.equal((await current(a)).status,'uncertain');assert.equal((await current(a)).completion,null);
+}));
+test('email exact allowlist and configuration failure reject before any effect intent',()=>isolated(async()=>{
+ const a=await prepared('send');await assert.rejects(async()=>dispatchAction(actor,a.id,await input(a)),{code:'EXECUTION_UNAVAILABLE'});const adapter=emailAdapter({tenantId:actor.tenantId,email:{mode:'preview',from:'legal@example.test',allowedRecipients:['different@example.test']}});await assert.rejects(dispatchAction(actor,a.id,await input(a,adapter)),{code:'EXECUTION_SCOPE'});assert.equal((await readWorkspace(actor.tenantId)).receipts[`execution:${a.id}`],undefined);
+}));
+test('preview stays pending manual and never downgrades a later attributed manual completion',()=>isolated(async()=>{
+ const a=await prepared('send');let calls=0;const adapter=emailAdapter({tenantId:actor.tenantId,email:{mode:'preview',from:'legal@example.test',allowedRecipients:a.recipients}},async()=>{calls++;throw new Error('No network');});const preview=await dispatchAction(actor,a.id,await input(a,adapter));assert.equal(preview.failure,'PREVIEW_NOT_DELIVERY');assert.equal((await current(a)).status,'pending_manual');assert.equal((await current(a)).completion,null);assert.equal(calls,0);const action=await current(a);await send({type:'action.attest',actionId:a.id,expectedRecordVersion:action.version,artifact:'Named owner independently completed this action.',completionKind:'human_attestation'});await reconcileEffect(actor.tenantId,a.id,{adapter});assert.equal((await current(a)).status,'verified');assert.equal((await current(a)).completion?.kind,'human_attestation');
+}));
+test('publication read-back verifies exact authorized destination bytes without publishing',()=>isolated(async()=>{
+ const a=await prepared('publish');let text='Different publication',reads=0;const adapter=publicationReadbackAdapter({tenantId:actor.tenantId,publicationUrls:[a.destination!]},async(url,options)=>{assert.equal(url,a.destination);assert.equal(options?.method,'GET');assert.equal(options?.redirect,'error');reads++;return new Response(text);});assert.equal((await dispatchAction(actor,a.id,await input(a,adapter))).status,'verifying');assert.equal((await current(a)).completion,null);text=a.content;assert.equal((await reconcileEffect(actor.tenantId,a.id,{adapter})).status,'verified');assert.equal(reads,2);assert.equal((await current(a)).completion?.kind,'readback');
+}));
+test('a provider signing-request receipt can never become an executed-original completion',()=>isolated(async()=>{
+ const a=await prepared('signature_request');const adapter=fake({readback:async()=>({status:'verified',receipt:'synthetic-receipt',contentHash:a.contentHash,artifact:'Request sent'})});const result=await dispatchAction(actor,a.id,await input(a,adapter));assert.equal(result.status,'verifying');assert.equal(result.failure,'EXECUTED_ORIGINAL_REQUIRED');assert.equal((await current(a)).completion,null);
+}));
+test('expired prepared checkpoint recovers without dispatch, while a live lease remains untouched',()=>isolated(async()=>{
+ const a=await prepared('send');let release!:()=>void,entered!:()=>void;const waiting=new Promise<void>(r=>entered=r),gate=new Promise<void>(r=>release=r);let calls=0;const adapter=fake({prepare:async()=>{entered();await gate;},dispatch:async()=>{calls++;return {receipt:'never'};}});const active=dispatchAction(actor,a.id,await input(a,adapter));await waiting;assert.equal((await reconcileEffect(actor.tenantId,a.id,{adapter})).status,'prepared');await transactWorkspace(actor.tenantId,s=>{(s.receipts[`execution:${a.id}`].result.intent as unknown as EffectIntent).leaseUntil=new Date(0).toISOString();});await closeV2Store();assert.equal((await reconcileEffect(actor.tenantId,a.id,{adapter})).status,'failed');release();await active;assert.equal(calls,0);
+}));
+test('explicit provider rejection is retained and replay cannot dispatch a second request',()=>isolated(async()=>{
+ const a=await prepared('send');let calls=0;const adapter=fake({dispatch:async()=>{calls++;throw new DispatchRejected('Synthetic rejection');}});assert.equal((await dispatchAction(actor,a.id,await input(a,adapter))).status,'failed');await dispatchAction(actor,a.id,await input(a,adapter));assert.equal(calls,1);assert.equal((await current(a)).completion,null);
+}));
+test('frozen configured preview rejects changed sender or preview-to-live mode before reserving an effect',()=>isolated(async()=>{
+ const a=await prepared('send');const configure=(from:string,mode:'preview'|'resend')=>{process.env.KIARA_V2_EXECUTION=JSON.stringify([{tenantId:actor.tenantId,email:{mode,from,tokenEnv:'TEST_EMAIL_TOKEN',allowedRecipients:a.recipients}}]);};configure('legal@example.test','preview');const frozen=await input(a),preview=await executionPreview(actor,a.id);assert.equal(preview.sender,'legal@example.test');assert.equal(preview.mode,'preview');assert.deepEqual(preview.recipients,a.recipients);assert.equal(preview.title,a.title);assert.equal(preview.content,a.content);
+ configure('other@example.test','preview');await assert.rejects(dispatchAction(actor,a.id,frozen),{code:'EXECUTION_PREVIEW_CHANGED'});configure('legal@example.test','resend');await assert.rejects(dispatchAction(actor,a.id,frozen),{code:'EXECUTION_PREVIEW_CHANGED'});assert.equal((await readWorkspace(actor.tenantId)).receipts[`execution:${a.id}`],undefined);
+ configure('legal@example.test','preview');const accepted=await dispatchAction(actor,a.id,frozen);assert.equal(accepted.failure,'PREVIEW_NOT_DELIVERY');const retained=(await readWorkspace(actor.tenantId)).receipts[`execution:${a.id}`].result.intent as unknown as EffectIntent;assert.equal(retained.executionDecision.previewHash,frozen.previewHash);assert.equal(retained.executionDecision.sender,'legal@example.test');assert.equal(retained.executionDecision.mode,'preview');
+}));
+test('dispatcher membership version must still match the preview after preparation even with its role retained',()=>isolated(async()=>{
+ const a=await prepared('send'),bob:ActorContext={...actor,actorId:'dispatcher',bootstrapRoles:['member','publisher']};await snapshot(bob);let calls=0;const adapter=fake({prepare:async()=>{await transactWorkspace(actor.tenantId,s=>{s.memberships.find(m=>m.actorId===bob.actorId)!.version++;});},dispatch:async()=>{calls++;return {receipt:'never'};}}),preview=await executionPreview(bob,a.id,{adapter});const result=await dispatchAction(bob,a.id,{expectedVersion:a.version,contentHash:a.contentHash,previewHash:preview.previewHash,adapter});assert.equal(result.status,'failed');assert.equal(result.failure,'EXECUTION_PREVIEW_CHANGED');assert.equal(calls,0);
+}));
+test('legal obligation introduced during preparation blocks dispatch until its exact deadline basis is reviewed',()=>isolated(async()=>{
+ const a=await prepared('send');let calls=0;const adapter=fake({prepare:async()=>{const source=(await readWorkspace(actor.tenantId)).sources[0];await send({type:'obligation.propose',matterId:a.matterId,title:'Review synthetic notice deadline',ownerId:actor.actorId,dueAt:new Date(Date.now()+86400000).toISOString(),deadlineType:'contractual',sourceId:source.id,quote:source.text,rationale:'Synthetic deadline interpretation requires review.'});},dispatch:async()=>{calls++;return {receipt:'never'};}});const result=await dispatchAction(actor,a.id,await input(a,adapter));assert.equal(result.status,'failed');assert.equal(result.failure,'DEADLINE_REVIEW_REQUIRED');assert.equal(calls,0);
+}));
+test('a delayed delivered read-back cannot overwrite a concurrently recorded terminal delivery failure',()=>isolated(async()=>{
+ const a=await prepared('send');let hold=false,release!:(value:any)=>void,entered!:()=>void;const started=new Promise<void>(r=>entered=r);const adapter=fake({readback:async()=>{if(!hold)return {status:'pending',receipt:'synthetic-receipt',reason:'WAITING'};entered();return new Promise(r=>release=r);}});await dispatchAction(actor,a.id,await input(a,adapter));hold=true;const delayed=reconcileEffect(actor.tenantId,a.id,{adapter});await started;const failed=fake({readback:async()=>({status:'failed',receipt:'synthetic-receipt',reason:'DELIVERY_FAILED'})});assert.equal((await reconcileEffect(actor.tenantId,a.id,{adapter:failed})).status,'failed');release({status:'verified',receipt:'synthetic-receipt',contentHash:a.contentHash,artifact:'Old delivery observation'});assert.equal((await delayed).status,'failed');assert.equal((await current(a)).completion,null);assert.equal((await current(a)).status,'failed');
+}));
+test('durable effect outbox sends only references and local read-back completion never starts another dispatch',()=>isolated(async()=>{
+ const a=await prepared();await dispatchAction(actor,a.id,await input(a));const s=await readWorkspace(actor.tenantId),entry=s.outbox.find(o=>o.kind==='effect_reconcile')!,retained=s.receipts[`execution:${a.id}`].result.intent as unknown as EffectIntent;assert.equal(entry.commandId,retained.id);const ref={tenantId:actor.tenantId,aggregateId:a.id,outboxId:entry.id};assert.deepEqual(await processEffectReference(ref),{status:'complete',nextCheckMs:0});const seen:unknown[]=[];await dispatchOutbox(actor.tenantId,{signal:async(r,k)=>{if(k==='effect_reconcile')seen.push(r);}});assert.deepEqual(seen,[ref]);await assert.rejects(processEffectReference({...ref,aggregateId:'different'}),{code:'OUTBOX_NOT_FOUND'});await transactWorkspace(actor.tenantId,state=>{state.outbox.find(o=>o.id===entry.id)!.status='pending';});await processLocalOutboxOnce(actor.tenantId);assert.equal((await readWorkspace(actor.tenantId)).outbox.find(o=>o.id===entry.id)!.status,'dispatched');assert.equal((await readWorkspace(actor.tenantId)).documents.length,2);
+}));
+test('background email read-back defers unknown no-receipt effects without another provider call',()=>isolated(async()=>{
+ const a=await prepared('send');process.env.TEST_EMAIL_TOKEN='synthetic-credential';let writes=0,reads=0;const adapter=emailAdapter({tenantId:actor.tenantId,email:{mode:'resend',from:'legal@example.test',tokenEnv:'TEST_EMAIL_TOKEN',allowedRecipients:a.recipients}},async(_url,options)=>{if(options?.method==='POST'){writes++;throw Error('Lost acknowledgement');}reads++;throw Error('No receipt means no read request');});assert.equal((await dispatchAction(actor,a.id,await input(a,adapter))).status,'uncertain');const entry=(await readWorkspace(actor.tenantId)).outbox.find(o=>o.kind==='effect_reconcile')!,ref={tenantId:actor.tenantId,aggregateId:a.id,outboxId:entry.id};const progress=await processEffectReference(ref,{adapter});assert.deepEqual(progress,{status:'waiting',nextCheckMs:6*3600000});const deferred=new Map<string,number>();let checks=0;await processLocalOutboxOnce(actor.tenantId,{deferred,effectProcessor:async r=>{checks++;return processEffectReference(r,{adapter});}});await processLocalOutboxOnce(actor.tenantId,{deferred,effectProcessor:async r=>{checks++;return processEffectReference(r,{adapter});}});assert.equal(checks,1);assert.equal(writes,1);assert.equal(reads,0);assert.equal((await readWorkspace(actor.tenantId)).outbox.find(o=>o.id===entry.id)!.status,'pending');
+}));
+
+test('deleting prepared evidence fails and scrubs the intent before dispatch, including after the prepare resumes',()=>isolated(async()=>{
+ const a=await prepared('send');let calls=0;const adapter=fake({prepare:async()=>{await transactWorkspace(actor.tenantId,s=>{assert.deepEqual(redactEffectReceipts(s,new Set([a.id])),[]);});},dispatch:async()=>{calls++;return {receipt:'must-not-send'};}});
+ const result=await dispatchAction(actor,a.id,await input(a,adapter));assert.equal(calls,0);assert.equal(result.status,'failed');assert.equal(result.failure,'EVIDENCE_DELETED_BEFORE_DISPATCH');const i=(await readWorkspace(actor.tenantId)).receipts[`execution:${a.id}`].result.intent as unknown as EffectIntent;assert.ok(i.redactedAt);assert.equal(i.actionSnapshot.content,'');assert.equal(i.actionSnapshot.title,'');assert.deepEqual(i.actionSnapshot.recipients,[]);assert.equal(i.actionHash,a.contentHash);assert.equal(i.idempotencyKey,a.providerIdempotencyKey);assert.equal(i.leaseToken,null);
+}));
+test('deleting an unknown effect retains a private operational exception until exact readback settles and then scrubs',()=>isolated(async()=>{
+ const a=await prepared('send');let sends=0,reads=0;const adapter=fake({dispatch:async()=>{sends++;throw Error('Provider may have accepted');},readback:async request=>{reads++;assert.equal(request.action.content,a.content);return {status:'verified',receipt:'synthetic-receipt',contentHash:a.contentHash,artifact:'Sensitive delivery artifact'};}});
+ await dispatchAction(actor,a.id,await input(a,adapter));await transactWorkspace(actor.tenantId,s=>{const i=s.receipts[`execution:${a.id}`].result.intent as unknown as EffectIntent;assert.deepEqual(redactEffectReceipts(s,new Set(Object.keys(i.dependencies.sourceVersions))),[a.id]);assert.equal(i.status,'uncertain');assert.equal(i.actionSnapshot.content,a.content);assert.equal(i.redactedAt,undefined);});
+ assert.equal((await reconcileEffect(actor.tenantId,a.id,{adapter})).status,'verified');const s=await readWorkspace(actor.tenantId),i=s.receipts[`execution:${a.id}`].result.intent as unknown as EffectIntent;assert.ok(i.deletionRequestedAt&&i.redactedAt);assert.equal(i.actionSnapshot.content,'');assert.equal(i.completionArtifact,null);assert.equal(i.providerReceipt,'synthetic-receipt');assert.deepEqual(redactEffectReceipts(s,new Set()),[]);await reconcileEffect(actor.tenantId,a.id,{adapter});assert.equal(sends,1);assert.equal(reads,1);
+ const entry=s.outbox.find(o=>o.kind==='effect_reconcile')!;assert.deepEqual(await processEffectReference({tenantId:actor.tenantId,aggregateId:a.id,outboxId:entry.id},{adapter}),{status:'complete',nextCheckMs:0});
+}));
+test('a readback already in flight cannot restore a terminal receipt payload after deletion',()=>isolated(async()=>{
+ const a=await prepared('send');let hold=false,entered!:()=>void,release!:(v:any)=>void;const waiting=new Promise<void>(r=>entered=r);const adapter=fake({readback:async()=>{if(hold){entered();return new Promise(r=>release=r);}return {status:'verified',receipt:'synthetic-receipt',contentHash:a.contentHash,artifact:'Initial proof'};}});await dispatchAction(actor,a.id,await input(a,adapter));hold=true;const pending=reconcileEffect(actor.tenantId,a.id,{adapter});await waiting;
+ await transactWorkspace(actor.tenantId,s=>{assert.deepEqual(redactEffectReceipts(s,new Set([a.id])),[]);const action=s.actions.find(x=>x.id===a.id)!;action.content='';action.title='';action.recipients=[];action.completion!.artifact='Payload deleted';});release({status:'failed',receipt:'synthetic-receipt',reason:'PRIVATE_PROVIDER_PAYLOAD'});assert.equal((await pending).status,'verified');const s=await readWorkspace(actor.tenantId),i=s.receipts[`execution:${a.id}`].result.intent as unknown as EffectIntent;assert.equal(i.actionSnapshot.content,'');assert.equal(i.completionArtifact,null);assert.equal(s.actions[0].completion!.artifact,'Payload deleted');assert.equal(s.actions[0].status,'verified');assert.equal(i.failure,null);
+}));
+test('internal output readback after deletion does not materialize fresh derivative document payload',()=>isolated(async()=>{
+ const a=await prepared();let beforeDocs=0;const adapter=fake({effect:'internal',dispatch:async()=>{await transactWorkspace(actor.tenantId,s=>{beforeDocs=s.documents.length;assert.deepEqual(redactEffectReceipts(s,new Set([a.id])),[a.id]);});return {receipt:'synthetic-internal-reference'};},readback:async()=>({status:'verified',receipt:'synthetic-internal-reference',contentHash:a.contentHash,artifact:'synthetic-internal-reference',internalDocument:{originalReference:'synthetic-internal-reference',body:a.content}})});
+ assert.equal((await dispatchAction(actor,a.id,await input(a,adapter))).status,'verified');const s=await readWorkspace(actor.tenantId);assert.equal(s.documents.length,beforeDocs);const i=s.receipts[`execution:${a.id}`].result.intent as unknown as EffectIntent;assert.ok(i.redactedAt);assert.equal(i.actionSnapshot.content,'');
+}));
+
+for(const kind of ['internal_document','publish'] as const)test(`${kind} terminal deletion preserves encrypted original manifests for the retention worker before clearing artifacts`,()=>isolated(async()=>{
+ const a=await prepared(kind),adapter=kind==='publish'?publicationReadbackAdapter({tenantId:actor.tenantId,publicationUrls:[a.destination!]},async()=>new Response(a.content)):undefined;await dispatchAction(actor,a.id,await input(a,adapter));await transactWorkspace(actor.tenantId,s=>{assert.deepEqual(redactEffectReceipts(s,new Set([a.id])),[]);});const i=(await readWorkspace(actor.tenantId)).receipts[`execution:${a.id}`].result.intent as unknown as EffectIntent;assert.equal(i.completionArtifact,null);assert.equal(i.retentionOriginalReferences?.length,1);assert.equal((await readOriginal(actor.tenantId,JSON.parse(i.retentionOriginalReferences![0]))).toString('utf8'),a.content);
+}));
+
+test('inactive historical receipts lose payload regardless of old uncertainty without changing historical outcome or live operational exception',()=>isolated(async()=>{
+ const a=await prepared('send'),adapter=fake({dispatch:async()=>{throw Error('Provider outcome unknown');}});await dispatchAction(actor,a.id,await input(a,adapter));const live=await readWorkspace(actor.tenantId),archive=structuredClone(live);assert.deepEqual(redactEffectReceipts(live,new Set([a.id])),[a.id]);assert.deepEqual(redactEffectReceipts(archive,new Set([a.id]),{historical:true}),[]);const current=live.receipts[`execution:${a.id}`].result.intent as unknown as EffectIntent,old=archive.receipts[`execution:${a.id}`].result.intent as unknown as EffectIntent;assert.equal(current.actionSnapshot.content,a.content);assert.equal(old.status,'uncertain');assert.equal(old.actionSnapshot.content,'');assert.equal(old.actionHash,a.contentHash);assert.equal(old.id,current.id);assert.ok(old.redactedAt);
+}));

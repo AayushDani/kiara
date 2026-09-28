@@ -1,0 +1,44 @@
+✔ independent final grant mutation blocks posting to a recipient never reviewed (336.739667ms)
+✔ unknown dispatch remains deduped after explicit off and on; no automatic resend (433.086625ms)
+✔ provider acknowledgment after opt-out and expired lease is retained without another send (499.893833ms)
+✔ readback with extra HTML or attachment content cannot certify exact generic delivery (407.385167ms)
+✔ legacy unknown without a proven identity cannot repeat through grant renewal (441.660208ms)
+✔ legacy sending without a proven identity cannot repeat through grant renewal (480.258875ms)
+✔ legacy accepted without a proven identity cannot repeat through grant renewal (432.244625ms)
+✔ email is off until exact configured recipient opt-in; malformed and conflicting grants are unavailable (157.119083ms)
+✔ required email contains only generic authenticated link; exact provider read-back distinguishes delivered (307.663208ms)
+✔ semantic dedup ignores unrelated versions but changed required conditions produce a new notice (578.209875ms)
+✔ digest dedup is once per local calendar day despite changes in item membership (368.045375ms)
+✔ quiet hours defer digest while required escalation can pass (409.381042ms)
+✔ preview and provider acceptance are never reported as verified delivery (219.289625ms)
+✔ a lost POST response stays unknown across retry and accepts only exact read-back (363.160333ms)
+✔ concurrent workers send once and a late acceptance survives expired-lease recovery (492.886917ms)
+✔ membership, source condition and opt-out changes stop a prepared send at final admission (293.472458ms)
+✔ acknowledged work and revoked membership cannot trigger prepared email (218.111791ms)
+✔ accepted receipt requires matching provider bytes, and another actor cannot reconcile it (235.909083ms)
+✔ explicit reenrollment can prepare a canceled unsent condition without retrying an uncertain dispatch (363.858166ms)
+✔ membership change immediately before dispatch cancels the prepared notification (230.57475ms)
+✔ grant renewal preserves unknown dedup and permits exact readback under the same current delivery identity (273.103375ms)
+✔ queued cancellation survives restart, leaves user message and makes zero provider/count/reservation calls (160.369ms)
+✔ only initiating owner with current membership and exact run version may cancel (217.96875ms)
+✔ cancel during asynchronous count prevents reservation and first generation (199.678375ms)
+✔ cancel in flight waits for actual usage, discards result and never starts review (480.158583ms)
+✔ cancel during final review preserves both actual charges without attaching an answer (669.109041ms)
+✔ lost provider response after cancellation remains unknown and cannot be retried (439.171958ms)
+✔ restart after cancellation of dispatched attempt waits until lease then reconciles unknown without dispatch (338.650042ms)
+✔ prepared cancellation releases reservation and retires any not-yet-created reservation identity (526.470708ms)
+✔ query embedding submitted before cancellation owns its charge and no generation may start (246.800833ms)
+✔ real idempotent cancellation command replays once and source deletion clears cancellation reason (179.838375ms)
+✔ canceling a model work plan creates neither a proposed artifact nor an accepted matter (369.082083ms)
+✔ refs-only local processing waits for cancellation accounting and completes only after lease recovery (250.954417ms)
+✔ a late valid provider receipt after canceled lease recovery preserves metadata without clearing unknown charge (352.141375ms)
+✔ revoked source hides cancellation free text but preserves safe accounting; deletion erases audit reason (185.105416ms)
+✔ real query embedding canceled in flight settles usage, clears vector, skips search and generation (428.429042ms)
+ℹ tests 36
+ℹ suites 0
+ℹ pass 36
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6342.144041

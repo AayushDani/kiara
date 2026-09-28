@@ -17,7 +17,7 @@ test('new model and human facts remain untrusted until founder verification; all
   const initial=await readState(),created=await signup({customer_name:'Fact review fixture',residence:'US-CA',scenario:'covered',expected_reset_epoch:initial.reset_epoch},id());
   for(let i=0;i<10;i++)await tick();
   const before=await readState(),w=before.workflows[0],proposalId=id(),key=`${before.reset_epoch}:model_fact_proposal:${proposalId}`;
-  const proposal={kind:'model_fact_proposal',proposal_id:proposalId,workflow_id:created.workflow_id,tenant_id:before.tenant_id,reset_epoch:before.reset_epoch,fact_key:'privacy_request_form_url',proposed_value:'https://fixture.example/privacy/requests',reason:'Unverified example supplied for review',status:'unverified',authority:'founder_review_required',created_at:new Date().toISOString()};
+  const proposal={kind:'model_fact_proposal',proposal_id:proposalId,workflow_id:created.workflow_id,tenant_id:before.tenant_id,reset_epoch:before.reset_epoch,context_epoch:before.context_epoch,fact_value_hash:hash(null),fact_key:'privacy_request_form_url',proposed_value:'https://fixture.example/privacy/requests',reason:'Unverified example supplied for review',status:'unverified',authority:'founder_review_required',created_at:new Date().toISOString()};
   await transaction(s=>{s.receipts[key]={hash:hash(proposal),result:proposal};});
   assert.deepEqual((await readState()).facts,before.facts);assert.equal((await readState()).context_epoch,before.context_epoch);
   await assert.rejects(verifyModelFact(proposalId,'lawyer',before.reset_epoch,before.context_epoch),/Only the founder/);

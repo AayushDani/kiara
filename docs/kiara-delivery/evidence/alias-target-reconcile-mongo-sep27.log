@@ -1,0 +1,21 @@
+(node:1415) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ real aggregate CAS, interrupted migration resume, normalized transactions and current-state rollback preserve durable effects (4128.086375ms)
+✔ real concurrent empty-tenant aggregate and normalized bootstraps commit only one owner (107.046792ms)
+✔ real index transactions permanently fence deletion including a writer paused after its snapshot read (71.020958ms)
+✔ real historical generations, migration backups and frozen aggregate erase payload and replay after client restart (724.448208ms)
+✔ encrypted Mongo originals survive exact readback, duplicate intake and restart; deletion fences concurrent reuse (348.500083ms)
+✔ synthetic legacy cutover requires exact preview, verifies destination, and leaves alias target held for separate deletion review (89.198ms)
+✔ two legacy aliases and one native holder prevent one-source deletion from removing their shared Mongo bytes (36.406584ms)
+✔ alias activation cannot publish a reference after concurrent native purge commits (22.324625ms)
+✔ synthetic alias reconciliation waits for every holder and retention delay, then retires aliases and fences exact bytes (393.057333ms)
+✔ cutover preview rejects path traversal and a non-synthetic S3 bucket before source access (12.220458ms)
+MONGO_QUALIFICATION_EVIDENCE {"database":"kiara_qualification_a61074e07d8442d6984efe26941abd76","uri":"mongodb://127.0.0.1:27931/?replicaSet=kiaraQualification","mongodbVersion":"8.0.32","binarySha256Verified":false,"node":"v26.7.0","applicationProcessRestartTested":true,"serverRestartTested":false,"atlasSearchTested":false,"providersCalled":0,"databaseDropped":true}
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6818.668292

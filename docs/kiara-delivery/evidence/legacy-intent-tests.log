@@ -1,0 +1,13 @@
+✔ new model and human facts remain untrusted until founder verification; all prior context is retained (667.398791ms)
+✔ new fact values cannot bypass key, size, nesting, or count limits (0.323667ms)
+✔ F07 supplied context lineage survives an attributed fact correction and later supplied work (553.111542ms)
+✔ F08 model fact verification rejects an originating snapshot made stale by human correction (460.475792ms)
+✔ F12 blocked work can be withdrawn once without dropping uncertain effects or permitting stale intent (481.778667ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1849.888792

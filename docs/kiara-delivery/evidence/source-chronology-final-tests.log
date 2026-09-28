@@ -1,0 +1,25 @@
+✔ late ordered Drive revision preserves current proposal, approvals and one current queue (291.360083ms)
+✔ newer source invalidates dependent proposal but preserves scoped historical access and blocks old fact confirmation (252.196542ms)
+✔ same revision conflicting bytes rejects atomically; identical delivery aliases do not duplicate sources or effects (109.58075ms)
+✔ opaque GitHub heads conflict regardless event time and only stable scoped read selects a current head (109.98375ms)
+✔ withdrawn current object cannot fall back, late events cannot restore it, historical source remains audit-readable (119.585333ms)
+✔ verified ordered provider read cannot regress a known newer revision (47.112833ms)
+✔ Slack edits order per message, late old edit does not displace newer evidence (65.723ms)
+✔ complete Slack thread refresh after deletion preserves withdrawn message fence and replay does not revoke fresh snapshot (108.17475ms)
+✔ current evidence recheck rejects newly historical dependencies while new retrieval excludes old facts and prompt history (120.439333ms)
+✔ known deleted Slack message cannot reappear in a different verified thread snapshot or retained readable aggregate (86.162542ms)
+✔ manual withdrawal of a signed message hides its existing active aggregate immediately (85.331375ms)
+✔ historical Slack deletion relation is exact to installation, channel, revision and bytes (48.954875ms)
+✔ attributed current message deletion physically clears aggregate payload and leaves unrelated malformed evidence alone (100.473083ms)
+✔ deleting only a historical message revision purges its matching snapshot while preserving newer thread bytes (105.349625ms)
+✔ independent frozen clause includes referenced exception, defined term and its schedule without changing original bytes (5.243542ms)
+✔ malformed and adversarial headings remain literal source slices without fabricated exception applicability (1.201584ms)
+✔ bounded cross-reference expansion reports missing context rather than claiming complete review (0.195875ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2342.451792

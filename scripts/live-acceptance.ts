@@ -11,7 +11,7 @@ import {operationalEvidence} from '../src/server/operations';
 import {globalSpendStatus} from '../src/server/global-spend';
 import {dispatchNotification} from '../src/server/notifications';
 
-Object.assign(process.env,{KIARA_AUTH_MODE:'public_demo',KIARA_MODEL_MODE:'openai',KIARA_OPENAI_BUDGET_USD:'50',KIARA_PUBLIC_LIVE_ENABLED:'true',KIARA_EMAIL_MODE:'preview',KIARA_ALLOW_LIVE_EMAIL:'false',KIARA_ACCEPTANCE_TEST:'true',KIARA_MODEL:'gpt-6-sol',KIARA_REVIEW_MODEL:'gpt-6-sol',KIARA_REASONING_EFFORT:'low'});
+Object.assign(process.env,{KIARA_AUTH_MODE:'public_demo',KIARA_MODEL_MODE:'openai',KIARA_PUBLIC_LIVE_ENABLED:'true',KIARA_EMAIL_MODE:'preview',KIARA_ALLOW_LIVE_EMAIL:'false',KIARA_ACCEPTANCE_TEST:'true',KIARA_MODEL:'gpt-6-sol',KIARA_REVIEW_MODEL:'gpt-6-sol',KIARA_REASONING_EFFORT:'low'});
 if(!process.env.OPENAI_API_KEY||!process.env.MONGODB_URI)throw new Error('Secure project provider and Atlas configuration required.');
 const step=process.argv[2]||'initial',label=process.env.KIARA_ACCEPTANCE_RUN||'';
 if(!/^[a-z0-9-]{0,40}$/.test(label))throw new Error('Invalid acceptance run label');

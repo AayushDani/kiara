@@ -1,0 +1,44 @@
+✔ v2 local sessions are signed, origin bound, role limited and explicitly simulated (25.334958ms)
+✔ organization browser sign-in binds code, state, PKCE, nonce and provisioned membership for / (142.813667ms)
+✔ organization browser sign-in binds code, state, PKCE, nonce and provisioned membership for /review/attention (131.612417ms)
+✔ OIDC identity verification rejects forged tokens, wrong audience, expiry and unmapped subjects (48.200708ms)
+✔ receiving signature, alias and stable provider identity precede any account read or durable source (173.696375ms)
+✔ configured authenticated sender admits private unknown-authority evidence with exact tracked original and no action (453.591958ms)
+✔ unknown sender stays outside retrieval until exact authenticated owner review; another admin cannot accept (432.469834ms)
+✔ copied forwarding identity, missing provider authentication and HTML-only bodies cannot auto-admit (750.155666ms)
+✔ unselected raw origin and receiving alias fail closed without downloading or attaching source (202.276ms)
+✔ owner membership change during provider read prevents retained intake attachment and source eligibility (137.7525ms)
+✔ concurrent workers share one read lease and deletion prevents readback replay from restoring retained email (232.424208ms)
+✔ installation and alias selection revocation immediately hide retained email from snapshot and reuse (210.73625ms)
+✔ email local and managed workers carry only references, defer running intake and reject substituted identities (385.368459ms)
+✔ retained source and exact review are fenced by receiving membership version, not just unchanged role (248.600708ms)
+✔ dedicated account attestation and unique credential identities prevent shared-account tenant routing (39.85325ms)
+✔ Received-header recipients are denial-only consistency and never override selected receiving alias (440.958833ms)
+✔ owner-only discovery projects metadata and hides source title after installation revocation (190.808917ms)
+✔ notification references omit recipients/content and validate exact retained identity before processor (219.606ms)
+✔ local notification loop reschedules unknown delivery, stops completed watch and never invents a completion (119.079875ms)
+✔ independent final grant mutation blocks posting to a recipient never reviewed (470.057084ms)
+✔ unknown dispatch remains deduped after explicit off and on; no automatic resend (477.827084ms)
+✔ provider acknowledgment after opt-out and expired lease is retained without another send (506.821666ms)
+✔ readback with extra HTML or attachment content cannot certify exact generic delivery (419.318084ms)
+✔ email is off until exact configured recipient opt-in; malformed and conflicting grants are unavailable (164.109708ms)
+✔ required email contains only generic authenticated link; exact provider read-back distinguishes delivered (474.039292ms)
+✔ semantic dedup ignores unrelated versions but changed required conditions produce a new notice (659.798542ms)
+✔ digest dedup is once per local calendar day despite changes in item membership (385.388875ms)
+✔ quiet hours defer digest while required escalation can pass (332.778458ms)
+✔ preview and provider acceptance are never reported as verified delivery (159.517125ms)
+✔ a lost POST response stays unknown across retry and accepts only exact read-back (212.182042ms)
+✔ concurrent workers send once and a late acceptance survives expired-lease recovery (292.459125ms)
+✔ membership, source condition and opt-out changes stop a prepared send at final admission (182.381334ms)
+✔ acknowledged work and revoked membership cannot trigger prepared email (228.874125ms)
+✔ accepted receipt requires matching provider bytes, and another actor cannot reconcile it (277.386583ms)
+✔ explicit reenrollment can prepare a canceled unsent condition without retrying an uncertain dispatch (448.193458ms)
+✔ membership change immediately before dispatch cancels the prepared notification (169.011791ms)
+ℹ tests 36
+ℹ suites 0
+ℹ pass 36
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4946.031916

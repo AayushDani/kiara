@@ -1,0 +1,128 @@
+{
+  "runtime": "v24.19.0",
+  "command": "Temporary .ts copy with absolute src imports, run via node --import <repo>/node_modules/tsx/dist/loader.mjs (see data-legal.md)",
+  "executed_at": "2026-09-27T04:44:24.979Z",
+  "external_calls": 0,
+  "exemption_screen": {
+    "baseline_outcome": "covered",
+    "baseline_keys": [
+      "scope",
+      "healthAndClinicalResearch",
+      "regulatedFinancialInformation",
+      "fcraRegulatedActivity",
+      "dppaData",
+      "vehicleOrVesselRecall",
+      "educationalAssessment",
+      "commercialCreditReporting",
+      "publicOrDeidentifiedOnly",
+      "privilegedCommunication",
+      "lawEnforcementHold",
+      "otherSpecializedClaim"
+    ],
+    "arbitrary_keys_outcome": "covered",
+    "arbitrary_keys_missing": []
+  },
+  "alternative_route": {
+    "for_profit": false,
+    "voluntary_cppa_certification": true,
+    "assessment": {
+      "outcome": "not_covered",
+      "summary": "CCPA coverage is not established for this assessed scope. Other obligations may still apply.",
+      "missing_facts": [],
+      "basis": [
+        "A required business or assessed-scope criterion is explicitly false."
+      ],
+      "criteria": [
+        {
+          "label": "for profit",
+          "result": "fail",
+          "evidence": "Pinned company fact: for_profit"
+        },
+        {
+          "label": "collects personal information",
+          "result": "pass",
+          "evidence": "Pinned company fact: collects_personal_information"
+        },
+        {
+          "label": "determines purposes and means",
+          "result": "pass",
+          "evidence": "Pinned company fact: determines_purposes_and_means"
+        },
+        {
+          "label": "does business in california",
+          "result": "pass",
+          "evidence": "Pinned company fact: does_business_in_california"
+        },
+        {
+          "label": "natural person",
+          "result": "pass",
+          "evidence": "Pinned company fact: natural_person"
+        },
+        {
+          "label": "ordinary signup data nonexempt",
+          "result": "pass",
+          "evidence": "Pinned company fact: ordinary_signup_data_nonexempt"
+        },
+        {
+          "label": "2025 gross revenue exceeds $26,625,000",
+          "result": "pass",
+          "evidence": "Civil Code §1798.140(d)(1)(A) · CPPA 2025 CPI adjustment"
+        }
+      ]
+    }
+  },
+  "conflicting_revenue": {
+    "outcome": "needs_information",
+    "missing": [
+      "annual_gross_revenue_usd"
+    ]
+  },
+  "changed_source": {
+    "error": "SOURCE_CHANGED",
+    "before_state": "awaiting_founder",
+    "after_state": "awaiting_founder",
+    "bundle_unchanged": true,
+    "freshness_unchanged": true,
+    "state_version_unchanged": true,
+    "founder_approval_result": {
+      "workflow_id": "051ea4cc-5268-47fa-83d4-81d527cbec63",
+      "state": "awaiting_lawyer"
+    }
+  },
+  "corpus": {
+    "source_checks": [],
+    "source_count": 3,
+    "stored_chunks": 31,
+    "runtime_chunks": 32,
+    "total_stored_chunk_utf16": 297700,
+    "largest_chunk_utf16": 37946,
+    "chunks_without_numeric_source_offsets": 31,
+    "embedding_fields": 0,
+    "parser_versions": [
+      {
+        "source_key": "src_ca_ccpa_statute_20260101",
+        "parser_name": "pypdf",
+        "parser_version": null
+      },
+      {
+        "source_key": "src_ca_ccpa_regs_20260101",
+        "parser_name": "pypdf",
+        "parser_version": null
+      },
+      {
+        "source_key": "src_ca_ccpa_cpi_20250101",
+        "parser_name": "raw_html_utf8",
+        "parser_version": null
+      }
+    ]
+  },
+  "imported_context_lineage": {
+    "before_epoch": 2,
+    "before_scope": "founder_supplied",
+    "after_epoch": 3,
+    "after_scope": "synthetic_fixture",
+    "original_import_receipt_retained": true,
+    "current_epoch_import_receipt_present": false,
+    "note": "The supplied-event route checks exactly the missing current-epoch receipt and returns CONTEXT_REQUIRED; this experiment tests the state/projection and evaluates that same predicate, not the Next handler."
+  }
+}

@@ -206,8 +206,8 @@ test('review regression: a session cannot cross the reset fence while its comman
 
 test('review: model fact proposals require current founder verification and retain model attribution',()=>isolated(async()=>{
  const w=await start(),proposalID=id(),badID=id();
- const proposal={kind:'model_fact_proposal',proposal_id:proposalID,workflow_id:w.workflow_id,tenant_id:w.tenant_id,reset_epoch:w.reset_epoch,fact_key:'annual_gross_revenue_usd',proposed_value:31000000,reason:'Model requests human verification; not an established fact.',status:'unverified',authority:'founder_review_required',created_at:new Date().toISOString()};
- const malformed={...proposal,proposal_id:badID,fact_key:'for_profit',proposed_value:'false'};
+ const proposal={kind:'model_fact_proposal',proposal_id:proposalID,workflow_id:w.workflow_id,tenant_id:w.tenant_id,reset_epoch:w.reset_epoch,context_epoch:w.context_epoch,fact_value_hash:hash(w.facts.find(f=>f.fact_key==='annual_gross_revenue_usd')??null),fact_key:'annual_gross_revenue_usd',proposed_value:31000000,reason:'Model requests human verification; not an established fact.',status:'unverified',authority:'founder_review_required',created_at:new Date().toISOString()};
+ const malformed={...proposal,proposal_id:badID,fact_value_hash:hash(w.facts.find(f=>f.fact_key==='for_profit')??null),fact_key:'for_profit',proposed_value:'false'};
  await transaction(s=>{for(const value of [proposal,malformed])s.receipts[`${w.reset_epoch}:model_fact_proposal:${value.proposal_id}`]={hash:hash(value),result:value as Json};});
  const before=await readState(),context=before.context_epoch;
  await assert.rejects(verifyModelFact(proposalID,'lawyer',w.reset_epoch,context),/Only the founder/);
@@ -234,7 +234,7 @@ test('review regression: founder verification of a model fact authorizes a linke
  await transaction(s=>{
   const current=s.workflows[0];current.model_mode='openai';current.model_status='complete';
   const ledger=initializeLedger(s,current);ledger.started_at=new Date(Date.now()-600000).toISOString();ledger.deadline_at=new Date(Date.now()-300000).toISOString();saveLedger(s,current,ledger);
-  const proposal={kind:'model_fact_proposal',proposal_id:proposalID,workflow_id:w.workflow_id,tenant_id:s.tenant_id,reset_epoch:s.reset_epoch,fact_key:'annual_gross_revenue_usd',proposed_value:31000000,reason:'Requires current founder verification',status:'unverified',authority:'founder_review_required',created_at:new Date().toISOString()};
+  const proposal={kind:'model_fact_proposal',proposal_id:proposalID,workflow_id:w.workflow_id,tenant_id:s.tenant_id,reset_epoch:s.reset_epoch,context_epoch:s.context_epoch,fact_value_hash:hash(s.facts.find(f=>f.fact_key==='annual_gross_revenue_usd')??null),fact_key:'annual_gross_revenue_usd',proposed_value:31000000,reason:'Requires current founder verification',status:'unverified',authority:'founder_review_required',created_at:new Date().toISOString()};
   s.receipts[`${s.reset_epoch}:model_fact_proposal:${proposalID}`]={hash:hash(proposal),result:proposal};
  });
  const before=await readState();await verifyModelFact(proposalID,'founder',w.reset_epoch,before.context_epoch);

@@ -3,7 +3,7 @@ import {randomUUID} from 'node:crypto';
 import {reserveGlobalSpend,settleGlobalSpend} from '../src/server/global-spend';
 import {closeStore} from '../src/data/store';
 import {tokenCost} from '../src/runtime/config';
-Object.assign(process.env,{KIARA_OPENAI_BUDGET_USD:'50'});
+// Preserve the operator's explicit configured authorization; never raise its cap.
 const id=randomUUID(),model='gpt-6-sol';
 const safe=(value:unknown)=>typeof value==='string'&&/^[a-zA-Z0-9_.-]{1,100}$/.test(value)?value:null;
 try{

@@ -1,0 +1,28 @@
+✔ uncertain external effects remain required after future work is canceled, and acknowledgment never marks delivery (200.114916ms)
+✔ accepted routing moves only factual attention; membership change returns the task and invalidates a delegated decision (361.242042ms)
+✔ legal maintenance local worker reads the approved source and keeps a bounded durable watch without approving applicability (252.971ms)
+✔ legal watch managed references contain no URL and mismatched tenant/job cannot reach processor (87.962291ms)
+✔ signed selected thread continues one conversation, pins lineage and delivers exact reply once with verified readback (484.644875ms)
+✔ bot messages never loop back into source ingestion and signed unmapped identities cannot impersonate the bound actor (80.745292ms)
+✔ historical web content cannot be reclassified as a Slack audience and canonical audience recursion rejects private dependencies (113.549333ms)
+✔ destination retrieval excludes an actor private contract and company fact before forming a local answer (250.377875ms)
+✔ lost acknowledgement reconciles by opaque metadata and exact bot/thread/content, never by absence or resend (373.662208ms)
+✔ configuration and actor membership changes during asynchronous preflight prevent the first provider post (345.958791ms)
+✔ source edit or deletion after accepted input blocks unsent reply; mismatched provider readback stays uncertain (285.033833ms)
+✔ DM bindings keep the exact destination and concurrent workers can admit only one post (180.088458ms)
+✔ outbox dispatch and local worker carry only reply references and reject substituted message identity (253.904541ms)
+✔ answer dependency changes during preflight block stale local facts and superseded document heads (189.662125ms)
+✔ delivery projection distinguishes unknown completion and never leaks destination or body to another member (203.982875ms)
+✔ model packet excludes private transitive evidence, including same-audience facts with private sources (676.707291ms)
+✔ configuration revocation during counted model admission prevents generation (300.282375ms)
+✔ hybrid query restricts prefilters to the channel audience before embedding and search (537.81625ms)
+✔ source deletion propagates to Slack scenario assumptions and current user dependencies (193.858292ms)
+✔ browser cannot forge channel provenance or use an outdated source-revocation version (110.007791ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3633.943709

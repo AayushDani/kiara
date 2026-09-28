@@ -1,0 +1,19 @@
+✔ template substitution creates a private unapproved draft without expanding scope or treating values as company facts (335.269167ms)
+✔ reimport retains exact original bytes and immutable revisions, rejects stale heads and invalidates dependent decisions (467.111958ms)
+✔ signed and effective originals require a separate amendment instead of replacement (246.181208ms)
+✔ comparison reconstructs both complete texts and preserves insertions, removals and exceptions (6.0865ms)
+✔ removed evidence has a minimal owner control view and another member cannot infer it (428.067417ms)
+✔ withdrawal cancels future effects while preserving uncertain effects and reconciliation (478.344292ms)
+✔ revoked or narrowed membership cannot use recovery controls (415.107042ms)
+✔ deletion propagates through records and audit payloads while exposing only safe pending-retention status (587.816209ms)
+✔ uncertain effects remain protected exceptions until settled, then repeated cleanup erases the payload (614.332833ms)
+✔ local original deletion is tenant scoped, exact, verified and replayable (51.723083ms)
+✔ S3 purge targets the retained version, verifies absence and never treats forbidden/readback as success (1.588375ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2200.007541

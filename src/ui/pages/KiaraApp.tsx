@@ -78,6 +78,8 @@ export default function KiaraApp() {
   const [residence, setResidence] = useState('US-CA');
   const [scenario, setScenario] = useState('covered');
   const [reviewNote, setReviewNote] = useState('');
+  const [inspected, setInspected] = useState<{workflowId:string;version:number;bundle:string|null;epoch:number;role:Role}|null>(null);
+  const retryKeys = useRef(new Map<string,string>());
   const [policyMode, setPolicyMode] = useState<'changes' | 'full'>('changes');
   const [source, setSource] = useState<Provision | null>(null);
   const [sourceLoading, setSourceLoading] = useState(false);
@@ -96,6 +98,7 @@ export default function KiaraApp() {
   const proposed = state?.revisions.find(item => item.revision_id === workflow?.candidate_revision_id);
   const processing = !!workflow && processingStates.has(workflow.state);
   const reviewable = !!workflow?.bundle_hash && (role === 'founder' ? workflow.state === 'awaiting_founder' : workflow.state === 'awaiting_lawyer');
+  const reviewChanged = !!workflow && (!inspected || inspected.workflowId!==workflow.workflow_id || inspected.version!==workflow.state_version || inspected.bundle!==workflow.bundle_hash || inspected.epoch!==state?.reset_epoch || inspected.role!==role);
   const isReview = workflow?.state === 'awaiting_founder' || workflow?.state === 'awaiting_lawyer';
   const terminal = !!workflow && ['finalized', 'closed_no_change', 'rejected', 'superseded', 'failed'].includes(workflow.state);
   const founderApproved = demoComplete || !!workflow?.approvals.some(approval => approval.role === 'founder' && approval.action === 'approved' && approval.bundle_hash === workflow.bundle_hash);
@@ -135,10 +138,10 @@ export default function KiaraApp() {
   }, [refresh]);
   useEffect(() => {
     if (workflow && ['awaiting_founder', 'awaiting_lawyer'].includes(workflow.state)) {
-      const reviewKey = `${workflow.workflow_id}:${workflow.state}`;
-      if (lastReview.current !== reviewKey) { lastReview.current = reviewKey; setView('policy'); setReviewNote(''); }
+      const reviewKey = `${workflow.workflow_id}:${workflow.state}:${role}:${state?.reset_epoch}`;
+      if (lastReview.current !== reviewKey) { lastReview.current = reviewKey; setView('policy'); setReviewNote(''); setInspected({workflowId:workflow.workflow_id,version:workflow.state_version,bundle:workflow.bundle_hash,epoch:workflow.reset_epoch,role}); }
     }
-  }, [workflow]);
+  }, [workflow, role, state?.reset_epoch]);
   const closeSource = useCallback(() => setSource(null), []);
   const closeEmail = useCallback(() => setEmail(null), []);
 
@@ -148,10 +151,15 @@ export default function KiaraApp() {
     setBusy(true);
     setError('');
     setNotice('');
+    const signature = JSON.stringify([data?.session.actor_id,data?.session.reset_epoch,path,body]);
+    const commandKey = retryKeys.current.get(signature) ?? crypto.randomUUID();
+    retryKeys.current.set(signature,commandKey);
     try {
-      const response = await fetch(path, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': data?.session.csrf ?? '', 'Idempotency-Key': crypto.randomUUID() }, body: JSON.stringify(body) });
+      const response = await fetch(path, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': data?.session.csrf ?? '', 'Idempotency-Key': commandKey }, body: JSON.stringify(body) });
       const payload = await response.json();
-      if (!response.ok) throw new Error(errorMessage(payload, 'The action could not be completed.'));
+      if (!response.ok) { if(response.status<500)retryKeys.current.delete(signature); throw new Error(errorMessage(payload, 'The action could not be completed.')); }
+      retryKeys.current.delete(signature);
+      if(payload.processing_pending)setNotice(payload.notice);
       try { await refresh(); } catch { setError('Your action was saved. Reconnect to see the latest workspace before continuing.'); }
       if (payload.new_workspace || payload.demo_reset || path === '/api/reset') {
         setSelected(null); setView('activity'); setEmail(null); setSource(null); setReviewNote('');
@@ -182,13 +190,13 @@ export default function KiaraApp() {
     }
   }
   async function approve() {
-    if (!data || !workflow || !reviewable) return;
+    if (!data || !workflow || !reviewable || reviewChanged || !inspected) return;
     const actingRole = role;
     const result = await post(`/api/workflows/${workflow.workflow_id}/review`, {
       action: 'approved', note: reviewNote,
-      expected_state_version: workflow.state_version,
-      expected_reset_epoch: data.session.reset_epoch,
-      bundle_hash: workflow.bundle_hash,
+      expected_state_version: inspected.version,
+      expected_reset_epoch: inspected.epoch,
+      bundle_hash: inspected.bundle,
     });
     if (result && !result.demo_reset) { setReviewNote(''); setNotice(actingRole === 'founder' ? 'Founder approved. Switch to lawyer to review the same policy version.' : 'Both approvals saved. The policy is finalized internally.'); }
   }
@@ -271,7 +279,7 @@ export default function KiaraApp() {
           {workflow && !isReview && !terminal && <div className="demo-approval-card"><div className="demo-card-head"><h2>Approval is waiting for validation</h2><Icon name="shield" size={21}/></div><p>{processing ? 'The harness is checking and repairing this proposal. Founder approval becomes available when all required checks pass.' : `This run needs a correction before anyone can approve it.${workflow.failure ? ` Current issue: ${humanize(workflow.failure)}.` : ''}`}</p><p>Review order: founder first, then lawyer. Both approvals must refer to the same validated document.</p><button className="demo-secondary" disabled>Founder approval unavailable</button><button className="demo-secondary" disabled>Lawyer approval unavailable</button></div>}
           {proposed && <details className="demo-details" open={isReview}><summary>Operational work before publication</summary><p>Approvals review this document. The following work remains open and is not completed by approving the policy.</p><ul>{data.followups?.map(item=><li key={item.followup_id}><strong>{humanize(item.kind)} · {item.owner_role}</strong><p>{item.description}</p></li>)}</ul>{data.review_requirements?.filter(item=>item.workflow_id===workflow?.workflow_id&&item.revision_id===proposed.revision_id).flatMap(item=>item.requirements).map((requirement,index)=><p key={index}>{requirement}</p>)}</details>}
           {isReview && <div className="demo-approval-card"><div className="demo-card-head"><div><span className="demo-eyebrow">HUMAN JUDGMENT REQUIRED</span><h2>{workflow.state === 'awaiting_founder' ? 'Ready for your founder review.' : 'The final decision belongs to legal.'}</h2></div><span className="demo-icon-box"><Icon name="shield" size={21} /></span></div><p>{workflow.state === 'awaiting_founder' ? 'Kiara has prepared and validated the proposal. Review the exact changes, then pass it to your lawyer.' : 'Review the founder-approved packet. Both decisions must approve this same policy version. Decisions and learning remain in history.'}</p><div className="demo-approval-roles"><div className="demo-approval-person" data-done={founderApproved}><span>{founderApproved ? <Icon name="check" size={15} /> : 'F'}</span><div><strong>Founder</strong><small>{founderApproved ? 'Approved this version' : 'Reviews first'}</small></div></div><Icon name="arrow" size={16} /><div className="demo-approval-person" data-done={lawyerApproved}><span>{lawyerApproved ? <Icon name="check" size={15} /> : 'L'}</span><div><strong>Lawyer</strong><small>{founderApproved ? 'Ready for review' : 'After founder approval'}</small></div></div></div>
-            {reviewable ? <><details className="demo-details"><summary>Add a review note</summary><label className="demo-field"><span className="sr-only">Review note</span><textarea value={reviewNote} onChange={event => setReviewNote(event.target.value)} maxLength={5000} rows={3} placeholder="What should the next reviewer know?" /></label></details><button className="demo-primary" disabled={busy} onClick={() => void approve()}><Icon name="check" size={17} />{busy ? 'Saving approval…' : role === 'founder' ? 'Approve as founder' : publicDemo ? 'Approve & finish demo' : 'Approve as lawyer'}<Icon name="arrow" size={17} /></button></> : hosted ? <p className="demo-fine-print">Sign in as the {reviewRole} to continue this review.</p> : <button className="demo-primary" disabled={busy} onClick={() => void changeRole(reviewRole)}>Switch to {reviewRole} review<Icon name="arrow" size={17} /></button>}
+            {reviewable ? <>{reviewChanged&&<p role="alert">The review packet changed. Inspect the updated content, then <button className="demo-secondary" onClick={()=>{setReviewNote('');setInspected({workflowId:workflow!.workflow_id,version:workflow!.state_version,bundle:workflow!.bundle_hash,epoch:state!.reset_epoch,role});}}>Start a new review of this packet</button></p>}<details className="demo-details"><summary>Add a review note</summary><label className="demo-field"><span className="sr-only">Review note</span><textarea value={reviewNote} onChange={event => setReviewNote(event.target.value)} maxLength={5000} rows={3} placeholder="What should the next reviewer know?" /></label></details><button className="demo-primary" disabled={busy || reviewChanged} onClick={() => void approve()}><Icon name="check" size={17} />{busy ? 'Saving approval…' : role === 'founder' ? 'Approve as founder' : publicDemo ? 'Approve & finish demo' : 'Approve as lawyer'}<Icon name="arrow" size={17} /></button></> : hosted ? <p className="demo-fine-print">Sign in as the {reviewRole} to continue this review.</p> : <button className="demo-primary" disabled={busy} onClick={() => void changeRole(reviewRole)}>Switch to {reviewRole} review<Icon name="arrow" size={17} /></button>}
             {notification && <button className="demo-link" onClick={() => setEmail(notification)}><Icon name="mail" size={14} />{notification.mode === 'preview' ? 'View email preview · not sent' : 'View notification'}</button>}
             <p className="demo-fine-print">Simulated roles · Internal approval only · No public policy is published</p>
           </div>}
@@ -284,6 +292,7 @@ export default function KiaraApp() {
             return <article className="demo-clause" key={row.id}><div className="demo-clause-heading"><span>{String(index + 1).padStart(2, '0')}</span><h3>{row.proposed?.heading ?? row.original?.heading}</h3><span className="demo-status-pill" data-tone={row.change === 'added' ? 'success' : 'review'}>{humanize(row.change)}</span></div><div className="demo-clause-columns"><div className="demo-clause-before"><span>BEFORE · V{original?.revision_number}</span><p>{row.original?.body ?? 'This section is new.'}</p></div><div className="demo-clause-after"><span>PROPOSED · V{proposed.revision_number}</span><p>{row.proposed?.body ?? 'This section is removed.'}</p></div></div>{sourceKeys.length > 0 && <div className="demo-clause-sources"><span>Source evidence</span>{sourceKeys.map(key => <button key={key} className="demo-source-chip" disabled={sourceLoading} onClick={() => void openSource(key)}>{data.sources.find(item => item.provision_key === key)?.title ?? humanize(key)}<Icon name="external" size={11} /></button>)}</div>}</article>;
           })}</div> : <article className="demo-policy-document"><div className="demo-policy-document-heading"><Icon name="document" size={22} /><h3>{activeRevision?.title}</h3><span>Version {activeRevision?.revision_number} · {activeRevision?.policy_updated_on}</span></div>{activeRevision?.clauses.map(clause => <section key={clause.clause_id}><h3>{clause.heading}</h3><p>{clause.body}</p></section>)}</article>}
           {workflow && !terminal && <ReviewFeedback state={state} workflow={workflow} role={role} post={post} disabled={busy || processing}/>}
+          {workflow && !terminal && role === 'founder' && <details className="demo-details"><summary>Withdraw this work</summary><p>Withdrawal preserves the audit trail. It does not undo external actions or erase uncertain provider outcomes.</p><button className="demo-secondary" disabled={busy || processing} onClick={()=>{const reason=window.prompt('Why should this work be withdrawn?');if(reason?.trim())void post(`/api/workflows/${workflow.workflow_id}/cancel`,{expected_reset_epoch:state.reset_epoch,expected_state_version:workflow.state_version,reason});}}>Record withdrawal</button></details>}
           {workflow && !terminal && role === 'lawyer' && <button className="demo-secondary" disabled={busy || processing} onClick={()=>void post(`/api/workflows/${workflow.workflow_id}/recheck-sources`,{expected_reset_epoch:state.reset_epoch})}>Recheck official sources and invalidate prior approvals</button>}
           {activeRevision && <a className="demo-link demo-download" href={`/api/documents/${activeRevision.revision_id}/export`} download>Download policy text<Icon name="arrow" size={14} /></a>}
         </section>}

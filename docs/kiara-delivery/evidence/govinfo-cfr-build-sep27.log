@@ -1,0 +1,54 @@
+
+> kiara@0.1.0 build
+> next build --webpack
+
+▲ Next.js 16.3.6 (webpack)
+workflows build complete (5 steps, 1 workflow, time 82ms)
+✓ Running next.config.ts took 452ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 3.3s
+  Running TypeScript ...
+  Finished TypeScript in 7.4s ...
+  Collecting page data using 9 workers ...
+(node:77261) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:77264) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  Generating static pages using 9 workers (0/8) ...
+  Generating static pages using 9 workers (2/8)
+  Generating static pages using 9 workers (4/8)
+  Generating static pages using 9 workers (6/8)
+✓ Generating static pages using 9 workers (8/8) in 322ms
+  Finalizing page optimization ...
+  Collecting build traces ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /.well-known/workflow/v1/flow
+├ ƒ /.well-known/workflow/v1/step
+├ ƒ /.well-known/workflow/v1/webhook/[token]
+├ ƒ /api/[...path]
+├ ƒ /api/v2/actions/[id]/execution
+├ ƒ /api/v2/auth/callback
+├ ƒ /api/v2/auth/start
+├ ƒ /api/v2/commands
+├ ƒ /api/v2/documents
+├ ƒ /api/v2/documents/[id]/compare
+├ ƒ /api/v2/documents/[id]/export
+├ ƒ /api/v2/documents/[id]/original
+├ ƒ /api/v2/email/installations/[installationId]/webhook
+├ ƒ /api/v2/email/intakes/[id]/review
+├ ƒ /api/v2/integrations/[installationId]/webhook
+├ ƒ /api/v2/legal/govinfo
+├ ƒ /api/v2/notifications/[id]/reconcile
+├ ƒ /api/v2/session
+├ ƒ /api/v2/workspace
+├ ○ /legacy
+├ ○ /review/attention
+└ ○ /welcome
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand

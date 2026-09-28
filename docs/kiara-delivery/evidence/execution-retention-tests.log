@@ -1,0 +1,41 @@
+✔ template substitution creates a private unapproved draft without expanding scope or treating values as company facts (251.650542ms)
+✔ reimport retains exact original bytes and immutable revisions, rejects stale heads and invalidates dependent decisions (458.454667ms)
+✔ signed and effective originals require a separate amendment instead of replacement (248.917833ms)
+✔ comparison reconstructs both complete texts and preserves insertions, removals and exceptions (7.160083ms)
+✔ internal document execution retains immutable encrypted bytes and verifies one output across replay (809.111417ms)
+✔ revoked decision, changed subject and lesser role cannot escalate into execution (355.536625ms)
+✔ concurrent retries share a durable intent and dispatch exactly once (325.963167ms)
+✔ source access revoked during preparation prevents the provider call (260.662375ms)
+✔ cancel during preparation prevents dispatch and retains its exact historical intent (320.364ms)
+✔ cancel after dispatch preserves an uncertain effect and later read-back cannot reopen the matter (328.13525ms)
+✔ email acceptance requires exact tagged delivery read-back; late bounce fails completion (345.113834ms)
+✔ email unknown outcome is never resent and an unrelated receipt cannot complete it (285.327666ms)
+✔ email exact allowlist and configuration failure reject before any effect intent (189.488875ms)
+✔ preview stays pending manual and never downgrades a later attributed manual completion (296.957875ms)
+✔ publication read-back verifies exact authorized destination bytes without publishing (306.15925ms)
+✔ a provider signing-request receipt can never become an executed-original completion (243.648ms)
+✔ expired prepared checkpoint recovers without dispatch, while a live lease remains untouched (246.6895ms)
+✔ explicit provider rejection is retained and replay cannot dispatch a second request (250.542584ms)
+✔ frozen configured preview rejects changed sender or preview-to-live mode before reserving an effect (365.911375ms)
+✔ dispatcher membership version must still match the preview after preparation even with its role retained (330.534917ms)
+✔ legal obligation introduced during preparation blocks dispatch until its exact deadline basis is reviewed (299.099292ms)
+✔ a delayed delivered read-back cannot overwrite a concurrently recorded terminal delivery failure (313.656125ms)
+✔ durable effect outbox sends only references and local read-back completion never starts another dispatch (473.596208ms)
+✔ background email read-back defers unknown no-receipt effects without another provider call (354.701959ms)
+✔ deleting prepared evidence fails and scrubs the intent before dispatch, including after the prepare resumes (234.988458ms)
+✔ deleting an unknown effect retains a private operational exception until exact readback settles and then scrubs (367.903709ms)
+✔ a readback already in flight cannot restore a terminal receipt payload after deletion (329.766292ms)
+✔ internal output readback after deletion does not materialize fresh derivative document payload (259.135083ms)
+✔ internal_document terminal deletion preserves encrypted original manifests for the retention worker before clearing artifacts (274.530625ms)
+✔ publish terminal deletion preserves encrypted original manifests for the retention worker before clearing artifacts (313.207166ms)
+✔ removed evidence has a minimal owner control view and another member cannot infer it (410.747667ms)
+✔ withdrawal cancels future effects while preserving uncertain effects and reconciliation (455.975791ms)
+✔ revoked or narrowed membership cannot use recovery controls (413.210708ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 33
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9943.764625

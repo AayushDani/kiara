@@ -1,0 +1,47 @@
+✔ message acceptance is durable before model dispatch; grounded answer receipts survive replay (496.569042ms)
+✔ same accepted message key is one durable run even after reply completion (104.043583ms)
+✔ missing provider credentials and invalid modes fail closed with retained user message (117.852583ms)
+✔ shared spending cap prevents dispatch and is never raised by conversation processing (244.176667ms)
+✔ provider timeout or unknown failure retains uncertain charge and forbids replay (338.893166ms)
+✔ explicit provider rejection settles reservation without fabricating an answer (307.093708ms)
+✔ source revoked while provider awaits cannot reach review or attach stale response (360.656083ms)
+✔ membership revoked during final support review cannot attach answer (449.2595ms)
+✔ unsupported citation IDs fail before support review; injection text remains untrusted with no tools (277.681958ms)
+✔ support reviewer rejects source-injected claims even when citation identity exists (505.361875ms)
+✔ private sources cannot enter another actor retrieval and derived output retains source ACL (258.675583ms)
+✔ hypotheses stay isolated; inventory enumerates authorized executed agreements beyond ranking (447.101792ms)
+✔ concurrent worker replays do not invoke the model twice (514.41425ms)
+✔ expired running lease conservatively reconciles an interrupted dispatch without another invocation (225.093333ms)
+✔ pinned model configuration cannot silently change after message acceptance (164.039958ms)
+✔ durable recovery marker survives the crash checkpoint between run terminalization and ledger reconciliation (138.313333ms)
+✔ prepared reservation interrupted before dispatch is released without invoking provider (135.870708ms)
+✔ source instructions stay in untrusted evidence and cannot gain model tools or command authority (317.357959ms)
+✔ source access changed during token count prevents generation dispatch and reservation (126.098792ms)
+✔ a uniquely supplied document supports Explain this contract even without a keyword match (56.899125ms)
+✔ source deletion during inference scrubs retained packet and prevents late provider payload storage (222.18675ms)
+✔ exact embedding tokens preserve multilingual and adversarial special-token text (247.085542ms)
+✔ embedding reserves exact tokens under the shared cap and durable replay makes no provider call (230.023958ms)
+✔ embedding budget exhaustion prevents dispatch; unknown charges never invoke again (270.124125ms)
+✔ revocation during embedding wait cannot retain or attach the returned vector (369.825875ms)
+✔ expired dispatched embedding recovery is durable without a second provider invocation (181.739375ms)
+✔ both Atlas branches prefilter tenant, entity and immutable authorized IDs and return no indexed text (2.151125ms)
+✔ scoped sync and hybrid fusion hydrate actual retained quotes; replay reuses index embeddings (495.797625ms)
+✔ private and expired evidence cannot enter index query allowlist; stale indexes fail explicitly (179.127292ms)
+✔ revocation during search and malicious cross-scope search IDs never reach model context (617.126208ms)
+✔ conversation worker uses accepted run identity for hybrid query then grounded answer and review (922.381208ms)
+✔ expired parent lease during index admission cannot dispatch a query embedding (561.832125ms)
+✔ an old prepared embedding cannot dispatch or mutate a successor admission after recovery (393.997875ms)
+✔ a permanently fenced record cannot be reinserted by an index writer paused across deletion (382.129334ms)
+✔ source parsing preserves exact UTF-16 anchors, heading siblings and bounded complete Unicode (12.809041ms)
+✔ a notice clause brings its exact definitions, exception and referenced schedule table (6.124625ms)
+✔ bounded expansion reports omissions and handles repeated references without inventing source text (0.95775ms)
+✔ both local and selected hybrid evidence hydrate structured source slices and bounded supporting context (119.496125ms)
+✔ packet bound reports truncation while agreement inventory stays exhaustive (337.284792ms)
+ℹ tests 39
+ℹ suites 0
+ℹ pass 39
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7198.897458

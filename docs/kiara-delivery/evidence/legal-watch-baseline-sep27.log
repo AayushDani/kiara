@@ -1,0 +1,15 @@
+✔ monitor admission requires exact protected URL policy and reads never claim applicability (319.466708ms)
+✔ observed change preserves bytes, expires source freshness and needs exact human applicability before targeting work (423.86675ms)
+✔ source or member withdrawal while a public read is pending prevents observed payload admission (157.529666ms)
+✔ bounded extraction and public address policy reject binary, private and mapped destinations (1.22725ms)
+✔ unsupported and oversized reads remain blocked; deletion removes the staged observed payload and stops its watch (338.303ms)
+✔ selected GovInfo source is durably staged with raw original and no implied coverage (473.687ms)
+✔ metadata substitution and missing operator selection reject before source read (1.448417ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1716.839167

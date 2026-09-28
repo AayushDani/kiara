@@ -1,0 +1,16 @@
+{
+  "enrollmentId": "361a8cc1-6bd3-47ee-9fdb-c70255514bee",
+  "progress": {
+    "status": "active",
+    "nextCheckMs": 60000
+  },
+  "deliveries": [
+    {
+      "id": "1aae95ad-4514-489f-9923-16c35e069116",
+      "kind": "digest",
+      "status": "preview",
+      "reason": "PREVIEW_NOT_DELIVERY",
+      "providerReceipt": null
+    }
+  ]
+}

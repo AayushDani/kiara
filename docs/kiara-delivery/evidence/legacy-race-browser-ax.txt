@@ -1,0 +1,329 @@
+Browser tab: 1, Title: "Kiara — Conversation, company memory, and legal work", URL: "http://127.0.0.1:4517/legacy?workflow=43511725-8921-40d7-8555-9e16d4243872".
+0 AXWebArea Kiara — Conversation, company memory, and legal work, URL: 127.0.0.1:4517/legacy?workflow=43511725-8921-40d7-8555-9e16d4243872
+	1 container
+		2 pop up button (collapsed) Description: Open Next.js Dev Tools, ID: next-logo, Secondary Actions: Expand
+			3 image
+		4 link Description: Kiara home, Value: 127.0.0.1:4517/
+		5 text Legal context, in motion. Scripted demonstration
+		6 container
+			7 text Simulated role
+			8 pop up button (collapsed, settable) Description: Simulated role, Value: Founder, Secondary Actions: Expand
+				9 menu
+					10 (selected) Founder
+					11 Lawyer
+		12 button Reset demo
+		13 container
+			14 text THE COMPANY WORKSPACE /  DemoCo
+			15 heading A policy update. Your judgment, next., Value: 1
+				16 text A policy update.
+				17 text Your judgment, next.
+			18 text Review the proposed changes below. Each approval is tied to this exact version. TM Taylor Morgan US-CA  signup ·  fictional customer Founder review
+		19 content list Demo progress
+			20 text Assess & prepare
+			21 container
+				22 text 02 Founder review
+			23 container
+				24 text 03 Lawyer review
+		25 container Privacy policy status
+			26 heading Privacy policy, Value: 2
+				27 text Privacy policy
+			28 text Version 5 proposed · 13 changed sections
+			29 button Review changes
+		30 container Workspace views
+			31 button Activity
+			32 button Policy 13
+				33 text Policy
+				34 text 13
+			35 button Company context
+		36 container Privacy policy review
+			37 container
+				38 button (expanded) Operational work before publication, Secondary Actions: Collapse
+					39 text Operational work before publication
+				40 text Approvals review this document. The following work remains open and is not completed by approving the policy.
+				41 content list
+					42 container
+						43 AXListMarker •
+						44 text Data minimization  ·  founder Preserve the requested name/address signup fixture, but assess whether full postal address is necessary and proportionate. Event inclusion is not proof of lawful necessity. Consider city/state collection if sufficient only through a separately approved factual/product decision.
+					45 container
+						46 AXListMarker •
+						47 text Risk assessment  ·  lawyer Review SPI processing risk assessment, initiation date and applicability with T03; no assumption that an older-transition deadline applies to new September2026 processing.
+					48 container
+						49 AXListMarker •
+						50 text Notice at collection  ·  founder Verify and implement notice at or before collection for actual signup categories, purposes and retention. Later policy approval cannot cure an earlier missing notice.
+					51 container
+						52 AXListMarker •
+						53 text Request channel verification  ·  founder Confirm monitored request email, usable form, identity/agent handling and trained operations. Example .example endpoints are synthetic.
+					54 container
+						55 AXListMarker •
+						56 text Policy publication  ·  founder Publish only via a separately authorized release after operational facts match. Workflow finalization records a reviewed document, not a public policy or compliance certificate.
+					57 container
+						58 AXListMarker •
+						59 text Practice verification  ·  lawyer Verify processor contracts, no sale/sharing, retention, credentials, no significant-decision ADMT and reporting thresholds. These are explicit fictional assertions in this packet.
+			60 text HUMAN JUDGMENT REQUIRED
+			61 heading Ready for your founder review., Value: 2
+				62 text Ready for your founder review.
+			63 text Kiara has prepared and validated the proposal. Review the exact changes, then pass it to your lawyer.
+			64 text F
+			65 text Founder
+			66 text Reviews first
+			67 text L
+			68 text Lawyer
+			69 text After founder approval
+			310 container
+				311 text The review packet changed. Inspect the updated content, then
+				312 button Start a new review of this packet
+			263 container
+				264 button (expanded) Add a review note, Secondary Actions: Collapse
+					265 text Add a review note
+				266 text Review note
+				267 text entry area (settable) Review note, Value: Browser note based on the packet I inspected before polling.
+			72 button (disabled) Approve as founder
+			73 button View email preview · not sent
+			74 text Simulated roles · Internal approval only · No public policy is published
+			75 text THE PROPOSED UPDATE
+			76 heading Privacy policy v5, Value: 2
+				77 text Privacy policy  v 5
+			78 checkbox Changes, Value: 1
+			79 checkbox Full policy, Value: 0
+			80 container
+				81 text 13  sections updated or added. Source-backed,  scripted  proposal.  Validation passed; ready for human judgment.
+			82 container
+				83 text 01
+				84 heading Information practices in the preceding 12 months, Value: 3
+					85 text Information practices in the preceding 12 months
+				86 text Changed BEFORE · V 1 We collect your name, email, account credentials, postal address, declared state of residence and saved events. We also collect device identifiers, approximate location and activity on our website. PROPOSED · V 5 During the 12 months before the proposed policy update, we collected the following categories. The same inventory describes the new California signup. A postal address, declared legal residence, and coarse device-derived location are different information; we do not treat an address or IP location alone as proof of legal residence. We do not collect precise device location.
+
+Identifiers. Examples: name, email, postal address, account ID, IP address. Sources: consumer directly, device interaction. Purposes: create and service account, deliver selected local event recommendations, security. Business-purpose recipients in that period: hosting service provider, transactional email service provider. Retention: Account life plus 30 days after closure; security IP logs 90 days, subject to documented legal holds.
+
+Personal information described in California Civil Code section 1798.80(e). Examples: name, postal address. Sources: consumer directly. Purposes: service account and user-selected region. Business-purpose recipients in that period: hosting service provider. Retention: Account life plus 30 days after closure, subject to documented legal holds.
+
+Internet or other electronic network activity information. Examples: event views, search activity. Sources: device interaction. Purposes: operate discovery, diagnose errors, improve first-party recommendations. Business-purpose recipients in that period: hosting service provider, restricted first-party analytics service provider. Retention: 90 days, then deleted or deidentified; retained security incidents subject to documented legal hold.
+
+Geolocation data. Examples: declared city, coarse IP-derived city. Sources: consumer directly, device interaction. Purposes: localize discovery. Business-purpose recipients in that period: hosting service provider. Retention: Declared city for account life plus 30 days; coarse IP-derived location 90 days.
+
+Inferences drawn from personal information. Examples: music interests inferred from saved event categories. Sources: derived from first-party interactions. Purposes: first-party event recommendations. Business-purpose recipients in that period: hosting service provider. Retention: Until preferences reset or account closure plus 30 days.
+
+Sensitive personal information: account login and access credentials. Examples: account login combined with access credentials. Sources: consumer directly. Purposes: authenticate requested account, protect account security. Business-purpose recipients in that period: authentication service provider. Retention: Until credential rotation or account closure; revocable session credentials expire within 30 days. Source evidence
+				87 button Civ. Code §1798.130(a)(5), (c)
+				88 button 11 CCR §7011(a)-(e)
+				89 button Civ. Code §1798.140(v)(1)-(4), (w)
+				90 button Civ. Code §1798.140(ae)
+				91 button 11 CCR §7001(bbb)
+			92 container
+				93 text 02
+				94 heading Sources of information, Value: 3
+					95 text Sources of information
+				96 text Added BEFORE · V 1 This section is new. PROPOSED · V 5 We collect account information, postal address, residence declarations, saved events and support messages directly from you. We collect identifiers, approximate location and usage information from your browser when you use our service. We derive music preferences from first-party interactions. We do not buy consumer information from data brokers. Source evidence
+				97 button Civ. Code §1798.130(a)(5), (c)
+				98 button 11 CCR §7011(a)-(e)
+				99 button Civ. Code §1798.140(v)(1)-(4), (w)
+				100 button Civ. Code §1798.140(ae)
+				101 button 11 CCR §7001(bbb)
+			102 container
+				103 text 03
+				104 heading Purposes for collection and use, Value: 3
+					105 text Purposes for collection and use
+				106 text Changed BEFORE · V 1 We use information to provide accounts, recommend local events, respond to support requests, and keep the service secure. PROPOSED · V 5 We use information for the category-specific purposes stated above. We also use identifiers to respond to support and assess privacy requirements that may apply to your residence declaration. We do not use event recommendations to make decisions about financial or lending services, housing, insurance, education, employment or healthcare. Source evidence
+				107 button Civ. Code §1798.130(a)(5), (c)
+				108 button 11 CCR §7011(a)-(e)
+				109 button Civ. Code §1798.140(v)(1)-(4), (w)
+				110 button Civ. Code §1798.140(ae)
+				111 button 11 CCR §7001(bbb)
+			112 container
+				113 text 04
+				114 heading Disclosures for business purposes in the preceding 12 months, Value: 3
+					115 text Disclosures for business purposes in the preceding 12 months
+				116 text Changed BEFORE · V 1 We use providers to host the service, deliver email and help us understand first-party activity. We do not sell personal information. PROPOSED · V 5 We disclosed each category listed in the information-practices section to its listed service-provider categories for the purposes stated there. These hosting, authentication, transactional email and restricted first-party analytics providers operate under contracts restricting their use to the permitted service. We have not otherwise disclosed these categories to third parties during the preceding 12 months. Source evidence
+				117 button Civ. Code §1798.130(a)(5), (c)
+				118 button 11 CCR §7011(a)-(e)
+				119 button Civ. Code §1798.140(ad), (ah)
+			120 container
+				121 text 05
+				122 heading Sale or sharing of personal information, Value: 3
+					123 text Sale or sharing of personal information
+				124 text Added BEFORE · V 1 This section is new. PROPOSED · V 5 We have not sold personal information or shared it for cross-context behavioral advertising during the preceding 12 months, and we do not currently do either. We do not have actual knowledge that we sell or share personal information of consumers under 16. We do not use third-party advertising trackers or allow our providers to use consumer information for their own advertising. Source evidence
+				125 button Civ. Code §§1798.120, 1798.135(a)-(c)
+				126 button 11 CCR §§7013, 7025, 7026
+				127 button 11 CCR §7011(a)-(e)
+			128 container
+				129 text 06
+				130 heading Sensitive personal information, Value: 3
+					131 text Sensitive personal information
+				132 text Added BEFORE · V 1 This section is new. PROPOSED · V 5 We use and disclose account login credentials only as reasonably necessary to provide and secure the account service you request. We do not use or disclose sensitive personal information for purposes beyond those permitted by section 7027(m) of the California privacy regulations, and we do not use it to infer characteristics about you. Source evidence
+				133 button Civ. Code §1798.140(ae)
+				134 button Civ. Code §1798.121
+				135 button 11 CCR §7027(m)(1)-(8)
+				136 button 11 CCR §7011(a)-(e)
+			137 container
+				138 text 07
+				139 heading Retention, Value: 3
+					140 text Retention
+				141 text Changed BEFORE · V 1 We keep information for as long as we need it to provide our service and meet our obligations. PROPOSED · V 5 The information-practices section states a period or criterion for each category. We keep support correspondence for 12 months after a request closes and records of privacy requests and our responses for at least 24 months. Documented legal holds may require limited information to be retained longer to meet a legal obligation, establish or defend a claim, or investigate a security incident. We restrict that information to the hold purpose and do not keep personal information longer than reasonably necessary for the disclosed purpose. Source evidence
+				142 button Civ. Code §1798.100(a)-(e)
+				143 button 11 CCR §7012(a)-(g)
+			144 container
+				145 text 08
+				146 heading California privacy rights, Value: 3
+					147 text California privacy rights
+				148 text Added BEFORE · V 1 This section is new. PROPOSED · V 5 California residents may ask us to know the personal information we have collected about them, including categories and specific pieces, sources, purposes, and categories of recipients; to delete personal information, subject to legal exceptions; and to correct inaccurate personal information. Where applicable, consumers may opt out of sale or sharing and limit certain uses or disclosures of sensitive personal information. Our current no-sale/no-sharing practices and limited account-security uses of sensitive information are described above. You have the right not to be retaliated against for exercising your privacy rights. We do not offer financial incentives or price or service differences in exchange for personal information. Source evidence
+				149 button Civ. Code §§1798.105(a)-(d), 1798.106, 1798.110, 1798.115, 1798.125
+				150 button Civ. Code §1798.130(a)(5), (c)
+				151 button 11 CCR §7011(a)-(e)
+			152 container
+				153 text 09
+				154 heading How to submit a privacy request, Value: 3
+					155 text How to submit a privacy request
+				156 text Added BEFORE · V 1 This section is new. PROPOSED · V 5 To request access, deletion or correction, email privacy@democo.example or visit /privacy/requests. Tell us your request type and the email associated with your account; please do not send your password. You may submit a request without creating an account. We will acknowledge a request to know, delete or correct within 10 business days and ordinarily respond within 45 calendar days after receipt. If reasonably necessary, we may extend that period by up to 45 additional days and explain the reason within the first 45 days. If we cannot fulfill a request in whole or in part, we will explain the applicable basis and respond as the law requires. Source evidence
+				157 button Civ. Code §1798.130(a)(1)-(2)
+				158 button 11 CCR §§7020, 7021, 7060-7063
+				159 button 11 CCR §7011(a)-(e)
+			160 container
+				161 text 10
+				162 heading How we verify requests, Value: 3
+					163 text How we verify requests
+				164 text Added BEFORE · V 1 This section is new. PROPOSED · V 5 For an existing account, we generally ask you to authenticate using the account and may ask you to confirm the request through the account email. For a person who cannot access an account, we compare information you provide with records we already hold. We request only information reasonably necessary for verification in light of the request and information involved. We do not require you to create an account. If we cannot verify a request, we explain this and any available alternatives. We use information collected for verification only for verification, security or fraud prevention. We delete any new personal information collected for verification as soon as practical after processing your request, except records required by the applicable privacy-request recordkeeping rules. Source evidence
+				165 button Civ. Code §1798.130(a)(1)-(2)
+				166 button 11 CCR §§7020, 7021, 7060-7063
+				167 button 11 CCR §7011(a)-(e)
+			168 container
+				169 text 11
+				170 heading Authorized agents, Value: 3
+					171 text Authorized agents
+				172 text Added BEFORE · V 1 This section is new. PROPOSED · V 5 You may authorize an agent to make a request to know, delete or correct on your behalf through the same email address or request form. We may ask the agent for your signed permission, ask you to verify your identity directly with us, or ask you to confirm directly that you authorized the agent. We do not require you to resubmit the same request in your own name, and we do not require a power of attorney as the only way to use an agent. We do not require those additional authorization steps when an agent provides a valid power of attorney under California Probate Code sections 4121 through 4130. Source evidence
+				173 button Civ. Code §1798.130(a)(1)-(2)
+				174 button 11 CCR §§7020, 7021, 7060-7063
+				175 button 11 CCR §7011(a)-(e)
+			176 container
+				177 text 12
+				178 heading Browser privacy signals, Value: 3
+					179 text Browser privacy signals
+				180 text Added BEFORE · V 1 This section is new. PROPOSED · V 5 You can enable an opt-out preference signal such as Global Privacy Control in a supporting browser or extension. We do not sell or share personal information, including for accounts, devices, browser activity or offline activity, so receiving such a signal does not change a sale or sharing activity in our current service. We do not claim to provide a separate opt-out processing mechanism that we have not implemented. If our practices change, we will assess applicable opt-out and signal obligations before making that change. Source evidence
+				181 button Civ. Code §§1798.120, 1798.135(a)-(c)
+				182 button 11 CCR §§7013, 7025, 7026
+				183 button 11 CCR §7011(a)-(e)
+			184 container
+				185 text 13
+				186 heading Policy updates, Value: 3
+					187 text Policy updates
+				188 text Changed BEFORE · V 1 We may update this policy as our service changes. We will post the updated policy here. PROPOSED · V 5 We review this policy at least annually and update it when our practices require a change. The last-updated date appears at the top of this policy. We post the current policy through a conspicuous Privacy link on the website and provide a printable version. We notify account holders by email before material changes to our information practices take effect. Source evidence
+				189 button Civ. Code §1798.130(a)(5), (c)
+				190 button 11 CCR §7011(a)-(e)
+				191 button 11 CCR §§7003, 7004
+			268 container
+				269 button (expanded) Give feedback or request a correction, Secondary Actions: Collapse
+					270 text Give feedback or request a correction
+				271 text Edits and legal interpretation feedback invalidate the review packet. Fact suggestions require a separate founder verification; notes never become facts automatically. Feedback category
+				272 pop up button (collapsed, settable) Feedback category, Value: Replace clause text, Secondary Actions: Expand
+					273 menu
+						274 (selected) Replace clause text
+						275 Propose a factual correction
+						276 Legal interpretation
+						277 Harness improvement
+				278 text Clause
+				279 pop up button (collapsed, settable) Clause, Value: About this policy, Secondary Actions: Expand
+					280 menu
+						281 Select…
+						282 (selected) About this policy
+						283 Information practices in the preceding 12 months
+						284 Sources of information
+						285 Purposes for collection and use
+						286 Disclosures for business purposes in the preceding 12 months
+						287 Sale or sharing of personal information
+						288 Sensitive personal information
+						289 Retention
+						290 Your choices
+						291 California privacy rights
+						292 How to submit a privacy request
+						293 How we verify requests
+						294 Authorized agents
+						295 Browser privacy signals
+						296 Security
+						297 Age restriction
+						298 Policy updates
+						299 Contact
+				300 text Replacement text
+				301 text entry area (settable) Replacement text, Value: Browser replacement text drafted against the earlier policy version.
+				313 text Your text is preserved, but its draft has changed.
+				314 button Re-select a clause from the current draft
+				302 button (disabled) Record founder feedback
+					303 text Record  founder  feedback
+				304 container
+					305 text founder  ·  legal interpretation note  ·  recorded
+				306 text Second reviewer clarification requires a fresh packet.
+				307 container
+					308 text founder  ·  legal interpretation note  ·  recorded
+				309 text Another exact revision requires reinspection.
+				315 container
+					316 text founder  ·  legal interpretation note  ·  recorded
+				317 text Independent browser-race fixture: another reviewer supplied clarification.
+			194 button (collapsed) Withdraw this work, Secondary Actions: Expand
+				195 text Withdraw this work
+			196 link Description: Download policy text, Value: 127.0.0.1:4517/api/documents/cd310a53-de6c-4494-b152-8fab0378002d/export
+		197 container
+			198 text Synthetic company workspace Scripted model  ·  Email previews
+		199 container Execution harness
+			200 container
+				201 text THE HARNESS v 1
+				202 heading See the execution. Trust the checkpoints., Value: 2
+					203 text See the execution.
+					204 text Trust the checkpoints.
+				205 text Saved events and provider receipts. No hidden reasoning is displayed.
+			206 container Harness view
+				207 checkbox Execution, Value: 1
+				208 checkbox State snapshot, Value: 0
+			209 text Saved
+			210 container
+				211 content list
+					212 container
+						213 container complete
+							214 text ✓
+						215 heading Notice the change, Value: 3
+							216 text Notice the change
+						217 text Taylor Morgan · California declared residence
+					218 container
+						219 container complete
+							220 text ✓
+						221 heading Gather the context, Value: 3
+							222 text Gather the context
+						223 text 32 retained legal provisions pinned with company facts.
+					224 container
+						225 container complete
+							226 text ✓
+						227 heading Check applicability, Value: 3
+							228 text Check applicability
+						229 text The pinned company facts support the assessed California applicability criteria. Proposed policy changes require founder and lawyer review.
+					230 container
+						231 container complete
+							232 text ✓
+						233 heading Prepare a policy update, Value: 3
+							234 text Prepare a policy update
+						235 text A scripted draft is stored as a separate policy revision.
+					236 container
+						237 container complete
+							238 text ✓
+						239 heading Validate & repair, Value: 3
+							240 text Validate & repair
+						241 text 4 proposal checks · 0 recorded repairs · review packet sealed.
+					242 container
+						243 container active
+							244 text 06
+						245 heading Put people in control, Value: 3
+							246 text Put people in control
+						247 text YOUR TURN Paused for founder review. The policy has not changed.
+				248 button (collapsed) + Recorded events 17, Secondary Actions: Expand
+					249 text +
+					250 text Recorded events
+					251 text 17
+				252 button (collapsed) + Provider and improvement records 0 responses, Secondary Actions: Expand
+					253 text +
+					254 text Provider and improvement records
+					255 text 0
+					256 text  responses
+				257 text CURRENT STATE Founder review
+				258 container 6b5dda66dbf1c81b47d4afbbe132516918b1afa94771c5dc5638512e0ba54c46
+					259 text packet  6b5dda66dbf1
+			260 container
+				261 text Local workspace · Local worker Scripted model  ·  Email previews only  · Retained legal fixtures
+		262 text Founder review
+
+The focused UI element is 301 text entry area (settable) Replacement text, Value: Browser replacement text drafted against the earlier policy version.

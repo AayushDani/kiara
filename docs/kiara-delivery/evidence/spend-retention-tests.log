@@ -1,0 +1,28 @@
+✔ shared operator cap atomically admits at most two concurrent visitors and survives process boundaries (427.816ms)
+✔ settled IDs cannot dispatch twice, repeat exact settlement is safe, and history cannot lower a charge (31.524334ms)
+✔ unknown provider charges retain unused reservation and block all visitors until explicit reconciliation (30.503125ms)
+✔ usage above reservation is auditable and closes all further spending (19.21175ms)
+✔ actual usage can settle after authorization is disabled but no new dispatch can reserve (18.570875ms)
+✔ micro-dollar accounting cannot round a small reservation down through the cap (39.300416ms)
+✔ new visitor workspaces cannot reset the shared request rate ceiling (708.726416ms)
+✔ invalid reservations, settlements, authorization and hosted ephemeral storage fail before dispatch (2.414417ms)
+✔ operator full-ceiling accounting preserves unknown history and hard cap while releasing independent work (162.036583ms)
+✔ operator coverage fails closed on wrong ceilings and late higher usage (124.6325ms)
+✔ pre-dispatch recovery retires missing reservation identities before a delayed writer resumes (95.744375ms)
+✔ missing dispatched reservation remains globally blocking without explicit reconciliation (31.426459ms)
+✔ deletion propagates through records and audit payloads while exposing only safe pending-retention status (361.223042ms)
+✔ uncertain effects remain protected exceptions until settled, then repeated cleanup erases the payload (554.439708ms)
+✔ local original deletion is tenant scoped, exact, verified and replayable (97.577833ms)
+✔ S3 purge targets the retained version, verifies absence and never treats forbidden/readback as success (4.083042ms)
+✔ original intake hands off only its own storage revisions and abandoned bytes are fenced before cleanup (229.359375ms)
+✔ retention worker honors original delay, shared pending intake and hold, then verifies exact purge (340.597625ms)
+✔ revoked-source owner controls allow a later scoped deletion without recovering content (237.013417ms)
+✔ pending intake blocks physical purge by content identity and deleted bytes cannot be re-created by later intake (261.27875ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3084.171083

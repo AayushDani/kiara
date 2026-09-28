@@ -1,0 +1,29 @@
+✔ approved template uses only confirmed mapped fields, remains proposed, accepts once as a new document (580.488375ms)
+✔ unapproved uploaded template and assumed conversation fields cannot qualify (309.315125ms)
+✔ field correction and expired or revoked template approval invalidate acceptance (680.807083ms)
+✔ make it shorter uses full exact selected draft, produces reviewable model proposal, and does not replay generation (471.205083ms)
+✔ source instruction cannot introduce commands; invented citation fails before independent review (348.078791ms)
+✔ source revocation while model awaits prevents attaching a draft; charged result remains accounted (409.086959ms)
+✔ signed original gets a separate proposed amendment and current selection changes reject stale draft intent (470.821583ms)
+✔ accepted work plan creates owned typed tasks; unrelated fact cannot satisfy named task (882.819208ms)
+✔ standing route permits only current exact internal preparation; business and publisher authorization still required (372.260417ms)
+✔ local semantic edit is explicit unavailable and selecting another current document cancels pending model intent (228.487709ms)
+✔ source deletion erases derived template and draft payloads while preserving decision identity (275.780833ms)
+✔ bounded draft requests cannot spend beyond the configured shared ceiling (177.570417ms)
+✔ standing internal execution retains exact encrypted bytes once without a per-document legal decision (452.441708ms)
+✔ standing policy expiry during asynchronous preparation blocks final broker dispatch (386.550625ms)
+✔ date mappings reject impossible calendar dates rather than inserting regex-shaped values (229.755625ms)
+✔ a completed semantic proposal cannot be accepted after supplemental document evidence changes (389.007791ms)
+✔ accepted plan prepares objective-specific scoped artifact, adopts exact contents once and retains review/factual gates (1166.461833ms)
+✔ preparation does not send private supplementary material to a team-scoped artifact model (892.487125ms)
+✔ changed task intent or canceled matter during model await cannot attach a prepared artifact (786.441167ms)
+✔ completed preparation rejects later objective changes and source withdrawal before adoption (885.661875ms)
+✔ local mode never substitutes a generic packet for accepted model work (460.748458ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7658.579791

@@ -1,0 +1,18 @@
+✔ maintenance stays disabled by default and an explicit standing grant allows scoped member work without admin (290.351917ms)
+✔ standing policy does not authorize private scope or a changed policy or member (144.910583ms)
+✔ revocation during embedding preserves accounted cost but cannot write index content (177.086291ms)
+✔ global concurrency delays the same job; a later retry invokes the provider once (325.260708ms)
+✔ budget exhaustion and ambiguous provider failure never trigger automatic resubmission (288.634042ms)
+✔ inventory requires every current head including draft authority, preserves exact counts and does not claim external discovery (154.331084ms)
+✔ new current agreement heads invalidate attested completeness; historical drafts cannot satisfy a successor (273.517167ms)
+✔ attestation expiry independently blocks fresh approval and final execution without a record mutation (289.017208ms)
+✔ private attestation evidence is inherited by derived proposal lineage (206.680416ms)
+✔ malformed maintenance policy or missing Atlas configuration never rolls back source or member revocation (140.25275ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2847.295583

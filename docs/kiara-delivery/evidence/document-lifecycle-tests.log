@@ -1,0 +1,12 @@
+✔ template substitution creates a private unapproved draft without expanding scope or treating values as company facts (152.120208ms)
+✔ reimport retains exact original bytes and immutable revisions, rejects stale heads and invalidates dependent decisions (243.729083ms)
+✔ signed and effective originals require a separate amendment instead of replacement (106.183083ms)
+✔ comparison reconstructs both complete texts and preserves insertions, removals and exceptions (1.043833ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1246.186958

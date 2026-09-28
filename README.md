@@ -1,14 +1,22 @@
 # Kiara
 
+## Kiara v2 release
+
+The current v2 product is a conversation and legal-work workspace with scoped company memory, reviewable actions, and an explicit legal-coverage boundary. Start with the [v2 product plan](docs/product-plan/kiara-product-plan-v2.md), [qualification status](docs/kiara-delivery/qualification-status-sep27.md), and [hosted release operations](docs/kiara-delivery/live-release-operations.md). The release guide lists the identity, Atlas, Temporal, provider, human-review, and recovery gates that must pass before a live tenant is promoted.
+
+The public demo and deployment instructions below describe the earlier application. They are retained for its existing URL and do not qualify or deploy v2.
+
+## Legacy application
+
 Kiara turns a company change into a source-backed legal review. A California signup triggers a scoped applicability assessment, a versioned privacy-policy proposal, visible validation and repair, founder approval, then lawyer approval. The split-screen demo pairs a simple company workspace with a persistent execution harness.
 
 This repository contains the actual application and the retained engineering inputs in `kiara-architecture/`. DemoCo is a fictional Rippit-inspired music-discovery company. Its revenue and practices are explicit synthetic facts; they are not claims about Rippit. A California address alone does not prove CCPA coverage, and an approved policy does not complete operational duties.
 
-## Live hackathon demo
+## Legacy live hackathon demo
 
 Open [Kiara](https://kiara-khaki-kappa.vercel.app). Public sessions use synthetic company/event inputs and simulated founder/lawyer roles. The live OpenAI path is protected by a shared $50 operator budget across all visitors and evaluations; credentials stay server-side. Completed runs retain history. Email is preview-only. Configuration is distinct from verified inference: see [current acceptance status](docs/ai-e2e-verification.md).
 
-## Deploy updates
+## Legacy demo deploy updates
 
 Vercel is connected to `AayushDani/kiara`. Committing and pushing to the production branch, `main`, automatically triggers a build and updates the same live URL after a successful deployment:
 
@@ -21,7 +29,7 @@ git commit -m "Describe the change"
 git push origin main
 ```
 
-Check the [Vercel project](https://vercel.com/aayushdani01-5976/kiara) for deployment status. Environment secrets are configured in Vercel; keep `.env.local`, `.kiara/`, and `.vercel/` out of Git. See [deployment details](docs/vercel-deployment.md).
+Check the [Vercel project](https://vercel.com/aayushdani01-5976/kiara) for deployment status. Environment secrets are configured in Vercel; keep `.env.local`, `.kiara/`, and `.vercel/` out of Git. See [legacy deployment details](docs/vercel-deployment.md). For v2, use the [hosted release guide](docs/kiara-delivery/live-release-operations.md).
 
 ## Run locally
 

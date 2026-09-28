@@ -6,6 +6,7 @@ import {AppError} from './contracts';
 import {publicDemo,demoScope} from './demo-context';
 import {TENANT,ACTORS} from '../data/fixtures';
 import {authorizedBudget} from '../runtime/config';
+import {requestOriginMatches} from './request-origin';
 
 export const hostedAuth=()=>process.env.KIARA_AUTH_MODE==='hosted_password';
 let localSecret:Promise<string>|undefined;
@@ -41,7 +42,7 @@ export function requireAuthMode(request:Request){
   if(new URL(request.url).protocol!=='https:')throw new AppError('HTTPS_REQUIRED','Use the secure application URL.',403);
 }
 export function sameOrigin(request:Request){
-  if(request.headers.get('origin')!==new URL(request.url).origin)throw new AppError('ORIGIN_REJECTED','This action must originate from the Kiara application.',403);
+  if(!requestOriginMatches(request,(process.env.KIARA_AUTH_MODE||'demo_simulated')==='demo_simulated'&&!publicDemo()&&!process.env.VERCEL))throw new AppError('ORIGIN_REJECTED','This action must originate from the Kiara application.',403);
 }
 export function checkLogin(request:Request,role:unknown,password:unknown):Role{
   requireAuthMode(request);sameOrigin(request);

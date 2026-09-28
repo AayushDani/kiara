@@ -1,0 +1,39 @@
+✔ shared operator cap atomically admits at most two concurrent visitors and survives process boundaries (444.459667ms)
+✔ settled IDs cannot dispatch twice, repeat exact settlement is safe, and history cannot lower a charge (55.104625ms)
+✔ unknown provider charges retain unused reservation and block all visitors until explicit reconciliation (51.010167ms)
+✔ usage above reservation is auditable and closes all further spending (30.966792ms)
+✔ actual usage can settle after authorization is disabled but no new dispatch can reserve (36.211041ms)
+✔ micro-dollar accounting cannot round a small reservation down through the cap (98.742875ms)
+✔ new visitor workspaces cannot reset the shared request rate ceiling (1176.8295ms)
+✔ invalid reservations, settlements, authorization and hosted ephemeral storage fail before dispatch (4.527125ms)
+✔ operator full-ceiling accounting preserves unknown history and hard cap while releasing independent work (177.601833ms)
+✔ operator coverage fails closed on wrong ceilings and late higher usage (137.148375ms)
+✔ pre-dispatch recovery retires missing reservation identities before a delayed writer resumes (130.273791ms)
+✔ missing dispatched reservation remains globally blocking without explicit reconciliation (34.285959ms)
+✔ deletion atomically retains a refs-only outbox and the local worker completes real application cleanup (330.049959ms)
+✔ retention rejects cross-job or modified references and never exposes object identities in progress (137.129083ms)
+✔ future holds use bounded durable wakeups and local deferred work resumes after settlement (183.068583ms)
+✔ managed lost-ack replay preserves deletion identity and only sends opaque references (246.07325ms)
+✔ an unavailable earlier effect cannot starve later deletion cleanup in the local worker (321.147333ms)
+✔ abandoned intake retains its cleanup owner and the actual local worker purges expired encrypted bytes (320.086084ms)
+✔ an original write with no retained acknowledgement stays pending for explicit reconciliation (227.096625ms)
+✔ artifact workflow dispatch carries no original reference and validates scoped intake identity before processing (137.279292ms)
+✔ standing-policy index jobs dispatch only opaque references and terminal uncertainty never retries provider work (148.644916ms)
+✔ deletion propagates through records and audit payloads while exposing only safe pending-retention status (504.929709ms)
+✔ uncertain effects remain protected exceptions until settled, then repeated cleanup erases the payload (718.984292ms)
+✔ local original deletion is tenant scoped, exact, verified and replayable (59.53625ms)
+✔ S3 purge targets the retained version, verifies absence and never treats forbidden/readback as success (6.377ms)
+✔ original intake hands off only its own storage revisions and abandoned bytes are fenced before cleanup (494.202625ms)
+✔ retention worker honors original delay, shared pending intake and hold, then verifies exact purge (593.325ms)
+✔ revoked-source owner controls allow a later scoped deletion without recovering content (286.663417ms)
+✔ pending intake blocks physical purge by content identity and deleted bytes cannot be re-created by later intake (345.055208ms)
+✔ interrupted original writes require exact verified manifest recovery before orphan cleanup (207.616959ms)
+✔ an orphan purge claim fences all same-byte intakes until its exact deletion finishes (196.194458ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4150.61525

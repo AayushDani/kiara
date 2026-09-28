@@ -1,0 +1,10 @@
+✔ pasted document route retains exact bytes, hands off its own revisions, and replays one document (171.271541ms)
+✔ multipart reimport preserves both exact originals and stale/CSRF requests cannot attach documents (306.434125ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1276.458125

@@ -1,0 +1,37 @@
+name: Verify Kiara
+on:
+  pull_request:
+  push:
+    branches: [main, 'codex/**']
+permissions:
+  contents: read
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  local-qualification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+      KIARA_AUTH_MODE: demo_simulated
+      KIARA_V2_AUTH_MODE: local_demo
+      KIARA_MODEL_MODE: scripted
+      KIARA_V2_AI_MODE: local
+      KIARA_EMAIL_MODE: preview
+      KIARA_ALLOW_LIVE_EMAIL: 'false'
+      KIARA_DATA_DIR: ${{ github.workspace }}/.kiara-ci
+      KIARA_V2_DATA_DIR: ${{ github.workspace }}/.kiara-ci/v2
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24.19.0'
+          package-manager-cache: false
+      - run: npm ci
+      - run: npx next typegen
+      - run: npm run check
+      - run: npm test
+      - run: npm run build

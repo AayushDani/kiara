@@ -1,0 +1,16 @@
+.next/dev/types/app/product/page.ts(2,24): error TS2307: Cannot find module '../../../../../src/app/product/page.js' or its corresponding type declarations.
+.next/dev/types/app/product/page.ts(7,29): error TS2307: Cannot find module '../../../../../src/app/product/page.js' or its corresponding type declarations.
+.next/dev/types/validator.ts(62,39): error TS2307: Cannot find module '../../../src/app/product/page.js' or its corresponding type declarations.
+.next/dev/types/validator.ts(80,39): error TS2307: Cannot find module '../../../src/app/api/product/route.js' or its corresponding type declarations.
+.next/dev/types/validator.ts(89,39): error TS2307: Cannot find module '../../../src/app/api/product/session/route.js' or its corresponding type declarations.
+src/app/api/v2/commands/route.ts(3,23): error TS2307: Cannot find module '@/v2/service' or its corresponding type declarations.
+src/app/api/v2/workspace/route.ts(2,24): error TS2307: Cannot find module '@/v2/service' or its corresponding type declarations.
+src/v2/store.ts(35,286): error TS2353: Object literal may only specify known properties, and '_id' does not exist in type 'WithoutId<{ _id: string; version: number; state: WorkspaceState; }>'.
+src/workflow/engine.ts(127,368): error TS2322: Type '{ kind: string; context_epoch: number; parent_context_epoch: number; facts: Fact[]; facts_hash: string; updated_at: string; }' is not assignable to type 'Json'.
+  Type '{ kind: string; context_epoch: number; parent_context_epoch: number; facts: Fact[]; facts_hash: string; updated_at: string; }' is not assignable to type '{ [key: string]: Json; }'.
+    Property 'facts' is incompatible with index signature.
+      Type 'Fact[]' is not assignable to type 'Json'.
+        Type 'Fact[]' is not assignable to type 'Json[]'.
+          Type 'Fact' is not assignable to type 'Json'.
+            Type 'Fact' is not assignable to type '{ [key: string]: Json; }'.
+              Index signature for type 'string' is missing in type 'Fact'.

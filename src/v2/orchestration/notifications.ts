@@ -1,0 +1,14 @@
+import {V2Error} from '../contracts';
+import {readWorkspace} from '../store';
+import {processNotificationWatch,processNotificationDelivery,notificationDeliveryProgress,type NotificationEnrollment,type NotificationDelivery} from '../notifications';
+import type {OutboxReference} from './contracts';
+export type NotificationProgress={status:'waiting'|'complete';nextCheckMs:number};
+async function retained(ref:OutboxReference,kind:'notification_watch'|'notification_delivery'){
+ if(!ref||Object.keys(ref).sort().join(',')!=='aggregateId,outboxId,tenantId'||![ref.tenantId,ref.aggregateId,ref.outboxId].every(v=>typeof v==='string'&&v.length>0&&v.length<=200))throw new V2Error('INVALID_WORKFLOW_REFERENCE','Only scoped record references are accepted.',400);
+ const s=await readWorkspace(ref.tenantId) as Awaited<ReturnType<typeof readWorkspace>>&{notificationEnrollments?:NotificationEnrollment[];notificationDeliveries?:NotificationDelivery[]},entry=s.outbox.find(o=>o.id===ref.outboxId&&o.tenantId===ref.tenantId&&o.aggregateId===ref.aggregateId&&o.commandId===ref.aggregateId&&o.kind===kind&&o.owner==='v2'),record=(kind==='notification_watch'?s.notificationEnrollments:s.notificationDeliveries)?.find(x=>x.id===ref.aggregateId&&x.tenantId===ref.tenantId);if(!entry||!record)throw new V2Error('OUTBOX_NOT_FOUND','The retained notification reference is unavailable.',404);return entry;
+}
+/** No destination, title, count or message content enters workflow history. */
+export async function processNotificationWatchReference(ref:OutboxReference,processor:typeof processNotificationWatch=processNotificationWatch):Promise<NotificationProgress>{const entry=await retained(ref,'notification_watch');if(entry.status==='canceled')return {status:'complete',nextCheckMs:0};const result=await processor(ref.tenantId,ref.aggregateId);return result.status==='stopped'?{status:'complete',nextCheckMs:0}:{status:'waiting',nextCheckMs:Number.isFinite(result.nextCheckMs)?Math.max(60000,Math.min(result.nextCheckMs,86400000)):300000};}
+const deliver=async(tenantId:string,id:string)=>{await processNotificationDelivery(tenantId,id);return notificationDeliveryProgress(tenantId,id);};
+/** The retained delivery owns a single dispatch; unknown and accepted results only reconcile. */
+export async function processNotificationDeliveryReference(ref:OutboxReference,processor:typeof deliver=deliver):Promise<NotificationProgress>{const entry=await retained(ref,'notification_delivery');if(entry.status==='canceled')return {status:'complete',nextCheckMs:0};const result=await processor(ref.tenantId,ref.aggregateId);return ['prepared','sending','accepted','unknown'].includes(result.status)?{status:'waiting',nextCheckMs:Number.isFinite(result.nextCheckMs)?Math.max(1000,Math.min(result.nextCheckMs,21600000)):300000}:{status:'complete',nextCheckMs:0};}

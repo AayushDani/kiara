@@ -1,0 +1,26 @@
+✔ internal document execution retains immutable encrypted bytes and verifies one output across replay (320.94175ms)
+✔ revoked decision, changed subject and lesser role cannot escalate into execution (292.288417ms)
+✔ concurrent retries share a durable intent and dispatch exactly once (320.876708ms)
+✔ source access revoked during preparation prevents the provider call (270.045917ms)
+✔ cancel during preparation prevents dispatch and retains its exact historical intent (258.389166ms)
+✔ cancel after dispatch preserves an uncertain effect and later read-back cannot reopen the matter (290.096625ms)
+✔ email acceptance requires exact tagged delivery read-back; late bounce fails completion (336.720584ms)
+✔ email unknown outcome is never resent and an unrelated receipt cannot complete it (294.945875ms)
+✔ email exact allowlist and configuration failure reject before any effect intent (191.259458ms)
+✔ preview stays pending manual and never downgrades a later attributed manual completion (303.239208ms)
+✔ publication read-back verifies exact authorized destination bytes without publishing (366.805292ms)
+✔ a provider signing-request receipt can never become an executed-original completion (314.558375ms)
+✔ expired prepared checkpoint recovers without dispatch, while a live lease remains untouched (319.894125ms)
+✔ explicit provider rejection is retained and replay cannot dispatch a second request (260.534417ms)
+✔ frozen configured preview rejects changed sender or preview-to-live mode before reserving an effect (289.766541ms)
+✔ dispatcher membership version must still match the preview after preparation even with its role retained (312.030833ms)
+✔ legal obligation introduced during preparation blocks dispatch until its exact deadline basis is reviewed (264.752125ms)
+✔ a delayed delivered read-back cannot overwrite a concurrently recorded terminal delivery failure (432.008625ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5927.945084

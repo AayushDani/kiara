@@ -1,0 +1,24 @@
+✔ approved template uses only confirmed mapped fields, remains proposed, accepts once as a new document (276.944959ms)
+✔ unapproved uploaded template and assumed conversation fields cannot qualify (131.528542ms)
+✔ field correction and expired or revoked template approval invalidate acceptance (329.062958ms)
+✔ make it shorter uses full exact selected draft, produces reviewable model proposal, and does not replay generation (405.020125ms)
+✔ source instruction cannot introduce commands; invented citation fails before independent review (214.954458ms)
+✔ source revocation while model awaits prevents attaching a draft; charged result remains accounted (227.873166ms)
+✔ signed original gets a separate proposed amendment and current selection changes reject stale draft intent (282.151833ms)
+✔ accepted work plan creates owned typed tasks; unrelated fact cannot satisfy named task (339.2025ms)
+✔ standing route permits only current exact internal preparation; business and publisher authorization still required (397.033833ms)
+✔ local semantic edit is explicit unavailable and selecting another current document cancels pending model intent (238.581542ms)
+✔ source deletion erases derived template and draft payloads while preserving decision identity (266.000708ms)
+✔ bounded draft requests cannot spend beyond the configured shared ceiling (168.109084ms)
+✔ standing internal execution retains exact encrypted bytes once without a per-document legal decision (413.261875ms)
+✔ standing policy expiry during asynchronous preparation blocks final broker dispatch (356.206292ms)
+✔ date mappings reject impossible calendar dates rather than inserting regex-shaped values (254.256458ms)
+✔ a completed semantic proposal cannot be accepted after supplemental document evidence changes (322.971958ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5523.516583
