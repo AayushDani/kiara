@@ -5,7 +5,7 @@ services:
   - type: worker
     name: kiara-v2-preview-worker
     runtime: node
-    plan: 0.5c-512mb
+    plan: 1c-2g
     region: virginia
     branch: codex/kiara-live-release
     autoDeployTrigger: checksPass
