@@ -1,6 +1,6 @@
 import {readFile,writeFile} from 'node:fs/promises';
 import {backupWorkspace,restoreWorkspace,readWorkspace,transactWorkspace,closeV2Store,digest} from '../src/v2/store';
-import {importLegacySnapshot,exportLegacyArchive,migrationArchiveStatus,reconcileMigrationArchiveOriginal} from '../src/v2/migration';
+import {importLegacySnapshot,exportLegacyArchive,migrationArchiveStatus,migrationArchiveCandidate,reconcileMigrationArchiveOriginal} from '../src/v2/migration';
 import {purgeExpiredIntakes,reconcileIntakeOriginal} from '../src/v2/artifact-intake';
 import {processDeletionJob} from '../src/v2/retention-worker';
 import {migrateAggregateToNormalized,rollbackNormalizedToAggregate} from '../src/v2/normalized-store';
@@ -17,7 +17,7 @@ import {checkInstallationAccess,reconcileInstallationAccess,retryInstallationAcc
 const [operation,tenantId,...args]=process.argv.slice(2);
 const roles:Role[]=['member','admin','business_owner','fact_owner','legal_reviewer','publisher','signatory','evaluator','integration'];
 async function main(){
- if(!tenantId)throw new Error('Usage: v2-operator <inspect|provision|backup|restore-check|restore|migrate-check|migrate|migrate-archive-status|migrate-archive-reconcile|legacy-export|normalize-check|normalize|normalize-rollback-check|index-definitions|index-sync|index-reconcile|retention-status|retention-run|intake-status|intake-sweep|intake-reconcile|effect-status|effect-reconcile|withdrawal-status|withdrawal-retry|withdrawal-assign|withdrawal-inspect|withdrawal-review|source-withdrawal-pending|source-withdrawal-run|installation-access-check|installation-access-reconcile|installation-access-retry-owner> <tenant> [arguments]');
+ if(!tenantId)throw new Error('Usage: v2-operator <inspect|provision|backup|restore-check|restore|migrate-check|migrate|migrate-archive-status|migrate-archive-candidate|migrate-archive-reconcile|legacy-export|normalize-check|normalize|normalize-rollback-check|index-definitions|index-sync|index-reconcile|retention-status|retention-run|intake-status|intake-sweep|intake-reconcile|effect-status|effect-reconcile|withdrawal-status|withdrawal-retry|withdrawal-assign|withdrawal-inspect|withdrawal-review|source-withdrawal-pending|source-withdrawal-run|installation-access-check|installation-access-reconcile|installation-access-retry-owner> <tenant> [arguments]');
  if(operation==='inspect'){const s=await readWorkspace(tenantId);return {tenantId,version:s.version,stateHash:digest(s),configuredStorage:process.env.KIARA_V2_STORE_MODE==='normalized'?'normalized':process.env.MONGODB_URI?'mongo_aggregate':'local',memberships:s.memberships.map(m=>({actorId:m.actorId,roles:m.roles,revokedAt:m.revokedAt})),migration:s.migration?.status||null};}
  if(['withdrawal-status','withdrawal-retry','withdrawal-assign','withdrawal-inspect','withdrawal-review'].includes(operation||'')){
   const actorId=args[0],actor:ActorContext={tenantId,actorId,expiresAt:Date.now()+3600000,mode:'authenticated'};
@@ -104,6 +104,7 @@ async function main(){
   return importLegacySnapshot(tenantId,await readFile(snapshotPath),Number(version),expectedLegacyTenantId,operation==='migrate'?reviewedSourceHash:null,operation==='migrate-check',operation==='migrate'?reviewedPlanHash:null);
  }
  if(operation==='migrate-archive-status'){if(args.length)throw new Error('Archive status accepts only the exact tenant');return migrationArchiveStatus(tenantId);}
+ if(operation==='migrate-archive-candidate'){if(args.length!==2||!/^[a-f0-9]{64}$/.test(args[0]||'')||!args[1])throw new Error('Candidate export requires the exact staged source hash and a new protected output path');await writeFile(args[1],JSON.stringify(await migrationArchiveCandidate(tenantId,args[0]),null,2),{flag:'wx',mode:0o600});return {manifestFile:args[1],requiresPhysicalReadback:true};}
  if(operation==='migrate-archive-reconcile'){if(args.length!==2||!/^[a-f0-9]{64}$/.test(args[0]||''))throw new Error('Archive reconciliation requires the exact staged source hash and a protected original-manifest JSON file');return reconcileMigrationArchiveOriginal(tenantId,args[0],JSON.parse(await readFile(args[1],'utf8')));}
  if(operation==='legacy-export'){await writeFile(args[0],await exportLegacyArchive(tenantId),{flag:'wx',mode:0o600});return {path:args[0],effectOwner:'legacy'};}
  throw new Error('Unknown operation');

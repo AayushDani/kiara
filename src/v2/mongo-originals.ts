@@ -84,9 +84,9 @@ function scopedReference(tenantId:string,reference:OriginalReference){
 function assertManifest(manifest:Manifest|null,reference:OriginalReference,tenantHash:string){
  if(!manifest||manifest._id!==reference.key||manifest.tenantHash!==tenantHash||manifest.contentHash!==reference.sha256||manifest.keyId!==reference.keyId||manifest.bytes!==reference.bytes||manifest.format!==1||!Number.isSafeInteger(manifest.chunks)||manifest.chunks<1||manifest.chunks>Math.ceil(MAX_BYTES/CHUNK_BYTES)||!/^[a-f0-9]{64}$/.test(manifest.cipherHash)||typeof manifest.nonce!=='string'||typeof manifest.tag!=='string')throw new V2Error('ORIGINAL_INTEGRITY','MongoDB original manifest failed verification.',503);
 }
-export async function retainMongoOriginal(tenantId:string,bytes:Uint8Array):Promise<OriginalReference>{
+export async function retainMongoOriginal(tenantId:string,bytes:Uint8Array,onTargetSelected?:()=>void):Promise<OriginalReference>{
  if(!tenantId||tenantId.length>200||bytes.byteLength>MAX_BYTES)throw new V2Error('ORIGINAL_CAPACITY','An authenticated tenant and source below 20 MB are required.',413);
- const {key,keyId}=keyMaterial(),tenantHash=sha(tenantId),contentHash=sha(bytes),objectKey=`${tenantHash}/${contentHash}/${keyId}`;
+ const {key,keyId}=keyMaterial();onTargetSelected?.();const tenantHash=sha(tenantId),contentHash=sha(bytes),objectKey=`${tenantHash}/${contentHash}/${keyId}`;
  const reference:OriginalReference={key:objectKey,sha256:contentHash,bytes:bytes.byteLength,encryption:'aes-256-gcm',storage:'mongo_encrypted',keyId};
  const {client:connection,db}=await database(),{manifests,chunks,fences}=collections(db);
  const prior=await manifests.findOne({_id:objectKey});if(prior){assertManifest(prior,reference,tenantHash);if((await fences.findOne({_id:objectKey}))?.deleted)throw new V2Error('ORIGINAL_DELETED','A deleted original identity cannot be retained again.',410);const saved=await readMongoOriginal(tenantId,reference);if(!saved.equals(Buffer.from(bytes)))throw new V2Error('ORIGINAL_INTEGRITY','Retained original differs from the supplied bytes.',503);return reference;}
