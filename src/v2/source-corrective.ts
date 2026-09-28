@@ -1,7 +1,35 @@
 import {randomUUID} from 'node:crypto';
-import {scopeVisible} from './authority';
-import type {ActorContext,Matter,Membership,Proposal,RecordBase,Source,WorkspaceState} from './contracts';
+import {canRead,membership,readRecord,scopeVisible} from './authority';
+import {V2Error,type ActorContext,type Matter, type Membership, type Proposal, type RecordBase, type Source, type WorkspaceState} from './contracts';
 import {digest,timestamp} from './store';
+import {sourceDependencyHash} from './tasks';
+import {currentEvidenceLineage} from './source-lifecycle';
+import {withinConversationAudience} from './retrieval';
+
+export type WithdrawalCommand=
+ |{type:'source.correction.retry';reviewRef:string}
+ |{type:'source.correction.assign';reviewRef:string;ownerId:string;expectedRecordVersion:number}
+ |{type:'source.correction.resolve';reviewRef:string;expectedRecordVersion:number;note:string;evidenceSourceIds:string[];evidenceSourceVersions:Record<string,number>;evidenceSourceHashes:Record<string,string>;evidenceSourceDependencyHashes:Record<string,string>};
+export const withdrawalCommandFields:Record<WithdrawalCommand['type'],string[]>={
+ 'source.correction.retry':['reviewRef'],
+ 'source.correction.assign':['reviewRef','ownerId','expectedRecordVersion'],
+ 'source.correction.resolve':['reviewRef','expectedRecordVersion','note','evidenceSourceIds','evidenceSourceVersions','evidenceSourceHashes','evidenceSourceDependencyHashes']
+};
+export interface WithdrawalExceptionView {reviewRef:string;status:'owner_unavailable'|'admin_exception';correctiveMatterId:string|null;version:number|null}
+function exceptionEntries(s:WorkspaceState){return Object.entries(s.receipts).filter(([key,receipt])=>key.startsWith('source-withdrawal:')&&typeof receipt.result.reviewRef==='string');}
+export function isWithdrawalCorrection(s:WorkspaceState,matterId:string){return exceptionEntries(s).some(([,receipt])=>receipt.result.correctiveMatterId===matterId);}
+/** Admin inventory deliberately contains only opaque references and generic correction IDs. */
+export function withdrawalExceptionViews(s:WorkspaceState,a:ActorContext):WithdrawalExceptionView[]{
+ const member=membership(s,a);
+ if(!activeRole(s,member,'admin'))return [];
+ return exceptionEntries(s).flatMap(([,receipt])=>{
+  const status=receipt.result.status;
+  if(status!=='owner_unavailable'&&status!=='admin_exception')return [];
+  const matter=s.matters.find(item=>item.id===receipt.result.correctiveMatterId);
+  if(status==='admin_exception'&&(!matter||['closed','canceled'].includes(matter.state)))return [];
+  return [{reviewRef:String(receipt.result.reviewRef),status,correctiveMatterId:matter?.id||null,version:matter?.version||null}];
+ });
+}
 
 /** A source loss must not make its owner's outstanding work disappear with its evidence. */
 function dependsOnSource(s:WorkspaceState,record:RecordBase,sourceId:string,seen=new Set<string>()):boolean {
@@ -47,6 +75,7 @@ export function invalidateSourceWithdrawalDecisions(s:WorkspaceState,source:Sour
 
 function activeRole(s:WorkspaceState,membership:Membership,role:'business_owner'|'admin'){
  if(membership.revokedAt||membership.expiresAt&&Date.parse(membership.expiresAt)<=Date.now()||!membership.roles.includes('member')||!membership.roles.includes(role))return false;
+ if(role==='admin'&&membership.matterIds!==null)return false;
  return !membership.entityIds||membership.entityIds.includes(s.entityId);
 }
 
@@ -61,8 +90,11 @@ function eligibleOwner(s:WorkspaceState,membership:Membership,matter:Matter){
 }
 
 /** Called before the source changes status, inside the same workspace transaction. */
-export function retainSourceWithdrawalWork(s:WorkspaceState,source:Source,actorId:string):number {
- const matters=s.matters.filter(matter=>affected(s,matter,source.id));
+export function retainSourceWithdrawalWork(s:WorkspaceState,source:Source,actorId:string,onlyReviewRef?:string):number {
+ const matters=s.matters.filter(matter=>{
+  const prior=s.receipts[`source-withdrawal:${digest({matterId:matter.id,sourceId:source.id})}`];
+  return onlyReviewRef?prior?.result.status==='owner_unavailable'&&prior.result.reviewRef===onlyReviewRef:affected(s,matter,source.id);
+ });
  let created=0;
  for(const matter of matters){
   const key=`source-withdrawal:${digest({matterId:matter.id,sourceId:source.id})}`;
@@ -97,4 +129,74 @@ export function retainSourceWithdrawalWork(s:WorkspaceState,source:Source,actorI
   created++;
  }
  return created;
+}
+
+function exceptionByRef(s:WorkspaceState,reviewRef:string){
+ if(typeof reviewRef!=='string'||!/^EW-[A-F0-9]{12}$/.test(reviewRef))throw new V2Error('NOT_FOUND','The exception is unavailable.',404);
+ const found=exceptionEntries(s).find(([,receipt])=>receipt.result.reviewRef===reviewRef);
+ if(!found)throw new V2Error('NOT_FOUND','The exception is unavailable.',404);
+ return found[1];
+}
+function requireAdmin(s:WorkspaceState,a:ActorContext){
+ const member=membership(s,a);
+ if(!activeRole(s,member,'admin'))throw new V2Error('FORBIDDEN','Current entity administrator authority is required.',403);
+}
+function changeEvent(s:WorkspaceState,a:ActorContext,m:Matter,type:string,title:string,detail:string){
+ const now=timestamp();
+ s.events.push({id:randomUUID(),tenantId:s.tenantId,version:1,createdAt:now,updatedAt:now,scope:structuredClone(m.scope),provenance:{actorId:a.actorId,sourceIds:[],factIds:[],description:'Source-independent corrective work lifecycle.'},type,title,detail,matterId:m.id,recordId:m.id,measurement:s.rehearsal?'fictional_rehearsal':'observed'});
+ s.outbox.push({id:randomUUID(),tenantId:s.tenantId,kind:'matter_changed',aggregateId:m.id,commandId:`${type}:${m.id}:${m.version}`,status:'pending',owner:'v2',createdAt:now});
+}
+export function applyWithdrawalCommand(s:WorkspaceState,a:ActorContext,c:WithdrawalCommand):Record<string,unknown>{
+ if(c.type==='source.correction.retry'||c.type==='source.correction.assign')requireAdmin(s,a);
+ else membership(s,a);
+ const receipt=exceptionByRef(s,c.reviewRef),result=receipt.result;
+ if(c.type==='source.correction.retry'){
+  if(result.status!=='owner_unavailable')return {reviewRef:c.reviewRef,correctiveMatterId:result.correctiveMatterId||null,replayed:true};
+  const source=s.sources.find(item=>item.id===result.sourceId);
+  if(!source)throw new V2Error('NOT_FOUND','The retained exception source is unavailable for recovery.',404);
+  const count=retainSourceWithdrawalWork(s,source,a.actorId,c.reviewRef);
+  if(count!==1)throw new V2Error('EXCEPTION_RECOVERY_FAILED','The retained exception could not be assigned without widening access.',409);
+  return {reviewRef:c.reviewRef,correctiveMatterId:receipt.result.correctiveMatterId};
+ }
+ const m=s.matters.find(item=>item.id===result.correctiveMatterId);
+ if(!m||!['owner_review','admin_exception'].includes(String(result.status)))throw new V2Error('NOT_FOUND','The corrective matter is unavailable.',404);
+ if(m.version!==c.expectedRecordVersion)throw new V2Error('VERSION_CONFLICT','Inspect the current corrective work before changing it.',409);
+ if(m.state==='closed'||m.state==='canceled')throw new V2Error('MATTER_TERMINAL','This corrective work is already resolved.',409);
+ if(c.type==='source.correction.assign'){
+  if(result.status!=='admin_exception')throw new V2Error('NOT_FOUND','Only an administrator-owned exception can be assigned.',404);
+  const originalTask=m.tasks[0];
+  if(m.tasks.length!==1||!originalTask||originalTask.kind!=='verification'||originalTask.status!=='pending'||originalTask.completion||originalTask.evidenceIds.length||m.proposalId!==null||m.sourceIds.length||m.factIds.length||m.documentIds.length||m.provenance.sourceIds.length||s.proposals.some(item=>item.matterId===m.id)||s.actions.some(item=>item.matterId===m.id)||s.approvals.some(item=>item.matterId===m.id)||(s.obligations||[]).some(item=>item.matterId===m.id))throw new V2Error('CORRECTION_WORKFLOW_CHANGED','The administrator exception changed; inspect and reconcile its current work before assignment.',409);
+  const candidate=s.memberships.find(item=>item.actorId===c.ownerId);
+  if(!candidate||!activeRole(s,candidate,'business_owner'))throw new V2Error('OWNER_REQUIRED','Choose a current entity-scoped business owner.',403);
+  m.ownerId=candidate.actorId;m.scope={kind:'private',actorIds:[candidate.actorId]};
+  originalTask.ownerId=candidate.actorId;originalTask.kind='business';originalTask.title='Review affected work using current authorized evidence';
+  m.title=`Review work after evidence access changed · ${c.reviewRef}`;
+  m.objective='An earlier work item lost supporting evidence. Reassess its decisions and any completed or unresolved effects from currently permitted records.';
+  m.blockers=['Supporting evidence is unavailable. Earlier external effects remain historical; check their current outcome before further action.'];
+  const assignedActor:ActorContext={tenantId:s.tenantId,actorId:candidate.actorId,mode:'authenticated',expiresAt:Date.now()+60_000};
+  if(s.actions.some(item=>item.matterId===result.affectedMatterId&&['verified','uncertain','dispatching','verifying','failed'].includes(item.status)&&!canRead(s,assignedActor,item)))m.blockers.push('Historical effects are not readable by this owner. Keep corrective review open for qualified operator reconciliation.');
+  m.version++;m.updatedAt=timestamp();result.status='owner_review';
+  changeEvent(s,a,m,c.type,'Corrective review assigned','A current business owner must assess available records and historical effects.');
+  return {reviewRef:c.reviewRef,correctiveMatterId:m.id,ownerId:candidate.actorId};
+ }
+ const member=membership(s,a);
+ if(!activeRole(s,member,'business_owner')||m.ownerId!==a.actorId||!canRead(s,a,m))throw new V2Error('FORBIDDEN','The current assigned business owner must attest corrective review.',403);
+ if(result.status!=='owner_review'||m.tasks.some(task=>task.ownerId!==a.actorId||task.kind!=='business'||task.status!=='pending'))throw new V2Error('OWNER_REQUIRED','A current business owner must be assigned to this pending corrective review.',403);
+ if(typeof c.note!=='string'||c.note.trim().length<30||c.note.length>4000)throw new V2Error('TASK_EVIDENCE_REQUIRED','Describe the completed review in 30 to 4,000 characters.',400);
+ if(!Array.isArray(c.evidenceSourceIds)||c.evidenceSourceIds.length<1||c.evidenceSourceIds.length>20||c.evidenceSourceIds.some(id=>typeof id!=='string'))throw new V2Error('TASK_EVIDENCE_REQUIRED','Cite current authorized evidence for the completed review.',400);
+ const ids=[...new Set(c.evidenceSourceIds)];
+ const sources=ids.map(id=>readRecord(s,a,s.sources,id));
+ const maps=[c.evidenceSourceVersions,c.evidenceSourceHashes,c.evidenceSourceDependencyHashes];
+ if(!maps.every(map=>map&&typeof map==='object'&&!Array.isArray(map)&&digest(Object.keys(map).sort())===digest([...ids].sort()))||!sources.every(source=>source.version===c.evidenceSourceVersions[source.id]&&source.contentHash===c.evidenceSourceHashes[source.id]&&sourceDependencyHash(s,[source.id])===c.evidenceSourceDependencyHashes[source.id]))throw new V2Error('TASK_EVIDENCE_CHANGED','Inspect the exact current evidence and dependency versions before attesting.',409);
+ if(!sources.every(source=>currentEvidenceLineage(s,source)&&withinConversationAudience(s,m as never,source)))throw new V2Error('TASK_EVIDENCE_SCOPE','Completion evidence must remain current in the corrective matter audience.',403);
+ if(s.actions.some(item=>[result.affectedMatterId,m.id].includes(item.matterId)&&['uncertain','dispatching','verifying','failed'].includes(item.status)))throw new V2Error('RECONCILIATION_REQUIRED','Historical or corrective unresolved effects require reconciliation before corrective closure.',409);
+ if(s.actions.some(item=>item.matterId===result.affectedMatterId&&item.status==='verified'&&!canRead(s,a,item)))throw new V2Error('EFFECT_REVIEW_UNAVAILABLE','Historical effects are not readable by this owner; keep corrective review open for qualified operator reconciliation.',409);
+ const now=timestamp(),task=m.tasks[0];
+ if(!task||m.tasks.length!==1||m.proposalId!==null||s.proposals.some(item=>item.matterId===m.id)||s.actions.some(item=>item.matterId===m.id)||s.approvals.some(item=>item.matterId===m.id))throw new V2Error('CORRECTION_WORKFLOW_CHANGED','The dedicated corrective review cannot bypass ordinary proposal or effect gates.',409);
+ task.status='done';task.evidenceIds=ids;task.completion={kind:'human_attestation',actorId:a.actorId,membershipVersion:member.version,at:now,note:c.note.trim(),sourceIds:ids,sourceVersions:Object.fromEntries(sources.map(source=>[source.id,source.version])),proofHash:sourceDependencyHash(s,ids)};
+ m.sourceIds=ids;m.provenance.sourceIds=ids;
+ m.state='closed';m.closedAt=now;m.outcome='Assigned owner completed corrective review of currently authorized records.';m.blockers=[];m.version++;m.updatedAt=now;
+ result.status='resolved';
+ changeEvent(s,a,m,c.type,'Corrective review completed','Named business owner attested review; earlier external effects remain historical.');
+ return {reviewRef:c.reviewRef,correctiveMatterId:m.id,resolved:true};
 }
