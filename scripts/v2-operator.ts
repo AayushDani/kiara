@@ -26,8 +26,14 @@ async function main(){
  if(operation==='effect-reconcile'){const [actionId,intentId,candidateReceipt]=args,s=await readWorkspace(tenantId),i=s.receipts[`execution:${actionId}`]?.result.intent as EffectIntent|undefined;if(!actionId||!intentId||i?.id!==intentId)throw new Error('Supply the exact action and durable intent IDs from effect-status');return reconcileEffect(tenantId,actionId,{candidateReceipt});}
  if(operation==='retention-status'){const s=await readWorkspace(tenantId);return {deletions:(s.deletionJobs||[]).map(j=>({id:j.id,sourceId:j.sourceId,originals:j.originals.map(o=>({status:o.status,notBefore:o.notBefore,failureCode:o.failureCode})),indexCleanup:j.indexCleanup,historicalCleanup:j.historicalCleanup,operationalExceptions:j.operationalExceptionActionIds.length,backupStatus:j.backupStatus}))};}
  if(operation==='retention-run'){if(!args[0])throw new Error('Supply an inspected deletion job ID');return processDeletionJob(tenantId,args[0]);}
- if(operation==='normalize-check'||operation==='normalize'){if(!args[0])throw new Error('Supply the inspected aggregate state hash');return migrateAggregateToNormalized(tenantId,args[0],operation==='normalize-check');}
- if(operation==='normalize-rollback-check'||operation==='normalize-rollback'){if(!args[0])throw new Error('Supply the inspected normalized state hash');return rollbackNormalizedToAggregate(tenantId,args[0],operation==='normalize-rollback-check');}
+ if(operation==='normalize-check'||operation==='normalize'){
+  if(args.length!==(operation==='normalize-check'?1:2)||!/^[a-f0-9]{64}$/.test(args[0]||'')||operation==='normalize'&&!/^[a-f0-9]{64}$/.test(args[1]||''))throw new Error('Normalization requires the inspected aggregate state hash and, for apply, the reviewed plan hash.');
+  return migrateAggregateToNormalized(tenantId,args[0],operation==='normalize-check',operation==='normalize'?args[1]:null);
+ }
+ if(operation==='normalize-rollback-check'||operation==='normalize-rollback'){
+  if(args.length!==(operation==='normalize-rollback-check'?1:2)||!/^[a-f0-9]{64}$/.test(args[0]||'')||operation==='normalize-rollback'&&!/^[a-f0-9]{64}$/.test(args[1]||''))throw new Error('Normalization rollback requires the inspected normalized state hash and, for apply, the reviewed plan hash.');
+  return rollbackNormalizedToAggregate(tenantId,args[0],operation==='normalize-rollback-check',operation==='normalize-rollback'?args[1]:null);
+ }
  if(operation==='index-definitions')return hybridIndexDefinitions(hybridConfig());
  if(operation==='index-sync'||operation==='index-reconcile'){const actor={tenantId,actorId:args[0],expiresAt:Date.now()+3600000,mode:'authenticated' as const};if(!actor.actorId)throw new Error('Supply a currently provisioned admin actor ID');return operation==='index-sync'?syncHybridIndex(actor,args.slice(1)):reconcileHybridIndex(actor);}
  if(operation==='backup'){if(!args[0])throw new Error('Supply a new backup path');await writeFile(args[0],JSON.stringify(await backupWorkspace(tenantId)),{flag:'wx',mode:0o600});return {backup:args[0],containsSensitiveData:true};}
