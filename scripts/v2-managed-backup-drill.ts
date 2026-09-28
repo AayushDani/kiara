@@ -103,8 +103,12 @@ async function verify(base:ConnectionString,path:string,database:string){
  }finally{await close();await client.close().catch(()=>{});}
 }
 
-function requireStopped(host:string,pid:number){
- if(host!==hostname()||!Number.isSafeInteger(pid)||pid<1)throw new Error('Cleanup requires the originating host and a stopped seed process.');
+function requireStopped(host:string,pid:number,verified:boolean){
+ const current=hostname(),short=(value:string)=>value.split('.')[0].toLowerCase();
+ // macOS can change the local DNS suffix without changing the computer name.
+ // Only a fully verified drill may use that alias; abandoned seeds require an exact host.
+ const sameHost=host===current||verified&&!!short(host)&&short(host)===short(current);
+ if(!sameHost||!Number.isSafeInteger(pid)||pid<1)throw new Error('Cleanup requires the originating host and a stopped seed process.');
  try{process.kill(pid,0);}catch(error){if(typeof error==='object'&&error&&'code' in error&&error.code==='ESRCH')return;throw new Error('Seed process status is uncertain; cleanup refused.');}
  throw new Error('Seed process is still running; cleanup refused.');
 }
@@ -115,7 +119,7 @@ async function cleanup(base:ConnectionString,path:string,database:string,abandon
  try{
   await client.connect();const db=client.db(database),marker=await db.collection<Marker>('qualification_identity').findOne({_id:file.marker});
   if(marker?.purpose!=='managed_backup_drill'||marker.sourceDatabase!==file.sourceDatabase||marker.tenantId!==file.tenantId)throw new Error('Exact managed-backup drill marker is absent; cleanup refused.');
-  requireStopped(marker.runHost,marker.runPid);
+  requireStopped(marker.runHost,marker.runPid,file.stage==='verified');
   const allowed=new Set(['qualification_identity','v2_workspaces','v2_normalized_heads','v2_oidc_identities','v2_original_manifests','v2_original_chunks','v2_original_fences',...NORMALIZED_COLLECTIONS.map(kind=>`v2_records_${kind}`)]);
   const names=(await db.listCollections().toArray()).map(item=>item.name),tenantHash=sha(file.tenantId);
   if(names.some(name=>!allowed.has(name))||await db.collection('qualification_identity').countDocuments({})!==1||await db.collection<{_id:string}>('v2_workspaces').countDocuments({_id:{$ne:file.tenantId}})||await db.collection<{_id:string}>('v2_normalized_heads').countDocuments({_id:{$ne:file.tenantId}})||await db.collection('v2_oidc_identities').countDocuments({tenantId:{$ne:file.tenantId}})||await db.collection('v2_original_manifests').countDocuments({tenantHash:{$ne:tenantHash}}))throw new Error('Generated database has an unexpected collection or owner; cleanup refused.');
