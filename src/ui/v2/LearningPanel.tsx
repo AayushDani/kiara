@@ -4,15 +4,17 @@ import {useCallback,useEffect,useState} from 'react';
 import type {CommandResult,LearningCandidate,WorkspaceCommand,WorkspaceSnapshot} from '@/v2/contracts';
 import {Badge,Empty,Icon,date,human} from './Primitives';
 import {Modal} from './ReviewDialog';
+import {selectedLessonOrigin} from './review-intent';
 import s from './workspace.module.css';
 
 type Step='evaluate'|'promote'|'renew'|'rollback';
-type Props={data:WorkspaceSnapshot;busy:boolean;error:string;pending:boolean;propose:()=>void;clearError:()=>void;submit:(command:WorkspaceCommand)=>Promise<CommandResult|null>;retryPending:()=>Promise<CommandResult|null>};
+type Props={data:WorkspaceSnapshot;busy:boolean;error:string;pending:boolean;propose:(matterId:string)=>void;clearError:()=>void;submit:(command:WorkspaceCommand)=>Promise<CommandResult|null>;retryPending:()=>Promise<CommandResult|null>};
 
 export function LearningPanel({data,busy,error,pending,propose,clearError,submit,retryPending}:Props){
-  const [review,setReview]=useState<{step:Step;candidate:LearningCandidate;actorId:string}|null>(null),[confirmed,setConfirmed]=useState(false),[reason,setReason]=useState('');
+  const [review,setReview]=useState<{step:Step;candidate:LearningCandidate;actorId:string}|null>(null),[confirmed,setConfirmed]=useState(false),[reason,setReason]=useState(''),[originMatterId,setOriginMatterId]=useState('');
   const close=useCallback(()=>setReview(null),[]);
   useEffect(()=>{if(review&&(review.actorId!==data.actor.id||!data.learning.some(l=>l.id===review.candidate.id)))close()},[data,review,close]);
+  useEffect(()=>{if(originMatterId&&!selectedLessonOrigin(data.matters,originMatterId))setOriginMatterId('')},[data.matters,originMatterId]);
   const open=(step:Step,candidate:LearningCandidate)=>{clearError();setReview({step,candidate,actorId:data.actor.id});setConfirmed(false);setReason('')};
   const c=review?.candidate,current=data.learning.find(l=>l.id===c?.id);
   const fresh=!!c&&!!current&&c.version===current.version&&c.status===current.status&&c.evaluationHash===current.evaluationHash;
@@ -26,7 +28,7 @@ export function LearningPanel({data,busy,error,pending,propose,clearError,submit
     else {if(!owner(c)||!reason.trim())return;command={type:'learning.rollback',candidateId:c.id,expectedRecordVersion:c.version,reason}}
     if(await submit(command))close();
   }
-  return <><div className={s.rowBetween} style={{marginBottom:20}}><p className={s.muted}>A useful lesson has an origin, a tested effect and a way back.</p>{data.matters.length>0&&<button className={s.button} onClick={propose}>Propose a lesson</button>}</div>
+  return <><div className={s.rowBetween} style={{marginBottom:20,flexWrap:'wrap'}}><p className={s.muted}>A useful lesson has an origin, a tested effect and a way back.</p>{data.matters.length>0&&<div className={s.row} style={{minWidth:0}}><label className={s.field} style={{minWidth:0}}>Origin matter<select aria-label="Lesson origin matter" value={originMatterId} onChange={event=>setOriginMatterId(event.target.value)}><option value="">Choose a matter</option>{data.matters.map(m=><option key={m.id} value={m.id}>{m.title} · {m.id.slice(-8)} · {human(m.scope.kind)}</option>)}</select></label><button className={s.button} disabled={busy||pending||!selectedLessonOrigin(data.matters,originMatterId)} onClick={()=>{const selected=selectedLessonOrigin(data.matters,originMatterId);if(selected){propose(selected.id);setOriginMatterId('')}}}>Propose a lesson</button></div>}</div>
     <div className={s.boundary}><Icon name="shield" size={15}/>Supported procedures are checked against frozen original, near-miss and held-out cases. These deterministic checks do not establish legal or model quality.</div>
     {data.learning.length?<div className={s.stack}>{data.learning.map(l=><section className={s.card} key={l.id} aria-label={`Lesson: ${l.title}`}>
       <div className={s.rowBetween}><h2>{l.title}</h2><Badge tone={l.status==='promoted'?'green':'purple'}>{human(l.status)}</Badge></div><p>{l.rule}</p>

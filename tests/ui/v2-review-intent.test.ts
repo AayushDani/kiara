@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {proposalPreviewCurrent,actionPreviewCurrent,counselPreviewCurrent} from '../../src/ui/v2/review-intent';
+import {proposalPreviewCurrent,actionPreviewCurrent,counselPreviewCurrent,lessonOriginCurrent,selectedLessonOrigin} from '../../src/ui/v2/review-intent';
 
 test('a review preview cannot follow a newly polled proposal or lost access',()=>{
   const inspected={id:'proposal-v3',version:3,contentHash:'content-3'};
@@ -28,4 +28,18 @@ test('a counsel decision rejects changed scope, recipient, lifecycle or withdraw
   assert.equal(counselPreviewCurrent(inspected,{...inspected,counselActorId:'reviewer-2'}),false);
   assert.equal(counselPreviewCurrent(inspected,{...inspected,version:4}),false);
   assert.equal(counselPreviewCurrent(inspected,undefined),false);
+});
+
+test('lesson origin preview never follows a previous Work selection or changed matter',()=>{
+ const selected={id:'matter-b',version:3,title:'Second project',scope:{kind:'team' as const,actorIds:[]}};
+ const matters=[{...selected,id:'matter-a',title:'Previous Work project'},selected];
+ assert.equal(selectedLessonOrigin(matters,''),undefined);
+ assert.equal(selectedLessonOrigin(matters,'missing'),undefined);
+ assert.equal(selectedLessonOrigin(matters,selected.id),selected);
+ assert.equal(lessonOriginCurrent(selected,{...selected}),true);
+ assert.equal(lessonOriginCurrent(selected,{...selected,id:'matter-a',title:'Previous Work project'}),false);
+ assert.equal(lessonOriginCurrent(selected,{...selected,version:4}),false);
+ assert.equal(lessonOriginCurrent(selected,{...selected,title:'Renamed project'}),false);
+ assert.equal(lessonOriginCurrent(selected,{...selected,scope:{kind:'private',actorIds:['owner']}}),false);
+ assert.equal(lessonOriginCurrent(selected,undefined),false);
 });
