@@ -56,6 +56,15 @@ export async function activeOidcBindingTenants(issuer:string,tenantIds:string[])
   return [...active];
 }
 
+/** Read-only operator lookup for a uniquely bound current actor; no subject leaves storage. */
+export async function operatorOidcBindingForActor(tenantId:string,actorId:string):Promise<{key:string;version:number}>{
+ const issuer=process.env.KIARA_OIDC_ISSUER;
+ if(!valid(issuer)||!valid(tenantId)||!valid(actorId)||source()!=='mongo')throw new V2Error('IDENTITY_GRANT_INVALID','A configured MongoDB OIDC issuer and exact actor are required.',403);
+ const rows=await (await collection()).find({issuer,tenantId,actorId,revokedAt:null},{readConcern:{level:'majority'}}).limit(2).toArray();
+ if(rows.length!==1||!Number.isSafeInteger(rows[0].version)||rows[0].version<1)throw new V2Error('IDENTITY_GRANT_INVALID','The actor needs exactly one current OIDC binding.',403);
+ return {key:rows[0]._id,version:rows[0].version};
+}
+
 /** The fixture path is explicit, local-only and never accepted on a hosted deployment. */
 function fixtureBinding(issuer:string,subject:string):IdentityTarget{
   let rows:unknown;try{rows=JSON.parse(process.env.KIARA_OIDC_IDENTITIES||'[]');}catch{throw new V2Error('IDENTITY_CONFIG_INVALID','Local identity fixture configuration is invalid.',503);}

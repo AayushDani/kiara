@@ -9,7 +9,7 @@ import {closeV2Store,readWorkspace,transactWorkspace} from '../src/v2/store';
 import {processRetentionReference,type RetentionProcessor} from '../src/v2/orchestration/retention';
 import {processLocalOutboxOnce} from '../src/v2/orchestration/conversations';
 import {processWithdrawalReference} from '../src/v2/orchestration/withdrawal';
-import {dispatchOutbox} from '../src/v2/orchestration/temporal';
+import {dispatchOutbox,indexWorkflowId,matterWorkflowId} from '../src/v2/orchestration/temporal';
 import {processArtifactReference} from '../src/v2/orchestration/artifacts';
 import {retainIntakeOriginal} from '../src/v2/artifact-intake';
 import {readOriginal} from '../src/v2/objects';
@@ -57,3 +57,7 @@ test('standing-policy index jobs dispatch only opaque references and terminal un
  assert.deepEqual(await processIndexReference(ref,async()=>view('unknown')),{status:'complete',nextCheckMs:0});assert.deepEqual(await processIndexReference(ref,async()=>({...view('queued'),nextAttemptAt:new Date(Date.now()+3600000).toISOString()})),{status:'waiting',nextCheckMs:5*60000});await assert.rejects(processIndexReference(ref,async()=>view('complete','wrong')),{code:'INDEX_IDENTITY_MISMATCH'});await assert.rejects(processIndexReference({...ref,aggregateId:'foreign'},async()=>view('complete')),{code:'OUTBOX_NOT_FOUND'});
  await transactWorkspace(actor.tenantId,state=>{state.outbox[0].status='pending';});const deferred=new Map<string,number>();let attempts=0;await processLocalOutboxOnce(actor.tenantId,{deferred,indexProcessor:async()=>{attempts++;return {status:'waiting',nextCheckMs:60000};}});await processLocalOutboxOnce(actor.tenantId,{deferred,indexProcessor:async()=>{attempts++;return {status:'complete',nextCheckMs:0};}});assert.equal(attempts,1);deferred.set(ref.outboxId,0);await processLocalOutboxOnce(actor.tenantId,{deferred,indexProcessor:async()=>({status:'complete',nextCheckMs:0})});assert.equal((await readWorkspace(actor.tenantId)).outbox[0].status,'dispatched');
 }));
+test('index workflow identity is stable for acknowledgement retry and distinct for an explicit requeue',()=>{
+ const original={tenantId:'tenant',aggregateId:'retained-job',outboxId:'original-outbox'},retry={...original},requeue={...original,outboxId:'recovery-outbox'};
+ assert.equal(indexWorkflowId(original),indexWorkflowId(retry));assert.notEqual(indexWorkflowId(original),indexWorkflowId(requeue));assert.notEqual(indexWorkflowId(original),`index-${matterWorkflowId(original.tenantId,original.aggregateId)}`);
+});
