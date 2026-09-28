@@ -13,3 +13,5 @@ Kiara's legal registry separates discovery, retained source text, a qualified re
 | Company obligations and practice | User-authorized contracts, policies and confirmed facts | Scoped company evidence; no source becomes public law | Verify signed authority, revision, access, provenance and contradictory practice |
 
 The next legal-content decision is a narrow initial jurisdiction and workflow with a named qualified reviewer. That reviewer should select the exact source set, resolve conflicts and effective dates, approve any interpretation, and own a check interval. Until then the UI must state that coverage is unestablished and route material legal conclusions to an owned review task. API availability or an AI-generated summary cannot substitute for those decisions.
+
+The current legal-source monitor reads bounded HTML, plain text and XML. A selected publisher that offers only PDF requires a separately verified text rendition or a reviewed extraction path before Kiara can monitor its operative text. A link to a PDF alone does not establish that its contents were ingested or kept current.
