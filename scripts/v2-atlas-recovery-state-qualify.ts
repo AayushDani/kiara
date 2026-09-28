@@ -4,7 +4,7 @@ import {createHash,randomBytes,randomUUID} from 'node:crypto';
 import {MongoClient} from 'mongodb';
 import {ConnectionString} from 'mongodb-connection-string-url';
 import {closeMongoOriginalStore,purgeMongoOriginal,retainMongoOriginal} from '../src/v2/mongo-originals';
-import {closeNormalizedStore,readNormalized,transactNormalized} from '../src/v2/normalized-store';
+import {closeNormalizedStore,NORMALIZED_COLLECTIONS,readNormalized,transactNormalized} from '../src/v2/normalized-store';
 import {closeOidcIdentityStore,provisionOidcIdentity,revokeOidcIdentity} from '../src/v2/oidc-identities';
 import {digest,timestamp} from '../src/v2/store';
 import {validateRestoreTarget,verifyRestoredOriginals} from './v2-original-restore-verify';
@@ -13,6 +13,26 @@ import {verifyRestoredState,type StateRestoreManifest} from './v2-state-restore-
 const sha=(value:string|Uint8Array)=>createHash('sha256').update(value).digest('hex');
 const suffix=randomUUID().replaceAll('-','');
 const databaseName=`kiara_recovery_${suffix}`,tenantId=`synthetic-recovery-${suffix}`,marker=randomUUID();
+const ownedCollections=new Set(['qualification_identity','v2_workspaces','v2_normalized_heads','v2_oidc_identities','v2_original_manifests','v2_original_chunks','v2_original_fences',...NORMALIZED_COLLECTIONS.map(kind=>`v2_records_${kind}`)]);
+/** A generated name and marker alone do not make unrelated rows safe to drop. */
+export function assertRecoveryCleanupInventory(input:{collections:string[];markers:{_id:string;tenantId:string}[];foreignCounts:Record<string,number>;foreignChunks:number;foreignFences:number},expected:{marker:string;tenantId:string}){
+ if(input.collections.some(name=>!ownedCollections.has(name))||input.markers.length!==1||input.markers[0]._id!==expected.marker||input.markers[0].tenantId!==expected.tenantId||Object.values(input.foreignCounts).some(count=>count!==0)||input.foreignChunks!==0||input.foreignFences!==0)throw new Error('Generated recovery database has an unexpected collection or owner; cleanup refused.');
+}
+async function assertRecoveryCleanupOwnership(db:ReturnType<MongoClient['db']>,expected:{marker:string;tenantId:string}){
+ const tenantHash=sha(expected.tenantId),collections=(await db.listCollections().toArray()).map(row=>row.name);
+ if(collections.some(name=>!ownedCollections.has(name)))throw new Error('Generated recovery database has an unexpected collection; cleanup refused.');
+ const markers=await db.collection<{_id:string;tenantId:string}>('qualification_identity').find({}).toArray();
+ const foreignCounts:Record<string,number>={
+  v2_workspaces:await db.collection<{_id:string}>('v2_workspaces').countDocuments({_id:{$ne:expected.tenantId}}),
+  v2_normalized_heads:await db.collection<{_id:string}>('v2_normalized_heads').countDocuments({_id:{$ne:expected.tenantId}}),
+  v2_oidc_identities:await db.collection('v2_oidc_identities').countDocuments({tenantId:{$ne:expected.tenantId}}),
+  v2_original_manifests:await db.collection('v2_original_manifests').countDocuments({tenantHash:{$ne:tenantHash}}),
+ };
+ for(const kind of NORMALIZED_COLLECTIONS)foreignCounts[`v2_records_${kind}`]=await db.collection(`v2_records_${kind}`).countDocuments({tenantId:{$ne:expected.tenantId}});
+ const chunks=await db.collection<{manifestId:string}>('v2_original_chunks').find({},{projection:{manifestId:1}}).toArray();
+ const fences=await db.collection<{_id:string}>('v2_original_fences').find({},{projection:{_id:1}}).toArray();
+ assertRecoveryCleanupInventory({collections,markers,foreignCounts,foreignChunks:chunks.filter(row=>!row.manifestId?.startsWith(`${tenantHash}/`)).length,foreignFences:fences.filter(row=>!row._id.startsWith(`${tenantHash}/`)).length},expected);
+}
 async function main(){
  if(process.argv.slice(2).join(' ')!=='--synthetic-atlas')throw new Error('Explicit --synthetic-atlas flag is required.');
  const configured=process.env.MONGODB_URI;
@@ -63,8 +83,8 @@ async function main(){
    await closeMongoOriginalStore().catch(()=>{});
    await closeNormalizedStore().catch(()=>{});
    await closeOidcIdentityStore().catch(()=>{});
-   if(marked){const db=client.db(databaseName),exact=await db.collection<{_id:string;tenantId:string}>('qualification_identity').findOne({_id:marker});if(exact?.tenantId!==tenantId)throw new Error('Generated database marker changed; refusing cleanup.');await db.dropDatabase();dropped=true;cleanupVerified=(await db.listCollections().toArray()).length===0;}
+   if(marked){const db=client.db(databaseName);await assertRecoveryCleanupOwnership(db,{marker,tenantId});await db.dropDatabase();dropped=true;cleanupVerified=(await db.listCollections().toArray()).length===0;}
   }finally{await client.close().catch(()=>{});console.log('ATLAS_RECOVERY_STATE_CLEANUP '+JSON.stringify({database:databaseName,dropped,cleanupVerified}));}
  }
 }
-main().catch(error=>{console.error('ATLAS_RECOVERY_STATE_FAILURE '+JSON.stringify({code:(error as {code?:string}).code||'QUALIFICATION_FAILED',message:error instanceof Error?error.message:'Unknown failure'}));process.exitCode=1;});
+if(import.meta.url===`file://${process.argv[1]}`)main().catch(error=>{console.error('ATLAS_RECOVERY_STATE_FAILURE '+JSON.stringify({code:(error as {code?:string}).code||'QUALIFICATION_FAILED',message:error instanceof Error?error.message:'Unknown failure'}));process.exitCode=1;});
