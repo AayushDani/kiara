@@ -6,11 +6,12 @@ The opt-in test is `tests/v2-mongo.integration.ts`, deliberately outside the def
 
 ```sh
 KIARA_QUALIFICATION_MONGO_URI='mongodb://127.0.0.1:27931/?replicaSet=kiaraQualification' \
+KIARA_QUALIFICATION_SECONDARY_MONGO_URI='mongodb://127.0.0.1:27932/?replicaSet=kiaraQualificationSecond' \
 /Users/aayushdani/.npm/_npx/09ae5d3560c7b1f2/node_modules/node/bin/node \
   --import tsx --test tests/v2-mongo.integration.ts
 ```
 
-The test requires that temporary replica set to be running. It does not start, stop or reconfigure a database server.
+The current test requires both temporary loopback replica sets to be running. The second must use the exact `kiaraQualificationSecond` set name on `127.0.0.1:27932`. It clones one generated tenant into the second target to verify that an original cutover or alias-target reconciliation reviewed for the first target cannot be applied or replayed on the second. It drops the generated qualification database from both targets. It does not start, stop or reconfigure either database server.
 
 ## Observed checks
 

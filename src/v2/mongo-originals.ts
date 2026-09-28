@@ -10,13 +10,15 @@ import {liveMongoOriginalHolders} from './original-holders';
  * all ciphertext chunks and the manifest together; the permanent fence prevents resurrection. */
 const CHUNK_BYTES=1_000_000,MAX_BYTES=20_000_000;
 const sha=(value:string|Uint8Array)=>createHash('sha256').update(value).digest('hex');
+/** Hash the configured Mongo destination without exposing URI credentials in an operator plan. */
+export function mongoOriginalTarget(){const uri=process.env.MONGODB_URI,database=v2DatabaseName();if(!uri)throw new V2Error('MONGO_ORIGINALS_NOT_CONFIGURED','MongoDB originals require MONGODB_URI.',503);return {database,storeFingerprint:sha(JSON.stringify({uri,database}))};}
 interface Manifest {_id:string;tenantHash:string;contentHash:string;keyId:string;bytes:number;cipherHash:string;chunks:number;nonce:string;tag:string;format:1}
 interface Chunk {_id:string;manifestId:string;ordinal:number;data:Binary}
 interface Fence {_id:string;deleted:boolean;deletedAt:string|null;epoch:number}
 export interface OriginalAliasEntry {legacy:OriginalReference;mongo:OriginalReference;legacyHash:string;sourceUri:string;purgeTarget:string;purgedAt:string|null}
-export interface OriginalCutoverManifest {_id:string;tenantHash:string;previewHash:string;workspaceHash:string;entries:OriginalAliasEntry[];activatedAt:string}
+export interface OriginalCutoverManifest {_id:string;tenantHash:string;previewHash:string;workspaceHash:string;storeFingerprint:string;entries:OriginalAliasEntry[];activatedAt:string}
 interface Alias {_id:string;tenantHash:string;legacyHash:string;legacy:OriginalReference;mongo:OriginalReference;previewHash:string;retiredAt?:string|null}
-interface Reconciliation {_id:string;tenantHash:string;targetKey:string;previewHash:string;workspaceHash:string;workspaceVersion:number;aliasIds:string[];completedAt:string}
+interface Reconciliation {_id:string;tenantHash:string;targetKey:string;previewHash:string;workspaceHash:string;workspaceVersion:number;storeFingerprint:string;aliasIds:string[];completedAt:string}
 let client:MongoClient|undefined,identity:string|undefined;
 function keyMaterial(){const value=process.env.KIARA_ORIGINALS_KEY;if(!value||!/^[a-f0-9]{64}$/i.test(value))throw new V2Error('ENCRYPTION_KEY_REQUIRED','Configure a protected 32-byte hex key for MongoDB originals.',503);const key=Buffer.from(value,'hex');return {key,keyId:sha(key).slice(0,16)};}
 export function destinationOriginalReference(tenantId:string,reference:OriginalReference):OriginalReference{const {keyId}=keyMaterial(),tenantHash=sha(tenantId);return {key:`${tenantHash}/${reference.sha256}/${keyId}`,sha256:reference.sha256,bytes:reference.bytes,encryption:'aes-256-gcm',storage:'mongo_encrypted',keyId};}
@@ -52,17 +54,19 @@ export async function resolveMongoOriginalAlias(tenantId:string,reference:Origin
 }
 export async function readOriginalCutoverManifest(tenantId:string,previewHash:string):Promise<OriginalCutoverManifest|null>{
  if(!syntheticOriginalCutoverEnabled(tenantId))throw new V2Error('ORIGINAL_CUTOVER_SCOPE','Synthetic cutover scope is required.',403);
- const {db}=await database();return db.collection<OriginalCutoverManifest>('v2_original_cutovers').findOne({_id:sha(`${sha(tenantId)}:${previewHash}`)},{readConcern:{level:'majority'}});
+ const {db}=await database(),manifest=await db.collection<OriginalCutoverManifest>('v2_original_cutovers').findOne({_id:sha(`${sha(tenantId)}:${previewHash}`)},{readConcern:{level:'majority'}});
+ if(manifest&&manifest.storeFingerprint!==mongoOriginalTarget().storeFingerprint)throw new V2Error('ORIGINAL_CUTOVER_TARGET_CHANGED','The retained cutover manifest belongs to another reviewed MongoDB target.',409);
+ return manifest;
 }
 /** Aliases become visible only after every candidate has survived readback. */
 export async function activateOriginalAliases(tenantId:string,previewHash:string,workspaceHash:string,entries:OriginalAliasEntry[]):Promise<OriginalCutoverManifest>{
  if(!syntheticOriginalCutoverEnabled(tenantId))throw new V2Error('ORIGINAL_CUTOVER_SCOPE','Synthetic cutover scope is required.',403);
  if(!/^[a-f0-9]{64}$/.test(previewHash)||!/^[a-f0-9]{64}$/.test(workspaceHash)||entries.length>100||new Set(entries.map(x=>x.legacyHash)).size!==entries.length)throw new V2Error('ORIGINAL_CUTOVER_MANIFEST','A bounded unique reviewed manifest is required.',400);
  const tenantHash=sha(tenantId),{client:connection,db}=await database(),aliases=db.collection<Alias>('v2_original_aliases'),cutovers=db.collection<OriginalCutoverManifest>('v2_original_cutovers'),{fences}=collections(db);
- const _id=sha(`${tenantHash}:${previewHash}`),activatedAt=new Date().toISOString(),manifest:OriginalCutoverManifest={_id,tenantHash,previewHash,workspaceHash,entries,activatedAt};
+ const _id=sha(`${tenantHash}:${previewHash}`),activatedAt=new Date().toISOString(),manifest:OriginalCutoverManifest={_id,tenantHash,previewHash,workspaceHash,storeFingerprint:mongoOriginalTarget().storeFingerprint,entries,activatedAt};
  for(const entry of entries){legacyIdentity(tenantId,entry.legacy);scopedReference(tenantId,entry.mongo);if(entry.legacyHash!==legacyHash(entry.legacy)||entry.legacy.sha256!==entry.mongo.sha256||entry.legacy.bytes!==entry.mongo.bytes||entry.purgedAt!==null||entry.sourceUri!==entry.purgeTarget)throw new V2Error('ORIGINAL_ALIAS_INTEGRITY','Cutover entry failed verification.',503);const readback=await readMongoOriginal(tenantId,entry.mongo);if(readback.length!==entry.legacy.bytes||sha(readback)!==entry.legacy.sha256)throw new V2Error('ORIGINAL_CUTOVER_READBACK','Every Mongo copy must pass exact readback before alias activation.',503);}
  const session=connection.startSession();try{await session.withTransaction(async()=>{
-  const prior=await cutovers.findOne({_id},{session});if(prior){if(prior.previewHash!==previewHash||prior.workspaceHash!==workspaceHash||prior.entries.length!==entries.length||prior.entries.some((item,index)=>item.legacyHash!==entries[index].legacyHash||item.mongo.key!==entries[index].mongo.key||item.sourceUri!==entries[index].sourceUri||item.purgeTarget!==entries[index].purgeTarget))throw new V2Error('ORIGINAL_CUTOVER_CONFLICT','Cutover preview identity differs from the retained manifest.',503);return;}
+  const prior=await cutovers.findOne({_id},{session});if(prior){if(prior.storeFingerprint!==manifest.storeFingerprint)throw new V2Error('ORIGINAL_CUTOVER_TARGET_CHANGED','The retained cutover manifest belongs to another reviewed MongoDB target.',409);if(prior.previewHash!==previewHash||prior.workspaceHash!==workspaceHash||prior.entries.length!==entries.length||prior.entries.some((item,index)=>item.legacyHash!==entries[index].legacyHash||item.mongo.key!==entries[index].mongo.key||item.sourceUri!==entries[index].sourceUri||item.purgeTarget!==entries[index].purgeTarget))throw new V2Error('ORIGINAL_CUTOVER_CONFLICT','Cutover preview identity differs from the retained manifest.',503);return;}
   // Alias activation and target purge must write the same fence. A concurrent purge
   // then retries against the newly visible alias, or activation sees deletion.
   for(const key of new Set(entries.map(entry=>entry.mongo.key))){const fenced=await fences.updateOne({_id:key,deleted:false},{$inc:{epoch:1}},{session});if(fenced.matchedCount!==1)throw new V2Error('ORIGINAL_DELETED','The cutover destination was deleted before alias activation.',410);}
@@ -71,7 +75,7 @@ export async function activateOriginalAliases(tenantId:string,previewHash:string
  },{readConcern:{level:'snapshot'},writeConcern:{w:'majority'},readPreference:'primary',maxCommitTimeMS:15000});}finally{await session.endSession();}
  return (await readOriginalCutoverManifest(tenantId,previewHash))!;
 }
-export async function markLegacyOriginalPurged(tenantId:string,previewHash:string,legacyHashValue:string){if(!syntheticOriginalCutoverEnabled(tenantId))throw new V2Error('ORIGINAL_CUTOVER_SCOPE','Synthetic cutover scope is required.',403);const {db}=await database(),_id=sha(`${sha(tenantId)}:${previewHash}`);const result=await db.collection<OriginalCutoverManifest>('v2_original_cutovers').updateOne({_id,'entries.legacyHash':legacyHashValue},{$set:{'entries.$.purgedAt':new Date().toISOString()}},{writeConcern:{w:'majority'}});if(result.matchedCount!==1)throw new V2Error('ORIGINAL_CUTOVER_MANIFEST','The exact purge receipt is unavailable.',503);}
+export async function markLegacyOriginalPurged(tenantId:string,previewHash:string,legacyHashValue:string){if(!syntheticOriginalCutoverEnabled(tenantId))throw new V2Error('ORIGINAL_CUTOVER_SCOPE','Synthetic cutover scope is required.',403);const {db}=await database(),_id=sha(`${sha(tenantId)}:${previewHash}`),storeFingerprint=mongoOriginalTarget().storeFingerprint;const result=await db.collection<OriginalCutoverManifest>('v2_original_cutovers').updateOne({_id,storeFingerprint,'entries.legacyHash':legacyHashValue},{$set:{'entries.$.purgedAt':new Date().toISOString()}},{writeConcern:{w:'majority'}});if(result.matchedCount!==1)throw new V2Error('ORIGINAL_CUTOVER_MANIFEST','The exact purge receipt is unavailable for this MongoDB target.',503);}
 function scopedReference(tenantId:string,reference:OriginalReference){
  const tenantHash=sha(tenantId);
  if(!tenantId||reference.storage!=='mongo_encrypted'||reference.encryption!=='aes-256-gcm'||!/^[a-f0-9]{64}$/.test(reference.sha256)||!Number.isSafeInteger(reference.bytes)||reference.bytes<0||reference.bytes>MAX_BYTES||!/^[a-f0-9]{16}$/.test(reference.keyId)||reference.key!==`${tenantHash}/${reference.sha256}/${reference.keyId}`||reference.versionId!==undefined)throw new V2Error('ORIGINAL_SCOPE','MongoDB original identity or tenant scope does not match.',403);
@@ -159,6 +163,7 @@ export async function readMongoAliasReconciliation(tenantId:string,reference:Ori
  if(!syntheticOriginalCutoverEnabled(tenantId))throw new V2Error('ORIGINAL_CUTOVER_SCOPE','Synthetic cutover scope is required.',403);
  const tenantHash=scopedReference(tenantId,reference),{db}=await database(),receipt=await db.collection<Reconciliation>('v2_original_reconciliations').findOne({_id:reconciliationId(tenantHash,reference.key,previewHash)},{readConcern:{level:'majority'}});
  if(!receipt)return null;
+ if(receipt.storeFingerprint!==mongoOriginalTarget().storeFingerprint)throw new V2Error('ORIGINAL_RECONCILIATION_TARGET_CHANGED','The retained reconciliation receipt belongs to another reviewed MongoDB target.',409);
  if(receipt.tenantHash!==tenantHash||receipt.targetKey!==reference.key||receipt.previewHash!==previewHash||!receipt.aliasIds.length||new Set(receipt.aliasIds).size!==receipt.aliasIds.length)throw new V2Error('ORIGINAL_RECONCILIATION_INTEGRITY','The deletion receipt identity differs.',503);
  const {manifests,chunks,fences}=collections(db),aliases=db.collection<Alias>('v2_original_aliases');
  if(!(await fences.findOne({_id:reference.key}))?.deleted||await manifests.findOne({_id:reference.key})||await chunks.findOne({manifestId:reference.key})||await aliases.findOne({tenantHash,'mongo.key':reference.key,retiredAt:null})||await aliases.countDocuments({_id:{$in:receipt.aliasIds},tenantHash,'mongo.key':reference.key,retiredAt:{$type:'string'}})!==receipt.aliasIds.length)throw new V2Error('ORIGINAL_PURGE_UNVERIFIED','The alias target deletion receipt failed readback.',503);
@@ -166,15 +171,17 @@ export async function readMongoAliasReconciliation(tenantId:string,reference:Ori
 }
 /** The workspace-head write conflicts with every normalized holder mutation; the original
  * fence conflicts with upload, native purge, and new alias activation. */
-export async function reconcileMongoAliasTarget(tenantId:string,reference:OriginalReference,expected:{previewHash:string;workspaceVersion:number;workspaceHash:string;targetHash:string;aliasIds:string[]}){
+export async function reconcileMongoAliasTarget(tenantId:string,reference:OriginalReference,expected:{previewHash:string;workspaceVersion:number;workspaceHash:string;targetHash:string;storeFingerprint:string;aliasIds:string[]}){
  if(!syntheticOriginalCutoverEnabled(tenantId)||process.env.KIARA_V2_STORE_MODE!=='normalized')throw new V2Error('ORIGINAL_CUTOVER_SCOPE','Select a normalized synthetic tenant in an isolated database.',403);
  if(process.env.KIARA_RETENTION_HOLD==='true')throw new V2Error('ORIGINAL_ALIAS_TARGET_HELD','An operator retention hold prevents original deletion.',409);
  const tenantHash=scopedReference(tenantId,reference);
- if(!/^[a-f0-9]{64}$/.test(expected.previewHash)||!/^[a-f0-9]{64}$/.test(expected.workspaceHash)||!/^[a-f0-9]{64}$/.test(expected.targetHash)||!Number.isSafeInteger(expected.workspaceVersion)||expected.workspaceVersion<1||!expected.aliasIds.length||expected.aliasIds.length>100||expected.aliasIds.some(id=>!/^[a-f0-9]{64}$/.test(id)))throw new V2Error('ORIGINAL_RECONCILIATION_PREVIEW','Provide the exact reviewed target and workspace preview.',400);
+ if(!/^[a-f0-9]{64}$/.test(expected.previewHash)||!/^[a-f0-9]{64}$/.test(expected.workspaceHash)||!/^[a-f0-9]{64}$/.test(expected.targetHash)||!/^[a-f0-9]{64}$/.test(expected.storeFingerprint)||!Number.isSafeInteger(expected.workspaceVersion)||expected.workspaceVersion<1||!expected.aliasIds.length||expected.aliasIds.length>100||expected.aliasIds.some(id=>!/^[a-f0-9]{64}$/.test(id)))throw new V2Error('ORIGINAL_RECONCILIATION_PREVIEW','Provide the exact reviewed target and workspace preview.',400);
+ if(expected.storeFingerprint!==mongoOriginalTarget().storeFingerprint)throw new V2Error('ORIGINAL_RECONCILIATION_TARGET_CHANGED','The selected MongoDB target differs from the reviewed reconciliation.',409);
  const prior=await readMongoAliasReconciliation(tenantId,reference,expected.previewHash);if(prior!==null)return {deleted:true,replayed:true,previewHash:expected.previewHash,aliasesRetired:prior};
  const {client:connection,db}=await database(),{manifests,chunks,fences}=collections(db),aliases=db.collection<Alias>('v2_original_aliases'),receipts=db.collection<Reconciliation>('v2_original_reconciliations');
  const session=connection.startSession();try{await session.withTransaction(async()=>{
   if(process.env.KIARA_RETENTION_HOLD==='true')throw new V2Error('ORIGINAL_ALIAS_TARGET_HELD','An operator retention hold prevents original deletion.',409);
+  if(expected.storeFingerprint!==mongoOriginalTarget().storeFingerprint)throw new V2Error('ORIGINAL_RECONCILIATION_TARGET_CHANGED','The selected MongoDB target changed during reconciliation.',409);
   const locked=await db.collection<{_id:string;mode:string;version:number;stateHash:string}>('v2_normalized_heads').updateOne({_id:tenantId,mode:'normalized',version:expected.workspaceVersion,stateHash:expected.workspaceHash},{$inc:{retentionEpoch:1}},{session});
   if(locked.matchedCount!==1)throw new V2Error('ORIGINAL_RECONCILIATION_WORKSPACE_CHANGED','The holder state changed after preview.',409);
   const head=await db.collection<NormalizedHead>('v2_normalized_heads').findOne({_id:tenantId},{session});
@@ -190,7 +197,7 @@ export async function reconcileMongoAliasTarget(tenantId:string,reference:Origin
   const retired=await aliases.updateMany({_id:{$in:expected.aliasIds},tenantHash,'mongo.key':reference.key,retiredAt:null},{$set:{retiredAt}},{session});
   if(retired.modifiedCount!==expected.aliasIds.length)throw new V2Error('ORIGINAL_RECONCILIATION_TARGET_CHANGED','An alias changed during reconciliation.',409);
   await chunks.deleteMany({manifestId:reference.key},{session});await manifests.deleteOne({_id:reference.key},{session});
-  await receipts.insertOne({_id:reconciliationId(tenantHash,reference.key,expected.previewHash),tenantHash,targetKey:reference.key,previewHash:expected.previewHash,workspaceHash:expected.workspaceHash,workspaceVersion:expected.workspaceVersion,aliasIds:expected.aliasIds,completedAt:retiredAt},{session});
+  await receipts.insertOne({_id:reconciliationId(tenantHash,reference.key,expected.previewHash),tenantHash,targetKey:reference.key,previewHash:expected.previewHash,workspaceHash:expected.workspaceHash,workspaceVersion:expected.workspaceVersion,storeFingerprint:expected.storeFingerprint,aliasIds:expected.aliasIds,completedAt:retiredAt},{session});
  },{readConcern:{level:'snapshot'},writeConcern:{w:'majority'},readPreference:'primary',maxCommitTimeMS:15000});}finally{await session.endSession();}
  if(await readMongoAliasReconciliation(tenantId,reference,expected.previewHash)===null)throw new V2Error('ORIGINAL_PURGE_UNVERIFIED','The alias target deletion receipt was not durable.',503);
  return {deleted:true,replayed:false,previewHash:expected.previewHash,aliasesRetired:expected.aliasIds.length};

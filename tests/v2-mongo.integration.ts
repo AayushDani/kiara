@@ -19,28 +19,44 @@ import type {Action,ActorContext,RecordBase,Source,WorkspaceState} from '../src/
 import type {EffectIntent} from '../src/v2/execution/contracts';
 
 const expectedUri='mongodb://127.0.0.1:27931/?replicaSet=kiaraQualification';
+const alternateUri='mongodb://127.0.0.1:27932/?replicaSet=kiaraQualificationSecond';
 if(process.env.KIARA_QUALIFICATION_MONGO_URI!==expectedUri)throw new Error('Explicit KIARA_QUALIFICATION_MONGO_URI must equal the isolated loopback qualification replica-set URI.');
+if(process.env.KIARA_QUALIFICATION_SECONDARY_MONGO_URI!==alternateUri)throw new Error('Explicit KIARA_QUALIFICATION_SECONDARY_MONGO_URI must equal the second isolated loopback qualification replica-set URI.');
 const databaseName=`kiara_qualification_${randomUUID().replaceAll('-','')}`;
 if(!/^kiara_qualification_[a-f0-9]{32}$/.test(databaseName))throw new Error('Unsafe qualification database identity.');
 const savedEnv={...process.env},oldFetch=globalThis.fetch;
-let client:MongoClient,db:Db;
-const evidence={database:databaseName,uri:expectedUri,mongodbVersion:'',binarySha256Verified:false,node:process.version,applicationProcessRestartTested:false,serverRestartTested:false,atlasSearchTested:false,providersCalled:0,databaseDropped:false};
+let client:MongoClient,db:Db,secondClient:MongoClient,secondDb:Db;
+const evidence={database:databaseName,uri:expectedUri,secondUri:alternateUri,mongodbVersion:'',binarySha256Verified:false,node:process.version,applicationProcessRestartTested:false,serverRestartTested:false,atlasSearchTested:false,providersCalled:0,databaseDropped:false,secondDatabaseDropped:false};
 before(async()=>{
  for(const key of Object.keys(process.env))if(/^(KIARA|MONGO|VERCEL|OPENAI|RESEND|TEMPORAL)/.test(key))delete process.env[key];
  Object.assign(process.env,{MONGODB_URI:expectedUri,MONGODB_DB:databaseName,KIARA_V2_STORE_MODE:'aggregate',KIARA_V2_AI_MODE:'local',KIARA_V2_ATLAS_URI:expectedUri,KIARA_ORIGINALS_MODE:'mongo_encrypted',KIARA_ORIGINALS_KEY:'4'.repeat(64)});
  globalThis.fetch=async()=>{throw new Error('Provider calls are forbidden in Mongo qualification');};
  client=new MongoClient(expectedUri,{serverSelectionTimeoutMS:5000,maxPoolSize:20});await client.connect();db=client.db(databaseName);
  const hello=await db.command({hello:1});assert.equal(hello.setName,'kiaraQualification');assert.equal(hello.isWritablePrimary,true);
+ secondClient=new MongoClient(alternateUri,{serverSelectionTimeoutMS:5000,maxPoolSize:20});await secondClient.connect();secondDb=secondClient.db(databaseName);
+ const secondHello=await secondDb.command({hello:1});assert.equal(secondHello.setName,'kiaraQualificationSecond');assert.equal(secondHello.isWritablePrimary,true);
  const version=await db.command({buildInfo:1});assert.equal(version.version,'8.0.32');evidence.mongodbVersion=version.version;
  await db.createCollection('qualification_identity');await db.collection('qualification_identity').insertOne({databaseName,purpose:'isolated local integration qualification'});
 });
 after(async()=>{
  await closeHybridIndex();await closeMongoOriginalStore();await closeV2Store();
  if(client){try{if(db?.databaseName!==databaseName||!/^kiara_qualification_[a-f0-9]{32}$/.test(databaseName))throw new Error('Refusing cleanup outside this generated database.');await db.dropDatabase();evidence.databaseDropped=true;}finally{await client.close();}}
+ if(secondClient){try{if(secondDb?.databaseName!==databaseName||!/^kiara_qualification_[a-f0-9]{32}$/.test(databaseName))throw new Error('Refusing secondary cleanup outside this generated database.');await secondDb.dropDatabase();evidence.secondDatabaseDropped=true;}finally{await secondClient.close();}}
  globalThis.fetch=oldFetch;for(const key of Object.keys(process.env))if(!(key in savedEnv))delete process.env[key];Object.assign(process.env,savedEnv);
  console.log('MONGO_QUALIFICATION_EVIDENCE '+JSON.stringify(evidence));
 });
 const mode=(value:'aggregate'|'normalized')=>{process.env.KIARA_V2_STORE_MODE=value;};
+async function switchOriginalTarget(uri:string){await closeV2Store();await closeMongoOriginalStore();process.env.MONGODB_URI=uri;}
+/** Clone only one generated tenant, including its original bytes and normalized rows. */
+async function cloneTenantToSecond(tenant:string){
+ const tenantHash=createHash('sha256').update(tenant).digest('hex'),prefix=new RegExp(`^${tenantHash}/`);
+ for(const {name} of await db.listCollections().toArray()){
+  const filter=name==='v2_workspaces'||name==='v2_normalized_heads'?{_id:tenant}:name.startsWith('v2_records_')?{tenantId:tenant}:name==='v2_original_chunks'?{manifestId:prefix}:['v2_original_manifests','v2_original_fences'].includes(name)?{_id:prefix}:['v2_original_aliases','v2_original_cutovers','v2_original_reconciliations'].includes(name)?{tenantHash}:null;
+  if(!filter)continue;
+  const rows=await db.collection(name).find(filter as never).toArray(),target=secondDb.collection(name);
+  await target.deleteMany(filter as never);if(rows.length)await target.insertMany(rows);
+ }
+}
 const code=(expected:string)=>(error:unknown)=>(error as {code?:string}).code===expected;
 async function freshProcessHash(tenant:string,storageMode:'aggregate'|'normalized'){
  const result=await promisify(execFile)(process.execPath,['--import','tsx','--input-type=module','-e',"import {readWorkspace,digest,closeV2Store} from './src/v2/store.ts';try{console.log(digest(await readWorkspace(process.argv[1])));}finally{await closeV2Store();}",tenant],{cwd:process.cwd(),timeout:20000,env:{PATH:process.env.PATH,NODE_ENV:'test',MONGODB_URI:expectedUri,MONGODB_DB:databaseName,KIARA_V2_STORE_MODE:storageMode,KIARA_V2_AI_MODE:'local'}});
@@ -184,14 +200,26 @@ test('synthetic legacy cutover requires exact preview, verifies destination, and
   await transactWorkspace(tenant,s=>{Object.assign(s,fixture(tenant));s.sources[0].originalObjectRef=JSON.stringify(legacy);});
   process.env.KIARA_ORIGINALS_MODE='mongo_encrypted';
   const preview=await previewOriginalCutover(tenant);assert.equal(preview.count,1);assert.equal(preview.entries[0].sourceUri,`file://${join(dir,legacy.key+'.json')}`);assert.equal(preview.entries[0].purgeTarget,preview.entries[0].sourceUri);assert.equal(preview.entries[0].sha256,legacy.sha256);assert.equal(preview.totalBytes,bytes.length);
+  assert.match(preview.storeFingerprint,/^[a-f0-9]{64}$/);
+  await cloneTenantToSecond(tenant);
+  await switchOriginalTarget(alternateUri);
+  const otherPreview=await previewOriginalCutover(tenant);assert.notEqual(otherPreview.previewHash,preview.previewHash);
+  await assert.rejects(applyOriginalCutover(tenant,preview.previewHash),code('ORIGINAL_CUTOVER_PREVIEW_CHANGED'));
+  assert.deepEqual(await readPhysicalOriginal(tenant,legacy),bytes);
+  assert.equal(await db.collection('v2_original_cutovers').countDocuments({tenantHash:createHash('sha256').update(tenant).digest('hex')}),0);
+  await switchOriginalTarget(expectedUri);
   await assert.rejects(applyOriginalCutover(tenant,'0'.repeat(64)),code('ORIGINAL_CUTOVER_PREVIEW_CHANGED'));
   const result=await applyOriginalCutover(tenant,preview.previewHash);assert.equal(result.purged,1);assert.deepEqual(result.pendingPurgeHashes,[]);
   await assert.rejects(readPhysicalOriginal(tenant,legacy),e=>(e as NodeJS.ErrnoException).code==='ENOENT');
+  await cloneTenantToSecond(tenant);
+  await switchOriginalTarget(alternateUri);
+  await assert.rejects(applyOriginalCutover(tenant,preview.previewHash),code('ORIGINAL_CUTOVER_TARGET_CHANGED'));
+  await switchOriginalTarget(expectedUri);
   assert.deepEqual(await readOriginal(tenant,legacy),bytes);
   assert.equal((await applyOriginalCutover(tenant,preview.previewHash)).purged,1);
   await assert.rejects(purgeOriginal(tenant,legacy),code('ORIGINAL_ALIAS_TARGET_HELD'));
   assert.deepEqual(await readOriginal(tenant,legacy),bytes);
- }finally{await rm(dir,{recursive:true,force:true});delete process.env.KIARA_ORIGINAL_CUTOVER_TENANT;delete process.env.KIARA_ORIGINALS_DIR;process.env.KIARA_ORIGINALS_MODE='mongo_encrypted';}
+ }finally{await switchOriginalTarget(expectedUri);await rm(dir,{recursive:true,force:true});delete process.env.KIARA_ORIGINAL_CUTOVER_TENANT;delete process.env.KIARA_ORIGINALS_DIR;process.env.KIARA_ORIGINALS_MODE='mongo_encrypted';}
 });
 
 test('two legacy aliases and one native holder prevent one-source deletion from removing their shared Mongo bytes',{timeout:120000},async()=>{
@@ -265,15 +293,27 @@ test('synthetic alias reconciliation waits for every holder and retention delay,
   assert.deepEqual(await readMongoOriginal(tenant,mongo),bytes);
   await transactWorkspace(tenant,s=>{const late=s.sources.find(x=>x.id==='late-native-holder')!;late.status='deleted';s.tombstones.push({sourceId:late.id,deletedAt:timestamp(),reason:'Synthetic deletion',backupExpiresAt:null});});
   preview=await previewOriginalAliasTargetReconciliation(tenant,mongo);
+  assert.match(preview.storeFingerprint,/^[a-f0-9]{64}$/);
+  await cloneTenantToSecond(tenant);
+  await switchOriginalTarget(alternateUri);
+  const otherTargetPreview=await previewOriginalAliasTargetReconciliation(tenant,mongo);
+  assert.notEqual(otherTargetPreview.previewHash,preview.previewHash);
+  await assert.rejects(applyOriginalAliasTargetReconciliation(tenant,mongo,preview.previewHash),code('ORIGINAL_RECONCILIATION_PREVIEW_CHANGED'));
+  assert.deepEqual(await readMongoOriginal(tenant,mongo),bytes);
+  await switchOriginalTarget(expectedUri);
   const result=await applyOriginalAliasTargetReconciliation(tenant,mongo,preview.previewHash);assert.equal(result.deleted,true);assert.equal(result.replayed,false);assert.equal(result.aliasesRetired,2);
   assert.equal(await db.collection('v2_original_manifests').countDocuments({_id:mongo.key as never}),0);assert.equal(await db.collection('v2_original_chunks').countDocuments({manifestId:mongo.key}),0);
   assert.equal(await db.collection('v2_original_aliases').countDocuments({tenantHash,'mongo.key':mongo.key,retiredAt:null}),0);assert.equal(await db.collection('v2_original_aliases').countDocuments({tenantHash,'mongo.key':mongo.key,retiredAt:{$type:'string'}}),2);
   await assert.rejects(readOriginal(tenant,first),code('ORIGINAL_DELETED'));await assert.rejects(readMongoOriginal(tenant,mongo),code('ORIGINAL_DELETED'));
   await purgeOriginal(tenant,first);await purgeOriginal(tenant,second);await purgeMongoOriginal(tenant,mongo);
+  await cloneTenantToSecond(tenant);
+  await switchOriginalTarget(alternateUri);
+  await assert.rejects(applyOriginalAliasTargetReconciliation(tenant,mongo,preview.previewHash),code('ORIGINAL_RECONCILIATION_TARGET_CHANGED'));
+  await switchOriginalTarget(expectedUri);
   assert.equal((await applyOriginalAliasTargetReconciliation(tenant,mongo,preview.previewHash)).replayed,true);
   await assert.rejects(applyOriginalCutover(tenant,previewId),code('ORIGINAL_CUTOVER_ALIAS_RETIRED'));
   await assert.rejects(activateOriginalAliases(tenant,'e'.repeat(64),digest(await readWorkspace(tenant)),[entry(first)]),code('ORIGINAL_DELETED'));
- }finally{delete process.env.KIARA_ORIGINAL_CUTOVER_TENANT;mode('aggregate');}
+ }finally{await switchOriginalTarget(expectedUri);delete process.env.KIARA_ORIGINAL_CUTOVER_TENANT;mode('aggregate');}
 });
 
 test('cutover preview rejects path traversal and a non-synthetic S3 bucket before source access',{timeout:120000},async()=>{
