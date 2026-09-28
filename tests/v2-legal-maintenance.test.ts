@@ -6,7 +6,8 @@ import {join} from 'node:path';
 import {command,snapshot} from '../src/v2/service';
 import {readWorkspace,transactWorkspace,closeV2Store} from '../src/v2/store';
 import {processLegalWatch,publicLegalAddress,extractLegalSource} from '../src/v2/legal-maintenance';
-import {authorityCurrent,coverageStatus} from '../src/v2/coverage';
+import {authorityCurrent,coverageStatus,legalSourceAnswerEligible} from '../src/v2/coverage';
+import {authorizedHybridChunks} from '../src/v2/hybrid';
 import {readOriginal} from '../src/v2/objects';
 import type {ActorContext,WorkspaceCommand} from '../src/v2/contracts';
 const dirs:string[]=[];let seq=0;const url='https://example.test/legal-source';
@@ -16,12 +17,46 @@ after(async()=>{await closeV2Store();await Promise.all(dirs.map(dir=>rm(dir,{rec
 const send=async(c:WorkspaceCommand)=>command(owner(),{idempotencyKey:`legal-maint-${++seq}`,expectedVersion:(await snapshot(owner())).version,command:c});
 const due=()=>new Date(Date.now()+7*86400000).toISOString();
 function policy(){process.env.KIARA_V2_LEGAL_SOURCE_POLICY=JSON.stringify([{tenantId:owner().tenantId,urls:[url],validUntil:due(),maxBytes:10000}]);}
-async function fixture(){let result=await send({type:'document.add',title:'Fictional test authority',body:'Original source text.',authority:'unknown',kind:'other'});const sourceId=String(result.result.sourceId);result=await send({type:'coverage.source.add',sourceId,title:'Fictional source',sourceUrl:url,jurisdiction:'TEST ONLY',domain:'synthetic',authorityType:'guidance'});const authorityId=String(result.result.authorityId);let authority=result.snapshot.legalAuthorities.find(x=>x.id===authorityId)!;await send({type:'coverage.source.verify',authorityId,expectedRecordVersion:authority.version,sourceVersion:result.snapshot.sources.find(x=>x.id===sourceId)!.version,verificationEvidence:'Synthetic software test attestation, no legal review.',reviewDueAt:due()});authority=(await snapshot(owner())).legalAuthorities.find(x=>x.id===authorityId)!;policy();const watch=await send({type:'legal.watch.configure',authorityId,expectedAuthorityVersion:authority.version,intervalHours:24});return {sourceId,authorityId,watchId:String(watch.result.watchId)};}
+async function fixture(legalSource=false){let result=await send({type:'document.add',title:'Fictional test authority',body:'Original source text.',authority:'unknown',kind:'other'});const sourceId=String(result.result.sourceId);if(legalSource)await transactWorkspace(owner().tenantId,s=>{s.sources.find(x=>x.id===sourceId)!.kind='legal';});result=await send({type:'coverage.source.add',sourceId,title:'Fictional source',sourceUrl:url,jurisdiction:'TEST ONLY',domain:'synthetic',authorityType:'guidance'});const authorityId=String(result.result.authorityId);let authority=result.snapshot.legalAuthorities.find(x=>x.id===authorityId)!;await send({type:'coverage.source.verify',authorityId,expectedRecordVersion:authority.version,sourceVersion:result.snapshot.sources.find(x=>x.id===sourceId)!.version,verificationEvidence:'Synthetic software test attestation, no legal review.',reviewDueAt:due()});authority=(await snapshot(owner())).legalAuthorities.find(x=>x.id===authorityId)!;policy();const watch=await send({type:'legal.watch.configure',authorityId,expectedAuthorityVersion:authority.version,intervalHours:24});return {sourceId,authorityId,watchId:String(watch.result.watchId)};}
 const response=(body:string,type='text/plain'):typeof fetch=>async()=>new Response(body,{headers:{'content-type':type}});
 
 test('monitor admission requires exact protected URL policy and reads never claim applicability',async()=>{
  const {watchId,authorityId}=await fixture();let calls=0;const result=await processLegalWatch(owner().tenantId,watchId,{fetcher:async(...args)=>{calls++;return response('Original source text.')(...args);}});assert.equal(result.status,'scheduled');let s=await readWorkspace(owner().tenantId);assert.equal(s.legalChanges?.length,0);assert.equal(authorityCurrent(s,owner(),s.legalAuthorities.find(x=>x.id===authorityId)!),true);await processLegalWatch(owner().tenantId,watchId,{fetcher:async()=>{calls++;throw new Error('Should remain scheduled');}});assert.equal(calls,1);
  await transactWorkspace(owner().tenantId,s=>{s.legalWatches![0].nextCheckAt=new Date(0).toISOString();});delete process.env.KIARA_V2_LEGAL_SOURCE_POLICY;const blocked=await processLegalWatch(owner().tenantId,watchId,{fetcher:async()=>{calls++;throw new Error('Unauthorized read');}});assert.equal(blocked.status,'blocked');assert.equal(calls,1);s=await readWorkspace(owner().tenantId);assert.equal(s.legalWatches![0].failureCode,'LEGAL_WATCH_NOT_CONFIGURED');
+});
+test('failed or overdue configured watch removes legal retrieval and recovers only after an unchanged read with valid human review',async()=>{
+ const {watchId,authorityId,sourceId}=await fixture(true);
+ const defined=await send({type:'coverage.define',domain:'synthetic',jurisdiction:'TEST ONLY',authorityIds:[authorityId],limitations:['Fictional test coverage only.']});
+ const coverageId=String(defined.result.coverageId),entry=defined.snapshot.coverage.find(x=>x.id===coverageId)!;
+ await assert.rejects(()=>send({type:'coverage.review',coverageId,expectedRecordVersion:entry.version,qualificationEvidence:'Synthetic software test only.',reviewDueAt:due(),limitations:[]}),{code:'SOURCE_REVIEW_REQUIRED'},'a newly configured due watch has not established source currentness');
+ assert.equal((await processLegalWatch(owner().tenantId,watchId,{fetcher:response('Original source text.')})).status,'scheduled');
+ await send({type:'coverage.review',coverageId,expectedRecordVersion:entry.version,qualificationEvidence:'Synthetic software test only.',reviewDueAt:due(),limitations:[]});
+ const inspect=async()=>{const s=await readWorkspace(owner().tenantId),authority=s.legalAuthorities.find(x=>x.id===authorityId)!,coverage=s.coverage.find(x=>x.id===coverageId)!,source=s.sources.find(x=>x.id===sourceId)!,document=s.documents.find(x=>x.sourceId===sourceId)!;return {s,current:authorityCurrent(s,owner(),authority),status:coverageStatus(s,owner(),coverage),eligible:legalSourceAnswerEligible(s,owner(),source),indexed:authorizedHybridChunks(s,owner()).some(c=>c.recordId===document.id)};};
+ let view=await inspect();assert.deepEqual([view.current,view.status,view.eligible,view.indexed],[true,'available',true,true]);
+ const checkedAt=view.s.legalWatches!.find(x=>x.id===watchId)!.lastCheckedAt;
+ await transactWorkspace(owner().tenantId,s=>{s.legalWatches!.find(x=>x.id===watchId)!.lastCheckedAt='invalid';});
+ assert.equal((await inspect()).current,false,'an invalid saved check timestamp cannot prove source currentness');
+ await transactWorkspace(owner().tenantId,s=>{s.legalWatches!.find(x=>x.id===watchId)!.lastCheckedAt=checkedAt;});
+ await transactWorkspace(owner().tenantId,s=>{s.legalWatches!.find(x=>x.id===watchId)!.nextCheckAt=new Date(0).toISOString();});
+ view=await inspect();assert.deepEqual([view.current,view.status,view.eligible,view.indexed],[false,'stale',false,false],'a due read cannot keep claiming current legal coverage');
+ assert.equal((await processLegalWatch(owner().tenantId,watchId,{fetcher:async()=>{throw new Error('Synthetic source outage');}})).status,'blocked');
+ view=await inspect();assert.deepEqual([view.current,view.status,view.eligible,view.indexed],[false,'stale',false,false]);
+ await transactWorkspace(owner().tenantId,s=>{s.legalWatches!.find(x=>x.id===watchId)!.nextCheckAt=new Date(0).toISOString();});
+ assert.equal((await processLegalWatch(owner().tenantId,watchId,{fetcher:response('Original source text.')})).status,'scheduled');
+ view=await inspect();assert.deepEqual([view.current,view.status,view.eligible,view.indexed],[true,'available',true,true]);
+ process.env.KIARA_V2_LEGAL_SOURCE_POLICY=JSON.stringify([{tenantId:owner().tenantId,urls:[url],validUntil:due(),maxBytes:9000}]);
+ view=await inspect();assert.equal(view.current,false,'a changed operator policy immediately removes watch currentness');
+ await transactWorkspace(owner().tenantId,s=>{s.legalWatches!.find(x=>x.id===watchId)!.nextCheckAt=new Date(0).toISOString();});
+ assert.equal((await processLegalWatch(owner().tenantId,watchId,{fetcher:async()=>{throw new Error('Policy change must reject before fetching');}})).status,'stopped');
+ view=await inspect();assert.deepEqual([view.current,view.status,view.eligible,view.indexed],[false,'stale',false,false],'failure-stopped watch cannot silently restore coverage');
+ const authority=view.s.legalAuthorities.find(x=>x.id===authorityId)!;
+ const replacement=await send({type:'legal.watch.configure',authorityId,expectedAuthorityVersion:authority.version,intervalHours:24}),newWatchId=String(replacement.result.watchId);
+ assert.equal((await inspect()).current,false,'replacement watch needs its first successful check');
+ assert.equal((await processLegalWatch(owner().tenantId,newWatchId,{fetcher:response('Original source text.')})).status,'scheduled');
+ view=await inspect();assert.deepEqual([view.current,view.status,view.eligible,view.indexed],[true,'available',true,true]);
+ const newWatch=view.s.legalWatches!.find(x=>x.id===newWatchId)!;
+ await send({type:'legal.watch.stop',watchId:newWatchId,expectedRecordVersion:newWatch.version});
+ assert.equal((await inspect()).current,true,'deliberately stopping a healthy watch does not revoke valid human review');
 });
 test('observed change preserves bytes, expires source freshness and needs exact human applicability before targeting work',async()=>{
  const {watchId,sourceId,authorityId}=await fixture();const made=await send({type:'matter.create',title:'Fictional future review',objective:'Test explicit applicability.',scope:{kind:'team',actorIds:[]}}),matter=made.snapshot.matters.at(-1)!;await send({type:'matter.prepare',matterId:matter.id,expectedRecordVersion:matter.version});const before=await readWorkspace(owner().tenantId),oldState=before.matters.find(m=>m.id===matter.id)!.state;
@@ -33,12 +68,13 @@ test('observed change preserves bytes, expires source freshness and needs exact 
 });
 test('three observations keep historical review but block older source adoption and affected-work targeting',async()=>{
  const {watchId,sourceId,authorityId}=await fixture();
+ assert.equal((await processLegalWatch(owner().tenantId,watchId,{fetcher:response('Original source text.')})).status,'scheduled');
  const defined=await send({type:'coverage.define',domain:'synthetic',jurisdiction:'TEST ONLY',authorityIds:[authorityId],limitations:['Fictional test coverage only.']});
  const coverageId=String(defined.result.coverageId),coverage=defined.snapshot.coverage.find(item=>item.id===coverageId)!;
  await send({type:'coverage.review',coverageId,expectedRecordVersion:coverage.version,qualificationEvidence:'Synthetic reviewer qualification for ordering regression.',reviewDueAt:due(),limitations:['Fictional test coverage only.']});
  const made=await send({type:'matter.create',title:'Fictional affected matter',objective:'Test observed source ordering.',scope:{kind:'team',actorIds:[]}}),matterId=String(made.result.matterId);
  for(const body of ['Observed A','Observed B','Observed C']){
-  if(body!=='Observed A')await transactWorkspace(owner().tenantId,s=>{s.legalWatches![0].nextCheckAt=new Date(0).toISOString();});
+  await transactWorkspace(owner().tenantId,s=>{s.legalWatches![0].nextCheckAt=new Date(0).toISOString();});
   assert.equal((await processLegalWatch(owner().tenantId,watchId,{fetcher:response(body)})).status,'review_required');
  }
  let s=await readWorkspace(owner().tenantId),[a,b,c]=s.legalChanges!;

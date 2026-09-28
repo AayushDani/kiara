@@ -68,6 +68,14 @@ function initialRawHash(source:Source,tenantId:string){
 }
 export function legalMaintenanceViews(s:State,a:ActorContext):LegalMaintenanceView{return {availability:s.legalAuthorities.filter(r=>canRead(s,a,r)).map(r=>{try{readPolicy(s.tenantId,r.sourceUrl);return {authorityId:r.id,configured:true,reason:null};}catch(error){return {authorityId:r.id,configured:false,reason:error instanceof V2Error?error.code:'LEGAL_WATCH_NOT_CONFIGURED'};}}),watches:(s.legalWatches||[]).filter(w=>canRead(s,a,w)).map(w=>{const {leaseToken:_token,leaseUntil:_lease,policyHash:_policy,membershipVersion:_member,lastObservedWorkspaceVersion:_revision,...visible}=structuredClone(w);return {...visible,overdue:w.active&&Date.parse(w.nextCheckAt)<Date.now()};}),changes:(s.legalChanges||[]).filter(c=>canRead(s,a,c)).map(c=>structuredClone(c))};}
 export function legalAuthorityHasPendingChange(s:State,authorityId:string){return (s.legalChanges||[]).some(c=>c.authorityId===authorityId&&c.status==='pending_review');}
+/** A configured monitor must have a current successful read. An intentionally stopped monitor leaves named human review intact. */
+export function legalAuthorityWatchCurrent(s:State,authorityId:string){
+ const watch=(s.legalWatches||[]).filter(item=>item.authorityId===authorityId).at(-1);
+ if(!watch)return true;
+ if(!watch.active)return watch.status==='stopped'&&watch.failureCode===null;
+ if(!['scheduled','review_required'].includes(watch.status)||watch.failureCode!==null||!watch.lastCheckedAt||!Number.isFinite(Date.parse(watch.lastCheckedAt))||Date.parse(watch.lastCheckedAt)>Date.now()||!Number.isFinite(Date.parse(watch.nextCheckAt))||Date.parse(watch.nextCheckAt)<=Date.now())return false;
+ try{return digest(readPolicy(s.tenantId,watch.sourceUrl))===watch.policyHash;}catch{return false;}
+}
 export function applyLegalMaintenanceCommand(s:State,a:ActorContext,c:LegalMaintenanceCommand):Record<string,unknown>{
  s.legalWatches??=[];s.legalChanges??=[];
  if(c.type==='legal.watch.configure'){

@@ -54,13 +54,26 @@ export async function syncHybridIndex(a:ActorContext,recordIds:string[],options:
 }
 /** Physical removal follows authoritative tombstones; inaccessible active private content is retained. */
 export async function reconcileHybridIndex(a:ActorContext,options:{adapter?:HybridAdapter}={}){const state=await readWorkspace(a.tenantId);requireRole(state,a,'admin');const adapter=options.adapter||mongoHybridAdapter(),ids=await adapter.ids(a.tenantId);if(ids.length>100000)throw new V2Error('INDEX_RECONCILIATION_LIMIT','Use a bounded operator index migration for this corpus.');const allCurrent=new Set<string>();for(const member of state.memberships.filter(m=>!m.revokedAt)){const actor:ActorContext={tenantId:state.tenantId,actorId:member.actorId,mode:'authenticated',expiresAt:Date.now()+10000};try{for(const c of authorizedHybridChunks(state,actor))allCurrent.add(c.id);}catch{/* Expired memberships have no eligible index rows. */}}const removed=ids.filter(id=>!allCurrent.has(id));requireRole(await readWorkspace(a.tenantId),a,'admin');await adapter.remove(a.tenantId,removed);return {removed:removed.length};}
-/** Retention-worker hook. The source-deletion transaction owns the exact affected record manifest. */
+/** The physical index fence must match the deletion job committed with source withdrawal. */
+function assertHybridDeletionManifest(s:WorkspaceState,deletionId:string,recordIds:string[]){
+ const ids=[...new Set(recordIds)].sort();
+ if(!recordIds.length||ids.length!==recordIds.length||recordIds.some(id=>typeof id!=='string'||!id))throw new V2Error('DELETION_MANIFEST_MISMATCH','Select the exact committed deletion manifest.');
+ const job=s.deletionJobs?.find(j=>deletionId.startsWith(`${j.id}:`));
+ if(!job)throw new V2Error('DELETION_MANIFEST_MISMATCH','The deletion job is unavailable.');
+ const expectedId=`${job.id}:${digest({sources:job.sourceIds,records:job.records.map(r=>[r.id,r.afterHash]),exceptions:job.operationalExceptionActionIds})}`;
+ const expectedIds=[...new Set([...job.sourceIds,...job.records.map(r=>r.id),...job.operationalExceptionActionIds])].sort();
+ if(deletionId!==expectedId||digest(ids)!==digest(expectedIds)||!job.sourceIds.includes(job.sourceId)||job.sourceIds.some(id=>!s.tombstones.some(t=>t.sourceId===id)))throw new V2Error('DELETION_MANIFEST_MISMATCH','The index purge must match the committed deletion job, records and tombstones.');
+ return ids;
+}
+/** Retention-worker hook. An unrelated tombstone never authorizes a permanent index fence. */
 export async function purgeHybridRecords(tenantId:string,deletionId:string,recordIds:string[],options:{adapter?:HybridAdapter}={}){
  const key=`hybrid-purge:${digest({deletionId,recordIds:[...new Set(recordIds)].sort()})}`;
- const claim=await transactWorkspace(tenantId,s=>{if(!s.tombstones.length)throw new V2Error('DELETION_REQUIRED','Commit source deletion before purging derived indexes.');const old=s.receipts[key]?.result;if(old?.status==='complete')return false;s.receipts[key]={hash:digest({deletionId,recordIds}),result:{status:'pending',deletionId,recordIds:[...new Set(recordIds)],externalBackupErasureVerified:false}};return true;});
+ const claim=await transactWorkspace(tenantId,s=>{const ids=assertHybridDeletionManifest(s,deletionId,recordIds),old=s.receipts[key]?.result;if(old?.status==='complete')return false;s.receipts[key]={hash:digest({deletionId,recordIds:ids}),result:{status:'pending',deletionId,recordIds:ids,externalBackupErasureVerified:false}};return true;});
  if(!claim.result)return {status:'complete' as const,replayed:true,externalBackupErasureVerified:false};
- const adapter=options.adapter||mongoHybridAdapter();if(!adapter.removeRecords)throw new V2Error('INDEX_PURGE_UNAVAILABLE','The configured index adapter cannot erase exact record revisions.',503);await adapter.removeRecords(tenantId,[...new Set(recordIds)]);
- await transactWorkspace(tenantId,s=>{s.receipts[key].result.status='complete';});return {status:'complete' as const,replayed:false,externalBackupErasureVerified:false};
+ const adapter=options.adapter||mongoHybridAdapter();if(!adapter.removeRecords)throw new V2Error('INDEX_PURGE_UNAVAILABLE','The configured index adapter cannot erase exact record revisions.',503);
+ assertHybridDeletionManifest(await readWorkspace(tenantId),deletionId,recordIds);
+ await adapter.removeRecords(tenantId,[...new Set(recordIds)]);
+ await transactWorkspace(tenantId,s=>{assertHybridDeletionManifest(s,deletionId,recordIds);s.receipts[key].result.status='complete';});return {status:'complete' as const,replayed:false,externalBackupErasureVerified:false};
 }
 export async function retrieveHybridEvidence(a:ActorContext,conversationId:string,userMessageId:string,ownerKey:string,options:{adapter?:HybridAdapter;provider?:EmbeddingProvider;authorize?:(state:WorkspaceState)=>void}={}):Promise<EvidencePacket>{
  const config=hybridConfig(),state=await readWorkspace(a.tenantId),conversation=readRecord(state,a,state.conversations,conversationId),base=retrieveConversationEvidence(state,a,conversation,userMessageId),allowed=(s:WorkspaceState,c:Conversation)=>authorizedHybridChunks(s,a,c.entityId,c).filter(chunk=>!base.focusDocument||chunk.kind==='document'&&chunk.recordId===base.focusDocument.documentId),chunks=allowed(state,conversation),ids=chunks.map(c=>c.id),adapter=options.adapter||mongoHybridAdapter();
