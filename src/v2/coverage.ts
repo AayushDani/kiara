@@ -1,6 +1,6 @@
 import {currentEvidenceLineage} from './source-lifecycle';
 import {randomUUID} from 'node:crypto';
-import {legalAuthorityHasPendingChange} from './legal-maintenance';
+import {legalAuthorityHasPendingChange,legalAuthorityWatchCurrent} from './legal-maintenance';
 import {canRead,membership,readRecord,requireRole} from './authority';
 import {V2Error,type ActorContext,type CoverageEntry,type LegalAuthority,type RecordBase,type Source,type WorkspaceState} from './contracts';
 import {digest,timestamp} from './store';
@@ -27,7 +27,7 @@ function sourceUrlMatches(source:Source,claimedUrl:string):boolean {
 }
 function stagedGovInfoSource(source:Source){return !!source.govInfo||source.kind==='legal'&&/^(?:USCODE|CFR)-\d{4}-[^/]+\/(?:USCODE|CFR)-\d{4}-[^/]+$/i.test(source.externalId||'');}
 export function authorityCurrent(s:WorkspaceState,a:ActorContext,record:LegalAuthority):boolean {
- if(legalAuthorityHasPendingChange(s,record.id)||!currentEvidenceLineage(s,record)||!canRead(s,a,record)||!record.verifiedAt||!record.reviewDueAt||Date.parse(record.reviewDueAt)<=Date.now()||record.effectiveFrom&&Date.parse(record.effectiveFrom)>Date.now()||record.effectiveUntil&&Date.parse(record.effectiveUntil)<=Date.now())return false;
+ if(legalAuthorityHasPendingChange(s,record.id)||!legalAuthorityWatchCurrent(s,record.id)||!currentEvidenceLineage(s,record)||!canRead(s,a,record)||!record.verifiedAt||!record.reviewDueAt||Date.parse(record.reviewDueAt)<=Date.now()||record.effectiveFrom&&Date.parse(record.effectiveFrom)>Date.now()||record.effectiveUntil&&Date.parse(record.effectiveUntil)<=Date.now())return false;
  const source=s.sources.find(x=>x.id===record.sourceId),reviewer=s.memberships.find(x=>x.actorId===record.reviewOwnerId);
  return !!source&&source.status==='active'&&sourceUrlMatches(source,record.sourceUrl)&&source.version===record.verifiedSourceVersion&&source.contentHash===record.verifiedSourceHash&&!!reviewer&&!reviewer.revokedAt&&reviewer.version===record.reviewMembershipVersion&&reviewer.roles.includes('legal_reviewer')&&(!reviewer.expiresAt||Date.parse(reviewer.expiresAt)>Date.now());
 }
