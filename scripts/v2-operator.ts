@@ -16,14 +16,21 @@ import {checkInstallationAccess,reconcileInstallationAccess,retryInstallationAcc
 const [operation,tenantId,...args]=process.argv.slice(2);
 const roles:Role[]=['member','admin','business_owner','fact_owner','legal_reviewer','publisher','signatory','evaluator','integration'];
 async function main(){
- if(!tenantId)throw new Error('Usage: v2-operator <inspect|provision|backup|restore-check|restore|migrate-check|migrate|legacy-export|normalize-check|normalize|normalize-rollback-check|normalize-rollback|index-definitions|index-sync|index-reconcile|retention-status|retention-run|intake-status|intake-sweep|intake-reconcile|effect-status|effect-reconcile|withdrawal-status|withdrawal-retry|withdrawal-assign|installation-access-check|installation-access-reconcile|installation-access-retry-owner> <tenant> [arguments]');
+ if(!tenantId)throw new Error('Usage: v2-operator <inspect|provision|backup|restore-check|restore|migrate-check|migrate|legacy-export|normalize-check|normalize|normalize-rollback-check|index-definitions|index-sync|index-reconcile|retention-status|retention-run|intake-status|intake-sweep|intake-reconcile|effect-status|effect-reconcile|withdrawal-status|withdrawal-retry|withdrawal-assign|withdrawal-review|installation-access-check|installation-access-reconcile|installation-access-retry-owner> <tenant> [arguments]');
  if(operation==='inspect'){const s=await readWorkspace(tenantId);return {tenantId,version:s.version,stateHash:digest(s),configuredStorage:process.env.KIARA_V2_STORE_MODE==='normalized'?'normalized':process.env.MONGODB_URI?'mongo_aggregate':'local',memberships:s.memberships.map(m=>({actorId:m.actorId,roles:m.roles,revokedAt:m.revokedAt})),migration:s.migration?.status||null};}
- if(['withdrawal-status','withdrawal-retry','withdrawal-assign'].includes(operation||'')){
+ if(['withdrawal-status','withdrawal-retry','withdrawal-assign','withdrawal-review'].includes(operation||'')){
   const actorId=args[0],actor:ActorContext={tenantId,actorId,expiresAt:Date.now()+3600000,mode:'authenticated'};
   if(!actorId)throw new Error('Supply a currently provisioned administrator actor ID');
   const state=await readWorkspace(tenantId),admin=requireRole(state,actor,'admin');
   if(admin.matterIds!==null||admin.entityIds!==null&&!admin.entityIds.includes(state.entityId))throw new Error('Withdrawal exception recovery requires an unrestricted current entity administrator');
   if(operation==='withdrawal-status'){const view=await snapshot(actor);return {version:view.version,exceptions:view.withdrawalExceptions};}
+  if(operation==='withdrawal-review'){
+   const [reviewRef,effectReviewHash,recordVersion,workspaceVersion,notePath]=args.slice(1);
+   if(args.length!==6||!/^EW-[A-F0-9]{12}$/.test(reviewRef||'')||!/^[a-f0-9]{64}$/.test(effectReviewHash||'')||!recordVersion||!workspaceVersion||!notePath||!/^\d+$/.test(recordVersion)||!/^\d+$/.test(workspaceVersion))throw new Error('Review requires administrator actor ID, opaque reference, inspected effect hash, corrective matter version, workspace version and a review-note file');
+   const note=await readFile(notePath,'utf8');
+   const saved=await command(actor,{idempotencyKey:`operator:withdrawal-review:${reviewRef}:${workspaceVersion}`,expectedVersion:Number(workspaceVersion),command:{type:'source.correction.effect_review',reviewRef,effectReviewHash,expectedRecordVersion:Number(recordVersion),note}});
+   return {result:saved.result,replayed:saved.replayed,version:saved.snapshot.version};
+  }
   const reviewRef=args[1],expectedVersion=args.at(-1);
   if(!/^EW-[A-F0-9]{12}$/.test(reviewRef||'')||!/^(0|[1-9]\d*)$/.test(expectedVersion||''))throw new Error('Supply the inspected opaque review reference and workspace version');
   let work:WorkspaceCommand;
