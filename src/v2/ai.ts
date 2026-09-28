@@ -92,9 +92,10 @@ async function runAttempt(tenantId:string,id:string,token:string,stage:Attempt['
  if(!Number.isSafeInteger(inputTokens)||inputTokens<1||inputTokens>50000)throw err('CONTEXT_LIMIT','The exact model input exceeds the bounded context limit.');
  const attempt:Attempt={id:randomUUID(),stage,status:'prepared',requestHash:digest(req),model:String(req.model),inputTokens,maxOutputTokens:req.max_output_tokens!,reservedUsd:tokenCost(String(req.model),inputTokens,req.max_output_tokens!),actualUsd:null,responseId:null,responseHash:null,output:null,startedAt:timestamp(),finishedAt:null};
  await transactWorkspace(tenantId,s=>{const r=getRun(s,id);assertLease(r,token);assertCurrent(s,r);if(r.attempts.some(x=>x.stage===stage))throw err('ATTEMPT_ALREADY_RECORDED','A provider attempt cannot be replayed.');r.attempts.push(attempt);touchRun(r);});
- let dispatched=false,settled=false,responseReceived=false;
+ let reserved=false,dispatched=false,settled=false,responseReceived=false;
  try{
   await reserveGlobalSpend(attempt.id,attempt.reservedUsd);
+  reserved=true;
   await transactWorkspace(tenantId,s=>{const r=getRun(s,id);assertLease(r,token);assertCurrent(s,r);r.attempts.find(x=>x.id===attempt.id)!.status='dispatched';touchRun(r);});
   dispatched=true;const response=await bounded(adapter.create(req),50000);responseReceived=true;const usage=response.usage;
   const valid=typeof response.id==='string'&&response.id.length>0&&!!usage&&Number.isSafeInteger(usage.input_tokens)&&Number.isSafeInteger(usage.output_tokens)&&usage.input_tokens>=0&&usage.output_tokens>=0&&usage.input_tokens<=inputTokens&&usage.output_tokens<=attempt.maxOutputTokens&&response.model===attempt.model;
@@ -111,7 +112,7 @@ async function runAttempt(tenantId:string,id:string,token:string,stage:Attempt['
   run=getRun(await readWorkspace(tenantId),id);assertCurrent(await readWorkspace(tenantId),run);return response.output_text;
  }catch(error){
   const rejected=dispatched&&!settled&&!responseReceived&&knownRejection(error),unknown=dispatched&&!settled&&!rejected;
-  if(!settled)await settleGlobalSpend(attempt.id,0,unknown);
+  if(reserved&&!settled)await settleGlobalSpend(attempt.id,0,unknown);
   await transactWorkspace(tenantId,s=>{const r=getRun(s,id),at=r.attempts.find(x=>x.id===attempt.id)!;if(at.status!=='completed'&&at.status!=='unknown'){at.status=unknown?'unknown':'rejected';at.actualUsd=unknown?null:0;at.finishedAt=timestamp();}});
   throw error;
  }
