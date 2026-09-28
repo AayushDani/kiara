@@ -4,6 +4,7 @@ import {attentionView,type AttentionItem} from './attention';
 import {digest,readWorkspace,timestamp,transactWorkspace} from './store';
 import {V2Error,type ActorContext,type RecordBase,type WorkspaceState} from './contracts';
 import {sendNotificationEmail,readNotificationEmail,notificationTransportReady,type NotificationFetch,NotificationRejected} from './notification-delivery';
+import {assertOidcBindingCurrent} from './oidc-identities';
 
 export interface NotificationGrant {tenantId:string;actorId:string;email:string;from:string;tokenEnv?:string;mode:'preview'|'resend';appOrigin:string;validUntil:string}
 export interface NotificationEnrollment extends RecordBase {ownerId:string;mode:'off'|'digest'|'required_and_digest';grantHash:string|null;membershipVersion:number;active:boolean}
@@ -74,8 +75,10 @@ export async function processNotificationDelivery(tenantId:string,id:string,opti
 }
 /** Read-only provider verification requires an ID retained from the original dispatch. */
 export async function reconcileNotificationDelivery(tenantId:string,id:string,receipt:string,options:{fetcher?:NotificationFetch;actor?:ActorContext;expectedVersion?:number}={}):Promise<void>{
+ if(options.actor)await assertOidcBindingCurrent(options.actor);
  ensure(typeof receipt==='string'&&/^[A-Za-z0-9_-]{1,200}$/.test(receipt),'INVALID_PROVIDER_RECEIPT','Provide the exact provider email receipt.');const s=await readWorkspace(tenantId) as State,d=get(s,id);if(options.actor){membership(s,options.actor);ensure(d.ownerId===options.actor.actorId&&canRead(s,options.actor,d),'NOT_FOUND','This notification is unavailable.',404);ensure(d.version===options.expectedVersion,'VERSION_CONFLICT','Inspect current delivery status.');}
  if(!['accepted','unknown','delivered'].includes(d.status))return;ensure(!!d.providerReceipt&&d.providerReceipt===receipt,'NOTIFICATION_RECEIPT_UNCORRELATED','A provider ID from an unknown send needs independent correlation before read-back.');const e=(s.notificationEnrollments||[]).find(x=>x.id===d.enrollmentId);ensure(e,'NOTIFICATION_UNAVAILABLE','The retained enrollment is unavailable.');const actor=actorFor(s,e!),member=membership(s,actor),g=notificationGrant(tenantId,d.ownerId);ensure(sameIdentity(d,g)&&canRead(s,actor,d),'NOTIFICATION_AUTHORITY_CHANGED','Read-back authority changed.');const result=await readNotificationEmail(g,d,receipt,options.fetcher);
+ if(options.actor)await assertOidcBindingCurrent(options.actor);
  await transactWorkspace(tenantId,(current:State)=>{const retained=get(current,id);if(!['accepted','unknown','delivered'].includes(retained.status))return;ensure(membership(current,actor).version===member.version&&digest(notificationGrant(tenantId,d.ownerId))===digest(g)&&sameIdentity(retained,g)&&canRead(current,actor,retained),'NOTIFICATION_AUTHORITY_CHANGED','Read-back authority changed.');if(options.actor)readRecord(current,options.actor,current.notificationDeliveries||[],id);ensure(retained.providerReceipt===receipt,'NOTIFICATION_RECEIPT_UNCORRELATED','The provider ID must match the original dispatch response.');if(!result.matches)throw new V2Error('NOTIFICATION_READBACK_MISMATCH','Provider receipt does not match this exact generic notification.');if(retained.status==='delivered'&&result.status!=='failed')return;setStatus(retained,result.status,result.status==='accepted'?'DELIVERY_PENDING':result.status==='failed'?'DELIVERY_FAILED':null);});
 }
 

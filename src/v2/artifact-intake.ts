@@ -3,6 +3,7 @@ import {requireRole} from './authority';
 import {V2Error,type ActorContext,type WorkspaceState} from './contracts';
 import {retainOriginal,purgeOriginal,readOriginal,type OriginalReference} from './objects';
 import {digest,readWorkspace,timestamp,transactWorkspace} from './store';
+import {assertOidcBindingCurrent} from './oidc-identities';
 
 interface Intake {id:string;actorId:string;contentHash:string;bytes:number;createdAt:string;expiresAt:string;reference:string|null;status:'staging'|'retained'|'attached'|'purging'|'purged';failureCode:string|null}
 const prefix='artifact-intake:';
@@ -13,12 +14,16 @@ function protectedOriginal(s:WorkspaceState,reference:string,contentHash:string)
 export function originalIntakeFenced(s:WorkspaceState,reference:string,intakeId?:string){const admitted=intakeId?s.receipts[prefix+intakeId]?.result.intake as Intake|undefined:undefined;const fresh=admitted?.reference===reference&&['retained','attached'].includes(admitted.status);return Object.entries(s.receipts).some(([key,receipt])=>{const job=receipt.result.intake as Intake|undefined;return key.startsWith(prefix)&&job?.reference===reference&&(job.status==='purging'||!fresh&&job.status==='purged');});}
 /** Track intake before object I/O so rejected or stale commands do not create silent retained artifacts. */
 export async function retainIntakeOriginal(a:ActorContext,idempotencyKey:string,bytes:Uint8Array,expectedVersion:number,options:{retain?:typeof retainOriginal}={}):Promise<{reference:OriginalReference;expectedVersion:number}>{
+ await assertOidcBindingCurrent(a);
  const id=digest({actor:a.actorId,key:idempotencyKey}),key=prefix+id,contentHash=sha(bytes);
  const claimed=await transactWorkspace(a.tenantId,s=>{requireRole(s,a,'member');if(Object.entries(s.receipts).some(([otherKey,receipt])=>{const intake=receipt.result.intake as Intake|undefined;return otherKey.startsWith(prefix)&&intake?.contentHash===contentHash&&intake.status==='purging';}))throw new V2Error('ORIGINAL_PURGE_IN_PROGRESS','These original bytes are currently being purged. Wait for verified cleanup before starting a new intake.');if((s.deletionJobs||[]).some(j=>j.originals.some(o=>{try{return JSON.parse(o.reference).sha256===contentHash;}catch{return true;}})))throw new V2Error('ORIGINAL_DELETION_FENCED','These bytes are already under deletion and cannot be re-created by another intake.');const commandAlreadySaved=!!s.receipts[digest({actorId:a.actorId,key:idempotencyKey})];if(s.version!==expectedVersion&&!commandAlreadySaved)throw new V2Error('VERSION_CONFLICT','The workspace changed before original intake. Refresh and review.');const prior=s.receipts[key]?.result.intake as Intake|undefined;if(prior){if(prior.contentHash!==contentHash||prior.bytes!==bytes.byteLength)throw new V2Error('IDEMPOTENCY_CONFLICT','This intake key already identifies different original bytes.');if(['purging','purged'].includes(prior.status))throw new V2Error('INTAKE_EXPIRED','This unattached intake expired. Start a new reviewed upload.');return prior;}const job:Intake={id,actorId:a.actorId,contentHash,bytes:bytes.byteLength,createdAt:timestamp(),expiresAt:new Date(Date.now()+86400000).toISOString(),reference:null,status:'staging',failureCode:null};s.receipts[key]={hash:digest({id,contentHash,bytes:bytes.byteLength}),result:{intake:job}};s.outbox.push({id:`artifact_${id}`,tenantId:s.tenantId,kind:'artifact_cleanup',aggregateId:id,commandId:id,status:'pending',owner:'v2',createdAt:job.createdAt});return job;});
- if(claimed.result.reference)return {reference:JSON.parse(claimed.result.reference) as OriginalReference,expectedVersion:claimed.state.version};
+ if(claimed.result.reference){await assertOidcBindingCurrent(a);return {reference:JSON.parse(claimed.result.reference) as OriginalReference,expectedVersion:claimed.state.version};}
+ await assertOidcBindingCurrent(a);
  const reference=await(options.retain||retainOriginal)(a.tenantId,bytes),encoded=JSON.stringify(reference);
  const saved=await transactWorkspace(a.tenantId,s=>{const unchanged=s.version===claimed.state.version,job=s.receipts[key].result.intake as Intake;job.reference=encoded;if(job.status==='staging'){job.status='retained';job.failureCode=null;}return unchanged&&!['purging','purged'].includes(job.status);});
  if(!saved.result)throw new V2Error('VERSION_CONFLICT','The workspace changed while retaining the original. Refresh and review before applying it.');
+ // The manifest is retained for cleanup before this check: a revoked request cannot attach it.
+ await assertOidcBindingCurrent(a);
  return {reference,expectedVersion:saved.state.version};
 }
 /** Called by operator/worker sweep. Source deletion owns attached originals; this only handles abandoned intake. */

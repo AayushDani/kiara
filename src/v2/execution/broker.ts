@@ -39,17 +39,19 @@ export async function dispatchAction(actor:ActorContext,actionId:string,input:{e
   dispatched=true;const receipt=await bounded(adapter.dispatch(request(operation)));ensure(typeof receipt.receipt==='string'&&receipt.receipt.length>0&&receipt.receipt.length<5000,'PROVIDER_RECEIPT_INVALID','The provider did not return a bounded receipt.');
   await transactWorkspace(actor.tenantId,s=>{const i=intent(s,actionId)!;if(i.redactedAt)return;ensure(!i.providerReceipt||i.providerReceipt===receipt.receipt,'PROVIDER_RECEIPT_CONFLICT','Different provider receipts require operator reconciliation.');i.providerReceipt=receipt.receipt;if(i.status!=='verified'){i.status='verifying';i.failure=null;}i.updatedAt=timestamp();i.leaseToken=null;i.leaseUntil=null;const action=s.actions.find(a=>a.id===actionId)!;action.providerReceipt=receipt.receipt;if(action.status!=='verified')action.status=adapter.effect==='preview'?'pending_manual':'verifying';action.leaseUntil=null;touch(action);save(s,i);});
  }catch(error){return fail(actor.tenantId,actionId,error,dispatched);}
- return reconcileEffect(actor.tenantId,actionId,{adapter:input.adapter});
+ return reconcileEffect(actor.tenantId,actionId,{adapter:input.adapter,actor});
 }
 /** Server-side read-back only. It may record a late receipt after cancellation/revocation, never redispatch. */
-export async function reconcileEffect(tenantId:string,actionId:string,options:{adapter?:ExecutionAdapter;candidateReceipt?:string}={}):Promise<EffectView>{
+export async function reconcileEffect(tenantId:string,actionId:string,options:{adapter?:ExecutionAdapter;candidateReceipt?:string;actor?:ActorContext}={}):Promise<EffectView>{
+ if(options.actor)await assertOidcBindingCurrent(options.actor);
  const before=await readWorkspace(tenantId),i=intent(before,actionId);ensure(i,'EFFECT_NOT_FOUND','No durable effect intent exists.');if(i.redactedAt||i.status==='failed')return view(i);const actual=before.actions.find(a=>a.id===actionId);if(actual?.status==='verified'&&actual.completion?.kind!=='readback')return {...view(i),status:'verified',completionArtifact:actual.completion?.artifact||null};
  const adapter=select(tenantId,i.actionSnapshot,options.adapter);ensure(adapter.id===i.adapterId&&adapter.configurationHash===i.adapterConfigurationHash,'EXECUTION_CONFIG_CHANGED','Restore the original adapter configuration before read-back.');
  if(i.status==='verified'&&adapter.effect!=='email')return view(i);
  if((i.status==='prepared'||i.status==='dispatched')&&Date.parse(i.leaseUntil||'')>Date.now())return view(i);
- if(i.status==='prepared')return fail(tenantId,actionId,new V2Error('EFFECT_NOT_DISPATCHED','The interrupted prepared intent did not dispatch.'),false);
+ if(i.status==='prepared'){if(options.actor)await assertOidcBindingCurrent(options.actor);return fail(tenantId,actionId,new V2Error('EFFECT_NOT_DISPATCHED','The interrupted prepared intent did not dispatch.'),false);}
  if(options.candidateReceipt){ensure(!!i.providerReceipt,'PROVIDER_RECEIPT_UNCORRELATED','A provider ID from an unknown send needs independent correlation before read-back.');ensure(adapter.effect==='email'&&i.providerReceipt===options.candidateReceipt&&options.candidateReceipt.length<200,'PROVIDER_RECEIPT_CONFLICT','The candidate receipt cannot replace a retained provider identity.');}
- let result;try{result=await bounded(adapter.readback(request(i),options.candidateReceipt||i.providerReceipt),20000);}catch{return fail(tenantId,actionId,new V2Error('READBACK_UNAVAILABLE','Read-back is unavailable; no resend is authorized.'),true);}
+ let result;try{result=await bounded(adapter.readback(request(i),options.candidateReceipt||i.providerReceipt),20000);}catch{if(options.actor)await assertOidcBindingCurrent(options.actor);return fail(tenantId,actionId,new V2Error('READBACK_UNAVAILABLE','Read-back is unavailable; no resend is authorized.'),true);}
+ if(options.actor)await assertOidcBindingCurrent(options.actor);
  if(options.candidateReceipt)ensure(result.reason!=='READBACK_MISMATCH','PROVIDER_RECEIPT_MISMATCH','The candidate receipt does not match this effect identity and exact payload.');
  return (await transactWorkspace(tenantId,s=>{
   const current=intent(s,actionId)!;if(current.redactedAt||current.status==='failed'||current.status==='verified'&&result.status!=='failed')return view(current);const action=s.actions.find(a=>a.id===actionId)!;if(action.status==='verified'&&action.completion?.kind!=='readback')return {...view(current),status:'verified' as const,completionArtifact:action.completion?.artifact||null};ensure(current.id===i.id&&current.actionHash===i.actionHash,'EFFECT_CHANGED','The immutable effect identity changed.');
@@ -69,5 +71,6 @@ export async function reconcileEffect(tenantId:string,actionId:string,options:{a
 
 /** Read-back only accepts an ID already captured by the original dispatch response. */
 export async function reconcileAction(actor:ActorContext,actionId:string,input:{expectedVersion:number;contentHash:string;providerReceipt?:string;adapter?:ExecutionAdapter}){
- const state=await readWorkspace(actor.tenantId),action=readRecord(state,actor,state.actions,actionId);requireRole(state,actor,action.kind==='signature_request'?'signatory':action.kind==='no_action'?'business_owner':'publisher',action);ensure(action.version===input.expectedVersion&&action.contentHash===input.contentHash,'STALE_ACTION','Refresh the current effect before reconciling.');return reconcileEffect(actor.tenantId,actionId,{adapter:input.adapter,candidateReceipt:input.providerReceipt});
+ await assertOidcBindingCurrent(actor);
+ const state=await readWorkspace(actor.tenantId),action=readRecord(state,actor,state.actions,actionId);requireRole(state,actor,action.kind==='signature_request'?'signatory':action.kind==='no_action'?'business_owner':'publisher',action);ensure(action.version===input.expectedVersion&&action.contentHash===input.contentHash,'STALE_ACTION','Refresh the current effect before reconciling.');return reconcileEffect(actor.tenantId,actionId,{adapter:input.adapter,candidateReceipt:input.providerReceipt,actor});
 }

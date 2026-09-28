@@ -8,12 +8,13 @@ import {closeV2Store,readWorkspace,transactWorkspace} from '../src/v2/store';
 import {applyAttentionCommand,attentionView} from '../src/v2/attention';
 import {applyNotificationCommand,notificationView,notificationGrant,processNotificationWatch,processNotificationDelivery,reconcileNotificationDelivery} from '../src/v2/notifications';
 import type {ActorContext,WorkspaceState} from '../src/v2/contracts';
+import {identityBindingKey} from '../src/v2/oidc-identities';
 const dirs:string[]=[];let sequence=0;
-const keys=['KIARA_V2_DATA_DIR','MONGODB_URI','KIARA_V2_AI_MODE','KIARA_V2_NOTIFICATION_GRANTS','KIARA_ALLOW_LIVE_EMAIL','NOTIFY_TEST_TOKEN'];
+const keys=['KIARA_V2_DATA_DIR','MONGODB_URI','KIARA_V2_AI_MODE','KIARA_V2_NOTIFICATION_GRANTS','KIARA_ALLOW_LIVE_EMAIL','NOTIFY_TEST_TOKEN','KIARA_OIDC_IDENTITY_SOURCE','KIARA_OIDC_ISSUER','KIARA_OIDC_IDENTITIES'];
 const previous=Object.fromEntries(keys.map(k=>[k,process.env[k]]));
 const actor=(id='owner'):ActorContext=>({tenantId:'notification-tests',actorId:id,mode:'local_demo',expiresAt:Date.now()+3600000,bootstrapRoles:['member','business_owner','fact_owner']});
 const grant=(mode:'preview'|'resend'='resend')=>({tenantId:actor().tenantId,actorId:'owner',email:'owner@example.invalid',from:'kiara@example.invalid',mode,tokenEnv:'NOTIFY_TEST_TOKEN',appOrigin:'https://kiara.example.invalid',validUntil:'2099-01-01T00:00:00.000Z'});
-beforeEach(async()=>{await closeV2Store();const dir=await mkdtemp(join(tmpdir(),'kiara-notifications-'));dirs.push(dir);process.env.KIARA_V2_DATA_DIR=dir;delete process.env.MONGODB_URI;process.env.KIARA_V2_AI_MODE='local';process.env.KIARA_V2_NOTIFICATION_GRANTS=JSON.stringify([grant()]);process.env.KIARA_ALLOW_LIVE_EMAIL='true';process.env.NOTIFY_TEST_TOKEN='injected-only';});
+beforeEach(async()=>{await closeV2Store();const dir=await mkdtemp(join(tmpdir(),'kiara-notifications-'));dirs.push(dir);process.env.KIARA_V2_DATA_DIR=dir;delete process.env.MONGODB_URI;delete process.env.KIARA_OIDC_IDENTITY_SOURCE;delete process.env.KIARA_OIDC_ISSUER;delete process.env.KIARA_OIDC_IDENTITIES;process.env.KIARA_V2_AI_MODE='local';process.env.KIARA_V2_NOTIFICATION_GRANTS=JSON.stringify([grant()]);process.env.KIARA_ALLOW_LIVE_EMAIL='true';process.env.NOTIFY_TEST_TOKEN='injected-only';});
 after(async()=>{await closeV2Store();for(const key of keys){if(previous[key]===undefined)delete process.env[key];else process.env[key]=previous[key];}await Promise.all(dirs.map(dir=>rm(dir,{recursive:true,force:true})));});
 async function fixture(options:{required?:boolean;mode?:'preview'|'resend';enabled?:boolean}={}){
  process.env.KIARA_V2_NOTIFICATION_GRANTS=JSON.stringify([grant(options.mode)]);
@@ -35,6 +36,14 @@ test('delivered is a point-in-time readback and a later bounce corrects it witho
  const e=await fixture(),p=provider();await processNotificationWatch(actor().tenantId,e,{fetcher:p.fetcher});const d=(await state()).notificationDeliveries![0];assert.equal(d.status,'delivered');
  const bounced=(async(url:unknown)=>String(url).endsWith('/attachments')?Response.json({object:'list',has_more:false,data:[]}):Response.json({id:'email-receipt',from:p.payload.from,to:p.payload.to,subject:p.payload.subject,text:p.payload.text,last_event:'bounced'})) as typeof fetch;
  await reconcileNotificationDelivery(actor().tenantId,d.id,'email-receipt',{fetcher:bounced,actor:actor(),expectedVersion:d.version});assert.equal((await state()).notificationDeliveries![0].status,'failed');assert.equal(p.posts,1);
+});
+test('revocation during notification readback cannot commit the authenticated reconciliation',async()=>{
+ const e=await fixture(),p=provider('sent');await processNotificationWatch(actor().tenantId,e,{fetcher:p.fetcher});const d=(await state()).notificationDeliveries![0];assert.equal(d.status,'accepted');
+ const issuer='https://issuer.example.test',subject='notification-owner';process.env.KIARA_OIDC_IDENTITY_SOURCE='fixture_env';process.env.KIARA_OIDC_ISSUER=issuer;process.env.KIARA_OIDC_IDENTITIES=JSON.stringify([{subject,tenantId:actor().tenantId,actorId:'owner'}]);
+ const signed:ActorContext={tenantId:actor().tenantId,actorId:'owner',mode:'authenticated',expiresAt:Date.now()+3600000,oidcBinding:{key:identityBindingKey(issuer,subject),version:1}};
+ const fetcher=(async(url:unknown)=>{if(String(url).endsWith('/attachments')){process.env.KIARA_OIDC_IDENTITIES='[]';return Response.json({object:'list',has_more:false,data:[]});}return Response.json({id:'email-receipt',from:p.payload.from,to:p.payload.to,subject:p.payload.subject,text:p.payload.text,last_event:'delivered'});}) as typeof fetch;
+ await assert.rejects(()=>reconcileNotificationDelivery(actor().tenantId,d.id,'email-receipt',{fetcher,actor:signed,expectedVersion:d.version}),{code:'IDENTITY_GRANT_CHANGED'});
+ assert.equal((await state()).notificationDeliveries![0].status,'accepted');
 });
 test('official-shape email readback rejects attachments listed separately',async()=>{
  const e=await fixture(),p=provider('sent');await processNotificationWatch(actor().tenantId,e,{fetcher:p.fetcher});const d=(await state()).notificationDeliveries![0];assert.equal(d.status,'accepted');
