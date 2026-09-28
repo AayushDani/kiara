@@ -38,11 +38,17 @@ test('restore manifest rejects cross-tenant references and requires retained/del
 
 test('restored bytes and permanent deletion fence must both be observed',async()=>{
  const reader=async(_tenantId:string,ref:OriginalReference)=>{if(ref.key===kept.key)return readable;if(ref.key===gone.key)throw new V2Error('ORIGINAL_DELETED','Deleted.',410);throw Error('Unexpected reference');};
- const result=await verifyRestoredOriginals(target,manifest,env,reader);
+ const cleanDeletion=async()=>({fenceDeleted:true,manifestAbsent:true,chunksAbsent:true});
+ const result=await verifyRestoredOriginals(target,manifest,env,reader,cleanDeletion);
  assert.equal(result.verified,true);assert.equal(result.checks.length,2);
  assert.equal(result.checks[0].bytes,readable.length);
  assert.doesNotMatch(JSON.stringify(result),/selected retained|selected deleted|secret/);
- await assert.rejects(verifyRestoredOriginals(target,manifest,env,async(_tenantId,ref)=>ref.key===kept.key?Buffer.from('tampered'):Promise.reject(new V2Error('ORIGINAL_DELETED','Deleted.',410))));
- await assert.rejects(verifyRestoredOriginals(target,manifest,env,async(_tenantId,ref)=>ref.key===kept.key?readable:deleted),/previously deleted original was readable/);
- await assert.rejects(verifyRestoredOriginals(target,manifest,env,async(_tenantId,ref)=>ref.key===kept.key?readable:Promise.reject(new V2Error('ORIGINAL_INTEGRITY','Missing manifest.',503))));
+ await assert.rejects(verifyRestoredOriginals(target,manifest,env,async(_tenantId,ref)=>ref.key===kept.key?Buffer.from('tampered'):Promise.reject(new V2Error('ORIGINAL_DELETED','Deleted.',410)),cleanDeletion));
+ await assert.rejects(verifyRestoredOriginals(target,manifest,env,async(_tenantId,ref)=>ref.key===kept.key?readable:deleted,cleanDeletion),/previously deleted original was readable/);
+ await assert.rejects(verifyRestoredOriginals(target,manifest,env,async(_tenantId,ref)=>ref.key===kept.key?readable:Promise.reject(new V2Error('ORIGINAL_INTEGRITY','Missing manifest.',503)),cleanDeletion));
+ for(const rows of [
+  {fenceDeleted:false,manifestAbsent:true,chunksAbsent:true},
+  {fenceDeleted:true,manifestAbsent:false,chunksAbsent:true},
+  {fenceDeleted:true,manifestAbsent:true,chunksAbsent:false},
+ ])await assert.rejects(verifyRestoredOriginals(target,manifest,env,reader,async()=>rows),/deleted original retained/);
 });

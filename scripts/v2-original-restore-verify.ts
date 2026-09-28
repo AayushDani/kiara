@@ -2,7 +2,7 @@
 import {createHash} from 'node:crypto';
 import {readFile,stat} from 'node:fs/promises';
 import {ConnectionString} from 'mongodb-connection-string-url';
-import {readMongoOriginal,closeMongoOriginalStore} from '../src/v2/mongo-originals';
+import {readMongoOriginal,closeMongoOriginalStore,inspectMongoOriginalDeletion} from '../src/v2/mongo-originals';
 import {V2Error} from '../src/v2/contracts';
 import type {OriginalReference} from '../src/v2/objects';
 
@@ -49,13 +49,17 @@ export function validateRestoreManifest(value:unknown):RestoreManifest {
 }
 
 /** No source text or ciphertext is returned. A missing deletion fence fails the drill. */
-export async function verifyRestoredOriginals(target:RestoreTarget,manifest:RestoreManifest,env:NodeJS.ProcessEnv=process.env,reader:typeof readMongoOriginal=readMongoOriginal){
+export async function verifyRestoredOriginals(target:RestoreTarget,manifest:RestoreManifest,env:NodeJS.ProcessEnv=process.env,reader:typeof readMongoOriginal=readMongoOriginal,inspectDeletion:typeof inspectMongoOriginalDeletion=inspectMongoOriginalDeletion){
  const selected=validateRestoreTarget(target,env),verified=validateRestoreManifest(manifest);
  const results=[];
  for(const check of verified.checks){
   const referenceHash=sha(check.reference.key);
   if(check.expected==='deleted'){
-   try{await reader(verified.tenantId,check.reference);}catch(error){if(error instanceof V2Error&&error.code==='ORIGINAL_DELETED'){results.push({referenceHash,expected:'deleted',verified:true});continue;}throw error;}
+   try{await reader(verified.tenantId,check.reference);}catch(error){if(error instanceof V2Error&&error.code==='ORIGINAL_DELETED'){
+    const rows=await inspectDeletion(verified.tenantId,check.reference);
+    if(!rows.fenceDeleted||!rows.manifestAbsent||!rows.chunksAbsent)throw new Error('A deleted original retained a missing fence, manifest or ciphertext chunk in the restored database.');
+    results.push({referenceHash,expected:'deleted',verified:true});continue;
+   }throw error;}
    throw new Error('A previously deleted original was readable in the restored database.');
   }
   const bytes=await reader(verified.tenantId,check.reference);
