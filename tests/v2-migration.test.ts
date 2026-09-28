@@ -59,10 +59,56 @@ test('archive reconciliation cannot downgrade an intake attached during readback
  }finally{for(const key of Object.keys(process.env))if(!(key in before))delete process.env[key];Object.assign(process.env,before);await rm(dir,{recursive:true,force:true});}
 });
 
+test('archive reconciliation rejects an object-store switch during physical readback',async()=>{
+ const before={...process.env},dir=await mkdtemp(join(tmpdir(),'kiara-v2-migration-target-race-'));
+ try{
+  Object.assign(process.env,{KIARA_V2_DATA_DIR:join(dir,'workspaces'),KIARA_ORIGINALS_DIR:join(dir,'originals'),KIARA_ORIGINALS_MODE:'local_encrypted',KIARA_V2_AUTH_MODE:'local_demo'});delete process.env.MONGODB_URI;delete process.env.VERCEL;delete process.env.KIARA_ORIGINALS_KEY;
+  const tenant='migration-target-race',bytes=Buffer.from(JSON.stringify(seed())),reviewed=await importLegacySnapshot(tenant,bytes,0,TENANT,null,true);let retained:OriginalReference|null=null;
+  await assert.rejects(importLegacySnapshot(tenant,bytes,0,TENANT,reviewed.sourceHash,false,reviewed.planHash,{afterRetain:async reference=>{retained=reference;throw new Error('Simulated stop');}}),/Simulated stop/);
+  await assert.rejects(reconcileMigrationArchiveOriginal(tenant,reviewed.sourceHash,retained!,{afterReadback:async()=>{process.env.KIARA_ORIGINALS_DIR=join(dir,'other-originals');}}),{code:'MIGRATION_ARCHIVE_TARGET_CHANGED'});
+  const status=await migrationArchiveStatus(tenant);assert.equal(status.archives[0].status,'staging');assert.equal(status.archives[0].hasReference,false);
+ }finally{for(const key of Object.keys(process.env))if(!(key in before))delete process.env[key];Object.assign(process.env,before);await rm(dir,{recursive:true,force:true});}
+});
+
+test('oversized valid legacy snapshot is rejected by dry run and apply before any archive intake',async()=>{
+ const before={...process.env},dir=await mkdtemp(join(tmpdir(),'kiara-v2-migration-capacity-'));
+ try{
+  Object.assign(process.env,{KIARA_V2_DATA_DIR:join(dir,'workspaces'),KIARA_ORIGINALS_DIR:join(dir,'originals'),KIARA_ORIGINALS_MODE:'s3_kms',KIARA_V2_AUTH_MODE:'local_demo'});delete process.env.MONGODB_URI;delete process.env.VERCEL;
+  const tenant='migration-capacity',bytes=Buffer.from(JSON.stringify({...seed(),padding:'x'.repeat(20_000_000)}));assert.ok(bytes.length>20_000_000);
+  await assert.rejects(importLegacySnapshot(tenant,bytes,0,TENANT,null,true),{code:'ORIGINAL_CAPACITY'});
+  await assert.rejects(importLegacySnapshot(tenant,bytes,0,TENANT,'a'.repeat(64),false,'b'.repeat(64)),{code:'ORIGINAL_CAPACITY'});
+  const state=await readWorkspace(tenant);assert.equal(state.version,0);assert.equal(state.migration,null);assert.equal((await migrationArchiveStatus(tenant)).archives.length,0);
+ }finally{for(const key of Object.keys(process.env))if(!(key in before))delete process.env[key];Object.assign(process.env,before);await rm(dir,{recursive:true,force:true});}
+});
+
+test('missing S3 configuration fails before a possibly-started archive attempt',async()=>{
+ const before={...process.env},dir=await mkdtemp(join(tmpdir(),'kiara-v2-migration-s3-config-'));
+ try{
+  Object.assign(process.env,{KIARA_V2_DATA_DIR:join(dir,'workspaces'),KIARA_ORIGINALS_MODE:'s3_kms',KIARA_V2_AUTH_MODE:'local_demo'});delete process.env.MONGODB_URI;delete process.env.VERCEL;delete process.env.KIARA_ORIGINALS_S3_BUCKET;delete process.env.AWS_REGION;delete process.env.KIARA_ORIGINALS_KMS_KEY_ID;
+  const tenant='migration-s3-config',bytes=Buffer.from(JSON.stringify(seed())),reviewed=await importLegacySnapshot(tenant,bytes,0,TENANT,null,true);
+  await assert.rejects(importLegacySnapshot(tenant,bytes,0,TENANT,reviewed.sourceHash,false,reviewed.planHash),{code:'OBJECT_STORE_NOT_CONFIGURED'});
+  for(const config of [
+   {KIARA_ORIGINALS_S3_BUCKET:'Bad_Bucket',AWS_REGION:'us-east-1',KIARA_ORIGINALS_KMS_KEY_ID:'arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012'},
+   {KIARA_ORIGINALS_S3_BUCKET:'synthetic-versioned-bucket',AWS_REGION:'us-west-2',KIARA_ORIGINALS_KMS_KEY_ID:'arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012'}
+  ]){Object.assign(process.env,config);const plan=await importLegacySnapshot(tenant,bytes,0,TENANT,null,true);await assert.rejects(importLegacySnapshot(tenant,bytes,0,TENANT,plan.sourceHash,false,plan.planHash),{code:'OBJECT_STORE_NOT_CONFIGURED'});}
+  const state=await readWorkspace(tenant);assert.equal(state.version,0);assert.equal(state.migration,null);assert.equal((await migrationArchiveStatus(tenant)).archives.length,0);
+ }finally{for(const key of Object.keys(process.env))if(!(key in before))delete process.env[key];Object.assign(process.env,before);await rm(dir,{recursive:true,force:true});}
+});
+
+test('S3 destination change after staging does not mark an upload attempted',async()=>{
+ const before={...process.env},dir=await mkdtemp(join(tmpdir(),'kiara-v2-migration-s3-target-race-'));
+ try{
+  Object.assign(process.env,{KIARA_V2_DATA_DIR:join(dir,'workspaces'),KIARA_ORIGINALS_MODE:'s3_kms',KIARA_V2_AUTH_MODE:'local_demo',KIARA_ORIGINALS_S3_BUCKET:'synthetic-versioned-bucket',AWS_REGION:'us-east-1',KIARA_ORIGINALS_KMS_KEY_ID:'arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012'});delete process.env.MONGODB_URI;delete process.env.VERCEL;
+  const tenant='migration-s3-target-race',bytes=Buffer.from(JSON.stringify(seed())),reviewed=await importLegacySnapshot(tenant,bytes,0,TENANT,null,true);
+  await assert.rejects(importLegacySnapshot(tenant,bytes,0,TENANT,reviewed.sourceHash,false,reviewed.planHash,{afterClaim:async()=>{process.env.AWS_REGION='us-west-2';},retain:async()=>{throw new Error('No upload may begin');}}),{code:'MIGRATION_PLAN_CHANGED'});
+  const status=await migrationArchiveStatus(tenant);assert.equal(status.archives.length,1);assert.equal(status.archives[0].status,'staging');assert.equal(status.archives[0].attemptedAt,null);assert.equal(status.archives[0].hasReference,false);
+ }finally{for(const key of Object.keys(process.env))if(!(key in before))delete process.env[key];Object.assign(process.env,before);await rm(dir,{recursive:true,force:true});}
+});
+
 test('an S3 staging archive with no version manifest blocks blind upload retry',async()=>{
  const before={...process.env},dir=await mkdtemp(join(tmpdir(),'kiara-v2-migration-s3-'));
  try{
-  Object.assign(process.env,{KIARA_V2_DATA_DIR:join(dir,'workspaces'),KIARA_ORIGINALS_MODE:'s3_kms',KIARA_V2_AUTH_MODE:'local_demo'});delete process.env.MONGODB_URI;delete process.env.VERCEL;
+  Object.assign(process.env,{KIARA_V2_DATA_DIR:join(dir,'workspaces'),KIARA_ORIGINALS_MODE:'s3_kms',KIARA_V2_AUTH_MODE:'local_demo',KIARA_ORIGINALS_S3_BUCKET:'synthetic-versioned-bucket',AWS_REGION:'us-east-1',KIARA_ORIGINALS_KMS_KEY_ID:'arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012'});delete process.env.MONGODB_URI;delete process.env.VERCEL;
   const tenant='migration-s3-interrupted',bytes=Buffer.from(JSON.stringify(seed())),reviewed=await importLegacySnapshot(tenant,bytes,0,TENANT,null,true);
   const unknown:OriginalReference={storage:'s3_kms',encryption:'aws-kms',key:'unconfirmed',keyId:'unconfirmed',versionId:'unconfirmed',sha256:'0'.repeat(64),bytes:bytes.length};
   await assert.rejects(importLegacySnapshot(tenant,bytes,0,TENANT,reviewed.sourceHash,false,reviewed.planHash,{retain:async()=>unknown,afterRetain:async()=>{throw new Error('S3 outcome unknown');}}),/S3 outcome unknown/);

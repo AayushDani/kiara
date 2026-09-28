@@ -5,7 +5,8 @@ import type {OriginalReference} from './objects';
 
 type Transport={send(command:PutObjectCommand|GetObjectCommand|HeadObjectCommand):Promise<Record<string,unknown>>};
 const sha=(bytes:string|Uint8Array)=>createHash('sha256').update(bytes).digest('hex');
-function configuration(){const bucket=process.env.KIARA_ORIGINALS_S3_BUCKET,region=process.env.AWS_REGION,keyId=process.env.KIARA_ORIGINALS_KMS_KEY_ID;if(!bucket||!region||!keyId||!/^arn:(aws|aws-us-gov|aws-cn):kms:[a-z0-9-]+:[0-9]{12}:key\/[a-zA-Z0-9-]+$/.test(keyId))throw new V2Error('OBJECT_STORE_NOT_CONFIGURED','Configure a versioned S3 bucket, AWS region and customer-managed KMS key ARN.',503);return {bucket,region,keyId};}
+function configuration(){const bucket=process.env.KIARA_ORIGINALS_S3_BUCKET,region=process.env.AWS_REGION,keyId=process.env.KIARA_ORIGINALS_KMS_KEY_ID,kmsRegion=keyId?.match(/^arn:(aws|aws-us-gov|aws-cn):kms:([a-z0-9-]+):[0-9]{12}:key\/[a-zA-Z0-9-]+$/)?.[2];if(!bucket||bucket.length<3||bucket.length>63||!/^[a-z0-9][a-z0-9.-]*[a-z0-9]$/.test(bucket)||bucket.includes('..')||!region||!/^[a-z]{2}(?:-[a-z]+)+-\d+$/.test(region)||!kmsRegion||kmsRegion!==region)throw new V2Error('OBJECT_STORE_NOT_CONFIGURED','Configure a versioned S3 bucket, AWS region and matching customer-managed KMS key ARN.',503);return {bucket,region,keyId:keyId!};}
+export function validateS3OriginalConfiguration(){configuration();}
 function transport(region:string):Transport{return new S3Client({region,maxAttempts:2}) as unknown as Transport;}
 export async function retainS3Original(tenantId:string,bytes:Uint8Array,injected?:Transport):Promise<OriginalReference>{
  const config=configuration();if(!tenantId||bytes.byteLength>20_000_000)throw new V2Error('ORIGINAL_CAPACITY','An authenticated tenant and original below 20 MB are required.',413);

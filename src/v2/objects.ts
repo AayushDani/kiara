@@ -4,6 +4,27 @@ import {join,dirname} from 'node:path';
 import {V2Error} from './contracts';
 
 export interface OriginalReference {key:string;sha256:string;bytes:number;encryption:'aes-256-gcm'|'aws-kms';storage:'local_encrypted'|'mongo_encrypted'|'s3_kms';keyId:string;versionId?:string}
+export const ORIGINAL_MAX_BYTES=20_000_000;
+/** Reject deterministic failures before a caller records a possibly-started original write. */
+export function assertOriginalCapacity(tenantId:string,bytes:number){
+ if(!tenantId||tenantId.length>200||!Number.isSafeInteger(bytes)||bytes<0||bytes>ORIGINAL_MAX_BYTES)throw new V2Error('ORIGINAL_CAPACITY','An authenticated tenant and original below 20 MB are required.',413);
+}
+export async function preflightOriginalRetention(tenantId:string,bytes:number){
+ assertOriginalCapacity(tenantId,bytes);
+ const mode=process.env.KIARA_ORIGINALS_MODE||(process.env.MONGODB_URI?'mongo_encrypted':'local_encrypted');
+ if(mode==='s3_kms'){(await import('./s3-originals')).validateS3OriginalConfiguration();return;}
+ if(mode==='mongo_encrypted'){
+  (await import('./mongo-originals')).mongoOriginalTarget();
+  if(!/^[a-f0-9]{64}$/i.test(process.env.KIARA_ORIGINALS_KEY||''))throw new V2Error('ENCRYPTION_KEY_REQUIRED','Configure a protected 32-byte hex key for MongoDB originals.',503);
+  return;
+ }
+ if(mode==='local_encrypted'){
+  if(process.env.VERCEL)throw new V2Error('OBJECT_STORE_REQUIRED','Configure a durable managed original-storage adapter; ephemeral local storage is not sufficient.',503);
+  if(process.env.KIARA_ORIGINALS_KEY&&!/^[a-f0-9]{64}$/i.test(process.env.KIARA_ORIGINALS_KEY))throw new V2Error('ENCRYPTION_KEY_INVALID','Original storage requires a 32-byte hex key.',503);
+  return;
+ }
+ throw new V2Error('OBJECT_STORE_NOT_CONFIGURED','Choose a supported original-storage mode.',503);
+}
 const sha=(data:string|Uint8Array)=>createHash('sha256').update(data).digest('hex');
 const root=()=>process.env.KIARA_ORIGINALS_DIR||join(process.env.KIARA_V2_DATA_DIR||process.env.KIARA_DATA_DIR||join(process.cwd(),'.kiara'),'originals');
 export function syntheticOriginalCutoverEnabled(tenantId:string){return /^synthetic-[a-z0-9-]{1,80}$/.test(tenantId)&&process.env.KIARA_ORIGINAL_CUTOVER_TENANT===tenantId&&/^kiara_(qualification|synthetic)_[a-z0-9]+$/.test(process.env.MONGODB_DB||'');}
