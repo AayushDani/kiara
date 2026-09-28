@@ -1,4 +1,5 @@
 import {readFile,writeFile} from 'node:fs/promises';
+import {closeStore} from '../src/data/store';
 import {backupWorkspace,restoreWorkspace,readWorkspace,transactWorkspace,closeV2Store,digest} from '../src/v2/store';
 import {importLegacySnapshot,exportLegacyArchive,migrationArchiveStatus,migrationArchiveCandidate,reconcileMigrationArchiveOriginal} from '../src/v2/migration';
 import {purgeExpiredIntakes,reconcileIntakeOriginal} from '../src/v2/artifact-intake';
@@ -14,7 +15,7 @@ import {requireRole} from '../src/v2/authority';
 import type {ActorContext,WorkspaceCommand} from '../src/v2/contracts';
 import {checkInstallationAccess,reconcileInstallationAccess,retryInstallationAccessOwner} from '../src/v2/integrations/access-reconcile';
 import {previewIndexRecovery,requeueIndexJob,previewUnknownEmbeddingRepair,repairUnknownEmbedding} from '../src/v2/index-maintenance';
-import {operatorOidcBindingForActor} from '../src/v2/oidc-identities';
+import {closeOidcIdentityStore,operatorOidcBindingForActor} from '../src/v2/oidc-identities';
 
 const [operation,tenantId,...args]=process.argv.slice(2);
 const roles:Role[]=['member','admin','business_owner','fact_owner','legal_reviewer','publisher','signatory','evaluator','integration'];
@@ -127,4 +128,4 @@ async function main(){
  if(operation==='legacy-export'){await writeFile(args[0],await exportLegacyArchive(tenantId),{flag:'wx',mode:0o600});return {path:args[0],effectOwner:'legacy'};}
  throw new Error('Unknown operation');
 }
-main().then(result=>console.log(JSON.stringify(result,null,2))).catch(error=>{console.error(error instanceof Error?error.message:'Operator command failed');process.exitCode=1;}).finally(async()=>{await closeV2Store();await closeHybridIndex();});
+main().then(result=>console.log(JSON.stringify(result,null,2))).catch(error=>{console.error(error instanceof Error?error.message:'Operator command failed');process.exitCode=1;}).finally(async()=>{await Promise.allSettled([closeV2Store(),closeHybridIndex(),closeOidcIdentityStore(),closeStore()]);});
