@@ -1,5 +1,6 @@
 import test,{beforeEach,afterEach} from 'node:test';
 import assert from 'node:assert/strict';
+import {completeQueuedWithdrawal} from './support/withdrawal';
 import {createHash,randomUUID} from 'node:crypto';
 import {mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -13,7 +14,7 @@ let dir:string;const previous={data:process.env.KIARA_V2_DATA_DIR,mongo:process.
 beforeEach(async()=>{dir=await mkdtemp(join(tmpdir(),'kiara-voice-review-'));process.env.KIARA_V2_DATA_DIR=dir;process.env.MONGODB_URI='';process.env.KIARA_V2_AI_MODE='local';});
 afterEach(async()=>{await closeV2Store();if(previous.data===undefined)delete process.env.KIARA_V2_DATA_DIR;else process.env.KIARA_V2_DATA_DIR=previous.data;if(previous.mongo===undefined)delete process.env.MONGODB_URI;else process.env.MONGODB_URI=previous.mongo;if(previous.ai===undefined)delete process.env.KIARA_V2_AI_MODE;else process.env.KIARA_V2_AI_MODE=previous.ai;await rm(dir,{recursive:true,force:true});});
 const actor=():ActorContext=>({tenantId:'voice-review',actorId:'owner',mode:'local_demo',expiresAt:Date.now()+3600000,bootstrapRoles:['member','business_owner','fact_owner','admin']});
-const send=async(c:WorkspaceCommand)=>command(actor(),{idempotencyKey:randomUUID(),expectedVersion:(await snapshot(actor())).version,command:c});
+const send=async(c:WorkspaceCommand)=>{const a=actor(),result=await command(a,{idempotencyKey:randomUUID(),expectedVersion:(await snapshot(a)).version,command:c});if(c.type==='source.revoke'){await completeQueuedWithdrawal(a.tenantId,c.sourceId);return {...result,snapshot:await snapshot(a)};}return result;};
 function review(transcript:string,subjectId='',subjectHash='',names:{id:string;name:string}[]=[]):VoiceInterpretationReview {const parsed=interpretVoice(transcript,subjectId);return {transcriptHash:createHash('sha256').update(transcript,'utf8').digest('hex'),subjectId,subjectHash,names,dates:parsed.dates,amounts:parsed.amounts,ambiguityResolved:true};}
 
 test('confirmed voice requires frozen exact bytes, subject and resolved names/dates/amounts before instruction handling',async()=>{

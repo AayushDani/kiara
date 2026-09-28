@@ -1,5 +1,6 @@
 import test,{beforeEach,after} from 'node:test';
 import assert from 'node:assert/strict';
+import {completeQueuedWithdrawal} from './support/withdrawal';
 import {mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
@@ -14,7 +15,7 @@ const dirs:string[]=[];let seq=0;const url='https://example.test/legal-source';
 const owner=():ActorContext=>({tenantId:'legal-maintenance',actorId:'reviewer',mode:'local_demo',expiresAt:Date.now()+3600000,bootstrapRoles:['member','business_owner','legal_reviewer','admin','fact_owner']});
 beforeEach(async()=>{await closeV2Store();const dir=await mkdtemp(join(tmpdir(),'kiara-legal-maintenance-'));dirs.push(dir);process.env.KIARA_V2_DATA_DIR=dir;process.env.KIARA_ORIGINALS_DIR=join(dir,'originals');process.env.KIARA_V2_AI_MODE='local';delete process.env.MONGODB_URI;delete process.env.KIARA_V2_INDEX_POLICY;delete process.env.KIARA_ORIGINALS_MODE;delete process.env.KIARA_V2_LEGAL_SOURCE_POLICY;});
 after(async()=>{await closeV2Store();await Promise.all(dirs.map(dir=>rm(dir,{recursive:true,force:true})));});
-const send=async(c:WorkspaceCommand)=>command(owner(),{idempotencyKey:`legal-maint-${++seq}`,expectedVersion:(await snapshot(owner())).version,command:c});
+const send=async(c:WorkspaceCommand)=>{const a=owner(),result=await command(a,{idempotencyKey:`legal-maint-${++seq}`,expectedVersion:(await snapshot(a)).version,command:c});if(c.type==='source.revoke'){await completeQueuedWithdrawal(a.tenantId,c.sourceId);return {...result,snapshot:await snapshot(a)};}return result;};
 const due=()=>new Date(Date.now()+7*86400000).toISOString();
 function policy(){process.env.KIARA_V2_LEGAL_SOURCE_POLICY=JSON.stringify([{tenantId:owner().tenantId,urls:[url],validUntil:due(),maxBytes:10000}]);}
 async function fixture(legalSource=false){let result=await send({type:'document.add',title:'Fictional test authority',body:'Original source text.',authority:'unknown',kind:'other'});const sourceId=String(result.result.sourceId);if(legalSource)await transactWorkspace(owner().tenantId,s=>{s.sources.find(x=>x.id===sourceId)!.kind='legal';});result=await send({type:'coverage.source.add',sourceId,title:'Fictional source',sourceUrl:url,jurisdiction:'TEST ONLY',domain:'synthetic',authorityType:'guidance'});const authorityId=String(result.result.authorityId);let authority=result.snapshot.legalAuthorities.find(x=>x.id===authorityId)!;await send({type:'coverage.source.verify',authorityId,expectedRecordVersion:authority.version,sourceVersion:result.snapshot.sources.find(x=>x.id===sourceId)!.version,verificationEvidence:'Synthetic software test attestation, no legal review.',reviewDueAt:due()});authority=(await snapshot(owner())).legalAuthorities.find(x=>x.id===authorityId)!;policy();const watch=await send({type:'legal.watch.configure',authorityId,expectedAuthorityVersion:authority.version,intervalHours:24});return {sourceId,authorityId,watchId:String(watch.result.watchId)};}

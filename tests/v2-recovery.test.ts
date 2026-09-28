@@ -1,5 +1,6 @@
 import test,{beforeEach,after} from 'node:test';
 import assert from 'node:assert/strict';
+import {completeQueuedWithdrawal} from './support/withdrawal';
 import {mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
@@ -11,7 +12,7 @@ const dirs:string[]=[];let sequence=0;
 beforeEach(async()=>{await closeV2Store();const dir=await mkdtemp(join(tmpdir(),'kiara-recovery-'));dirs.push(dir);process.env.KIARA_V2_DATA_DIR=dir;delete process.env.MONGODB_URI;process.env.KIARA_V2_AI_MODE='local';});
 after(async()=>{await closeV2Store();await Promise.all(dirs.map(d=>rm(d,{recursive:true,force:true})));});
 const actor=(id:string,roles:Role[]):ActorContext=>({tenantId:'recovery-test',actorId:id,mode:'local_demo',expiresAt:Date.now()+3600000,bootstrapRoles:roles});
-const send=async(a:ActorContext,c:WorkspaceCommand)=>command(a,{idempotencyKey:`recovery-${++sequence}`,expectedVersion:(await snapshot(a)).version,command:c});
+const send=async(a:ActorContext,c:WorkspaceCommand)=>{const result=await command(a,{idempotencyKey:`recovery-${++sequence}`,expectedVersion:(await snapshot(a)).version,command:c});if(c.type==='source.revoke'){await completeQueuedWithdrawal(a.tenantId,c.sourceId);return {...result,snapshot:await snapshot(a)};}return result;};
 const code=(value:string)=>(e:unknown)=>(e as {code:string}).code===value;
 async function setup(){const a=actor('owner',['member','business_owner','fact_owner','admin']),b=actor('peer',['member','business_owner']);await snapshot(b);const d=await send(a,{type:'document.add',title:'SECRET evidence title',body:'SECRET source contents',authority:'executed',kind:'agreement'});let r=await send(a,{type:'matter.create',title:'SECRET matter title',objective:'SECRET objective',scope:{kind:'team',actorIds:[]}});const m=r.snapshot.matters[0];const objective=await send(a,{type:'fact.propose',predicate:'business_objective',value:m.objective,practice:'planned'}),fact=objective.snapshot.facts.at(-1)!;await send(a,{type:'fact.confirm',factId:fact.id,expectedRecordVersion:fact.version,expectedOriginVersion:fact.originVersion});r=await send(a,{type:'matter.prepare',matterId:m.id,expectedRecordVersion:m.version});const p=r.snapshot.proposals[0];const planned=await send(a,{type:'action.plan',matterId:m.id,proposalId:p.id,kind:'send',title:'SECRET action',content:p.body,recipients:['hidden@example.test']});const action=planned.snapshot.actions[0];const timer=await send(a,{type:'effort.start',matterId:m.id,stage:'review'});await send(a,{type:'source.revoke',sourceId:String(d.result.sourceId),reason:'Removed'});return {a,b,m,action,timer:timer.snapshot.effortEntries![0]};}
 test('removed evidence has a minimal owner control view and another member cannot infer it',async()=>{

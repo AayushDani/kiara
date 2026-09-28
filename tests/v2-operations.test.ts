@@ -1,5 +1,6 @@
 import test,{beforeEach,after} from 'node:test';
 import assert from 'node:assert/strict';
+import {completeQueuedWithdrawal} from './support/withdrawal';
 import {mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
@@ -12,7 +13,7 @@ beforeEach(async()=>{await closeV2Store();const dir=await mkdtemp(join(tmpdir(),
 after(async()=>{await closeV2Store();await Promise.all(dirs.map(d=>rm(d,{recursive:true,force:true})));});
 const actor=(id:string,roles:Role[]):ActorContext=>({tenantId:'ops-test',actorId:id,mode:'local_demo',expiresAt:Date.now()+3600000,bootstrapRoles:roles});
 const owner=()=>actor('owner',['member','business_owner','fact_owner','admin']);const reviewer=()=>actor('reviewer',['member','legal_reviewer']);
-const send=async(a:ActorContext,c:WorkspaceCommand)=>command(a,{idempotencyKey:`ops-${++sequence}`,expectedVersion:(await snapshot(a)).version,command:c});
+const send=async(a:ActorContext,c:WorkspaceCommand)=>{const result=await command(a,{idempotencyKey:`ops-${++sequence}`,expectedVersion:(await snapshot(a)).version,command:c});if(c.type==='source.revoke'){await completeQueuedWithdrawal(a.tenantId,c.sourceId);return {...result,snapshot:await snapshot(a)};}return result;};
 const code=(value:string)=>(e:unknown)=>(e as {code:string}).code===value;
 async function setup(){const a=owner(),b=reviewer();await snapshot(b);const doc=await send(a,{type:'document.add',title:'Notice agreement',body:'Notice must arrive at least 30 days before the change.',authority:'executed',kind:'agreement'});const r=await send(a,{type:'matter.create',title:'Review planned change',objective:'Assess notice before changing the service',scope:{kind:'team',actorIds:[]}});return {a,b,m:r.snapshot.matters[0],sourceId:String(doc.result.sourceId)};}
 async function propose(){const v=await setup();const r=await send(v.a,{type:'obligation.propose',matterId:v.m.id,title:'Deliver contractual notice',ownerId:'owner',dueAt:'2020-01-01T17:00:00Z',deadlineType:'contractual',sourceId:v.sourceId,quote:'Notice must arrive at least 30 days before the change.',rationale:'Reviewer must confirm the exact event date and calendar basis.'});return {...v,o:r.snapshot.obligations![0]};}

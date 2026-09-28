@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {completeQueuedWithdrawal} from './support/withdrawal';
 import {applyCompanyMemoryCommand} from '../src/v2/company-memory';
 import {applyScopedPrecedentCommand,matchingPrecedents,matchingPrecedentsForMatter,precedentAvailable,precedentBasisHash,precedentTargetCurrent,precedentTargetView,scopedPrecedentView,type PrecedentState} from '../src/v2/scoped-precedents';
 import {digest,emptyWorkspace,timestamp,readWorkspace} from '../src/v2/store';
@@ -123,6 +124,7 @@ test('target command, snapshot match and source deletion remain bound across loc
   const set=await command(f.owner,{idempotencyKey:'target-context',expectedVersion:before.version,command:{type:'precedent.target.set',inspectedVersion:before.version,matterId:matter.id,expectedMatterVersion:matter.version,counterpartyEntityId:f.counterpartyId,jurisdiction:'California',transaction:'B2B SaaS subscription',asOfDate:'2026-09-27',productEntityIds:[f.productId],factIds:[]}});
   assert.equal(set.snapshot.precedentTargets[0].current,true);assert.equal(set.snapshot.matterPrecedentMatches.find(item=>item.matterId===matter.id)?.matches[0]?.matchStatus,'verified_target_suggestion');
   const removed=await command(f.owner,{idempotencyKey:'delete-precedent-source',expectedVersion:set.snapshot.version,command:{type:'source.revoke',sourceId:f.source.id,expectedRecordVersion:f.source.version,reason:'Synthetic source deletion test',delete:true}});
+  await completeQueuedWithdrawal(f.state.tenantId,f.source.id);
   assert.equal(removed.snapshot.matterPrecedentMatches.find(item=>item.matterId===matter.id)?.matches.length??0,0);assert.equal((await readWorkspace(f.state.tenantId)).precedentTargets?.[0].status,'superseded');
  }finally{if(priorDir===undefined)delete process.env.KIARA_V2_DATA_DIR;else process.env.KIARA_V2_DATA_DIR=priorDir;if(priorMongo===undefined)delete process.env.MONGODB_URI;else process.env.MONGODB_URI=priorMongo;await rm(dir,{recursive:true,force:true});}
 });

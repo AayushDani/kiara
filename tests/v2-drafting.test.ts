@@ -1,5 +1,6 @@
 import test,{beforeEach,afterEach} from 'node:test';
 import assert from 'node:assert/strict';
+import {completeQueuedWithdrawal} from './support/withdrawal';
 import {mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
@@ -19,7 +20,7 @@ afterEach(async()=>{await closeV2Store();for(const k of envKeys){if(old[k]===und
 const actor=():ActorContext=>({tenantId:'drafting-test',actorId:'alice',expiresAt:Date.now()+3600000,mode:'local_demo',bootstrapRoles:['member','fact_owner','business_owner','legal_reviewer','publisher','admin']});
 const until=()=>new Date(Date.now()+3600000).toISOString();
 const code=(name:string)=>(e:unknown)=>!!e&&typeof e==='object'&&'code'in e&&e.code===name;
-async function send(c:WorkspaceCommand,key=randomUUID()){const a=actor(),s=await snapshot(a);return command(a,{command:c,expectedVersion:s.version,idempotencyKey:key});}
+async function send(c:WorkspaceCommand,key=randomUUID()){const a=actor(),s=await snapshot(a),result=await command(a,{command:c,expectedVersion:s.version,idempotencyKey:key});if(c.type==='source.revoke'){await completeQueuedWithdrawal(a.tenantId,c.sourceId);return {...result,snapshot:await snapshot(a)};}return result;}
 async function setup(authority:'template'|'draft'|'executed'='template',body='Agreement with {{counterparty}}. Confidentiality continues for {{years}} years.'){
  const added=await send({type:'document.add',title:'Controlled NDA',body,authority,kind:authority==='template'?'template':'agreement'}),d=added.snapshot.documents.at(-1)!;
  const cr=await send({type:'conversation.create',title:'Prepare NDA',scope:{kind:'team',actorIds:[]}}),c=cr.snapshot.conversations.at(-1)!;

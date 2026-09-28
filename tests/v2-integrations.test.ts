@@ -16,6 +16,7 @@ import {providerRequest,readDriveFile,readGitHubPullRequest,readSlackThread,type
 import {dispatchOutbox,matterWorkflowId,temporalConfig} from '../src/v2/orchestration/temporal';
 import {reconcileReference} from '../src/v2/orchestration/activities';
 import {processConversationReference,processLocalOutboxOnce} from '../src/v2/orchestration/conversations';
+import {processWithdrawalReference} from '../src/v2/orchestration/withdrawal';
 import type {Action,ActorContext,Matter,OutboxEntry,WorkspaceCommand} from '../src/v2/contracts';
 const github:Installation={id:'github-1',provider:'github',tenantId:'tenant-a',actorId:'integration',enabled:true,tokenEnv:'TEST_PROVIDER_TOKEN',webhookSecretEnv:'TEST_WEBHOOK_SECRET',resources:['acme/product'],scope:{kind:'team',actorIds:[]},providerInstallationId:'777'};
 const slack:Installation={...github,id:'slack-1',provider:'slack',slackTeamId:'T1',resources:['C1']};
@@ -26,6 +27,7 @@ function pr(repo='acme/product'){return {installation:{id:777},repository:{full_
 function signedSlack(p:unknown,ts=String(Math.floor(Date.now()/1000))){const raw=Buffer.from(JSON.stringify(p)),headers=new Headers({'x-slack-request-timestamp':ts,'x-slack-signature':`v0=${createHmac('sha256','synthetic-secret').update(`v0:${ts}:`).update(raw).digest('hex')}`});return {raw,headers};}
 const json=(v:unknown)=>new Response(JSON.stringify(v),{headers:{'content-type':'application/json'}});
 const execFileAsync=promisify(execFile);
+async function flushWithdrawals(){for(let turn=0;turn<100;turn++){const s=await readWorkspace('tenant-a'),pending=Object.entries(s.receipts).filter(([key,receipt])=>key.startsWith('source-withdrawal-progress:')&&receipt.result.status==='pending');if(!pending.length)return;for(const [,receipt] of pending){const sourceId=String(receipt.result.sourceId),outbox=s.outbox.find(item=>item.kind==='source_withdrawal'&&item.aggregateId===sourceId&&item.status==='pending');assert.ok(outbox);await processWithdrawalReference({tenantId:'tenant-a',aggregateId:sourceId,outboxId:outbox.id});}}throw Error('Synthetic withdrawal did not finish within bounded test turns.');}
 
 test('installation configuration is unavailable when absent, revoked or missing referenced credentials',()=>isolated(async()=>{
  delete process.env.KIARA_V2_INSTALLATIONS;await assert.rejects(resolveInstallation('github-1'),{code:'CONNECTION_UNAVAILABLE'});process.env.KIARA_V2_INSTALLATIONS=JSON.stringify([{...github,enabled:false}]);await assert.rejects(resolveInstallation('github-1'),{code:'CONNECTION_UNAVAILABLE'});delete process.env.TEST_WEBHOOK_SECRET;const {raw,headers}=signedGitHub(pr());assert.throws(()=>verifyWebhook(github,headers,raw),{code:'CONNECTION_UNAVAILABLE'});
@@ -46,6 +48,7 @@ test('older backup cannot restore withdrawn provider text or invalidated approva
  });
  const backup=await backupWorkspace('tenant-a');
  await ingestProviderObject(github,'restore-withdrawal',{objectId:'acme/product:pull:7',revision:'withdrawn',title:'Withdrawn PR',text:'',url:null,occurredAt:now,removed:true});
+ await flushWithdrawals();
  const current=await readWorkspace('tenant-a'),owner:ActorContext={tenantId:'tenant-a',actorId:'owner',mode:'authenticated',expiresAt:Date.now()+10000};
  assert.equal(digest(current.events),digest(backup.state.events));
  assert.equal(current.sources[0].status,'revoked');assert.equal(canRead(current,owner,current.sources[0]),false);
@@ -75,6 +78,7 @@ test('signed provider deletion leaves one private owner-visible corrective task 
  });
  const deletion=signedSlack({type:'event_callback',team_id:'T1',event_id:'deleted-message',event:{type:'message',channel:'C1',subtype:'message_deleted',deleted_ts:'1750000000.100'}});
  await acceptWebhook(slack.id,deletion.headers,deletion.raw);
+ await flushWithdrawals();
  const state=await readWorkspace('tenant-a'),corrections=state.matters.filter(item=>item.id!==matterId),correction=corrections[0];
  assert.equal(corrections.length,1);assert.equal(correction.ownerId,'owner');assert.deepEqual(correction.scope,{kind:'private',actorIds:['owner']});
  assert.deepEqual(correction.provenance.sourceIds,[]);assert.deepEqual(correction.sourceIds,[]);assert.deepEqual(correction.tasks[0].evidenceIds,[]);
@@ -98,6 +102,7 @@ test('signed provider deletion leaves one private owner-visible corrective task 
  const current=(await readWorkspace('tenant-a')).sources.find(item=>item.id===sourceId)!;
  const operator:ActorContext={...owner,actorId:'operator'};
  await command(operator,{idempotencyKey:randomUUID(),expectedVersion:(await snapshot(operator)).version,command:{type:'source.revoke',sourceId,expectedRecordVersion:current.version,reason:'Delete retained source',delete:true}});
+ await flushWithdrawals();
  const afterDelete=await readWorkspace('tenant-a');assert.equal(afterDelete.matters.filter(item=>item.id!==matterId).length,1);assert.ok(afterDelete.outbox.some(item=>item.aggregateId===correction.id&&item.status==='pending'));assert.ok((await snapshot(owner)).attention.items.some(item=>item.matterId===correction.id));
 }));
 test('direct source deletion creates safe admin corrective work when the former owner is revoked, including closed work without a proposal',()=>isolated(async()=>{
@@ -107,7 +112,7 @@ test('direct source deletion creates safe admin corrective work when the former 
  const created=await send(owner,{type:'matter.create',title:'PRIVATE_CLOSED_CANARY',objective:'PRIVATE_OBJECTIVE_CANARY'}),matterId=String(created.result.matterId);
  await transactWorkspace('tenant-a',s=>{const matter=s.matters.find(item=>item.id===matterId)!;matter.sourceIds=[sourceId];matter.provenance.sourceIds=[sourceId];matter.state='closed';matter.closedAt=new Date().toISOString();matter.outcome='Historical completion';matter.proposalId=null;s.memberships.find(item=>item.actorId==='owner')!.revokedAt=new Date().toISOString();s.memberships.push({actorId:'operator',roles:['member','admin'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null});s.memberships.push({actorId:'candidate',roles:['member','business_owner'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null});s.memberships.push({actorId:'unrelated',roles:['member'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null});});
  const operator:ActorContext={...owner,actorId:'operator'},deleted=await send(operator,{type:'source.revoke',sourceId,reason:'Remove the private source',delete:true});
- assert.equal(deleted.result.corrective,1);
+ assert.equal(deleted.result.corrective,0);await flushWithdrawals();
  const state=await readWorkspace('tenant-a'),correction=state.matters.find(item=>item.id!==matterId)!;
  assert.equal(correction.ownerId,'operator');assert.deepEqual(correction.scope,{kind:'private',actorIds:['operator']});assert.equal(correction.tasks[0].status,'pending');
  assert.equal(correction.tasks[0].kind,'verification');assert.deepEqual(correction.provenance.sourceIds,[]);
@@ -141,6 +146,7 @@ test('direct source deletion creates safe admin corrective work when the former 
  assert.equal((await snapshot(operator)).withdrawalExceptions.some(item=>item.reviewRef===ref),false);
  await transactWorkspace('tenant-a',s=>{const member=s.memberships.find(item=>item.actorId==='candidate')!;member.roles.push('admin');member.version++;});
  await send(candidate,{type:'source.revoke',sourceId:evidence.id,reason:'The independent review record was later withdrawn'});
+ await flushWithdrawals();
  const later=await snapshot(candidate);
  assert.equal(later.matters.some(item=>item.id===correction.id),false,'revoked completion evidence hides the former correction');
  assert.ok(later.matters.some(item=>item.id!==matterId&&item.id!==correction.id),'later evidence loss creates new corrective work');
@@ -152,7 +158,7 @@ test('source withdrawal assigns corrective work to a sign-in-capable administrat
  const created=await send(owner,{type:'matter.create',title:'Synthetic source-dependent work',objective:'Review current evidence'}),matterId=String(created.result.matterId);
  await transactWorkspace('tenant-a',s=>{const matter=s.matters.find(item=>item.id===matterId)!;matter.sourceIds=[sourceId];matter.provenance.sourceIds=[sourceId];s.memberships.find(item=>item.actorId==='owner')!.roles=['business_owner'];s.memberships.push({actorId:'operator',roles:['member','admin'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null});});
  const operator:ActorContext={...owner,actorId:'operator'},deleted=await send(operator,{type:'source.revoke',sourceId,reason:'Withdraw synthetic evidence'});
- assert.equal(deleted.result.corrective,1);
+ assert.equal(deleted.result.corrective,0);await flushWithdrawals();
  const state=await readWorkspace('tenant-a'),correction=state.matters.find(item=>item.id!==matterId)!;
  assert.equal(correction.ownerId,'operator');assert.equal(correction.tasks[0].kind,'verification');
  assert.ok((await snapshot(operator)).attention.items.some(item=>item.matterId===correction.id));
@@ -164,7 +170,7 @@ test('qualified operator reviews an exact retained readback before a new owner c
  const matterId=String((await send(owner,{type:'matter.create',title:'PRIVATE_MATTER_CANARY',objective:'Review historical work'})).result.matterId);
  await transactWorkspace('tenant-a',s=>{const m=s.matters.find(item=>item.id===matterId)!,now=new Date().toISOString();m.sourceIds=[sourceId];m.provenance.sourceIds=[sourceId];s.actions.push({id:'verified-original-effect',tenantId:s.tenantId,version:1,createdAt:now,updatedAt:now,scope:structuredClone(m.scope),provenance:{actorId:'owner',sourceIds:[sourceId],description:'Historical submitted effect'},matterId,proposalId:'historical',kind:'send',title:'PRIVATE_EFFECT_CANARY',content:'PRIVATE_VERIFIED_EFFECT_CANARY',contentHash:digest('PRIVATE_VERIFIED_EFFECT_CANARY'),recipients:[],destination:null,status:'verified',authorizationId:null,providerIdempotencyKey:'verified-original-effect',providerReceipt:'retained-receipt',completion:{kind:'readback',artifact:'retained-receipt',verifierId:'adapter:synthetic',verifiedAt:now},executionOwner:'v2',leaseUntil:null});s.receipts['execution:verified-original-effect']={hash:'retained-intent',result:{intent:{actionId:'verified-original-effect',actionHash:digest('PRIVATE_VERIFIED_EFFECT_CANARY'),adapterId:'synthetic',status:'verified',providerReceipt:'retained-receipt',completionArtifact:'retained-receipt',redactedAt:null}}};s.memberships.find(item=>item.actorId==='owner')!.revokedAt=now;s.memberships.push({actorId:'operator',roles:['member','admin'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null});s.memberships.push({actorId:'new-owner',roles:['member','business_owner'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null});});
  const operator:ActorContext={...owner,actorId:'operator'},withdrawn=await send(operator,{type:'source.revoke',sourceId,reason:'Withdraw historical evidence'});
- assert.equal(withdrawn.result.corrective,1);
+ assert.equal(withdrawn.result.corrective,0);await flushWithdrawals();
  const exception=(await snapshot(operator)).withdrawalExceptions[0],correction=(await readWorkspace('tenant-a')).matters.find(item=>item.id!==matterId)!;
  await send(operator,{type:'source.correction.assign',reviewRef:exception.reviewRef,ownerId:'new-owner',expectedRecordVersion:correction.version});
  const candidate:ActorContext={...owner,actorId:'new-owner'},current=await snapshot(candidate);
@@ -229,6 +235,7 @@ test('provider withdrawal commits a durable unresolved exception when no current
  const before=await snapshot(owner);await send({type:'event.link_matter',matterId,expectedMatterVersion:before.matters[0].version,sourceId,expectedSourceVersion:before.sources[0].version});
  await transactWorkspace('tenant-a',s=>{s.memberships.find(item=>item.actorId==='owner')!.revokedAt=new Date().toISOString();s.memberships.push({actorId:'restricted-operator',roles:['member','admin'],version:1,expiresAt:null,revokedAt:null,matterIds:['unrelated-matter'],entityIds:null});});
  await ingestProviderObject(slack,'owner-loss-removal',{objectId:'C1:message:1750000000.120',revision:'removed',title:'Removed',text:'',url:null,occurredAt:new Date().toISOString(),removed:true});
+ await flushWithdrawals();
  const state=await readWorkspace('tenant-a');assert.equal(state.sources.find(item=>item.id===sourceId)?.status,'revoked');assert.equal(state.matters.length,1);
  const exception=Object.entries(state.receipts).find(([key,receipt])=>key.startsWith('source-withdrawal:')&&receipt.result.status==='owner_unavailable');
  assert.ok(exception,'an operator can find the exact unresolved exception after a qualified admin is provisioned');
@@ -263,6 +270,7 @@ test('withdrawal identifies a matter reached only through a confirmed fact sourc
  const created=await send({type:'matter.create',title:'Work from a fact',objective:'Review the planned change'}),matterId=String(created.result.matterId);
  await transactWorkspace('tenant-a',s=>{const matter=s.matters.find(item=>item.id===matterId)!;matter.factIds=[fact.id];matter.provenance.factIds=[fact.id];assert.deepEqual(matter.sourceIds,[]);assert.deepEqual(matter.provenance.sourceIds,[]);});
  await send({type:'source.revoke',sourceId,reason:'Remove factual evidence'});
+ await flushWithdrawals();
  const state=await readWorkspace('tenant-a'),correction=state.matters.find(item=>item.id!==matterId)!;
  assert.ok(correction);assert.equal(correction.ownerId,'owner');assert.deepEqual(correction.provenance.sourceIds,[]);
  assert.ok((await snapshot(owner)).attention.items.some(item=>item.matterId===correction.id));

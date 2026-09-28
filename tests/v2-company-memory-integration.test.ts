@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {completeQueuedWithdrawal} from './support/withdrawal';
 import {mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
@@ -15,7 +16,7 @@ test('declared subjects flow through commands, scoped facts, retrieval, normaliz
  const dir=await mkdtemp(join(tmpdir(),'kiara-memory-integration-'));
  process.env.KIARA_V2_DATA_DIR=dir;process.env.MONGODB_URI='';process.env.KIARA_V2_AI_MODE='local';
  const a:ActorContext={tenantId:`memory-integration-${randomUUID()}`,actorId:'owner',mode:'local_demo',expiresAt:Date.now()+3600000,bootstrapRoles:['member','fact_owner','business_owner','admin']};
- const send=async(c:WorkspaceCommand)=>command(a,{idempotencyKey:randomUUID(),expectedVersion:(await snapshot(a)).version,command:c});
+ const send=async(c:WorkspaceCommand)=>{const result=await command(a,{idempotencyKey:randomUUID(),expectedVersion:(await snapshot(a)).version,command:c});if(c.type==='source.revoke'){await completeQueuedWithdrawal(a.tenantId,c.sourceId);return {...result,snapshot:await snapshot(a)};}return result;};
  const team={kind:'team' as const,actorIds:[]};
  try{
   const product=(await send({type:'memory.entity.declare',kind:'product',name:'Support assistant',aliases:[],ownerId:a.actorId,scope:team})).snapshot.companyMemory.entities[0];

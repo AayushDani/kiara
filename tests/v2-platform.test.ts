@@ -1,5 +1,6 @@
 import test,{beforeEach,afterEach} from 'node:test';
 import assert from 'node:assert/strict';
+import {completeQueuedWithdrawal} from './support/withdrawal';
 import {mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
@@ -14,7 +15,7 @@ beforeEach(async()=>{dir=await mkdtemp(join(tmpdir(),'kiara-v2-test-'));process.
 afterEach(async()=>{await closeV2Store();for(const [key,value] of Object.entries({KIARA_V2_DATA_DIR:old.dir,MONGODB_URI:old.mongo,VERCEL:old.vercel,KIARA_V2_INSTALLATIONS:old.installations,KIARA_V2_AI_MODE:old.aiMode})){if(value===undefined)delete process.env[key];else process.env[key]=value;}await rm(dir,{recursive:true,force:true});});
 const all:Role[]=['member','fact_owner','business_owner','legal_reviewer','publisher','signatory','admin','evaluator','integration'];
 const actor=(id='alice',roles:Role[]=all,tenant='tenant-a'):ActorContext=>({tenantId:tenant,actorId:id,expiresAt:Date.now()+3600000,mode:'local_demo',bootstrapRoles:roles});
-async function send(a:ActorContext,c:WorkspaceCommand,key=randomUUID()){const current=await snapshot(a);return command(a,{idempotencyKey:key,expectedVersion:current.version,command:c});}
+async function send(a:ActorContext,c:WorkspaceCommand,key=randomUUID()){const current=await snapshot(a),result=await command(a,{idempotencyKey:key,expectedVersion:current.version,command:c});if(c.type==='source.revoke'){await completeQueuedWithdrawal(a.tenantId,c.sourceId);return {...result,snapshot:await snapshot(a)};}return result;}
 const expires=()=>new Date(Date.now()+3600000).toISOString();
 const code=(name:string)=>(e:unknown)=>!!e&&typeof e==='object'&&'code'in e&&e.code===name;
 async function prepare(a=actor()){

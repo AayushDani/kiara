@@ -1,5 +1,6 @@
 import test,{beforeEach,after} from 'node:test';
 import assert from 'node:assert/strict';
+import {completeQueuedWithdrawal} from './support/withdrawal';
 import {mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
@@ -16,7 +17,7 @@ const dirs:string[]=[];let sequence=0;
 beforeEach(async()=>{await closeV2Store();const dir=await mkdtemp(join(tmpdir(),'kiara-retention-'));dirs.push(dir);process.env.KIARA_V2_DATA_DIR=dir;process.env.KIARA_ORIGINALS_DIR=join(dir,'originals');delete process.env.MONGODB_URI;delete process.env.KIARA_ORIGINALS_MODE;process.env.KIARA_V2_AI_MODE='local';});
 after(async()=>{await closeV2Store();delete process.env.KIARA_ORIGINALS_DIR;await Promise.all(dirs.map(d=>rm(d,{recursive:true,force:true})));});
 const owner=():ActorContext=>({tenantId:'retention-test',actorId:'owner',mode:'local_demo',expiresAt:Date.now()+3600000,bootstrapRoles:['member','business_owner','fact_owner','admin']});
-const send=async(a:ActorContext,c:WorkspaceCommand,trusted?:{originalObjectRef?:string})=>command(a,{idempotencyKey:`retention-${++sequence}`,expectedVersion:(await snapshot(a)).version,command:c},trusted);
+const send=async(a:ActorContext,c:WorkspaceCommand,trusted?:{originalObjectRef?:string})=>{const result=await command(a,{idempotencyKey:`retention-${++sequence}`,expectedVersion:(await snapshot(a)).version,command:c},trusted);if(c.type==='source.revoke'){await completeQueuedWithdrawal(a.tenantId,c.sourceId);return {...result,snapshot:await snapshot(a)};}return result;};
 const code=(value:string)=>(e:unknown)=>(e as {code:string}).code===value;
 test('revocation during original retention leaves a tracked cleanup receipt and cannot attach the bytes',async()=>{
  const issuer='https://issuer.example.test',subject='retention-subject',saved={source:process.env.KIARA_OIDC_IDENTITY_SOURCE,issuer:process.env.KIARA_OIDC_ISSUER,identities:process.env.KIARA_OIDC_IDENTITIES};

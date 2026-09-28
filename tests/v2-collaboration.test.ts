@@ -1,5 +1,6 @@
 import test,{beforeEach,after} from 'node:test';
 import assert from 'node:assert/strict';
+import {completeQueuedWithdrawal} from './support/withdrawal';
 import {mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
@@ -18,7 +19,7 @@ const engineer=()=>actor('engineer',['member','fact_owner']);
 const other=()=>actor('other',['member']);
 const future=()=>new Date(Date.now()+86400000).toISOString();
 let sequence=0;
-const send=async(a:ActorContext,change:WorkspaceCommand)=>command(a,{idempotencyKey:`collaboration-${++sequence}`,expectedVersion:(await snapshot(a)).version,command:change});
+const send=async(a:ActorContext,change:WorkspaceCommand)=>{const result=await command(a,{idempotencyKey:`collaboration-${++sequence}`,expectedVersion:(await snapshot(a)).version,command:change});if(change.type==='source.revoke'){await completeQueuedWithdrawal(a.tenantId,change.sourceId);return {...result,snapshot:await snapshot(a)};}return result;};
 const code=(expected:string)=>(failure:unknown)=>(failure as {code:string}).code===expected;
 async function scenario(){const a=owner(),b=engineer();await snapshot(b);const conversation=await send(a,{type:'conversation.create',title:'PRIVATE CONVERSATION HISTORY',scope:{kind:'private',actorIds:['owner']}});const conversationId=String(conversation.result.conversationId);const created=await send(a,{type:'message.send',conversationId,text:'What if PRIVATE SECRET ASSUMPTION stays internal?'});const original=created.snapshot.scenarios[0];const edited=await send(a,{type:'scenario.update',scenarioId:original.id,expectedRecordVersion:original.version,assumptions:['PRIVATE SECRET ASSUMPTION','Selected hypothetical: synthetic test data only']});return {a,b,conversationId,scenario:edited.snapshot.scenarios[0]}}
 async function shared(){const state=await scenario();const r=await send(state.a,{type:'scenario.share',scenarioId:state.scenario.id,expectedRecordVersion:state.scenario.version,title:'Selected test scenario',assumptionIndexes:[1],includeQuestions:false,recipientActorIds:['engineer'],validUntil:future()});return {...state,share:r.snapshot.sharedScenarios[0]}}

@@ -1,7 +1,7 @@
 import {randomUUID} from 'node:crypto';
 import {canRead,membership,readRecord,scopeVisible} from './authority';
 import {V2Error,type Action,type ActorContext,type Matter, type Membership, type Proposal, type RecordBase, type Source, type WorkspaceState} from './contracts';
-import {digest,timestamp} from './store';
+import {digest,readWorkspace,timestamp} from './store';
 import {sourceDependencyHash} from './tasks';
 import {currentEvidenceLineage} from './source-lifecycle';
 import {withinConversationAudience} from './retrieval';
@@ -105,8 +105,8 @@ function proposalAffected(s:WorkspaceState,proposal:Proposal,sourceId:string){
 }
 
 /** Revocation removes future authority but does not rewrite submitted or completed effects. */
-export function invalidateSourceWithdrawalDecisions(s:WorkspaceState,source:Source){
- for(const proposal of s.proposals.filter(item=>proposalAffected(s,item,source.id))){
+export function invalidateSourceWithdrawalDecisions(s:WorkspaceState,source:Source,matterIds?:Set<string>,proposalIds?:Set<string>){
+ for(const proposal of s.proposals.filter(item=>(!matterIds||matterIds.has(item.matterId))&&(proposalIds?proposalIds.has(item.id):proposalAffected(s,item,source.id)))){
   if(proposal.status==='current'){proposal.status='invalidated';proposal.version++;proposal.updatedAt=timestamp();}
   for(const approval of s.approvals.filter(item=>item.proposalId===proposal.id&&item.status==='active')){approval.status='invalidated';approval.version++;approval.updatedAt=timestamp();}
   for(const action of s.actions.filter(item=>item.proposalId===proposal.id&&['planned','authorized','pending_manual'].includes(item.status))){
@@ -139,11 +139,68 @@ export function pendingSourceWithdrawalMatters(s:WorkspaceState,source:Source):n
  return s.matters.filter(matter=>affected(s,matter,source.id)&&!s.receipts[withdrawalKey(matter.id,source.id)]).length;
 }
 
+const directProgressKey=(sourceId:string)=>`source-withdrawal-progress:${sourceId}`;
+const directBatchLimit=20;
+interface DirectWithdrawalProgress {sourceId:string;sourceVersion:number;actorId:string;kind:'manual'|'provider';status:'pending'|'complete';pendingMatterIds:string[];pendingProposalIds:string[];deleteRequested:boolean;deletionApplied:boolean;startedAt:string;updatedAt:string}
+
+/** Freeze the dependency closure before source deletion can redact its links. No content is copied. */
+export function captureSourceWithdrawal(s:WorkspaceState,source:Source,actorId:string,kind:DirectWithdrawalProgress['kind'],deleteRequested=false){
+ const prior=s.receipts[directProgressKey(source.id)]?.result as unknown as DirectWithdrawalProgress|undefined;
+ if(prior){
+  if(deleteRequested&&!prior.deleteRequested){
+   prior.deleteRequested=true;prior.deletionApplied=false;prior.status='pending';prior.updatedAt=timestamp();
+   for(const item of s.outbox)if(item.kind==='source_withdrawal'&&item.aggregateId===source.id&&item.owner==='v2'&&item.status==='pending')item.status='canceled';
+   s.outbox.push({id:randomUUID(),tenantId:s.tenantId,kind:'source_withdrawal',aggregateId:source.id,commandId:source.id,status:'pending',owner:'v2',createdAt:prior.updatedAt});
+  }
+  return {sourceId:source.id,remaining:prior.pendingMatterIds.length,queued:prior.status==='pending'};
+ }
+ const pendingMatterIds=s.matters.filter(matter=>affected(s,matter,source.id)&&!s.receipts[withdrawalKey(matter.id,source.id)]).map(matter=>matter.id);
+ const pendingProposalIds=s.proposals.filter(proposal=>proposalAffected(s,proposal,source.id)).map(proposal=>proposal.id);
+ const now=timestamp(),progress:DirectWithdrawalProgress={sourceId:source.id,sourceVersion:source.version,actorId,kind,status:pendingMatterIds.length||pendingProposalIds.length||deleteRequested?'pending':'complete',pendingMatterIds,pendingProposalIds,deleteRequested,deletionApplied:false,startedAt:now,updatedAt:now};
+ s.receipts[directProgressKey(source.id)]={hash:digest({sourceId:source.id,sourceVersion:source.version,kind,deleteRequested}),result:progress as unknown as Record<string,unknown>};
+ if(progress.status==='pending')s.outbox.push({id:randomUUID(),tenantId:s.tenantId,kind:'source_withdrawal',aggregateId:source.id,commandId:source.id,status:'pending',owner:'v2',createdAt:now});
+ return {sourceId:source.id,remaining:pendingMatterIds.length,queued:progress.status==='pending'};
+}
+
+/** Receipt-held matter IDs survive deletion redaction and are consumed exactly once. */
+export function resumeSourceWithdrawalInState(s:WorkspaceState,maxMatters=directBatchLimit,sourceIds?:Set<string>){
+ let processed=0,corrective=0;
+ for(const [key,receipt] of Object.entries(s.receipts)){
+  if(!key.startsWith('source-withdrawal-progress:')||processed>=maxMatters)continue;
+  const progress=receipt.result as unknown as DirectWithdrawalProgress;
+  if(progress.status!=='pending'||sourceIds&&!sourceIds.has(progress.sourceId))continue;
+  const source=s.sources.find(item=>item.id===progress.sourceId);
+  if(!source||!['revoked','deleted'].includes(source.status))throw new Error('A pending source withdrawal has no committed access fence.');
+  if(progress.deleteRequested&&!progress.deletionApplied)continue;
+  const selected=progress.pendingMatterIds.slice(0,maxMatters-processed);
+  if(selected.some(id=>!s.matters.some(matter=>matter.id===id)))throw new V2Error('WITHDRAWAL_MATTER_MISSING','A captured affected matter is unavailable; keep the correction pending.',503);
+  corrective+=retainSourceWithdrawalWork(s,source,progress.actorId,{matterIds:selected,retryUnavailable:false});
+  processed+=selected.length;progress.pendingMatterIds=progress.pendingMatterIds.slice(selected.length);
+  const proposals=progress.pendingProposalIds.slice(0,maxMatters-processed);
+  if(proposals.length)invalidateSourceWithdrawalDecisions(s,source,undefined,new Set(proposals));
+  processed+=proposals.length;progress.pendingProposalIds=progress.pendingProposalIds.slice(proposals.length);
+  progress.status=progress.pendingMatterIds.length||progress.pendingProposalIds.length||progress.deleteRequested&&!progress.deletionApplied?'pending':'complete';progress.updatedAt=timestamp();
+ }
+ return {processedMatters:processed,correctiveMatters:corrective,remaining:Object.entries(s.receipts).filter(([key,receipt])=>key.startsWith('source-withdrawal-progress:')&&receipt.result.status==='pending'&&(!sourceIds||sourceIds.has(String(receipt.result.sourceId)))).reduce((sum,[,receipt])=>sum+(receipt.result.pendingMatterIds as string[]).length,0)};
+}
+
+export function pendingSourceWithdrawalSummary(s:WorkspaceState){return Object.entries(s.receipts).filter(([key,receipt])=>key.startsWith('source-withdrawal-progress:')&&receipt.result.status==='pending').map(([,receipt])=>({sourceId:String(receipt.result.sourceId),remaining:(receipt.result.pendingMatterIds as string[]).length,deletionPending:!!receipt.result.deleteRequested&&!receipt.result.deletionApplied}));}
+
+/** Operator continuation when no workspace is being refreshed; never contacts a provider. */
+export async function resumeSourceWithdrawal(tenantId:string,sourceId:string){
+ if(!sourceId||sourceId.length>200)throw new V2Error('SOURCE_REQUIRED','Inspect the exact pending withdrawal source ID.',400);
+ const s=await readWorkspace(tenantId);
+ if(s.receipts[directProgressKey(sourceId)]?.result.status!=='pending')throw new V2Error('WITHDRAWAL_NOT_PENDING','This source has no pending corrective work.',409);
+ const outbox=s.outbox.filter(item=>item.kind==='source_withdrawal'&&item.aggregateId===sourceId&&item.owner==='v2'&&item.status!=='canceled').at(-1);
+ if(!outbox)throw new V2Error('OUTBOX_NOT_FOUND','The source withdrawal reference is unavailable.',404);
+ return (await import('./orchestration/withdrawal')).processWithdrawalReference({tenantId,aggregateId:sourceId,outboxId:outbox.id});
+}
+
 /** Called before the source changes status, inside the same workspace transaction. */
-export function retainSourceWithdrawalWork(s:WorkspaceState,source:Source,actorId:string,options:{maxMatters?:number;retryUnavailable?:boolean;onlyReviewRef?:string}={}):number {
+export function retainSourceWithdrawalWork(s:WorkspaceState,source:Source,actorId:string,options:{maxMatters?:number;retryUnavailable?:boolean;onlyReviewRef?:string;matterIds?:string[]}={}):number {
  const matters=s.matters.filter(matter=>{
   const prior=s.receipts[withdrawalKey(matter.id,source.id)];
-  return options.onlyReviewRef?prior?.result.status==='owner_unavailable'&&prior.result.reviewRef===options.onlyReviewRef:affected(s,matter,source.id);
+  return options.onlyReviewRef?prior?.result.status==='owner_unavailable'&&prior.result.reviewRef===options.onlyReviewRef:options.matterIds?options.matterIds.includes(matter.id):affected(s,matter,source.id);
  });
  let created=0,attempted=0;
  for(const matter of matters){

@@ -4,7 +4,7 @@ import {requireRole} from '../authority';
 import {command} from '../service';
 import {digest,readWorkspace,timestamp,transactWorkspace} from '../store';
 import {withdrawSourceObservation,withdrawProviderObject} from '../source-lifecycle';
-import {invalidateSourceWithdrawalDecisions,retainSourceWithdrawalWork} from '../source-corrective';
+import {captureSourceWithdrawal} from '../source-corrective';
 import {credential,installationActor,requireResource,resolveInstallation,type Installation} from './config';
 import {githubPullText,providerJson,readDriveFile,type ProviderFetch,type ProviderObject} from './read';
 import {continueSlackThread} from './slack';
@@ -22,7 +22,17 @@ export function verifyWebhook(i:Installation,headers:Headers,raw:Uint8Array,now=
 async function assertInstallation(i:Installation){const state=await readWorkspace(i.tenantId);requireRole(state,installationActor(i),'integration');return state;}
 function scopedId(i:Installation,id:string){return `${i.id}:${id}`;}
 async function revokeObject(i:Installation,objectId:string,revision:string,withdraw=true){
- return transactWorkspace(i.tenantId,s=>{requireRole(s,installationActor(i),'integration');if(withdraw)withdrawProviderObject(s,{kind:i.provider,externalId:scopedId(i,objectId),installationGrant:installationActor(i).installationGrant});let revoked=0,corrective=0;for(const source of s.sources.filter(x=>x.kind===i.provider&&x.externalId===scopedId(i,objectId)&&x.status!=='deleted')){corrective+=retainSourceWithdrawalWork(s,source,installationActor(i).actorId);if(source.status!=='active')continue;if(withdraw)withdrawSourceObservation(s,source);source.status='revoked';source.aclVersion++;source.version++;source.updatedAt=timestamp();revoked++;invalidateSourceWithdrawalDecisions(s,source);}const key=`integration:revoked:${digest({installation:i.id,objectId,revision})}`;s.receipts[key]={hash:digest({objectId,revision}),result:{revoked,corrective}};return {revoked,corrective};});
+ return transactWorkspace(i.tenantId,s=>{
+  requireRole(s,installationActor(i),'integration');
+  const sources=s.sources.filter(x=>x.kind===i.provider&&x.externalId===scopedId(i,objectId)&&x.status!=='deleted');
+  for(const source of sources)captureSourceWithdrawal(s,source,installationActor(i).actorId,'provider');
+  if(withdraw)withdrawProviderObject(s,{kind:i.provider,externalId:scopedId(i,objectId),installationGrant:installationActor(i).installationGrant});
+  let revoked=0;for(const source of sources){if(source.status!=='active')continue;if(withdraw)withdrawSourceObservation(s,source);source.status='revoked';source.aclVersion++;source.version++;source.updatedAt=timestamp();revoked++;}
+  const remainingCorrectiveMatters=sources.reduce((sum,source)=>sum+Number((s.receipts[`source-withdrawal-progress:${source.id}`]?.result.pendingMatterIds as string[]|undefined)?.length||0),0);
+  const correctionStatus=sources.some(source=>s.receipts[`source-withdrawal-progress:${source.id}`]?.result.status==='pending')?'queued':'complete';
+  const key=`integration:revoked:${digest({installation:i.id,objectId,revision})}`;s.receipts[key]={hash:digest({objectId,revision}),result:{revoked,corrective:0,remainingCorrectiveMatters,correctionStatus}};
+  return {revoked,corrective:0,remainingCorrectiveMatters,correctionStatus};
+ });
 }
 async function revokeSlackThreadSnapshots(i:Installation,channel:string,messageTs:string,revision:string,latest?:{thread_ts?:string;ts:string;text:string;user?:string;edited?:{ts?:string}}){
  const state=await readWorkspace(i.tenantId),prefix=`${i.id}:${channel}:thread:`;

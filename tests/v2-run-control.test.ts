@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {completeQueuedWithdrawal} from './support/withdrawal';
 import {randomUUID} from 'node:crypto';
 import {mkdtemp,rm,readFile,writeFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -12,7 +13,7 @@ import {globalSpendStatus,reserveGlobalSpend} from '../src/server/global-spend';
 import type {ActorContext,WorkspaceCommand} from '../src/v2/contracts';
 const a:ActorContext={tenantId:'run-cancellation',actorId:'owner',mode:'local_demo',expiresAt:Date.now()+3600000,bootstrapRoles:['member','admin','business_owner','fact_owner']};
 async function isolated(run:()=>Promise<void>){const env={...process.env},native=globalThis.fetch,dir=await mkdtemp(join(tmpdir(),'kiara-run-control-'));await closeV2Store();for(const key of Object.keys(process.env))if(/^(KIARA|MONGO|OPENAI|RESEND|TEMPORAL|VERCEL)/.test(key))delete process.env[key];Object.assign(process.env,{KIARA_V2_DATA_DIR:join(dir,'workspace'),KIARA_GLOBAL_BUDGET_DIR:join(dir,'spend'),KIARA_V2_AI_MODE:'openai',OPENAI_API_KEY:'injected-never-live',KIARA_OPENAI_BUDGET_USD:'1',KIARA_MODEL:'gpt-6-sol',KIARA_REVIEW_MODEL:'gpt-6-sol',KIARA_REASONING_EFFORT:'low'});globalThis.fetch=async()=>{throw Error('No live model calls');};try{await run();}finally{await closeV2Store();globalThis.fetch=native;for(const k of Object.keys(process.env))if(!(k in env))delete process.env[k];Object.assign(process.env,env);await rm(dir,{recursive:true,force:true});}}
-async function send(c:WorkspaceCommand,actor=a){return command(actor,{idempotencyKey:randomUUID(),expectedVersion:(await snapshot(actor)).version,command:c});}
+async function send(c:WorkspaceCommand,actor=a){const result=await command(actor,{idempotencyKey:randomUUID(),expectedVersion:(await snapshot(actor)).version,command:c});if(c.type==='source.revoke'){await completeQueuedWithdrawal(actor.tenantId,c.sourceId);return {...result,snapshot:await snapshot(actor)};}return result;}
 async function queue(){const r=await send({type:'message.send',text:'Explain the missing agreement notice evidence.'});return String(r.result.runId);}
 const raw=()=>readWorkspace(a.tenantId);
 async function cancel(id:string,actor=a,version?:number){return transactWorkspace(a.tenantId,s=>applyRunControlCommand(s,actor,{type:'run.cancel',runId:id,expectedRecordVersion:version??runVersion(controlledRun(s,id)),reason:'Stop this investigation; I will review the evidence separately.'}));}
