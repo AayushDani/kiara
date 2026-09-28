@@ -4,7 +4,7 @@ import {mkdtemp,rm,readFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {createHmac,randomUUID} from 'node:crypto';
-import {closeV2Store,digest,readWorkspace,transactWorkspace} from '../src/v2/store';
+import {backupWorkspace,closeV2Store,digest,readWorkspace,restoreWorkspace,transactWorkspace} from '../src/v2/store';
 import {canRead} from '../src/v2/authority';
 import {command,snapshot} from '../src/v2/service';
 import {resolveInstallation,type Installation} from '../src/v2/integrations/config';
@@ -31,6 +31,24 @@ test('GitHub authenticates raw bytes, installation and selected repo before dura
  headers.set('x-github-delivery','header-only-replay');await acceptWebhook(github.id,headers,raw);s=await readWorkspace('tenant-a');assert.equal(s.sources.length,1);assert.equal(s.outbox.length,1);
  await assert.rejects(acceptWebhook(github.id,headers,Buffer.from(raw.toString().replace('Synthetic','Customer'))),{code:'WEBHOOK_INVALID'});
  const other=signedGitHub(pr('acme/private'));await assert.rejects(acceptWebhook(github.id,other.headers,other.raw),{code:'INSTALLATION_SCOPE'});const wrong=signedGitHub({...pr(),installation:{id:888}});await assert.rejects(acceptWebhook(github.id,wrong.headers,wrong.raw),{code:'WEBHOOK_INVALID'});assert.equal((await readWorkspace('tenant-b')).sources.length,0);
+}));
+test('older backup cannot restore withdrawn provider text or invalidated approval into a live tenant',()=>isolated(async()=>{
+ const {raw,headers}=signedGitHub(pr());await acceptWebhook(github.id,headers,raw);
+ const source=(await readWorkspace('tenant-a')).sources[0],now=new Date().toISOString(),scope={kind:'team' as const,actorIds:[]};
+ const dependencies={sourceVersions:{[source.id]:source.version},factVersions:{},documentHashes:{},policyVersion:1,scopeHash:digest(scope)};
+ await transactWorkspace('tenant-a',s=>{
+  s.proposals.push({id:'restore-proposal',tenantId:s.tenantId,version:1,createdAt:now,updatedAt:now,scope,provenance:{actorId:'owner',sourceIds:[source.id],description:'Synthetic review'},matterId:'restore-matter',title:'Review',body:'Review provider evidence.',contentHash:digest('Review provider evidence.'),baselineRevisionIds:[],dependencies,status:'current',route:'legal_review',noticeMatrix:[],inventoryComplete:false,unknowns:[],supersedesId:null});
+  s.approvals.push({id:'restore-approval',tenantId:s.tenantId,version:1,createdAt:now,updatedAt:now,scope,provenance:{actorId:'owner',sourceIds:[source.id],description:'Synthetic approval'},matterId:'restore-matter',proposalId:'restore-proposal',proposalHash:digest('Review provider evidence.'),actionId:null,actionHash:null,capacity:'business',actorId:'owner',membershipVersion:1,dependencies,conditions:[],recipients:[],destination:null,validUntil:'2027-01-01T00:00:00.000Z',status:'active',note:'Synthetic approval'});
+ });
+ const backup=await backupWorkspace('tenant-a');
+ await ingestProviderObject(github,'restore-withdrawal',{objectId:'acme/product:pull:7',revision:'withdrawn',title:'Withdrawn PR',text:'',url:null,occurredAt:now,removed:true});
+ const current=await readWorkspace('tenant-a'),owner:ActorContext={tenantId:'tenant-a',actorId:'owner',mode:'authenticated',expiresAt:Date.now()+10000};
+ assert.equal(digest(current.events),digest(backup.state.events));
+ assert.equal(current.sources[0].status,'revoked');assert.equal(canRead(current,owner,current.sources[0]),false);
+ assert.equal(current.proposals[0].status,'invalidated');assert.equal(current.approvals[0].status,'invalidated');
+ await assert.rejects(restoreWorkspace(backup,current.version,true),{code:'RESTORE_TARGET_NOT_EMPTY'});
+ await assert.rejects(restoreWorkspace(backup,current.version,false),{code:'RESTORE_TARGET_NOT_EMPTY'});
+ assert.equal(digest(await readWorkspace('tenant-a')),digest(current));
 }));
 test('owner links two signed provider observations to one matter with an inline review update',()=>isolated(async()=>{
  const owner:ActorContext={tenantId:'tenant-a',actorId:'owner',mode:'authenticated',expiresAt:Date.now()+3600000};
