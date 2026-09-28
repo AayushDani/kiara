@@ -107,6 +107,18 @@ test('direct source deletion creates safe admin corrective work when the former 
  assert.ok(!state.deletionJobs?.some(job=>job.records.some(record=>record.id===correction.id)));
  assert.doesNotMatch(JSON.stringify(correction),/PRIVATE_DOCUMENT_CANARY|PRIVATE_BODY_CANARY|PRIVATE_CLOSED_CANARY|PRIVATE_OBJECTIVE_CANARY/);
 }));
+test('source withdrawal assigns corrective work to a sign-in-capable administrator when the owner lacks member access',()=>isolated(async()=>{
+ const owner:ActorContext={tenantId:'tenant-a',actorId:'owner',mode:'authenticated',expiresAt:Date.now()+3600000};
+ const send=async(a:ActorContext,value:WorkspaceCommand)=>command(a,{idempotencyKey:randomUUID(),expectedVersion:(await snapshot(a)).version,command:value});
+ const added=await send(owner,{type:'document.add',title:'Synthetic member-access source',body:'Synthetic evidence',authority:'unknown'}),sourceId=String(added.result.sourceId);
+ const created=await send(owner,{type:'matter.create',title:'Synthetic source-dependent work',objective:'Review current evidence'}),matterId=String(created.result.matterId);
+ await transactWorkspace('tenant-a',s=>{const matter=s.matters.find(item=>item.id===matterId)!;matter.sourceIds=[sourceId];matter.provenance.sourceIds=[sourceId];s.memberships.find(item=>item.actorId==='owner')!.roles=['business_owner'];s.memberships.push({actorId:'operator',roles:['member','admin'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null});});
+ const operator:ActorContext={...owner,actorId:'operator'},deleted=await send(operator,{type:'source.revoke',sourceId,reason:'Withdraw synthetic evidence'});
+ assert.equal(deleted.result.corrective,1);
+ const state=await readWorkspace('tenant-a'),correction=state.matters.find(item=>item.id!==matterId)!;
+ assert.equal(correction.ownerId,'operator');assert.equal(correction.tasks[0].kind,'verification');
+ assert.ok((await snapshot(operator)).attention.items.some(item=>item.matterId===correction.id));
+}));
 test('provider withdrawal commits a durable unresolved exception when no current owner or administrator exists',()=>isolated(async()=>{
  const owner:ActorContext={tenantId:'tenant-a',actorId:'owner',mode:'authenticated',expiresAt:Date.now()+3600000};
  const send=async(value:WorkspaceCommand)=>command(owner,{idempotencyKey:randomUUID(),expectedVersion:(await snapshot(owner)).version,command:value});

@@ -46,7 +46,7 @@ export function invalidateSourceWithdrawalDecisions(s:WorkspaceState,source:Sour
 }
 
 function activeRole(s:WorkspaceState,membership:Membership,role:'business_owner'|'admin'){
- if(membership.revokedAt||membership.expiresAt&&Date.parse(membership.expiresAt)<=Date.now()||!membership.roles.includes(role))return false;
+ if(membership.revokedAt||membership.expiresAt&&Date.parse(membership.expiresAt)<=Date.now()||!membership.roles.includes('member')||!membership.roles.includes(role))return false;
  return !membership.entityIds||membership.entityIds.includes(s.entityId);
 }
 
