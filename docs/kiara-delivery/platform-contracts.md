@@ -48,8 +48,8 @@ Lead owns encrypted local/S3 original storage and setup. Document text intake ma
 2. Import additive records/archive under a migration identity; leave legacy workflows/effects owned by legacy. Replay of the migration ID must return its saved report, not duplicate records.
 3. Resolve or explicitly retain legacy unknown sends/model charges and in-flight waits. Never infer success from archived internal finalization.
 4. A future execution cutover needs a single durable ownership fence shared with the legacy dispatcher. Until that fence is implemented and qualified, imported work remains read-only and execution remains legacy-owned.
-5. Restore into an isolated recovery store if live immutable history diverges. Verify hashes, restore source originals separately, and reapply current tombstones, membership revocations, command receipts and uncertain/completed action records before serving.
-6. Rollback cannot erase dispatched effects or resurrect deleted source content. The store refuses a history-rewriting restore into an active aggregate.
+5. Restore into an isolated recovery store whenever live state differs from the backup, even if activity events have not changed. Verify hashes, restore source originals separately, and reconcile current tombstones, membership revocations, command receipts and uncertain/completed action records before serving.
+6. Rollback cannot erase dispatched effects or resurrect withdrawn source content. The store accepts an empty target or an exact replay and refuses a divergent active target during both dry run and apply.
 
 Current deletion denies originals and derived records immediately and redacts local source/document text. Full physical purging of all derived payloads, object-store versions/backups and retention exceptions is not yet implemented and must not be called completed deletion.
 

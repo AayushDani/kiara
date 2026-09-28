@@ -46,6 +46,7 @@ export async function backupWorkspace(tenantId:string):Promise<WorkspaceBackup>{
 export async function restoreWorkspace(backup:WorkspaceBackup,expectedVersion:number,dryRun=true){
  if(backup.format!=='kiara-v2-backup'||backup.hash!==digest(backup.state))throw new V2Error('BACKUP_INTEGRITY','Backup checksum failed.');validateWorkspace(backup.state,undefined,{aggregateLimit:persistenceMode()!=='normalized'});
  const current=await readWorkspace(backup.state.tenantId);if(current.version!==expectedVersion)throw new V2Error('VERSION_CONFLICT','Workspace changed before restore.');
+ if(current.version>0&&digest(current)!==backup.hash)throw new V2Error('RESTORE_TARGET_NOT_EMPTY','Restore into an isolated recovery store, then reconcile current access and history before cutover.');
  // Never roll back identity revocations, accepted commands, tombstones or external effects.
  const restored=structuredClone(backup.state);restored.version=current.version;restored.receipts={...restored.receipts,...current.receipts};restored.deletionJobs=[...new Map([...(restored.deletionJobs||[]),...(current.deletionJobs||[])].map(j=>[j.id,j])).values()];restored.outbox=[...new Map([...restored.outbox,...current.outbox].map(o=>[o.id,o])).values()];restored.tombstones=[...new Map([...restored.tombstones,...current.tombstones].map(t=>[t.sourceId,t])).values()];
  for(const m of current.memberships){const target=restored.memberships.find(x=>x.actorId===m.actorId);if(target)Object.assign(target,m);else restored.memberships.push(m);}
@@ -55,5 +56,5 @@ export async function restoreWorkspace(backup:WorkspaceBackup,expectedVersion:nu
  // A nonempty live aggregate cannot have its immutable history rewritten by restore.
  if(current.events.length&&digest(current.events)!==digest(restored.events))throw new V2Error('RESTORE_TARGET_NOT_EMPTY','Restore into an isolated recovery store, then reconcile history before cutover.');
  const result={dryRun,tenantId:restored.tenantId,records:lists.reduce((n,k)=>n+(restored[k]||[]).length,0),tombstones:restored.tombstones.length,unresolvedEffects:restored.actions.filter(x=>['uncertain','dispatching'].includes(x.status)).length};
- if(!dryRun)await transactWorkspace(restored.tenantId,state=>{if(state.version!==expectedVersion)throw new V2Error('VERSION_CONFLICT','Workspace changed during restore.');Object.assign(state,restored);});return result;
+ if(!dryRun)await transactWorkspace(restored.tenantId,state=>{if(state.version!==expectedVersion)throw new V2Error('VERSION_CONFLICT','Workspace changed during restore.');if(state.version>0&&digest(state)!==backup.hash)throw new V2Error('RESTORE_TARGET_NOT_EMPTY','Restore target diverged before apply.');Object.assign(state,restored);});return result;
 }
