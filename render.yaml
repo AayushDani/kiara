@@ -10,7 +10,7 @@ services:
     branch: codex/kiara-live-release
     autoDeployTrigger: checksPass
     buildCommand: npm ci --include=dev
-    startCommand: npm run worker:v2
+    startCommand: node --import tsx src/v2/orchestration/worker.ts
     numInstances: 1
     maxShutdownDelaySeconds: 120
     envVars:
