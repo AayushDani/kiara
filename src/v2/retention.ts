@@ -20,10 +20,11 @@ export interface DeletionJob {
 }
 export interface DeletionView {id:string;sourceId:string;requestedAt:string;recordsRedacted:number;originalsPending:number;operationalExceptions:number;indexCleanup:DeletionJob['indexCleanup'];historicalCleanup:DeletionJob['historicalCleanup'];backupExpiresAt:string|null;backupStatus:DeletionJob['backupStatus']}
 const referenceKeys=new Set(['sourceId','sourceIds','factIds','documentIds','baselineRevisionIds','artifactIds','matterId','observedMatterId','conversationId','conversationIds','scenarioId','proposalId','originMatterId','originProposalId','businessApprovalId','legalApprovalId','documentId','counterpartyEntityId','productEntityIds','recordId','parentRevisionId','messageId']);
+const dependencyMapKeys=new Set(['sourceVersions','factVersions','documentHashes']);
 function references(value:unknown,ids:Set<string>,key=''):boolean {
  if(typeof value==='string')return referenceKeys.has(key)&&ids.has(value);
  if(Array.isArray(value))return value.some(v=>references(v,ids,key));
- if(value&&typeof value==='object')return Object.entries(value).some(([k,v])=>references(v,ids,k));
+ if(value&&typeof value==='object')return Object.entries(value).some(([k,v])=>dependencyMapKeys.has(key)&&ids.has(k)||references(v,ids,k));
  return false;
 }
 function entries(s:WorkspaceState){return recordKinds.flatMap(kind=>(s[kind]||[]).map(value=>({kind,value:value as unknown as RecordBase&Record<string,unknown>})));}

@@ -28,7 +28,7 @@ async function revokeObject(i:Installation,objectId:string,revision:string,withd
   for(const source of sources)captureSourceWithdrawal(s,source,installationActor(i).actorId,'provider');
   if(withdraw)withdrawProviderObject(s,{kind:i.provider,externalId:scopedId(i,objectId),installationGrant:installationActor(i).installationGrant});
   let revoked=0;for(const source of sources){if(source.status!=='active')continue;if(withdraw)withdrawSourceObservation(s,source);source.status='revoked';source.aclVersion++;source.version++;source.updatedAt=timestamp();revoked++;}
-  const remainingCorrectiveMatters=sources.reduce((sum,source)=>sum+Number((s.receipts[`source-withdrawal-progress:${source.id}`]?.result.pendingMatterIds as string[]|undefined)?.length||0),0);
+  const remainingCorrectiveMatters=null;
   const correctionStatus=sources.some(source=>s.receipts[`source-withdrawal-progress:${source.id}`]?.result.status==='pending')?'queued':'complete';
   const key=`integration:revoked:${digest({installation:i.id,objectId,revision})}`;s.receipts[key]={hash:digest({objectId,revision}),result:{revoked,corrective:0,remainingCorrectiveMatters,correctionStatus}};
   return {revoked,corrective:0,remainingCorrectiveMatters,correctionStatus};

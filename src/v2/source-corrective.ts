@@ -141,28 +141,27 @@ export function pendingSourceWithdrawalMatters(s:WorkspaceState,source:Source):n
 
 const directProgressKey=(sourceId:string)=>`source-withdrawal-progress:${sourceId}`;
 const directBatchLimit=20;
-interface DirectWithdrawalProgress {sourceId:string;sourceVersion:number;actorId:string;kind:'manual'|'provider';status:'pending'|'complete';pendingMatterIds:string[];pendingProposalIds:string[];deleteRequested:boolean;deletionApplied:boolean;startedAt:string;updatedAt:string}
+const directScanLimit=100;
+interface DirectWithdrawalProgress {sourceId:string;sourceVersion:number;actorId:string;kind:'manual'|'provider';status:'pending'|'complete';phase:'matters'|'proposals'|'deletion'|'complete';matterCursor:string|null;proposalCursor:string|null;deleteRequested:boolean;deletionApplied:boolean;startedAt:string;updatedAt:string}
 
-/** Freeze the dependency closure before source deletion can redact its links. No content is copied. */
+/** The accepting transaction writes only a small access fence and cursor, never an affected-ID list. */
 export function captureSourceWithdrawal(s:WorkspaceState,source:Source,actorId:string,kind:DirectWithdrawalProgress['kind'],deleteRequested=false){
  const prior=s.receipts[directProgressKey(source.id)]?.result as unknown as DirectWithdrawalProgress|undefined;
  if(prior){
   if(deleteRequested&&!prior.deleteRequested){
-   prior.deleteRequested=true;prior.deletionApplied=false;prior.status='pending';prior.updatedAt=timestamp();
+   prior.deleteRequested=true;prior.deletionApplied=false;prior.status='pending';prior.phase=prior.phase==='complete'?'deletion':prior.phase;prior.updatedAt=timestamp();
    for(const item of s.outbox)if(item.kind==='source_withdrawal'&&item.aggregateId===source.id&&item.owner==='v2'&&item.status==='pending')item.status='canceled';
    s.outbox.push({id:randomUUID(),tenantId:s.tenantId,kind:'source_withdrawal',aggregateId:source.id,commandId:source.id,status:'pending',owner:'v2',createdAt:prior.updatedAt});
   }
-  return {sourceId:source.id,remaining:prior.pendingMatterIds.length,queued:prior.status==='pending'};
+  return {sourceId:source.id,remaining:null,queued:prior.status==='pending'};
  }
- const pendingMatterIds=s.matters.filter(matter=>affected(s,matter,source.id)&&!s.receipts[withdrawalKey(matter.id,source.id)]).map(matter=>matter.id);
- const pendingProposalIds=s.proposals.filter(proposal=>proposalAffected(s,proposal,source.id)).map(proposal=>proposal.id);
- const now=timestamp(),progress:DirectWithdrawalProgress={sourceId:source.id,sourceVersion:source.version,actorId,kind,status:pendingMatterIds.length||pendingProposalIds.length||deleteRequested?'pending':'complete',pendingMatterIds,pendingProposalIds,deleteRequested,deletionApplied:false,startedAt:now,updatedAt:now};
+ const now=timestamp(),progress:DirectWithdrawalProgress={sourceId:source.id,sourceVersion:source.version,actorId,kind,status:'pending',phase:'matters',matterCursor:null,proposalCursor:null,deleteRequested,deletionApplied:false,startedAt:now,updatedAt:now};
  s.receipts[directProgressKey(source.id)]={hash:digest({sourceId:source.id,sourceVersion:source.version,kind,deleteRequested}),result:progress as unknown as Record<string,unknown>};
- if(progress.status==='pending')s.outbox.push({id:randomUUID(),tenantId:s.tenantId,kind:'source_withdrawal',aggregateId:source.id,commandId:source.id,status:'pending',owner:'v2',createdAt:now});
- return {sourceId:source.id,remaining:pendingMatterIds.length,queued:progress.status==='pending'};
+ s.outbox.push({id:randomUUID(),tenantId:s.tenantId,kind:'source_withdrawal',aggregateId:source.id,commandId:source.id,status:'pending',owner:'v2',createdAt:now});
+ return {sourceId:source.id,remaining:null,queued:true};
 }
 
-/** Receipt-held matter IDs survive deletion redaction and are consumed exactly once. */
+/** Scan stable record IDs in bounded steps while provenance remains intact; delete only after both passes. */
 export function resumeSourceWithdrawalInState(s:WorkspaceState,maxMatters=directBatchLimit,sourceIds?:Set<string>){
  let processed=0,corrective=0;
  for(const [key,receipt] of Object.entries(s.receipts)){
@@ -171,20 +170,35 @@ export function resumeSourceWithdrawalInState(s:WorkspaceState,maxMatters=direct
   if(progress.status!=='pending'||sourceIds&&!sourceIds.has(progress.sourceId))continue;
   const source=s.sources.find(item=>item.id===progress.sourceId);
   if(!source||!['revoked','deleted'].includes(source.status))throw new Error('A pending source withdrawal has no committed access fence.');
-  if(progress.deleteRequested&&!progress.deletionApplied)continue;
-  const selected=progress.pendingMatterIds.slice(0,maxMatters-processed);
-  if(selected.some(id=>!s.matters.some(matter=>matter.id===id)))throw new V2Error('WITHDRAWAL_MATTER_MISSING','A captured affected matter is unavailable; keep the correction pending.',503);
-  corrective+=retainSourceWithdrawalWork(s,source,progress.actorId,{matterIds:selected,retryUnavailable:false});
-  processed+=selected.length;progress.pendingMatterIds=progress.pendingMatterIds.slice(selected.length);
-  const proposals=progress.pendingProposalIds.slice(0,maxMatters-processed);
-  if(proposals.length)invalidateSourceWithdrawalDecisions(s,source,undefined,new Set(proposals));
-  processed+=proposals.length;progress.pendingProposalIds=progress.pendingProposalIds.slice(proposals.length);
-  progress.status=progress.pendingMatterIds.length||progress.pendingProposalIds.length||progress.deleteRequested&&!progress.deletionApplied?'pending':'complete';progress.updatedAt=timestamp();
+  if(progress.phase==='matters'){
+   const rows=s.matters.filter(m=>progress.matterCursor===null||m.id>progress.matterCursor).sort((a,b)=>a.id.localeCompare(b.id)).slice(0,directScanLimit);
+   let scanned=0;
+   for(const matter of rows){
+    if(processed>=maxMatters)break;
+    scanned++;progress.matterCursor=matter.id;
+    if(!affected(s,matter,source.id)||s.receipts[withdrawalKey(matter.id,source.id)])continue;
+    corrective+=retainSourceWithdrawalWork(s,source,progress.actorId,{matterIds:[matter.id],retryUnavailable:false});processed++;
+   }
+   if(scanned===rows.length&&rows.length<directScanLimit)progress.phase='proposals';
+  }
+  if(progress.phase==='proposals'&&processed<maxMatters){
+   const rows=s.proposals.filter(p=>progress.proposalCursor===null||p.id>progress.proposalCursor).sort((a,b)=>a.id.localeCompare(b.id)).slice(0,directScanLimit);
+   let scanned=0;
+   for(const proposal of rows){
+    if(processed>=maxMatters)break;
+    scanned++;progress.proposalCursor=proposal.id;
+    if(!proposalAffected(s,proposal,source.id))continue;
+    invalidateSourceWithdrawalDecisions(s,source,undefined,new Set([proposal.id]));processed++;
+   }
+   if(scanned===rows.length&&rows.length<directScanLimit)progress.phase=progress.deleteRequested?'deletion':'complete';
+  }
+  if(progress.phase==='complete')progress.status='complete';
+  progress.updatedAt=timestamp();
  }
- return {processedMatters:processed,correctiveMatters:corrective,remaining:Object.entries(s.receipts).filter(([key,receipt])=>key.startsWith('source-withdrawal-progress:')&&receipt.result.status==='pending'&&(!sourceIds||sourceIds.has(String(receipt.result.sourceId)))).reduce((sum,[,receipt])=>sum+(receipt.result.pendingMatterIds as string[]).length,0)};
+ return {processedMatters:processed,correctiveMatters:corrective,remaining:Object.entries(s.receipts).filter(([key,receipt])=>key.startsWith('source-withdrawal-progress:')&&receipt.result.status==='pending'&&(!sourceIds||sourceIds.has(String(receipt.result.sourceId)))).reduce((sum,[,receipt])=>{const source=s.sources.find(item=>item.id===receipt.result.sourceId);return sum+(source?pendingSourceWithdrawalMatters(s,source):0);},0)};
 }
 
-export function pendingSourceWithdrawalSummary(s:WorkspaceState){return Object.entries(s.receipts).filter(([key,receipt])=>key.startsWith('source-withdrawal-progress:')&&receipt.result.status==='pending').map(([,receipt])=>({sourceId:String(receipt.result.sourceId),remaining:(receipt.result.pendingMatterIds as string[]).length,deletionPending:!!receipt.result.deleteRequested&&!receipt.result.deletionApplied}));}
+export function pendingSourceWithdrawalSummary(s:WorkspaceState){return Object.entries(s.receipts).filter(([key,receipt])=>key.startsWith('source-withdrawal-progress:')&&receipt.result.status==='pending').map(([,receipt])=>{const source=s.sources.find(item=>item.id===receipt.result.sourceId);return {sourceId:String(receipt.result.sourceId),remaining:source?pendingSourceWithdrawalMatters(s,source):0,deletionPending:!!receipt.result.deleteRequested&&!receipt.result.deletionApplied};});}
 
 /** Operator continuation when no workspace is being refreshed; never contacts a provider. */
 export async function resumeSourceWithdrawal(tenantId:string,sourceId:string){

@@ -17,6 +17,14 @@ export function canRead(state:WorkspaceState,actor:ActorContext,record:RecordBas
  if(m.matterIds){const permittedMatter=record.scope.kind==='matter'&&!!record.scope.matterId&&m.matterIds.includes(record.scope.matterId);const permittedMatterRecord='objective' in record&&m.matterIds.includes(record.id);const explicitlyPrivate=record.scope.kind==='private'&&record.scope.actorIds.includes(actor.actorId);if(!granted&&!permittedMatter&&!permittedMatterRecord&&!explicitlyPrivate)return false;}if(m.entityIds&&!m.entityIds.includes(state.entityId))return false;
  if(!granted&&m.matterIds&&'matterId' in record&&typeof record.matterId==='string'&&!m.matterIds.includes(record.matterId))return false;
  if('status' in record&&['revoked','deleted'].includes(String(record.status)))return false;
+ // Sparse imported provenance cannot expose reviewed proposal or action bytes after
+ // one of their exact dependency sources is withdrawn. Historical effect state stays
+ // retained, while ordinary snapshots require every linked decision basis to be readable.
+ const dependencies='dependencies' in record?record.dependencies as {sourceVersions?:Record<string,number>;factVersions?:Record<string,number>;documentHashes?:Record<string,string>}|undefined:undefined;
+ for(const id of Object.keys(dependencies?.sourceVersions||{})){const source=state.sources.find(item=>item.id===id);if(!source||!canRead(state,actor,source,visited))return false;}
+ for(const id of Object.keys(dependencies?.factVersions||{})){const fact=state.facts.find(item=>item.id===id);if(!fact||!canRead(state,actor,fact,visited))return false;}
+ for(const id of Object.keys(dependencies?.documentHashes||{})){const document=state.documents.find(item=>item.id===id);if(!document||!canRead(state,actor,document,visited))return false;}
+ if('matterId' in record&&'proposalId' in record&&typeof record.proposalId==='string'){const proposal=state.proposals.find(item=>item.id===record.proposalId);if(proposal&&!canRead(state,actor,proposal,visited))return false;}
  for(const sourceId of record.provenance.sourceIds){if(visited.has(sourceId))continue;const source=state.sources.find(s=>s.id===sourceId);if(!source||source.status!=='active'||state.tombstones.some(t=>t.sourceId===sourceId))return false;visited.add(sourceId);if(!canRead(state,actor,source,visited))return false;}
  // Historical assertions retain their access policy. Freshness is enforced separately by
  // proposal dependencies and retrieval; superseding truth must not hide the work to repair.
