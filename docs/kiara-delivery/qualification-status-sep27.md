@@ -1,6 +1,6 @@
 # Kiara v2 qualification status · 27 September 2026
 
-This is the current evidence index for the v2 plan. The detailed requirement/owner map is in [product acceptance](product-acceptance.md); the object, transition, tool and authority contracts are in [platform contracts](platform-contracts.md) and the typed service code. The working UI and earlier screen renders are under `src/ui/v2/` and [renders](renders/). The [reference journey](reference-journey.md) is a partial synthetic control-path trace; it names exactly what one local tenant exercised and what stayed pending.
+This is a historical September 27 evidence index for the v2 plan. For the current release checkpoint, see the [September 28 connected synthetic Preview evidence](evidence/connected-preview-sep28.md) and [hosted release operations](live-release-operations.md). The detailed requirement/owner map is in [product acceptance](product-acceptance.md); the object, transition, tool and authority contracts are in [platform contracts](platform-contracts.md) and the typed service code. The working UI and earlier screen renders are under `src/ui/v2/` and [renders](renders/). The [reference journey](reference-journey.md) is a partial synthetic control-path trace; it names exactly what one local tenant exercised and what stayed pending.
 
 ## Live-release integration delta
 
