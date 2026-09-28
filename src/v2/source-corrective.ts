@@ -60,14 +60,23 @@ function eligibleOwner(s:WorkspaceState,membership:Membership,matter:Matter){
  }catch{return false;}
 }
 
+const withdrawalKey=(matterId:string,sourceId:string)=>`source-withdrawal:${digest({matterId,sourceId})}`;
+
+/** Existing receipts are a stable cursor while a withdrawn source's affected work is processed in batches. */
+export function pendingSourceWithdrawalMatters(s:WorkspaceState,source:Source):number {
+ return s.matters.filter(matter=>affected(s,matter,source.id)&&!s.receipts[withdrawalKey(matter.id,source.id)]).length;
+}
+
 /** Called before the source changes status, inside the same workspace transaction. */
-export function retainSourceWithdrawalWork(s:WorkspaceState,source:Source,actorId:string):number {
+export function retainSourceWithdrawalWork(s:WorkspaceState,source:Source,actorId:string,options:{maxMatters?:number;retryUnavailable?:boolean}={}):number {
  const matters=s.matters.filter(matter=>affected(s,matter,source.id));
- let created=0;
+ let created=0,attempted=0;
  for(const matter of matters){
-  const key=`source-withdrawal:${digest({matterId:matter.id,sourceId:source.id})}`;
+  const key=withdrawalKey(matter.id,source.id);
   const previous=s.receipts[key];
-  if(previous&&previous.result.status!=='owner_unavailable')continue;
+  if(previous&&(previous.result.status!=='owner_unavailable'||options.retryUnavailable===false))continue;
+  if(attempted>=(options.maxMatters??Infinity))break;
+  attempted++;
   const reviewRef=`EW-${key.slice('source-withdrawal:'.length,'source-withdrawal:'.length+12).toUpperCase()}`;
   const assigned=s.memberships.find(member=>member.actorId===matter.ownerId&&eligibleOwner(s,member,matter));
   const administrator=assigned?null:s.memberships.filter(member=>activeRole(s,member,'admin')).sort((a,b)=>a.actorId.localeCompare(b.actorId))[0]||null;
