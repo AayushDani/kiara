@@ -14,8 +14,8 @@ function validManifest(value:unknown):value is PairedCaseManifest {
 }
 
 async function main(){
- const [tenantId,manifestPath,...extra]=process.argv.slice(2);
- if(!boundedString(tenantId)||!boundedString(manifestPath,4096)||extra.length)throw new Error('INPUT_INVALID');
+ const [tenantId,manifestPath,artifactPath,...extra]=process.argv.slice(2);
+ if(!boundedString(tenantId)||!boundedString(manifestPath,4096)||artifactPath!==undefined&&!boundedString(artifactPath,4096)||extra.length)throw new Error('INPUT_INVALID');
  const info=await stat(manifestPath);
  if(!info.isFile()||info.size>128_000)throw new Error('INPUT_INVALID');
  const bytes=await readFile(manifestPath);
@@ -23,8 +23,15 @@ async function main(){
  let parsed:unknown;
  try{parsed=JSON.parse(bytes.toString('utf8'));}catch{throw new Error('INPUT_INVALID');}
  if(!validManifest(parsed)||parsed.tenantId!==tenantId)throw new Error('INPUT_INVALID');
+ let artifactBytes:Uint8Array|undefined;
+ if(artifactPath){
+  const artifactInfo=await stat(artifactPath);
+  if(!artifactInfo.isFile()||artifactInfo.size<2||artifactInfo.size>32_768)throw new Error('INPUT_INVALID');
+  artifactBytes=await readFile(artifactPath);
+  if(artifactBytes.byteLength<2||artifactBytes.byteLength>32_768)throw new Error('INPUT_INVALID');
+ }
  const state=await readWorkspace(tenantId);
- const result=qualifyPairedCases(state,parsed);
+ const result=qualifyPairedCases(state,parsed,artifactBytes);
  process.stdout.write(`${JSON.stringify(result)}\n`);
  if(result.status==='incomplete')process.exitCode=1;
 }
