@@ -84,6 +84,8 @@ test('estimated or unmatched baselines, changed outcomes and incomparable scopes
 test('independent, exact-basis quality adjudication is mandatory',()=>{
  incomplete((_s,m)=>{m.quality=null;},'QUALITY_REVIEW_MISSING');
  incomplete((_s,m)=>{m.quality!.reviewerId='owner';},'QUALITY_REVIEW_NOT_INDEPENDENT');
+ incomplete(s=>{s.memberships.find(member=>member.actorId==='evaluator')!.matterIds=['before'];},'QUALITY_REVIEW_NOT_INDEPENDENT');
+ incomplete(s=>{s.memberships.find(member=>member.actorId==='evaluator')!.entityIds=['another-entity'];},'QUALITY_REVIEW_NOT_INDEPENDENT');
  incomplete((_s,m)=>{m.quality!.artifactDigest='not-a-digest';},'QUALITY_REVIEW_MISSING');
  incomplete((_s,m)=>{m.quality!.currentOutcomeHash='stale';},'QUALITY_REVIEW_CHANGED');
  incomplete((_s,m)=>{m.quality!.reviewedAt='2026-09-27T11:00:00.000Z';},'QUALITY_REVIEW_CHANGED');

@@ -26,12 +26,12 @@ const validDate=(value:unknown):value is string=>typeof value==='string'&&/^\d{4
 const object=(value:unknown):value is Record<string,unknown>=>!!value&&typeof value==='object'&&!Array.isArray(value);
 const officialPdf=(value:unknown):value is string=>{
  if(typeof value!=='string')return false;
- try{const url=new URL(value);return url.protocol==='https:'&&url.hostname==='www.govinfo.gov'&&/^\/content\/pkg\/FR-\d{4}-\d{2}-\d{2}\/pdf\/[\w-]+\.pdf$/.test(url.pathname)&&!url.search&&!url.hash;}
+ try{const url=new URL(value);return url.protocol==='https:'&&url.hostname==='www.govinfo.gov'&&!url.username&&!url.password&&!url.port&&/^\/content\/pkg\/FR-\d{4}-\d{2}-\d{2}\/pdf\/[\w-]+\.pdf$/.test(url.pathname)&&!url.search&&!url.hash;}
  catch{return false;}
 };
 const federalRegisterDocument=(value:unknown):value is string=>{
  if(typeof value!=='string')return false;
- try{const url=new URL(value);return url.protocol==='https:'&&url.hostname==='www.federalregister.gov'&&/^\/documents\/\d{4}\/\d{2}\/\d{2}\/[\w-]+\/[\w-]+$/.test(url.pathname)&&!url.search&&!url.hash;}
+ try{const url=new URL(value);return url.protocol==='https:'&&url.hostname==='www.federalregister.gov'&&!url.username&&!url.password&&!url.port&&/^\/documents\/\d{4}\/\d{2}\/\d{2}\/[\w-]+\/[\w-]+$/.test(url.pathname)&&!url.search&&!url.hash;}
  catch{return false;}
 };
 
@@ -58,7 +58,8 @@ export async function discoverFederalRegisterCfrPart(title:number,part:number,fe
   if(!object(item)||typeof item.document_number!=='string'||!/^\d{4}-\d{5}$/.test(item.document_number)||typeof item.title!=='string'||!item.title.trim()||item.title.length>500||typeof item.type!=='string'||!['Rule','Proposed Rule','Notice','Presidential Document'].includes(item.type)||!validDate(item.publication_date)||!federalRegisterDocument(item.html_url)||!officialPdf(item.pdf_url))throw new V2Error('FR_METADATA_FORMAT','Federal Register document metadata is incomplete.',502);
   const officialPdfUrl=new URL(item.pdf_url);
   const federalRegisterUrl=new URL(item.html_url);
-  if(!officialPdfUrl.pathname.includes(`/FR-${item.publication_date}/`)||!officialPdfUrl.pathname.endsWith(`/${item.document_number}.pdf`)||!federalRegisterUrl.pathname.includes(`/${item.document_number}/`))throw new V2Error('FR_METADATA_FORMAT','Federal Register document links do not match their metadata.',502);
+  const [year,month,day]=item.publication_date.split('-');
+  if(officialPdfUrl.pathname!==`/content/pkg/FR-${item.publication_date}/pdf/${item.document_number}.pdf`||!federalRegisterUrl.pathname.startsWith(`/documents/${year}/${month}/${day}/${item.document_number}/`))throw new V2Error('FR_METADATA_FORMAT','Federal Register document links do not match their metadata.',502);
   return {documentNumber:item.document_number,title:item.title.trim(),type:item.type,publicationDate:item.publication_date,federalRegisterUrl:item.html_url,officialPdfUrl:item.pdf_url};
  });
  return {title,part,sourceUrl:url.toString(),totalCount:Number(raw.count),returnedCount:documents.length,moreResults:Number(raw.count)>documents.length,status:'unreviewed_discovery',documents};

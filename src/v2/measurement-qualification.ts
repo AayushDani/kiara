@@ -1,4 +1,5 @@
 import {digest} from './store';
+import {canRead} from './authority';
 import type {EffortEntry} from './measurement';
 import {valueView} from './value';
 import type {Matter,WorkspaceState} from './contracts';
@@ -119,7 +120,11 @@ export function qualifyPairedCases(s:WorkspaceState,manifest:PairedCaseManifest)
  if(!quality||quality.verdict!=='equivalent_quality'||!validTime(quality.reviewedAt)||Date.parse(quality.reviewedAt)>Date.now()||!/^[a-f0-9]{64}$/.test(quality.artifactDigest))reasons.add('QUALITY_REVIEW_MISSING');
  else {
   const reviewer=s.memberships.find(item=>item.actorId===quality.reviewerId),participants=new Set([...manifest.baseline.participantIds,...manifest.current.participantIds]);
-  if(!reviewer||reviewer.revokedAt||reviewer.expiresAt&&Date.parse(reviewer.expiresAt)<=Date.now()||reviewer.version!==quality.reviewerMembershipVersion||!reviewer.roles.includes('evaluator')||participants.has(quality.reviewerId))reasons.add('QUALITY_REVIEW_NOT_INDEPENDENT');
+  const reviewerActor={tenantId:s.tenantId,actorId:quality.reviewerId,mode:'authenticated' as const,expiresAt:Date.now()+60_000};
+  const canInspectCases=!!reviewer&&!!baseline&&!!current&&[baseline.matter,current.matter].every(matter=>{
+   try{return canRead(s,reviewerActor,matter);}catch{return false;}
+  });
+  if(!reviewer||reviewer.revokedAt||reviewer.expiresAt&&Date.parse(reviewer.expiresAt)<=Date.now()||reviewer.version!==quality.reviewerMembershipVersion||!reviewer.roles.includes('evaluator')||participants.has(quality.reviewerId)||!canInspectCases)reasons.add('QUALITY_REVIEW_NOT_INDEPENDENT');
   if(quality.comparisonScope!==manifest.comparisonScope||quality.baselineOutcomeHash!==manifest.baseline.outcomeHash||quality.currentOutcomeHash!==manifest.current.outcomeHash||baseline&&Date.parse(quality.reviewedAt)<Date.parse(baseline.matter.closedAt||'')||current&&Date.parse(quality.reviewedAt)<Date.parse(current.matter.closedAt||''))reasons.add('QUALITY_REVIEW_CHANGED');
  }
  const ready=reasons.size===0;

@@ -25,6 +25,9 @@ test('invalid selection and untrusted or mismatched document metadata fail close
  await assert.rejects(discoverFederalRegisterCfrPart(16,1235,async()=>reply({count:1,results:[{...document,pdf_url:'https://evil.example/content/pkg/FR-2022-04-26/pdf/2022-08804.pdf'}]})),code('FR_METADATA_FORMAT'));
  await assert.rejects(discoverFederalRegisterCfrPart(16,1235,async()=>reply({count:1,results:[{...document,publication_date:'2022-02-30'}]})),code('FR_METADATA_FORMAT'));
  await assert.rejects(discoverFederalRegisterCfrPart(16,1235,async()=>reply({count:1,results:[{...document,pdf_url:'https://www.govinfo.gov/content/pkg/FR-2022-04-26/pdf/2021-08804.pdf'}]})),code('FR_METADATA_FORMAT'));
+ await assert.rejects(discoverFederalRegisterCfrPart(16,1235,async()=>reply({count:1,results:[{...document,html_url:'https://www.federalregister.gov/documents/2021/04/26/2022-08804/safety-standard-for-baby-changing-products'}]})),code('FR_METADATA_FORMAT'));
+ await assert.rejects(discoverFederalRegisterCfrPart(16,1235,async()=>reply({count:1,results:[{...document,html_url:'https://user:pass@www.federalregister.gov/documents/2022/04/26/2022-08804/safety-standard-for-baby-changing-products'}]})),code('FR_METADATA_FORMAT'));
+ await assert.rejects(discoverFederalRegisterCfrPart(16,1235,async()=>reply({count:1,results:[{...document,pdf_url:'https://www.govinfo.gov:8443/content/pkg/FR-2022-04-26/pdf/2022-08804.pdf'}]})),code('FR_METADATA_FORMAT'));
  await assert.rejects(discoverFederalRegisterCfrPart(16,1235,async()=>reply({count:1,results:[{...document,type:'Unknown'}]})),code('FR_METADATA_FORMAT'));
 });
 
