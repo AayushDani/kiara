@@ -109,6 +109,17 @@ export async function readMongoOriginal(tenantId:string,reference:OriginalRefere
  const ciphertext=Buffer.concat(rows.map(row=>Buffer.from(row.data.buffer)));if(sha(ciphertext)!==manifest!.cipherHash||ciphertext.length!==reference.bytes)throw new V2Error('ORIGINAL_INTEGRITY','MongoDB original ciphertext failed verification.',503);
  try{const decipher=createDecipheriv('aes-256-gcm',key,Buffer.from(manifest!.nonce,'base64'));decipher.setAAD(Buffer.from(reference.key));decipher.setAuthTag(Buffer.from(manifest!.tag,'base64'));const plain=Buffer.concat([decipher.update(ciphertext),decipher.final()]);if(plain.length!==reference.bytes||sha(plain)!==reference.sha256)throw new Error();return plain;}catch{throw new V2Error('ORIGINAL_INTEGRITY','MongoDB original failed authenticated decryption or checksum verification.',503);}
 }
+/** Inspect the physical rows as well as the deletion fence in a restored database. */
+export async function inspectMongoOriginalDeletion(tenantId:string,reference:OriginalReference):Promise<{fenceDeleted:boolean;manifestAbsent:boolean;chunksAbsent:boolean}>{
+ scopedReference(tenantId,reference);
+ const {db}=await database(),{manifests,chunks,fences}=collections(db),readConcern={level:'majority' as const};
+ const [fence,manifest,chunk]=await Promise.all([
+  fences.findOne({_id:reference.key},{readConcern}),
+  manifests.findOne({_id:reference.key},{readConcern,projection:{_id:1}}),
+  chunks.findOne({manifestId:reference.key},{readConcern,projection:{_id:1}}),
+ ]);
+ return {fenceDeleted:fence?.deleted===true&&typeof fence.deletedAt==='string'&&Number.isSafeInteger(fence.epoch)&&fence.epoch>0,manifestAbsent:manifest===null,chunksAbsent:chunk===null};
+}
 export async function purgeMongoOriginal(tenantId:string,reference:OriginalReference):Promise<void>{
  const tenantHash=scopedReference(tenantId,reference),{client:connection,db}=await database(),{manifests,chunks,fences}=collections(db),aliases=db.collection<Alias>('v2_original_aliases');
  const session=connection.startSession();try{await session.withTransaction(async()=>{
