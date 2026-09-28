@@ -6,10 +6,10 @@ import {join} from 'node:path';
 import {randomUUID} from 'node:crypto';
 import {command,snapshot} from '../src/v2/service';
 import {closeV2Store,readWorkspace,transactWorkspace} from '../src/v2/store';
-import {readOriginal} from '../src/v2/objects';
+import {readOriginal,retainOriginal,type OriginalReference} from '../src/v2/objects';
 import {dispatchAction,reconcileAction,reconcileEffect,executionPreview} from '../src/v2/execution/broker';
-import {emailAdapter,publicationReadbackAdapter} from '../src/v2/execution/adapters';
-import {DispatchRejected,type ExecutionAdapter,type EffectIntent} from '../src/v2/execution/contracts';
+import {emailAdapter,internalDocumentAdapter,publicationReadbackAdapter} from '../src/v2/execution/adapters';
+import {DispatchRejected,type ExecutionAdapter,type ExecutionRequest,type EffectIntent} from '../src/v2/execution/contracts';
 import {processEffectReference} from '../src/v2/orchestration/effects';
 import {dispatchOutbox} from '../src/v2/orchestration/temporal';
 import {processLocalOutboxOnce} from '../src/v2/orchestration/conversations';
@@ -32,6 +32,40 @@ async function current(a:Action){return (await readWorkspace(actor.tenantId)).ac
 
 test('internal document execution retains immutable encrypted bytes and verifies one output across replay',()=>isolated(async()=>{
  const a=await prepared(),done=await dispatchAction(actor,a.id,await input(a));assert.equal(done.status,'verified');let s=await readWorkspace(actor.tenantId);const output=s.documents.find(d=>d.id===done.completionArtifact)!;assert.equal(output.body,a.content);assert.equal(output.authority,'draft');assert.equal(output.status,'proposed');const source=s.sources.find(x=>x.id===output.sourceId)!;assert.ok((await readOriginal(actor.tenantId,JSON.parse(source.originalObjectRef!))).equals(Buffer.from(a.content)));assert.ok(s.matters[0].tasks.some(task=>task.kind==='action'&&task.status==='done'&&task.evidenceIds.includes(a.id)));const replay=await dispatchAction(actor,a.id,await input(a));assert.equal(replay.completionArtifact,done.completionArtifact);s=await readWorkspace(actor.tenantId);assert.equal(s.documents.length,2);assert.equal(s.actions[0].completion?.kind,'readback');assert.equal(s.matters[0].state,'verifying');
+}));
+test('internal effect restart before retention cannot create an original during read-back',()=>isolated(async()=>{
+ const a=await prepared(),adapter=internalDocumentAdapter();let dispatches=0;
+ const interrupted={...adapter,dispatch:async()=>{dispatches++;throw new Error('Synthetic stop before original retention');}};
+ assert.equal((await dispatchAction(actor,a.id,await input(a,interrupted))).status,'uncertain');
+ const before=await readWorkspace(actor.tenantId),intent=before.receipts[`execution:${a.id}`].result.intent as EffectIntent;
+ assert.equal(intent.providerReceipt,null);assert.equal(before.documents.length,1);
+ const outbox=before.outbox.find(item=>item.kind==='effect_reconcile')!;
+ assert.deepEqual(await processEffectReference({tenantId:actor.tenantId,aggregateId:a.id,outboxId:outbox.id},{adapter}),{status:'waiting',nextCheckMs:6*3600000});
+ const after=await readWorkspace(actor.tenantId);
+ assert.equal(after.actions.find(item=>item.id===a.id)?.status,'uncertain');assert.equal(after.documents.length,1);assert.equal((after.receipts[`execution:${a.id}`].result.intent as EffectIntent).providerReceipt,null);assert.equal(dispatches,1);
+}));
+test('an original retained without a durable broker receipt stays uncertain after restart',()=>isolated(async()=>{
+ const a=await prepared(),adapter=internalDocumentAdapter();let retained:OriginalReference|null=null,dispatches=0;
+ const interrupted={...adapter,dispatch:async(request:ExecutionRequest)=>{dispatches++;retained=await retainOriginal(request.tenantId,Buffer.from(request.action.content,'utf8'));throw new Error('Synthetic lost original acknowledgement');}};
+ assert.equal((await dispatchAction(actor,a.id,await input(a,interrupted))).status,'uncertain');
+ assert.ok(retained);assert.equal((await readOriginal(actor.tenantId,retained!)).toString('utf8'),a.content);
+ const before=await readWorkspace(actor.tenantId),outbox=before.outbox.find(item=>item.kind==='effect_reconcile')!;
+ assert.equal((before.receipts[`execution:${a.id}`].result.intent as EffectIntent).providerReceipt,null);
+ assert.deepEqual(await processEffectReference({tenantId:actor.tenantId,aggregateId:a.id,outboxId:outbox.id},{adapter}),{status:'waiting',nextCheckMs:6*3600000});
+ const after=await readWorkspace(actor.tenantId);
+ assert.equal(after.actions.find(item=>item.id===a.id)?.status,'uncertain');assert.equal(after.documents.length,1);assert.equal((after.receipts[`execution:${a.id}`].result.intent as EffectIntent).providerReceipt,null);assert.equal(dispatches,1);
+}));
+test('worker verifies an internal original after the broker durably captures its exact receipt',()=>isolated(async()=>{
+ const a=await prepared(),adapter=internalDocumentAdapter();
+ const pending={...adapter,readback:async(_request:ExecutionRequest,receipt:string|null)=>({status:'pending' as const,receipt:receipt||'',reason:'Synthetic interruption before read-back'})};
+ assert.equal((await dispatchAction(actor,a.id,await input(a,pending))).status,'verifying');
+ const before=await readWorkspace(actor.tenantId),intent=before.receipts[`execution:${a.id}`].result.intent as EffectIntent,outbox=before.outbox.find(item=>item.kind==='effect_reconcile')!;
+ assert.ok(intent.providerReceipt);assert.equal(before.documents.length,1);
+ const reference=JSON.parse(intent.providerReceipt!) as OriginalReference;
+ assert.equal((await readOriginal(actor.tenantId,reference)).toString('utf8'),a.content);
+ assert.deepEqual(await processEffectReference({tenantId:actor.tenantId,aggregateId:a.id,outboxId:outbox.id},{adapter}),{status:'complete',nextCheckMs:0});
+ const after=await readWorkspace(actor.tenantId),output=after.documents.find(item=>item.id===after.actions.find(action=>action.id===a.id)?.completion?.artifact)!;
+ assert.equal(after.actions.find(item=>item.id===a.id)?.status,'verified');assert.equal(after.sources.find(item=>item.id===output.sourceId)?.originalObjectRef,intent.providerReceipt);
 }));
 test('revoked decision, changed subject and lesser role cannot escalate into execution',()=>isolated(async()=>{
  const a=await prepared();const bob={...actor,actorId:'member',bootstrapRoles:['member' as const]};await snapshot(bob);await assert.rejects(dispatchAction(bob,a.id,await input(a)),{code:'FORBIDDEN'});await transactWorkspace(actor.tenantId,s=>{s.actions[0].title='Unapproved subject';});await assert.rejects(dispatchAction(actor,a.id,await input(a)),{code:'STALE_ACTION'});await transactWorkspace(actor.tenantId,s=>{s.actions[0].title=a.title;s.approvals.find(x=>x.id===a.authorizationId)!.status='revoked';});await assert.rejects(dispatchAction(actor,a.id,await input(a)),{code:'AUTHORIZATION_EXPIRED'});assert.equal((await readWorkspace(actor.tenantId)).receipts[`execution:${a.id}`],undefined);

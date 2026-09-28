@@ -12,7 +12,14 @@ export function executionConfiguration(tenantId:string):ExecutionConfiguration {
 }
 export function internalDocumentAdapter():ExecutionAdapter {
  const retain=async(request:ExecutionRequest)=>retainOriginal(request.tenantId,Buffer.from(request.action.content,'utf8'));
- return {id:'internal-immutable-document-v1',configurationHash:digest({kind:'internal_document',storage:process.env.KIARA_ORIGINALS_MODE||'local_encrypted'}),supportedKinds:['internal_document'],effect:'internal',dispatch:async request=>({receipt:JSON.stringify(await retain(request))}),readback:async(request,receipt)=>{const reference:OriginalReference=receipt?JSON.parse(receipt):await retain(request);const bytes=await readOriginal(request.tenantId,reference);if(!bytes.equals(Buffer.from(request.action.content,'utf8')))return {status:'failed',receipt:JSON.stringify(reference),reason:'READBACK_MISMATCH'};return {status:'verified',receipt:JSON.stringify(reference),contentHash:request.action.contentHash,artifact:JSON.stringify(reference),internalDocument:{originalReference:JSON.stringify(reference),body:bytes.toString('utf8')}};}};
+ return {id:'internal-immutable-document-v1',configurationHash:digest({kind:'internal_document',storage:process.env.KIARA_ORIGINALS_MODE||'local_encrypted'}),supportedKinds:['internal_document'],effect:'internal',dispatch:async request=>({receipt:JSON.stringify(await retain(request))}),readback:async(request,receipt)=>{
+  // The broker must have durably captured the dispatch receipt. A missing receipt
+  // cannot be recovered by writing another original during worker read-back.
+  if(!receipt)return {status:'pending',receipt:'',reason:'ORIGINAL_RECEIPT_REQUIRED'};
+  const reference:OriginalReference=JSON.parse(receipt),bytes=await readOriginal(request.tenantId,reference);
+  if(!bytes.equals(Buffer.from(request.action.content,'utf8')))return {status:'failed',receipt,reason:'READBACK_MISMATCH'};
+  return {status:'verified',receipt,contentHash:request.action.contentHash,artifact:receipt,internalDocument:{originalReference:receipt,body:bytes.toString('utf8')}};
+ }};
 }
 async function boundedResponse(response:Response){if(Number(response.headers.get('content-length')||0)>500000||!response.body)throw new V2Error('PROVIDER_RESPONSE_LIMIT','The provider response exceeds the verification limit.',503);const chunks:Uint8Array[]=[];let size=0;const reader=response.body.getReader();while(true){const part=await reader.read();if(part.done)break;size+=part.value.length;if(size>500000){await reader.cancel();throw new V2Error('PROVIDER_RESPONSE_LIMIT','The provider response exceeds the verification limit.',503);}chunks.push(part.value);}return Buffer.concat(chunks).toString('utf8');}
 export function emailAdapter(configuration:ExecutionConfiguration,fetcher:typeof fetch=fetch):ExecutionAdapter {
