@@ -89,17 +89,26 @@ function eligibleOwner(s:WorkspaceState,membership:Membership,matter:Matter){
  }catch{return false;}
 }
 
+const withdrawalKey=(matterId:string,sourceId:string)=>`source-withdrawal:${digest({matterId,sourceId})}`;
+
+/** Existing receipts are a stable cursor while a withdrawn source's affected work is processed in batches. */
+export function pendingSourceWithdrawalMatters(s:WorkspaceState,source:Source):number {
+ return s.matters.filter(matter=>affected(s,matter,source.id)&&!s.receipts[withdrawalKey(matter.id,source.id)]).length;
+}
+
 /** Called before the source changes status, inside the same workspace transaction. */
-export function retainSourceWithdrawalWork(s:WorkspaceState,source:Source,actorId:string,onlyReviewRef?:string):number {
+export function retainSourceWithdrawalWork(s:WorkspaceState,source:Source,actorId:string,options:{maxMatters?:number;retryUnavailable?:boolean;onlyReviewRef?:string}={}):number {
  const matters=s.matters.filter(matter=>{
-  const prior=s.receipts[`source-withdrawal:${digest({matterId:matter.id,sourceId:source.id})}`];
-  return onlyReviewRef?prior?.result.status==='owner_unavailable'&&prior.result.reviewRef===onlyReviewRef:affected(s,matter,source.id);
+  const prior=s.receipts[withdrawalKey(matter.id,source.id)];
+  return options.onlyReviewRef?prior?.result.status==='owner_unavailable'&&prior.result.reviewRef===options.onlyReviewRef:affected(s,matter,source.id);
  });
- let created=0;
+ let created=0,attempted=0;
  for(const matter of matters){
-  const key=`source-withdrawal:${digest({matterId:matter.id,sourceId:source.id})}`;
+  const key=withdrawalKey(matter.id,source.id);
   const previous=s.receipts[key];
-  if(previous&&previous.result.status!=='owner_unavailable')continue;
+  if(previous&&(previous.result.status!=='owner_unavailable'||options.retryUnavailable===false))continue;
+  if(attempted>=(options.maxMatters??Infinity))break;
+  attempted++;
   const reviewRef=`EW-${key.slice('source-withdrawal:'.length,'source-withdrawal:'.length+12).toUpperCase()}`;
   const assigned=s.memberships.find(member=>member.actorId===matter.ownerId&&eligibleOwner(s,member,matter));
   const administrator=assigned?null:s.memberships.filter(member=>activeRole(s,member,'admin')).sort((a,b)=>a.actorId.localeCompare(b.actorId))[0]||null;
@@ -154,7 +163,7 @@ export function applyWithdrawalCommand(s:WorkspaceState,a:ActorContext,c:Withdra
   if(result.status!=='owner_unavailable')return {reviewRef:c.reviewRef,correctiveMatterId:result.correctiveMatterId||null,replayed:true};
   const source=s.sources.find(item=>item.id===result.sourceId);
   if(!source)throw new V2Error('NOT_FOUND','The retained exception source is unavailable for recovery.',404);
-  const count=retainSourceWithdrawalWork(s,source,a.actorId,c.reviewRef);
+  const count=retainSourceWithdrawalWork(s,source,a.actorId,{onlyReviewRef:c.reviewRef});
   if(count!==1)throw new V2Error('EXCEPTION_RECOVERY_FAILED','The retained exception could not be assigned without widening access.',409);
   return {reviewRef:c.reviewRef,correctiveMatterId:receipt.result.correctiveMatterId};
  }

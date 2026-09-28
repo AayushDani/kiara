@@ -109,3 +109,47 @@ test('operator reconciliation is capped at 100 source revisions and makes forwar
  const second=await checkInstallationAccess(tenantId);assert.equal(second.sourceIds.length,1);assert.equal(second.remaining,0);assert.notEqual(second.planHash,first.planHash);assert.equal((await reconcileInstallationAccess(tenantId,second.planHash)).revokedSources,1);
  assert.equal((await readWorkspace(tenantId)).sources.filter(source=>source.status==='active').length,0);
 }));
+
+test('a historical plan receipt cannot prove restored active evidence or a different storage destination',async()=>isolated(async tenantId=>{
+ const i=provider('gh','github',tenantId);process.env.KIARA_V2_INSTALLATIONS=JSON.stringify([i]);
+ await transactWorkspace(tenantId,s=>{s.memberships.push({actorId:'owner',roles:['member','business_owner'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null},{actorId:i.actorId,roles:['integration'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null});installSource(s,i);});
+ const original=structuredClone((await readWorkspace(tenantId)).sources[0]);process.env.KIARA_V2_INSTALLATIONS=JSON.stringify([{...i,enabled:false}]);
+ const checked=await checkInstallationAccess(tenantId);await reconcileInstallationAccess(tenantId,checked.planHash);const completed=await readWorkspace(tenantId);
+ await transactWorkspace(tenantId,s=>{s.sources[0]=original;});
+ await assert.rejects(reconcileInstallationAccess(tenantId,checked.planHash),{code:'INSTALLATION_PLAN_CHANGED'});
+ await transactWorkspace(tenantId,s=>{s.sources[0]=structuredClone(completed.sources[0]);});
+ assert.equal((await reconcileInstallationAccess(tenantId,checked.planHash)).replayed,true);
+ process.env.KIARA_V2_INSTALLATIONS=JSON.stringify([i]);await assert.rejects(reconcileInstallationAccess(tenantId,checked.planHash),{code:'INSTALLATION_PLAN_CHANGED'});process.env.KIARA_V2_INSTALLATIONS=JSON.stringify([{...i,enabled:false}]);
+ const oldRoot=process.env.KIARA_V2_DATA_DIR!;try{process.env.KIARA_V2_DATA_DIR=join(oldRoot,'alternate');await transactWorkspace(tenantId,s=>{Object.assign(s,structuredClone(completed));});await assert.rejects(reconcileInstallationAccess(tenantId,checked.planHash),{code:'INSTALLATION_PLAN_CHANGED'});}finally{process.env.KIARA_V2_DATA_DIR=oldRoot;}
+}));
+
+test('high-fanout withdrawal persists a fail-closed source fence and resumes from matter receipts',async()=>isolated(async tenantId=>{
+ const i=provider('bulk','github',tenantId);process.env.KIARA_V2_INSTALLATIONS=JSON.stringify([i]);
+ await transactWorkspace(tenantId,s=>{s.memberships.push({actorId:'owner',roles:['member','business_owner'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null},{actorId:i.actorId,roles:['integration'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null});const {matter}=installSource(s,i);for(let n=1;n<45;n++)s.matters.push({...structuredClone(matter),id:`matter-${n}`});});
+ process.env.KIARA_V2_INSTALLATIONS=JSON.stringify([{...i,enabled:false}]);
+ await snapshot(owner(tenantId));let state=await readWorkspace(tenantId);assert.equal(state.sources[0].status,'revoked');assert.equal(state.receipts['installation-access-progress:source-bulk'].result.status,'pending');assert.equal(state.events.filter(e=>e.type==='source.withdrawal_correction').length,20);
+ process.env.KIARA_V2_INSTALLATIONS=JSON.stringify([i]);assert.equal(canRead(state,owner(tenantId),state.sources[0]),false,'config restoration cannot reactivate a partially withdrawn revision');
+ await snapshot(owner(tenantId));state=await readWorkspace(tenantId);assert.equal(state.events.filter(e=>e.type==='source.withdrawal_correction').length,40);
+ await snapshot(owner(tenantId));state=await readWorkspace(tenantId);assert.equal(state.events.filter(e=>e.type==='source.withdrawal_correction').length,45);assert.equal(state.receipts['installation-access-progress:source-bulk'].result.status,'complete');assert.equal(state.outbox.filter(o=>o.kind==='matter_changed').length,45);
+ await snapshot(owner(tenantId));assert.equal((await readWorkspace(tenantId)).events.filter(e=>e.type==='source.withdrawal_correction').length,45);
+}));
+
+test('provider membership entity and matter narrowing withdraws old revisions without reactivation',async()=>isolated(async tenantId=>{
+ const installations=[provider('entity','github',tenantId),provider('matter','drive',tenantId)];process.env.KIARA_V2_INSTALLATIONS=JSON.stringify(installations);
+ installations[1].scope={kind:'matter',matterId:'matter-matter',actorIds:['owner',installations[1].actorId]};process.env.KIARA_V2_INSTALLATIONS=JSON.stringify(installations);
+ await transactWorkspace(tenantId,s=>{s.memberships.push({actorId:'owner',roles:['member','business_owner'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null});for(const i of installations){s.memberships.push({actorId:i.actorId,roles:['integration'],version:1,expiresAt:null,revokedAt:null,matterIds:i.id==='matter'?['matter-matter']:null,entityIds:null});installSource(s,i);}});
+ assert.equal((await snapshot(owner(tenantId))).sources.length,2);
+ await transactWorkspace(tenantId,s=>{s.memberships.find(m=>m.actorId==='integration-entity')!.entityIds=[];s.memberships.find(m=>m.actorId==='integration-matter')!.matterIds=[];});
+ const narrowed=await readWorkspace(tenantId);assert.ok(narrowed.sources.every(source=>!canRead(narrowed,owner(tenantId),source)));
+ assert.equal((await snapshot(owner(tenantId))).sources.length,0);assert.equal((await readWorkspace(tenantId)).sources.filter(source=>source.status==='revoked').length,2);
+ await transactWorkspace(tenantId,s=>{s.memberships.find(m=>m.actorId==='integration-entity')!.entityIds=null;s.memberships.find(m=>m.actorId==='integration-matter')!.matterIds=null;});
+ assert.equal((await snapshot(owner(tenantId))).sources.length,0);
+}));
+
+test('malformed private installation config does not disclose evidence or block an unrelated member',async()=>isolated(async tenantId=>{
+ const i=provider('private','github',tenantId);i.scope={kind:'private',actorIds:['owner']};process.env.KIARA_V2_INSTALLATIONS=JSON.stringify([i]);
+ await transactWorkspace(tenantId,s=>{s.memberships.push({actorId:'owner',roles:['member','business_owner'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null},{actorId:'bystander',roles:['member'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null},{actorId:i.actorId,roles:['integration'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null});const {matter}=installSource(s,i);matter.scope={kind:'private',actorIds:['owner']};});
+ const before=digest(await readWorkspace(tenantId));process.env.KIARA_V2_INSTALLATIONS='malformed';
+ const bystander:ActorContext={tenantId,actorId:'bystander',mode:'authenticated',expiresAt:Date.now()+60_000};const view=await snapshot(bystander);assert.equal(view.sources.length,0);assert.equal(view.matters.length,0);assert.equal(view.limitations.some(text=>text.includes('Access-loss reconciliation')),false);
+ assert.equal(digest(await readWorkspace(tenantId)),before);await assert.rejects(snapshot(owner(tenantId)),{code:'INSTALLATION_CONFIG_UNAVAILABLE'});
+}));

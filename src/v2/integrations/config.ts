@@ -41,5 +41,5 @@ export function sourceInstallationEligible(state:WorkspaceState,source:Source):b
  let i:Installation|undefined;try{i=currentInstallations().find(i=>i.id===grant.installationId);}catch{return false;}
  if(!i||!i.enabled||i.tenantId!==state.tenantId||i.provider!==source.kind||i.actorId!==source.provenance.actorId||!source.externalId?.startsWith(`${i.id}:`)||digest(i)!==grant.configurationHash||digest(source.scope)!==digest(i.scope))return false;
  const member=state.memberships.find(m=>m.actorId===i.actorId);
- return !!member&&!member.revokedAt&&(!member.expiresAt||Date.parse(member.expiresAt)>Date.now())&&member.roles.includes('integration');
+ return !!member&&!member.revokedAt&&(!member.expiresAt||Date.parse(member.expiresAt)>Date.now())&&member.roles.includes('integration')&&(!member.entityIds||member.entityIds.includes(state.entityId))&&(member.matterIds===null||source.scope.kind==='matter'&&!!source.scope.matterId&&member.matterIds.includes(source.scope.matterId));
 }
