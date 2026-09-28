@@ -19,7 +19,7 @@ export interface DeletionJob {
  backupExpiresAt:string|null;backupStatus:'operator_verification_required';
 }
 export interface DeletionView {id:string;sourceId:string;requestedAt:string;recordsRedacted:number;originalsPending:number;operationalExceptions:number;indexCleanup:DeletionJob['indexCleanup'];historicalCleanup:DeletionJob['historicalCleanup'];backupExpiresAt:string|null;backupStatus:DeletionJob['backupStatus']}
-const referenceKeys=new Set(['sourceId','sourceIds','factIds','documentIds','baselineRevisionIds','artifactIds','matterId','conversationId','conversationIds','scenarioId','proposalId','originMatterId','originProposalId','businessApprovalId','legalApprovalId','documentId','counterpartyEntityId','productEntityIds','recordId','parentRevisionId','messageId']);
+const referenceKeys=new Set(['sourceId','sourceIds','factIds','documentIds','baselineRevisionIds','artifactIds','matterId','observedMatterId','conversationId','conversationIds','scenarioId','proposalId','originMatterId','originProposalId','businessApprovalId','legalApprovalId','documentId','counterpartyEntityId','productEntityIds','recordId','parentRevisionId','messageId']);
 function references(value:unknown,ids:Set<string>,key=''):boolean {
  if(typeof value==='string')return referenceKeys.has(key)&&ids.has(value);
  if(Array.isArray(value))return value.some(v=>references(v,ids,key));
@@ -70,7 +70,7 @@ export function redactedRecord(kind:RecordKind,value:RecordBase&Record<string,un
  case 'coverage':r.domain='removed';r.jurisdiction='removed';r.limitations=['Supporting evidence deleted.'];r.status='unsupported';break;
  case 'events':clear('detail');break;
  case 'effortEntries':clear('evidence');if(r.voidReason)r.voidReason='Excluded record; reason payload deleted.';break;
- case 'effortBaselines':clear('comparisonScope','evidence');break;
+ case 'effortBaselines':clear('comparisonScope','evidence','observedMatterId','observedCaseBindingHash');break;
  case 'obligations':clear('rationale','fulfillmentCriteria');r.quote=null;r.cancellationReason=r.cancellationReason?'Basis payload deleted.':null;if(r.completion)r.completion={...(r.completion as object),evidence:'Completion payload deleted; attribution retained.'};break;
  }
  return r;

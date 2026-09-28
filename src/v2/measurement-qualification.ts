@@ -44,6 +44,13 @@ export function caseOutcomeHash(s:WorkspaceState,matterId:string):string|null {
  return digest({tenantId:s.tenantId,matter:{id:matter.id,version:matter.version,objective:matter.objective,scope:matter.scope,state:matter.state,outcome:matter.outcome,closedAt:matter.closedAt,tasks:matter.tasks.map(task=>({id:task.id,status:task.status,evidenceIds:task.evidenceIds,completion:task.completion||null}))},actions:actions.map(action=>({id:action.id,version:action.version,status:action.status,kind:action.kind,contentHash:action.contentHash,completion:action.completion})),obligations:obligations.map(item=>({id:item.id,version:item.version,status:item.status,completion:item.completion}))});
 }
 
+/** An opaque binding to the selected observed case and every attributed effort record. */
+export function caseEvidenceBindingHash(s:WorkspaceState,matterId:string):string|null {
+ const outcomeHash=caseOutcomeHash(s,matterId);if(!outcomeHash)return null;
+ const effort=(s.effortEntries||[]).filter(item=>item.matterId===matterId).sort((a,b)=>a.id.localeCompare(b.id)).map(item=>({id:item.id,tenantId:item.tenantId,version:item.version,scope:item.scope,provenance:item.provenance,actorId:item.actorId,stage:item.stage,method:item.method,minutes:item.minutes,startedAt:item.startedAt,stoppedAt:item.stoppedAt,evidence:item.evidence,voidReason:item.voidReason}));
+ return digest({tenantId:s.tenantId,matterId,outcomeHash,effort});
+}
+
 function intervalsDuplicate(entries:EffortEntry[]):boolean {
  const reported=new Set<string>();
  for(const entry of entries){
@@ -114,7 +121,7 @@ export function qualifyPairedCases(s:WorkspaceState,manifest:PairedCaseManifest)
   if(digest(baseline.matter.scope)!==digest(current.matter.scope)||!manifest.comparisonScope?.trim())reasons.add('SCOPE_NOT_COMPARABLE');
   const record=(s.effortBaselines||[]).find(item=>item.id===manifest.baselineRecordId&&item.matterId===current.matter.id&&item.current);
   if(!record||record.method!=='observed_comparable_work')reasons.add('BASELINE_NOT_OBSERVED');
-  if(!record||record.minutes!==baseline.minutes||record.comparisonScope!==manifest.comparisonScope||!record.evidence.trim()||record.tenantId!==s.tenantId)reasons.add('BASELINE_NOT_PAIRED');
+  if(!record||record.minutes!==baseline.minutes||record.comparisonScope!==manifest.comparisonScope||!record.evidence.trim()||record.tenantId!==s.tenantId||record.observedMatterId!==baseline.matter.id||!record.observedCaseBindingHash||record.observedCaseBindingHash!==caseEvidenceBindingHash(s,baseline.matter.id))reasons.add('BASELINE_NOT_PAIRED');
  }
  const quality=manifest.quality;
  if(!quality||quality.verdict!=='equivalent_quality'||!validTime(quality.reviewedAt)||Date.parse(quality.reviewedAt)>Date.now()||!/^[a-f0-9]{64}$/.test(quality.artifactDigest))reasons.add('QUALITY_REVIEW_MISSING');

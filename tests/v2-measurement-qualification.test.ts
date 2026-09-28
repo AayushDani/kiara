@@ -5,7 +5,9 @@ import {mkdir,mkdtemp,readFile,rm,writeFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {dirname,join} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {caseOutcomeHash,qualifyPairedCases,type PairedCaseManifest,type QualificationReason} from '../src/v2/measurement-qualification';
+import {caseEvidenceBindingHash,caseOutcomeHash,qualifyPairedCases,type PairedCaseManifest,type QualificationReason} from '../src/v2/measurement-qualification';
+import {applyMeasurementCommand,effortComparisons} from '../src/v2/measurement';
+import {snapshotFromState} from '../src/v2/service';
 import {digest,emptyWorkspace} from '../src/v2/store';
 import {valueView,type ValueGoal,type ValueReceipt,type ValueSession} from '../src/v2/value';
 import type {EffortBaseline,EffortEntry} from '../src/v2/measurement';
@@ -25,7 +27,7 @@ function fixture(){
  s.counsel.push({...base(s,'counsel-review','counsel'),matterId:'after',route:'existing',status:'returned',counselActorId:'counsel'} as WorkspaceState['counsel'][number]);
  s.effortEntries=[effort(s,'before-owner','before','owner','setup',20),effort(s,'before-publisher','before','publisher','execution',40),effort(s,'after-owner','after','owner','setup',10),effort(s,'after-publisher','after','publisher','execution',20),effort(s,'after-counsel','after','counsel','review',10),effort(s,'after-correction','after','owner','correction',5)];
  const comparisonScope='Same fictional objective, audience, review standard and completion definition';
- const baseline:EffortBaseline={...base(s,'baseline-record'),matterId:'after',minutes:60,method:'observed_comparable_work',comparisonScope,evidence:'Fictional attributed timesheet for exact before matter.',current:true,supersedesId:null};s.effortBaselines=[baseline];
+ const baseline:EffortBaseline={...base(s,'baseline-record'),matterId:'after',minutes:60,method:'observed_comparable_work',comparisonScope,evidence:'Fictional attributed timesheet for exact before matter.',observedMatterId:'before',observedCaseBindingHash:caseEvidenceBindingHash(s,'before'),current:true,supersedesId:null};s.effortBaselines=[baseline];
  const privateBase=(id:string):RecordBase=>({...base(s,id),scope:{kind:'private',actorIds:['owner']}});
  const session:ValueSession={...privateBase('value-session'),ownerId:'owner',observedStartedAt:'2026-09-27T09:00:00.000Z',baselineKind:'observed_command',measurement:'observed',firstGeneratedAt:'2026-09-27T09:00:00.000Z',firstUsefulReceiptId:'before-useful'};s.valueSessions=[session];
  s.valueGoals=(['before','after'] as const).map(id=>({...privateBase(`${id}-goal`),ownerId:'owner',sessionId:session.id,title:`Useful ${id} packet`,successCriteria:'Owner reports this exact reviewed packet useful.',conversationId:null,status:'working',outcomeNote:null,outcomeReceiptId:null}) satisfies ValueGoal);
@@ -76,10 +78,43 @@ test('missing, withdrawn or stale exact usefulness receipts cannot qualify a com
 test('estimated or unmatched baselines, changed outcomes and incomparable scopes fail closed',()=>{
  incomplete(s=>{s.effortBaselines![0].method='estimate';},'BASELINE_NOT_OBSERVED');
  incomplete(s=>{s.effortBaselines![0].minutes=55;},'BASELINE_NOT_PAIRED');
+ incomplete(s=>{s.effortBaselines![0].observedCaseBindingHash=null;},'BASELINE_NOT_PAIRED');
+ incomplete(s=>{s.effortBaselines![0].observedMatterId='after';},'BASELINE_NOT_PAIRED');
+ incomplete(s=>{s.effortBaselines![0].observedCaseBindingHash=caseEvidenceBindingHash(s,'after');},'BASELINE_NOT_PAIRED');
  incomplete(s=>{s.matters[1].scope={kind:'private',actorIds:['owner']};},'SCOPE_NOT_COMPARABLE');
  incomplete(s=>{s.matters[1].outcome='Different final result';},'OUTCOME_CHANGED');
  incomplete((_s,m)=>{m.baseline.matterId=m.current.matterId;},'TENANT_OR_PAIR_CHANGED');
  incomplete(s=>{s.rehearsal=true;},'REHEARSAL_EXCLUDED');
+});
+test('recording an observed baseline binds the exact completed case and all its attributed effort',()=>{
+ const {s,manifest}=fixture(),actor:ActorContext={tenantId:s.tenantId,actorId:'owner',mode:'authenticated',expiresAt:Date.now()+60_000};
+ s.effortBaselines=[];
+ const result=applyMeasurementCommand(s,actor,{type:'baseline.record',matterId:'after',observedMatterId:'before',minutes:60,method:'observed_comparable_work',comparisonScope:manifest.comparisonScope,evidence:'Attributed timesheet for the selected completed comparison case.'});
+ manifest.baselineRecordId=String(result.baselineId);
+ assert.equal(s.effortBaselines[0].observedCaseBindingHash,caseEvidenceBindingHash(s,'before'));
+ assert.equal(s.effortBaselines[0].observedMatterId,'before');
+ assert.equal(qualifyPairedCases(s,manifest).status,'evidence_ready');
+ s.matters[0].objective='A corrected historical outcome basis';
+ manifest.baseline.outcomeHash=caseOutcomeHash(s,'before')!;manifest.quality!.baselineOutcomeHash=manifest.baseline.outcomeHash;
+ assert.ok(qualifyPairedCases(s,manifest).reasons.includes('BASELINE_NOT_PAIRED'));
+ assert.throws(()=>applyMeasurementCommand(s,actor,{type:'baseline.record',matterId:'after',observedMatterId:'after',minutes:60,method:'observed_comparable_work',comparisonScope:manifest.comparisonScope,evidence:'Wrong case.'}),{code:'INVALID_OBSERVED_CASE'});
+ assert.throws(()=>applyMeasurementCommand(s,actor,{type:'baseline.record',matterId:'after',observedMatterId:'before',minutes:59,method:'observed_comparable_work',comparisonScope:manifest.comparisonScope,evidence:'Wrong amount.'}),{code:'OBSERVED_MINUTES_CHANGED'});
+});
+test('an observed case cannot widen its audience and changed or inaccessible cases lose their comparison',()=>{
+ const {s,manifest}=fixture(),owner:ActorContext={tenantId:s.tenantId,actorId:'owner',mode:'authenticated',expiresAt:Date.now()+60_000};
+ s.matters[0].scope={kind:'private',actorIds:['owner']};
+ assert.throws(()=>applyMeasurementCommand(s,owner,{type:'baseline.record',matterId:'after',observedMatterId:'before',minutes:60,method:'observed_comparable_work',comparisonScope:manifest.comparisonScope,evidence:'Private historical work.'}),{code:'OBSERVED_CASE_AUDIENCE'});
+ const other=fixture(),publisher:ActorContext={tenantId:other.s.tenantId,actorId:'publisher',mode:'authenticated',expiresAt:Date.now()+60_000};
+ other.s.effortEntries![0].evidence='Corrected historical time record.';
+ assert.equal(effortComparisons(other.s,owner)[1].baselineBindingStatus,'stale');
+ assert.equal(effortComparisons(other.s,owner)[1].differenceMinutes,null);
+ other.s.memberships.find(member=>member.actorId==='publisher')!.matterIds=['after'];
+ other.s.effortBaselines![0].scope={kind:'matter',matterId:'after',actorIds:[]};
+ assert.equal(effortComparisons(other.s,publisher)[0].baselineMinutes,null);
+ assert.equal(snapshotFromState(other.s,publisher).effortBaselines?.some(item=>item.id===other.s.effortBaselines![0].id),false);
+ const hiddenEffort=fixture();hiddenEffort.s.effortEntries![0].scope={kind:'private',actorIds:['owner']};
+ assert.equal(effortComparisons(hiddenEffort.s,publisher).find(item=>item.matterId==='after')?.baselineMinutes,null);
+ assert.equal(snapshotFromState(hiddenEffort.s,publisher).effortBaselines?.some(item=>item.id===hiddenEffort.s.effortBaselines![0].id),false);
 });
 test('independent, exact-basis quality adjudication is mandatory',()=>{
  incomplete((_s,m)=>{m.quality=null;},'QUALITY_REVIEW_MISSING');
