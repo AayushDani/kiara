@@ -1,7 +1,7 @@
 import {permittedHistoryRedaction,redactHistoricalWorkspace} from './retention';
 import {createHash, randomUUID} from 'node:crypto';
 import {mkdir, open, readFile, rename, rm, stat} from 'node:fs/promises';
-import {join} from 'node:path';
+import {join,resolve} from 'node:path';
 import {MongoClient} from 'mongodb';
 import {V2Error, type WorkspaceState} from './contracts';
 import {v2DatabaseName} from './database-target';
@@ -25,6 +25,12 @@ function tenantKey(tenantId:string){if(typeof tenantId!=='string'||tenantId.leng
 const root=()=>process.env.KIARA_V2_DATA_DIR||join(process.env.KIARA_DATA_DIR||join(process.cwd(),'.kiara'),'v2');
 const directory=(tenantId:string)=>join(root(),tenantKey(tenantId));
 function persistenceMode(){if(process.env.KIARA_V2_STORE_MODE&&!['aggregate','normalized'].includes(process.env.KIARA_V2_STORE_MODE))throw new V2Error('STORE_MODE_INVALID','Choose aggregate or normalized storage explicitly.',503);if(process.env.KIARA_V2_STORE_MODE==='normalized'){if(!process.env.MONGODB_URI)throw new V2Error('NORMALIZED_STORE_NOT_CONFIGURED','Normalized storage requires MongoDB.',503);return 'normalized';}if(process.env.VERCEL&&!process.env.MONGODB_URI)throw new V2Error('STORE_NOT_CONFIGURED','Hosted v2 workspaces require durable MongoDB storage.',503);return process.env.MONGODB_URI?'mongo':'local';}
+/** Secret-free identity for the exact operator data and original stores. */
+export function operatorDestinationIdentity(){
+ const storageMode=persistenceMode(),database=storageMode==='local'?null:v2DatabaseName(),originalsMode=process.env.KIARA_ORIGINALS_MODE||(process.env.MONGODB_URI?'mongo_encrypted':'local_encrypted');
+ const fingerprint=digest({storageMode,database,mongoUri:storageMode==='local'?null:process.env.MONGODB_URI,localRoot:storageMode==='local'?resolve(root()):null,originalsMode,originalsRoot:originalsMode==='local_encrypted'?resolve(process.env.KIARA_ORIGINALS_DIR||join(process.env.KIARA_V2_DATA_DIR||process.env.KIARA_DATA_DIR||join(process.cwd(),'.kiara'),'originals')):null,originalsBucket:originalsMode==='s3_kms'?process.env.KIARA_ORIGINALS_S3_BUCKET:null,originalsKmsKey:originalsMode==='s3_kms'?process.env.KIARA_ORIGINALS_KMS_KEY_ID:null,originalsKey:process.env.KIARA_ORIGINALS_KEY||null});
+ return {storageMode,database,fingerprint};
+}
 let client:MongoClient|undefined;let mongoUri:string|undefined;
 async function collection(){const uri=process.env.MONGODB_URI!,target=v2DatabaseName();if(client&&mongoUri!==uri)throw new V2Error('STORE_CONFIG_CHANGED','Close the v2 store before changing database configuration.',503);if(!client){mongoUri=uri;client=new MongoClient(uri,{serverSelectionTimeoutMS:5000,maxPoolSize:8});await client.connect();}return client.db(target).collection<{_id:string;version:number;state:WorkspaceState;storageFence?:{mode:string}}>('v2_workspaces');}
 async function readLocal(tenantId:string):Promise<WorkspaceState>{try{const envelope=JSON.parse(await readFile(join(directory(tenantId),'workspace.json'),'utf8'));if(envelope.format!==2||envelope.hash!==digest(envelope.state))throw new V2Error('STORE_INTEGRITY','Workspace storage checksum failed.',503);validateWorkspace(envelope.state);if(envelope.state.tenantId!==tenantId)throw new V2Error('TENANT_MISMATCH','Scoped storage identity mismatch.',503);return envelope.state;}catch(error){if((error as NodeJS.ErrnoException).code==='ENOENT')return emptyWorkspace(tenantId);throw error;}}
@@ -43,10 +49,12 @@ export async function closeV2Store(){await (await import('./normalized-store')).
 export interface WorkspaceBackup {format:'kiara-v2-backup';createdAt:string;hash:string;state:WorkspaceState}
 export async function backupWorkspace(tenantId:string):Promise<WorkspaceBackup>{const state=await readWorkspace(tenantId);return {format:'kiara-v2-backup',createdAt:timestamp(),hash:digest(state),state};}
 /** Operator restore is deliberately unavailable over the customer command API. */
-export async function restoreWorkspace(backup:WorkspaceBackup,expectedVersion:number,dryRun=true){
+export async function restoreWorkspace(backup:WorkspaceBackup,expectedVersion:number,dryRun=true,expectedPlanHash:string|null=null){
  if(backup.format!=='kiara-v2-backup'||backup.hash!==digest(backup.state))throw new V2Error('BACKUP_INTEGRITY','Backup checksum failed.');validateWorkspace(backup.state,undefined,{aggregateLimit:persistenceMode()!=='normalized'});
  const current=await readWorkspace(backup.state.tenantId);if(current.version!==expectedVersion)throw new V2Error('VERSION_CONFLICT','Workspace changed before restore.');
  if(current.version>0&&digest(current)!==backup.hash)throw new V2Error('RESTORE_TARGET_NOT_EMPTY','Restore into an isolated recovery store, then reconcile current access and history before cutover.');
+ const destination=operatorDestinationIdentity(),backupHash=digest(backup),destinationStateHash=digest(current),planHash=digest({operation:'restore',tenantId:backup.state.tenantId,backupHash,expectedVersion,destinationStateHash,destination});
+ if(!dryRun&&(!expectedPlanHash||expectedPlanHash!==planHash))throw new V2Error('RESTORE_PLAN_CHANGED','The backup or destination differs from the reviewed restore check. Repeat the check before applying.',409);
  // Never roll back identity revocations, accepted commands, tombstones or external effects.
  const restored=structuredClone(backup.state);restored.version=current.version;restored.receipts={...restored.receipts,...current.receipts};restored.deletionJobs=[...new Map([...(restored.deletionJobs||[]),...(current.deletionJobs||[])].map(j=>[j.id,j])).values()];restored.outbox=[...new Map([...restored.outbox,...current.outbox].map(o=>[o.id,o])).values()];restored.tombstones=[...new Map([...restored.tombstones,...current.tombstones].map(t=>[t.sourceId,t])).values()];
  for(const m of current.memberships){const target=restored.memberships.find(x=>x.actorId===m.actorId);if(target)Object.assign(target,m);else restored.memberships.push(m);}
@@ -55,6 +63,6 @@ export async function restoreWorkspace(backup:WorkspaceBackup,expectedVersion:nu
  for(const job of restored.deletionJobs)redactHistoricalWorkspace(restored,job);
  // A nonempty live aggregate cannot have its immutable history rewritten by restore.
  if(current.events.length&&digest(current.events)!==digest(restored.events))throw new V2Error('RESTORE_TARGET_NOT_EMPTY','Restore into an isolated recovery store, then reconcile history before cutover.');
- const result={dryRun,tenantId:restored.tenantId,records:lists.reduce((n,k)=>n+(restored[k]||[]).length,0),tombstones:restored.tombstones.length,unresolvedEffects:restored.actions.filter(x=>['uncertain','dispatching'].includes(x.status)).length};
- if(!dryRun)await transactWorkspace(restored.tenantId,state=>{if(state.version!==expectedVersion)throw new V2Error('VERSION_CONFLICT','Workspace changed during restore.');if(state.version>0&&digest(state)!==backup.hash)throw new V2Error('RESTORE_TARGET_NOT_EMPTY','Restore target diverged before apply.');Object.assign(state,restored);});return result;
+ const result={dryRun,tenantId:restored.tenantId,backupHash,destinationStateHash,destination,planHash,records:lists.reduce((n,k)=>n+(restored[k]||[]).length,0),tombstones:restored.tombstones.length,unresolvedEffects:restored.actions.filter(x=>['uncertain','dispatching'].includes(x.status)).length};
+ if(!dryRun)await transactWorkspace(restored.tenantId,state=>{if(state.version!==expectedVersion||digest(state)!==destinationStateHash||operatorDestinationIdentity().fingerprint!==destination.fingerprint)throw new V2Error('RESTORE_PLAN_CHANGED','The reviewed restore destination changed before commit.');if(state.version>0&&digest(state)!==backup.hash)throw new V2Error('RESTORE_TARGET_NOT_EMPTY','Restore target diverged before apply.');Object.assign(state,restored);});return result;
 }

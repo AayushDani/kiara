@@ -8,7 +8,7 @@ import {spawnSync} from 'node:child_process';
 import {seed,TENANT} from '../src/data/fixtures';
 import {importLegacySnapshot,exportLegacyArchive} from '../src/v2/migration';
 import {retainOriginal,readOriginal} from '../src/v2/objects';
-import {readWorkspace,backupWorkspace,restoreWorkspace,digest} from '../src/v2/store';
+import {readWorkspace,backupWorkspace,restoreWorkspace,digest,emptyWorkspace} from '../src/v2/store';
 
 test('migration dry run is inert; archive import is restartable and preserves exact legacy bytes without dispatch ownership',async()=>{
  const before={...process.env},dir=await mkdtemp(join(tmpdir(),'kiara-v2-migration-'));
@@ -16,8 +16,8 @@ test('migration dry run is inert; archive import is restartable and preserves ex
   process.env.KIARA_V2_DATA_DIR=join(dir,'workspaces');process.env.KIARA_ORIGINALS_DIR=join(dir,'originals');delete process.env.MONGODB_URI;delete process.env.VERCEL;delete process.env.KIARA_ORIGINALS_KEY;process.env.KIARA_V2_AUTH_MODE='local_demo';
   const bytes=Buffer.from(JSON.stringify(seed(),null,2)+'\n');
   const dry=await importLegacySnapshot('tenant-migration',bytes,0,TENANT,null,true);assert.equal(dry.effectOwner,'legacy');assert.equal(dry.version,2);assert.equal(dry.sourceTenantId,TENANT);assert.equal(dry.destinationTenantId,'tenant-migration');assert.equal((await readWorkspace('tenant-migration')).version,0);
-  await importLegacySnapshot('tenant-migration',bytes,0,TENANT,dry.sourceHash,false);const migrated=await readWorkspace('tenant-migration');assert.ok(migrated.migration);assert.equal((migrated.migration.legacyArchive as {legacyTenant:string}).legacyTenant,TENANT);assert.equal(migrated.actions.length,0);assert.equal(migrated.outbox.length,0);assert.ok(bytes.equals(await exportLegacyArchive('tenant-migration')));
-  await importLegacySnapshot('tenant-migration',bytes,migrated.version,TENANT,dry.sourceHash,false);assert.equal((await readWorkspace('tenant-migration')).version,migrated.version);
+  await importLegacySnapshot('tenant-migration',bytes,0,TENANT,dry.sourceHash,false,dry.planHash);const migrated=await readWorkspace('tenant-migration');assert.ok(migrated.migration);assert.equal((migrated.migration.legacyArchive as {legacyTenant:string}).legacyTenant,TENANT);assert.equal(migrated.actions.length,0);assert.equal(migrated.outbox.length,0);assert.ok(bytes.equals(await exportLegacyArchive('tenant-migration')));
+  const replay=await importLegacySnapshot('tenant-migration',bytes,migrated.version,TENANT,null,true);await importLegacySnapshot('tenant-migration',bytes,migrated.version,TENANT,replay.sourceHash,false,replay.planHash);assert.equal((await readWorkspace('tenant-migration')).version,migrated.version);
   const changed=Buffer.from(JSON.stringify(seed(2)));await assert.rejects(importLegacySnapshot('tenant-migration',changed,migrated.version,TENANT,digest(Array.from(changed)),false),/different retained/);
   const backup=await backupWorkspace('tenant-migration');assert.equal((await restoreWorkspace(backup,migrated.version,true)).dryRun,true);backup.hash='tampered';await assert.rejects(restoreWorkspace(backup,migrated.version),/checksum/);
  }finally{for(const key of Object.keys(process.env))if(!(key in before))delete process.env[key];Object.assign(process.env,before);await rm(dir,{recursive:true,force:true});}
@@ -56,15 +56,33 @@ test('migration operator requires the inspected source hash and rejects replacem
   const snapshotPath=join(dir,'legacy.json'),originalsDir=join(dir,'originals'),inspected=Buffer.from(JSON.stringify(seed())),replaced=Buffer.from(JSON.stringify(seed(2)));
   await writeFile(snapshotPath,inspected);
   const script=join(dirname(fileURLToPath(import.meta.url)),'../scripts/v2-operator.ts');
-  const run=(operation:'migrate-check'|'migrate',hash?:string)=>spawnSync(process.execPath,['--import','tsx',script,operation,'destination',snapshotPath,'0',TENANT,...(hash?[hash]:[])],{cwd:join(dirname(fileURLToPath(import.meta.url)),'..'),env:{...process.env,KIARA_V2_DATA_DIR:join(dir,'workspaces'),KIARA_ORIGINALS_DIR:originalsDir,KIARA_V2_STORE_MODE:'',KIARA_ORIGINALS_MODE:'local_encrypted',KIARA_ORIGINALS_KEY:'',MONGODB_URI:'',VERCEL:'',KIARA_V2_AUTH_MODE:'local_demo'},encoding:'utf8'});
-  const check=run('migrate-check');assert.equal(check.status,0,check.stderr);const sourceHash=JSON.parse(check.stdout).sourceHash as string;
+  const run=(operation:'migrate-check'|'migrate',hash?:string,planHash?:string,dataDir=join(dir,'workspaces'))=>spawnSync(process.execPath,['--import','tsx',script,operation,'destination',snapshotPath,'0',TENANT,...(hash?[hash]:[]),...(planHash?[planHash]:[])],{cwd:join(dirname(fileURLToPath(import.meta.url)),'..'),env:{...process.env,KIARA_V2_DATA_DIR:dataDir,KIARA_ORIGINALS_DIR:originalsDir,KIARA_V2_STORE_MODE:'',KIARA_ORIGINALS_MODE:'local_encrypted',KIARA_ORIGINALS_KEY:'',MONGODB_URI:'',VERCEL:'',KIARA_V2_AUTH_MODE:'local_demo'},encoding:'utf8'});
+  const check=run('migrate-check');assert.equal(check.status,0,check.stderr);const {sourceHash,planHash}=JSON.parse(check.stdout) as {sourceHash:string;planHash:string};
   assert.equal(sourceHash,digest(Array.from(inspected)));
-  const missing=run('migrate');assert.equal(missing.status,1);assert.match(missing.stderr,/reviewed source hash/);
+  const missing=run('migrate');assert.equal(missing.status,1);assert.match(missing.stderr,/reviewed source and plan hashes/);
   await writeFile(snapshotPath,replaced);
-  const changed=run('migrate',sourceHash);assert.equal(changed.status,1);assert.match(changed.stderr,/differs from the reviewed dry run/);
+  const changed=run('migrate',sourceHash,planHash);assert.equal(changed.status,1);assert.match(changed.stderr,/differs from the reviewed dry run/);
   await assert.rejects(stat(originalsDir),{code:'ENOENT'});
   await writeFile(snapshotPath,inspected);
-  const applied=run('migrate',sourceHash);assert.equal(applied.status,0,applied.stderr);assert.equal(JSON.parse(applied.stdout).sourceHash,sourceHash);
+  const switched=run('migrate',sourceHash,planHash,join(dir,'other-workspaces'));assert.equal(switched.status,1);assert.match(switched.stderr,/source or destination differs from the reviewed migration check/);await assert.rejects(stat(originalsDir),{code:'ENOENT'});
+  const applied=run('migrate',sourceHash,planHash);assert.equal(applied.status,0,applied.stderr);assert.equal(JSON.parse(applied.stdout).sourceHash,sourceHash);
+ }finally{await rm(dir,{recursive:true,force:true});}
+});
+
+test('restore operator binds the reviewed backup and destination before writing',async()=>{
+ const dir=await mkdtemp(join(tmpdir(),'kiara-v2-restore-plan-'));
+ try{
+  const backupPath=join(dir,'backup.json'),script=join(dirname(fileURLToPath(import.meta.url)),'../scripts/v2-operator.ts'),state=emptyWorkspace('restore-tenant');state.version=2;state.companyName='Reviewed recovery snapshot';
+  const backup={format:'kiara-v2-backup',createdAt:'2026-09-28T00:00:00.000Z',hash:digest(state),state};
+  await writeFile(backupPath,JSON.stringify(backup));
+  const run=(operation:'restore-check'|'restore',planHash?:string,dataDir=join(dir,'destination'))=>spawnSync(process.execPath,['--import','tsx',script,operation,'restore-tenant',backupPath,'0',...(planHash?[planHash]:[])],{cwd:join(dirname(fileURLToPath(import.meta.url)),'..'),env:{...process.env,KIARA_V2_DATA_DIR:dataDir,KIARA_V2_STORE_MODE:'',MONGODB_URI:'',VERCEL:'',KIARA_V2_AUTH_MODE:'local_demo'},encoding:'utf8'});
+  const checked=run('restore-check');assert.equal(checked.status,0,checked.stderr);const planHash=JSON.parse(checked.stdout).planHash as string;
+  const missing=run('restore');assert.equal(missing.status,1);assert.match(missing.stderr,/reviewed plan hash/);
+  const replacement=structuredClone(backup);replacement.state.companyName='Different recovery snapshot';replacement.hash=digest(replacement.state);await writeFile(backupPath,JSON.stringify(replacement));
+  const changed=run('restore',planHash);assert.equal(changed.status,1);assert.match(changed.stderr,/backup or destination differs from the reviewed restore check/);
+  await writeFile(backupPath,JSON.stringify(backup));
+  const switched=run('restore',planHash,join(dir,'other-destination'));assert.equal(switched.status,1);assert.match(switched.stderr,/backup or destination differs from the reviewed restore check/);
+  const applied=run('restore',planHash);assert.equal(applied.status,0,applied.stderr);assert.equal(JSON.parse(applied.stdout).backupHash,digest(backup));
  }finally{await rm(dir,{recursive:true,force:true});}
 });
 

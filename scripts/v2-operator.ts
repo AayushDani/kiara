@@ -31,11 +31,15 @@ async function main(){
  if(operation==='index-definitions')return hybridIndexDefinitions(hybridConfig());
  if(operation==='index-sync'||operation==='index-reconcile'){const actor={tenantId,actorId:args[0],expiresAt:Date.now()+3600000,mode:'authenticated' as const};if(!actor.actorId)throw new Error('Supply a currently provisioned admin actor ID');return operation==='index-sync'?syncHybridIndex(actor,args.slice(1)):reconcileHybridIndex(actor);}
  if(operation==='backup'){if(!args[0])throw new Error('Supply a new backup path');await writeFile(args[0],JSON.stringify(await backupWorkspace(tenantId)),{flag:'wx',mode:0o600});return {backup:args[0],containsSensitiveData:true};}
- if(operation==='restore-check'||operation==='restore'){const backup=JSON.parse(await readFile(args[0],'utf8'));if(backup.state?.tenantId!==tenantId)throw new Error('Tenant does not match backup');return restoreWorkspace(backup,Number(args[1]),operation==='restore-check');}
+ if(operation==='restore-check'||operation==='restore'){
+  const [backupPath,version,reviewedPlanHash]=args;
+  if(args.length!==(operation==='restore-check'?2:3)||!backupPath||!/^(0|[1-9]\d*)$/.test(version||'')||!Number.isSafeInteger(Number(version))||operation==='restore'&&!/^[a-f0-9]{64}$/.test(reviewedPlanHash||''))throw new Error('Restore requires backup path, inspected destination version, and the reviewed plan hash for apply.');
+  const backup=JSON.parse(await readFile(backupPath,'utf8'));if(backup.state?.tenantId!==tenantId)throw new Error('Tenant does not match backup');return restoreWorkspace(backup,Number(version),operation==='restore-check',operation==='restore'?reviewedPlanHash:null);
+ }
  if(operation==='migrate-check'||operation==='migrate'){
-  const [snapshotPath,version,expectedLegacyTenantId,reviewedSourceHash]=args;
-  if(args.length!==(operation==='migrate-check'?3:4)||!snapshotPath||!/^(0|[1-9]\d*)$/.test(version||'')||!expectedLegacyTenantId||expectedLegacyTenantId.length>200||operation==='migrate'&&!/^[a-f0-9]{64}$/.test(reviewedSourceHash||''))throw new Error('Migration requires snapshot path, inspected destination version, exact expected legacy tenant ID, and the reviewed source hash for apply.');
-  return importLegacySnapshot(tenantId,await readFile(snapshotPath),Number(version),expectedLegacyTenantId,operation==='migrate'?reviewedSourceHash:null,operation==='migrate-check');
+  const [snapshotPath,version,expectedLegacyTenantId,reviewedSourceHash,reviewedPlanHash]=args;
+  if(args.length!==(operation==='migrate-check'?3:5)||!snapshotPath||!/^(0|[1-9]\d*)$/.test(version||'')||!Number.isSafeInteger(Number(version))||!expectedLegacyTenantId||expectedLegacyTenantId.length>200||operation==='migrate'&&(!/^[a-f0-9]{64}$/.test(reviewedSourceHash||'')||!/^[a-f0-9]{64}$/.test(reviewedPlanHash||'')))throw new Error('Migration requires snapshot path, inspected destination version, exact expected legacy tenant ID, and the reviewed source and plan hashes for apply.');
+  return importLegacySnapshot(tenantId,await readFile(snapshotPath),Number(version),expectedLegacyTenantId,operation==='migrate'?reviewedSourceHash:null,operation==='migrate-check',operation==='migrate'?reviewedPlanHash:null);
  }
  if(operation==='legacy-export'){await writeFile(args[0],await exportLegacyArchive(tenantId),{flag:'wx',mode:0o600});return {path:args[0],effectOwner:'legacy'};}
  throw new Error('Unknown operation');
