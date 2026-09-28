@@ -32,6 +32,10 @@ services:
         value: kiara_vector_v1
       - key: KIARA_V2_AI_MODE
         value: openai
+      - key: KIARA_V2_AUTH_MODE
+        value: oidc
+      - key: KIARA_OIDC_IDENTITY_SOURCE
+        value: mongo
       - key: KIARA_OPENAI_BUDGET_USD
         value: "50"
       - key: KIARA_TEMPORAL_TASK_QUEUE
@@ -39,6 +43,8 @@ services:
       - key: KIARA_PUBLIC_ORIGIN
         value: https://kiara-git-codex-kiara-live-release-aayushdani01-5976.vercel.app
       - key: KIARA_V2_WORKER_TENANTS
+        sync: false
+      - key: KIARA_OIDC_ISSUER
         sync: false
       - key: MONGODB_URI
         sync: false
