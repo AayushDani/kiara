@@ -19,7 +19,7 @@ export interface PairedCaseManifest {
  baselineRecordId:string;
  baseline:CaseEvidenceRef;
  current:CaseEvidenceRef;
- quality:{reviewerId:string;reviewerMembershipVersion:number;reviewedAt:string;artifactDigest:string;comparisonScope:string;baselineOutcomeHash:string;currentOutcomeHash:string;verdict:'equivalent_quality'|'not_equivalent'|'unresolved'}|null;
+ quality:{reviewerId:string;reviewerMembershipVersion:number;reviewedAt:string;artifactDigest:string;comparisonScope:string;baselineOutcomeHash:string;currentOutcomeHash:string;baselineValueEvidenceHash:string;currentValueEvidenceHash:string;verdict:'equivalent_quality'|'not_equivalent'|'unresolved'}|null;
 }
 export type QualificationReason=
  |'TENANT_OR_PAIR_CHANGED'|'REHEARSAL_EXCLUDED'|'MATTER_UNAVAILABLE'|'OUTCOME_OPEN'|'TASKS_PENDING'|'ACTIONS_PENDING'|'OBLIGATIONS_PENDING'|'OUTCOME_CHANGED'
@@ -49,6 +49,28 @@ export function caseEvidenceBindingHash(s:WorkspaceState,matterId:string):string
  const outcomeHash=caseOutcomeHash(s,matterId);if(!outcomeHash)return null;
  const effort=(s.effortEntries||[]).filter(item=>item.matterId===matterId).sort((a,b)=>a.id.localeCompare(b.id)).map(item=>({id:item.id,tenantId:item.tenantId,version:item.version,scope:item.scope,provenance:item.provenance,actorId:item.actorId,stage:item.stage,method:item.method,minutes:item.minutes,startedAt:item.startedAt,stoppedAt:item.stoppedAt,evidence:item.evidence,voidReason:item.voidReason}));
  return digest({tenantId:s.tenantId,matterId,outcomeHash,effort});
+}
+
+/** Bind adjudication to the exact useful proposal and the customer's attributed receipt. */
+export function caseValueEvidenceHash(s:WorkspaceState,matterId:string,receiptId:string):string|null {
+ const receipt=s.valueReceipts?.find(item=>item.id===receiptId&&item.tenantId===s.tenantId);
+ if(!receipt||receipt.outputKind!=='proposal')return null;
+ const proposal=s.proposals.find(item=>item.id===receipt.outputId&&item.matterId===matterId);
+ if(!proposal)return null;
+ try{
+  const actor={tenantId:s.tenantId,actorId:receipt.ownerId,mode:'authenticated' as const,expiresAt:Date.now()+60_000};
+  const output=valueView(s,actor).outputs.find(item=>item.kind==='proposal'&&item.id===proposal.id);
+  if(!output)return null;
+  return digest({tenantId:s.tenantId,matterId,receipt,output:{id:output.id,version:output.version,hash:output.hash}});
+ }catch{return null;}
+}
+
+function latestValueEvidenceAt(s:WorkspaceState,matterId:string,receiptId:string):number|null {
+ const receipt=s.valueReceipts?.find(item=>item.id===receiptId&&item.tenantId===s.tenantId);
+ const proposal=receipt&&s.proposals.find(item=>item.id===receipt.outputId&&item.matterId===matterId);
+ if(!receipt||!proposal)return null;
+ const times=[receipt.createdAt,receipt.updatedAt,proposal.createdAt,proposal.updatedAt];
+ return times.every(validTime)?Math.max(...times.map(Date.parse)):null;
 }
 
 function intervalsDuplicate(entries:EffortEntry[]):boolean {
@@ -128,11 +150,14 @@ export function qualifyPairedCases(s:WorkspaceState,manifest:PairedCaseManifest)
  else {
   const reviewer=s.memberships.find(item=>item.actorId===quality.reviewerId),participants=new Set([...manifest.baseline.participantIds,...manifest.current.participantIds]);
   const reviewerActor={tenantId:s.tenantId,actorId:quality.reviewerId,mode:'authenticated' as const,expiresAt:Date.now()+60_000};
-  const canInspectCases=!!reviewer&&!!baseline&&!!current&&[baseline.matter,current.matter].every(matter=>{
-   try{return canRead(s,reviewerActor,matter);}catch{return false;}
+  const canInspectCases=!!reviewer&&!!baseline&&!!current&&[manifest.baseline,manifest.current].every(ref=>{
+   const matter=s.matters.find(item=>item.id===ref.matterId),receipt=s.valueReceipts?.find(item=>item.id===ref.usefulnessReceiptId),proposal=receipt&&s.proposals.find(item=>item.id===receipt.outputId&&item.matterId===ref.matterId);
+   try{return !!matter&&!!proposal&&canRead(s,reviewerActor,matter)&&canRead(s,reviewerActor,proposal);}catch{return false;}
   });
   if(!reviewer||reviewer.revokedAt||reviewer.expiresAt&&Date.parse(reviewer.expiresAt)<=Date.now()||reviewer.version!==quality.reviewerMembershipVersion||!reviewer.roles.includes('evaluator')||participants.has(quality.reviewerId)||!canInspectCases)reasons.add('QUALITY_REVIEW_NOT_INDEPENDENT');
-  if(quality.comparisonScope!==manifest.comparisonScope||quality.baselineOutcomeHash!==manifest.baseline.outcomeHash||quality.currentOutcomeHash!==manifest.current.outcomeHash||baseline&&Date.parse(quality.reviewedAt)<Date.parse(baseline.matter.closedAt||'')||current&&Date.parse(quality.reviewedAt)<Date.parse(current.matter.closedAt||''))reasons.add('QUALITY_REVIEW_CHANGED');
+  const baselineValueHash=caseValueEvidenceHash(s,manifest.baseline.matterId,manifest.baseline.usefulnessReceiptId),currentValueHash=caseValueEvidenceHash(s,manifest.current.matterId,manifest.current.usefulnessReceiptId);
+  const baselineValueAt=latestValueEvidenceAt(s,manifest.baseline.matterId,manifest.baseline.usefulnessReceiptId),currentValueAt=latestValueEvidenceAt(s,manifest.current.matterId,manifest.current.usefulnessReceiptId);
+  if(quality.comparisonScope!==manifest.comparisonScope||quality.baselineOutcomeHash!==manifest.baseline.outcomeHash||quality.currentOutcomeHash!==manifest.current.outcomeHash||!baselineValueHash||quality.baselineValueEvidenceHash!==baselineValueHash||!currentValueHash||quality.currentValueEvidenceHash!==currentValueHash||baseline&&Date.parse(quality.reviewedAt)<Date.parse(baseline.matter.closedAt||'')||current&&Date.parse(quality.reviewedAt)<Date.parse(current.matter.closedAt||'')||baselineValueAt===null||currentValueAt===null||baselineValueAt!==null&&Date.parse(quality.reviewedAt)<baselineValueAt||currentValueAt!==null&&Date.parse(quality.reviewedAt)<currentValueAt)reasons.add('QUALITY_REVIEW_CHANGED');
  }
  const ready=reasons.size===0;
  return {status:ready?'evidence_ready':'incomplete',reasons:[...reasons].sort(),recordedMinutes:ready&&baseline&&current?{baseline:baseline.minutes,current:current.minutes,baselineCorrection:baseline.correction,currentCorrection:current.correction}:null,interpretation:'Read-only structural evidence check. An evidence-ready packet is not verified customer value, independent artifact authentication, legal quality, time savings or financial savings.'};

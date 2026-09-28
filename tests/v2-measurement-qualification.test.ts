@@ -5,7 +5,7 @@ import {mkdir,mkdtemp,readFile,rm,writeFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {dirname,join} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {caseEvidenceBindingHash,caseOutcomeHash,qualifyPairedCases,type PairedCaseManifest,type QualificationReason} from '../src/v2/measurement-qualification';
+import {caseEvidenceBindingHash,caseOutcomeHash,caseValueEvidenceHash,qualifyPairedCases,type PairedCaseManifest,type QualificationReason} from '../src/v2/measurement-qualification';
 import {applyMeasurementCommand,effortComparisons} from '../src/v2/measurement';
 import {snapshotFromState} from '../src/v2/service';
 import {digest,emptyWorkspace} from '../src/v2/store';
@@ -33,10 +33,18 @@ function fixture(){
  s.valueGoals=(['before','after'] as const).map(id=>({...privateBase(`${id}-goal`),ownerId:'owner',sessionId:session.id,title:`Useful ${id} packet`,successCriteria:'Owner reports this exact reviewed packet useful.',conversationId:null,status:'working',outcomeNote:null,outcomeReceiptId:null}) satisfies ValueGoal);
  const actor:ActorContext={tenantId:s.tenantId,actorId:'owner',mode:'authenticated',expiresAt:Date.now()+60_000},outputs=valueView(s,actor).outputs;
  s.valueReceipts=(['before','after'] as const).map(id=>{const output=outputs.find(item=>item.id===`${id}-proposal`)!;return {...privateBase(`${id}-useful`),ownerId:'owner',sessionId:session.id,goalId:`${id}-goal`,outputKind:'proposal',outputId:output.id,outputVersion:output.version,outputHash:output.hash,outputTitle:output.title,outputCreatedAt:output.createdAt,disposition:'useful',reason:`Fictional owner report of useful ${id} packet.`,status:'current',withdrawalReason:null} satisfies ValueReceipt;});
- const manifest:PairedCaseManifest={tenantId:s.tenantId,comparisonScope,baselineRecordId:baseline.id,baseline:{matterId:'before',outcomeHash:caseOutcomeHash(s,'before')!,usefulnessReceiptId:'before-useful',actionIds:['before-action'],participantIds:['owner','publisher'],effortEntryIds:['before-owner','before-publisher']},current:{matterId:'after',outcomeHash:caseOutcomeHash(s,'after')!,usefulnessReceiptId:'after-useful',actionIds:['after-action'],participantIds:['owner','publisher','counsel'],effortEntryIds:['after-owner','after-publisher','after-counsel','after-correction']},quality:{reviewerId:'evaluator',reviewerMembershipVersion:1,reviewedAt,artifactDigest:digest('Synthetic independently reviewed quality artifact'),comparisonScope,baselineOutcomeHash:caseOutcomeHash(s,'before')!,currentOutcomeHash:caseOutcomeHash(s,'after')!,verdict:'equivalent_quality'}};
+ const manifest:PairedCaseManifest={tenantId:s.tenantId,comparisonScope,baselineRecordId:baseline.id,baseline:{matterId:'before',outcomeHash:caseOutcomeHash(s,'before')!,usefulnessReceiptId:'before-useful',actionIds:['before-action'],participantIds:['owner','publisher'],effortEntryIds:['before-owner','before-publisher']},current:{matterId:'after',outcomeHash:caseOutcomeHash(s,'after')!,usefulnessReceiptId:'after-useful',actionIds:['after-action'],participantIds:['owner','publisher','counsel'],effortEntryIds:['after-owner','after-publisher','after-counsel','after-correction']},quality:{reviewerId:'evaluator',reviewerMembershipVersion:1,reviewedAt,artifactDigest:digest('Synthetic independently reviewed quality artifact'),comparisonScope,baselineOutcomeHash:caseOutcomeHash(s,'before')!,currentOutcomeHash:caseOutcomeHash(s,'after')!,baselineValueEvidenceHash:caseValueEvidenceHash(s,'before','before-useful')!,currentValueEvidenceHash:caseValueEvidenceHash(s,'after','after-useful')!,verdict:'equivalent_quality'}};
  return {s,manifest};
 }
 function incomplete(change:(s:WorkspaceState,manifest:PairedCaseManifest)=>void,reason:QualificationReason){const {s,manifest}=fixture();change(s,manifest);const result=qualifyPairedCases(s,manifest);assert.equal(result.status,'incomplete');assert.ok(result.reasons.includes(reason),`${reason}: ${result.reasons.join(', ')}`);assert.equal(result.recordedMinutes,null);}
+function reassessChangedProposal(s:WorkspaceState,manifest:PairedCaseManifest,caseName:'baseline'|'current'){
+ const ref=manifest[caseName],proposal=s.proposals.find(item=>item.matterId===ref.matterId)!;
+ proposal.body=`New synthetic proposal for ${ref.matterId} after quality review`;proposal.contentHash=digest(proposal.body);proposal.version++;proposal.updatedAt='2026-09-27T14:00:00.000Z';
+ const owner:ActorContext={tenantId:s.tenantId,actorId:'owner',mode:'authenticated',expiresAt:Date.now()+60_000},output=valueView(s,owner).outputs.find(item=>item.id===proposal.id)!;
+ const old=s.valueReceipts!.find(item=>item.id===ref.usefulnessReceiptId)!;
+ const receipt:ValueReceipt={...old,id:`${ref.matterId}-new-useful`,version:1,createdAt:'2026-09-27T14:01:00.000Z',updatedAt:'2026-09-27T14:01:00.000Z',outputVersion:output.version,outputHash:output.hash,reason:'Owner found the changed synthetic packet useful.'};
+ s.valueReceipts!.push(receipt);ref.usefulnessReceiptId=receipt.id;
+}
 
 test('exact observed pair is structurally ready, counts correction once and never claims savings',()=>{
  const {s,manifest}=fixture(),before=digest(s),result=qualifyPairedCases(s,manifest);
@@ -123,7 +131,20 @@ test('independent, exact-basis quality adjudication is mandatory',()=>{
  incomplete(s=>{s.memberships.find(member=>member.actorId==='evaluator')!.entityIds=['another-entity'];},'QUALITY_REVIEW_NOT_INDEPENDENT');
  incomplete((_s,m)=>{m.quality!.artifactDigest='not-a-digest';},'QUALITY_REVIEW_MISSING');
  incomplete((_s,m)=>{m.quality!.currentOutcomeHash='stale';},'QUALITY_REVIEW_CHANGED');
+ incomplete((_s,m)=>{m.quality!.currentValueEvidenceHash=digest('different useful output');},'QUALITY_REVIEW_CHANGED');
+ incomplete(s=>{s.valueReceipts!.find(item=>item.id==='after-useful')!.reason='A different observed use case.';},'QUALITY_REVIEW_CHANGED');
+ incomplete(s=>{s.proposals.find(item=>item.id==='after-proposal')!.scope={kind:'private',actorIds:['owner']};const owner:ActorContext={tenantId:s.tenantId,actorId:'owner',mode:'authenticated',expiresAt:Date.now()+60_000};s.valueReceipts!.find(item=>item.id==='after-useful')!.outputHash=valueView(s,owner).outputs.find(item=>item.id==='after-proposal')!.hash;},'QUALITY_REVIEW_NOT_INDEPENDENT');
  incomplete((_s,m)=>{m.quality!.reviewedAt='2026-09-27T11:00:00.000Z';},'QUALITY_REVIEW_CHANGED');
+});
+test('newly useful proposal in either case requires a fresh exact-basis quality review',()=>{
+ for(const caseName of ['baseline','current'] as const){
+  const {s,manifest}=fixture();reassessChangedProposal(s,manifest,caseName);
+  assert.deepEqual(qualifyPairedCases(s,manifest).reasons,['QUALITY_REVIEW_CHANGED']);
+  const quality=manifest.quality!;quality[caseName==='baseline'?'baselineValueEvidenceHash':'currentValueEvidenceHash']=caseValueEvidenceHash(s,manifest[caseName].matterId,manifest[caseName].usefulnessReceiptId)!;
+  assert.deepEqual(qualifyPairedCases(s,manifest).reasons,['QUALITY_REVIEW_CHANGED'],'changing only the manifest hash cannot make an older review current');
+  quality.reviewedAt='2026-09-27T15:00:00.000Z';
+  assert.equal(qualifyPairedCases(s,manifest).status,'evidence_ready');
+ }
 });
 test('read-only operator CLI reports a bounded result and exits nonzero for incomplete evidence',async()=>{
  const root=await mkdtemp(join(tmpdir(),'kiara-paired-gate-'));
@@ -134,6 +155,8 @@ test('read-only operator CLI reports a bounded result and exits nonzero for inco
   const run=()=>spawnSync(process.execPath,['--import','tsx',script,s.tenantId,manifestPath],{cwd:join(dirname(fileURLToPath(import.meta.url)),'..'),env:{...process.env,KIARA_V2_DATA_DIR:root,KIARA_V2_STORE_MODE:'',MONGODB_URI:'',VERCEL:''},encoding:'utf8'});
   await writeFile(manifestPath,JSON.stringify(manifest));
   const ready=run();assert.equal(ready.status,0,ready.stderr);assert.equal(JSON.parse(ready.stdout).status,'evidence_ready');
+  delete (manifest.quality as Partial<NonNullable<PairedCaseManifest['quality']>>).currentValueEvidenceHash;await writeFile(manifestPath,JSON.stringify(manifest));
+  const malformed=run();assert.equal(malformed.status,2,malformed.stderr);assert.match(malformed.stderr,/"code":"INPUT_INVALID"/);
   manifest.quality=null;await writeFile(manifestPath,JSON.stringify(manifest));
   const incompleteResult=run();assert.equal(incompleteResult.status,1,incompleteResult.stderr);assert.deepEqual(JSON.parse(incompleteResult.stdout).reasons,['QUALITY_REVIEW_MISSING']);
   assert.equal(digest(s),JSON.parse(await readFile(join(tenantDir,'workspace.json'),'utf8')).hash);
