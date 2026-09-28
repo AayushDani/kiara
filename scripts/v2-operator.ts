@@ -8,12 +8,35 @@ import {hybridConfig,hybridIndexDefinitions,syncHybridIndex,reconcileHybridIndex
 import type {Role} from '../src/v2/contracts';
 import type {EffectIntent} from '../src/v2/execution/contracts';
 import {reconcileEffect} from '../src/v2/execution/broker';
+import {command,snapshot} from '../src/v2/service';
+import {requireRole} from '../src/v2/authority';
+import type {ActorContext,WorkspaceCommand} from '../src/v2/contracts';
 
 const [operation,tenantId,...args]=process.argv.slice(2);
 const roles:Role[]=['member','admin','business_owner','fact_owner','legal_reviewer','publisher','signatory','evaluator','integration'];
 async function main(){
- if(!tenantId)throw new Error('Usage: v2-operator <inspect|provision|backup|restore-check|restore|migrate-check|migrate|legacy-export|normalize-check|normalize|normalize-rollback-check|normalize-rollback|index-definitions|index-sync|index-reconcile|retention-status|retention-run|intake-status|intake-sweep|intake-reconcile|effect-status|effect-reconcile> <tenant> [arguments]');
+ if(!tenantId)throw new Error('Usage: v2-operator <inspect|provision|backup|restore-check|restore|migrate-check|migrate|legacy-export|normalize-check|normalize|normalize-rollback-check|normalize-rollback|index-definitions|index-sync|index-reconcile|retention-status|retention-run|intake-status|intake-sweep|intake-reconcile|effect-status|effect-reconcile|withdrawal-status|withdrawal-retry|withdrawal-assign> <tenant> [arguments]');
  if(operation==='inspect'){const s=await readWorkspace(tenantId);return {tenantId,version:s.version,stateHash:digest(s),configuredStorage:process.env.KIARA_V2_STORE_MODE==='normalized'?'normalized':process.env.MONGODB_URI?'mongo_aggregate':'local',memberships:s.memberships.map(m=>({actorId:m.actorId,roles:m.roles,revokedAt:m.revokedAt})),migration:s.migration?.status||null};}
+ if(['withdrawal-status','withdrawal-retry','withdrawal-assign'].includes(operation||'')){
+  const actorId=args[0],actor:ActorContext={tenantId,actorId,expiresAt:Date.now()+3600000,mode:'authenticated'};
+  if(!actorId)throw new Error('Supply a currently provisioned administrator actor ID');
+  const state=await readWorkspace(tenantId),admin=requireRole(state,actor,'admin');
+  if(admin.matterIds!==null||admin.entityIds!==null&&!admin.entityIds.includes(state.entityId))throw new Error('Withdrawal exception recovery requires an unrestricted current entity administrator');
+  if(operation==='withdrawal-status'){const view=await snapshot(actor);return {version:view.version,exceptions:view.withdrawalExceptions};}
+  const reviewRef=args[1],expectedVersion=args.at(-1);
+  if(!/^EW-[A-F0-9]{12}$/.test(reviewRef||'')||!/^(0|[1-9]\d*)$/.test(expectedVersion||''))throw new Error('Supply the inspected opaque review reference and workspace version');
+  let work:WorkspaceCommand;
+  if(operation==='withdrawal-retry'){
+   if(args.length!==3)throw new Error('Retry requires administrator actor ID, review reference and workspace version');
+   work={type:'source.correction.retry',reviewRef};
+  }else{
+   const ownerId=args[2],recordVersion=args[3];
+   if(args.length!==5||!ownerId||!/^(0|[1-9]\d*)$/.test(recordVersion||''))throw new Error('Assign requires administrator actor ID, review reference, owner ID, corrective matter version and workspace version');
+   work={type:'source.correction.assign',reviewRef,ownerId,expectedRecordVersion:Number(recordVersion)};
+  }
+  const saved=await command(actor,{idempotencyKey:`operator:${operation}:${reviewRef}:${expectedVersion}`,expectedVersion:Number(expectedVersion),command:work});
+  return {result:saved.result,replayed:saved.replayed,version:saved.snapshot.version};
+ }
  if(operation==='provision'){
   const [actorId,roleList,expected]=args,grants=(roleList||'').split(',') as Role[];
   if(!actorId||!grants.length||grants.some(r=>!roles.includes(r))||!/^\d+$/.test(expected||''))throw new Error('provision requires actor ID, comma-separated roles and inspected workspace version');
