@@ -35,7 +35,8 @@ export interface Provenance {actorId:string;sourceIds:string[];factIds?:string[]
 export interface RecordBase {id:string;tenantId:string;version:number;createdAt:string;updatedAt:string;scope:Scope;provenance:Provenance}
 export interface Membership {actorId:string;roles:Role[];version:number;expiresAt:string|null;revokedAt:string|null;matterIds:string[]|null;entityIds:string[]|null}
 export interface Conversation extends RecordBase {activeDocumentId?:string|null;channelGrant?:SlackChannelGrant;title:string;entityId:string;subjectEntityId?:string;reuse:'conversation_only'|'propose_memory';matterId:string|null;scenarioId:string|null}
-export interface Message extends RecordBase {voiceInterpretation?:VoiceInterpretationReview|null;channelEvidenceHash?:string;conversationId:string;role:'user'|'assistant';channel:'web'|'slack'|'voice';text:string;intent:'question'|'scenario'|'instruction'|'correction'|'preference'|'ambiguous';artifactIds:string[];citations:{sourceId:string;anchor:string;quote:string}[];generation:'human'|'bounded_local'|'model';retention:'workspace_policy';voiceConfirmed:boolean}
+export interface DocumentFocus {documentId:string;expectedVersion:number;contentHash:string}
+export interface Message extends RecordBase {focusDocument?:DocumentFocus;voiceInterpretation?:VoiceInterpretationReview|null;channelEvidenceHash?:string;conversationId:string;role:'user'|'assistant';channel:'web'|'slack'|'voice';text:string;intent:'question'|'scenario'|'instruction'|'correction'|'preference'|'ambiguous';artifactIds:string[];citations:{sourceId:string;anchor:string;quote:string}[];generation:'human'|'bounded_local'|'model';retention:'workspace_policy';voiceConfirmed:boolean}
 export interface Scenario extends RecordBase {conversationId:string;title:string;assumptions:string[];questions:string[];status:'exploring'|'adopted'|'withdrawn';adoptedMatterId:string|null;adoptionDecisionId:string|null}
 export interface FactAssertion extends RecordBase {entityId:string;subjectEntityId?:string;relationshipId?:string;current?:boolean;predicate:string;value:Json;status:'candidate'|'confirmed'|'disputed'|'superseded'|'unknown';practice:'planned'|'live'|'unknown';ownerId:string;observedAt:string;validFrom:string|null;validUntil:string|null;confirmedBy:string|null;confirmedAt:string|null;supersedesId:string|null;originVersion:number;reuse:'company'|'conversation_only';conversationId:string|null}
 export interface Preference extends RecordBase {key:'response_length'|'interruptions'|'routing';value:string;target:'personal'|'team';ownerId:string;active:boolean}
@@ -63,7 +64,7 @@ export type WorkspaceCommand = ApplicabilityCommand | ScopedPrecedentCommand | C
  | {type:'company.configure';name:string}
  | {type:'demo.load'}
  | {type:'conversation.create';title?:string;scope?:Scope;reuse?:Conversation['reuse'];subjectEntityId?:string}
- | {type:'message.send';text:string;conversationId?:string;scope?:Scope;channel?:Message['channel'];voiceConfirmed?:boolean;subjectEntityId?:string;voiceInterpretation?:VoiceInterpretationReview}
+ | {type:'message.send';text:string;conversationId?:string;scope?:Scope;channel?:Message['channel'];voiceConfirmed?:boolean;subjectEntityId?:string;voiceInterpretation?:VoiceInterpretationReview;focusDocument?:DocumentFocus}
  | {type:'scenario.update';scenarioId:string;assumptions:string[];expectedRecordVersion:number}
  | {type:'scenario.adopt';scenarioId:string;expectedRecordVersion:number;objective?:string}
  | {type:'fact.propose';predicate:string;value:Json;practice?:FactAssertion['practice'];sourceIds?:string[];conversationId?:string;reuse?:FactAssertion['reuse'];supersedesId?:string;subjectEntityId?:string}

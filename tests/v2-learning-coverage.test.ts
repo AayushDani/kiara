@@ -58,6 +58,27 @@ test('explicit unsupported coverage remains unavailable and legal clearance is n
 
 test('registered authority must preserve source scope and exact domain/jurisdiction inventory',async()=>{const {a,auth}=await source();await assert.rejects(()=>send(a,{type:'coverage.define',domain:'tax',jurisdiction:'other',authorityIds:[auth.id],limitations:[]}),code('COVERAGE_SCOPE'));await assert.rejects(()=>send(a,{type:'coverage.source.add',sourceId:auth.sourceId,title:'Bad URL',sourceUrl:'javascript:secret()',domain:'privacy',jurisdiction:'example',authorityType:'guidance'}),code('INVALID_URL'));});
 
+test('a retained source URL binds legal registration, review and later currentness',async()=>{
+ const a=actor(),retainedUrl='https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-chap1-sec105.htm',otherUrl='https://example.test/unrelated';
+ const added=await send(a,{type:'document.add',title:'URL-backed legal text',body:'Fictional bounded legal source text.',authority:'effective'}),sourceId=String(added.result.sourceId);
+ await transactWorkspace(a.tenantId,s=>{const retained=s.sources.find(x=>x.id===sourceId)!;retained.kind='legal';retained.url=retainedUrl;});
+ const registration={type:'coverage.source.add' as const,sourceId,title:'URL-backed source',sourceUrl:retainedUrl,domain:'privacy',jurisdiction:'US-federal',authorityType:'statute' as const};
+ await assert.rejects(()=>send(a,{...registration,sourceUrl:otherUrl}),code('SOURCE_URL_MISMATCH'));
+ const registered=await send(a,registration),authority=registered.snapshot.legalAuthorities.find(x=>x.sourceId===sourceId)!;
+ await transactWorkspace(a.tenantId,s=>{s.legalAuthorities.find(x=>x.id===authority.id)!.sourceUrl=otherUrl;});
+ const review={type:'coverage.source.verify' as const,authorityId:authority.id,expectedRecordVersion:authority.version,sourceVersion:1,verificationEvidence:'Fictional exact-source check.',reviewDueAt:future()};
+ await assert.rejects(()=>send(lawyer(),review),code('SOURCE_URL_MISMATCH'));
+ await transactWorkspace(a.tenantId,s=>{s.legalAuthorities.find(x=>x.id===authority.id)!.sourceUrl=retainedUrl;});
+ await send(lawyer(),review);
+ const defined=await send(a,{type:'coverage.define',domain:'privacy',jurisdiction:'US-federal',authorityIds:[authority.id],limitations:['Fictional exact source only.']}),entry=defined.snapshot.coverage.at(-1)!;
+ const qualified=await send(lawyer(),{type:'coverage.review',coverageId:entry.id,expectedRecordVersion:entry.version,qualificationEvidence:'Fictional named reviewer qualification.',reviewDueAt:future(),limitations:['Fictional exact source only.']});
+ assert.equal(qualified.snapshot.coverage.at(-1)!.status,'available');
+ await transactWorkspace(a.tenantId,s=>{s.legalAuthorities.find(x=>x.id===authority.id)!.sourceUrl=otherUrl;});
+ assert.equal((await snapshot(a)).coverage.at(-1)!.status,'stale','an existing mismatched authority cannot remain available');
+ await transactWorkspace(a.tenantId,s=>{s.legalAuthorities.find(x=>x.id===authority.id)!.sourceUrl=retainedUrl;s.sources.find(x=>x.id===sourceId)!.url=otherUrl;});
+ assert.equal((await snapshot(a)).coverage.at(-1)!.status,'stale','a changed retained URL also invalidates currentness');
+});
+
 
 test('renewing a source review does not silently renew old coverage approval; expiry is checked at read time',async()=>{const {a,legal,auth,r}=await reviewed();const authority=r.snapshot.legalAuthorities.find(x=>x.id===auth.id)!;await send(legal,{type:'coverage.source.verify',authorityId:auth.id,expectedRecordVersion:authority.version,sourceVersion:1,verificationEvidence:'Rechecked source under a new review decision.',reviewDueAt:future()});assert.equal((await snapshot(a)).coverage[0].status,'stale');const entry=(await snapshot(a)).coverage[0];await send(legal,{type:'coverage.review',coverageId:entry.id,expectedRecordVersion:entry.version,qualificationEvidence:'Current named qualification evidence',reviewDueAt:future(),limitations:['Bounded review only.']});assert.equal((await snapshot(a)).coverage[0].status,'available');await transactWorkspace(a.tenantId,s=>{s.coverage[0].reviewDueAt=new Date(0).toISOString();});assert.equal((await snapshot(a)).coverage[0].status,'stale');});
 
