@@ -4,6 +4,7 @@ import {mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {randomUUID} from 'node:crypto';
+import {identityBindingKey} from '../src/v2/oidc-identities';
 import {command,snapshot} from '../src/v2/service';
 import {closeV2Store,readWorkspace,transactWorkspace} from '../src/v2/store';
 import {readOriginal,retainOriginal,type OriginalReference} from '../src/v2/objects';
@@ -29,6 +30,24 @@ async function prepared(kind:Action['kind']='internal_document',timing?:Action['
 const input=async(a:Action,adapter?:ExecutionAdapter)=>({expectedVersion:a.version,contentHash:a.contentHash,previewHash:(await executionPreview(actor,a.id,{adapter})).previewHash,adapter});
 const fake=(overrides:Partial<ExecutionAdapter>={}):ExecutionAdapter=>({id:'synthetic-adapter',configurationHash:'synthetic-config',supportedKinds:['send','internal_document','signature_request'],effect:'email',dispatch:async()=>({receipt:'synthetic-receipt'}),readback:async()=>({status:'pending',receipt:'synthetic-receipt',reason:'WAITING'}),...overrides});
 async function current(a:Action){return (await readWorkspace(actor.tenantId)).actions.find(x=>x.id===a.id)!;}
+
+test('revoking a hashed OIDC binding while effect preparation waits prevents provider dispatch',()=>isolated(async()=>{
+ const action=await prepared('send'),issuer='https://synthetic-identity.example.test',subject='synthetic-dispatch-subject';
+ process.env.KIARA_OIDC_IDENTITY_SOURCE='fixture_env';process.env.KIARA_OIDC_ISSUER=issuer;
+ process.env.KIARA_OIDC_IDENTITIES=JSON.stringify([{subject,tenantId:actor.tenantId,actorId:actor.actorId}]);
+ const signedActor:ActorContext={tenantId:actor.tenantId,actorId:actor.actorId,mode:'authenticated',expiresAt:Date.now()+3600000,oidcBinding:{key:identityBindingKey(issuer,subject),version:1}};
+ let entered!:()=>void,release!:()=>void,calls=0;const waiting=new Promise<void>(r=>entered=r),gate=new Promise<void>(r=>release=r);
+ const adapter=fake({prepare:async()=>{entered();await gate;},dispatch:async()=>{calls++;return {receipt:'must-not-send'};}});
+ const preview=await executionPreview(signedActor,action.id,{adapter});
+ const pending=dispatchAction(signedActor,action.id,{expectedVersion:action.version,contentHash:action.contentHash,previewHash:preview.previewHash,adapter});
+ await waiting;
+ const retained=(await readWorkspace(actor.tenantId)).receipts[`execution:${action.id}`].result.intent as EffectIntent;
+ assert.doesNotMatch(JSON.stringify(retained),/synthetic-dispatch-subject/);
+ process.env.KIARA_OIDC_IDENTITIES='[]';
+ release();
+ const result=await pending;
+ assert.equal(result.status,'failed');assert.equal(result.failure,'IDENTITY_GRANT_CHANGED');assert.equal(calls,0);
+}));
 
 test('internal document execution retains immutable encrypted bytes and verifies one output across replay',()=>isolated(async()=>{
  const a=await prepared(),done=await dispatchAction(actor,a.id,await input(a));assert.equal(done.status,'verified');let s=await readWorkspace(actor.tenantId);const output=s.documents.find(d=>d.id===done.completionArtifact)!;assert.equal(output.body,a.content);assert.equal(output.authority,'draft');assert.equal(output.status,'proposed');const source=s.sources.find(x=>x.id===output.sourceId)!;assert.ok((await readOriginal(actor.tenantId,JSON.parse(source.originalObjectRef!))).equals(Buffer.from(a.content)));assert.ok(s.matters[0].tasks.some(task=>task.kind==='action'&&task.status==='done'&&task.evidenceIds.includes(a.id)));const replay=await dispatchAction(actor,a.id,await input(a));assert.equal(replay.completionArtifact,done.completionArtifact);s=await readWorkspace(actor.tenantId);assert.equal(s.documents.length,2);assert.equal(s.actions[0].completion?.kind,'readback');assert.equal(s.matters[0].state,'verifying');

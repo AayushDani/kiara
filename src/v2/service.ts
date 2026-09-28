@@ -34,6 +34,7 @@ import {V2Error, type Action, type ActorContext, type Approval, type CommandEnve
 import {resolveFocusedDocument,withinConversationAudience} from './retrieval';
 import {canRead, membership, readRecord, requestedScope, requireRole} from './authority';
 import {digest, readWorkspace, timestamp, transactWorkspace} from './store';
+import {assertOidcBindingCurrent} from './oidc-identities';
 import {applyCounselCommand,counselCommandFields,prepareCounselRequest,type CounselCommand} from './counsel';
 import {counselPacketHash,advancePacketReviewState} from './sharing';
 import {conversationAIMode,conversationRunViews,enqueueConversationRun} from './ai';
@@ -111,6 +112,7 @@ const commandFields:Record<WorkspaceCommand['type'],string[]>={...companyMemoryC
 };
 export async function command(actor:ActorContext,envelope:CommandEnvelope,trusted?:{originalObjectRef?:string;slackSourceId?:string;confirmedCurrentSource?:boolean}):Promise<CommandResult>{
  ensure(envelope&&typeof envelope==='object'&&Number.isSafeInteger(envelope.expectedVersion),'INVALID_COMMAND','A current workspace version is required.',400);text(envelope.idempotencyKey,'a command key',150);ensure(envelope.command&&typeof envelope.command.type==='string','INVALID_COMMAND','A typed command is required.',400);ensure(Object.hasOwn(commandFields,envelope.command.type),'UNKNOWN_COMMAND','This command is not supported.',400);ensure(Object.keys(envelope.command).every(k=>k==='type'||commandFields[envelope.command.type].includes(k)),'UNKNOWN_FIELD','The command contains an unsupported field.',400);ensure(Buffer.byteLength(JSON.stringify(envelope.command))<=150000,'COMMAND_TOO_LARGE','This command is too large.',413);
+ await assertOidcBindingCurrent(actor);
  const {state,result:saved}=await transactWorkspace(actor.tenantId,s=>{bootstrap(s,actor);if(trusted?.originalObjectRef)assertOriginalNotDeleted(s,trusted.originalObjectRef,digest({actor:actor.actorId,key:envelope.idempotencyKey}));const key=digest({actorId:actor.actorId,key:envelope.idempotencyKey}),bodyHash=digest({command:envelope.command,originalObjectRef:trusted?.originalObjectRef||null,...(trusted?.slackSourceId?{slackSourceId:trusted.slackSourceId}:{}),...(trusted?.confirmedCurrentSource?{confirmedCurrentSource:true}:{})}),old=s.receipts[key];if(old){ensure(old.hash===bodyHash,'IDEMPOTENCY_CONFLICT','This key is already bound to another command.');return {result:old.result,replayed:true};}ensure(s.version===envelope.expectedVersion,'VERSION_CONFLICT','The workspace changed. Refresh and review before sending this command.');const indexBefore=indexRecordFingerprints(s);observeValueWork(s,actor,envelope.command.type);const result=applyCommand(s,actor,envelope.command,envelope.idempotencyKey,trusted);observeValueOutputs(s,actor);enqueueIndexMaintenance(s,actor,indexBefore,envelope.idempotencyKey);s.receipts[key]={hash:bodyHash,result};return {result,replayed:false};});
  return {snapshot:snapshotFromState(state,actor),...saved};
 }

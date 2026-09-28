@@ -6,6 +6,7 @@ import {reserveGlobalSpend,settleGlobalSpend,recoverGlobalSpend} from '../server
 import {membership} from './authority';
 import {V2Error,type ActorContext,type WorkspaceState} from './contracts';
 import {digest,readWorkspace,timestamp,transactWorkspace} from './store';
+import {assertOidcBindingCurrent} from './oidc-identities';
 
 /** Standard non-batch price, pinned to the official model page on 2026-09-27. */
 export const EMBEDDING_POLICY=Object.freeze({model:'text-embedding-3-small',dimensions:1536,encoding:'cl100k_base',inputUsdPerMillion:0.02,version:'openai-embedding-small-standard-2026-09-27'});
@@ -25,14 +26,16 @@ export async function reconcilePendingEmbeddings(tenantId:string){const s=await 
 /** Server-only bounded operation. The caller supplies an authority recheck, never a browser callback.
  * Stable owner keys replay completed vectors; a dispatched/unknown request is never submitted again. */
 export async function embedAuthorized(a:ActorContext,key:string,text:string,authorityHash:string,authorize:(state:WorkspaceState)=>void,options:{provider?:EmbeddingProvider;evidenceIds?:string[];afterReservation?:()=>Promise<void>}={}):Promise<number[]>{
+ await assertOidcBindingCurrent(a);
  if(!/^[a-zA-Z0-9:_-]{1,180}$/.test(key)||!/^[a-f0-9]{64}$/.test(authorityHash))throw new V2Error('INVALID_EMBEDDING_OWNER','A stable server-owned embedding reference is required.');
  const tokens=embeddingTokens(text),inputHash=digest(tokens),policyHash=digest(EMBEDDING_POLICY),budget=authorizedBudget();
  const claim=await transactWorkspace(a.tenantId,s=>{const member=membership(s,a);authorize(s);const existing=job(s,key);if(existing){if(existing.inputHash!==inputHash||existing.authorityHash!==authorityHash||existing.actorId!==a.actorId||existing.policyHash!==policyHash)throw new V2Error('EMBEDDING_OWNER_CONFLICT','This embedding owner already represents a different input or authority.');assertJob(s,a,existing,authorize);if(['prepared','dispatched'].includes(existing.status)&&existing.leaseUntil<=Date.now())existing.recoveryPending=true;if(existing.status==='rejected'&&existing.providerDispatched===false&&!existing.recoveryPending){existing.admissionHistory=[...(existing.admissionHistory||[]),{id:existing.id,reason:existing.reason}];existing.id=randomUUID();existing.status='prepared';existing.leaseUntil=Date.now()+LEASE;existing.reason=null;existing.finishedAt=null;return {created:true,job:existing};}return {created:false,job:existing};}const value:EmbeddingJob={providerDispatched:false,admissionHistory:[],evidenceIds:options.evidenceIds||[],id:randomUUID(),key,actorId:a.actorId,membershipVersion:member.version,inputHash,authorityHash,policyHash,budget,tokens:tokens.length,status:'prepared',leaseUntil:Date.now()+LEASE,createdAt:timestamp(),finishedAt:null,vector:null,responseHash:null,requestId:null,actualUsd:null,recoveryPending:false,reason:null};save(s,value);return {created:true,job:value};});
  if(!claim.result.created){await reconcileEmbedding(a.tenantId,key);const currentState=await readWorkspace(a.tenantId),current=job(currentState,key)!;assertJob(currentState,a,current,authorize);if(current.status==='complete'&&current.vector)return current.vector;throw new V2Error(current.status==='unknown'?'EMBEDDING_CHARGE_UNKNOWN':'EMBEDDING_ALREADY_ACCEPTED','The embedding request is pending or interrupted; it cannot be invoked again.');}
  const value=claim.result.job;let dispatched=false,settled=false,providerResponseReceived=false;
  try{
-  const adapter=options.provider||provider();await reserveGlobalSpend(value.id,tokens.length*EMBEDDING_POLICY.inputUsdPerMillion/1_000_000);await options.afterReservation?.();
+  const adapter=options.provider||provider();await reserveGlobalSpend(value.id,tokens.length*EMBEDDING_POLICY.inputUsdPerMillion/1_000_000);await options.afterReservation?.();await assertOidcBindingCurrent(a);
   await transactWorkspace(a.tenantId,s=>{const current=job(s,key)!;assertJob(s,a,current,authorize);if(current.id!==value.id||current.status!=='prepared'||current.leaseUntil<=Date.now())throw new V2Error('EMBEDDING_LEASE_EXPIRED','Embedding admission expired.');current.status='dispatched';current.providerDispatched=true;});
+  await assertOidcBindingCurrent(a);
   dispatched=true;let timer:ReturnType<typeof setTimeout>|undefined;const response=await Promise.race([adapter.create({model:EMBEDDING_POLICY.model,dimensions:EMBEDDING_POLICY.dimensions,input:tokens,encoding_format:'float'}),new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(new V2Error('EMBEDDING_TIMEOUT','Embedding outcome is uncertain.')),50000);})]).finally(()=>clearTimeout(timer));
   providerResponseReceived=true;
   const vector=response.data?.[0]?.embedding,usage=response.usage;

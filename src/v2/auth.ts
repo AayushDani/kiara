@@ -52,7 +52,8 @@ export async function authenticateV2(request:Request,initialize=false):Promise<{
   if(mode()==='oidc'){
     if(session.actor.mode!=='authenticated'||!session.subject)throw new V2Error('INVALID_SESSION','Sign in with your identity provider.',401);
     const mapping=await resolveOidcIdentity(process.env.KIARA_OIDC_ISSUER||'',session.subject);
-    if(mapping.actorId!==session.actor.actorId||mapping.tenantId!==session.actor.tenantId||mapping.version!==session.identityVersion)throw new V2Error('MEMBERSHIP_REVOKED','This identity mapping changed. Sign in again.',403);
+    if(mapping.actorId!==session.actor.actorId||mapping.tenantId!==session.actor.tenantId||mapping.version!==session.identityVersion||session.actor.oidcBinding&&session.actor.oidcBinding.key!==mapping.bindingId)throw new V2Error('MEMBERSHIP_REVOKED','This identity mapping changed. Sign in again.',403);
+    session.actor.oidcBinding={key:mapping.bindingId,version:mapping.version};
     delete session.actor.bootstrapRoles;
   }else if(session.actor.mode!=='local_demo'||!Object.hasOwn(profiles,session.profile)||session.actor.actorId!==`local-${session.profile}`||session.actor.tenantId!=='local-workspace')throw new V2Error('INVALID_SESSION','Invalid local identity.',401);
   return {session};
@@ -79,7 +80,7 @@ export async function verifyOidcToken(token:string,fetcher:typeof fetch=fetch,ex
   if(matching.length!==1)throw new V2Error('INVALID_TOKEN','Identity token signing key is unavailable.',401);
   try{if(!verify('RSA-SHA256',Buffer.from(`${parts[0]}.${parts[1]}`),createPublicKey({key:matching[0],format:'jwk'}),Buffer.from(parts[2],'base64url')))throw new Error();}catch{throw new V2Error('INVALID_TOKEN','Identity token signature is invalid.',401);}
   const identity=await resolveOidcIdentity(issuer,claims.sub);
-  return {actor:{tenantId:identity.tenantId,actorId:identity.actorId,expiresAt:Math.min(claims.exp*1000,Date.now()+30*60*1000),mode:'authenticated'} as ActorContext,subject:claims.sub,identityVersion:identity.version};
+  return {actor:{tenantId:identity.tenantId,actorId:identity.actorId,expiresAt:Math.min(claims.exp*1000,Date.now()+30*60*1000),mode:'authenticated',oidcBinding:{key:identity.bindingId,version:identity.version}} as ActorContext,subject:claims.sub,identityVersion:identity.version};
 }
 export const clearV2Session=()=>cookie('',0);
 

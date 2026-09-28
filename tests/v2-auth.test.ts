@@ -5,7 +5,9 @@ import {mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {authenticateV2,localSession,csrfV2,verifyOidcToken,startOidcSignIn,completeOidcSignIn} from '../src/v2/auth';
-import {closeV2Store,transactWorkspace} from '../src/v2/store';
+import {closeV2Store,readWorkspace,transactWorkspace} from '../src/v2/store';
+import {command} from '../src/v2/service';
+import {identityBindingKey} from '../src/v2/oidc-identities';
 
 test('v2 local sessions are signed, origin bound, role limited and explicitly simulated',async()=>{
  const before={...process.env},dir=await mkdtemp(join(tmpdir(),'kiara-v2-auth-'));
@@ -36,7 +38,10 @@ for(const returnTo of ['/','/review/attention','/?matter=123e4567-e89b-12d3-a456
   await assert.rejects(completeOidcSignIn(new Request(callback.url.replace('state=','state=forged'),{headers:callback.headers}),provider),/does not match/);assert.equal(used,false);
   wrongNonce=true;await assert.rejects(completeOidcSignIn(callback,provider),/sign-in attempt/);used=false;wrongNonce=false;
   const result=await completeOidcSignIn(callback,provider);assert.equal(result.location,'https://kiara.example'+returnTo);assert.equal(result.session.actor.actorId,'actor-a');assert.equal(result.session.actor.bootstrapRoles,undefined);assert.match(result.cookie,/SameSite=Strict/);
-  const signedRequest=new Request('https://kiara.example/api/v2/workspace',{headers:{cookie:result.cookie.split(';')[0]}});assert.equal((await authenticateV2(signedRequest)).session.actor.actorId,'actor-a');
+  const signedRequest=new Request('https://kiara.example/api/v2/workspace',{headers:{cookie:result.cookie.split(';')[0]}}),signedActor=(await authenticateV2(signedRequest)).session.actor;assert.equal(signedActor.actorId,'actor-a');assert.deepEqual(signedActor.oidcBinding,{key:identityBindingKey('https://identity.example','user-1'),version:1});
+  process.env.KIARA_OIDC_IDENTITIES='[]';
+  await assert.rejects(command(signedActor,{idempotencyKey:'revoked-after-request-auth',expectedVersion:(await readWorkspace('tenant-a')).version,command:{type:'message.send',text:'This must not be committed after mapping revocation.'}}),{code:'IDENTITY_GRANT_CHANGED'});
+  process.env.KIARA_OIDC_IDENTITIES=JSON.stringify([{subject:'user-1',tenantId:'tenant-a',actorId:'actor-a'}]);
   await assert.rejects(completeOidcSignIn(callback,provider),/could not complete/);
   used=false;await transactWorkspace('tenant-a',s=>{s.memberships[0].revokedAt=new Date().toISOString();});await assert.rejects(authenticateV2(signedRequest),/membership/);await assert.rejects(completeOidcSignIn(callback,provider),/membership/);
   await assert.rejects(startOidcSignIn(new Request('https://evil.example/api/v2/auth/start'),provider),/configured application origin/);
