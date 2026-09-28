@@ -11,11 +11,12 @@ import {reconcileEffect} from '../src/v2/execution/broker';
 import {command,snapshot} from '../src/v2/service';
 import {requireRole} from '../src/v2/authority';
 import type {ActorContext,WorkspaceCommand} from '../src/v2/contracts';
+import {checkInstallationAccess,reconcileInstallationAccess,retryInstallationAccessOwner} from '../src/v2/integrations/access-reconcile';
 
 const [operation,tenantId,...args]=process.argv.slice(2);
 const roles:Role[]=['member','admin','business_owner','fact_owner','legal_reviewer','publisher','signatory','evaluator','integration'];
 async function main(){
- if(!tenantId)throw new Error('Usage: v2-operator <inspect|provision|backup|restore-check|restore|migrate-check|migrate|legacy-export|normalize-check|normalize|normalize-rollback-check|normalize-rollback|index-definitions|index-sync|index-reconcile|retention-status|retention-run|intake-status|intake-sweep|intake-reconcile|effect-status|effect-reconcile|withdrawal-status|withdrawal-retry|withdrawal-assign> <tenant> [arguments]');
+ if(!tenantId)throw new Error('Usage: v2-operator <inspect|provision|backup|restore-check|restore|migrate-check|migrate|legacy-export|normalize-check|normalize|normalize-rollback-check|normalize-rollback|index-definitions|index-sync|index-reconcile|retention-status|retention-run|intake-status|intake-sweep|intake-reconcile|effect-status|effect-reconcile|withdrawal-status|withdrawal-retry|withdrawal-assign|installation-access-check|installation-access-reconcile|installation-access-retry-owner> <tenant> [arguments]');
  if(operation==='inspect'){const s=await readWorkspace(tenantId);return {tenantId,version:s.version,stateHash:digest(s),configuredStorage:process.env.KIARA_V2_STORE_MODE==='normalized'?'normalized':process.env.MONGODB_URI?'mongo_aggregate':'local',memberships:s.memberships.map(m=>({actorId:m.actorId,roles:m.roles,revokedAt:m.revokedAt})),migration:s.migration?.status||null};}
  if(['withdrawal-status','withdrawal-retry','withdrawal-assign'].includes(operation||'')){
   const actorId=args[0],actor:ActorContext={tenantId,actorId,expiresAt:Date.now()+3600000,mode:'authenticated'};
@@ -47,6 +48,18 @@ async function main(){
  if(operation==='intake-status'){const s=await readWorkspace(tenantId);return {intakes:Object.entries(s.receipts).filter(([key])=>key.startsWith('artifact-intake:')).map(([,receipt])=>{const i=receipt.result.intake as {id:string;contentHash:string;bytes:number;status:string;createdAt:string;expiresAt:string;reference:string|null;failureCode:string|null};return {id:i.id,contentHash:i.contentHash,bytes:i.bytes,status:i.status,createdAt:i.createdAt,expiresAt:i.expiresAt,hasRetainedReference:!!i.reference,failureCode:i.failureCode};})};}
  if(operation==='effect-status'){const s=await readWorkspace(tenantId);return {effects:Object.entries(s.receipts).filter(([key])=>key.startsWith('execution:')).map(([,receipt])=>{const i=receipt.result.intent as EffectIntent;return {id:i.id,actionId:i.actionId,actionHash:i.actionHash,status:i.status,adapterId:i.adapterId,hasProviderReceipt:!!i.providerReceipt,failure:i.failure,deletionRequestedAt:i.deletionRequestedAt||null,redactedAt:i.redactedAt||null};})};}
  if(operation==='effect-reconcile'){const [actionId,intentId,candidateReceipt]=args,s=await readWorkspace(tenantId),i=s.receipts[`execution:${actionId}`]?.result.intent as EffectIntent|undefined;if(!actionId||!intentId||i?.id!==intentId)throw new Error('Supply the exact action and durable intent IDs from effect-status');return reconcileEffect(tenantId,actionId,{candidateReceipt});}
+ if(operation==='installation-access-check'){
+  if(args.length>1||args.length===1&&args[0]!=='--allow-empty')throw new Error('Installation access check accepts only optional --allow-empty for an explicitly reviewed empty configuration.');
+  return checkInstallationAccess(tenantId,args[0]==='--allow-empty');
+ }
+ if(operation==='installation-access-reconcile'){
+  if(args.length<1||args.length>2||!/^[a-f0-9]{64}$/.test(args[0])||args.length===2&&args[1]!=='--allow-empty')throw new Error('Supply the reviewed plan hash and optional --allow-empty exactly as used in the check.');
+  return reconcileInstallationAccess(tenantId,args[0],args[1]==='--allow-empty');
+ }
+ if(operation==='installation-access-retry-owner'){
+  if(args.length!==2||!args[0]||!/^[1-9]\d*$/.test(args[1])||!Number.isSafeInteger(Number(args[1])))throw new Error('Supply the exact reconciled source ID and inspected source version.');
+  return retryInstallationAccessOwner(tenantId,args[0],Number(args[1]));
+ }
  if(operation==='retention-status'){const s=await readWorkspace(tenantId);return {deletions:(s.deletionJobs||[]).map(j=>({id:j.id,sourceId:j.sourceId,originals:j.originals.map(o=>({status:o.status,notBefore:o.notBefore,failureCode:o.failureCode})),indexCleanup:j.indexCleanup,historicalCleanup:j.historicalCleanup,operationalExceptions:j.operationalExceptionActionIds.length,backupStatus:j.backupStatus}))};}
  if(operation==='retention-run'){if(!args[0])throw new Error('Supply an inspected deletion job ID');return processDeletionJob(tenantId,args[0]);}
  if(operation==='normalize-check'||operation==='normalize'){

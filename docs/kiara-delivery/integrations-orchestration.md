@@ -16,6 +16,19 @@ Provider-specific fields and resource selection:
 
 The config scope is authoritative; incoming payloads cannot choose tenant, actor, participant list or scope. Upstream credential renewal, installation provisioning and Drive watch creation are operator responsibilities. Full per-user upstream ACL synchronization, recursive folder traversal, binary parsing and initial corpus backfill are not implemented and must not be represented as complete connection coverage.
 
+### Installation access loss and corrective work
+
+Read-time eligibility immediately hides retained GitHub, Slack, Drive and email evidence when an installation is disabled, reconfigured, expired, removed, or loses its required membership. On the next authenticated workspace refresh, a bounded transaction checks up to 100 inaccessible active source revisions, revokes those revisions, invalidates their future proposals/approvals/actions, and creates source-free corrective matters and `matter_changed` outbox entries for affected work. An owner sees the corrective item without seeing withdrawn source content. Submitted, uncertain and verified effects remain historical and require separate reconciliation. Repeating a refresh does not create duplicate corrective work; further refreshes process any remaining batches. Restoring the old configuration does not reactivate a revoked revision: ingest currently authorized evidence again under a new reviewed grant/revision.
+
+Use the same read-only plan/apply flow after any installation rollout or membership change, including when no user visits the workspace:
+
+```sh
+npm run v2:operator -- installation-access-check TENANT
+npm run v2:operator -- installation-access-reconcile TENANT REVIEWED_PLAN_HASH
+```
+
+The check returns source IDs and counts, never source titles or bodies, and binds the exact workspace state, storage destination and configuration to its plan hash. Apply refuses a changed plan. Run check/apply again while `remaining` is nonzero. If a config is missing, malformed or temporarily unreadable, normal refresh reports a configuration error and does not permanently revoke sources; read-time access still fails closed. Restore the configuration and repeat the check. An intentionally empty configuration requires `--allow-empty` on **both** check and apply after reviewing its mass-withdrawal impact; normal refresh will not infer that this was intentional. A source without any eligible owner produces a durable `owner_unavailable` exception receipt rather than leaking evidence to an unauthorized person. After provisioning a qualified owner, inspect the revoked source ID and version and run `npm run v2:operator -- installation-access-retry-owner TENANT SOURCE_ID VERSION`; this only retries source-free corrective assignment. No command here contacts a provider, replays a webhook or proves current external permissions; connected provider and operational recovery drills remain release gates.
+
 ## Read and HTTP contracts
 
 - `acceptWebhook(installationId, headers, rawBytes, optionalFetch)` in `src/v2/integrations/intake.ts` verifies and durably ingests before returning acceptance. Route owner supplies a bounded raw body. Authentication replaces session/CSRF only on this webhook path. Return Slack `challenge` when present; sanitize failures.
