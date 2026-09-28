@@ -32,10 +32,11 @@ export function coverageStatus(s:WorkspaceState,a:ActorContext,c:CoverageEntry):
  if(!canRead(s,a,c)||!c.reviewDueAt||Date.parse(c.reviewDueAt)<=Date.now()||!reviewer||reviewer.revokedAt||reviewer.version!==c.reviewMembershipVersion||!reviewer.roles.includes('legal_reviewer')||(reviewer.expiresAt&&Date.parse(reviewer.expiresAt)<=Date.now())||!c.authorityIds?.length||c.authorityIds.some(id=>!s.legalAuthorities.some(x=>x.id===id&&x.version===c.authorityVersions?.[id]&&authorityCurrent(s,a,x))))return 'stale';return 'available';
 }
 export function coverageViews(s:WorkspaceState,a:ActorContext){return s.coverage.filter(c=>canRead(s,a,c)).map(c=>({...structuredClone(c),status:coverageStatus(s,a,c)}));}
-/** A staged public-law source cannot enter an answer or embedding until its exact version and coverage are both reviewed. */
+/** A staged or registered legal source cannot enter retrieval until its exact version and coverage are both reviewed. */
 export function legalSourceAnswerEligible(s:WorkspaceState,a:ActorContext,source:Source){
- if(source.kind!=='legal')return true;
- return s.legalAuthorities.some(authority=>authority.sourceId===source.id&&authorityCurrent(s,a,authority)&&s.coverage.some(entry=>entry.authorityIds?.includes(authority.id)&&coverageStatus(s,a,entry)==='available'));
+ const authorities=s.legalAuthorities.filter(authority=>authority.sourceId===source.id);
+ if(source.kind!=='legal'&&authorities.length===0)return true;
+ return authorities.some(authority=>authorityCurrent(s,a,authority)&&s.coverage.some(entry=>entry.authorityIds?.includes(authority.id)&&coverageStatus(s,a,entry)==='available'));
 }
 function activity(s:WorkspaceState,a:ActorContext,record:RecordBase,type:string,title:string){s.events.push({...base(s,a,record.scope,record.provenance.sourceIds),type,title,detail:'Named source/coverage maintenance. Reviewer attestation is not external certification or matter-specific legal approval.',matterId:null,recordId:record.id,measurement:a.mode==='local_demo'?'fictional_rehearsal':'observed'});}
 export function applyCoverageCommand(s:WorkspaceState,a:ActorContext,c:CoverageCommand):Record<string,unknown>{

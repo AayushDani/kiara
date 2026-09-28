@@ -6,7 +6,7 @@ import {join} from 'node:path';
 import {command,snapshot} from '../src/v2/service';
 import {readWorkspace,transactWorkspace,closeV2Store} from '../src/v2/store';
 import {processLegalWatch,publicLegalAddress,extractLegalSource} from '../src/v2/legal-maintenance';
-import {authorityCurrent} from '../src/v2/coverage';
+import {authorityCurrent,legalSourceAnswerEligible} from '../src/v2/coverage';
 import {readOriginal} from '../src/v2/objects';
 import type {ActorContext,WorkspaceCommand} from '../src/v2/contracts';
 const dirs:string[]=[];let seq=0;const url='https://example.test/legal-source';
@@ -18,6 +18,25 @@ const due=()=>new Date(Date.now()+7*86400000).toISOString();
 function policy(){process.env.KIARA_V2_LEGAL_SOURCE_POLICY=JSON.stringify([{tenantId:owner().tenantId,urls:[url],validUntil:due(),maxBytes:10000}]);}
 async function fixture(){let result=await send({type:'document.add',title:'Fictional test authority',body:'Original source text.',authority:'unknown',kind:'other'});const sourceId=String(result.result.sourceId);result=await send({type:'coverage.source.add',sourceId,title:'Fictional source',sourceUrl:url,jurisdiction:'TEST ONLY',domain:'synthetic',authorityType:'guidance'});const authorityId=String(result.result.authorityId);let authority=result.snapshot.legalAuthorities.find(x=>x.id===authorityId)!;await send({type:'coverage.source.verify',authorityId,expectedRecordVersion:authority.version,sourceVersion:result.snapshot.sources.find(x=>x.id===sourceId)!.version,verificationEvidence:'Synthetic software test attestation, no legal review.',reviewDueAt:due()});authority=(await snapshot(owner())).legalAuthorities.find(x=>x.id===authorityId)!;policy();const watch=await send({type:'legal.watch.configure',authorityId,expectedAuthorityVersion:authority.version,intervalHours:24});return {sourceId,authorityId,watchId:String(watch.result.watchId)};}
 const response=(body:string,type='text/plain'):typeof fetch=>async()=>new Response(body,{headers:{'content-type':type}});
+
+test('a manually supplied source registered as legal authority needs current source and coverage review before retrieval',async()=>{
+ const added=await send({type:'document.add',title:'Fictional privacy rule',body:'Synthetic regulation text for a named review.',authority:'unknown',kind:'other'}),sourceId=String(added.result.sourceId);
+ assert.equal(added.snapshot.sources.find(x=>x.id===sourceId)!.kind,'manual');
+ const registered=await send({type:'coverage.source.add',sourceId,title:'Fictional privacy rule',sourceUrl:url,jurisdiction:'TEST ONLY',domain:'privacy',authorityType:'regulation'}),authorityId=String(registered.result.authorityId);
+ let state=await readWorkspace(owner().tenantId),source=state.sources.find(x=>x.id===sourceId)!;
+ assert.equal(legalSourceAnswerEligible(state,owner(),source),false);
+ let authority=state.legalAuthorities.find(x=>x.id===authorityId)!;
+ await send({type:'coverage.source.verify',authorityId,expectedRecordVersion:authority.version,sourceVersion:source.version,verificationEvidence:'Synthetic exact-version review, no real legal determination.',reviewDueAt:due()});
+ const defined=await send({type:'coverage.define',domain:'privacy',jurisdiction:'TEST ONLY',authorityIds:[authorityId],limitations:['Fictional test scope only.']}),coverageId=String(defined.result.coverageId);
+ state=await readWorkspace(owner().tenantId);source=state.sources.find(x=>x.id===sourceId)!;
+ assert.equal(legalSourceAnswerEligible(state,owner(),source),false);
+ await send({type:'coverage.review',coverageId,expectedRecordVersion:state.coverage.find(x=>x.id===coverageId)!.version,qualificationEvidence:'Synthetic reviewer and scope evidence only.',reviewDueAt:due(),limitations:['Fictional test scope only.']});
+ state=await readWorkspace(owner().tenantId);source=state.sources.find(x=>x.id===sourceId)!;
+ assert.equal(legalSourceAnswerEligible(state,owner(),source),true);
+ await send({type:'source.revoke',sourceId,reason:'Withdraw fictional authority.'});
+ state=await readWorkspace(owner().tenantId);
+ assert.equal(legalSourceAnswerEligible(state,owner(),state.sources.find(x=>x.id===sourceId)!),false);
+});
 
 test('monitor admission requires exact protected URL policy and reads never claim applicability',async()=>{
  const {watchId,authorityId}=await fixture();let calls=0;const result=await processLegalWatch(owner().tenantId,watchId,{fetcher:async(...args)=>{calls++;return response('Original source text.')(...args);}});assert.equal(result.status,'scheduled');let s=await readWorkspace(owner().tenantId);assert.equal(s.legalChanges?.length,0);assert.equal(authorityCurrent(s,owner(),s.legalAuthorities.find(x=>x.id===authorityId)!),true);await processLegalWatch(owner().tenantId,watchId,{fetcher:async()=>{calls++;throw new Error('Should remain scheduled');}});assert.equal(calls,1);
