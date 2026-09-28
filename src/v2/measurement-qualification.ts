@@ -1,3 +1,4 @@
+import {createHash} from 'node:crypto';
 import {digest} from './store';
 import {canRead} from './authority';
 import type {EffortEntry} from './measurement';
@@ -21,11 +22,20 @@ export interface PairedCaseManifest {
  current:CaseEvidenceRef;
  quality:{reviewerId:string;reviewerMembershipVersion:number;reviewedAt:string;artifactDigest:string;comparisonScope:string;baselineOutcomeHash:string;currentOutcomeHash:string;baselineValueEvidenceHash:string;currentValueEvidenceHash:string;verdict:'equivalent_quality'|'not_equivalent'|'unresolved'}|null;
 }
+/** Canonical UTF-8 JSON retained separately from the manifest. It is evidence of a
+ * review statement, not proof of the reviewer's identity or professional judgment. */
+export interface QualityAdjudicationArtifact {
+ schemaVersion:1;tenantId:string;pairEvidenceHash:string;baselineMatterId:string;currentMatterId:string;
+ baselineUsefulnessReceiptId:string;currentUsefulnessReceiptId:string;
+ reviewerId:string;reviewerMembershipVersion:number;reviewedAt:string;comparisonScope:string;
+ baselineOutcomeHash:string;currentOutcomeHash:string;baselineValueEvidenceHash:string;currentValueEvidenceHash:string;
+ verdict:'equivalent_quality'|'not_equivalent'|'unresolved';rationale:string;
+}
 export type QualificationReason=
  |'TENANT_OR_PAIR_CHANGED'|'REHEARSAL_EXCLUDED'|'MATTER_UNAVAILABLE'|'OUTCOME_OPEN'|'TASKS_PENDING'|'ACTIONS_PENDING'|'OBLIGATIONS_PENDING'|'OUTCOME_CHANGED'
  |'ACTION_SET_CHANGED'|'PARTICIPANT_ROSTER_INCOMPLETE'|'EFFORT_SET_CHANGED'|'EFFORT_MISSING'|'EFFORT_INCOMPLETE'|'EFFORT_DURATION_CHANGED'|'EFFORT_DUPLICATE'
  |'COUNSEL_EFFORT_UNACCOUNTED'|'USEFULNESS_RECEIPT_MISSING'|'USEFULNESS_RECEIPT_CHANGED'|'GOAL_EFFORT_UNRECONCILED'
- |'BASELINE_NOT_OBSERVED'|'BASELINE_NOT_PAIRED'|'SCOPE_NOT_COMPARABLE'|'QUALITY_REVIEW_MISSING'|'QUALITY_REVIEW_NOT_INDEPENDENT'|'QUALITY_REVIEW_CHANGED';
+ |'BASELINE_NOT_OBSERVED'|'BASELINE_NOT_PAIRED'|'SCOPE_NOT_COMPARABLE'|'QUALITY_REVIEW_MISSING'|'QUALITY_REVIEW_NOT_INDEPENDENT'|'QUALITY_REVIEW_CHANGED'|'QUALITY_ARTIFACT_MISSING'|'QUALITY_ARTIFACT_CHANGED';
 export interface PairedCaseQualification {
  status:'evidence_ready'|'incomplete';
  reasons:QualificationReason[];
@@ -35,6 +45,21 @@ export interface PairedCaseQualification {
 const sameIds=(left:string[],right:string[])=>Array.isArray(left)&&Array.isArray(right)&&left.length===new Set(left).size&&right.length===new Set(right).size&&digest([...left].sort())===digest([...right].sort());
 const decimal=(n:number)=>Math.round(n*10)/10;
 const validTime=(value:string)=>typeof value==='string'&&Number.isFinite(Date.parse(value));
+const artifactFields=['schemaVersion','tenantId','pairEvidenceHash','baselineMatterId','currentMatterId','baselineUsefulnessReceiptId','currentUsefulnessReceiptId','reviewerId','reviewerMembershipVersion','reviewedAt','comparisonScope','baselineOutcomeHash','currentOutcomeHash','baselineValueEvidenceHash','currentValueEvidenceHash','verdict','rationale'];
+const sameFields=(value:Record<string,unknown>)=>Object.keys(value).sort().join('\0')===[...artifactFields].sort().join('\0');
+export const pairedCaseEvidenceHash=(manifest:PairedCaseManifest)=>digest({tenantId:manifest.tenantId,comparisonScope:manifest.comparisonScope,baselineRecordId:manifest.baselineRecordId,baseline:manifest.baseline,current:manifest.current});
+/** Compare the exact bounded artifact bytes with both the manifest and selected cases. */
+export function qualityArtifactMatches(manifest:PairedCaseManifest,bytes:Uint8Array):boolean {
+ const quality=manifest.quality;
+ if(!quality||bytes.byteLength<2||bytes.byteLength>32_768)return false;
+ let raw:string,artifact:Record<string,unknown>;
+ try{raw=new TextDecoder('utf-8',{fatal:true}).decode(bytes);const value:unknown=JSON.parse(raw);if(!value||typeof value!=='object'||Array.isArray(value))return false;artifact=value as Record<string,unknown>;}catch{return false;}
+ // Canonical JSON forbids duplicate keys, inconspicuous trailing content and multiple human interpretations.
+ if(JSON.stringify(artifact)!==raw||!sameFields(artifact)||typeof artifact.rationale!=='string'||artifact.rationale.trim().length<20||artifact.rationale.length>4000)return false;
+ if(createHash('sha256').update(bytes).digest('hex')!==quality.artifactDigest)return false;
+ const expected:Omit<QualityAdjudicationArtifact,'rationale'>={schemaVersion:1,tenantId:manifest.tenantId,pairEvidenceHash:pairedCaseEvidenceHash(manifest),baselineMatterId:manifest.baseline.matterId,currentMatterId:manifest.current.matterId,baselineUsefulnessReceiptId:manifest.baseline.usefulnessReceiptId,currentUsefulnessReceiptId:manifest.current.usefulnessReceiptId,reviewerId:quality.reviewerId,reviewerMembershipVersion:quality.reviewerMembershipVersion,reviewedAt:quality.reviewedAt,comparisonScope:quality.comparisonScope,baselineOutcomeHash:quality.baselineOutcomeHash,currentOutcomeHash:quality.currentOutcomeHash,baselineValueEvidenceHash:quality.baselineValueEvidenceHash,currentValueEvidenceHash:quality.currentValueEvidenceHash,verdict:quality.verdict};
+ return Object.entries(expected).every(([key,value])=>artifact[key]===value);
+}
 
 /** Hash only the selected historical outcome basis, never a mutable view projection. */
 export function caseOutcomeHash(s:WorkspaceState,matterId:string):string|null {
@@ -132,7 +157,7 @@ function inspectCase(s:WorkspaceState,ref:CaseEvidenceRef,reasons:Set<Qualificat
 }
 
 /** Structural readiness only. External adjudication authenticity and customer outcomes require separate verification. */
-export function qualifyPairedCases(s:WorkspaceState,manifest:PairedCaseManifest):PairedCaseQualification {
+export function qualifyPairedCases(s:WorkspaceState,manifest:PairedCaseManifest,qualityArtifactBytes?:Uint8Array):PairedCaseQualification {
  const reasons=new Set<QualificationReason>();
  if(s.rehearsal)reasons.add('REHEARSAL_EXCLUDED');
  if(manifest.tenantId!==s.tenantId||manifest.baseline.matterId===manifest.current.matterId)reasons.add('TENANT_OR_PAIR_CHANGED');
@@ -148,6 +173,8 @@ export function qualifyPairedCases(s:WorkspaceState,manifest:PairedCaseManifest)
  const quality=manifest.quality;
  if(!quality||quality.verdict!=='equivalent_quality'||!validTime(quality.reviewedAt)||Date.parse(quality.reviewedAt)>Date.now()||!/^[a-f0-9]{64}$/.test(quality.artifactDigest))reasons.add('QUALITY_REVIEW_MISSING');
  else {
+  if(!qualityArtifactBytes)reasons.add('QUALITY_ARTIFACT_MISSING');
+  else if(!qualityArtifactMatches(manifest,qualityArtifactBytes))reasons.add('QUALITY_ARTIFACT_CHANGED');
   const reviewer=s.memberships.find(item=>item.actorId===quality.reviewerId),participants=new Set([...manifest.baseline.participantIds,...manifest.current.participantIds]);
   const reviewerActor={tenantId:s.tenantId,actorId:quality.reviewerId,mode:'authenticated' as const,expiresAt:Date.now()+60_000};
   const canInspectCases=!!reviewer&&!!baseline&&!!current&&[manifest.baseline,manifest.current].every(ref=>{

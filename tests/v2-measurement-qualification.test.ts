@@ -5,7 +5,8 @@ import {mkdir,mkdtemp,readFile,rm,writeFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {dirname,join} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {caseEvidenceBindingHash,caseOutcomeHash,caseValueEvidenceHash,qualifyPairedCases,type PairedCaseManifest,type QualificationReason} from '../src/v2/measurement-qualification';
+import {createHash} from 'node:crypto';
+import {caseEvidenceBindingHash,caseOutcomeHash,caseValueEvidenceHash,pairedCaseEvidenceHash,qualifyPairedCases,type PairedCaseManifest,type QualityAdjudicationArtifact,type QualificationReason} from '../src/v2/measurement-qualification';
 import {applyMeasurementCommand,effortComparisons} from '../src/v2/measurement';
 import {snapshotFromState} from '../src/v2/service';
 import {digest,emptyWorkspace} from '../src/v2/store';
@@ -15,6 +16,11 @@ import type {Action,ActorContext,Matter,Proposal,RecordBase,WorkspaceState} from
 
 const scope={kind:'team' as const,actorIds:[]};
 const closedAt='2026-09-27T12:00:00.000Z',reviewedAt='2026-09-27T13:00:00.000Z';
+function artifactFor(manifest:PairedCaseManifest){
+ const quality=manifest.quality!;
+ const artifact:QualityAdjudicationArtifact={schemaVersion:1,tenantId:manifest.tenantId,pairEvidenceHash:pairedCaseEvidenceHash(manifest),baselineMatterId:manifest.baseline.matterId,currentMatterId:manifest.current.matterId,baselineUsefulnessReceiptId:manifest.baseline.usefulnessReceiptId,currentUsefulnessReceiptId:manifest.current.usefulnessReceiptId,reviewerId:quality.reviewerId,reviewerMembershipVersion:quality.reviewerMembershipVersion,reviewedAt:quality.reviewedAt,comparisonScope:quality.comparisonScope,baselineOutcomeHash:quality.baselineOutcomeHash,currentOutcomeHash:quality.currentOutcomeHash,baselineValueEvidenceHash:quality.baselineValueEvidenceHash,currentValueEvidenceHash:quality.currentValueEvidenceHash,verdict:quality.verdict,rationale:'Synthetic comparison of the exact two case outcomes and useful proposals; no real quality finding.'};
+ const bytes=Buffer.from(JSON.stringify(artifact));quality.artifactDigest=createHash('sha256').update(bytes).digest('hex');return bytes;
+}
 function base(s:WorkspaceState,id:string,actorId='owner'):RecordBase{return {id,tenantId:s.tenantId,version:1,createdAt:'2026-09-27T09:00:00.000Z',updatedAt:closedAt,scope,provenance:{actorId,sourceIds:[],description:'Synthetic qualification fixture'}};}
 function matter(s:WorkspaceState,id:string):Matter{return {...base(s,id),title:id,objective:'Review the same fictional support-summary change',entityId:s.entityId,state:'closed',ownerId:'owner',conversationIds:[],scenarioId:null,eventIds:[],sourceIds:[],factIds:[],documentIds:[],proposalId:null,tasks:[{id:`${id}-task`,title:'Review exact fictional outcome',ownerId:'owner',status:'done',kind:'business',dueAt:null,deadlineType:'undated',evidenceIds:[`${id}-receipt`]}],blockers:[],outcome:'Fictional reviewed work completed.',closedAt,ruleVersion:1};}
 function action(s:WorkspaceState,matterId:string):Action{return {...base(s,`${matterId}-action`,'publisher'),matterId,proposalId:`${matterId}-proposal`,kind:'internal_document',title:'Fictional exact output',content:'Synthetic reviewed text',contentHash:digest('Synthetic reviewed text'),recipients:[],destination:null,status:'verified',authorizationId:null,providerIdempotencyKey:`${matterId}-effect`,providerReceipt:'synthetic-readback',completion:{kind:'readback',artifact:`${matterId}-receipt`,verifierId:'publisher',verifiedAt:closedAt},executionOwner:'v2',leaseUntil:null};}
@@ -33,10 +39,10 @@ function fixture(){
  s.valueGoals=(['before','after'] as const).map(id=>({...privateBase(`${id}-goal`),ownerId:'owner',sessionId:session.id,title:`Useful ${id} packet`,successCriteria:'Owner reports this exact reviewed packet useful.',conversationId:null,status:'working',outcomeNote:null,outcomeReceiptId:null}) satisfies ValueGoal);
  const actor:ActorContext={tenantId:s.tenantId,actorId:'owner',mode:'authenticated',expiresAt:Date.now()+60_000},outputs=valueView(s,actor).outputs;
  s.valueReceipts=(['before','after'] as const).map(id=>{const output=outputs.find(item=>item.id===`${id}-proposal`)!;return {...privateBase(`${id}-useful`),ownerId:'owner',sessionId:session.id,goalId:`${id}-goal`,outputKind:'proposal',outputId:output.id,outputVersion:output.version,outputHash:output.hash,outputTitle:output.title,outputCreatedAt:output.createdAt,disposition:'useful',reason:`Fictional owner report of useful ${id} packet.`,status:'current',withdrawalReason:null} satisfies ValueReceipt;});
- const manifest:PairedCaseManifest={tenantId:s.tenantId,comparisonScope,baselineRecordId:baseline.id,baseline:{matterId:'before',outcomeHash:caseOutcomeHash(s,'before')!,usefulnessReceiptId:'before-useful',actionIds:['before-action'],participantIds:['owner','publisher'],effortEntryIds:['before-owner','before-publisher']},current:{matterId:'after',outcomeHash:caseOutcomeHash(s,'after')!,usefulnessReceiptId:'after-useful',actionIds:['after-action'],participantIds:['owner','publisher','counsel'],effortEntryIds:['after-owner','after-publisher','after-counsel','after-correction']},quality:{reviewerId:'evaluator',reviewerMembershipVersion:1,reviewedAt,artifactDigest:digest('Synthetic independently reviewed quality artifact'),comparisonScope,baselineOutcomeHash:caseOutcomeHash(s,'before')!,currentOutcomeHash:caseOutcomeHash(s,'after')!,baselineValueEvidenceHash:caseValueEvidenceHash(s,'before','before-useful')!,currentValueEvidenceHash:caseValueEvidenceHash(s,'after','after-useful')!,verdict:'equivalent_quality'}};
- return {s,manifest};
+ const manifest:PairedCaseManifest={tenantId:s.tenantId,comparisonScope,baselineRecordId:baseline.id,baseline:{matterId:'before',outcomeHash:caseOutcomeHash(s,'before')!,usefulnessReceiptId:'before-useful',actionIds:['before-action'],participantIds:['owner','publisher'],effortEntryIds:['before-owner','before-publisher']},current:{matterId:'after',outcomeHash:caseOutcomeHash(s,'after')!,usefulnessReceiptId:'after-useful',actionIds:['after-action'],participantIds:['owner','publisher','counsel'],effortEntryIds:['after-owner','after-publisher','after-counsel','after-correction']},quality:{reviewerId:'evaluator',reviewerMembershipVersion:1,reviewedAt,artifactDigest:'0'.repeat(64),comparisonScope,baselineOutcomeHash:caseOutcomeHash(s,'before')!,currentOutcomeHash:caseOutcomeHash(s,'after')!,baselineValueEvidenceHash:caseValueEvidenceHash(s,'before','before-useful')!,currentValueEvidenceHash:caseValueEvidenceHash(s,'after','after-useful')!,verdict:'equivalent_quality'}};
+ return {s,manifest,artifactBytes:artifactFor(manifest)};
 }
-function incomplete(change:(s:WorkspaceState,manifest:PairedCaseManifest)=>void,reason:QualificationReason){const {s,manifest}=fixture();change(s,manifest);const result=qualifyPairedCases(s,manifest);assert.equal(result.status,'incomplete');assert.ok(result.reasons.includes(reason),`${reason}: ${result.reasons.join(', ')}`);assert.equal(result.recordedMinutes,null);}
+function incomplete(change:(s:WorkspaceState,manifest:PairedCaseManifest)=>void,reason:QualificationReason){const {s,manifest,artifactBytes}=fixture();change(s,manifest);const result=qualifyPairedCases(s,manifest,artifactBytes);assert.equal(result.status,'incomplete');assert.ok(result.reasons.includes(reason),`${reason}: ${result.reasons.join(', ')}`);assert.equal(result.recordedMinutes,null);}
 function reassessChangedProposal(s:WorkspaceState,manifest:PairedCaseManifest,caseName:'baseline'|'current'){
  const ref=manifest[caseName],proposal=s.proposals.find(item=>item.matterId===ref.matterId)!;
  proposal.body=`New synthetic proposal for ${ref.matterId} after quality review`;proposal.contentHash=digest(proposal.body);proposal.version++;proposal.updatedAt='2026-09-27T14:00:00.000Z';
@@ -47,7 +53,7 @@ function reassessChangedProposal(s:WorkspaceState,manifest:PairedCaseManifest,ca
 }
 
 test('exact observed pair is structurally ready, counts correction once and never claims savings',()=>{
- const {s,manifest}=fixture(),before=digest(s),result=qualifyPairedCases(s,manifest);
+ const {s,manifest,artifactBytes}=fixture(),before=digest(s),result=qualifyPairedCases(s,manifest,artifactBytes);
  assert.equal(result.status,'evidence_ready');assert.deepEqual(result.reasons,[]);assert.deepEqual(result.recordedMinutes,{baseline:60,current:45,baselineCorrection:0,currentCorrection:5});assert.match(result.interpretation,/not verified customer value|not.*savings/);assert.equal(digest(s),before,'qualification is read-only');
 });
 test('open work, pending effects and unfulfilled obligations fail closed',()=>{
@@ -95,16 +101,16 @@ test('estimated or unmatched baselines, changed outcomes and incomparable scopes
  incomplete(s=>{s.rehearsal=true;},'REHEARSAL_EXCLUDED');
 });
 test('recording an observed baseline binds the exact completed case and all its attributed effort',()=>{
- const {s,manifest}=fixture(),actor:ActorContext={tenantId:s.tenantId,actorId:'owner',mode:'authenticated',expiresAt:Date.now()+60_000};
+ const {s,manifest,artifactBytes}=fixture(),actor:ActorContext={tenantId:s.tenantId,actorId:'owner',mode:'authenticated',expiresAt:Date.now()+60_000};
  s.effortBaselines=[];
  const result=applyMeasurementCommand(s,actor,{type:'baseline.record',matterId:'after',observedMatterId:'before',minutes:60,method:'observed_comparable_work',comparisonScope:manifest.comparisonScope,evidence:'Attributed timesheet for the selected completed comparison case.'});
  manifest.baselineRecordId=String(result.baselineId);
  assert.equal(s.effortBaselines[0].observedCaseBindingHash,caseEvidenceBindingHash(s,'before'));
  assert.equal(s.effortBaselines[0].observedMatterId,'before');
- assert.equal(qualifyPairedCases(s,manifest).status,'evidence_ready');
+ assert.equal(qualifyPairedCases(s,manifest,artifactFor(manifest)).status,'evidence_ready');
  s.matters[0].objective='A corrected historical outcome basis';
  manifest.baseline.outcomeHash=caseOutcomeHash(s,'before')!;manifest.quality!.baselineOutcomeHash=manifest.baseline.outcomeHash;
- assert.ok(qualifyPairedCases(s,manifest).reasons.includes('BASELINE_NOT_PAIRED'));
+ assert.ok(qualifyPairedCases(s,manifest,artifactBytes).reasons.includes('BASELINE_NOT_PAIRED'));
  assert.throws(()=>applyMeasurementCommand(s,actor,{type:'baseline.record',matterId:'after',observedMatterId:'after',minutes:60,method:'observed_comparable_work',comparisonScope:manifest.comparisonScope,evidence:'Wrong case.'}),{code:'INVALID_OBSERVED_CASE'});
  assert.throws(()=>applyMeasurementCommand(s,actor,{type:'baseline.record',matterId:'after',observedMatterId:'before',minutes:59,method:'observed_comparable_work',comparisonScope:manifest.comparisonScope,evidence:'Wrong amount.'}),{code:'OBSERVED_MINUTES_CHANGED'});
 });
@@ -138,23 +144,39 @@ test('independent, exact-basis quality adjudication is mandatory',()=>{
 });
 test('newly useful proposal in either case requires a fresh exact-basis quality review',()=>{
  for(const caseName of ['baseline','current'] as const){
-  const {s,manifest}=fixture();reassessChangedProposal(s,manifest,caseName);
-  assert.deepEqual(qualifyPairedCases(s,manifest).reasons,['QUALITY_REVIEW_CHANGED']);
+  const {s,manifest,artifactBytes}=fixture();reassessChangedProposal(s,manifest,caseName);
+  assert.ok(qualifyPairedCases(s,manifest,artifactBytes).reasons.includes('QUALITY_REVIEW_CHANGED'));
   const quality=manifest.quality!;quality[caseName==='baseline'?'baselineValueEvidenceHash':'currentValueEvidenceHash']=caseValueEvidenceHash(s,manifest[caseName].matterId,manifest[caseName].usefulnessReceiptId)!;
-  assert.deepEqual(qualifyPairedCases(s,manifest).reasons,['QUALITY_REVIEW_CHANGED'],'changing only the manifest hash cannot make an older review current');
+  assert.ok(qualifyPairedCases(s,manifest,artifactBytes).reasons.includes('QUALITY_REVIEW_CHANGED'),'changing only the manifest hash cannot make an older review current');
   quality.reviewedAt='2026-09-27T15:00:00.000Z';
-  assert.equal(qualifyPairedCases(s,manifest).status,'evidence_ready');
+  assert.equal(qualifyPairedCases(s,manifest,artifactFor(manifest)).status,'evidence_ready');
  }
+});
+test('quality evidence requires exact bounded artifact bytes, not a plausible digest in a manifest',()=>{
+ const {s,manifest,artifactBytes}=fixture();
+ assert.deepEqual(qualifyPairedCases(s,manifest).reasons,['QUALITY_ARTIFACT_MISSING']);
+ assert.deepEqual(qualifyPairedCases(s,manifest,Buffer.from('forged review')).reasons,['QUALITY_ARTIFACT_CHANGED']);
+ const changed=Buffer.from(artifactBytes);changed[changed.length-2]=changed[changed.length-2]===65?66:65;
+ assert.deepEqual(qualifyPairedCases(s,manifest,changed).reasons,['QUALITY_ARTIFACT_CHANGED']);
+ const wrongPair=JSON.parse(artifactBytes.toString('utf8')) as QualityAdjudicationArtifact;
+ wrongPair.currentMatterId='unrelated-case';const wrongBytes=Buffer.from(JSON.stringify(wrongPair));manifest.quality!.artifactDigest=createHash('sha256').update(wrongBytes).digest('hex');
+ assert.deepEqual(qualifyPairedCases(s,manifest,wrongBytes).reasons,['QUALITY_ARTIFACT_CHANGED'],'matching bytes and digest cannot substitute a different case');
+ const pretty=Buffer.from(JSON.stringify(wrongPair,null,2));manifest.quality!.artifactDigest=createHash('sha256').update(pretty).digest('hex');
+ assert.deepEqual(qualifyPairedCases(s,manifest,pretty).reasons,['QUALITY_ARTIFACT_CHANGED'],'ambiguous noncanonical JSON is refused');
+ assert.deepEqual(qualifyPairedCases(s,manifest,Buffer.alloc(32_769)).reasons,['QUALITY_ARTIFACT_CHANGED']);
 });
 test('read-only operator CLI reports a bounded result and exits nonzero for incomplete evidence',async()=>{
  const root=await mkdtemp(join(tmpdir(),'kiara-paired-gate-'));
  try{
-  const {s,manifest}=fixture(),tenantDir=join(root,digest(s.tenantId)),manifestPath=join(root,'manifest.json');
+  const {s,manifest,artifactBytes}=fixture(),tenantDir=join(root,digest(s.tenantId)),manifestPath=join(root,'manifest.json'),artifactPath=join(root,'adjudication.json');
   await mkdir(tenantDir);await writeFile(join(tenantDir,'workspace.json'),JSON.stringify({format:2,hash:digest(s),state:s}));
   const script=join(dirname(fileURLToPath(import.meta.url)),'../scripts/v2-measurement-qualification.ts');
-  const run=()=>spawnSync(process.execPath,['--import','tsx',script,s.tenantId,manifestPath],{cwd:join(dirname(fileURLToPath(import.meta.url)),'..'),env:{...process.env,KIARA_V2_DATA_DIR:root,KIARA_V2_STORE_MODE:'',MONGODB_URI:'',VERCEL:''},encoding:'utf8'});
-  await writeFile(manifestPath,JSON.stringify(manifest));
+  const run=(includeArtifact=true)=>spawnSync(process.execPath,['--import','tsx',script,s.tenantId,manifestPath,...includeArtifact?[artifactPath]:[]],{cwd:join(dirname(fileURLToPath(import.meta.url)),'..'),env:{...process.env,KIARA_V2_DATA_DIR:root,KIARA_V2_STORE_MODE:'',MONGODB_URI:'',VERCEL:''},encoding:'utf8'});
+  await writeFile(manifestPath,JSON.stringify(manifest));await writeFile(artifactPath,artifactBytes);
   const ready=run();assert.equal(ready.status,0,ready.stderr);assert.equal(JSON.parse(ready.stdout).status,'evidence_ready');
+  const noArtifact=run(false);assert.equal(noArtifact.status,1,noArtifact.stderr);assert.deepEqual(JSON.parse(noArtifact.stdout).reasons,['QUALITY_ARTIFACT_MISSING']);
+  await writeFile(artifactPath,Buffer.from('forged review'));const tampered=run();assert.equal(tampered.status,1,tampered.stderr);assert.deepEqual(JSON.parse(tampered.stdout).reasons,['QUALITY_ARTIFACT_CHANGED']);
+  await writeFile(artifactPath,artifactBytes);
   delete (manifest.quality as Partial<NonNullable<PairedCaseManifest['quality']>>).currentValueEvidenceHash;await writeFile(manifestPath,JSON.stringify(manifest));
   const malformed=run();assert.equal(malformed.status,2,malformed.stderr);assert.match(malformed.stderr,/"code":"INPUT_INVALID"/);
   manifest.quality=null;await writeFile(manifestPath,JSON.stringify(manifest));
