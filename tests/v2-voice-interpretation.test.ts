@@ -33,6 +33,27 @@ test('ambiguous spoken date and unresolved interpretation cannot become confirme
  const unconfirmed=await send({type:'message.send',text:transcript,channel:'voice',voiceConfirmed:false});assert.equal(unconfirmed.snapshot.messages.find(m=>m.role==='user')?.voiceConfirmed,false);assert.equal(unconfirmed.snapshot.facts.length,0);
 });
 
+test('relative spoken dates require transcript correction before confirmed work',async()=>{
+ const transcript='Draft the supplier notice next Friday for RelayAI.';
+ assert.deepEqual(interpretVoice(transcript,'').dates,[]);
+ assert.deepEqual(interpretVoice(transcript,'').ambiguous,['next Friday']);
+ assert.deepEqual(interpretVoice('Send it Friday or in two business days.','').ambiguous,['Friday','in two business days']);
+ assert.deepEqual(interpretVoice('Send it Friday, October 2, 2026.','').ambiguous,[]);
+ assert.deepEqual(interpretVoice('Send it Friday, October 3, 2026.','').ambiguous,['Friday']);
+ assert.deepEqual(interpretVoice('Send it within 30 days of signing or by the end of the month.','').ambiguous,['within 30 days','by the end of the month']);
+ assert.deepEqual(interpretVoice('Send it by the end of next quarter or in two calendar weeks.','').ambiguous,['by the end of next quarter','in two calendar weeks']);
+ assert.deepEqual(interpretVoice('Review today’s signed contract.','').ambiguous,[]);
+ assert.deepEqual(interpretVoice('Draft the Monday.com agreement.','').ambiguous,[]);
+ assert.deepEqual(interpretVoice('Send it February 30, 2026.','').ambiguous,['February 30, 2026']);
+ await assert.rejects(send({type:'message.send',text:transcript,channel:'voice',voiceConfirmed:true,voiceInterpretation:review(transcript)}),{code:'VOICE_INTERPRETATION_CHANGED'});
+ const unchanged=await readWorkspace(actor().tenantId);
+ assert.equal(unchanged.messages.length,0);assert.equal(unchanged.facts.length,0);assert.equal(unchanged.actions.length,0);
+ const corrected='Draft the supplier notice for 2026-10-02 for RelayAI.';
+ const accepted=await send({type:'message.send',text:corrected,channel:'voice',voiceConfirmed:true,voiceInterpretation:review(corrected)});
+ assert.equal(accepted.snapshot.messages.find(m=>m.role==='user')?.voiceConfirmed,true);
+ assert.equal(accepted.snapshot.actions.length,0);
+});
+
 test('declared name review binds exact subject identity and current audience',async()=>{
  const team={kind:'team' as const,actorIds:[]},entity=(await send({type:'memory.entity.declare',kind:'vendor',name:'RelayAI',aliases:[],ownerId:'owner',scope:team})).snapshot.companyMemory.entities[0];
  const c=(await send({type:'conversation.create',title:'Vendor review',scope:team,subjectEntityId:entity.id})).snapshot.conversations[0],transcript='Discuss RelayAI on 2026-09-10 for $5,000.';
