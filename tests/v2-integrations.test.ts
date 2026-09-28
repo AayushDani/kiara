@@ -1,12 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtemp,rm,readFile} from 'node:fs/promises';
+import {mkdtemp,rm,readFile,writeFile,stat} from 'node:fs/promises';
+import {execFile} from 'node:child_process';
+import {promisify} from 'node:util';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {createHmac,randomUUID} from 'node:crypto';
 import {backupWorkspace,closeV2Store,digest,readWorkspace,restoreWorkspace,transactWorkspace} from '../src/v2/store';
 import {canRead} from '../src/v2/authority';
-import {applyWithdrawalCommand,withdrawalExceptionViews} from '../src/v2/source-corrective';
+import {applyWithdrawalCommand,inspectWithdrawalEffects} from '../src/v2/source-corrective';
 import {command,snapshot} from '../src/v2/service';
 import {resolveInstallation,type Installation} from '../src/v2/integrations/config';
 import {acceptWebhook,ingestProviderObject,syncDriveInstallation,verifyWebhook} from '../src/v2/integrations/intake';
@@ -23,6 +25,7 @@ function signedGitHub(p:unknown,type='pull_request'){const raw=Buffer.from(JSON.
 function pr(repo='acme/product'){return {installation:{id:777},repository:{full_name:repo},action:'closed',pull_request:{number:7,title:'AI summary experiment',body:'Synthetic data only; consider rollout later.',head:{sha:'abc'},updated_at:'2026-09-27T12:00:00Z',merged:true}};}
 function signedSlack(p:unknown,ts=String(Math.floor(Date.now()/1000))){const raw=Buffer.from(JSON.stringify(p)),headers=new Headers({'x-slack-request-timestamp':ts,'x-slack-signature':`v0=${createHmac('sha256','synthetic-secret').update(`v0:${ts}:`).update(raw).digest('hex')}`});return {raw,headers};}
 const json=(v:unknown)=>new Response(JSON.stringify(v),{headers:{'content-type':'application/json'}});
+const execFileAsync=promisify(execFile);
 
 test('installation configuration is unavailable when absent, revoked or missing referenced credentials',()=>isolated(async()=>{
  delete process.env.KIARA_V2_INSTALLATIONS;await assert.rejects(resolveInstallation('github-1'),{code:'CONNECTION_UNAVAILABLE'});process.env.KIARA_V2_INSTALLATIONS=JSON.stringify([{...github,enabled:false}]);await assert.rejects(resolveInstallation('github-1'),{code:'CONNECTION_UNAVAILABLE'});delete process.env.TEST_WEBHOOK_SECRET;const {raw,headers}=signedGitHub(pr());assert.throws(()=>verifyWebhook(github,headers,raw),{code:'CONNECTION_UNAVAILABLE'});
@@ -159,7 +162,7 @@ test('qualified operator reviews an exact retained readback before a new owner c
  const send=async(a:ActorContext,value:WorkspaceCommand)=>command(a,{idempotencyKey:randomUUID(),expectedVersion:(await snapshot(a)).version,command:value});
  const sourceId=String((await send(owner,{type:'document.add',title:'PRIVATE_ORIGINAL_CANARY',body:'PRIVATE_VERIFIED_EFFECT_CANARY',authority:'effective'})).result.sourceId);
  const matterId=String((await send(owner,{type:'matter.create',title:'PRIVATE_MATTER_CANARY',objective:'Review historical work'})).result.matterId);
- await transactWorkspace('tenant-a',s=>{const m=s.matters.find(item=>item.id===matterId)!,now=new Date().toISOString();m.sourceIds=[sourceId];m.provenance.sourceIds=[sourceId];s.actions.push({id:'verified-original-effect',tenantId:s.tenantId,version:1,createdAt:now,updatedAt:now,scope:structuredClone(m.scope),provenance:{actorId:'owner',sourceIds:[sourceId],description:'Historical submitted effect'},matterId,proposalId:'historical',kind:'send',title:'PRIVATE_EFFECT_CANARY',content:'PRIVATE_VERIFIED_EFFECT_CANARY',contentHash:digest('PRIVATE_VERIFIED_EFFECT_CANARY'),recipients:[],destination:null,status:'verified',authorizationId:null,providerIdempotencyKey:'verified-original-effect',providerReceipt:'retained-receipt',completion:{kind:'readback',artifact:'retained-receipt',verifierId:'adapter:synthetic',verifiedAt:now},executionOwner:'v2',leaseUntil:null});s.receipts['execution:verified-original-effect']={hash:'retained-intent',result:{intent:{status:'verified',providerReceipt:'retained-receipt',completionArtifact:'retained-receipt',redactedAt:null}}};s.memberships.find(item=>item.actorId==='owner')!.revokedAt=now;s.memberships.push({actorId:'operator',roles:['member','admin'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null});s.memberships.push({actorId:'new-owner',roles:['member','business_owner'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null});});
+ await transactWorkspace('tenant-a',s=>{const m=s.matters.find(item=>item.id===matterId)!,now=new Date().toISOString();m.sourceIds=[sourceId];m.provenance.sourceIds=[sourceId];s.actions.push({id:'verified-original-effect',tenantId:s.tenantId,version:1,createdAt:now,updatedAt:now,scope:structuredClone(m.scope),provenance:{actorId:'owner',sourceIds:[sourceId],description:'Historical submitted effect'},matterId,proposalId:'historical',kind:'send',title:'PRIVATE_EFFECT_CANARY',content:'PRIVATE_VERIFIED_EFFECT_CANARY',contentHash:digest('PRIVATE_VERIFIED_EFFECT_CANARY'),recipients:[],destination:null,status:'verified',authorizationId:null,providerIdempotencyKey:'verified-original-effect',providerReceipt:'retained-receipt',completion:{kind:'readback',artifact:'retained-receipt',verifierId:'adapter:synthetic',verifiedAt:now},executionOwner:'v2',leaseUntil:null});s.receipts['execution:verified-original-effect']={hash:'retained-intent',result:{intent:{actionId:'verified-original-effect',actionHash:digest('PRIVATE_VERIFIED_EFFECT_CANARY'),adapterId:'synthetic',status:'verified',providerReceipt:'retained-receipt',completionArtifact:'retained-receipt',redactedAt:null}}};s.memberships.find(item=>item.actorId==='owner')!.revokedAt=now;s.memberships.push({actorId:'operator',roles:['member','admin'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null});s.memberships.push({actorId:'new-owner',roles:['member','business_owner'],version:1,expiresAt:null,revokedAt:null,matterIds:null,entityIds:null});});
  const operator:ActorContext={...owner,actorId:'operator'},withdrawn=await send(operator,{type:'source.revoke',sourceId,reason:'Withdraw historical evidence'});
  assert.equal(withdrawn.result.corrective,1);
  const exception=(await snapshot(operator)).withdrawalExceptions[0],correction=(await readWorkspace('tenant-a')).matters.find(item=>item.id!==matterId)!;
@@ -172,17 +175,46 @@ test('qualified operator reviews an exact retained readback before a new owner c
  await assert.rejects(()=>send(candidate,{type:'source.correction.resolve',reviewRef:exception.reviewRef,expectedRecordVersion:work.version,note:'I reviewed this independent record and cannot inspect earlier submitted effects.',evidenceSourceIds:[evidence.id],evidenceSourceVersions:{[evidence.id]:evidence.version},evidenceSourceHashes:{[evidence.id]:evidence.contentHash},evidenceSourceDependencyHashes:{[evidence.id]:evidence.evidenceDependencyHash!}}),{code:'EFFECT_REVIEW_UNAVAILABLE'});
  const preview=(await snapshot(operator)).withdrawalExceptions.find(item=>item.reviewRef===exception.reviewRef)!;
  assert.equal(preview.status,'effect_review_required');assert.equal(preview.verifiedEffects,1);assert.match(preview.effectReviewHash!,/^[a-f0-9]{64}$/);
- await assert.rejects(()=>send(operator,{type:'source.correction.effect_review',reviewRef:exception.reviewRef,expectedRecordVersion:preview.version!,effectReviewHash:preview.effectReviewHash!,note:'I inspected the retained readback record and its exact provider receipt.'}),{code:'FORBIDDEN'});
+ const generic={type:'source.correction.effect_review' as const,reviewRef:exception.reviewRef,expectedRecordVersion:preview.version!,effectReviewHash:preview.effectReviewHash!,inspectionId:'00000000-0000-0000-0000-000000000000',inspectionEvidenceHash:'0'.repeat(64),note:'I inspected the retained readback record and its exact provider receipt.'};
+ await assert.rejects(()=>send(operator,generic),{code:'FORBIDDEN'});
  await transactWorkspace('tenant-a',s=>{const reviewer=s.memberships.find(item=>item.actorId==='operator')!;reviewer.roles.push('publisher');reviewer.version++;});
- await assert.rejects(()=>send(operator,{type:'source.correction.effect_review',reviewRef:exception.reviewRef,expectedRecordVersion:preview.version!,effectReviewHash:'0'.repeat(64),note:'I inspected the retained readback record and its exact provider receipt.'}),{code:'EFFECT_REVIEW_CHANGED'});
- await transactWorkspace('tenant-a',s=>{const effect=s.actions.find(item=>item.id==='verified-original-effect')!,prior=effect.providerReceipt;effect.providerReceipt=null;const changed=withdrawalExceptionViews(s,operator).find(item=>item.reviewRef===exception.reviewRef)!;assert.throws(()=>applyWithdrawalCommand(s,operator,{type:'source.correction.effect_review',reviewRef:exception.reviewRef,expectedRecordVersion:changed.version!,effectReviewHash:changed.effectReviewHash!,note:'I inspected the retained adapter readback record and matching provider receipt.'}),{code:'EFFECT_RECEIPT_REQUIRED'});effect.providerReceipt=prior;});
- await send(operator,{type:'source.correction.effect_review',reviewRef:exception.reviewRef,expectedRecordVersion:preview.version!,effectReviewHash:preview.effectReviewHash!,note:'I inspected the retained adapter readback record and matching provider receipt; this does not claim a new delivery.'});
+ await transactWorkspace('tenant-a',s=>{s.memberships.push({actorId:'restricted-reviewer',roles:['member','admin','publisher'],version:1,expiresAt:null,revokedAt:null,matterIds:['unrelated'],entityIds:null});});
+ const restricted:ActorContext={...operator,actorId:'restricted-reviewer'};
+ assert.equal((await snapshot(restricted)).withdrawalExceptions.length,0);
+ await assert.rejects(()=>transactWorkspace('tenant-a',s=>inspectWithdrawalEffects(s,restricted,exception.reviewRef,preview.version!)),{code:'FORBIDDEN'});
+ await assert.rejects(()=>send(restricted,generic),{code:'FORBIDDEN'});
+ await assert.rejects(()=>send(operator,generic),{code:'EFFECT_INSPECTION_REQUIRED'},'a status fingerprint and plausible note do not prove inspection');
+ await assert.rejects(()=>send(operator,{...generic,effectReviewHash:'0'.repeat(64)}),{code:'EFFECT_REVIEW_CHANGED'});
+ await transactWorkspace('tenant-a',s=>{const effect=s.actions.find(item=>item.id==='verified-original-effect')!,prior=effect.providerReceipt;effect.providerReceipt=null;assert.throws(()=>inspectWithdrawalEffects(s,operator,exception.reviewRef,preview.version!),{code:'EFFECT_RECEIPT_REQUIRED'});effect.providerReceipt=prior;});
+ await transactWorkspace('tenant-a',s=>{const intent=s.receipts['execution:verified-original-effect'].result.intent as {adapterId:string};intent.adapterId='different-adapter';assert.throws(()=>inspectWithdrawalEffects(s,operator,exception.reviewRef,preview.version!),{code:'EFFECT_RECEIPT_REQUIRED'});intent.adapterId='synthetic';});
+ const inspected=(await transactWorkspace('tenant-a',s=>inspectWithdrawalEffects(s,operator,exception.reviewRef,preview.version!))).result;
+ assert.equal(inspected.effects.length,1);assert.equal(inspected.effects[0].actionId,'verified-original-effect');assert.equal(inspected.effects[0].kind,'send');assert.equal(inspected.effects[0].providerReceipt,'retained-receipt');assert.equal(inspected.effects[0].readbackArtifact,'retained-receipt');assert.equal(inspected.effects[0].intentProviderReceipt,'retained-receipt');
+ assert.doesNotMatch(JSON.stringify(inspected),/PRIVATE_ORIGINAL_CANARY|PRIVATE_EFFECT_CANARY|PRIVATE_VERIFIED_EFFECT_CANARY|PRIVATE_MATTER_CANARY/);
+ const normalAfterInspection=await snapshot(operator);assert.equal(normalAfterInspection.actions.some(item=>item.id==='verified-original-effect'),false);assert.doesNotMatch(JSON.stringify(normalAfterInspection),/retained-receipt/);
+ const inspectedCommand={...generic,effectReviewHash:inspected.effectReviewHash,inspectionId:inspected.inspectionId,inspectionEvidenceHash:inspected.inspectionEvidenceHash};
+ const secondInspection=(await transactWorkspace('tenant-a',s=>inspectWithdrawalEffects(s,operator,exception.reviewRef,preview.version!))).result;
+ assert.equal(Object.keys((await readWorkspace('tenant-a')).receipts).filter(key=>key.startsWith('source-effect-inspection:')).length,1,'repeat inspection replaces its earlier challenge');
+ await assert.rejects(()=>send(operator,inspectedCommand),{code:'EFFECT_INSPECTION_REQUIRED'},'replaced inspection cannot be replayed');
+ await transactWorkspace('tenant-a',s=>{const effect=s.actions.find(item=>item.id==='verified-original-effect')!;effect.completion!.artifact='new exact readback';effect.version++;});
+ await assert.rejects(()=>send(operator,{...inspectedCommand,inspectionId:secondInspection.inspectionId,inspectionEvidenceHash:secondInspection.inspectionEvidenceHash}),{code:'EFFECT_REVIEW_CHANGED'},'a changed retained artifact invalidates the inspection challenge');
+ await transactWorkspace('tenant-a',s=>{const effect=s.actions.find(item=>item.id==='verified-original-effect')!,intent=s.receipts['execution:verified-original-effect'].result.intent as {completionArtifact:string};effect.completion!.artifact='new exact readback';intent.completionArtifact='new exact readback';});
+ const fresh=(await snapshot(operator)).withdrawalExceptions.find(item=>item.reviewRef===exception.reviewRef)!;
+ const inspectionPath=join(process.env.KIARA_V2_DATA_DIR!,'retained-inspection.json'),notePath=join(process.env.KIARA_V2_DATA_DIR!,'review-note.txt'),script=join(process.cwd(),'scripts/v2-operator.ts');
+ const cliInspection=JSON.parse((await execFileAsync(process.execPath,['--import','tsx',script,'withdrawal-inspect','tenant-a','operator',exception.reviewRef,String(fresh.version),(await snapshot(operator)).version.toString(),inspectionPath])).stdout);
+ assert.equal(cliInspection.inspectionFile,inspectionPath);assert.equal((await stat(inspectionPath)).mode&0o777,0o600);
+ const reinspected=JSON.parse(await readFile(inspectionPath,'utf8')) as ReturnType<typeof inspectWithdrawalEffects>;
+ assert.equal(reinspected.effects[0].readbackArtifact,'new exact readback');
+ await writeFile(notePath,'I inspected the newly retained adapter readback record and matching provider receipt; this does not claim a new delivery.',{mode:0o600});
+ const tamperedPath=join(process.env.KIARA_V2_DATA_DIR!,'tampered-inspection.json');await writeFile(tamperedPath,JSON.stringify({...reinspected,effects:[{...reinspected.effects[0],readbackArtifact:'different'}]}),{mode:0o600});
+ await assert.rejects(execFileAsync(process.execPath,['--import','tsx',script,'withdrawal-review','tenant-a','operator',tamperedPath,String(cliInspection.version),notePath]),/inspected evidence file is invalid/);
+ await execFileAsync(process.execPath,['--import','tsx',script,'withdrawal-review','tenant-a','operator',inspectionPath,String(cliInspection.version),notePath]);
  assert.equal((await snapshot(operator)).withdrawalExceptions.find(item=>item.reviewRef===exception.reviewRef)?.status,'effect_reviewed');
  await transactWorkspace('tenant-a',s=>{s.memberships.find(item=>item.actorId==='operator')!.version++;});
  const stale=(await snapshot(candidate)).matters.find(item=>item.id===correction.id)!;
  await assert.rejects(()=>send(candidate,{type:'source.correction.resolve',reviewRef:exception.reviewRef,expectedRecordVersion:stale.version,note:'I reviewed the current independent record and the retained operator decision.',evidenceSourceIds:[evidence.id],evidenceSourceVersions:{[evidence.id]:evidence.version},evidenceSourceHashes:{[evidence.id]:evidence.contentHash},evidenceSourceDependencyHashes:{[evidence.id]:evidence.evidenceDependencyHash!}}),{code:'EFFECT_REVIEW_UNAVAILABLE'});
  const renewed=(await snapshot(operator)).withdrawalExceptions.find(item=>item.reviewRef===exception.reviewRef)!;
- await send(operator,{type:'source.correction.effect_review',reviewRef:exception.reviewRef,expectedRecordVersion:renewed.version!,effectReviewHash:renewed.effectReviewHash!,note:'I renewed my exact retained readback review under current delivery-review authority.'});
+ const renewedInspection=(await transactWorkspace('tenant-a',s=>inspectWithdrawalEffects(s,operator,exception.reviewRef,renewed.version!))).result;
+ await send(operator,{...generic,expectedRecordVersion:renewed.version!,effectReviewHash:renewedInspection.effectReviewHash,inspectionId:renewedInspection.inspectionId,inspectionEvidenceHash:renewedInspection.inspectionEvidenceHash,note:'I renewed my exact retained readback review under current delivery-review authority.'});
  const updated=(await snapshot(candidate)).matters.find(item=>item.id===correction.id)!;
  const closed=await send(candidate,{type:'source.correction.resolve',reviewRef:exception.reviewRef,expectedRecordVersion:updated.version,note:'I reviewed the current independent record after qualified operator review of the retained effect receipt.',evidenceSourceIds:[evidence.id],evidenceSourceVersions:{[evidence.id]:evidence.version},evidenceSourceHashes:{[evidence.id]:evidence.contentHash},evidenceSourceDependencyHashes:{[evidence.id]:evidence.evidenceDependencyHash!}});
  assert.equal(closed.snapshot.matters.find(item=>item.id===correction.id)?.state,'closed');
