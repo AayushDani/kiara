@@ -6,9 +6,9 @@ import {dirname,join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {spawnSync} from 'node:child_process';
 import {seed,TENANT} from '../src/data/fixtures';
-import {importLegacySnapshot,exportLegacyArchive} from '../src/v2/migration';
-import {retainOriginal,readOriginal} from '../src/v2/objects';
-import {readWorkspace,backupWorkspace,restoreWorkspace,digest,emptyWorkspace} from '../src/v2/store';
+import {importLegacySnapshot,exportLegacyArchive,migrationArchiveStatus,reconcileMigrationArchiveOriginal} from '../src/v2/migration';
+import {retainOriginal,readOriginal,type OriginalReference} from '../src/v2/objects';
+import {readWorkspace,backupWorkspace,restoreWorkspace,digest,emptyWorkspace,transactWorkspace} from '../src/v2/store';
 
 test('migration dry run is inert; archive import is restartable and preserves exact legacy bytes without dispatch ownership',async()=>{
  const before={...process.env},dir=await mkdtemp(join(tmpdir(),'kiara-v2-migration-'));
@@ -20,6 +20,58 @@ test('migration dry run is inert; archive import is restartable and preserves ex
   const replay=await importLegacySnapshot('tenant-migration',bytes,migrated.version,TENANT,null,true);await importLegacySnapshot('tenant-migration',bytes,migrated.version,TENANT,replay.sourceHash,false,replay.planHash);assert.equal((await readWorkspace('tenant-migration')).version,migrated.version);
   const changed=Buffer.from(JSON.stringify(seed(2)));await assert.rejects(importLegacySnapshot('tenant-migration',changed,migrated.version,TENANT,digest(Array.from(changed)),false),/different retained/);
   const backup=await backupWorkspace('tenant-migration');assert.equal((await restoreWorkspace(backup,migrated.version,true)).dryRun,true);backup.hash='tampered';await assert.rejects(restoreWorkspace(backup,migrated.version),/checksum/);
+ }finally{for(const key of Object.keys(process.env))if(!(key in before))delete process.env[key];Object.assign(process.env,before);await rm(dir,{recursive:true,force:true});}
+});
+
+test('post-retain destination change inventories the exact original and a fresh reviewed plan safely reuses it',async()=>{
+ const before={...process.env},dir=await mkdtemp(join(tmpdir(),'kiara-v2-migration-race-'));
+ try{
+  Object.assign(process.env,{KIARA_V2_DATA_DIR:join(dir,'workspaces'),KIARA_ORIGINALS_DIR:join(dir,'originals'),KIARA_ORIGINALS_MODE:'local_encrypted',KIARA_V2_AUTH_MODE:'local_demo'});delete process.env.MONGODB_URI;delete process.env.VERCEL;delete process.env.KIARA_ORIGINALS_KEY;
+  const tenant='migration-race',bytes=Buffer.from(JSON.stringify(seed())),reviewed=await importLegacySnapshot(tenant,bytes,0,TENANT,null,true);let retained:OriginalReference|null=null;
+  await assert.rejects(importLegacySnapshot(tenant,bytes,0,TENANT,reviewed.sourceHash,false,reviewed.planHash,{afterRetain:async reference=>{retained=reference;await transactWorkspace(tenant,s=>{s.companyName='Concurrent accepted change';});}}),{code:'MIGRATION_PLAN_CHANGED'});
+  const status=await migrationArchiveStatus(tenant),state=await readWorkspace(tenant);assert.equal(state.migration,null);assert.equal(status.archives.length,1);assert.equal(status.archives[0].status,'retained');assert.equal(status.archives[0].hasReference,true);assert.equal(status.archives[0].sourceHash,reviewed.sourceHash);assert.deepEqual(await readOriginal(tenant,retained!),bytes);
+  const fresh=await importLegacySnapshot(tenant,bytes,state.version,TENANT,null,true);await importLegacySnapshot(tenant,bytes,state.version,TENANT,fresh.sourceHash,false,fresh.planHash,{retain:async()=>{throw new Error('A verified retained reference must be reused.');}});
+  assert.equal((await migrationArchiveStatus(tenant)).archives[0].status,'attached');assert.deepEqual(await exportLegacyArchive(tenant),bytes);assert.equal((await readWorkspace(tenant)).outbox.length,0);
+ }finally{for(const key of Object.keys(process.env))if(!(key in before))delete process.env[key];Object.assign(process.env,before);await rm(dir,{recursive:true,force:true});}
+});
+
+test('interrupted archive write remains visible until exact manifest reconciliation, with no false deletion claim',async()=>{
+ const before={...process.env},dir=await mkdtemp(join(tmpdir(),'kiara-v2-migration-interrupted-'));
+ try{
+  Object.assign(process.env,{KIARA_V2_DATA_DIR:join(dir,'workspaces'),KIARA_ORIGINALS_DIR:join(dir,'originals'),KIARA_ORIGINALS_MODE:'local_encrypted',KIARA_V2_AUTH_MODE:'local_demo'});delete process.env.MONGODB_URI;delete process.env.VERCEL;delete process.env.KIARA_ORIGINALS_KEY;
+  const tenant='migration-interrupted',bytes=Buffer.from(JSON.stringify(seed())),reviewed=await importLegacySnapshot(tenant,bytes,0,TENANT,null,true);let retained:OriginalReference|null=null;
+  await assert.rejects(importLegacySnapshot(tenant,bytes,0,TENANT,reviewed.sourceHash,false,reviewed.planHash,{afterRetain:async reference=>{retained=reference;throw new Error('Simulated stop after object write');}}),/Simulated stop/);
+  let status=await migrationArchiveStatus(tenant);assert.equal(status.archives[0].status,'staging');assert.equal(status.archives[0].hasReference,false);assert.ok(status.archives[0].attemptedAt);assert.equal((await readWorkspace(tenant)).migration,null);
+  await assert.rejects(reconcileMigrationArchiveOriginal(tenant,reviewed.sourceHash,{...retained!,bytes:retained!.bytes+1}),{code:'MIGRATION_ARCHIVE_INTEGRITY'});
+  await reconcileMigrationArchiveOriginal(tenant,reviewed.sourceHash,retained!);status=await migrationArchiveStatus(tenant);assert.equal(status.archives[0].status,'retained');assert.equal(status.archives[0].hasReference,true);
+  const fresh=await importLegacySnapshot(tenant,bytes,status.version,TENANT,null,true);await importLegacySnapshot(tenant,bytes,status.version,TENANT,fresh.sourceHash,false,fresh.planHash,{retain:async()=>{throw new Error('No second write is allowed.');}});assert.deepEqual(await exportLegacyArchive(tenant),bytes);
+ }finally{for(const key of Object.keys(process.env))if(!(key in before))delete process.env[key];Object.assign(process.env,before);await rm(dir,{recursive:true,force:true});}
+});
+
+test('archive reconciliation cannot downgrade an intake attached during readback',async()=>{
+ const before={...process.env},dir=await mkdtemp(join(tmpdir(),'kiara-v2-migration-reconcile-race-'));
+ try{
+  Object.assign(process.env,{KIARA_V2_DATA_DIR:join(dir,'workspaces'),KIARA_ORIGINALS_DIR:join(dir,'originals'),KIARA_ORIGINALS_MODE:'local_encrypted',KIARA_V2_AUTH_MODE:'local_demo'});delete process.env.MONGODB_URI;delete process.env.VERCEL;delete process.env.KIARA_ORIGINALS_KEY;
+  const tenant='migration-reconcile-race',bytes=Buffer.from(JSON.stringify(seed())),reviewed=await importLegacySnapshot(tenant,bytes,0,TENANT,null,true);let retained:OriginalReference|null=null;
+  await assert.rejects(importLegacySnapshot(tenant,bytes,0,TENANT,reviewed.sourceHash,false,reviewed.planHash,{afterRetain:async reference=>{retained=reference;throw new Error('Simulated stop');}}),/Simulated stop/);
+  await assert.rejects(reconcileMigrationArchiveOriginal(tenant,reviewed.sourceHash,retained!,{afterReadback:async()=>{await transactWorkspace(tenant,s=>{const intake=s.receipts[`migration-archive:${reviewed.sourceHash}`].result.archive as {status:string;reference:string|null};intake.status='attached';intake.reference=JSON.stringify(retained);});}}),{code:'MIGRATION_PLAN_CHANGED'});
+  const intake=(await readWorkspace(tenant)).receipts[`migration-archive:${reviewed.sourceHash}`].result.archive as {status:string;reference:string|null};assert.equal(intake.status,'attached');assert.equal(intake.reference,JSON.stringify(retained));
+ }finally{for(const key of Object.keys(process.env))if(!(key in before))delete process.env[key];Object.assign(process.env,before);await rm(dir,{recursive:true,force:true});}
+});
+
+test('an S3 staging archive with no version manifest blocks blind upload retry',async()=>{
+ const before={...process.env},dir=await mkdtemp(join(tmpdir(),'kiara-v2-migration-s3-'));
+ try{
+  Object.assign(process.env,{KIARA_V2_DATA_DIR:join(dir,'workspaces'),KIARA_ORIGINALS_MODE:'s3_kms',KIARA_V2_AUTH_MODE:'local_demo'});delete process.env.MONGODB_URI;delete process.env.VERCEL;
+  const tenant='migration-s3-interrupted',bytes=Buffer.from(JSON.stringify(seed())),reviewed=await importLegacySnapshot(tenant,bytes,0,TENANT,null,true);
+  const unknown:OriginalReference={storage:'s3_kms',encryption:'aws-kms',key:'unconfirmed',keyId:'unconfirmed',versionId:'unconfirmed',sha256:'0'.repeat(64),bytes:bytes.length};
+  await assert.rejects(importLegacySnapshot(tenant,bytes,0,TENANT,reviewed.sourceHash,false,reviewed.planHash,{retain:async()=>unknown,afterRetain:async()=>{throw new Error('S3 outcome unknown');}}),/S3 outcome unknown/);
+  const status=await migrationArchiveStatus(tenant);assert.equal(status.archives[0].status,'staging');assert.equal(status.archives[0].hasReference,false);
+  const fresh=await importLegacySnapshot(tenant,bytes,status.version,TENANT,null,true);
+  await assert.rejects(importLegacySnapshot(tenant,bytes,status.version,TENANT,fresh.sourceHash,false,fresh.planHash,{retain:async()=>{throw new Error('Unsafe duplicate upload');}}),{code:'MIGRATION_ARCHIVE_REFERENCE_REQUIRED'});
+  const different=Buffer.from(JSON.stringify(seed(2))),differentPlan=await importLegacySnapshot(tenant,different,(await readWorkspace(tenant)).version,TENANT,null,true);
+  await assert.rejects(importLegacySnapshot(tenant,different,(await readWorkspace(tenant)).version,TENANT,differentPlan.sourceHash,false,differentPlan.planHash,{retain:async()=>{throw new Error('Unreviewed replacement upload');}}),{code:'MIGRATION_ARCHIVE_PENDING'});
+  assert.equal((await migrationArchiveStatus(tenant)).archives[0].hasReference,false);assert.equal((await readWorkspace(tenant)).migration,null);
  }finally{for(const key of Object.keys(process.env))if(!(key in before))delete process.env[key];Object.assign(process.env,before);await rm(dir,{recursive:true,force:true});}
 });
 

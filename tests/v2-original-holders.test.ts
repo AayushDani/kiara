@@ -23,6 +23,15 @@ test('alias cleanup retains a staging intake by content hash before its referenc
  const state=emptyWorkspace(tenant);state.receipts['artifact-intake:x']={hash:'intake',result:{intake:{status:'staging',contentHash:reference.sha256,reference:null}}};
  assert.deepEqual(liveMongoOriginalHolders(state,reference,undefined,{forReconciliation:true}),['intake:artifact-intake:x:staging']);
 });
+test('alias cleanup retains staged and inventoried migration archives',()=>{
+ const tenant='synthetic-migration-holder',bytes=Buffer.from('legacy archive bytes'),keyId='d'.repeat(16);
+ const reference:OriginalReference={key:`${sha(tenant)}/${sha(bytes)}/${keyId}`,sha256:sha(bytes),bytes:bytes.length,encryption:'aes-256-gcm',storage:'mongo_encrypted',keyId};
+ const state=emptyWorkspace(tenant),key='migration-archive:'+sha(bytes);
+ state.receipts[key]={hash:'archive',result:{archive:{status:'staging',contentHash:reference.sha256,reference:null}}};
+ assert.deepEqual(liveMongoOriginalHolders(state,reference,undefined,{forReconciliation:true}),[`migration:${key}:unresolved`]);
+ (state.receipts[key].result.archive as {status:string;reference:string|null}).reference=JSON.stringify(reference);
+ assert.deepEqual(liveMongoOriginalHolders(state,reference,undefined,{forReconciliation:true}),[`migration:${key}`]);
+});
 test('alias cleanup fails closed on an excessively nested effect readback',()=>{
  const tenant='synthetic-deep-holder',bytes=Buffer.from('deep original'),keyId='c'.repeat(16);
  const reference:OriginalReference={key:`${sha(tenant)}/${sha(bytes)}/${keyId}`,sha256:sha(bytes),bytes:bytes.length,encryption:'aes-256-gcm',storage:'mongo_encrypted',keyId};
