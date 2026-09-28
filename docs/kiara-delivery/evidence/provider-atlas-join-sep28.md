@@ -1,0 +1,5 @@
+# Provider vector / Atlas join checkpoint · 28 September 2026
+
+The release checkout copied the reviewed, bounded operator from support commit `4156d12` without modification and passed `npm run check`. A read-only `--preflight` ran against the inspected Atlas host set, `kiara_v2` normalized store, `kiara` shared spend ledger, and exact `kiara_keyword_v1` and `kiara_vector_v1` search indexes. It reported both indexes READY and queryable, a $50 cumulative budget, $24.693428 conservatively spent across 598 requests, zero blocking unknown charges, no prior campaign marker, a present provider key, zero provider calls, and zero writes.
+
+The `--run` drill targets only generated tenant `synthetic-provider-atlas-20260927` and can claim at most two provider embedding dispatches with a retained campaign marker. That tenant differs from the existing bounded automatic-indexing policy for `synthetic-kiara-preview`. The read-only preflight does not establish provider vector contribution, a hosted request, or production readiness. The operator must confirm this separate two-call generated-tenant drill before it runs.
