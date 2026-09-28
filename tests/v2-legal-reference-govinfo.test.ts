@@ -12,6 +12,7 @@ import {processLegalWatch} from '../src/v2/legal-maintenance';
 import {authorityCurrent} from '../src/v2/coverage';
 import {retrieveConversationEvidence,recheckEvidence} from '../src/v2/retrieval';
 import type {ActorContext,WorkspaceCommand} from '../src/v2/contracts';
+import {identityBindingKey} from '../src/v2/oidc-identities';
 
 const selected={packageId:'USCODE-2024-title17',granuleId:'USCODE-2024-title17-chap1-sec105',domain:'copyright scope'};
 const htmlUrl=`https://www.govinfo.gov/content/pkg/${selected.packageId}/html/${selected.granuleId}.htm`;
@@ -22,6 +23,19 @@ const dirs:string[]=[];
 const actor:ActorContext={tenantId:'govinfo-test',actorId:'reviewer',mode:'local_demo',expiresAt:Date.now()+3600000,bootstrapRoles:['member','legal_reviewer','business_owner']};
 let seq=0;const send=async(c:WorkspaceCommand)=>command(actor,{idempotencyKey:`govinfo-test-${++seq}`,expectedVersion:(await snapshot(actor)).version,command:c});
 after(async()=>{await closeV2Store();await Promise.all(dirs.map(dir=>rm(dir,{recursive:true,force:true})));});
+
+test('GovInfo stage stops after source fetch when the OIDC mapping is revoked',async()=>{
+ await closeV2Store();const dir=await mkdtemp(join(tmpdir(),'kiara-govinfo-revoke-'));dirs.push(dir);process.env.KIARA_V2_DATA_DIR=dir;process.env.KIARA_ORIGINALS_DIR=join(dir,'originals');delete process.env.MONGODB_URI;delete process.env.KIARA_ORIGINALS_MODE;
+ process.env.KIARA_V2_LEGAL_SOURCE_POLICY=JSON.stringify([{tenantId:actor.tenantId,urls:[htmlUrl],validUntil:new Date(Date.now()+86400000).toISOString(),maxBytes:10000}]);
+ const issuer='https://issuer.example.test',subject='govinfo-reviewer',saved={source:process.env.KIARA_OIDC_IDENTITY_SOURCE,issuer:process.env.KIARA_OIDC_ISSUER,identities:process.env.KIARA_OIDC_IDENTITIES};
+ await snapshot(actor);process.env.KIARA_OIDC_IDENTITY_SOURCE='fixture_env';process.env.KIARA_OIDC_ISSUER=issuer;process.env.KIARA_OIDC_IDENTITIES=JSON.stringify([{subject,tenantId:actor.tenantId,actorId:actor.actorId}]);
+ const signed:ActorContext={tenantId:actor.tenantId,actorId:actor.actorId,mode:'authenticated',expiresAt:Date.now()+3600000,oidcBinding:{key:identityBindingKey(issuer,subject),version:1}};
+ try{const preview=await previewGovInfoGranule(signed,selected,{apiKey:'test-private-key',metadataFetcher:metadataFetcher(metadata),sourceFetcher});
+  const revokingSource:typeof fetch=async()=>{process.env.KIARA_OIDC_IDENTITIES='[]';return sourceFetcher('',{});};
+  await assert.rejects(()=>stageGovInfoGranule(signed,selected,{apiKey:'test-private-key',metadataFetcher:metadataFetcher(metadata),sourceFetcher:revokingSource,expectedPreviewHash:preview.previewHash}),{code:'IDENTITY_GRANT_CHANGED'});
+  const state=await readWorkspace(actor.tenantId);assert.equal(state.sources.length,0);assert.equal(state.legalAuthorities.length,0);assert.equal(Object.keys(state.receipts).filter(key=>key.startsWith('artifact-intake:')).length,0);
+ }finally{for(const [name,value] of Object.entries({KIARA_OIDC_IDENTITY_SOURCE:saved.source,KIARA_OIDC_ISSUER:saved.issuer,KIARA_OIDC_IDENTITIES:saved.identities}))if(value===undefined)delete process.env[name];else process.env[name]=value;}
+});
 
 test('selected GovInfo source is durably staged with raw original and no implied coverage',async()=>{
  await closeV2Store();const dir=await mkdtemp(join(tmpdir(),'kiara-govinfo-'));dirs.push(dir);process.env.KIARA_V2_DATA_DIR=dir;process.env.KIARA_ORIGINALS_DIR=join(dir,'originals');delete process.env.MONGODB_URI;delete process.env.KIARA_ORIGINALS_MODE;delete process.env.KIARA_V2_INDEX_POLICY;process.env.KIARA_V2_LEGAL_SOURCE_POLICY=JSON.stringify([{tenantId:actor.tenantId,urls:[htmlUrl],validUntil:new Date(Date.now()+86400000).toISOString(),maxBytes:10000}]);

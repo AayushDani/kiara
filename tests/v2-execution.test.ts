@@ -49,6 +49,16 @@ test('revoking a hashed OIDC binding while effect preparation waits prevents pro
  assert.equal(result.status,'failed');assert.equal(result.failure,'IDENTITY_GRANT_CHANGED');assert.equal(calls,0);
 }));
 
+test('revocation during authenticated effect readback cannot commit a terminal outcome',()=>isolated(async()=>{
+ const action=await prepared('send'),issuer='https://synthetic-identity.example.test',subject='synthetic-reconcile-subject';let revoke=false;
+ const adapter=fake({readback:async()=>{if(revoke)process.env.KIARA_OIDC_IDENTITIES='[]';return {status:revoke?'failed':'pending',receipt:'synthetic-receipt',reason:revoke?'SYNTHETIC_FAILURE':'WAITING'};}});
+ await dispatchAction(actor,action.id,await input(action,adapter));const before=await current(action);
+ process.env.KIARA_OIDC_IDENTITY_SOURCE='fixture_env';process.env.KIARA_OIDC_ISSUER=issuer;process.env.KIARA_OIDC_IDENTITIES=JSON.stringify([{subject,tenantId:actor.tenantId,actorId:actor.actorId}]);
+ const signed:ActorContext={tenantId:actor.tenantId,actorId:actor.actorId,mode:'authenticated',expiresAt:Date.now()+3600000,oidcBinding:{key:identityBindingKey(issuer,subject),version:1}};
+ revoke=true;await assert.rejects(()=>reconcileAction(signed,action.id,{expectedVersion:before.version,contentHash:before.contentHash,adapter}),{code:'IDENTITY_GRANT_CHANGED'});
+ assert.equal((await current(action)).version,before.version);
+}));
+
 test('internal document execution retains immutable encrypted bytes and verifies one output across replay',()=>isolated(async()=>{
  const a=await prepared(),done=await dispatchAction(actor,a.id,await input(a));assert.equal(done.status,'verified');let s=await readWorkspace(actor.tenantId);const output=s.documents.find(d=>d.id===done.completionArtifact)!;assert.equal(output.body,a.content);assert.equal(output.authority,'draft');assert.equal(output.status,'proposed');const source=s.sources.find(x=>x.id===output.sourceId)!;assert.ok((await readOriginal(actor.tenantId,JSON.parse(source.originalObjectRef!))).equals(Buffer.from(a.content)));assert.ok(s.matters[0].tasks.some(task=>task.kind==='action'&&task.status==='done'&&task.evidenceIds.includes(a.id)));const replay=await dispatchAction(actor,a.id,await input(a));assert.equal(replay.completionArtifact,done.completionArtifact);s=await readWorkspace(actor.tenantId);assert.equal(s.documents.length,2);assert.equal(s.actions[0].completion?.kind,'readback');assert.equal(s.matters[0].state,'verifying');
 }));

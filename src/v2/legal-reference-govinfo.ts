@@ -5,6 +5,7 @@ import {V2Error,type ActorContext,type LegalAuthority,type RecordBase,type Sourc
 import {assertLegalSourceReadPolicy,readSelectedLegalSource} from './legal-maintenance';
 import {assertOriginalNotDeleted} from './retention';
 import {digest,readWorkspace,timestamp,transactWorkspace} from './store';
+import {assertOidcBindingCurrent} from './oidc-identities';
 
 /** A selected granule is a discovery aid. It is never coverage or legal clearance. */
 export interface GovInfoSelection {packageId:string;granuleId:string;domain:string}
@@ -43,12 +44,14 @@ export async function inspectGovInfoGranule(selection:GovInfoSelection,options:{
 
 type ReadOptions={apiKey?:string;metadataFetcher?:typeof fetch;sourceFetcher?:typeof fetch};
 async function selectedRead(actor:ActorContext,selection:GovInfoSelection,options:ReadOptions){
+ await assertOidcBindingCurrent(actor);
  requireRole(await readWorkspace(actor.tenantId),actor,'legal_reviewer');
  selected(selection);const cfr=selection.packageId.startsWith('CFR-');assertLegalSourceReadPolicy(actor.tenantId,`https://www.govinfo.gov/content/pkg/${selection.packageId}/${cfr?'xml':'html'}/${selection.granuleId}.${cfr?'xml':'htm'}`);
  const candidate=await inspectGovInfoGranule(selection,{apiKey:options.apiKey,fetcher:options.metadataFetcher});
  const read=await readSelectedLegalSource(actor.tenantId,candidate.sourceUrl,options.sourceFetcher);
  if(cfr?!['application/xml','text/xml'].includes(read.type):read.type!=='text/html')throw new V2Error('GOVINFO_SOURCE_FORMAT','GovInfo returned a different source format than the selected official rendition.',502);
  requireRole(await readWorkspace(actor.tenantId),actor,'legal_reviewer');
+ await assertOidcBindingCurrent(actor);
  return {candidate,read,previewHash:digest({candidate,rawHash:read.rawHash})};
 }
 /** Exact preview is read-only and contains the full extracted rendition for a qualified reviewer to inspect. */
@@ -64,6 +67,7 @@ export async function stageGovInfoGranule(actor:ActorContext,selection:GovInfoSe
  const before=await readWorkspace(actor.tenantId);requireRole(before,actor,'legal_reviewer');
  const intakeKey=`govinfo:${candidate.packageId}:${candidate.granuleId}:${read.rawHash}`;
  const original=await retainIntakeOriginal(actor,intakeKey,read.bytes,before.version);
+ await assertOidcBindingCurrent(actor);
  return (await transactWorkspace(actor.tenantId,s=>{
   requireRole(s,actor,'legal_reviewer');if(s.version!==original.expectedVersion)throw new V2Error('VERSION_CONFLICT','Workspace changed during source intake. Inspect and retry the same exact selection.');
   assertLegalSourceReadPolicy(s.tenantId,candidate.sourceUrl);
