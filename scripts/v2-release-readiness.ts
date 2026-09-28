@@ -24,7 +24,7 @@ const mongoTls=(value:string|undefined)=>{
 const rows=(value:string|undefined):Record<string,unknown>[]|null=>{try{const parsed=JSON.parse(value||'');return Array.isArray(parsed)&&parsed.length>0&&parsed.length<=100&&parsed.every(v=>v&&typeof v==='object'&&!Array.isArray(v))?parsed:null;}catch{return null;}};
 const nonempty=(value:unknown,max=200)=>typeof value==='string'&&value.length>0&&value.length<=max;
 
-export function inspectV2ReleaseEnvironment(env:NodeJS.ProcessEnv,connected:{activeBindingTenants?:string[]}={}):ReleaseReadiness {
+export function inspectV2ReleaseEnvironment(env:NodeJS.ProcessEnv,connected:{activeBindingTenants?:string[];ledgerAnchorVerified?:boolean}={}):ReleaseReadiness {
   const checks:ReleaseCheck[]=[];
   const add=(code:string,configured:boolean)=>checks.push({code,configured});
   const workerTenants=(env.KIARA_V2_WORKER_TENANTS||'').split(',').map(x=>x.trim()).filter(Boolean);
@@ -49,6 +49,7 @@ export function inspectV2ReleaseEnvironment(env:NodeJS.ProcessEnv,connected:{act
   add('MONGO_ENCRYPTED_ORIGINALS',env.KIARA_ORIGINALS_MODE==='mongo_encrypted'&&/^[a-f0-9]{64}$/i.test(env.KIARA_ORIGINALS_KEY||''));
   add('ATLAS_HYBRID_INDEXES',env.KIARA_V2_RETRIEVAL_MODE==='atlas'&&!!env.KIARA_V2_ATLAS_SEARCH_INDEX&&!!env.KIARA_V2_ATLAS_VECTOR_INDEX&&(!env.KIARA_V2_ATLAS_URI||mongoTls(env.KIARA_V2_ATLAS_URI)));
   add('EXPLICIT_OPENAI_BUDGET_LEDGER',has(env,'KIARA_BUDGET_DB'));
+  add('PINNED_OPENAI_BUDGET_LEDGER',/^[a-f0-9]{64}$/i.test(env.KIARA_BUDGET_LEDGER_ANCHOR||'')&&/^[1-9]\d*$/.test(env.KIARA_BUDGET_LEDGER_MIN_REQUESTS||'')&&/^(0|[1-9]\d*)$/.test(env.KIARA_BUDGET_LEDGER_MIN_SPENT_MICRO||'')&&connected.ledgerAnchorVerified===true);
   add('OPENAI_EMBEDDING_AND_AI',env.KIARA_V2_AI_MODE==='openai'&&has(env,'OPENAI_API_KEY'));
   const budget=Number(env.KIARA_OPENAI_BUDGET_USD);
   add('AUTHORIZED_OPENAI_BUDGET',Number.isFinite(budget)&&budget>0&&budget<=50);
@@ -70,7 +71,7 @@ export function inspectV2ReleaseEnvironment(env:NodeJS.ProcessEnv,connected:{act
 
 if(import.meta.url===`file://${process.argv[1]}`){
   (async()=>{
-    let activeBindingTenants:string[]=[];
+    let activeBindingTenants:string[]=[],ledgerAnchorVerified=false;
     try{
       if(process.env.KIARA_V2_STORE_MODE==='normalized'&&process.env.MONGODB_URI&&process.env.KIARA_OIDC_ISSUER){
         const {activeOidcBindingTenants,closeOidcIdentityStore}=await import('../src/v2/oidc-identities');
@@ -78,7 +79,14 @@ if(import.meta.url===`file://${process.argv[1]}`){
         try{activeBindingTenants=await activeOidcBindingTenants(process.env.KIARA_OIDC_ISSUER,tenants);}finally{await closeOidcIdentityStore();}
       }
     }catch{/* Missing connected evidence is reported as a failed check, without provider details. */}
-    const result=inspectV2ReleaseEnvironment(process.env,{activeBindingTenants});
+    try{
+      if(process.env.MONGODB_URI&&process.env.KIARA_BUDGET_DB){
+        const {inspectSpendLedgerAnchor}=await import('../src/server/global-spend');
+        const {closeStore}=await import('../src/data/store');
+        try{ledgerAnchorVerified=await inspectSpendLedgerAnchor();}finally{await closeStore();}
+      }
+    }catch{/* Wrong or missing ledger fails the check without disclosing credentials or charge identities. */}
+    const result=inspectV2ReleaseEnvironment(process.env,{activeBindingTenants,ledgerAnchorVerified});
     process.stdout.write(`${JSON.stringify(result,null,2)}\n`);
     // A successful configuration preflight is not a connected release qualification.
     if(!result.configurationReady||!process.argv.includes('--config-only'))process.exitCode=1;

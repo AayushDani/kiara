@@ -1,5 +1,7 @@
 import {mkdir,readFile,writeFile,rename,rm,open} from 'node:fs/promises';
 import {join} from 'node:path';
+import {createHash} from 'node:crypto';
+import {ConnectionString} from 'mongodb-connection-string-url';
 import {operatorDatabase} from '../data/store';
 import {authorizedBudget} from '../runtime/config';
 import {AppError} from './contracts';
@@ -7,7 +9,40 @@ import {AppError} from './contracts';
 interface Charge {id:string;reserved:number;actual:number;status:'reserved'|'settled'|'unknown';created_at:number;reconciliation?:{kind:'conservative_unknown_ceiling';actor:string;reason:string;created_at:number;reserved_micro:number;confirmed_actual_micro:number;budgeted_micro:number;original_status:'unknown';retry_authorized:false}}
 interface Spend {_id:string;version:number;charges:Record<string,Charge>}
 const KEY='kiara-provider-total-v1';
+const anchorPattern=/^[a-f0-9]{64}$/i;
 const micro=(usd:number)=>Math.ceil(usd*1_000_000);
+const sha=(value:string)=>createHash('sha256').update(value).digest('hex');
+function hostedSpend(env:NodeJS.ProcessEnv){return !!(env.VERCEL||env.KIARA_V2_WORKER_HOST||env.NODE_ENV==='production'||env.KIARA_V2_AUTH_MODE==='oidc'||env.KIARA_V2_ORCHESTRATION_MODE==='temporal');}
+function floor(value:string|undefined,positive=false){if(!/^(0|[1-9]\d*)$/.test(value||''))return null;const count=Number(value);return Number.isSafeInteger(count)&&(!positive||count>0)?count:null;}
+/** Binds a retained charge identity and reviewed floors to the Mongo target. */
+export function spendLedgerAnchor(chargeId:string,env:NodeJS.ProcessEnv=process.env){
+  const minimumRequestCount=floor(env.KIARA_BUDGET_LEDGER_MIN_REQUESTS,true),minimumSpentMicro=floor(env.KIARA_BUDGET_LEDGER_MIN_SPENT_MICRO);
+  if(!chargeId||!env.KIARA_BUDGET_DB||!env.MONGODB_URI||minimumRequestCount===null||minimumSpentMicro===null)throw new AppError('SPEND_LEDGER_UNVERIFIED','The shared provider ledger target is unverified.',503);
+  let hosts:string[];try{hosts=new ConnectionString(env.MONGODB_URI).hosts.map(host=>host.toLowerCase()).sort();}catch{throw new AppError('SPEND_LEDGER_UNVERIFIED','The shared provider ledger target is unverified.',503);}
+  if(!hosts.length)throw new AppError('SPEND_LEDGER_UNVERIFIED','The shared provider ledger target is unverified.',503);
+  return sha(JSON.stringify({hosts,database:env.KIARA_BUDGET_DB,chargeId,minimumRequestCount,minimumSpentMicro}));
+}
+export function ledgerAnchorMatches(state:Spend|null,env:NodeJS.ProcessEnv=process.env){
+  const expected=env.KIARA_BUDGET_LEDGER_ANCHOR;
+  const minRequests=floor(env.KIARA_BUDGET_LEDGER_MIN_REQUESTS,true),minSpent=floor(env.KIARA_BUDGET_LEDGER_MIN_SPENT_MICRO);
+  if(!state||!anchorPattern.test(expected||'')||!env.KIARA_BUDGET_DB||!env.MONGODB_URI||minRequests===null||minSpent===null||Object.keys(state.charges).length<minRequests||totals(state).spent<minSpent)return false;
+  try{return Object.keys(state.charges).some(id=>spendLedgerAnchor(id,env)===expected!.toLowerCase());}catch{return false;}
+}
+export async function inspectSpendLedgerAnchor(){
+  if(!process.env.MONGODB_URI||!process.env.KIARA_BUDGET_DB)return false;
+  const state=await (await operatorDatabase()).collection<Spend>('provider_spend_authorization').findOne({_id:KEY});
+  return ledgerAnchorMatches(state);
+}
+/** Read-only operator selection. No charge identity or credential is printed. */
+export async function previewSpendLedgerAnchor(){
+  if(!process.env.MONGODB_URI||!process.env.KIARA_BUDGET_DB)throw new AppError('SPEND_LEDGER_UNVERIFIED','Select the explicit shared Mongo ledger first.',503);
+  const state=await (await operatorDatabase()).collection<Spend>('provider_spend_authorization').findOne({_id:KEY});
+  const settled=Object.values(state?.charges||{}).filter(charge=>charge.status==='settled').sort((a,b)=>a.created_at-b.created_at||a.id.localeCompare(b.id));
+  if(!settled.length)throw new AppError('SPEND_LEDGER_UNVERIFIED','The selected shared ledger has no settled charge to anchor.',503);
+  const minimumRequestCount=Object.keys(state!.charges).length,minimumSpentMicro=totals(state!).spent;
+  const anchor=spendLedgerAnchor(settled[0].id,{...process.env,KIARA_BUDGET_LEDGER_MIN_REQUESTS:String(minimumRequestCount),KIARA_BUDGET_LEDGER_MIN_SPENT_MICRO:String(minimumSpentMicro)});
+  return {database:process.env.KIARA_BUDGET_DB,anchor,minimumRequestCount,minimumSpentMicro};
+}
 const totals=(s:Spend)=>Object.values(s.charges).reduce((a,c)=>{
   const coverage=c.reconciliation?.budgeted_micro??0,covered=c.status==='unknown'&&!!c.reconciliation&&coverage>=c.reserved&&coverage>=c.actual;
   a.actual+=c.actual;a.conservative+=Math.max(coverage-c.actual,0);a.spent+=Math.max(c.actual,coverage);
@@ -19,11 +54,12 @@ const totals=(s:Spend)=>Object.values(s.charges).reduce((a,c)=>{
 
 /** One operator ledger for ALL visitor scopes, evaluations and local acceptance using this database.
  * No reset epoch, visitor id, TTL, model-controlled key or automatic reservation expiry. */
-async function change<T>(fn:(state:Spend)=>T):Promise<T>{
+async function change<T>(fn:(state:Spend)=>T,requireAnchor=false):Promise<T>{
   if(process.env.MONGODB_URI){
     const collection=(await operatorDatabase()).collection<Spend>('provider_spend_authorization');
     for(let i=0;i<30;i++){
       const before=await collection.findOne({_id:KEY});
+      if(requireAnchor&&hostedSpend(process.env)&&!ledgerAnchorMatches(before))throw new AppError('SPEND_LEDGER_UNVERIFIED','The shared provider ledger target or anchor is unverified; no call was dispatched.',503);
       const state:Spend=before?structuredClone(before):{_id:KEY,version:0,charges:{}};
       const result=fn(state);state.version++;
       if(before){const saved=await collection.replaceOne({_id:KEY,version:before.version},state,{writeConcern:{w:'majority'}});if(saved.matchedCount===1)return result;}
@@ -31,7 +67,7 @@ async function change<T>(fn:(state:Spend)=>T):Promise<T>{
     }
     throw new AppError('SPEND_STORE_BUSY','The shared provider budget is busy; no call was dispatched.',503);
   }
-  if(process.env.VERCEL)throw new AppError('SPEND_STORE_REQUIRED','Hosted provider spending requires durable MongoDB storage.',503);
+  if(hostedSpend(process.env))throw new AppError('SPEND_STORE_REQUIRED','Hosted provider spending requires durable MongoDB storage.',503);
   const dir=process.env.KIARA_GLOBAL_BUDGET_DIR||process.env.KIARA_DATA_DIR||join(process.cwd(),'.kiara');
   await mkdir(dir,{recursive:true,mode:0o700});
   const lock=join(dir,'provider-spend.lock'),file=join(dir,'provider-spend.json');
@@ -59,17 +95,17 @@ export async function reserveGlobalSpend(charge_id:string,reserved_usd:number){
     if(t.inflight>=2)throw new AppError('GLOBAL_CONCURRENCY_LIMIT','Two provider requests are already running. Retry after they finish.');
     if(recent.length>=20||Object.keys(s.charges).length>=10000)throw new AppError('GLOBAL_RATE_LIMIT','The shared provider request limit is reached.');
     s.charges[charge_id]={id:charge_id,reserved,actual:0,status:'reserved',created_at:Date.now()};
-  });
+  },true);
 }
 export async function settleGlobalSpend(charge_id:string,actual_usd:number,unknown_charge=false){
   if(!Number.isFinite(actual_usd)||actual_usd<0)throw new AppError('INVALID_SPEND_SETTLEMENT','Invalid provider usage.');
   return change(s=>{
-    const c=s.charges[charge_id];if(!c)return; // Reservation may have been denied before dispatch.
+    const c=s.charges[charge_id];if(!c)throw new AppError('SPEND_RESERVATION_MISSING','The provider charge is absent from the selected ledger; settlement requires operator reconciliation.',503);
     const actual=micro(actual_usd);
     if(c.status==='settled'){if(c.actual!==actual||unknown_charge)throw new AppError('SPEND_SETTLEMENT_CONFLICT','Settled usage cannot be rewritten.');return;}
     if(c.status==='unknown'&&!unknown_charge)throw new AppError('GLOBAL_CHARGE_UNKNOWN','Unknown charges need explicit operator reconciliation.');
     c.actual=Math.max(c.actual,actual);c.status=unknown_charge||actual>c.reserved?'unknown':'settled';
-  });
+  },true);
 }
 export async function recoverGlobalSpend(charge_id:string,dispatched:boolean){
   if(!/^[a-zA-Z0-9_-]{8,100}$/.test(charge_id))throw new AppError('INVALID_SPEND_RESERVATION','Invalid provider reservation identity.');
@@ -80,12 +116,13 @@ export async function recoverGlobalSpend(charge_id:string,dispatched:boolean){
     if(!c){s.charges[charge_id]={id:charge_id,reserved:0,actual:0,status:dispatched?'unknown':'settled',created_at:Date.now()};return;}
     if(c.status==='settled'||c.status==='unknown')return;
     if(dispatched)c.status='unknown';else{c.actual=0;c.status='settled';}
-  });
+  },true);
 }
 export async function globalSpendStatus(){
   let state:Spend|null=null;
   if(process.env.MONGODB_URI)state=await (await operatorDatabase()).collection<Spend>('provider_spend_authorization').findOne({_id:KEY});
-  else{if(process.env.VERCEL)throw new AppError('SPEND_STORE_REQUIRED','Hosted provider spending requires durable MongoDB storage.',503);try{state=JSON.parse(await readFile(join(process.env.KIARA_GLOBAL_BUDGET_DIR||process.env.KIARA_DATA_DIR||join(process.cwd(),'.kiara'),'provider-spend.json'),'utf8'));}catch(e:any){if(e.code!=='ENOENT')throw e;}}
+  else{if(hostedSpend(process.env))throw new AppError('SPEND_STORE_REQUIRED','Hosted provider spending requires durable MongoDB storage.',503);try{state=JSON.parse(await readFile(join(process.env.KIARA_GLOBAL_BUDGET_DIR||process.env.KIARA_DATA_DIR||join(process.cwd(),'.kiara'),'provider-spend.json'),'utf8'));}catch(e:any){if(e.code!=='ENOENT')throw e;}}
+  if(hostedSpend(process.env)&&!ledgerAnchorMatches(state))throw new AppError('SPEND_LEDGER_UNVERIFIED','The shared provider ledger target or anchor is unverified.',503);
   state||={_id:KEY,version:0,charges:{}};const t=totals(state);
   return {budget_usd:authorizedBudget(),spent_usd:t.spent/1_000_000,actual_spent_usd:t.actual/1_000_000,conservative_spent_usd:t.conservative/1_000_000,reserved_usd:t.reserved/1_000_000,unknown_charges:t.blocking_unknown,covered_unknown_charges:t.unknown-t.blocking_unknown,blocking_unknown_charges:t.blocking_unknown,inflight:t.inflight,request_count:Object.keys(state.charges).length,scope:'all_visitors_and_evaluations'};
 }
