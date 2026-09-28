@@ -10,7 +10,7 @@ function caseRef(value:unknown){return object(value)&&boundedString(value.matter
 function validManifest(value:unknown):value is PairedCaseManifest {
  if(!object(value)||!boundedString(value.tenantId)||!boundedString(value.comparisonScope,3000)||!boundedString(value.baselineRecordId)||!caseRef(value.baseline)||!caseRef(value.current))return false;
  const q=value.quality;
- return q===null||object(q)&&boundedString(q.reviewerId)&&Number.isSafeInteger(q.reviewerMembershipVersion)&&Number(q.reviewerMembershipVersion)>0&&boundedString(q.reviewedAt,100)&&sha256(q.artifactDigest)&&boundedString(q.comparisonScope,3000)&&sha256(q.baselineOutcomeHash)&&sha256(q.currentOutcomeHash)&&['equivalent_quality','not_equivalent','unresolved'].includes(String(q.verdict));
+ return q===null||object(q)&&boundedString(q.reviewerId)&&Number.isSafeInteger(q.reviewerMembershipVersion)&&Number(q.reviewerMembershipVersion)>0&&boundedString(q.reviewedAt,100)&&sha256(q.artifactDigest)&&boundedString(q.comparisonScope,3000)&&sha256(q.baselineOutcomeHash)&&sha256(q.currentOutcomeHash)&&sha256(q.baselineValueEvidenceHash)&&sha256(q.currentValueEvidenceHash)&&['equivalent_quality','not_equivalent','unresolved'].includes(String(q.verdict));
 }
 
 async function main(){
