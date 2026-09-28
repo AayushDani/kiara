@@ -8,7 +8,7 @@ interface IdentityBinding {
   _id:string;issuer:string;tenantId:string;actorId:string;version:number;
   createdAt:string;updatedAt:string;revokedAt:string|null;
 }
-export interface IdentityTarget {tenantId:string;actorId:string;version:number}
+export interface IdentityTarget {tenantId:string;actorId:string;version:number;bindingId:string}
 let client:MongoClient|undefined,connectionKey:string|undefined;
 
 const valid=(value:unknown)=>typeof value==='string'&&value.length>0&&value.length<=200;
@@ -57,23 +57,38 @@ export async function activeOidcBindingTenants(issuer:string,tenantIds:string[])
 }
 
 /** The fixture path is explicit, local-only and never accepted on a hosted deployment. */
-function fixtureBinding(subject:string):IdentityTarget{
+function fixtureBinding(issuer:string,subject:string):IdentityTarget{
   let rows:unknown;try{rows=JSON.parse(process.env.KIARA_OIDC_IDENTITIES||'[]');}catch{throw new V2Error('IDENTITY_CONFIG_INVALID','Local identity fixture configuration is invalid.',503);}
   if(!Array.isArray(rows)||rows.length>100||rows.some(x=>!x||typeof x!=='object'||!valid(x.subject)||!valid(x.tenantId)||!valid(x.actorId)))throw new V2Error('IDENTITY_CONFIG_INVALID','Local identity fixture configuration is invalid.',503);
   const matches=rows.filter(x=>x.subject===subject);
   if(matches.length!==1)throw new V2Error('MEMBERSHIP_REQUIRED','This identity has no unique workspace mapping. Ask the workspace administrator.',403);
-  return {tenantId:matches[0].tenantId,actorId:matches[0].actorId,version:1};
+  return {tenantId:matches[0].tenantId,actorId:matches[0].actorId,version:1,bindingId:identityBindingKey(issuer,subject)};
 }
 
 export async function resolveOidcIdentity(issuer:string,subject:string):Promise<IdentityTarget>{
   if(!valid(issuer)||!valid(subject))throw new V2Error('MEMBERSHIP_REQUIRED','This identity has no workspace mapping.',403);
-  const target=source()==='fixture_env'?fixtureBinding(subject):await (async()=>{
+  const target=source()==='fixture_env'?fixtureBinding(issuer,subject):await (async()=>{
     const row=await (await collection()).findOne({_id:identityBindingKey(issuer,subject)},{readConcern:{level:'majority'}});
     if(!row||row.issuer!==issuer||row.revokedAt||!valid(row.tenantId)||!valid(row.actorId)||!Number.isSafeInteger(row.version)||row.version<1)throw new V2Error('MEMBERSHIP_REQUIRED','This identity has no active workspace mapping.',403);
-    return {tenantId:row.tenantId,actorId:row.actorId,version:row.version};
+    return {tenantId:row.tenantId,actorId:row.actorId,version:row.version,bindingId:row._id};
   })();
   if(!await activeMember(target.tenantId,target.actorId))throw new V2Error('MEMBERSHIP_REQUIRED','This identity has no current workspace membership.',403);
   return target;
+}
+
+/** Recheck a signed OIDC session's hashed binding after asynchronous work. Trusted
+ * integrations do not carry this grant and retain their separate installation checks. */
+export async function assertOidcBindingCurrent(actor:{tenantId:string;actorId:string;mode:string;oidcBinding?:{key:string;version:number}}):Promise<void>{
+  const grant=actor.oidcBinding;if(!grant)return;
+  if(actor.mode!=='authenticated'||!/^[a-f0-9]{64}$/.test(grant.key)||!Number.isSafeInteger(grant.version)||grant.version<1)throw new V2Error('IDENTITY_GRANT_INVALID','Sign in again before continuing.',403);
+  if(source()==='fixture_env'){
+    let rows:unknown;try{rows=JSON.parse(process.env.KIARA_OIDC_IDENTITIES||'[]');}catch{rows=[];}
+    if(!Array.isArray(rows)||!rows.some(row=>row&&typeof row.subject==='string'&&identityBindingKey(process.env.KIARA_OIDC_ISSUER||'',row.subject)===grant.key&&row.tenantId===actor.tenantId&&row.actorId===actor.actorId&&grant.version===1))throw new V2Error('IDENTITY_GRANT_CHANGED','The identity mapping changed. Sign in again.',403);
+  }else{
+    const row=await (await collection()).findOne({_id:grant.key},{readConcern:{level:'majority'}});
+    if(!row||row.revokedAt||row.issuer!==process.env.KIARA_OIDC_ISSUER||row.tenantId!==actor.tenantId||row.actorId!==actor.actorId||row.version!==grant.version)throw new V2Error('IDENTITY_GRANT_CHANGED','The identity mapping changed. Sign in again.',403);
+  }
+  if(!await activeMember(actor.tenantId,actor.actorId))throw new V2Error('MEMBERSHIP_REVOKED','Current workspace membership is required.',403);
 }
 
 /** Operator-only CLI primitive. This is never exposed through an HTTP route. */

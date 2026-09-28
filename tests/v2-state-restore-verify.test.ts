@@ -19,7 +19,7 @@ const manifest={tenantId:tenant,checks:[{reference:reference('readable'),expecte
 const deps={
  read:async()=>structuredClone(state),
  inspect:async(_issuer:string,subject:string)=>({bindingId:sha(subject),version:subject==='active-subject'?1:2,status:subject==='active-subject'?'active' as const:'revoked' as const,tenantId:tenant,actorId:subject==='active-subject'?'active-actor':'revoked-actor'}),
- resolve:async(_issuer:string,subject:string)=>{if(subject==='revoked-subject')throw new V2Error('MEMBERSHIP_REQUIRED','Revoked.',403);return {tenantId:tenant,actorId:'active-actor',version:1};},
+ resolve:async(_issuer:string,subject:string)=>{if(subject==='revoked-subject')throw new V2Error('MEMBERSHIP_REQUIRED','Revoked.',403);return {tenantId:tenant,actorId:'active-actor',version:1,bindingId:sha('active-subject')};},
 };
 
 test('restored state manifest requires exact positive and negative probes',()=>{
@@ -38,6 +38,6 @@ test('normalized state, revocations, deletion and identity denial must all survi
  assert.doesNotMatch(JSON.stringify(result),/active-subject|deleted-source|active-actor/);
  await assert.rejects(verifyRestoredState({...manifest,expectedStateHash:'0'.repeat(64)},deps),/expected snapshot/);
  await assert.rejects(verifyRestoredState(manifest,{...deps,read:async()=>({...structuredClone(state),tombstones:[]})}),/expected snapshot/);
- await assert.rejects(verifyRestoredState(manifest,{...deps,resolve:async()=>({tenantId:tenant,actorId:'active-actor',version:1})}),/Revoked restored identity still resolved/);
+ await assert.rejects(verifyRestoredState(manifest,{...deps,resolve:async()=>({tenantId:tenant,actorId:'active-actor',version:1,bindingId:sha('active-subject')})}),/Revoked restored identity still resolved/);
  await assert.rejects(verifyRestoredState(manifest,{...deps,inspect:async()=>({bindingId:'',version:1,status:'active' as const,tenantId:tenant,actorId:'active-actor'})}),/identity binding differs/);
 });

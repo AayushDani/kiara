@@ -29,7 +29,7 @@ import type {AgreementApplicability,ApplicabilityCommand} from './applicability'
 /** Kiara v2 contracts. Tenant and actor context are supplied by the authenticated server. */
 export type Json = null | boolean | number | string | Json[] | {[key:string]:Json};
 export type Role = 'member'|'fact_owner'|'business_owner'|'legal_reviewer'|'publisher'|'signatory'|'admin'|'evaluator'|'integration';
-export interface ActorContext {tenantId:string;actorId:string;expiresAt:number;mode:'local_demo'|'authenticated';bootstrapRoles?:Role[];installationId?:string;installationGrant?:{installationId:string;configurationHash:string}}
+export interface ActorContext {tenantId:string;actorId:string;expiresAt:number;mode:'local_demo'|'authenticated';bootstrapRoles?:Role[];installationId?:string;installationGrant?:{installationId:string;configurationHash:string};oidcBinding?:{key:string;version:number}}
 export interface Scope {kind:'private'|'team'|'matter';actorIds:string[];matterId?:string}
 export interface Provenance {actorId:string;sourceIds:string[];factIds?:string[];messageId?:string;description:string}
 export interface RecordBase {id:string;tenantId:string;version:number;createdAt:string;updatedAt:string;scope:Scope;provenance:Provenance}

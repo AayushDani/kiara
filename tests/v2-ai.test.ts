@@ -4,6 +4,7 @@ import {mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {randomUUID} from 'node:crypto';
+import {identityBindingKey} from '../src/v2/oidc-identities';
 import type {ResponseCreateParamsNonStreaming} from 'openai/resources/responses/responses';
 import {command,snapshot} from '../src/v2/service';
 import {processConversationRun,pendingConversationRuns,type ConversationProvider} from '../src/v2/ai';
@@ -13,7 +14,7 @@ import {globalSpendStatus,reserveGlobalSpend} from '../src/server/global-spend';
 import type {ActorContext,WorkspaceCommand} from '../src/v2/contracts';
 
 let dir:string;
-const keys=['KIARA_V2_DATA_DIR','KIARA_GLOBAL_BUDGET_DIR','MONGODB_URI','VERCEL','KIARA_V2_AI_MODE','OPENAI_API_KEY','KIARA_OPENAI_BUDGET_USD','KIARA_MODEL','KIARA_REVIEW_MODEL','KIARA_REASONING_EFFORT'];
+const keys=['KIARA_V2_DATA_DIR','KIARA_GLOBAL_BUDGET_DIR','MONGODB_URI','VERCEL','KIARA_V2_AI_MODE','OPENAI_API_KEY','KIARA_OPENAI_BUDGET_USD','KIARA_MODEL','KIARA_REVIEW_MODEL','KIARA_REASONING_EFFORT','KIARA_OIDC_IDENTITY_SOURCE','KIARA_OIDC_ISSUER','KIARA_OIDC_IDENTITIES'];
 const old=Object.fromEntries(keys.map(k=>[k,process.env[k]]));
 beforeEach(async()=>{dir=await mkdtemp(join(tmpdir(),'kiara-v2-ai-'));process.env.KIARA_V2_DATA_DIR=join(dir,'workspaces');process.env.KIARA_GLOBAL_BUDGET_DIR=join(dir,'budget');delete process.env.MONGODB_URI;delete process.env.VERCEL;process.env.KIARA_V2_AI_MODE='openai';process.env.OPENAI_API_KEY='injected-test-only-not-a-provider-key';process.env.KIARA_OPENAI_BUDGET_USD='1';process.env.KIARA_MODEL='gpt-6-sol';process.env.KIARA_REVIEW_MODEL='gpt-6-sol';process.env.KIARA_REASONING_EFFORT='low';});
 afterEach(async()=>{await closeV2Store();for(const k of keys){if(old[k]===undefined)delete process.env[k];else process.env[k]=old[k];}await rm(dir,{recursive:true,force:true});});
@@ -23,6 +24,25 @@ async function queue(text='Explain the notice requirement in the Acme agreement'
 function fake(hook?:(r:ResponseCreateParamsNonStreaming,call:number)=>Promise<string|void>|string|void){let calls=0,countCalls=0;const requests:ResponseCreateParamsNonStreaming[]=[];const adapter:ConversationProvider={count:async()=>{countCalls++;return 1000;},create:async r=>{calls++;requests.push(r);const data=JSON.parse(String(r.input));const custom=await hook?.(r,calls);const output=custom||JSON.stringify(data.answer?{safe:true,checks:data.answer.paragraphs.map((p:{id:string})=>({paragraphId:p.id,supported:true,reason:'Supported by the supplied exact quote including its exception.'}))}:{paragraphs:[{id:'p1',kind:'grounded',text:'The supplied agreement requires 30 days prior notice for a new subprocessor of personal data; synthetic data is excluded.',citationIds:[data.evidence.find((e:{kind:string})=>e.kind==='document').id]}]});return {id:'response-'+calls,model:String(r.model),status:'completed',output_text:output,usage:{input_tokens:100,output_tokens:40,total_tokens:140,input_tokens_details:{cached_tokens:0,cache_write_tokens:0},output_tokens_details:{reasoning_tokens:0}}};}};return {adapter,get calls(){return calls;},get countCalls(){return countCalls;},requests};}
 
 test('message acceptance is durable before model dispatch; grounded answer receipts survive replay',async()=>{const {a,r,id}=await queue(),f=fake();assert.equal(r.result.answerStatus,'queued');assert.equal(r.snapshot.messages.filter(m=>m.role==='assistant').length,0);assert.equal((await pendingConversationRuns(a.tenantId))[0].id,id);assert.equal(f.calls,0);const out=await processConversationRun(a.tenantId,id,{provider:f.adapter});assert.equal(out.status,'complete',JSON.stringify(out));assert.equal(f.calls,2);assert.equal(f.countCalls,2);const s=await snapshot(a),m=s.messages.at(-1)!;assert.equal(m.generation,'model');assert.equal(m.citations.length,1);assert.match(m.text,/30 days/);assert.match(m.text,/not legal approval/);assert.equal(s.matters.length,0);assert.equal(s.facts.length,0);assert.equal(s.approvals.length,0);await closeV2Store();assert.equal((await processConversationRun(a.tenantId,id,{provider:f.adapter})).status,'complete');assert.equal(f.calls,2);assert.equal((await globalSpendStatus()).request_count,2);assert.equal((await snapshot(a)).messages.filter(m=>m.generation==='model').length,1);});
+
+test('OIDC binding revoked during token count fences queued model dispatch',async()=>{
+ const owner=actor(),issuer='https://synthetic-id.example.test',subject='synthetic-ai-subject';
+ await send(owner,{type:'document.add',title:'Synthetic agreement',body:'The agreement requires 30 days notice.',authority:'executed',kind:'agreement'});
+ process.env.KIARA_OIDC_IDENTITY_SOURCE='fixture_env';process.env.KIARA_OIDC_ISSUER=issuer;process.env.KIARA_OIDC_IDENTITIES=JSON.stringify([{subject,tenantId:owner.tenantId,actorId:owner.actorId}]);
+ const authenticated:ActorContext={tenantId:owner.tenantId,actorId:owner.actorId,expiresAt:Date.now()+3600000,mode:'authenticated',oidcBinding:{key:identityBindingKey(issuer,subject),version:1}};
+ const queued=await send(authenticated,{type:'message.send',text:'Explain the synthetic agreement notice'}),id=String(queued.result.runId),f=fake();
+ const raw=await readWorkspace(owner.tenantId);assert.doesNotMatch(JSON.stringify(raw.receipts['conversation-run:'+id]),/synthetic-ai-subject/);
+ f.adapter.count=async()=>{process.env.KIARA_OIDC_IDENTITIES='[]';return 1000;};
+ const result=await processConversationRun(owner.tenantId,id,{provider:f.adapter});
+ assert.equal(result.status,'blocked');assert.equal(result.reason,'IDENTITY_GRANT_CHANGED');assert.equal(f.calls,0);assert.equal((await globalSpendStatus()).request_count,0);
+});
+
+test('a pre-upgrade browser run without a binding grant is quarantined before model admission',async()=>{
+ const {a,id}=await queue(),f=fake();
+ await transactWorkspace(a.tenantId,s=>{const run=s.receipts['conversation-run:'+id].result.run as {actor:ActorContext;channelGrantHash:string|null};run.actor.mode='authenticated';delete run.actor.oidcBinding;run.channelGrantHash=null;});
+ const result=await processConversationRun(a.tenantId,id,{provider:f.adapter});
+ assert.equal(result.status,'blocked');assert.equal(result.reason,'IDENTITY_GRANT_REQUIRED');assert.equal(f.countCalls,0);assert.equal(f.calls,0);
+});
 
 test('same accepted message key is one durable run even after reply completion',async()=>{const a=actor();await send(a,{type:'document.add',title:'Acme agreement',body:'Acme requires 30 days prior notice.',authority:'executed'});const s=await snapshot(a),envelope={expectedVersion:s.version,idempotencyKey:'same-message',command:{type:'message.send' as const,text:'Explain the Acme agreement notice'}};const first=await command(a,envelope);const replay=await command(a,envelope);assert.equal(replay.result.runId,first.result.runId);assert.equal(replay.snapshot.aiRuns.length,1);});
 
