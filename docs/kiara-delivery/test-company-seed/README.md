@@ -40,3 +40,14 @@ Test operates a US technology hiring marketplace **inside the pilot scenario**. 
 | `access-incident-case.md` | `ALERT-TEST-001` access tabletop | authored synthetic example |
 
 The shared chronology is: profile private (September 10), visibility on (September 12), application draft saved (September 15), visibility off (September 20), deletion request scenario (September 22), and access alert tabletop (September 23). The application was never submitted, the employer order never signed, and no recruiter seat was provisioned. These are useful working documents, not legal signoff or proof of live operations. Unresolved choices are explicit in each file.
+
+## Guarded clean-tenant replay
+
+`npm run v2:test-seed` prepares this exact pack for the dedicated `synthetic-test-preview` tenant through the normal authenticated workspace commands. It requires normalized MongoDB on the Atlas `kiara_v2` release database, `KIARA_V2_RELEASE_DB=kiara_v2`, `KIARA_V2_RELEASE_SYNTHETIC_TENANT=synthetic-test-preview`, and a **distinct, currently bound OIDC actor** with the only active tenant membership and `member,business_owner,fact_owner` roles. Provision that membership with `v2:operator provision`, then bind a separate real test IdP subject with `v2:identity`; do not reuse the subject bound to the older mixed pilot tenant.
+
+1. Inspect the new tenant with `npm run v2:operator -- inspect synthetic-test-preview` and record its version. An empty normalized workspace plus the one provisioned membership is expected.
+2. Run `npm run v2:test-seed -- preview synthetic-test-preview ACTOR VERSION`. Review the destination, file and content hashes, command list, and `previewHash`.
+3. Run `npm run v2:test-seed -- apply synthetic-test-preview ACTOR VERSION PREVIEW_HASH`. A changed workspace or file pack requires a new preview. If application stops partway through, inspect and preview again; matching records are skipped and conflicting records are rejected.
+4. Inspect and read back the Test records with a fresh OIDC sign-in. Verify fifteen draft or authored-example document hashes, three planned synthetic facts, two pending matters, and the Test company name. Indexing and a bounded cited question remain separate connected checks.
+
+This operator does not intake or approve the URL-only legal-source queue. It creates no candidate, employer, counsel, delivery, publication, signature, or external action. The ordinary document and matter commands do enqueue internal indexing and work notifications, which require worker observation after apply. Its exact-pack byte hashes intentionally require a code review if these source files change.
