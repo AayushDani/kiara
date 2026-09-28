@@ -60,6 +60,8 @@ function fixture(tenantId:string,secret='Synthetic retained terms.'):WorkspaceSt
  return s;
 }
 async function seed(tenant:string,secret?:string){mode('aggregate');return transactWorkspace(tenant,s=>Object.assign(s,fixture(tenant,secret)));}
+async function reviewedCutover(tenant:string,stateHash:string){const check=await migrateAggregateToNormalized(tenant,stateHash,true);return migrateAggregateToNormalized(tenant,stateHash,false,check.planHash);}
+async function reviewedRollback(tenant:string,stateHash:string){const check=await rollbackNormalizedToAggregate(tenant,stateHash,true);return rollbackNormalizedToAggregate(tenant,stateHash,false,check.planHash);}
 async function stageInterruptedCutover(state:WorkspaceState){
  const plan=normalizedMigrationPlan(state),migrationId=digest({tenantId:state.tenantId,sourceHash:plan.sourceHash}),image=normalizeWorkspace(state,plan.generation,migrationId);
  await db.collection('v2_normalized_migrations').insertOne({_id:migrationId as never,tenantId:state.tenantId,sourceVersion:state.version,sourceHash:plan.sourceHash,generation:plan.generation,status:'staging',backup:{format:'kiara-v2-backup',createdAt:timestamp(),hash:plan.sourceHash,state},imageHash:digest(image)});
@@ -74,15 +76,47 @@ test('real aggregate CAS, interrupted migration resume, normalized transactions 
  assert.equal(new Set(writes.map(r=>r.result)).size,16);let current=await readWorkspace(tenant);assert.equal(current.receipts.counter.result.value,16);assert.equal(current.version,start.version+16);
  const stale=digest(current);await transactWorkspace(tenant,s=>{s.receipts.drift={hash:'drift',result:{accepted:true}};});await assert.rejects(migrateAggregateToNormalized(tenant,stale,false),code('MIGRATION_SOURCE_CHANGED'));
  current=await readWorkspace(tenant);const plan=await stageInterruptedCutover(current);assert.equal(await db.collection('v2_normalized_heads').findOne({_id:tenant as never}),null);await closeV2Store();
- const cutover=await migrateAggregateToNormalized(tenant,plan.sourceHash,false);assert.equal(cutover.dryRun,false);assert.equal((await migrateAggregateToNormalized(tenant,plan.sourceHash,false) as {replayed:boolean}).replayed,true);
+ const cutover=await reviewedCutover(tenant,plan.sourceHash);assert.equal(cutover.dryRun,false);assert.equal((await migrateAggregateToNormalized(tenant,plan.sourceHash,false,cutover.planHash) as {replayed:boolean}).replayed,true);
  await assert.rejects(readWorkspace(tenant),code('STORE_MIGRATED'));await assert.rejects(transactWorkspace(tenant,s=>{s.companyName='Stale writer';}),code('STORE_MIGRATED'));
  mode('normalized');assert.equal(digest(await readWorkspace(tenant)),plan.sourceHash);
  await Promise.all(Array.from({length:12},(_,i)=>transactWorkspace(tenant,s=>{const value=Number(s.receipts.counter.result.value)+1;s.receipts.counter={hash:String(value),result:{value}};s.receipts[`normalized-${i}`]={hash:String(i),result:{accepted:true}};})));
  await transactWorkspace(tenant,s=>{s.memberships[0].revokedAt=timestamp();s.memberships[0].version++;s.tombstones.push({sourceId:'other-deleted-source',deletedAt:timestamp(),reason:'Preserved deletion',backupExpiresAt:null});});
  current=await readWorkspace(tenant);assert.equal(current.receipts.counter.result.value,28);assert.equal(current.actions[0].status,'uncertain');assert.equal(current.actions[0].providerReceipt,'retained-provider-id');
  await closeV2Store();assert.equal(await freshProcessHash(tenant,'normalized'),digest(current));assert.equal(digest(await readWorkspace(tenant)),digest(current));await assert.rejects(rollbackNormalizedToAggregate(tenant,plan.sourceHash,false),code('VERSION_CONFLICT'));
- assert.equal((await rollbackNormalizedToAggregate(tenant,digest(current),true)).dryRun,true);await rollbackNormalizedToAggregate(tenant,digest(current),false);await assert.rejects(readNormalized(tenant),code('STORE_CUTOVER_REQUIRED'));await closeV2Store();mode('aggregate');
+ assert.equal((await rollbackNormalizedToAggregate(tenant,digest(current),true)).dryRun,true);await reviewedRollback(tenant,digest(current));await assert.rejects(readNormalized(tenant),code('STORE_CUTOVER_REQUIRED'));await closeV2Store();mode('aggregate');
  const rolled=await readWorkspace(tenant);assert.deepEqual(rolled,current);assert.equal(rolled.outbox[0].commandId,'effect-intent');assert.ok(rolled.memberships[0].revokedAt);assert.ok(rolled.tombstones.length);assert.equal(Object.keys(rolled.receipts).filter(k=>k.startsWith('normalized-')).length,12);
+});
+
+test('normalization and rollback apply reject a cloned state in a different MongoDB database',{timeout:120000},async()=>{
+ const tenant='same-state-different-store',secondName=`kiara_qualification_${randomUUID().replaceAll('-','')}`,second=client.db(secondName);
+ assert.match(secondName,/^kiara_qualification_[a-f0-9]{32}$/);
+ try{
+  await seed(tenant);const state=await readWorkspace(tenant),stateHash=digest(state);
+  await second.collection<{_id:string;version:number;state:WorkspaceState}>('v2_workspaces').insertOne({_id:tenant,version:state.version,state});
+  const firstCheck=await migrateAggregateToNormalized(tenant,stateHash,true);
+  await closeV2Store();process.env.MONGODB_DB=secondName;
+  const secondCheck=await migrateAggregateToNormalized(tenant,stateHash,true);
+  assert.notEqual(secondCheck.planHash,firstCheck.planHash);
+  await assert.rejects(migrateAggregateToNormalized(tenant,stateHash,false,firstCheck.planHash),code('NORMALIZATION_PLAN_CHANGED'));
+  assert.equal((await second.collection<{_id:string}>('v2_normalized_heads').countDocuments({_id:tenant})),0);
+  await second.collection<{_id:string;version:number}>('v2_workspaces').updateOne({_id:tenant},{$set:{version:state.version+1}});
+  await assert.rejects(migrateAggregateToNormalized(tenant,stateHash,false,secondCheck.planHash),code('NORMALIZATION_PLAN_CHANGED'));
+  await second.collection<{_id:string;version:number}>('v2_workspaces').updateOne({_id:tenant},{$set:{version:state.version}});
+  await migrateAggregateToNormalized(tenant,stateHash,false,secondCheck.planHash);
+  await closeV2Store();process.env.MONGODB_DB=databaseName;
+  await migrateAggregateToNormalized(tenant,stateHash,false,firstCheck.planHash);
+  const firstRollback=await rollbackNormalizedToAggregate(tenant,stateHash,true);
+  await closeV2Store();process.env.MONGODB_DB=secondName;
+  const secondRollback=await rollbackNormalizedToAggregate(tenant,stateHash,true);
+  assert.notEqual(secondRollback.planHash,firstRollback.planHash);
+  await assert.rejects(rollbackNormalizedToAggregate(tenant,stateHash,false,firstRollback.planHash),code('NORMALIZATION_PLAN_CHANGED'));
+  assert.equal((await second.collection('v2_normalized_heads').findOne({_id:tenant as never}))?.mode,'normalized');
+  await second.collection<{_id:string;storageFence:{mode:'normalized';generation:string;migrationId:string}}>('v2_workspaces').updateOne({_id:tenant},{$set:{'storageFence.migrationId':'unexpected-owner'}});
+  await assert.rejects(rollbackNormalizedToAggregate(tenant,stateHash,false,secondRollback.planHash),code('NORMALIZATION_PLAN_CHANGED'));
+  await second.collection<{_id:string;storageFence:{mode:'normalized';generation:string;migrationId:string}}>('v2_workspaces').updateOne({_id:tenant},{$set:{'storageFence.migrationId':digest({tenantId:tenant,sourceHash:stateHash})}});
+  await rollbackNormalizedToAggregate(tenant,stateHash,false,secondRollback.planHash);
+  assert.equal((await second.collection('v2_normalized_heads').findOne({_id:tenant as never}))?.mode,'aggregate');
+ }finally{await closeV2Store();process.env.MONGODB_DB=databaseName;await second.dropDatabase();}
 });
 
 test('real concurrent empty-tenant aggregate and normalized bootstraps commit only one owner',{timeout:120000},async()=>{
@@ -106,14 +140,14 @@ test('real index transactions permanently fence deletion including a writer paus
 });
 
 test('real historical generations, migration backups and frozen aggregate erase payload and replay after client restart',{timeout:120000},async()=>{
- const tenant='history-retention',secret='QUALIFICATION_PRIVATE_PAYLOAD_123';await seed(tenant,secret);let state=await readWorkspace(tenant);await migrateAggregateToNormalized(tenant,digest(state),false);mode('normalized');
- await transactWorkspace(tenant,s=>{s.actions[0].status='failed';const i=s.receipts['execution:action'].result.intent as unknown as EffectIntent;i.status='failed';s.receipts['post-cutover']={hash:'post',result:{retained:true}};});state=await readWorkspace(tenant);await rollbackNormalizedToAggregate(tenant,digest(state),false);mode('aggregate');await transactWorkspace(tenant,s=>{s.receipts['next-generation']={hash:'next',result:{retained:true}};});state=await readWorkspace(tenant);await migrateAggregateToNormalized(tenant,digest(state),false);mode('normalized');
+ const tenant='history-retention',secret='QUALIFICATION_PRIVATE_PAYLOAD_123';await seed(tenant,secret);let state=await readWorkspace(tenant);await reviewedCutover(tenant,digest(state));mode('normalized');
+ await transactWorkspace(tenant,s=>{s.actions[0].status='failed';const i=s.receipts['execution:action'].result.intent as unknown as EffectIntent;i.status='failed';s.receipts['post-cutover']={hash:'post',result:{retained:true}};});state=await readWorkspace(tenant);await reviewedRollback(tenant,digest(state));mode('aggregate');await transactWorkspace(tenant,s=>{s.receipts['next-generation']={hash:'next',result:{retained:true}};});state=await readWorkspace(tenant);await reviewedCutover(tenant,digest(state));mode('normalized');
  const actor:ActorContext={tenantId:tenant,actorId:'owner',mode:'authenticated',expiresAt:Date.now()+60000};const deleted=await transactWorkspace(tenant,s=>applySourceDeletion(s,actor,'source')),job=deleted.result;
  const redactors={redactRecord:(kind:string,value:unknown)=>redactHistoricalRecord(kind,value,job),redactWorkspace:(s:WorkspaceState)=>redactHistoricalWorkspace(s,job)};
  const cleaned=await purgeNormalizedHistory(tenant,job.id,redactors);assert.ok(cleaned.records>0);assert.ok(cleaned.archives>=2);assert.equal(cleaned.externalBackupErasureVerified,false);await closeV2Store();assert.equal((await purgeNormalizedHistory(tenant,job.id,redactors)).replayed,true);
  const collections=await db.listCollections().toArray();for(const collection of collections){if(!collection.name.startsWith('v2_'))continue;const rows=await db.collection(collection.name).find({$or:[{tenantId:tenant},{_id:tenant}]} as never).toArray();assert.doesNotMatch(JSON.stringify(rows),new RegExp(secret),collection.name);}
  const current=await readWorkspace(tenant);assert.equal(await freshProcessHash(tenant,'normalized'),digest(current));assert.equal(current.sources[0].text,'');assert.equal(current.documents[0].body,'');assert.equal(current.actions[0].status,'failed');assert.equal((current.receipts['execution:action'].result.intent as unknown as EffectIntent).providerReceipt,'retained-provider-id');assert.ok(current.tombstones.some(t=>t.sourceId==='source'));assert.ok(current.receipts['post-cutover']);
- await rollbackNormalizedToAggregate(tenant,digest(current),false);await closeV2Store();mode('aggregate');assert.doesNotMatch(JSON.stringify(await readWorkspace(tenant)),new RegExp(secret));
+ await reviewedRollback(tenant,digest(current));await closeV2Store();mode('aggregate');assert.doesNotMatch(JSON.stringify(await readWorkspace(tenant)),new RegExp(secret));
 });
 
 test('encrypted Mongo originals survive exact readback, duplicate intake and restart; deletion fences concurrent reuse',{timeout:120000},async()=>{
