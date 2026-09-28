@@ -34,6 +34,9 @@ test('selected GovInfo source is durably staged with raw original and no implied
  const state=await readWorkspace(actor.tenantId),source=state.sources.find(x=>x.id===staged.sourceId)!,authority=state.legalAuthorities.find(x=>x.id===staged.authorityId)!;
  assert.equal(source.kind,'legal');assert.equal(source.authority,'unknown');assert.equal(authority.verifiedAt,null);assert.equal(authority.effectiveFrom,null);assert.equal(authorityCurrent(state,actor,authority),false);assert.equal(state.coverage.length,0);
  assert.equal(source.url,htmlUrl);assert.equal(staged.officialPdfUrl,`https://www.govinfo.gov/content/pkg/${selected.packageId}/pdf/${selected.granuleId}.pdf`);
+ assert.deepEqual(source.govInfo,{packageId:selected.packageId,granuleId:selected.granuleId,officialPdfUrl:staged.officialPdfUrl,detailsUrl:preview.candidate.detailsUrl,metadataHash:staged.metadataHash,rawHash:staged.rawHash});
+ await assert.rejects(()=>send({type:'coverage.source.add',sourceId:source.id,title:'Duplicate staged authority',sourceUrl:htmlUrl,jurisdiction:'California',domain:'unrelated',authorityType:'statute'}),{code:'SOURCE_ALREADY_REGISTERED'});
+ assert.equal((await readWorkspace(actor.tenantId)).legalAuthorities.length,1);
  assert.equal((await readOriginal(actor.tenantId,JSON.parse(source.originalObjectRef!))).toString(),'<h1>Fictional section text</h1><p>Testing only.</p>');
  // A derived document cannot bypass the legal source's review gate in local answers.
  await transactWorkspace(actor.tenantId,s=>{const at=new Date().toISOString();s.documents.push({id:randomUUID(),tenantId:s.tenantId,version:1,createdAt:at,updatedAt:at,scope:structuredClone(source.scope),provenance:{actorId:actor.actorId,sourceIds:[source.id],description:'Fictional derived text to test review gates'},documentId:randomUUID(),title:'GovInfo derived text',body:source.text,contentHash:digest(source.text),authority:'unknown',sourceId:source.id,revision:1,parentRevisionId:null,amendsDocumentId:null,status:'current',kind:'other'});});
@@ -87,4 +90,15 @@ test('selected annual CFR granule uses the official XML rendition and rejects an
  const watch=await send({type:'legal.watch.configure',authorityId:authority.id,expectedAuthorityVersion:authority.version,intervalHours:24});
  const checked=await processLegalWatch(actor.tenantId,String(watch.result.watchId),{fetcher:async()=>new Response('<html>GovInfo error</html>',{headers:{'content-type':'text/html'}})});
  assert.equal(checked.status,'blocked');assert.equal((await readWorkspace(actor.tenantId)).legalChanges?.length,0);
+});
+
+test('manual retained source can support distinct bounded authority scopes but not duplicate one',async()=>{
+ await closeV2Store();const dir=await mkdtemp(join(tmpdir(),'kiara-manual-authorities-'));dirs.push(dir);process.env.KIARA_V2_DATA_DIR=dir;delete process.env.MONGODB_URI;process.env.KIARA_V2_AI_MODE='local';
+ await snapshot(actor);
+ const document=await send({type:'document.add',title:'Fictional retained policy',body:'Synthetic reference text for two independent scope decisions.',authority:'unknown'}),sourceId=String(document.result.sourceId);
+ const add=(domain:string,jurisdiction:string)=>send({type:'coverage.source.add',sourceId,title:`Fictional ${domain} authority`,sourceUrl:'https://example.org/reference',domain,jurisdiction,authorityType:'guidance'});
+ await add('privacy','California');await add('procurement','US-federal');
+ await assert.rejects(()=>add('privacy','California'),{code:'SOURCE_ALREADY_REGISTERED'});
+ const state=await readWorkspace(actor.tenantId);assert.equal(state.legalAuthorities.filter(item=>item.sourceId===sourceId).length,2);
+ assert.ok(state.legalAuthorities.filter(item=>item.sourceId===sourceId).every(item=>item.verifiedAt===null));
 });
