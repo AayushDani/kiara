@@ -1,4 +1,4 @@
-import type {Action,CounselEngagement,Matter,Proposal} from '@/v2/contracts';
+import type {Action,CounselEngagement,DocumentRecord,Matter,Proposal,Source} from '@/v2/contracts';
 
 /** A refreshed view must never silently replace the content a person opened to review. */
 export function proposalPreviewCurrent(inspected:Pick<Proposal,'id'|'version'|'contentHash'>,current:Pick<Proposal,'id'|'version'|'contentHash'|'status'>|undefined){
@@ -22,4 +22,14 @@ export function lessonOriginCurrent(inspected:Pick<Matter,'id'|'version'|'title'
 
 export function selectedLessonOrigin<T extends Pick<Matter,'id'>>(matters:T[],selectedId:string):T|undefined {
   return selectedId?matters.find(matter=>matter.id===selectedId):undefined;
+}
+
+/** An attached document must still be the exact accessible head and retain its active source. */
+export function focusedDocumentCurrent(
+  inspected:Pick<DocumentRecord,'id'|'version'|'contentHash'|'sourceId'>,
+  current:Pick<DocumentRecord,'id'|'version'|'contentHash'|'sourceId'>|undefined,
+  headIds:string[],
+  source:Pick<Source,'id'|'status'>|undefined,
+){
+  return !!current&&current.id===inspected.id&&current.version===inspected.version&&current.contentHash===inspected.contentHash&&current.sourceId===inspected.sourceId&&headIds.includes(inspected.id)&&source?.id===inspected.sourceId&&source.status==='active';
 }

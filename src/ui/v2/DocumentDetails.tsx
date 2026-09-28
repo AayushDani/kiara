@@ -5,6 +5,7 @@ import type {CommandResult,DocumentRecord,WorkspaceCommand,WorkspaceSnapshot} fr
 import type {TextChange} from '@/v2/document-lifecycle';
 import {Badge,Icon,human} from './Primitives';
 import {Modal} from './ReviewDialog';
+import {focusedDocumentCurrent} from './review-intent';
 import s from './workspace.module.css';
 
 export function DocumentDetails({document:doc,data,close,onRevision,onCompare,onAmend,onReimport,onTemplate,onExplain}:{document:DocumentRecord;data:WorkspaceSnapshot;close:()=>void;onRevision:(doc:DocumentRecord)=>void;onCompare:(before:DocumentRecord,after:DocumentRecord)=>void;onAmend:()=>void;onReimport:()=>void;onTemplate:()=>void;onExplain:()=>void}){
@@ -12,12 +13,14 @@ export function DocumentDetails({document:doc,data,close,onRevision,onCompare,on
  const revisions=data.documents.filter(record=>record.documentId===doc.documentId).sort((a,b)=>b.revision-a.revision);
  const parent=data.documents.find(record=>record.id===doc.parentRevisionId);
  const executed=['executed','effective'].includes(doc.authority),head=(data.documentHeadIds??[]).includes(doc.id);
- return <Modal title={doc.title} close={close} footer={<><a className={s.button} href={`/api/v2/documents/${encodeURIComponent(doc.id)}/export`}><Icon name="download" size={13}/>Export Word</a><button className={s.primary} onClick={onExplain}>Explain this document</button></>}>
+ const explainReady=focusedDocumentCurrent(doc,data.documents.find(item=>item.id===doc.id),data.documentHeadIds??[],data.sources.find(source=>source.id===doc.sourceId));
+ return <Modal title={doc.title} close={close} footer={<><a className={s.button} href={`/api/v2/documents/${encodeURIComponent(doc.id)}/export`}><Icon name="download" size={13}/>Export Word</a><button className={s.primary} disabled={!explainReady} onClick={onExplain}>Explain this document</button></>}>
  <div className={s.row}><Badge>{doc.authority==='executed'?'Marked executed':human(doc.authority)}</Badge><Badge>Revision {doc.revision}</Badge><Badge>{head?'Current revision':'Historical revision'}</Badge></div>
  {executed&&<p className={s.boundary} style={{marginTop:15}}>This record is marked {doc.authority} by its contributor. Changed terms require a separate amendment or replacement; this retained text does not verify a signature.</p>}
  {doc.amendsDocumentId&&<p className={s.small} style={{marginTop:15}}>Amends retained agreement: {data.documents.find(record=>record.documentId===doc.amendsDocumentId)?.title??'Original outside current access'}. This separate draft does not modify the executed record.</p>}
  <div className={s.row} style={{marginTop:18}}>{executed?<button className={s.button} onClick={onAmend}>Create proposed amendment</button>:<button className={s.button} disabled={!head} onClick={onReimport}>Import a returned draft</button>}{(doc.authority==='template'||doc.kind==='template')&&<button className={s.button} disabled={!head} onClick={onTemplate}>Create a draft from template</button>}{parent&&<button className={s.button} onClick={()=>onCompare(parent,doc)}>Compare with revision {parent.revision}</button>}{original&&<a className={s.button} href={`/api/v2/documents/${encodeURIComponent(doc.id)}/original`}>Download retained original</a>}</div>
  <p className={s.small} style={{marginTop:12}}>Word export contains the retained text. Inspect the original for formatting, comments, tracked changes and signatures.</p>
+ {!explainReady&&<p className={s.error} role="alert">To ask Kiara about this document, open its current accessible revision and review it again.</p>}
  {revisions.length>1&&<label className={s.field}>Retained revision history<select value={doc.id} onChange={event=>{const revision=revisions.find(record=>record.id===event.target.value);if(revision)onRevision(revision)}}>{revisions.map(record=><option value={record.id} key={record.id}>Revision {record.revision} · {human(record.authority)}</option>)}</select></label>}
  <div className={s.documentBody}>{doc.body}</div><div className={s.documentMeta}>Content fingerprint: {doc.contentHash}</div>
  </Modal>;

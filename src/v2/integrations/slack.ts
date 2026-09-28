@@ -70,6 +70,6 @@ export function replyMessage(s:WorkspaceState,r:SlackReplyIntent):{message:Messa
  if(r.matterLinkRequired&&(!r.matterId||!message.text.includes(slackMatterDeepLink(r.matterId))))throw fail('SLACK_ANSWER_CHANGED');
  if(r.messageHash&&r.messageHash!==digest(message))throw fail('SLACK_ANSWER_CHANGED');
  if(!message.channelEvidenceHash||message.channelEvidenceHash!==slackMessageEvidenceHash(s,message))throw fail('SLACK_ANSWER_CHANGED');
- if(r.runId){const run=s.receipts[`conversation-run:${r.runId}`]?.result.run as {packet?:EvidencePacket;channelGrantHash?:string}|undefined;if(!run?.packet||run.channelGrantHash!==digest(conversation.channelGrant))throw fail('SLACK_ANSWER_CHANGED');recheckEvidence(s,actor,conversation.id,run.packet);}
+ if(r.runId){const run=s.receipts[`conversation-run:${r.runId}`]?.result.run as {packet?:EvidencePacket;channelGrantHash?:string;userMessageId:string}|undefined;if(!run?.packet||run.channelGrantHash!==digest(conversation.channelGrant))throw fail('SLACK_ANSWER_CHANGED');recheckEvidence(s,actor,conversation.id,run.packet,run.userMessageId);}
  return {message,installation};
 }

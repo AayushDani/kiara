@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {proposalPreviewCurrent,actionPreviewCurrent,counselPreviewCurrent,lessonOriginCurrent,selectedLessonOrigin} from '../../src/ui/v2/review-intent';
+import {proposalPreviewCurrent,actionPreviewCurrent,counselPreviewCurrent,lessonOriginCurrent,selectedLessonOrigin,focusedDocumentCurrent} from '../../src/ui/v2/review-intent';
 
 test('a review preview cannot follow a newly polled proposal or lost access',()=>{
   const inspected={id:'proposal-v3',version:3,contentHash:'content-3'};
@@ -42,4 +42,16 @@ test('lesson origin preview never follows a previous Work selection or changed m
  assert.equal(lessonOriginCurrent(selected,{...selected,title:'Renamed project'}),false);
  assert.equal(lessonOriginCurrent(selected,{...selected,scope:{kind:'private',actorIds:['owner']}}),false);
  assert.equal(lessonOriginCurrent(selected,undefined),false);
+});
+
+test('focused document preview requires the exact accessible head and active source',()=>{
+ const document={id:'revision-2',version:2,contentHash:'exact-hash',sourceId:'source-2'};
+ const source={id:'source-2',status:'active' as const};
+ assert.equal(focusedDocumentCurrent(document,{...document},[document.id],source),true);
+ assert.equal(focusedDocumentCurrent(document,{...document,version:3},[document.id],source),false);
+ assert.equal(focusedDocumentCurrent(document,{...document,contentHash:'replacement'},[document.id],source),false);
+ assert.equal(focusedDocumentCurrent(document,{...document,sourceId:'other'},[document.id],source),false);
+ assert.equal(focusedDocumentCurrent(document,{...document},[],source),false);
+ assert.equal(focusedDocumentCurrent(document,{...document},[document.id],{...source,status:'revoked'}),false);
+ assert.equal(focusedDocumentCurrent(document,undefined,[document.id],source),false);
 });
