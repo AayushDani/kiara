@@ -32,7 +32,11 @@ async function main(){
  if(operation==='index-sync'||operation==='index-reconcile'){const actor={tenantId,actorId:args[0],expiresAt:Date.now()+3600000,mode:'authenticated' as const};if(!actor.actorId)throw new Error('Supply a currently provisioned admin actor ID');return operation==='index-sync'?syncHybridIndex(actor,args.slice(1)):reconcileHybridIndex(actor);}
  if(operation==='backup'){if(!args[0])throw new Error('Supply a new backup path');await writeFile(args[0],JSON.stringify(await backupWorkspace(tenantId)),{flag:'wx',mode:0o600});return {backup:args[0],containsSensitiveData:true};}
  if(operation==='restore-check'||operation==='restore'){const backup=JSON.parse(await readFile(args[0],'utf8'));if(backup.state?.tenantId!==tenantId)throw new Error('Tenant does not match backup');return restoreWorkspace(backup,Number(args[1]),operation==='restore-check');}
- if(operation==='migrate-check'||operation==='migrate')return importLegacySnapshot(tenantId,await readFile(args[0]),Number(args[1]),operation==='migrate-check');
+ if(operation==='migrate-check'||operation==='migrate'){
+  const [snapshotPath,version,expectedLegacyTenantId]=args;
+  if(args.length!==3||!snapshotPath||!/^(0|[1-9]\d*)$/.test(version||'')||!expectedLegacyTenantId||expectedLegacyTenantId.length>200)throw new Error('Migration requires snapshot path, inspected destination version, and exact expected legacy tenant ID.');
+  return importLegacySnapshot(tenantId,await readFile(snapshotPath),Number(version),expectedLegacyTenantId,operation==='migrate-check');
+ }
  if(operation==='legacy-export'){await writeFile(args[0],await exportLegacyArchive(tenantId),{flag:'wx',mode:0o600});return {path:args[0],effectOwner:'legacy'};}
  throw new Error('Unknown operation');
 }
