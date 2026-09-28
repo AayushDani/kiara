@@ -12,7 +12,7 @@ For employer-instructed data processing, Test would use the data only for docume
 
 ## Candidate request example
 
-If fictional candidate `CAND-TEST-001` requests deletion, Test would verify identity, distinguish Test-held profile data from employer-held application copies, identify exceptions/holds, reconcile derived search and backup records, and route employer-controlled data to the proper customer contact. The sample ID is invented. No request was received, responded to, or sent to an employer.
+If fictional candidate `CAND-TEST-001` requests deletion, Test would verify identity, distinguish Test-held profile data from any employer-held application copies, identify exceptions/holds, reconcile derived search and backup records, and route employer-controlled data to the proper customer contact if a delivered copy is evidenced. In the linked synthetic case `PRIV-TEST-001`, the only application is an unsubmitted draft; no employer copy is evidenced. The sample ID is invented. No real request was received, responded to, or sent to an employer.
 
 ## Open legal terms
 

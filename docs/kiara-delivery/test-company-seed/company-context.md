@@ -23,7 +23,7 @@ Test is a US technology hiring marketplace. `Test Jobs` lets candidates browse a
 
 ## Initial source inventory for Kiara
 
-Candidate profile; visibility choice; job posting; application; recruiter message; matching output; account/access log; support/privacy request; employer order; provider contract; security incident record. The first nine are sample source **types**, not actual connected records. No live candidate data, job feed, employer account, or vendor installation is supplied by this pack.
+Candidate profile; visibility choice; job posting; application; recruiter message; matching output; account/access log; support/privacy request; employer order; provider contract; security incident record. The linked files in this pack contain **authored examples** for several of these types, with shared invented IDs and times. They are not actual connected product records. No live candidate data, job feed, employer account, or vendor installation is supplied by this pack. There is no recruiter message or delivered application in the authored chronology.
 
 ## Questions that must remain open
 
